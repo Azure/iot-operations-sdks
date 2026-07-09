@@ -23,6 +23,12 @@
         "type": "application/tm+json"
       },
       {
+        "rel": "dov:capability",
+        "dov:refName": "MiningEquipmentIdentification",
+        "href": "./Mining.General.TM.json#title=Mining_General_MiningEquipmentIdentificationType",
+        "type": "application/tm+json"
+      },
+      {
         "rel": "dov:component",
         "dov:refName": "ParameterSet",
         "href": "./OpcUaCore.TM.json#title=OpcUaCore_BaseObjectType",
@@ -53,6 +59,18 @@
       {
         "rel": "tm:extends",
         "href": "./Mining.General.TM.json#title=Mining_General_MiningEquipmentType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:component",
+        "dov:refName": "Components",
+        "href": "./Machinery.TM.json#title=Machinery_MachineComponentsType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:capability",
+        "dov:refName": "MiningEquipmentIdentification",
+        "href": "./Mining.General.TM.json#title=Mining_General_MiningEquipmentIdentificationType",
         "type": "application/tm+json"
       }
     ],

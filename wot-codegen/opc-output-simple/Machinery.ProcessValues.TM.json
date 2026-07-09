@@ -105,6 +105,26 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/actions/ZeroPointAdjustment",
+      "/properties/AlarmSuppression",
+      "/properties/AnalogSignal_HighHighLimit",
+      "/properties/AnalogSignal_HighLimit",
+      "/properties/AnalogSignal_LowLimit",
+      "/properties/AnalogSignal_LowLowLimit",
+      "/properties/AnalogSignal_PercentageValue",
+      "/properties/ProcessValueSetpoint",
+      "/properties/Status",
+      "/properties/AnalogSignal_PercentageValue_EngineeringUnits",
+      "/events/AlarmSuppression",
+      "/events/AnalogSignal_HighHighLimit",
+      "/events/AnalogSignal_HighLimit",
+      "/events/AnalogSignal_LowLimit",
+      "/events/AnalogSignal_LowLowLimit",
+      "/events/AnalogSignal_PercentageValue",
+      "/events/ProcessValueSetpoint",
+      "/events/Status"
+    ],
     "actions": {
       "ZeroPointAdjustment": {
         "dov:namespace": "http://opcfoundation.org/UA/PADIM/",

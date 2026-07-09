@@ -34,6 +34,12 @@
         "type": "application/tm+json"
       },
       {
+        "rel": "dov:capability",
+        "dov:refName": "Identification",
+        "href": "./Machinery.TM.json#title=Machinery_MachineIdentificationType",
+        "type": "application/tm+json"
+      },
+      {
         "rel": "dov:reference",
         "dov:refName": "MachineConfiguration",
         "href": "./PlasticsRubber.GeneralTypes.TM.json#title=PlasticsRubber_GeneralTypes_MachineConfigurationType",
@@ -147,6 +153,10 @@
         "dov:topic": "opcua/PlasticsRubber.Extrusion_v2.GeneralTypes/PlasticsRubber_Extrusion_v2_GeneralTypes_ExtrusionDeviceType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/Strand",
+      "/properties/Target"
     ],
     "actions": {
     },
@@ -392,6 +402,11 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/IsClosed",
+      "/properties/StockingGuideIsPresent",
+      "/events/IsClosed"
+    ],
     "actions": {
     },
     "properties": {
@@ -508,6 +523,14 @@
         "dov:topic": "opcua/PlasticsRubber.Extrusion_v2.GeneralTypes/PlasticsRubber_Extrusion_v2_GeneralTypes_ExtrusionTemperatureZoneType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/ControllerOutput",
+      "/properties/NominalCoolingPower",
+      "/properties/NominalHeatingPower",
+      "/events/ControllerOutput",
+      "/events/NominalCoolingPower",
+      "/events/NominalHeatingPower"
     ],
     "actions": {
     },
@@ -822,6 +845,10 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/MasterRollId",
+      "/properties/Name"
+    ],
     "actions": {
     },
     "properties": {
@@ -1101,6 +1128,9 @@
         "dov:topic": "opcua/PlasticsRubber.Extrusion_v2.GeneralTypes/PlasticsRubber_Extrusion_v2_GeneralTypes_ExtrusionMachineryItemState_StateMachineType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/DefaultInstanceBrowseName"
     ],
     "actions": {
     },

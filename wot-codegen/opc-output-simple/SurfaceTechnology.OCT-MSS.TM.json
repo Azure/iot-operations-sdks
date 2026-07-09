@@ -1,0 +1,348 @@
+[
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dov": "http://azure.com/DigitalOperations/vocab#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "SurfaceTechnology_OCT_MSS_STCompHeaterType",
+    "dov:typeRef": "org.opcfoundation.UA.SurfaceTechnology.OCT-MSS.STCompHeaterType",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./SurfaceTechnology.GeneralTypes.TM.json#title=SurfaceTechnology_GeneralTypes_STCompType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:component",
+        "dov:refName": "Description",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_FolderType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:reference",
+        "dov:refName": "Monitoring",
+        "href": "./Machinery.TM.json#title=Machinery_MonitoringType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dov": "http://azure.com/DigitalOperations/vocab#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "SurfaceTechnology_OCT_MSS_STCompPowderSieveType",
+    "dov:typeRef": "org.opcfoundation.UA.SurfaceTechnology.OCT-MSS.STCompPowderSieveType",
+    "dov:isComposite": true,
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./SurfaceTechnology.GeneralTypes.TM.json#title=SurfaceTechnology_GeneralTypes_STCompType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:component",
+        "dov:refName": "Description",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_FolderType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dov": "http://azure.com/DigitalOperations/vocab#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "SurfaceTechnology_OCT_MSS_STCompPowderVibrationType",
+    "dov:typeRef": "org.opcfoundation.UA.SurfaceTechnology.OCT-MSS.STCompPowderVibrationType",
+    "dov:isComposite": true,
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./SurfaceTechnology.GeneralTypes.TM.json#title=SurfaceTechnology_GeneralTypes_STCompType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:reference",
+        "dov:refName": "Monitoring",
+        "href": "./Machinery.TM.json#title=Machinery_MonitoringType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dov": "http://azure.com/DigitalOperations/vocab#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "SurfaceTechnology_OCT_MSS_STCompProcessValveType",
+    "dov:typeRef": "org.opcfoundation.UA.SurfaceTechnology.OCT-MSS.STCompProcessValveType",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./SurfaceTechnology.GeneralTypes.TM.json#title=SurfaceTechnology_GeneralTypes_STCompType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:component",
+        "dov:refName": "Description",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_FolderType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:component",
+        "dov:refName": "MachineryBuildingBlocks",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_FolderType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:reference",
+        "dov:refName": "Monitoring",
+        "href": "./Machinery.TM.json#title=Machinery_MonitoringType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dov": "http://azure.com/DigitalOperations/vocab#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "SurfaceTechnology_OCT_MSS_STCompRamType",
+    "dov:typeRef": "org.opcfoundation.UA.SurfaceTechnology.OCT-MSS.STCompRamType",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./SurfaceTechnology.GeneralTypes.TM.json#title=SurfaceTechnology_GeneralTypes_STCompType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:component",
+        "dov:refName": "Description",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_FolderType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:component",
+        "dov:refName": "MachineryBuildingBlocks",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_FolderType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:reference",
+        "dov:refName": "Monitoring",
+        "href": "./Machinery.TM.json#title=Machinery_MonitoringType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dov": "http://azure.com/DigitalOperations/vocab#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "SurfaceTechnology_OCT_MSS_STCompStirrerType",
+    "dov:typeRef": "org.opcfoundation.UA.SurfaceTechnology.OCT-MSS.STCompStirrerType",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./SurfaceTechnology.GeneralTypes.TM.json#title=SurfaceTechnology_GeneralTypes_STCompType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:reference",
+        "dov:refName": "Monitoring",
+        "href": "./Machinery.TM.json#title=Machinery_MonitoringType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dov": "http://azure.com/DigitalOperations/vocab#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "SurfaceTechnology_OCT_MSS_STSysMaterialTransportLineType",
+    "dov:typeRef": "org.opcfoundation.UA.SurfaceTechnology.OCT-MSS.STSysMaterialTransportLineType",
+    "dov:isComposite": true,
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./SurfaceTechnology.GeneralTypes.TM.json#title=SurfaceTechnology_GeneralTypes_STSysType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:component",
+        "dov:refName": "Description",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_FolderType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:component",
+        "dov:refName": "MachineryBuildingBlocks",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_FolderType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:reference",
+        "dov:refName": "Monitoring",
+        "href": "./Machinery.TM.json#title=Machinery_MonitoringType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dov": "http://azure.com/DigitalOperations/vocab#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "SurfaceTechnology_OCT_MSS_STSysRamType",
+    "dov:typeRef": "org.opcfoundation.UA.SurfaceTechnology.OCT-MSS.STSysRamType",
+    "dov:isComposite": true,
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./SurfaceTechnology.GeneralTypes.TM.json#title=SurfaceTechnology_GeneralTypes_STSysType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:component",
+        "dov:refName": "Components",
+        "href": "./Machinery.TM.json#title=Machinery_MachineComponentsType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dov": "http://azure.com/DigitalOperations/vocab#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "SurfaceTechnology_OCT_MSS_STSysVesselType",
+    "dov:typeRef": "org.opcfoundation.UA.SurfaceTechnology.OCT-MSS.STSysVesselType",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./SurfaceTechnology.GeneralTypes.TM.json#title=SurfaceTechnology_GeneralTypes_STSysType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:component",
+        "dov:refName": "Components",
+        "href": "./Machinery.TM.json#title=Machinery_MachineComponentsType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:component",
+        "dov:refName": "Description",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_FolderType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:reference",
+        "dov:refName": "Monitoring",
+        "href": "./Machinery.TM.json#title=Machinery_MonitoringType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
+  }
+]

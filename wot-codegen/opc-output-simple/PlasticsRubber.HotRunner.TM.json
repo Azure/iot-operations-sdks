@@ -110,6 +110,23 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/ActualOutput",
+      "/properties/AutomaticReferenceZoneSelection",
+      "/properties/AverageControllerOutput",
+      "/properties/LowerOutput",
+      "/properties/OutputTime",
+      "/properties/ReferenceZone",
+      "/properties/SetValueManualOutput",
+      "/properties/UpperOutput",
+      "/properties/UpperSetValueCascade",
+      "/events/ActualOutput",
+      "/events/AverageControllerOutput",
+      "/events/LowerOutput",
+      "/events/SetValueManualOutput",
+      "/events/UpperOutput",
+      "/events/UpperSetValueCascade"
+    ],
     "actions": {
     },
     "properties": {
@@ -500,6 +517,16 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/EvenHeatUpEnabled",
+      "/properties/ManualOutputLimitActive",
+      "/properties/RelayHeatingGroup",
+      "/properties/RelayHeatingTime",
+      "/properties/SetValueManualOutputLimit",
+      "/properties/SetValueTemperature",
+      "/events/SetValueManualOutputLimit",
+      "/events/SetValueTemperature"
+    ],
     "actions": {
     },
     "properties": {
@@ -722,6 +749,9 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/DisplayLanguage"
+    ],
     "actions": {
     },
     "properties": {
@@ -826,6 +856,16 @@
         "dov:topic": "opcua/PlasticsRubber.HotRunner/PlasticsRubber_HotRunner_HRDTemperatureType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/BoostSetValue",
+      "/properties/BoostTime",
+      "/properties/SecondSetValue",
+      "/properties/StandbySetValue",
+      "/properties/TimeMethodPIDParameters",
+      "/events/BoostSetValue",
+      "/events/SecondSetValue",
+      "/events/StandbySetValue"
     ],
     "actions": {
     },
@@ -1077,6 +1117,13 @@
         "dov:topic": "opcua/PlasticsRubber.HotRunner/PlasticsRubber_HotRunner_OperationType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/actions/IdentifyDevice",
+      "/actions/ResetAllErrors",
+      "/actions/ResetErrorById",
+      "/properties/EvenHeatUpMaxTemperatureDifference",
+      "/events/EvenHeatUpMaxTemperatureDifference"
     ],
     "actions": {
       "IdentifyDevice": {
@@ -1427,6 +1474,11 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/SetValueTemperatureChange",
+      "/properties/SupervisionTime",
+      "/events/SetValueTemperatureChange"
+    ],
     "actions": {
     },
     "properties": {
@@ -1629,6 +1681,13 @@
         "dov:topic": "opcua/PlasticsRubber.HotRunner/PlasticsRubber_HotRunner_ZoneType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/CommunicationProtocolType",
+      "/properties/Name",
+      "/properties/ThermocoupleType",
+      "/events/CommunicationProtocolType",
+      "/events/ThermocoupleType"
     ],
     "actions": {
     },

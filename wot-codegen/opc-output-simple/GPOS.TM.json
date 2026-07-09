@@ -36,6 +36,18 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/Building",
+      "/properties/Floor",
+      "/properties/GroundControlPoints",
+      "/properties/IncompleteConfiguration",
+      "/properties/Position",
+      "/properties/Radius",
+      "/properties/Site",
+      "/events/GroundControlPoints",
+      "/events/Position",
+      "/events/Radius"
+    ],
     "actions": {
     },
     "properties": {

@@ -41,6 +41,18 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/AbsoluteUncertainty",
+      "/properties/Index",
+      "/properties/InternalUpdateInterval",
+      "/properties/MeasurementPeriod",
+      "/properties/RelativeUncertainty",
+      "/properties/Status",
+      "/properties/Timestamp",
+      "/events/AbsoluteUncertainty",
+      "/events/RelativeUncertainty",
+      "/events/Status"
+    ],
     "actions": {
       "SetDeltaCondition": {
         "dov:namespace": "http://opcfoundation.org/UA/WMTP/",
@@ -432,6 +444,12 @@
         "type": "application/tm+json"
       },
       {
+        "rel": "dov:reference",
+        "dov:refName": "LifetimeCounters",
+        "href": "#title=Machinery_MachineryLifetimeCounterType",
+        "type": "application/tm+json"
+      },
+      {
         "rel": "dov:component",
         "dov:refName": "MachineryBuildingBlocks",
         "href": "#title=OpcUaCore_FolderType",
@@ -441,6 +459,12 @@
         "rel": "dov:component",
         "dov:refName": "Measurements",
         "href": "#title=OpcUaCore_FolderType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:capability",
+        "dov:refName": "OperationCounters",
+        "href": "#title=Machinery_MachineryOperationCounterType",
         "type": "application/tm+json"
       },
       {
@@ -484,6 +508,16 @@
     ],
     "schemaDefinitions": {
     },
+    "tm:optional": [
+      "/actions/CombinedReportFirstValue",
+      "/actions/CombinedReportIndex",
+      "/actions/CombinedReportLastValue",
+      "/actions/CombinedReportTime",
+      "/actions/DeleteAllStoredRecords",
+      "/actions/DeleteStoredRecordsIndex",
+      "/actions/DeleteStoredRecordsTime",
+      "/actions/ReportNumberOfStoredRecordsTime"
+    ],
     "actions": {
       "AbortOperation": {
         "dov:namespace": "http://opcfoundation.org/UA/WMTP/",
@@ -1372,6 +1406,16 @@
     ],
     "schemaDefinitions": {
     },
+    "tm:optional": [
+      "/actions/CombinedReportFirstValue",
+      "/actions/CombinedReportIndex",
+      "/actions/CombinedReportLastValue",
+      "/actions/CombinedReportTime",
+      "/actions/DeleteAllStoredRecords",
+      "/actions/DeleteStoredRecordsIndex",
+      "/actions/DeleteStoredRecordsTime",
+      "/actions/ReportNumberOfStoredRecordsTime"
+    ],
     "actions": {
       "AbortOperation": {
         "dov:namespace": "http://opcfoundation.org/UA/WMTP/",
@@ -2282,6 +2326,26 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/actions/ZeroPointAdjustment",
+      "/properties/AlarmSuppression",
+      "/properties/AnalogSignal_HighHighLimit",
+      "/properties/AnalogSignal_HighLimit",
+      "/properties/AnalogSignal_LowLimit",
+      "/properties/AnalogSignal_LowLowLimit",
+      "/properties/AnalogSignal_PercentageValue",
+      "/properties/ProcessValueSetpoint",
+      "/properties/Status",
+      "/properties/AnalogSignal_PercentageValue_EngineeringUnits",
+      "/events/AlarmSuppression",
+      "/events/AnalogSignal_HighHighLimit",
+      "/events/AnalogSignal_HighLimit",
+      "/events/AnalogSignal_LowLimit",
+      "/events/AnalogSignal_LowLowLimit",
+      "/events/AnalogSignal_PercentageValue",
+      "/events/ProcessValueSetpoint",
+      "/events/Status"
+    ],
     "actions": {
       "ZeroPointAdjustment": {
         "dov:namespace": "http://opcfoundation.org/UA/PADIM/",
@@ -2676,6 +2740,9 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/actions/ZeroPointAdjustment"
+    ],
     "actions": {
       "ZeroPointAdjustment": {
         "dov:namespace": "http://opcfoundation.org/UA/PADIM/",
@@ -2826,6 +2893,9 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/BaseSetpointNode"
+    ],
     "actions": {
     },
     "properties": {
@@ -2949,6 +3019,24 @@
         "dov:topic": "opcua/OpcUaCore/OpcUaCore_LimitAlarmType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/BaseHighHighLimit",
+      "/properties/BaseHighLimit",
+      "/properties/BaseLowLimit",
+      "/properties/BaseLowLowLimit",
+      "/properties/HighDeadband",
+      "/properties/HighHighDeadband",
+      "/properties/HighHighLimit",
+      "/properties/HighLimit",
+      "/properties/LowDeadband",
+      "/properties/LowLimit",
+      "/properties/LowLowDeadband",
+      "/properties/LowLowLimit",
+      "/properties/SeverityHigh",
+      "/properties/SeverityHighHigh",
+      "/properties/SeverityLow",
+      "/properties/SeverityLowLow"
     ],
     "actions": {
     },
@@ -3208,6 +3296,39 @@
         "dov:topic": "opcua/OpcUaCore/OpcUaCore_AlarmConditionType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/actions/GetGroupMemberships",
+      "/actions/PlaceInService",
+      "/actions/PlaceInService2",
+      "/actions/RemoveFromService",
+      "/actions/RemoveFromService2",
+      "/actions/Reset",
+      "/actions/Reset2",
+      "/actions/Silence",
+      "/actions/Suppress",
+      "/actions/Suppress2",
+      "/actions/Unsuppress",
+      "/actions/Unsuppress2",
+      "/properties/AudibleEnabled",
+      "/properties/AudibleSound",
+      "/properties/FirstInGroupFlag",
+      "/properties/LatchedState",
+      "/properties/MaxTimeShelved",
+      "/properties/OffDelay",
+      "/properties/OnDelay",
+      "/properties/OutOfServiceState",
+      "/properties/ReAlarmRepeatCount",
+      "/properties/ReAlarmTime",
+      "/properties/SilenceState",
+      "/properties/SuppressedState",
+      "/events/AudibleSound",
+      "/events/FirstInGroupFlag",
+      "/events/LatchedState",
+      "/events/OutOfServiceState",
+      "/events/ReAlarmRepeatCount",
+      "/events/SilenceState",
+      "/events/SuppressedState"
     ],
     "actions": {
       "GetGroupMemberships": {
@@ -3713,6 +3834,11 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/actions/Confirm",
+      "/properties/ConfirmedState",
+      "/events/ConfirmedState"
+    ],
     "actions": {
       "Acknowledge": {
         "input": {
@@ -3870,6 +3996,13 @@
         "dov:topic": "opcua/OpcUaCore/OpcUaCore_ConditionType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/actions/ConditionRefresh",
+      "/actions/ConditionRefresh2",
+      "/properties/ConditionSubClassId",
+      "/properties/ConditionSubClassName",
+      "/properties/SupportsFilteredRetain"
     ],
     "actions": {
       "AddComment": {
@@ -4198,6 +4331,13 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/ConditionClassId",
+      "/properties/ConditionClassName",
+      "/properties/ConditionSubClassId",
+      "/properties/ConditionSubClassName",
+      "/properties/LocalTime"
+    ],
     "actions": {
     },
     "properties": {
@@ -4452,6 +4592,11 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/actions/OneShotShelve2",
+      "/actions/TimedShelve2",
+      "/actions/Unshelve2"
+    ],
     "actions": {
       "OneShotShelve": {
         "forms": [
@@ -4601,6 +4746,14 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/AvailableStates",
+      "/properties/AvailableTransitions",
+      "/properties/LastTransition",
+      "/events/AvailableStates",
+      "/events/AvailableTransitions",
+      "/events/LastTransition"
+    ],
     "actions": {
     },
     "properties": {
@@ -4743,6 +4896,10 @@
         "dov:topic": "opcua/OpcUaCore/OpcUaCore_StateMachineType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/LastTransition",
+      "/events/LastTransition"
     ],
     "actions": {
     },
@@ -5047,6 +5204,12 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/DefaultInstanceBrowseName",
+      "/properties/OperationCycleCounter",
+      "/properties/OperationDuration",
+      "/properties/PowerOnDuration"
+    ],
     "actions": {
     },
     "properties": {
@@ -5136,6 +5299,102 @@
       }
     ],
     "@type": "tm:ThingModel",
+    "title": "Machinery_MachineryLifetimeCounterType",
+    "dov:typeRef": "org.opcfoundation.UA.Machinery.MachineryLifetimeCounterType",
+    "dov:isComposite": true,
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_FolderType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dov:topic": "opcua/Machinery/Machinery_MachineryLifetimeCounterType/events/{senderId}",
+        "op": "subscribeallevents"
+      },
+      {
+        "contentType": "application/json",
+        "dov:topic": "opcua/Machinery/Machinery_MachineryLifetimeCounterType/properties/write",
+        "op": "writemultipleproperties"
+      },
+      {
+        "contentType": "application/json",
+        "dov:topic": "opcua/Machinery/Machinery_MachineryLifetimeCounterType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "tm:optional": [
+      "/properties/DefaultInstanceBrowseName"
+    ],
+    "actions": {
+    },
+    "properties": {
+      "DefaultInstanceBrowseName": {
+        "description": "The default BrowseName for instances of the type",
+        "type": "string",
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/Machinery/Machinery_MachineryLifetimeCounterType/property/DefaultInstanceBrowseName/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/Machinery/Machinery_MachineryLifetimeCounterType/property/DefaultInstanceBrowseName/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "LifetimeVariable": {
+        "dov:namespace": "http://opcfoundation.org/UA/Machinery/",
+        "type": "number",
+        "readOnly": false,
+        "dov:placeholder": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/Machinery/Machinery_MachineryLifetimeCounterType/property/LifetimeVariable/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/Machinery/Machinery_MachineryLifetimeCounterType/property/LifetimeVariable/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+      "LifetimeVariable": {
+        "dov:namespace": "http://opcfoundation.org/UA/Machinery/",
+        "data": {
+          "type": "number"
+        },
+        "dov:placeholder": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/Machinery/Machinery_MachineryLifetimeCounterType/event/LifetimeVariable/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dov": "http://azure.com/DigitalOperations/vocab#"
+      }
+    ],
+    "@type": "tm:ThingModel",
     "title": "DI_FunctionalGroupType",
     "dov:typeRef": "org.opcfoundation.UA.DI.FunctionalGroupType",
     "links": [
@@ -5164,6 +5423,10 @@
         "dov:topic": "opcua/DI/DI_FunctionalGroupType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/UIElement",
+      "/events/UIElement"
     ],
     "actions": {
     },

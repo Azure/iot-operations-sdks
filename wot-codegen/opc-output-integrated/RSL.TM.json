@@ -198,6 +198,10 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/DefaultInstanceBrowseName",
+      "/properties/Identifier"
+    ],
     "actions": {
     },
     "properties": {

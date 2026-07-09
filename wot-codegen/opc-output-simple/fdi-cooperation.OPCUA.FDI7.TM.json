@@ -7,7 +7,7 @@
       }
     ],
     "@type": "tm:ThingModel",
-    "title": "FDI7_Foundation_H1",
+    "title": "Fdi_cooperation_OPCUA_FDI7_Foundation_H1",
     "dov:typeRef": "com.fdi-cooperation.OPCUA.FDI7.Foundation_H1",
     "dov:isComposite": true,
     "links": [
@@ -34,7 +34,7 @@
       }
     ],
     "@type": "tm:ThingModel",
-    "title": "FDI7_Foundation_HSE",
+    "title": "Fdi_cooperation_OPCUA_FDI7_Foundation_HSE",
     "dov:typeRef": "com.fdi-cooperation.OPCUA.FDI7.Foundation_HSE",
     "dov:isComposite": true,
     "links": [
@@ -61,7 +61,7 @@
       }
     ],
     "@type": "tm:ThingModel",
-    "title": "FDI7_Profibus_DP",
+    "title": "Fdi_cooperation_OPCUA_FDI7_Profibus_DP",
     "dov:typeRef": "com.fdi-cooperation.OPCUA.FDI7.Profibus_DP",
     "dov:isComposite": true,
     "links": [
@@ -88,7 +88,7 @@
       }
     ],
     "@type": "tm:ThingModel",
-    "title": "FDI7_Profibus_PA",
+    "title": "Fdi_cooperation_OPCUA_FDI7_Profibus_PA",
     "dov:typeRef": "com.fdi-cooperation.OPCUA.FDI7.Profibus_PA",
     "dov:isComposite": true,
     "links": [
@@ -115,7 +115,7 @@
       }
     ],
     "@type": "tm:ThingModel",
-    "title": "FDI7_Profinet_IO",
+    "title": "Fdi_cooperation_OPCUA_FDI7_Profinet_IO",
     "dov:typeRef": "com.fdi-cooperation.OPCUA.FDI7.Profinet_IO",
     "dov:isComposite": true,
     "links": [
@@ -142,7 +142,7 @@
       }
     ],
     "@type": "tm:ThingModel",
-    "title": "FDI7_HART",
+    "title": "Fdi_cooperation_OPCUA_FDI7_HART",
     "dov:typeRef": "com.fdi-cooperation.OPCUA.FDI7.HART",
     "dov:isComposite": true,
     "links": [
@@ -169,7 +169,7 @@
       }
     ],
     "@type": "tm:ThingModel",
-    "title": "FDI7_ISA100_Wireless",
+    "title": "Fdi_cooperation_OPCUA_FDI7_ISA100_Wireless",
     "dov:typeRef": "com.fdi-cooperation.OPCUA.FDI7.ISA100_Wireless",
     "dov:isComposite": true,
     "links": [
@@ -196,7 +196,7 @@
       }
     ],
     "@type": "tm:ThingModel",
-    "title": "FDI7_GenericProtocol",
+    "title": "Fdi_cooperation_OPCUA_FDI7_GenericProtocol",
     "dov:typeRef": "com.fdi-cooperation.OPCUA.FDI7.GenericProtocol",
     "dov:isComposite": true,
     "links": [
@@ -211,7 +211,7 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dov:topic": "opcua/FDI7/FDI7_GenericProtocol/properties/read",
+        "dov:topic": "opcua/fdi-cooperation.OPCUA.FDI7/Fdi_cooperation_OPCUA_FDI7_GenericProtocol/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -225,7 +225,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dov:topic": "opcua/FDI7/FDI7_GenericProtocol/property/ProtocolIdentifier/read",
+            "dov:topic": "opcua/fdi-cooperation.OPCUA.FDI7/Fdi_cooperation_OPCUA_FDI7_GenericProtocol/property/ProtocolIdentifier/read",
             "op": "readproperty"
           }
         ]
@@ -242,7 +242,7 @@
       }
     ],
     "@type": "tm:ThingModel",
-    "title": "FDI7_ConnectionPoint_Foundation_H1",
+    "title": "Fdi_cooperation_OPCUA_FDI7_ConnectionPoint_Foundation_H1",
     "dov:typeRef": "com.fdi-cooperation.OPCUA.FDI7.ConnectionPoint_Foundation_H1",
     "dov:isComposite": true,
     "links": [
@@ -257,9 +257,13 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dov:topic": "opcua/FDI7/FDI7_ConnectionPoint_Foundation_H1/properties/read",
+        "dov:topic": "opcua/fdi-cooperation.OPCUA.FDI7/Fdi_cooperation_OPCUA_FDI7_ConnectionPoint_Foundation_H1/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/OrdinalNumber",
+      "/properties/SIFConnection"
     ],
     "actions": {
     },
@@ -273,7 +277,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dov:topic": "opcua/FDI7/FDI7_ConnectionPoint_Foundation_H1/property/Address/read",
+            "dov:topic": "opcua/fdi-cooperation.OPCUA.FDI7/Fdi_cooperation_OPCUA_FDI7_ConnectionPoint_Foundation_H1/property/Address/read",
             "op": "readproperty"
           }
         ]
@@ -287,7 +291,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dov:topic": "opcua/FDI7/FDI7_ConnectionPoint_Foundation_H1/property/OrdinalNumber/read",
+            "dov:topic": "opcua/fdi-cooperation.OPCUA.FDI7/Fdi_cooperation_OPCUA_FDI7_ConnectionPoint_Foundation_H1/property/OrdinalNumber/read",
             "op": "readproperty"
           }
         ]
@@ -299,7 +303,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dov:topic": "opcua/FDI7/FDI7_ConnectionPoint_Foundation_H1/property/SIFConnection/read",
+            "dov:topic": "opcua/fdi-cooperation.OPCUA.FDI7/Fdi_cooperation_OPCUA_FDI7_ConnectionPoint_Foundation_H1/property/SIFConnection/read",
             "op": "readproperty"
           }
         ]
@@ -316,7 +320,7 @@
       }
     ],
     "@type": "tm:ThingModel",
-    "title": "FDI7_ConnectionPoint_Foundation_HSE",
+    "title": "Fdi_cooperation_OPCUA_FDI7_ConnectionPoint_Foundation_HSE",
     "dov:typeRef": "com.fdi-cooperation.OPCUA.FDI7.ConnectionPoint_Foundation_HSE",
     "dov:isComposite": true,
     "links": [
@@ -331,9 +335,12 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dov:topic": "opcua/FDI7/FDI7_ConnectionPoint_Foundation_HSE/properties/read",
+        "dov:topic": "opcua/fdi-cooperation.OPCUA.FDI7/Fdi_cooperation_OPCUA_FDI7_ConnectionPoint_Foundation_HSE/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/OrdinalNumber"
     ],
     "actions": {
     },
@@ -350,7 +357,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dov:topic": "opcua/FDI7/FDI7_ConnectionPoint_Foundation_HSE/property/Address/read",
+            "dov:topic": "opcua/fdi-cooperation.OPCUA.FDI7/Fdi_cooperation_OPCUA_FDI7_ConnectionPoint_Foundation_HSE/property/Address/read",
             "op": "readproperty"
           }
         ]
@@ -364,7 +371,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dov:topic": "opcua/FDI7/FDI7_ConnectionPoint_Foundation_HSE/property/OrdinalNumber/read",
+            "dov:topic": "opcua/fdi-cooperation.OPCUA.FDI7/Fdi_cooperation_OPCUA_FDI7_ConnectionPoint_Foundation_HSE/property/OrdinalNumber/read",
             "op": "readproperty"
           }
         ]
@@ -381,7 +388,7 @@
       }
     ],
     "@type": "tm:ThingModel",
-    "title": "FDI7_ConnectionPoint_Profibus_DP",
+    "title": "Fdi_cooperation_OPCUA_FDI7_ConnectionPoint_Profibus_DP",
     "dov:typeRef": "com.fdi-cooperation.OPCUA.FDI7.ConnectionPoint_Profibus_DP",
     "dov:isComposite": true,
     "links": [
@@ -396,7 +403,7 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dov:topic": "opcua/FDI7/FDI7_ConnectionPoint_Profibus_DP/properties/read",
+        "dov:topic": "opcua/fdi-cooperation.OPCUA.FDI7/Fdi_cooperation_OPCUA_FDI7_ConnectionPoint_Profibus_DP/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -412,7 +419,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dov:topic": "opcua/FDI7/FDI7_ConnectionPoint_Profibus_DP/property/Address/read",
+            "dov:topic": "opcua/fdi-cooperation.OPCUA.FDI7/Fdi_cooperation_OPCUA_FDI7_ConnectionPoint_Profibus_DP/property/Address/read",
             "op": "readproperty"
           }
         ]
@@ -429,7 +436,7 @@
       }
     ],
     "@type": "tm:ThingModel",
-    "title": "FDI7_ConnectionPoint_Profinet_IO",
+    "title": "Fdi_cooperation_OPCUA_FDI7_ConnectionPoint_Profinet_IO",
     "dov:typeRef": "com.fdi-cooperation.OPCUA.FDI7.ConnectionPoint_Profinet_IO",
     "dov:isComposite": true,
     "links": [
@@ -444,7 +451,7 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dov:topic": "opcua/FDI7/FDI7_ConnectionPoint_Profinet_IO/properties/read",
+        "dov:topic": "opcua/fdi-cooperation.OPCUA.FDI7/Fdi_cooperation_OPCUA_FDI7_ConnectionPoint_Profinet_IO/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -458,7 +465,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dov:topic": "opcua/FDI7/FDI7_ConnectionPoint_Profinet_IO/property/DNSNAME/read",
+            "dov:topic": "opcua/fdi-cooperation.OPCUA.FDI7/Fdi_cooperation_OPCUA_FDI7_ConnectionPoint_Profinet_IO/property/DNSNAME/read",
             "op": "readproperty"
           }
         ]
@@ -475,7 +482,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dov:topic": "opcua/FDI7/FDI7_ConnectionPoint_Profinet_IO/property/IPv4/read",
+            "dov:topic": "opcua/fdi-cooperation.OPCUA.FDI7/Fdi_cooperation_OPCUA_FDI7_ConnectionPoint_Profinet_IO/property/IPv4/read",
             "op": "readproperty"
           }
         ]
@@ -492,7 +499,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dov:topic": "opcua/FDI7/FDI7_ConnectionPoint_Profinet_IO/property/MAC/read",
+            "dov:topic": "opcua/fdi-cooperation.OPCUA.FDI7/Fdi_cooperation_OPCUA_FDI7_ConnectionPoint_Profinet_IO/property/MAC/read",
             "op": "readproperty"
           }
         ]
@@ -504,7 +511,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dov:topic": "opcua/FDI7/FDI7_ConnectionPoint_Profinet_IO/property/VALID/read",
+            "dov:topic": "opcua/fdi-cooperation.OPCUA.FDI7/Fdi_cooperation_OPCUA_FDI7_ConnectionPoint_Profinet_IO/property/VALID/read",
             "op": "readproperty"
           }
         ]
@@ -521,7 +528,7 @@
       }
     ],
     "@type": "tm:ThingModel",
-    "title": "FDI7_ConnectionPoint_HART_TP5",
+    "title": "Fdi_cooperation_OPCUA_FDI7_ConnectionPoint_HART_TP5",
     "dov:typeRef": "com.fdi-cooperation.OPCUA.FDI7.ConnectionPoint_HART_TP5",
     "dov:isComposite": true,
     "links": [
@@ -536,9 +543,16 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dov:topic": "opcua/FDI7/FDI7_ConnectionPoint_HART_TP5/properties/read",
+        "dov:topic": "opcua/fdi-cooperation.OPCUA.FDI7/Fdi_cooperation_OPCUA_FDI7_ConnectionPoint_HART_TP5/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/DevMfg",
+      "/properties/DevPollAddr",
+      "/properties/DevRev",
+      "/properties/DevTag",
+      "/properties/DevType"
     ],
     "actions": {
     },
@@ -555,7 +569,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dov:topic": "opcua/FDI7/FDI7_ConnectionPoint_HART_TP5/property/DevAddr/read",
+            "dov:topic": "opcua/fdi-cooperation.OPCUA.FDI7/Fdi_cooperation_OPCUA_FDI7_ConnectionPoint_HART_TP5/property/DevAddr/read",
             "op": "readproperty"
           }
         ]
@@ -569,7 +583,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dov:topic": "opcua/FDI7/FDI7_ConnectionPoint_HART_TP5/property/DevMfg/read",
+            "dov:topic": "opcua/fdi-cooperation.OPCUA.FDI7/Fdi_cooperation_OPCUA_FDI7_ConnectionPoint_HART_TP5/property/DevMfg/read",
             "op": "readproperty"
           }
         ]
@@ -583,7 +597,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dov:topic": "opcua/FDI7/FDI7_ConnectionPoint_HART_TP5/property/DevPollAddr/read",
+            "dov:topic": "opcua/fdi-cooperation.OPCUA.FDI7/Fdi_cooperation_OPCUA_FDI7_ConnectionPoint_HART_TP5/property/DevPollAddr/read",
             "op": "readproperty"
           }
         ]
@@ -597,7 +611,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dov:topic": "opcua/FDI7/FDI7_ConnectionPoint_HART_TP5/property/DevRev/read",
+            "dov:topic": "opcua/fdi-cooperation.OPCUA.FDI7/Fdi_cooperation_OPCUA_FDI7_ConnectionPoint_HART_TP5/property/DevRev/read",
             "op": "readproperty"
           }
         ]
@@ -609,7 +623,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dov:topic": "opcua/FDI7/FDI7_ConnectionPoint_HART_TP5/property/DevTag/read",
+            "dov:topic": "opcua/fdi-cooperation.OPCUA.FDI7/Fdi_cooperation_OPCUA_FDI7_ConnectionPoint_HART_TP5/property/DevTag/read",
             "op": "readproperty"
           }
         ]
@@ -623,7 +637,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dov:topic": "opcua/FDI7/FDI7_ConnectionPoint_HART_TP5/property/DevType/read",
+            "dov:topic": "opcua/fdi-cooperation.OPCUA.FDI7/Fdi_cooperation_OPCUA_FDI7_ConnectionPoint_HART_TP5/property/DevType/read",
             "op": "readproperty"
           }
         ]
@@ -640,7 +654,7 @@
       }
     ],
     "@type": "tm:ThingModel",
-    "title": "FDI7_ConnectionPoint_HART_TP6",
+    "title": "Fdi_cooperation_OPCUA_FDI7_ConnectionPoint_HART_TP6",
     "dov:typeRef": "com.fdi-cooperation.OPCUA.FDI7.ConnectionPoint_HART_TP6",
     "dov:isComposite": true,
     "links": [
@@ -655,9 +669,16 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dov:topic": "opcua/FDI7/FDI7_ConnectionPoint_HART_TP6/properties/read",
+        "dov:topic": "opcua/fdi-cooperation.OPCUA.FDI7/Fdi_cooperation_OPCUA_FDI7_ConnectionPoint_HART_TP6/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/DevMfg",
+      "/properties/DevPollAddr",
+      "/properties/DevRev",
+      "/properties/DevTag",
+      "/properties/DevType"
     ],
     "actions": {
     },
@@ -674,7 +695,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dov:topic": "opcua/FDI7/FDI7_ConnectionPoint_HART_TP6/property/DevAddr/read",
+            "dov:topic": "opcua/fdi-cooperation.OPCUA.FDI7/Fdi_cooperation_OPCUA_FDI7_ConnectionPoint_HART_TP6/property/DevAddr/read",
             "op": "readproperty"
           }
         ]
@@ -688,7 +709,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dov:topic": "opcua/FDI7/FDI7_ConnectionPoint_HART_TP6/property/DevMfg/read",
+            "dov:topic": "opcua/fdi-cooperation.OPCUA.FDI7/Fdi_cooperation_OPCUA_FDI7_ConnectionPoint_HART_TP6/property/DevMfg/read",
             "op": "readproperty"
           }
         ]
@@ -702,7 +723,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dov:topic": "opcua/FDI7/FDI7_ConnectionPoint_HART_TP6/property/DevPollAddr/read",
+            "dov:topic": "opcua/fdi-cooperation.OPCUA.FDI7/Fdi_cooperation_OPCUA_FDI7_ConnectionPoint_HART_TP6/property/DevPollAddr/read",
             "op": "readproperty"
           }
         ]
@@ -716,7 +737,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dov:topic": "opcua/FDI7/FDI7_ConnectionPoint_HART_TP6/property/DevRev/read",
+            "dov:topic": "opcua/fdi-cooperation.OPCUA.FDI7/Fdi_cooperation_OPCUA_FDI7_ConnectionPoint_HART_TP6/property/DevRev/read",
             "op": "readproperty"
           }
         ]
@@ -728,7 +749,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dov:topic": "opcua/FDI7/FDI7_ConnectionPoint_HART_TP6/property/DevTag/read",
+            "dov:topic": "opcua/fdi-cooperation.OPCUA.FDI7/Fdi_cooperation_OPCUA_FDI7_ConnectionPoint_HART_TP6/property/DevTag/read",
             "op": "readproperty"
           }
         ]
@@ -742,7 +763,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dov:topic": "opcua/FDI7/FDI7_ConnectionPoint_HART_TP6/property/DevType/read",
+            "dov:topic": "opcua/fdi-cooperation.OPCUA.FDI7/Fdi_cooperation_OPCUA_FDI7_ConnectionPoint_HART_TP6/property/DevType/read",
             "op": "readproperty"
           }
         ]
@@ -759,7 +780,7 @@
       }
     ],
     "@type": "tm:ThingModel",
-    "title": "FDI7_ConnectionPoint_HART_TP7",
+    "title": "Fdi_cooperation_OPCUA_FDI7_ConnectionPoint_HART_TP7",
     "dov:typeRef": "com.fdi-cooperation.OPCUA.FDI7.ConnectionPoint_HART_TP7",
     "dov:isComposite": true,
     "links": [
@@ -774,9 +795,16 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dov:topic": "opcua/FDI7/FDI7_ConnectionPoint_HART_TP7/properties/read",
+        "dov:topic": "opcua/fdi-cooperation.OPCUA.FDI7/Fdi_cooperation_OPCUA_FDI7_ConnectionPoint_HART_TP7/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/DevMfg",
+      "/properties/DevPollAddr",
+      "/properties/DevRev",
+      "/properties/DevTag",
+      "/properties/DevType"
     ],
     "actions": {
     },
@@ -793,7 +821,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dov:topic": "opcua/FDI7/FDI7_ConnectionPoint_HART_TP7/property/DevAddr/read",
+            "dov:topic": "opcua/fdi-cooperation.OPCUA.FDI7/Fdi_cooperation_OPCUA_FDI7_ConnectionPoint_HART_TP7/property/DevAddr/read",
             "op": "readproperty"
           }
         ]
@@ -807,7 +835,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dov:topic": "opcua/FDI7/FDI7_ConnectionPoint_HART_TP7/property/DevMfg/read",
+            "dov:topic": "opcua/fdi-cooperation.OPCUA.FDI7/Fdi_cooperation_OPCUA_FDI7_ConnectionPoint_HART_TP7/property/DevMfg/read",
             "op": "readproperty"
           }
         ]
@@ -821,7 +849,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dov:topic": "opcua/FDI7/FDI7_ConnectionPoint_HART_TP7/property/DevPollAddr/read",
+            "dov:topic": "opcua/fdi-cooperation.OPCUA.FDI7/Fdi_cooperation_OPCUA_FDI7_ConnectionPoint_HART_TP7/property/DevPollAddr/read",
             "op": "readproperty"
           }
         ]
@@ -835,7 +863,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dov:topic": "opcua/FDI7/FDI7_ConnectionPoint_HART_TP7/property/DevRev/read",
+            "dov:topic": "opcua/fdi-cooperation.OPCUA.FDI7/Fdi_cooperation_OPCUA_FDI7_ConnectionPoint_HART_TP7/property/DevRev/read",
             "op": "readproperty"
           }
         ]
@@ -847,7 +875,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dov:topic": "opcua/FDI7/FDI7_ConnectionPoint_HART_TP7/property/DevTag/read",
+            "dov:topic": "opcua/fdi-cooperation.OPCUA.FDI7/Fdi_cooperation_OPCUA_FDI7_ConnectionPoint_HART_TP7/property/DevTag/read",
             "op": "readproperty"
           }
         ]
@@ -861,7 +889,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dov:topic": "opcua/FDI7/FDI7_ConnectionPoint_HART_TP7/property/DevType/read",
+            "dov:topic": "opcua/fdi-cooperation.OPCUA.FDI7/Fdi_cooperation_OPCUA_FDI7_ConnectionPoint_HART_TP7/property/DevType/read",
             "op": "readproperty"
           }
         ]
@@ -878,7 +906,7 @@
       }
     ],
     "@type": "tm:ThingModel",
-    "title": "FDI7_ConnectionPoint_ISA100_Wireless",
+    "title": "Fdi_cooperation_OPCUA_FDI7_ConnectionPoint_ISA100_Wireless",
     "dov:typeRef": "com.fdi-cooperation.OPCUA.FDI7.ConnectionPoint_ISA100_Wireless",
     "dov:isComposite": true,
     "links": [
@@ -893,9 +921,16 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dov:topic": "opcua/FDI7/FDI7_ConnectionPoint_ISA100_Wireless/properties/read",
+        "dov:topic": "opcua/fdi-cooperation.OPCUA.FDI7/Fdi_cooperation_OPCUA_FDI7_ConnectionPoint_ISA100_Wireless/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/DevMfg",
+      "/properties/DevPollAddr",
+      "/properties/DevRev",
+      "/properties/DevTag",
+      "/properties/DevType"
     ],
     "actions": {
     },
@@ -909,7 +944,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dov:topic": "opcua/FDI7/FDI7_ConnectionPoint_ISA100_Wireless/property/DevMfg/read",
+            "dov:topic": "opcua/fdi-cooperation.OPCUA.FDI7/Fdi_cooperation_OPCUA_FDI7_ConnectionPoint_ISA100_Wireless/property/DevMfg/read",
             "op": "readproperty"
           }
         ]
@@ -923,7 +958,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dov:topic": "opcua/FDI7/FDI7_ConnectionPoint_ISA100_Wireless/property/DevPollAddr/read",
+            "dov:topic": "opcua/fdi-cooperation.OPCUA.FDI7/Fdi_cooperation_OPCUA_FDI7_ConnectionPoint_ISA100_Wireless/property/DevPollAddr/read",
             "op": "readproperty"
           }
         ]
@@ -937,7 +972,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dov:topic": "opcua/FDI7/FDI7_ConnectionPoint_ISA100_Wireless/property/DevRev/read",
+            "dov:topic": "opcua/fdi-cooperation.OPCUA.FDI7/Fdi_cooperation_OPCUA_FDI7_ConnectionPoint_ISA100_Wireless/property/DevRev/read",
             "op": "readproperty"
           }
         ]
@@ -949,7 +984,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dov:topic": "opcua/FDI7/FDI7_ConnectionPoint_ISA100_Wireless/property/DevTag/read",
+            "dov:topic": "opcua/fdi-cooperation.OPCUA.FDI7/Fdi_cooperation_OPCUA_FDI7_ConnectionPoint_ISA100_Wireless/property/DevTag/read",
             "op": "readproperty"
           }
         ]
@@ -963,7 +998,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dov:topic": "opcua/FDI7/FDI7_ConnectionPoint_ISA100_Wireless/property/DevType/read",
+            "dov:topic": "opcua/fdi-cooperation.OPCUA.FDI7/Fdi_cooperation_OPCUA_FDI7_ConnectionPoint_ISA100_Wireless/property/DevType/read",
             "op": "readproperty"
           }
         ]
@@ -976,7 +1011,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dov:topic": "opcua/FDI7/FDI7_ConnectionPoint_ISA100_Wireless/property/IPAddress/read",
+            "dov:topic": "opcua/fdi-cooperation.OPCUA.FDI7/Fdi_cooperation_OPCUA_FDI7_ConnectionPoint_ISA100_Wireless/property/IPAddress/read",
             "op": "readproperty"
           }
         ]
@@ -993,7 +1028,7 @@
       }
     ],
     "@type": "tm:ThingModel",
-    "title": "FDI7_GenericConnectionPoint",
+    "title": "Fdi_cooperation_OPCUA_FDI7_GenericConnectionPoint",
     "dov:typeRef": "com.fdi-cooperation.OPCUA.FDI7.GenericConnectionPoint",
     "dov:isComposite": true,
     "links": [
@@ -1008,7 +1043,7 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dov:topic": "opcua/FDI7/FDI7_GenericConnectionPoint/properties/read",
+        "dov:topic": "opcua/fdi-cooperation.OPCUA.FDI7/Fdi_cooperation_OPCUA_FDI7_GenericConnectionPoint/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -1023,7 +1058,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dov:topic": "opcua/FDI7/FDI7_GenericConnectionPoint/property/Address/read",
+            "dov:topic": "opcua/fdi-cooperation.OPCUA.FDI7/Fdi_cooperation_OPCUA_FDI7_GenericConnectionPoint/property/Address/read",
             "op": "readproperty"
           }
         ]
@@ -1035,7 +1070,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dov:topic": "opcua/FDI7/FDI7_GenericConnectionPoint/property/ProtocolIdentifier/read",
+            "dov:topic": "opcua/fdi-cooperation.OPCUA.FDI7/Fdi_cooperation_OPCUA_FDI7_GenericConnectionPoint/property/ProtocolIdentifier/read",
             "op": "readproperty"
           }
         ]
@@ -1052,7 +1087,7 @@
       }
     ],
     "@type": "tm:ThingModel",
-    "title": "FDI7_CommunicationServerType",
+    "title": "Fdi_cooperation_OPCUA_FDI7_CommunicationServerType",
     "dov:typeRef": "com.fdi-cooperation.OPCUA.FDI7.CommunicationServerType",
     "dov:isComposite": true,
     "links": [
@@ -1097,7 +1132,7 @@
       }
     ],
     "@type": "tm:ThingModel",
-    "title": "FDI7_ServerCommunicationDeviceType",
+    "title": "Fdi_cooperation_OPCUA_FDI7_ServerCommunicationDeviceType",
     "dov:typeRef": "com.fdi-cooperation.OPCUA.FDI7.ServerCommunicationDeviceType",
     "links": [
       {
@@ -1117,7 +1152,7 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dov:topic": "opcua/FDI7/FDI7_ServerCommunicationDeviceType/properties/read",
+        "dov:topic": "opcua/fdi-cooperation.OPCUA.FDI7/Fdi_cooperation_OPCUA_FDI7_ServerCommunicationDeviceType/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -1134,7 +1169,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dov:topic": "opcua/FDI7/FDI7_ServerCommunicationDeviceType/property/ListOfCommunicationProfiles/read",
+            "dov:topic": "opcua/fdi-cooperation.OPCUA.FDI7/Fdi_cooperation_OPCUA_FDI7_ServerCommunicationDeviceType/property/ListOfCommunicationProfiles/read",
             "op": "readproperty"
           }
         ]
@@ -1151,13 +1186,13 @@
       }
     ],
     "@type": "tm:ThingModel",
-    "title": "FDI7_ServerCommunicationFFH1DeviceType",
+    "title": "Fdi_cooperation_OPCUA_FDI7_ServerCommunicationFFH1DeviceType",
     "dov:typeRef": "com.fdi-cooperation.OPCUA.FDI7.ServerCommunicationFFH1DeviceType",
     "dov:isComposite": true,
     "links": [
       {
         "rel": "tm:extends",
-        "href": "#title=FDI7_ServerCommunicationDeviceType",
+        "href": "#title=Fdi_cooperation_OPCUA_FDI7_ServerCommunicationDeviceType",
         "type": "application/tm+json"
       },
       {
@@ -1169,7 +1204,7 @@
       {
         "rel": "dov:component",
         "dov:refName": "ServiceProvider",
-        "href": "#title=FDI7_ServerCommunicationFFH1ServiceType",
+        "href": "#title=Fdi_cooperation_OPCUA_FDI7_ServerCommunicationFFH1ServiceType",
         "type": "application/tm+json"
       }
     ],
@@ -1190,13 +1225,13 @@
       }
     ],
     "@type": "tm:ThingModel",
-    "title": "FDI7_ServerCommunicationFFHSEDeviceType",
+    "title": "Fdi_cooperation_OPCUA_FDI7_ServerCommunicationFFHSEDeviceType",
     "dov:typeRef": "com.fdi-cooperation.OPCUA.FDI7.ServerCommunicationFFHSEDeviceType",
     "dov:isComposite": true,
     "links": [
       {
         "rel": "tm:extends",
-        "href": "#title=FDI7_ServerCommunicationDeviceType",
+        "href": "#title=Fdi_cooperation_OPCUA_FDI7_ServerCommunicationDeviceType",
         "type": "application/tm+json"
       },
       {
@@ -1208,7 +1243,7 @@
       {
         "rel": "dov:component",
         "dov:refName": "ServiceProvider",
-        "href": "#title=FDI7_ServerCommunicationFFHSEServiceType",
+        "href": "#title=Fdi_cooperation_OPCUA_FDI7_ServerCommunicationFFHSEServiceType",
         "type": "application/tm+json"
       }
     ],
@@ -1229,13 +1264,13 @@
       }
     ],
     "@type": "tm:ThingModel",
-    "title": "FDI7_ServerCommunicationPROFIBUSDeviceType",
+    "title": "Fdi_cooperation_OPCUA_FDI7_ServerCommunicationPROFIBUSDeviceType",
     "dov:typeRef": "com.fdi-cooperation.OPCUA.FDI7.ServerCommunicationPROFIBUSDeviceType",
     "dov:isComposite": true,
     "links": [
       {
         "rel": "tm:extends",
-        "href": "#title=FDI7_ServerCommunicationDeviceType",
+        "href": "#title=Fdi_cooperation_OPCUA_FDI7_ServerCommunicationDeviceType",
         "type": "application/tm+json"
       },
       {
@@ -1247,7 +1282,7 @@
       {
         "rel": "dov:component",
         "dov:refName": "ServiceProvider",
-        "href": "#title=FDI7_ServerCommunicationPROFIBUSServiceType",
+        "href": "#title=Fdi_cooperation_OPCUA_FDI7_ServerCommunicationPROFIBUSServiceType",
         "type": "application/tm+json"
       }
     ],
@@ -1268,13 +1303,13 @@
       }
     ],
     "@type": "tm:ThingModel",
-    "title": "FDI7_ServerCommunicationPROFINETDeviceType",
+    "title": "Fdi_cooperation_OPCUA_FDI7_ServerCommunicationPROFINETDeviceType",
     "dov:typeRef": "com.fdi-cooperation.OPCUA.FDI7.ServerCommunicationPROFINETDeviceType",
     "dov:isComposite": true,
     "links": [
       {
         "rel": "tm:extends",
-        "href": "#title=FDI7_ServerCommunicationDeviceType",
+        "href": "#title=Fdi_cooperation_OPCUA_FDI7_ServerCommunicationDeviceType",
         "type": "application/tm+json"
       },
       {
@@ -1286,7 +1321,7 @@
       {
         "rel": "dov:component",
         "dov:refName": "ServiceProvider",
-        "href": "#title=FDI7_ServerCommunicationPROFINETServiceType",
+        "href": "#title=Fdi_cooperation_OPCUA_FDI7_ServerCommunicationPROFINETServiceType",
         "type": "application/tm+json"
       }
     ],
@@ -1307,13 +1342,13 @@
       }
     ],
     "@type": "tm:ThingModel",
-    "title": "FDI7_ServerCommunicationHARType",
+    "title": "Fdi_cooperation_OPCUA_FDI7_ServerCommunicationHARType",
     "dov:typeRef": "com.fdi-cooperation.OPCUA.FDI7.ServerCommunicationHARType",
     "dov:isComposite": true,
     "links": [
       {
         "rel": "tm:extends",
-        "href": "#title=FDI7_ServerCommunicationDeviceType",
+        "href": "#title=Fdi_cooperation_OPCUA_FDI7_ServerCommunicationDeviceType",
         "type": "application/tm+json"
       },
       {
@@ -1325,7 +1360,7 @@
       {
         "rel": "dov:component",
         "dov:refName": "ServiceProvider",
-        "href": "#title=FDI7_ServerCommunicationHARTServiceType",
+        "href": "#title=Fdi_cooperation_OPCUA_FDI7_ServerCommunicationHARTServiceType",
         "type": "application/tm+json"
       }
     ],
@@ -1346,19 +1381,19 @@
       }
     ],
     "@type": "tm:ThingModel",
-    "title": "FDI7_ServerCommunicationISA100_WirelessDeviceType",
+    "title": "Fdi_cooperation_OPCUA_FDI7_ServerCommunicationISA100_WirelessDeviceType",
     "dov:typeRef": "com.fdi-cooperation.OPCUA.FDI7.ServerCommunicationISA100_WirelessDeviceType",
     "dov:isComposite": true,
     "links": [
       {
         "rel": "tm:extends",
-        "href": "#title=FDI7_ServerCommunicationDeviceType",
+        "href": "#title=Fdi_cooperation_OPCUA_FDI7_ServerCommunicationDeviceType",
         "type": "application/tm+json"
       },
       {
         "rel": "dov:component",
         "dov:refName": "ServiceProvider",
-        "href": "#title=FDI7_ServerCommunicationISA100_WirelessServiceType",
+        "href": "#title=Fdi_cooperation_OPCUA_FDI7_ServerCommunicationISA100_WirelessServiceType",
         "type": "application/tm+json"
       }
     ],
@@ -1379,13 +1414,13 @@
       }
     ],
     "@type": "tm:ThingModel",
-    "title": "FDI7_ServerCommunicationGENERICDeviceType",
+    "title": "Fdi_cooperation_OPCUA_FDI7_ServerCommunicationGENERICDeviceType",
     "dov:typeRef": "com.fdi-cooperation.OPCUA.FDI7.ServerCommunicationGENERICDeviceType",
     "dov:isComposite": true,
     "links": [
       {
         "rel": "tm:extends",
-        "href": "#title=FDI7_ServerCommunicationDeviceType",
+        "href": "#title=Fdi_cooperation_OPCUA_FDI7_ServerCommunicationDeviceType",
         "type": "application/tm+json"
       },
       {
@@ -1397,7 +1432,7 @@
       {
         "rel": "dov:component",
         "dov:refName": "ServiceProvider",
-        "href": "#title=FDI7_ServerCommunicationGENERICServiceType",
+        "href": "#title=Fdi_cooperation_OPCUA_FDI7_ServerCommunicationGENERICServiceType",
         "type": "application/tm+json"
       }
     ],
@@ -1406,7 +1441,7 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dov:topic": "opcua/FDI7/FDI7_ServerCommunicationGENERICDeviceType/properties/read",
+        "dov:topic": "opcua/fdi-cooperation.OPCUA.FDI7/Fdi_cooperation_OPCUA_FDI7_ServerCommunicationGENERICDeviceType/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -1420,7 +1455,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dov:topic": "opcua/FDI7/FDI7_ServerCommunicationGENERICDeviceType/property/ProtocolIdentifier/read",
+            "dov:topic": "opcua/fdi-cooperation.OPCUA.FDI7/Fdi_cooperation_OPCUA_FDI7_ServerCommunicationGENERICDeviceType/property/ProtocolIdentifier/read",
             "op": "readproperty"
           }
         ]
@@ -1437,7 +1472,7 @@
       }
     ],
     "@type": "tm:ThingModel",
-    "title": "FDI7_ServerCommunicationServiceType",
+    "title": "Fdi_cooperation_OPCUA_FDI7_ServerCommunicationServiceType",
     "dov:typeRef": "com.fdi-cooperation.OPCUA.FDI7.ServerCommunicationServiceType",
     "links": [
       {
@@ -1469,12 +1504,12 @@
       }
     ],
     "@type": "tm:ThingModel",
-    "title": "FDI7_ServerCommunicationFFH1ServiceType",
+    "title": "Fdi_cooperation_OPCUA_FDI7_ServerCommunicationFFH1ServiceType",
     "dov:typeRef": "com.fdi-cooperation.OPCUA.FDI7.ServerCommunicationFFH1ServiceType",
     "links": [
       {
         "rel": "tm:extends",
-        "href": "#title=FDI7_ServerCommunicationServiceType",
+        "href": "#title=Fdi_cooperation_OPCUA_FDI7_ServerCommunicationServiceType",
         "type": "application/tm+json"
       },
       {
@@ -1501,12 +1536,12 @@
       }
     ],
     "@type": "tm:ThingModel",
-    "title": "FDI7_ServerCommunicationFFHSEServiceType",
+    "title": "Fdi_cooperation_OPCUA_FDI7_ServerCommunicationFFHSEServiceType",
     "dov:typeRef": "com.fdi-cooperation.OPCUA.FDI7.ServerCommunicationFFHSEServiceType",
     "links": [
       {
         "rel": "tm:extends",
-        "href": "#title=FDI7_ServerCommunicationServiceType",
+        "href": "#title=Fdi_cooperation_OPCUA_FDI7_ServerCommunicationServiceType",
         "type": "application/tm+json"
       },
       {
@@ -1533,12 +1568,12 @@
       }
     ],
     "@type": "tm:ThingModel",
-    "title": "FDI7_ServerCommunicationPROFIBUSServiceType",
+    "title": "Fdi_cooperation_OPCUA_FDI7_ServerCommunicationPROFIBUSServiceType",
     "dov:typeRef": "com.fdi-cooperation.OPCUA.FDI7.ServerCommunicationPROFIBUSServiceType",
     "links": [
       {
         "rel": "tm:extends",
-        "href": "#title=FDI7_ServerCommunicationServiceType",
+        "href": "#title=Fdi_cooperation_OPCUA_FDI7_ServerCommunicationServiceType",
         "type": "application/tm+json"
       },
       {
@@ -1565,12 +1600,12 @@
       }
     ],
     "@type": "tm:ThingModel",
-    "title": "FDI7_ServerCommunicationPROFINETServiceType",
+    "title": "Fdi_cooperation_OPCUA_FDI7_ServerCommunicationPROFINETServiceType",
     "dov:typeRef": "com.fdi-cooperation.OPCUA.FDI7.ServerCommunicationPROFINETServiceType",
     "links": [
       {
         "rel": "tm:extends",
-        "href": "#title=FDI7_ServerCommunicationServiceType",
+        "href": "#title=Fdi_cooperation_OPCUA_FDI7_ServerCommunicationServiceType",
         "type": "application/tm+json"
       },
       {
@@ -1597,12 +1632,12 @@
       }
     ],
     "@type": "tm:ThingModel",
-    "title": "FDI7_ServerCommunicationHARTServiceType",
+    "title": "Fdi_cooperation_OPCUA_FDI7_ServerCommunicationHARTServiceType",
     "dov:typeRef": "com.fdi-cooperation.OPCUA.FDI7.ServerCommunicationHARTServiceType",
     "links": [
       {
         "rel": "tm:extends",
-        "href": "#title=FDI7_ServerCommunicationServiceType",
+        "href": "#title=Fdi_cooperation_OPCUA_FDI7_ServerCommunicationServiceType",
         "type": "application/tm+json"
       },
       {
@@ -1629,12 +1664,12 @@
       }
     ],
     "@type": "tm:ThingModel",
-    "title": "FDI7_ServerCommunicationISA100_WirelessServiceType",
+    "title": "Fdi_cooperation_OPCUA_FDI7_ServerCommunicationISA100_WirelessServiceType",
     "dov:typeRef": "com.fdi-cooperation.OPCUA.FDI7.ServerCommunicationISA100_WirelessServiceType",
     "links": [
       {
         "rel": "tm:extends",
-        "href": "#title=FDI7_ServerCommunicationServiceType",
+        "href": "#title=Fdi_cooperation_OPCUA_FDI7_ServerCommunicationServiceType",
         "type": "application/tm+json"
       },
       {
@@ -1661,12 +1696,12 @@
       }
     ],
     "@type": "tm:ThingModel",
-    "title": "FDI7_ServerCommunicationGENERICServiceType",
+    "title": "Fdi_cooperation_OPCUA_FDI7_ServerCommunicationGENERICServiceType",
     "dov:typeRef": "com.fdi-cooperation.OPCUA.FDI7.ServerCommunicationGENERICServiceType",
     "links": [
       {
         "rel": "tm:extends",
-        "href": "#title=FDI7_ServerCommunicationServiceType",
+        "href": "#title=Fdi_cooperation_OPCUA_FDI7_ServerCommunicationServiceType",
         "type": "application/tm+json"
       },
       {

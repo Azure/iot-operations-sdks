@@ -290,6 +290,10 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/actions/AddDateListElements",
+      "/actions/RemoveDateListElements"
+    ],
     "actions": {
       "AddDateListElements": {
         "dov:namespace": "http://opcfoundation.org/UA/Scheduler/",
@@ -1060,6 +1064,13 @@
         "dov:topic": "opcua/Scheduler/Scheduler_ScheduleType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/actions/AddExceptionScheduleElements",
+      "/actions/RemoveExceptionScheduleElements",
+      "/properties/EffectivePeriod",
+      "/properties/ExceptionSchedule",
+      "/properties/WeeklySchedule"
     ],
     "actions": {
       "AddExceptionScheduleElements": {

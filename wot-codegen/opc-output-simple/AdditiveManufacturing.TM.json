@@ -63,6 +63,9 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/NodeVersion"
+    ],
     "actions": {
     },
     "properties": {
@@ -145,6 +148,19 @@
         "dov:topic": "opcua/AdditiveManufacturing/AdditiveManufacturing_FeedstockType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/Cycle",
+      "/properties/ExternalIdentifier",
+      "/properties/Function",
+      "/properties/Manufacturer",
+      "/properties/Name",
+      "/properties/ReadyForProduction",
+      "/properties/RemainingQuantity",
+      "/events/Cycle",
+      "/events/Function",
+      "/events/ReadyForProduction",
+      "/events/RemainingQuantity"
     ],
     "actions": {
     },
@@ -432,6 +448,12 @@
         "type": "application/tm+json"
       },
       {
+        "rel": "dov:capability",
+        "dov:refName": "Identification",
+        "href": "#title=AdditiveManufacturing_MachineIdentificationAMType",
+        "type": "application/tm+json"
+      },
+      {
         "rel": "dov:component",
         "dov:refName": "MachineryBuildingBlocks",
         "href": "./OpcUaCore.TM.json#title=OpcUaCore_FolderType",
@@ -527,6 +549,9 @@
         "dov:topic": "opcua/AdditiveManufacturing/AdditiveManufacturing_ProcessValueAMType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/Severity"
     ],
     "actions": {
     },

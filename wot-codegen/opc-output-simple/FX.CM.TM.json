@@ -1389,6 +1389,22 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/Address",
+      "/properties/HeaderLayoutUri",
+      "/properties/PublishingInterval",
+      "/properties/Qos",
+      "/properties/SecurityGroupId",
+      "/properties/SecurityMode",
+      "/properties/TransportProfileUri",
+      "/events/Address",
+      "/events/HeaderLayoutUri",
+      "/events/PublishingInterval",
+      "/events/Qos",
+      "/events/SecurityGroupId",
+      "/events/SecurityMode",
+      "/events/TransportProfileUri"
+    ],
     "actions": {
     },
     "properties": {
@@ -3906,6 +3922,19 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/ConnectionsDiagnostics",
+      "/properties/Edit",
+      "/properties/PubSubKeyPushTargets",
+      "/properties/SecurityGroups",
+      "/properties/SecurityKeyServer",
+      "/properties/Version",
+      "/events/ConnectionsDiagnostics",
+      "/events/PubSubKeyPushTargets",
+      "/events/SecurityGroups",
+      "/events/SecurityKeyServer",
+      "/events/Version"
+    ],
     "actions": {
     },
     "properties": {
@@ -4739,6 +4768,14 @@
         "dov:topic": "opcua/FX.CM/FX_CM_ConnectionEndpointConfigurationType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/ConfigurationData",
+      "/properties/ControlGroups",
+      "/properties/ExpectedVerificationVariables",
+      "/events/ConfigurationData",
+      "/events/ControlGroups",
+      "/events/ExpectedVerificationVariables"
     ],
     "actions": {
     },
@@ -5593,6 +5630,18 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/CommunicationLinks",
+      "/properties/InputVariableIds",
+      "/properties/OutputVariableIds",
+      "/properties/PreconfiguredPublishedDataSet",
+      "/properties/PreconfiguredSubscribedDataSet",
+      "/events/CommunicationLinks",
+      "/events/InputVariableIds",
+      "/events/OutputVariableIds",
+      "/events/PreconfiguredPublishedDataSet",
+      "/events/PreconfiguredSubscribedDataSet"
+    ],
     "actions": {
     },
     "properties": {
@@ -6359,6 +6408,12 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/actions/EditConnectionConfigurationSets",
+      "/actions/ProcessConnectionConfigurationSets",
+      "/properties/AggregatedCurrentState",
+      "/events/AggregatedCurrentState"
+    ],
     "actions": {
       "EditConnectionConfigurationSets": {
         "dov:namespace": "http://opcfoundation.org/UA/FX/CM/",
@@ -6752,6 +6807,12 @@
         "dov:topic": "opcua/FX.CM/FX_CM_SubscriberConfigurationType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/Address",
+      "/properties/ReceiveQos",
+      "/events/Address",
+      "/events/ReceiveQos"
     ],
     "actions": {
     },

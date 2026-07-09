@@ -418,6 +418,16 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/ConfigurationChanged",
+      "/properties/EstimatedDowntime",
+      "/properties/MaintenanceMethod",
+      "/properties/MaintenanceSupplier",
+      "/properties/PartsOfAssetReplaced",
+      "/properties/PartsOfAssetServiced",
+      "/properties/PlannedDate",
+      "/properties/QualificationOfPersonnel"
+    ],
     "actions": {
     },
     "properties": {
@@ -744,6 +754,13 @@
         "dov:topic": "opcua/AMB/AMB_DocumentationLinksType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/actions/AddLink",
+      "/actions/RemoveLink",
+      "/properties/DefaultInstanceBrowseName",
+      "/properties/Link",
+      "/events/Link"
     ],
     "actions": {
       "AddLink": {

@@ -35,6 +35,10 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/AudioSample",
+      "/events/AudioSample"
+    ],
     "actions": {
     },
     "properties": {
@@ -259,6 +263,10 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/actions/ResetStatistics",
+      "/properties/StartTime"
+    ],
     "actions": {
       "ResetStatistics": {
         "dov:namespace": "http://opcfoundation.org/UA/IA/",
@@ -327,6 +335,9 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/ResetCondition"
+    ],
     "actions": {
     },
     "properties": {
@@ -382,6 +393,10 @@
         "dov:topic": "opcua/IA/IA_IRollingStatisticsType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/WindowDuration",
+      "/properties/WindowNumberOfValues"
     ],
     "actions": {
     },
@@ -484,6 +499,12 @@
         "dov:topic": "opcua/IA/IA_CalibrationTargetType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/CertificateUri",
+      "/properties/LastValidationDate",
+      "/properties/NextValidationDate",
+      "/properties/Quality"
     ],
     "actions": {
     },
@@ -681,6 +702,10 @@
         "dov:topic": "opcua/IA/IA_ControlChannelType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/Intensity",
+      "/events/Intensity"
     ],
     "actions": {
     },
@@ -1170,6 +1195,10 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/DeviceHealth",
+      "/events/DeviceHealth"
+    ],
     "actions": {
     },
     "properties": {
@@ -1247,6 +1276,10 @@
         "dov:topic": "opcua/IA/IA_StackElementType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/IsPartOfBase",
+      "/properties/SignalOn"
     ],
     "actions": {
     },
@@ -1346,6 +1379,10 @@
         "dov:topic": "opcua/IA/IA_StackElementAcousticType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/Intensity",
+      "/events/Intensity"
     ],
     "actions": {
     },
@@ -1544,6 +1581,16 @@
         "dov:topic": "opcua/IA/IA_StackElementLightType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/Intensity",
+      "/properties/SignalColor",
+      "/properties/SignalMode",
+      "/properties/SignalRGBWValue",
+      "/events/Intensity",
+      "/events/SignalColor",
+      "/events/SignalMode",
+      "/events/SignalRGBWValue"
     ],
     "actions": {
     },
@@ -1856,6 +1903,9 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/NodeVersion"
+    ],
     "actions": {
     },
     "properties": {
@@ -1910,6 +1960,10 @@
         "dov:topic": "opcua/DI/DI_FunctionalGroupType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/UIElement",
+      "/events/UIElement"
     ],
     "actions": {
     },

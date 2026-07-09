@@ -44,6 +44,10 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/actions/CloseClamp",
+      "/actions/OpenClamp"
+    ],
     "actions": {
       "CloseClamp": {
         "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion_v2/HaulOff/",

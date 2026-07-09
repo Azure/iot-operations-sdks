@@ -13,7 +13,7 @@
     "links": [
       {
         "rel": "tm:extends",
-        "href": "./AMLBaseTypes.TM.json#title=AMLBaseTypes_CAEXObjectType",
+        "href": "./AML.TM.json#title=AML_CAEXObjectType",
         "type": "application/tm+json"
       }
     ],
@@ -25,6 +25,10 @@
         "dov:topic": "opcua/AMLLibs/AMLLibs_AutomationMLBaseInterface/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/ID",
+      "/properties/Version"
     ],
     "actions": {
     },
@@ -88,6 +92,12 @@
         "dov:topic": "opcua/AMLLibs/AMLLibs_Order/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/Direction",
+      "/properties/ID",
+      "/properties/Version",
+      "/events/Direction"
     ],
     "actions": {
     },
@@ -171,6 +181,10 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/ID",
+      "/properties/Version"
+    ],
     "actions": {
     },
     "properties": {
@@ -229,6 +243,10 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/ID",
+      "/properties/Version"
+    ],
     "actions": {
     },
     "properties": {
@@ -286,6 +304,10 @@
         "dov:topic": "opcua/AMLLibs/AMLLibs_PPRConnector/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/ID",
+      "/properties/Version"
     ],
     "actions": {
     },
@@ -349,6 +371,12 @@
         "dov:topic": "opcua/AMLLibs/AMLLibs_ExternalDataConnector/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/ID",
+      "/properties/RefURI",
+      "/properties/Version",
+      "/events/RefURI"
     ],
     "actions": {
     },
@@ -433,6 +461,10 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/ID",
+      "/properties/Version"
+    ],
     "actions": {
     },
     "properties": {
@@ -490,6 +522,10 @@
         "dov:topic": "opcua/AMLLibs/AMLLibs_AttachmentInterface/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/ID",
+      "/properties/Version"
     ],
     "actions": {
     },
@@ -549,6 +585,10 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/ID",
+      "/properties/Version"
+    ],
     "actions": {
     },
     "properties": {
@@ -606,6 +646,10 @@
         "dov:topic": "opcua/AMLLibs/AMLLibs_PLCopenXMLInterface/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/ID",
+      "/properties/Version"
     ],
     "actions": {
     },
@@ -665,6 +709,10 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/ID",
+      "/properties/Version"
+    ],
     "actions": {
     },
     "properties": {
@@ -722,6 +770,10 @@
         "dov:topic": "opcua/AMLLibs/AMLLibs_VariableInterface/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/ID",
+      "/properties/Version"
     ],
     "actions": {
     },
@@ -785,6 +837,12 @@
         "dov:topic": "opcua/AMLLibs/AMLLibs_InterlockingVariableInterface/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/ID",
+      "/properties/SafeConditionEquals",
+      "/properties/Version",
+      "/events/SafeConditionEquals"
     ],
     "actions": {
     },
@@ -869,6 +927,10 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/ID",
+      "/properties/Version"
+    ],
     "actions": {
     },
     "properties": {
@@ -914,7 +976,7 @@
     "links": [
       {
         "rel": "tm:extends",
-        "href": "./AMLBaseTypes.TM.json#title=AMLBaseTypes_CAEXObjectType",
+        "href": "./AML.TM.json#title=AML_CAEXObjectType",
         "type": "application/tm+json"
       }
     ],
@@ -926,6 +988,10 @@
         "dov:topic": "opcua/AMLLibs/AMLLibs_AutomationMLBaseRole/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/ID",
+      "/properties/Version"
     ],
     "actions": {
     },
@@ -989,6 +1055,12 @@
         "dov:topic": "opcua/AMLLibs/AMLLibs_Group/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/AssociatedFacet",
+      "/properties/ID",
+      "/properties/Version",
+      "/events/AssociatedFacet"
     ],
     "actions": {
     },
@@ -1073,6 +1145,10 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/ID",
+      "/properties/Version"
+    ],
     "actions": {
     },
     "properties": {
@@ -1141,6 +1217,20 @@
         "dov:topic": "opcua/AMLLibs/AMLLibs_Port/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/Cardinality",
+      "/properties/Cardinality_MaxOccur",
+      "/properties/Cardinality_MinOccur",
+      "/properties/Category",
+      "/properties/Direction",
+      "/properties/ID",
+      "/properties/Version",
+      "/events/Cardinality",
+      "/events/Cardinality_MaxOccur",
+      "/events/Cardinality_MinOccur",
+      "/events/Category",
+      "/events/Direction"
     ],
     "actions": {
     },
@@ -1339,6 +1429,10 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/ID",
+      "/properties/Version"
+    ],
     "actions": {
     },
     "properties": {
@@ -1396,6 +1490,10 @@
         "dov:topic": "opcua/AMLLibs/AMLLibs_Product/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/ID",
+      "/properties/Version"
     ],
     "actions": {
     },
@@ -1455,6 +1553,10 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/ID",
+      "/properties/Version"
+    ],
     "actions": {
     },
     "properties": {
@@ -1512,6 +1614,10 @@
         "dov:topic": "opcua/AMLLibs/AMLLibs_Structure/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/ID",
+      "/properties/Version"
     ],
     "actions": {
     },
@@ -1571,6 +1677,10 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/ID",
+      "/properties/Version"
+    ],
     "actions": {
     },
     "properties": {
@@ -1628,6 +1738,10 @@
         "dov:topic": "opcua/AMLLibs/AMLLibs_Frame/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/ID",
+      "/properties/Version"
     ],
     "actions": {
     },
@@ -1687,6 +1801,10 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/ID",
+      "/properties/Version"
+    ],
     "actions": {
     },
     "properties": {
@@ -1744,6 +1862,10 @@
         "dov:topic": "opcua/AMLLibs/AMLLibs_ComponentGroup/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/ID",
+      "/properties/Version"
     ],
     "actions": {
     },
@@ -1803,6 +1925,10 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/ID",
+      "/properties/Version"
+    ],
     "actions": {
     },
     "properties": {
@@ -1860,6 +1986,10 @@
         "dov:topic": "opcua/AMLLibs/AMLLibs_ProcessStructure/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/ID",
+      "/properties/Version"
     ],
     "actions": {
     },
@@ -1919,6 +2049,10 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/ID",
+      "/properties/Version"
+    ],
     "actions": {
     },
     "properties": {
@@ -1964,7 +2098,7 @@
     "links": [
       {
         "rel": "tm:extends",
-        "href": "./AMLBaseTypes.TM.json#title=AMLBaseTypes_CAEXObjectType",
+        "href": "./AML.TM.json#title=AML_CAEXObjectType",
         "type": "application/tm+json"
       }
     ],
@@ -1976,6 +2110,10 @@
         "dov:topic": "opcua/AMLLibs/AMLLibs_BatchManufacturingEquipment/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/ID",
+      "/properties/Version"
     ],
     "actions": {
     },
@@ -2022,7 +2160,7 @@
     "links": [
       {
         "rel": "tm:extends",
-        "href": "./AMLBaseTypes.TM.json#title=AMLBaseTypes_CAEXObjectType",
+        "href": "./AML.TM.json#title=AML_CAEXObjectType",
         "type": "application/tm+json"
       }
     ],
@@ -2034,6 +2172,10 @@
         "dov:topic": "opcua/AMLLibs/AMLLibs_ContManufacturingEquipment/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/ID",
+      "/properties/Version"
     ],
     "actions": {
     },
@@ -2093,6 +2235,10 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/ID",
+      "/properties/Version"
+    ],
     "actions": {
     },
     "properties": {
@@ -2150,6 +2296,10 @@
         "dov:topic": "opcua/AMLLibs/AMLLibs_Transport/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/ID",
+      "/properties/Version"
     ],
     "actions": {
     },
@@ -2209,6 +2359,10 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/ID",
+      "/properties/Version"
+    ],
     "actions": {
     },
     "properties": {
@@ -2266,6 +2420,10 @@
         "dov:topic": "opcua/AMLLibs/AMLLibs_Fixture/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/ID",
+      "/properties/Version"
     ],
     "actions": {
     },
@@ -2325,6 +2483,10 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/ID",
+      "/properties/Version"
+    ],
     "actions": {
     },
     "properties": {
@@ -2382,6 +2544,10 @@
         "dov:topic": "opcua/AMLLibs/AMLLibs_Robot/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/ID",
+      "/properties/Version"
     ],
     "actions": {
     },
@@ -2441,6 +2607,10 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/ID",
+      "/properties/Version"
+    ],
     "actions": {
     },
     "properties": {
@@ -2498,6 +2668,10 @@
         "dov:topic": "opcua/AMLLibs/AMLLibs_Carrier/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/ID",
+      "/properties/Version"
     ],
     "actions": {
     },
@@ -2557,6 +2731,10 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/ID",
+      "/properties/Version"
+    ],
     "actions": {
     },
     "properties": {
@@ -2614,6 +2792,10 @@
         "dov:topic": "opcua/AMLLibs/AMLLibs_StaticObject/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/ID",
+      "/properties/Version"
     ],
     "actions": {
     },
@@ -2673,6 +2855,10 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/ID",
+      "/properties/Version"
+    ],
     "actions": {
     },
     "properties": {
@@ -2730,6 +2916,10 @@
         "dov:topic": "opcua/AMLLibs/AMLLibs_Communication_2/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/ID",
+      "/properties/Version"
     ],
     "actions": {
     },
@@ -2789,6 +2979,10 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/ID",
+      "/properties/Version"
+    ],
     "actions": {
     },
     "properties": {
@@ -2846,6 +3040,10 @@
         "dov:topic": "opcua/AMLLibs/AMLLibs_Sensor/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/ID",
+      "/properties/Version"
     ],
     "actions": {
     },
@@ -2905,6 +3103,10 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/ID",
+      "/properties/Version"
+    ],
     "actions": {
     },
     "properties": {
@@ -2962,6 +3164,10 @@
         "dov:topic": "opcua/AMLLibs/AMLLibs_Controller/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/ID",
+      "/properties/Version"
     ],
     "actions": {
     },
@@ -3021,6 +3227,10 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/ID",
+      "/properties/Version"
+    ],
     "actions": {
     },
     "properties": {
@@ -3078,6 +3288,10 @@
         "dov:topic": "opcua/AMLLibs/AMLLibs_IPC/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/ID",
+      "/properties/Version"
     ],
     "actions": {
     },
@@ -3137,6 +3351,10 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/ID",
+      "/properties/Version"
+    ],
     "actions": {
     },
     "properties": {
@@ -3194,6 +3412,10 @@
         "dov:topic": "opcua/AMLLibs/AMLLibs_Handheld/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/ID",
+      "/properties/Version"
     ],
     "actions": {
     },
@@ -3253,6 +3475,10 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/ID",
+      "/properties/Version"
+    ],
     "actions": {
     },
     "properties": {
@@ -3310,6 +3536,10 @@
         "dov:topic": "opcua/AMLLibs/AMLLibs_NC/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/ID",
+      "/properties/Version"
     ],
     "actions": {
     },
@@ -3369,6 +3599,10 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/ID",
+      "/properties/Version"
+    ],
     "actions": {
     },
     "properties": {
@@ -3426,6 +3660,10 @@
         "dov:topic": "opcua/AMLLibs/AMLLibs_PAC/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/ID",
+      "/properties/Version"
     ],
     "actions": {
     },
@@ -3485,6 +3723,10 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/ID",
+      "/properties/Version"
+    ],
     "actions": {
     },
     "properties": {
@@ -3542,6 +3784,10 @@
         "dov:topic": "opcua/AMLLibs/AMLLibs_HMIFacet/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/ID",
+      "/properties/Version"
     ],
     "actions": {
     },
@@ -3601,6 +3847,10 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/ID",
+      "/properties/Version"
+    ],
     "actions": {
     },
     "properties": {
@@ -3658,6 +3908,10 @@
         "dov:topic": "opcua/AMLLibs/AMLLibs_Site/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/ID",
+      "/properties/Version"
     ],
     "actions": {
     },
@@ -3717,6 +3971,10 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/ID",
+      "/properties/Version"
+    ],
     "actions": {
     },
     "properties": {
@@ -3774,6 +4032,10 @@
         "dov:topic": "opcua/AMLLibs/AMLLibs_ProductionLine/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/ID",
+      "/properties/Version"
     ],
     "actions": {
     },
@@ -3833,6 +4095,10 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/ID",
+      "/properties/Version"
+    ],
     "actions": {
     },
     "properties": {
@@ -3890,6 +4156,10 @@
         "dov:topic": "opcua/AMLLibs/AMLLibs_ProcessCell/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/ID",
+      "/properties/Version"
     ],
     "actions": {
     },
@@ -3949,6 +4219,10 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/ID",
+      "/properties/Version"
+    ],
     "actions": {
     },
     "properties": {
@@ -4006,6 +4280,10 @@
         "dov:topic": "opcua/AMLLibs/AMLLibs_ProductionUnit/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/ID",
+      "/properties/Version"
     ],
     "actions": {
     },
@@ -4065,6 +4343,10 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/ID",
+      "/properties/Version"
+    ],
     "actions": {
     },
     "properties": {
@@ -4122,6 +4404,10 @@
         "dov:topic": "opcua/AMLLibs/AMLLibs_StorageUnit/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/ID",
+      "/properties/Version"
     ],
     "actions": {
     },
@@ -4181,6 +4467,10 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/ID",
+      "/properties/Version"
+    ],
     "actions": {
     },
     "properties": {
@@ -4238,6 +4528,10 @@
         "dov:topic": "opcua/AMLLibs/AMLLibs_Conveyor/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/ID",
+      "/properties/Version"
     ],
     "actions": {
     },
@@ -4297,6 +4591,10 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/ID",
+      "/properties/Version"
+    ],
     "actions": {
     },
     "properties": {
@@ -4354,6 +4652,10 @@
         "dov:topic": "opcua/AMLLibs/AMLLibs_AGV/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/ID",
+      "/properties/Version"
     ],
     "actions": {
     },
@@ -4413,6 +4715,10 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/ID",
+      "/properties/Version"
+    ],
     "actions": {
     },
     "properties": {
@@ -4470,6 +4776,10 @@
         "dov:topic": "opcua/AMLLibs/AMLLibs_CarrierHandlingSystem/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/ID",
+      "/properties/Version"
     ],
     "actions": {
     },
@@ -4529,6 +4839,10 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/ID",
+      "/properties/Version"
+    ],
     "actions": {
     },
     "properties": {
@@ -4586,6 +4900,10 @@
         "dov:topic": "opcua/AMLLibs/AMLLibs_Lift/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/ID",
+      "/properties/Version"
     ],
     "actions": {
     },
@@ -4645,6 +4963,10 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/ID",
+      "/properties/Version"
+    ],
     "actions": {
     },
     "properties": {
@@ -4702,6 +5024,10 @@
         "dov:topic": "opcua/AMLLibs/AMLLibs_StationaryTool/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/ID",
+      "/properties/Version"
     ],
     "actions": {
     },
@@ -4761,6 +5087,10 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/ID",
+      "/properties/Version"
+    ],
     "actions": {
     },
     "properties": {
@@ -4818,6 +5148,10 @@
         "dov:topic": "opcua/AMLLibs/AMLLibs_ControlCabinet/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/ID",
+      "/properties/Version"
     ],
     "actions": {
     },
@@ -4877,6 +5211,10 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/ID",
+      "/properties/Version"
+    ],
     "actions": {
     },
     "properties": {
@@ -4934,6 +5272,10 @@
         "dov:topic": "opcua/AMLLibs/AMLLibs_HMI/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/ID",
+      "/properties/Version"
     ],
     "actions": {
     },
@@ -4993,6 +5335,10 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/ID",
+      "/properties/Version"
+    ],
     "actions": {
     },
     "properties": {
@@ -5050,6 +5396,10 @@
         "dov:topic": "opcua/AMLLibs/AMLLibs_MotionController/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/ID",
+      "/properties/Version"
     ],
     "actions": {
     },
@@ -5109,6 +5459,10 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/ID",
+      "/properties/Version"
+    ],
     "actions": {
     },
     "properties": {
@@ -5166,6 +5520,10 @@
         "dov:topic": "opcua/AMLLibs/AMLLibs_MeasuringEquipment/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/ID",
+      "/properties/Version"
     ],
     "actions": {
     },
@@ -5225,6 +5583,10 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/ID",
+      "/properties/Version"
+    ],
     "actions": {
     },
     "properties": {
@@ -5282,6 +5644,10 @@
         "dov:topic": "opcua/AMLLibs/AMLLibs_ProcessController/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/ID",
+      "/properties/Version"
     ],
     "actions": {
     },
@@ -5341,6 +5707,10 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/ID",
+      "/properties/Version"
+    ],
     "actions": {
     },
     "properties": {
@@ -5398,6 +5768,10 @@
         "dov:topic": "opcua/AMLLibs/AMLLibs_Unloader/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/ID",
+      "/properties/Version"
     ],
     "actions": {
     },
@@ -5457,6 +5831,10 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/ID",
+      "/properties/Version"
+    ],
     "actions": {
     },
     "properties": {
@@ -5514,6 +5892,10 @@
         "dov:topic": "opcua/AMLLibs/AMLLibs_RollConveyor/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/ID",
+      "/properties/Version"
     ],
     "actions": {
     },
@@ -5573,6 +5955,10 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/ID",
+      "/properties/Version"
+    ],
     "actions": {
     },
     "properties": {
@@ -5630,6 +6016,10 @@
         "dov:topic": "opcua/AMLLibs/AMLLibs_PalletConveyor/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/ID",
+      "/properties/Version"
     ],
     "actions": {
     },
@@ -5689,6 +6079,10 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/ID",
+      "/properties/Version"
+    ],
     "actions": {
     },
     "properties": {
@@ -5746,6 +6140,10 @@
         "dov:topic": "opcua/AMLLibs/AMLLibs_WarningEquipment/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/ID",
+      "/properties/Version"
     ],
     "actions": {
     },

@@ -36,6 +36,12 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/AuxParameters",
+      "/properties/HelpSource",
+      "/properties/VendorNotificationId",
+      "/events/VendorNotificationId"
+    ],
     "actions": {
     },
     "properties": {
@@ -210,6 +216,12 @@
         "dov:topic": "opcua/Scales.V2/Scales_V2_ScaleEventType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/AuxParameters",
+      "/properties/HelpSource",
+      "/properties/VendorNotificationId",
+      "/events/VendorNotificationId"
     ],
     "actions": {
     },
@@ -531,6 +543,15 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/actions/AddProduct",
+      "/actions/DeselectProduct",
+      "/actions/RemoveProduct",
+      "/actions/SelectProduct",
+      "/actions/SwitchProduct",
+      "/properties/CurrentProducts",
+      "/events/CurrentProducts"
+    ],
     "actions": {
       "AddProduct": {
         "dov:namespace": "http://opcfoundation.org/UA/Scales/V2/",
@@ -739,6 +760,16 @@
         "dov:topic": "opcua/Scales.V2/Scales_V2_ProductType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/BatchId",
+      "/properties/BatchName",
+      "/properties/JobId",
+      "/properties/JobName",
+      "/properties/PresetTare",
+      "/properties/ProductMode",
+      "/events/PresetTare",
+      "/events/ProductMode"
     ],
     "actions": {
     },
@@ -964,6 +995,21 @@
         "dov:topic": "opcua/Scales.V2/Scales_V2_AutomaticFillingProductType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/FeedRateMeasuringInterval",
+      "/properties/FillingTime",
+      "/properties/FineFeedWeight",
+      "/properties/JogFeed",
+      "/properties/MinimumDeltaPerFeedRateMeasuringInterval",
+      "/properties/SettlingTime",
+      "/properties/TareId",
+      "/events/FeedRateMeasuringInterval",
+      "/events/FillingTime",
+      "/events/FineFeedWeight",
+      "/events/JogFeed",
+      "/events/MinimumDeltaPerFeedRateMeasuringInterval",
+      "/events/SettlingTime"
     ],
     "actions": {
     },
@@ -1300,6 +1346,18 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/actions/AddZone",
+      "/actions/RemoveZone",
+      "/properties/PresetHeight",
+      "/properties/PresetLength",
+      "/properties/PresetWidth",
+      "/properties/TargetThroughput",
+      "/events/PresetHeight",
+      "/events/PresetLength",
+      "/events/PresetWidth",
+      "/events/TargetThroughput"
+    ],
     "actions": {
       "AddZone": {
         "dov:namespace": "http://opcfoundation.org/UA/Scales/V2/",
@@ -1559,6 +1617,10 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/UnitPrice",
+      "/events/UnitPrice"
+    ],
     "actions": {
     },
     "properties": {
@@ -1639,6 +1701,12 @@
         "dov:topic": "opcua/Scales.V2/Scales_V2_CheckweigherProductType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/LowerToleranceLimit1",
+      "/properties/LowerToleranceLimit2",
+      "/events/LowerToleranceLimit1",
+      "/events/LowerToleranceLimit2"
     ],
     "actions": {
     },
@@ -1774,6 +1842,14 @@
         "dov:topic": "opcua/Scales.V2/Scales_V2_ContinuousProductType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/MaterialDensity",
+      "/properties/TargetFlowRate",
+      "/properties/TargetWeight",
+      "/events/MaterialDensity",
+      "/events/TargetFlowRate",
+      "/events/TargetWeight"
     ],
     "actions": {
     },
@@ -1913,6 +1989,36 @@
         "dov:topic": "opcua/Scales.V2/Scales_V2_PieceCountingProductType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/actions/SetTargetItemCount",
+      "/actions/SetTargetPieceCount",
+      "/properties/CurrentItemCount",
+      "/properties/FeedRateMeasuringInterval",
+      "/properties/FillingTime",
+      "/properties/FineFeedCount",
+      "/properties/InFlightCount",
+      "/properties/JogFeed",
+      "/properties/MinimumDeltaPerFeedRateMeasuringInterval",
+      "/properties/SettlingTime",
+      "/properties/TareId",
+      "/properties/TargetItemCount",
+      "/properties/TargetPieceCount",
+      "/properties/TotalizedItemCount",
+      "/properties/TotalizedWeight",
+      "/events/CurrentItemCount",
+      "/events/FeedRateMeasuringInterval",
+      "/events/FillingTime",
+      "/events/FineFeedCount",
+      "/events/InFlightCount",
+      "/events/JogFeed",
+      "/events/MinimumDeltaPerFeedRateMeasuringInterval",
+      "/events/SettlingTime",
+      "/events/TareId",
+      "/events/TargetItemCount",
+      "/events/TargetPieceCount",
+      "/events/TotalizedItemCount",
+      "/events/TotalizedWeight"
     ],
     "actions": {
       "SetTargetItemCount": {
@@ -2728,6 +2834,11 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/ContainerId",
+      "/properties/UnitPrice",
+      "/events/UnitPrice"
+    ],
     "actions": {
     },
     "properties": {
@@ -2817,6 +2928,10 @@
         "dov:topic": "opcua/Scales.V2/Scales_V2_TotalizingHopperProductType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/VolumeTargetValue",
+      "/events/VolumeTargetValue"
     ],
     "actions": {
     },
@@ -2932,6 +3047,25 @@
         "dov:topic": "opcua/Scales.V2/Scales_V2_VehicleProductType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/actions/GetVehicleInformation",
+      "/properties/CarrierDisplayName",
+      "/properties/CarrierId",
+      "/properties/Customer",
+      "/properties/Destination",
+      "/properties/DriverDisplayName",
+      "/properties/DriverId",
+      "/properties/InboundScale",
+      "/properties/InboundWeight",
+      "/properties/OutboundScale",
+      "/properties/ScaleOperatorId",
+      "/properties/Supplier",
+      "/properties/Tare",
+      "/properties/TareExpirationDate",
+      "/properties/TotalWeight",
+      "/properties/TotalWeightResetDate",
+      "/events/InboundWeight"
     ],
     "actions": {
       "GetVehicleInformation": {
@@ -3510,6 +3644,9 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/TargetValueNodeId"
+    ],
     "actions": {
     },
     "properties": {
@@ -3619,6 +3756,12 @@
         "dov:topic": "opcua/Scales.V2/Scales_V2_ConditionSleepType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/ThresholdValueNodeId",
+      "/properties/Timeout",
+      "/events/ThresholdValueNodeId",
+      "/events/Timeout"
     ],
     "actions": {
     },
@@ -4117,6 +4260,10 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/InstructionId",
+      "/events/InstructionId"
+    ],
     "actions": {
     },
     "properties": {
@@ -4329,6 +4476,10 @@
     ],
     "schemaDefinitions": {
     },
+    "tm:optional": [
+      "/actions/AddRecipe",
+      "/actions/RemoveRecipe"
+    ],
     "actions": {
       "AddRecipe": {
         "dov:namespace": "http://opcfoundation.org/UA/Scales/V2/",
@@ -4433,6 +4584,10 @@
         "dov:topic": "opcua/Scales.V2/Scales_V2_RecipeType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/actions/AddRecipeElement",
+      "/actions/RemoveRecipeElement"
     ],
     "actions": {
       "AddRecipeElement": {
@@ -4695,6 +4850,10 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/ResetCondition",
+      "/properties/StartTime"
+    ],
     "actions": {
     },
     "properties": {
@@ -4926,9 +5085,27 @@
         "type": "application/tm+json"
       },
       {
+        "rel": "dov:capability",
+        "dov:refName": "Identification",
+        "href": "./Machinery.TM.json#title=Machinery_MachineryItemIdentificationType",
+        "type": "application/tm+json"
+      },
+      {
         "rel": "dov:component",
         "dov:refName": "MachineryBuildingBlocks",
         "href": "./OpcUaCore.TM.json#title=OpcUaCore_FolderType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:capability",
+        "dov:refName": "MachineryItemState",
+        "href": "./Machinery.TM.json#title=Machinery_MachineryItemState_StateMachineType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:capability",
+        "dov:refName": "MachineryOperationMode",
+        "href": "./Machinery.TM.json#title=Machinery_MachineryOperationModeStateMachineType",
         "type": "application/tm+json"
       }
     ],
@@ -4945,6 +5122,18 @@
         "dov:topic": "opcua/Scales.V2/Scales_V2_FeederModuleType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/actions/SetFeederSpeed",
+      "/properties/FeederLoad",
+      "/properties/FeederRunning",
+      "/properties/FeederSpeed",
+      "/properties/MaximumFeederSpeed",
+      "/properties/MinimalFeederSpeed",
+      "/events/FeederLoad",
+      "/events/FeederSpeed",
+      "/events/MaximumFeederSpeed",
+      "/events/MinimalFeederSpeed"
     ],
     "actions": {
       "SetFeederSpeed": {
@@ -5136,9 +5325,27 @@
         "type": "application/tm+json"
       },
       {
+        "rel": "dov:capability",
+        "dov:refName": "Identification",
+        "href": "./Machinery.TM.json#title=Machinery_MachineryItemIdentificationType",
+        "type": "application/tm+json"
+      },
+      {
         "rel": "dov:component",
         "dov:refName": "MachineryBuildingBlocks",
         "href": "./OpcUaCore.TM.json#title=OpcUaCore_FolderType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:capability",
+        "dov:refName": "MachineryItemState",
+        "href": "./Machinery.TM.json#title=Machinery_MachineryItemState_StateMachineType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:capability",
+        "dov:refName": "MachineryOperationMode",
+        "href": "./Machinery.TM.json#title=Machinery_MachineryOperationModeStateMachineType",
         "type": "application/tm+json"
       }
     ],
@@ -5155,6 +5362,18 @@
         "dov:topic": "opcua/Scales.V2/Scales_V2_PrinterModuleType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/LabelLength",
+      "/properties/LabelStock",
+      "/properties/LabelTypeId",
+      "/properties/LabelWidth",
+      "/properties/PrintMediaStock",
+      "/events/LabelLength",
+      "/events/LabelStock",
+      "/events/LabelTypeId",
+      "/events/LabelWidth",
+      "/events/PrintMediaStock"
     ],
     "actions": {
     },
@@ -5321,9 +5540,27 @@
         "type": "application/tm+json"
       },
       {
+        "rel": "dov:capability",
+        "dov:refName": "Identification",
+        "href": "./Machinery.TM.json#title=Machinery_MachineIdentificationType",
+        "type": "application/tm+json"
+      },
+      {
         "rel": "dov:component",
         "dov:refName": "MachineryBuildingBlocks",
         "href": "./OpcUaCore.TM.json#title=OpcUaCore_FolderType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:capability",
+        "dov:refName": "MachineryItemState",
+        "href": "./Machinery.TM.json#title=Machinery_MachineryItemState_StateMachineType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:capability",
+        "dov:refName": "MachineryOperationMode",
+        "href": "./Machinery.TM.json#title=Machinery_MachineryOperationModeStateMachineType",
         "type": "application/tm+json"
       },
       {
@@ -5369,6 +5606,22 @@
         "dov:topic": "opcua/Scales.V2/Scales_V2_ScaleDeviceType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/actions/ClearTare",
+      "/actions/RegisterWeight",
+      "/actions/SetPresetTare",
+      "/actions/SetTare",
+      "/actions/SetZero",
+      "/properties/AllowedEngineeringUnits",
+      "/properties/MaterialClass",
+      "/properties/MinimalWeight",
+      "/properties/Policy",
+      "/properties/ProcessStateId",
+      "/properties/ProcessStateMessage",
+      "/properties/RegisteredWeight",
+      "/events/MinimalWeight",
+      "/events/RegisteredWeight"
     ],
     "actions": {
       "ClearTare": {
@@ -5815,6 +6068,11 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/Deviation",
+      "/properties/ToleranceState",
+      "/events/Deviation"
+    ],
     "actions": {
     },
     "properties": {
@@ -5985,6 +6243,10 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/TU1Percent",
+      "/events/TU1Percent"
+    ],
     "actions": {
     },
     "properties": {
@@ -6094,6 +6356,22 @@
         "dov:topic": "opcua/Scales.V2/Scales_V2_ContinuousScaleType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/ControlMagnitude",
+      "/properties/Load",
+      "/properties/MaxFlowRate",
+      "/properties/MinFlowRate",
+      "/properties/RateControlMode",
+      "/properties/Speed",
+      "/properties/TargetFlowRate",
+      "/events/ControlMagnitude",
+      "/events/Load",
+      "/events/MaxFlowRate",
+      "/events/MinFlowRate",
+      "/events/RateControlMode",
+      "/events/Speed",
+      "/events/TargetFlowRate"
     ],
     "actions": {
     },
@@ -6393,6 +6671,10 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/BinWeight",
+      "/events/BinWeight"
+    ],
     "actions": {
       "DischargeStart": {
         "dov:namespace": "http://opcfoundation.org/UA/Scales/V2/",
@@ -6616,6 +6898,11 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/actions/StartReference",
+      "/properties/ReferenceOptimisationRange",
+      "/events/ReferenceOptimisationRange"
+    ],
     "actions": {
       "SetNumberOfReferencePieces": {
         "dov:namespace": "http://opcfoundation.org/UA/Scales/V2/",
@@ -6831,6 +7118,17 @@
         "dov:topic": "opcua/Scales.V2/Scales_V2_RecipeScaleType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/actions/AbortRecipe",
+      "/actions/ContinueRecipe",
+      "/actions/SkipCurrentRecipeElement",
+      "/actions/StartRecipe",
+      "/actions/StopRecipe",
+      "/properties/SupportedTargetValues",
+      "/properties/SupportedThresholdValues",
+      "/events/SupportedTargetValues",
+      "/events/SupportedThresholdValues"
     ],
     "actions": {
       "AbortRecipe": {
@@ -7149,6 +7447,13 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/LevelMax",
+      "/properties/LevelMin",
+      "/properties/Limits",
+      "/events/LevelMax",
+      "/events/LevelMin"
+    ],
     "actions": {
     },
     "properties": {
@@ -7330,6 +7635,21 @@
         "dov:topic": "opcua/Scales.V2/Scales_V2_LaboratoryScaleType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/actions/CloseDraftShields",
+      "/actions/OpenDraftShields",
+      "/actions/StartCalibration",
+      "/actions/StartIonisator",
+      "/actions/StartLeveling",
+      "/actions/StopIonisator",
+      "/properties/CalibrationNeeded",
+      "/properties/CalibrationRunning",
+      "/properties/DraftShieldLeftClosed",
+      "/properties/DraftShieldRightClosed",
+      "/properties/DraftShieldTopClosed",
+      "/properties/IonisatorRunning",
+      "/properties/LevelingRunning"
     ],
     "actions": {
       "CloseDraftShields": {
@@ -7642,6 +7962,11 @@
     ],
     "schemaDefinitions": {
     },
+    "tm:optional": [
+      "/actions/InboundWeighing",
+      "/actions/OnePassWeighing",
+      "/actions/OutboundWeighing"
+    ],
     "actions": {
       "InboundWeighing": {
         "dov:namespace": "http://opcfoundation.org/UA/Scales/V2/",
@@ -7727,9 +8052,27 @@
         "type": "application/tm+json"
       },
       {
+        "rel": "dov:capability",
+        "dov:refName": "Identification",
+        "href": "./Machinery.TM.json#title=Machinery_MachineIdentificationType",
+        "type": "application/tm+json"
+      },
+      {
         "rel": "dov:component",
         "dov:refName": "MachineryBuildingBlocks",
         "href": "./OpcUaCore.TM.json#title=OpcUaCore_FolderType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:capability",
+        "dov:refName": "MachineryItemState",
+        "href": "./Machinery.TM.json#title=Machinery_MachineryItemState_StateMachineType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:capability",
+        "dov:refName": "MachineryOperationMode",
+        "href": "./Machinery.TM.json#title=Machinery_MachineryOperationModeStateMachineType",
         "type": "application/tm+json"
       },
       {
@@ -7770,6 +8113,11 @@
         "dov:topic": "opcua/Scales.V2/Scales_V2_ScaleSystemType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/actions/ResetGlobalStatistics",
+      "/properties/Policy",
+      "/properties/ProcessStateId"
     ],
     "actions": {
       "ResetGlobalStatistics": {
@@ -7871,6 +8219,9 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/actions/ResetTotalizer"
+    ],
     "actions": {
       "ResetTotalizer": {
         "dov:namespace": "http://opcfoundation.org/UA/Scales/V2/",
@@ -7951,6 +8302,18 @@
         "dov:topic": "opcua/Scales.V2/Scales_V2_WeighingItemType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/ItemId",
+      "/properties/MeasuredHeight",
+      "/properties/MeasuredLength",
+      "/properties/MeasuredVolume",
+      "/properties/MeasuredWidth",
+      "/properties/ZoneName",
+      "/events/MeasuredHeight",
+      "/events/MeasuredLength",
+      "/events/MeasuredVolume",
+      "/events/MeasuredWidth"
     ],
     "actions": {
     },
@@ -8229,6 +8592,10 @@
         "dov:topic": "opcua/Scales.V2/Scales_V2_PriceItemType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/ItemPrice",
+      "/events/ItemPrice"
     ],
     "actions": {
     },

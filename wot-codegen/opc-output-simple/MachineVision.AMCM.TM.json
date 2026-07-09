@@ -14,6 +14,24 @@
         "rel": "tm:extends",
         "href": "./OpcUaCore.TM.json#title=OpcUaCore_BaseInterfaceType",
         "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:capability",
+        "dov:refName": "Health",
+        "href": "#title=MachineVision_AMCM_VisionHealthInfoType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:capability",
+        "dov:refName": "Identification",
+        "href": "./Machinery.TM.json#title=Machinery_MachineryItemIdentificationType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:capability",
+        "dov:refName": "Maintenance",
+        "href": "#title=MachineVision_AMCM_VisionMaintenanceInfoType",
+        "type": "application/tm+json"
       }
     ],
     "schemaDefinitions": {
@@ -39,6 +57,12 @@
       {
         "rel": "tm:extends",
         "href": "#title=MachineVision_AMCM_IVisionInfoType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:capability",
+        "dov:refName": "Maintenance",
+        "href": "#title=MachineVision_AMCM_VisionMaintenanceInfoType",
         "type": "application/tm+json"
       }
     ],
@@ -66,6 +90,18 @@
         "rel": "tm:extends",
         "href": "#title=MachineVision_AMCM_IVisionInfoType",
         "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:capability",
+        "dov:refName": "Health",
+        "href": "#title=MachineVision_AMCM_VisionHealthInfoType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:capability",
+        "dov:refName": "Maintenance",
+        "href": "#title=MachineVision_AMCM_VisionMaintenanceInfoType",
+        "type": "application/tm+json"
       }
     ],
     "schemaDefinitions": {
@@ -91,6 +127,12 @@
       {
         "rel": "tm:extends",
         "href": "#title=MachineVision_AMCM_IVisionInfoType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:capability",
+        "dov:refName": "Maintenance",
+        "href": "#title=MachineVision_AMCM_VisionMaintenanceInfoType",
         "type": "application/tm+json"
       }
     ],
@@ -118,6 +160,12 @@
         "rel": "tm:extends",
         "href": "#title=MachineVision_AMCM_IVisionInfoType",
         "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:capability",
+        "dov:refName": "Maintenance",
+        "href": "#title=MachineVision_AMCM_VisionMaintenanceInfoType",
+        "type": "application/tm+json"
       }
     ],
     "schemaDefinitions": {
@@ -143,6 +191,12 @@
       {
         "rel": "tm:extends",
         "href": "#title=MachineVision_AMCM_IVisionInfoType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:capability",
+        "dov:refName": "Maintenance",
+        "href": "#title=MachineVision_AMCM_VisionMaintenanceInfoType",
         "type": "application/tm+json"
       }
     ],
@@ -170,6 +224,12 @@
         "rel": "tm:extends",
         "href": "#title=MachineVision_AMCM_IVisionInfoType",
         "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:capability",
+        "dov:refName": "Maintenance",
+        "href": "#title=MachineVision_AMCM_VisionMaintenanceInfoType",
+        "type": "application/tm+json"
       }
     ],
     "schemaDefinitions": {
@@ -196,6 +256,12 @@
         "rel": "tm:extends",
         "href": "#title=MachineVision_AMCM_IVisionInfoType",
         "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:capability",
+        "dov:refName": "Maintenance",
+        "href": "#title=MachineVision_AMCM_VisionMaintenanceInfoType",
+        "type": "application/tm+json"
       }
     ],
     "schemaDefinitions": {
@@ -221,6 +287,18 @@
       {
         "rel": "tm:extends",
         "href": "#title=MachineVision_AMCM_IVisionInfoType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:capability",
+        "dov:refName": "Health",
+        "href": "#title=MachineVision_AMCM_VisionHealthInfoType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:capability",
+        "dov:refName": "Maintenance",
+        "href": "#title=MachineVision_AMCM_VisionMaintenanceInfoType",
         "type": "application/tm+json"
       }
     ],
@@ -289,6 +367,21 @@
         "dov:topic": "opcua/MachineVision.AMCM/MachineVision_AMCM_VisionMachineIdentificationType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/AssetId",
+      "/properties/ComponentName",
+      "/properties/ConfigurationCode",
+      "/properties/DeviceClass",
+      "/properties/HardwareRevision",
+      "/properties/InitialOperationDate",
+      "/properties/Location",
+      "/properties/ManufacturerUri",
+      "/properties/Model",
+      "/properties/MonthOfConstruction",
+      "/properties/ProductCode",
+      "/properties/SoftwareRevision",
+      "/properties/YearOfConstruction"
     ],
     "actions": {
     },
@@ -560,6 +653,22 @@
         "dov:topic": "opcua/MachineVision.AMCM/MachineVision_AMCM_VisionComponentIdentificationType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/AssetId",
+      "/properties/ComponentName",
+      "/properties/ConfigurationCode",
+      "/properties/DeviceClass",
+      "/properties/DeviceRevision",
+      "/properties/HardwareRevision",
+      "/properties/InitialOperationDate",
+      "/properties/ManufacturerUri",
+      "/properties/Model",
+      "/properties/MonthOfConstruction",
+      "/properties/ProductCode",
+      "/properties/ProductInstanceUri",
+      "/properties/SoftwareRevision",
+      "/properties/YearOfConstruction"
     ],
     "actions": {
     },
@@ -876,6 +985,16 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/DeviceHealth",
+      "/properties/RemainingLifeTime",
+      "/properties/State",
+      "/properties/Temperature",
+      "/events/DeviceHealth",
+      "/events/RemainingLifeTime",
+      "/events/State",
+      "/events/Temperature"
+    ],
     "actions": {
     },
     "properties": {
@@ -1068,6 +1187,12 @@
         "rel": "tm:extends",
         "href": "./DI.TM.json#title=DI_FunctionalGroupType",
         "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:capability",
+        "dov:refName": "OperationCounters",
+        "href": "./Machinery.TM.json#title=Machinery_MachineryOperationCounterType",
+        "type": "application/tm+json"
       }
     ],
     "schemaDefinitions": {
@@ -1088,6 +1213,18 @@
         "dov:topic": "opcua/MachineVision.AMCM/MachineVision_AMCM_VisionMaintenanceInfoType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/CalibrationNeeded",
+      "/properties/FirmwareInfo",
+      "/properties/LastCalibration",
+      "/properties/LastService",
+      "/properties/MaintenanceRecord",
+      "/properties/NextCalibration",
+      "/properties/NextService",
+      "/properties/ServiceClass",
+      "/properties/StartOfWarranty",
+      "/events/ServiceClass"
     ],
     "actions": {
     },
@@ -1295,6 +1432,24 @@
         "rel": "tm:extends",
         "href": "./OpcUaCore.TM.json#title=OpcUaCore_BaseObjectType",
         "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:capability",
+        "dov:refName": "Health",
+        "href": "#title=MachineVision_AMCM_VisionHealthInfoType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:capability",
+        "dov:refName": "Identification",
+        "href": "#title=MachineVision_AMCM_VisionComponentIdentificationType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:capability",
+        "dov:refName": "Maintenance",
+        "href": "#title=MachineVision_AMCM_VisionMaintenanceInfoType",
+        "type": "application/tm+json"
       }
     ],
     "schemaDefinitions": {
@@ -1403,6 +1558,24 @@
         "rel": "tm:extends",
         "href": "./OpcUaCore.TM.json#title=OpcUaCore_BaseObjectType",
         "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:capability",
+        "dov:refName": "Health",
+        "href": "#title=MachineVision_AMCM_VisionHealthInfoType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:capability",
+        "dov:refName": "Identification",
+        "href": "#title=MachineVision_AMCM_VisionComponentIdentificationType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:capability",
+        "dov:refName": "Maintenance",
+        "href": "#title=MachineVision_AMCM_VisionMaintenanceInfoType",
+        "type": "application/tm+json"
       }
     ],
     "schemaDefinitions": {
@@ -1429,6 +1602,24 @@
       {
         "rel": "tm:extends",
         "href": "./OpcUaCore.TM.json#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:capability",
+        "dov:refName": "Health",
+        "href": "#title=MachineVision_AMCM_VisionHealthInfoType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:capability",
+        "dov:refName": "Identification",
+        "href": "#title=MachineVision_AMCM_VisionComponentIdentificationType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:capability",
+        "dov:refName": "Maintenance",
+        "href": "#title=MachineVision_AMCM_VisionMaintenanceInfoType",
         "type": "application/tm+json"
       }
     ],
@@ -1457,6 +1648,24 @@
         "rel": "tm:extends",
         "href": "./OpcUaCore.TM.json#title=OpcUaCore_BaseObjectType",
         "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:capability",
+        "dov:refName": "Health",
+        "href": "#title=MachineVision_AMCM_VisionHealthInfoType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:capability",
+        "dov:refName": "Identification",
+        "href": "#title=MachineVision_AMCM_VisionComponentIdentificationType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:capability",
+        "dov:refName": "Maintenance",
+        "href": "#title=MachineVision_AMCM_VisionMaintenanceInfoType",
+        "type": "application/tm+json"
       }
     ],
     "schemaDefinitions": {
@@ -1483,6 +1692,24 @@
       {
         "rel": "tm:extends",
         "href": "./OpcUaCore.TM.json#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:capability",
+        "dov:refName": "Health",
+        "href": "#title=MachineVision_AMCM_VisionHealthInfoType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:capability",
+        "dov:refName": "Identification",
+        "href": "#title=MachineVision_AMCM_VisionComponentIdentificationType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:capability",
+        "dov:refName": "Maintenance",
+        "href": "#title=MachineVision_AMCM_VisionMaintenanceInfoType",
         "type": "application/tm+json"
       }
     ],
@@ -1511,6 +1738,24 @@
         "rel": "tm:extends",
         "href": "./OpcUaCore.TM.json#title=OpcUaCore_BaseObjectType",
         "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:capability",
+        "dov:refName": "Health",
+        "href": "#title=MachineVision_AMCM_VisionHealthInfoType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:capability",
+        "dov:refName": "Identification",
+        "href": "#title=MachineVision_AMCM_VisionComponentIdentificationType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:capability",
+        "dov:refName": "Maintenance",
+        "href": "#title=MachineVision_AMCM_VisionMaintenanceInfoType",
+        "type": "application/tm+json"
       }
     ],
     "schemaDefinitions": {
@@ -1537,6 +1782,24 @@
       {
         "rel": "tm:extends",
         "href": "./OpcUaCore.TM.json#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:capability",
+        "dov:refName": "Health",
+        "href": "#title=MachineVision_AMCM_VisionHealthInfoType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:capability",
+        "dov:refName": "Identification",
+        "href": "#title=MachineVision_AMCM_VisionComponentIdentificationType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:capability",
+        "dov:refName": "Maintenance",
+        "href": "#title=MachineVision_AMCM_VisionMaintenanceInfoType",
         "type": "application/tm+json"
       }
     ],
@@ -1565,6 +1828,24 @@
         "rel": "tm:extends",
         "href": "./OpcUaCore.TM.json#title=OpcUaCore_BaseObjectType",
         "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:capability",
+        "dov:refName": "Health",
+        "href": "#title=MachineVision_AMCM_VisionHealthInfoType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:capability",
+        "dov:refName": "Identification",
+        "href": "#title=MachineVision_AMCM_VisionComponentIdentificationType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:capability",
+        "dov:refName": "Maintenance",
+        "href": "#title=MachineVision_AMCM_VisionMaintenanceInfoType",
+        "type": "application/tm+json"
       }
     ],
     "schemaDefinitions": {
@@ -1591,6 +1872,24 @@
       {
         "rel": "tm:extends",
         "href": "./OpcUaCore.TM.json#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:capability",
+        "dov:refName": "Health",
+        "href": "#title=MachineVision_AMCM_VisionHealthInfoType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:capability",
+        "dov:refName": "Identification",
+        "href": "#title=MachineVision_AMCM_VisionComponentIdentificationType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:capability",
+        "dov:refName": "Maintenance",
+        "href": "#title=MachineVision_AMCM_VisionMaintenanceInfoType",
         "type": "application/tm+json"
       }
     ],
@@ -1619,6 +1918,24 @@
         "rel": "tm:extends",
         "href": "./OpcUaCore.TM.json#title=OpcUaCore_BaseObjectType",
         "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:capability",
+        "dov:refName": "Health",
+        "href": "#title=MachineVision_AMCM_VisionHealthInfoType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:capability",
+        "dov:refName": "Identification",
+        "href": "#title=MachineVision_AMCM_VisionComponentIdentificationType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:capability",
+        "dov:refName": "Maintenance",
+        "href": "#title=MachineVision_AMCM_VisionMaintenanceInfoType",
+        "type": "application/tm+json"
       }
     ],
     "schemaDefinitions": {
@@ -1645,6 +1962,24 @@
       {
         "rel": "tm:extends",
         "href": "./OpcUaCore.TM.json#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:capability",
+        "dov:refName": "Health",
+        "href": "#title=MachineVision_AMCM_VisionHealthInfoType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:capability",
+        "dov:refName": "Identification",
+        "href": "#title=MachineVision_AMCM_VisionComponentIdentificationType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:capability",
+        "dov:refName": "Maintenance",
+        "href": "#title=MachineVision_AMCM_VisionMaintenanceInfoType",
         "type": "application/tm+json"
       }
     ],
@@ -1673,6 +2008,24 @@
         "rel": "tm:extends",
         "href": "./OpcUaCore.TM.json#title=OpcUaCore_BaseObjectType",
         "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:capability",
+        "dov:refName": "Health",
+        "href": "#title=MachineVision_AMCM_VisionHealthInfoType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:capability",
+        "dov:refName": "Identification",
+        "href": "#title=MachineVision_AMCM_VisionComponentIdentificationType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:capability",
+        "dov:refName": "Maintenance",
+        "href": "#title=MachineVision_AMCM_VisionMaintenanceInfoType",
+        "type": "application/tm+json"
       }
     ],
     "schemaDefinitions": {
@@ -1699,6 +2052,24 @@
       {
         "rel": "tm:extends",
         "href": "./OpcUaCore.TM.json#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:capability",
+        "dov:refName": "Health",
+        "href": "#title=MachineVision_AMCM_VisionHealthInfoType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:capability",
+        "dov:refName": "Identification",
+        "href": "#title=MachineVision_AMCM_VisionComponentIdentificationType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:capability",
+        "dov:refName": "Maintenance",
+        "href": "#title=MachineVision_AMCM_VisionMaintenanceInfoType",
         "type": "application/tm+json"
       }
     ],
@@ -1727,6 +2098,24 @@
         "rel": "tm:extends",
         "href": "./OpcUaCore.TM.json#title=OpcUaCore_BaseObjectType",
         "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:capability",
+        "dov:refName": "Health",
+        "href": "#title=MachineVision_AMCM_VisionHealthInfoType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:capability",
+        "dov:refName": "Identification",
+        "href": "#title=MachineVision_AMCM_VisionComponentIdentificationType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:capability",
+        "dov:refName": "Maintenance",
+        "href": "#title=MachineVision_AMCM_VisionMaintenanceInfoType",
+        "type": "application/tm+json"
       }
     ],
     "schemaDefinitions": {
@@ -1753,6 +2142,24 @@
       {
         "rel": "tm:extends",
         "href": "./OpcUaCore.TM.json#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:capability",
+        "dov:refName": "Health",
+        "href": "#title=MachineVision_AMCM_VisionHealthInfoType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:capability",
+        "dov:refName": "Identification",
+        "href": "#title=MachineVision_AMCM_VisionComponentIdentificationType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:capability",
+        "dov:refName": "Maintenance",
+        "href": "#title=MachineVision_AMCM_VisionMaintenanceInfoType",
         "type": "application/tm+json"
       }
     ],
@@ -1781,6 +2188,24 @@
         "rel": "tm:extends",
         "href": "./OpcUaCore.TM.json#title=OpcUaCore_BaseObjectType",
         "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:capability",
+        "dov:refName": "Health",
+        "href": "#title=MachineVision_AMCM_VisionHealthInfoType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:capability",
+        "dov:refName": "Identification",
+        "href": "#title=MachineVision_AMCM_VisionComponentIdentificationType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:capability",
+        "dov:refName": "Maintenance",
+        "href": "#title=MachineVision_AMCM_VisionMaintenanceInfoType",
+        "type": "application/tm+json"
       }
     ],
     "schemaDefinitions": {
@@ -1807,6 +2232,24 @@
       {
         "rel": "tm:extends",
         "href": "./OpcUaCore.TM.json#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:capability",
+        "dov:refName": "Health",
+        "href": "#title=MachineVision_AMCM_VisionHealthInfoType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:capability",
+        "dov:refName": "Identification",
+        "href": "#title=MachineVision_AMCM_VisionComponentIdentificationType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:capability",
+        "dov:refName": "Maintenance",
+        "href": "#title=MachineVision_AMCM_VisionMaintenanceInfoType",
         "type": "application/tm+json"
       }
     ],
@@ -1835,6 +2278,24 @@
         "rel": "tm:extends",
         "href": "./OpcUaCore.TM.json#title=OpcUaCore_BaseObjectType",
         "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:capability",
+        "dov:refName": "Health",
+        "href": "#title=MachineVision_AMCM_VisionHealthInfoType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:capability",
+        "dov:refName": "Identification",
+        "href": "#title=MachineVision_AMCM_VisionComponentIdentificationType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:capability",
+        "dov:refName": "Maintenance",
+        "href": "#title=MachineVision_AMCM_VisionMaintenanceInfoType",
+        "type": "application/tm+json"
       }
     ],
     "schemaDefinitions": {
@@ -1862,6 +2323,24 @@
         "rel": "tm:extends",
         "href": "./OpcUaCore.TM.json#title=OpcUaCore_BaseObjectType",
         "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:capability",
+        "dov:refName": "Health",
+        "href": "#title=MachineVision_AMCM_VisionHealthInfoType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:capability",
+        "dov:refName": "Identification",
+        "href": "#title=MachineVision_AMCM_VisionComponentIdentificationType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:capability",
+        "dov:refName": "Maintenance",
+        "href": "#title=MachineVision_AMCM_VisionMaintenanceInfoType",
+        "type": "application/tm+json"
       }
     ],
     "schemaDefinitions": {
@@ -1888,6 +2367,24 @@
       {
         "rel": "tm:extends",
         "href": "./OpcUaCore.TM.json#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:capability",
+        "dov:refName": "Health",
+        "href": "#title=MachineVision_AMCM_VisionHealthInfoType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:capability",
+        "dov:refName": "Identification",
+        "href": "#title=MachineVision_AMCM_VisionComponentIdentificationType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:capability",
+        "dov:refName": "Maintenance",
+        "href": "#title=MachineVision_AMCM_VisionMaintenanceInfoType",
         "type": "application/tm+json"
       }
     ],
@@ -1942,6 +2439,12 @@
         "type": "application/tm+json"
       },
       {
+        "rel": "dov:component",
+        "dov:refName": "Components",
+        "href": "./Machinery.TM.json#title=Machinery_MachineComponentsType",
+        "type": "application/tm+json"
+      },
+      {
         "rel": "dov:reference",
         "dov:refName": "ComputingDevices",
         "href": "#title=MachineVision_AMCM_VisionItemFolderType",
@@ -1960,9 +2463,21 @@
         "type": "application/tm+json"
       },
       {
+        "rel": "dov:capability",
+        "dov:refName": "Health",
+        "href": "#title=MachineVision_AMCM_VisionHealthInfoType",
+        "type": "application/tm+json"
+      },
+      {
         "rel": "dov:reference",
         "dov:refName": "Housings",
         "href": "#title=MachineVision_AMCM_VisionItemFolderType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:capability",
+        "dov:refName": "Identification",
+        "href": "#title=MachineVision_AMCM_VisionMachineIdentificationType",
         "type": "application/tm+json"
       },
       {
@@ -2005,6 +2520,12 @@
         "rel": "dov:reference",
         "dov:refName": "LightingControllers",
         "href": "#title=MachineVision_AMCM_VisionItemFolderType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:capability",
+        "dov:refName": "Maintenance",
+        "href": "#title=MachineVision_AMCM_VisionMaintenanceInfoType",
         "type": "application/tm+json"
       },
       {
@@ -2099,6 +2620,24 @@
         "rel": "tm:extends",
         "href": "./OpcUaCore.TM.json#title=OpcUaCore_BaseObjectType",
         "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:capability",
+        "dov:refName": "Health",
+        "href": "#title=MachineVision_AMCM_VisionHealthInfoType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:capability",
+        "dov:refName": "Identification",
+        "href": "#title=MachineVision_AMCM_VisionComponentIdentificationType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:capability",
+        "dov:refName": "Maintenance",
+        "href": "#title=MachineVision_AMCM_VisionMaintenanceInfoType",
+        "type": "application/tm+json"
       }
     ],
     "schemaDefinitions": {
@@ -2125,6 +2664,24 @@
       {
         "rel": "tm:extends",
         "href": "./OpcUaCore.TM.json#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:capability",
+        "dov:refName": "Health",
+        "href": "#title=MachineVision_AMCM_VisionHealthInfoType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:capability",
+        "dov:refName": "Identification",
+        "href": "#title=MachineVision_AMCM_VisionComponentIdentificationType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:capability",
+        "dov:refName": "Maintenance",
+        "href": "#title=MachineVision_AMCM_VisionMaintenanceInfoType",
         "type": "application/tm+json"
       }
     ],
