@@ -75,7 +75,7 @@
             ]
         },
         "listThingModelVersions": {
-            "description": "List xRegistry Thing Model Versions, optionally filtered by Group, Thing Model, and/or label.",
+            "description": "List xRegistry Thing Model Versions, optionally filtered by Group, Thing Model, document hash, and/or label.",
             "input": {
                 "dov:ref": "./core-xregistry/ListVersionsRequestPayload.schema.json",
                 "description": "The constraints to filter the listed Versions by."

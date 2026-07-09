@@ -770,6 +770,7 @@ impl Client {
     /// * `group_query` - The [`GroupQuery`] selecting which Groups to search.
     /// * `resource_type` - If provided, only Versions of Resources of this type are listed; otherwise Versions of Resources of all types are listed.
     /// * `resource_id` - If provided, only Versions of the Resource with this identifier are listed; otherwise Versions of all Resources are listed.
+    /// * `document_hash` - If provided, only Versions whose document has this hash are listed.
     /// * `label` - If provided, only Versions carrying this [`Label`] are listed.
     /// * `timeout` - The duration until the client stops waiting for a response to the request, it is rounded up to the nearest second.
     ///
@@ -789,6 +790,7 @@ impl Client {
         group_query: GroupQuery,
         resource_type: Option<String>,
         resource_id: Option<String>,
+        document_hash: Option<String>,
         label: Option<Label>,
         timeout: Duration,
     ) -> Result<Vec<VersionXId<String>>, Error> {
@@ -800,6 +802,7 @@ impl Client {
             all_groups,
             resource_type,
             resource_id,
+            document_hash,
             label: label.map(Into::into),
         };
 
@@ -988,6 +991,7 @@ impl Client {
     ///   [`GroupId`](GroupSelection::GroupId).
     /// * `schema_id` - If provided, only Versions of this Schema are listed; otherwise Versions of
     ///   all Schemas in the selected Group(s) are listed.
+    /// * `document_hash` - If provided, only Versions whose document has this hash are listed.
     /// * `label` - If provided, only Versions carrying this [`Label`] are listed.
     /// * `timeout` - The duration until the client stops waiting for a response to the request, it is rounded up to the nearest second.
     ///
@@ -1006,6 +1010,7 @@ impl Client {
         &self,
         groups: GroupSelection,
         schema_id: Option<String>,
+        document_hash: Option<String>,
         label: Option<Label>,
         timeout: Duration,
     ) -> Result<Vec<VersionXId<u64>>, Error> {
@@ -1016,6 +1021,7 @@ impl Client {
             all_groups,
             resource_type: Some(SCHEMA_RESOURCE_TYPE.to_string()),
             resource_id: schema_id,
+            document_hash,
             label: label.map(Into::into),
         };
 
@@ -1198,6 +1204,7 @@ impl Client {
     ///   [`GroupId`](GroupSelection::GroupId).
     /// * `thing_description_id` - If provided, only Versions of this Thing Description are listed;
     ///   otherwise Versions of all Thing Descriptions in the selected Group(s) are listed.
+    /// * `document_hash` - If provided, only Versions whose document has this hash are listed.
     /// * `label` - If provided, only Versions carrying this [`Label`] are listed.
     /// * `timeout` - The duration until the client stops waiting for a response to the request, it is rounded up to the nearest second.
     ///
@@ -1216,6 +1223,7 @@ impl Client {
         &self,
         groups: GroupSelection,
         thing_description_id: Option<String>,
+        document_hash: Option<String>,
         label: Option<Label>,
         timeout: Duration,
     ) -> Result<Vec<VersionXId<u64>>, Error> {
@@ -1226,6 +1234,7 @@ impl Client {
             all_groups,
             resource_type: Some(THING_DESCRIPTION_RESOURCE_TYPE.to_string()),
             resource_id: thing_description_id,
+            document_hash,
             label: label.map(Into::into),
         };
 
@@ -1408,6 +1417,7 @@ impl Client {
     ///   [`GroupId`](GroupSelection::GroupId).
     /// * `thing_model_id` - If provided, only Versions of this Thing Model are listed; otherwise
     ///   Versions of all Thing Models in the selected Group(s) are listed.
+    /// * `document_hash` - If provided, only Versions whose document has this hash are listed.
     /// * `label` - If provided, only Versions carrying this [`Label`] are listed.
     /// * `timeout` - The duration until the client stops waiting for a response to the request, it is rounded up to the nearest second.
     ///
@@ -1426,6 +1436,7 @@ impl Client {
         &self,
         groups: GroupSelection,
         thing_model_id: Option<String>,
+        document_hash: Option<String>,
         label: Option<Label>,
         timeout: Duration,
     ) -> Result<Vec<VersionXId<u64>>, Error> {
@@ -1436,6 +1447,7 @@ impl Client {
             all_groups,
             resource_type: Some(THING_MODEL_RESOURCE_TYPE.to_string()),
             resource_id: thing_model_id,
+            document_hash,
             label: label.map(Into::into),
         };
 
