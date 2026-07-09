@@ -3,13 +3,13 @@
 FROM mcr.microsoft.com/azurelinux/base/rust:1.75 AS build
 
 # RUST_VERSION should be the value of "channel" in rust-toolchain.toml
-ARG RUST_VERSION=1.89
+ARG RUST_VERSION=1.88
 
 # Move source code from build context into /app folder
 COPY --link / /app
 WORKDIR /app
 
-# Force Install Rust 1.89
+# Force Install Rust 1.88
 RUN tdnf remove -y rust; \
     tdnf install -y openssl-devel clang; \
     curl https://sh.rustup.rs -sSf | sh -s -- -y --default-toolchain $RUST_VERSION --profile minimal
