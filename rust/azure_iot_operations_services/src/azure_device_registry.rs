@@ -7,7 +7,11 @@ use core::fmt::Debug;
 
 use azure_iot_operations_mqtt::token::AckToken;
 use azure_iot_operations_protocol::{
-    common::aio_protocol_error::AIOProtocolError, rpc_command, telemetry,
+    common::{
+        aio_protocol_error::AIOProtocolError,
+        dispatcher::{self, Receiver},
+    },
+    rpc_command, telemetry,
 };
 use chrono::{DateTime, Utc};
 use thiserror::Error;
@@ -18,7 +22,6 @@ use crate::azure_device_registry::{
     adr_base_gen::adr_base_service::client as base_client_gen,
     device_discovery_gen::device_discovery_service::client as discovery_client_gen,
 };
-use crate::common::dispatcher::{self, Receiver};
 
 /// Azure Device Registry base service generated code
 #[allow(clippy::doc_markdown)] // TODO: consider moving this to codegen
