@@ -12,10 +12,7 @@ use bytes::Bytes;
 use chrono::{DateTime, Utc};
 use iso8601_duration;
 use tokio::{
-    sync::{
-        Mutex, Notify,
-        broadcast::{Sender, error::RecvError},
-    },
+    sync::{Mutex, Notify},
     task::{self, JoinHandle},
     time,
 };
@@ -24,6 +21,7 @@ use uuid::Uuid;
 
 use crate::common::{
     cloud_event as protocol_cloud_event,
+    dispatcher::Dispatcher,
     user_properties::{BrokerReservedUserProperty, validate_invoker_user_properties},
 };
 use crate::{
@@ -796,7 +794,7 @@ where
     state_mutex: Arc<Mutex<State>>,
     // Used to send information to manage state
     shutdown_notifier: Arc<Notify>,
-    response_tx: Sender<Option<Publish>>,
+    response_dispatcher: Arc<Dispatcher<Publish, Bytes>>,
 }
 
 /// Describes state of invoker to know whether to subscribe/unsubscribe/reject invokes
@@ -918,21 +916,21 @@ where
         // Create a filtered receiver from the Managed Client
         let mqtt_receiver = client.create_filtered_pub_receiver(response_topic_filter.clone());
 
-        // Create the channel to send responses on
-        let response_tx = Sender::new(5);
+        // Create the dispatcher to send responses on
+        let response_dispatcher = Arc::new(Dispatcher::new());
 
         // Create the shutdown notifier for the receiver loop
         let shutdown_notifier = Arc::new(Notify::new());
 
         // Start the receive response loop
         task::spawn({
-            let response_tx_clone = response_tx.clone();
+            let response_dispatcher_clone = response_dispatcher.clone();
             let shutdown_notifier_clone = shutdown_notifier.clone();
             let command_name_clone = invoker_options.command_name.clone();
             async move {
                 Self::receive_response_loop(
                     mqtt_receiver,
-                    response_tx_clone,
+                    response_dispatcher_clone,
                     shutdown_notifier_clone,
                     command_name_clone,
                 )
@@ -951,7 +949,7 @@ where
             response_payload_type: PhantomData,
             state_mutex: invoker_state_mutex,
             shutdown_notifier,
-            response_tx,
+            response_dispatcher,
         })
     }
 
@@ -1136,10 +1134,6 @@ where
                 )
             })?;
 
-        // Create correlation id
-        let correlation_id = Uuid::new_v4();
-        let correlation_data = Bytes::from(correlation_id.as_bytes().to_vec());
-
         // Get updated timestamp
         let timestamp_str = self.application_hlc.update_now()?;
 
@@ -1173,18 +1167,6 @@ where
             }
         }
 
-        // Create MQTT Properties
-        let publish_properties = PublishProperties {
-            correlation_data: Some(correlation_data.clone()),
-            response_topic: Some(response_topic),
-            payload_format_indicator: request.serialized_payload.format_indicator.into(),
-            content_type: Some(request.serialized_payload.content_type.clone()),
-            message_expiry_interval: Some(message_expiry_interval),
-            user_properties: request.custom_user_data,
-            topic_alias: None,
-            subscription_identifiers: Vec::new(),
-        };
-
         // Subscribe to the response topic if we're not already subscribed and the invoker hasn't been shutdown
         {
             let mut invoker_state = self.state_mutex.lock().await;
@@ -1209,8 +1191,34 @@ where
             // Allow other concurrent invoke commands to acquire the invoker_state lock
         }
 
-        // Create receiver for response
-        let mut response_rx = self.response_tx.subscribe();
+        // Create correlation id and receiver for response
+        let (correlation_data, mut response_rx) = {
+            loop {
+                let correlation_id = Uuid::new_v4();
+                let correlation_data = Bytes::copy_from_slice(correlation_id.as_bytes());
+
+                // Create receiver for response
+                if let Ok(rx) = self
+                    .response_dispatcher
+                    .register_receiver(correlation_data.clone())
+                {
+                    break (correlation_data, rx);
+                }
+                // Otherwise, loop again; Correlation ID wasn't unique, retry with a new correlation_id
+            }
+        };
+
+        // Create MQTT Properties
+        let publish_properties = PublishProperties {
+            correlation_data: Some(correlation_data.clone()),
+            response_topic: Some(response_topic),
+            payload_format_indicator: request.serialized_payload.format_indicator.into(),
+            content_type: Some(request.serialized_payload.content_type.clone()),
+            message_expiry_interval: Some(message_expiry_interval),
+            user_properties: request.custom_user_data,
+            topic_alias: None,
+            subscription_identifiers: Vec::new(),
+        };
 
         // Send publish
         let publish_result = self
@@ -1225,7 +1233,6 @@ where
 
         // Await for publish to complete in a task that concurrently polls the response_rx
         // so that the response_tx won't lag if the puback takes long to return
-        // TODO: this could be fixed more elegantly by using a dispatcher instead of a broadcast channel for the response_tx/rx
         let pub_task = tokio::task::spawn({
             let command_name = self.command_name.clone();
             let ct = cancellation_token.clone();
@@ -1283,87 +1290,58 @@ where
                 }
             }
         });
-        // task to receive incoming responses and check for the one that is for this request
+        // task to receive the incoming response for this request
         let response_task = tokio::task::spawn({
             let command_name = self.command_name.clone();
             let ct = cancellation_token.clone();
             async move {
-                loop {
-                    // wait for incoming pub
-                    tokio::select! {
-                        () = ct.cancelled() => {
-                            // This error won't be returned as this only happens if the invoke has already returned a timeout error
-                            // This branch is just here to make sure this task ends
-                            return Err(AIOProtocolError::new_timeout_error(
+                // wait for incoming pub
+                tokio::select! {
+                    () = ct.cancelled() => {
+                        // This error won't be returned as this only happens if the invoke has already returned a timeout error
+                        // This branch is just here to make sure this task ends
+                        Err(AIOProtocolError::new_timeout_error(
+                            false,
+                            None,
+                            &command_name,
+                            request.timeout,
+                            None,
+                            Some(command_name.clone()),
+                        ))
+                    },
+                    res = response_rx.recv() => {
+                        // we know the correlation id matches, otherwise it wouldn't have been dispatched to us
+                        res.ok_or_else(|| {
+                            log::error!(
+                                "[{command_name}] Command Invoker has been shutdown and will no longer receive a response"
+                            );
+                            AIOProtocolError::new_cancellation_error(
                                 false,
                                 None,
-                                &command_name,
-                                request.timeout,
-                                None,
-                                Some(command_name.clone()),
-                            ));
-                        },
-                        res = response_rx.recv() => {
-                            match res {
-                                Ok(rsp_pub) => {
-                                    if let Some(rsp_pub) = rsp_pub {
-                                        // check correlation id for match, otherwise loop again
-                                        if let Some(ref response_correlation_data) =
-                                            rsp_pub.properties.correlation_data
-                                            && *response_correlation_data == correlation_data {
-                                                // This is implicit validation of the correlation data - if it's malformed it won't match the request
-                                                // This is the response for this request, stop listening for more responses and validate and parse it and send it back to the application
-                                                return Ok(rsp_pub);
-                                            }
-                                    } else {
-                                        log::error!(
-                                            "[{command_name}] Command Invoker has been shutdown and will no longer receive a response"
-                                        );
-                                        return Err(AIOProtocolError::new_cancellation_error(
-                                            false,
-                                            None,
-                                            Some(
-                                                "Command Invoker has been shutdown and will no longer receive a response"
-                                                    .to_string(),
-                                            ),
-                                            Some(command_name),
-                                        ));
-                                    }
-                                    // If the publish doesn't have properties, correlation_data, or the correlation data doesn't match, keep waiting for the next one
-                                }
-                                Err(RecvError::Lagged(e)) => {
-                                    log::warn!(
-                                        "[{command_name}] Invoker response receiver lagged. Response may not be received. Number of skipped messages: {e}"
-                                    );
-                                    // Keep waiting for response even though it may have gotten overwritten.
-                                }
-                                Err(RecvError::Closed) => {
-                                    log::error!(
-                                        "[{command_name}] Invoker MQTT Receiver has been cleaned up and will no longer send a response"
-                                    );
-                                    return Err(AIOProtocolError::new_cancellation_error(
-                                        false,
-                                        None,
-                                        Some(
-                                            "MQTT Receiver has been cleaned up and will no longer send a response"
-                                                .to_string(),
-                                        ),
-                                        Some(command_name),
-                                    ));
-                                }
-                            }
-                        }
+                                Some(
+                                    "Command Invoker has been shutdown and will no longer receive a response"
+                                        .to_string(),
+                                ),
+                                Some(command_name),
+                            )
+                        })
                     }
                 }
             }
         });
 
         // wait for pub to be completed and response to be received, immediately returning any errors returned.
-        let rsp_pub = match tokio::try_join!(flatten(pub_task), flatten(response_task)) {
-            Ok(((), rsp_pub)) => rsp_pub,
-            // Return any error that occurs
-            Err(e) => {
-                return Err(e);
+        let rsp_pub = {
+            let res = tokio::try_join!(flatten(pub_task), flatten(response_task));
+            // Unregister the receiver for this correlation data before possibly returning, since we will no longer be listening on it
+            self.response_dispatcher
+                .unregister_receiver(&correlation_data);
+            match res {
+                Ok(((), rsp_pub)) => rsp_pub,
+                // Return any error that occurs
+                Err(e) => {
+                    return Err(e);
+                }
             }
         };
 
@@ -1406,7 +1384,7 @@ where
 
     async fn receive_response_loop(
         mut mqtt_receiver: SessionPubReceiver,
-        response_tx: Sender<Option<Publish>>,
+        response_dispatcher: Arc<Dispatcher<Publish, Bytes>>,
         shutdown_notifier: Arc<Notify>,
         command_name: String,
     ) {
@@ -1420,11 +1398,14 @@ where
                   },
                   recv_result = mqtt_receiver.recv_manual_ack() => {
                     if let Some((m, ack_token)) = recv_result {
-                        // Send to pending command listeners
-                        match response_tx.send(Some(m)) {
-                            Ok(_) => { },
-                            Err(e) => {
-                                log::debug!("[{command_name}] Command Response ignored, no pending commands: {e}");
+                        // Send to pending command listener for this correlation id
+                        // If there's no correlation data, then we can't match it to an invoke request,so we will just ignore it
+                        if let Some(correlation_data) = m.properties.correlation_data.clone() {
+                            match response_dispatcher.dispatch(&correlation_data, m) {
+                                Ok(()) => { },
+                                Err(e) => {
+                                    log::debug!("[{command_name}] Command Response ignored, no pending commands for this correlation id: {e}");
+                                }
                             }
                         }
                         // Manually ack
@@ -1448,8 +1429,7 @@ where
                             });
                         }
                     } else {
-                        // if this fails, it's just because there are no more pending commands, which is fine
-                        _ = response_tx.send(None);
+                        _ = response_dispatcher.unregister_all();
                         log::info!("[{command_name}] No more command responses will be received.");
                         break;
                     }
