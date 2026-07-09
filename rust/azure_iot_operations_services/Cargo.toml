@@ -15,7 +15,7 @@ publish = true
 [features]
 default = []
 all = ["state_store", "schema_registry", "leased_lock", "azure_device_registry", "edge_registry"]
-state_store = []
+state_store = ["azure_iot_operations_protocol/internal-utils"]
 schema_registry = [
   "serde",
   "serde_json",
@@ -39,6 +39,7 @@ edge_registry = [
   "bytes",
 ]
 azure_device_registry = [
+  "azure_iot_operations_protocol/internal-utils",
   "serde",
   "serde_json",
   "chrono",
