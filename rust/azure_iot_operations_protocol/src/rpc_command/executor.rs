@@ -266,6 +266,8 @@ where
     /// Check if the command response is no longer expected.
     ///
     /// Returns true if the response is no longer expected, otherwise returns false.
+    // Intentionally mirrors `Request::is_cancelled`: both check the same `response_tx`, but expose
+    // the check across the two stages of a request's lifecycle (before and after `into_parts`).
     #[must_use]
     pub fn is_cancelled(&self) -> bool {
         self.response_tx.is_closed()
@@ -2802,6 +2804,31 @@ mod tests {
         };
 
         assert!(cloud_event_from_request_parts(&parts).is_err());
+    }
+
+    #[test]
+    fn test_cloud_event_from_request_parts_success() {
+        let parts: RequestParts<MockPayload> = RequestParts {
+            payload: MockPayload::new(),
+            content_type: Some("application/json".to_string()),
+            format_indicator: FormatIndicator::Utf8EncodedCharacterData,
+            custom_user_data: vec![
+                ("id".to_string(), "test-id".to_string()),
+                ("source".to_string(), "test-source".to_string()),
+                ("specversion".to_string(), "1.0".to_string()),
+                ("type".to_string(), "test-type".to_string()),
+            ],
+            timestamp: None,
+            invoker_id: None,
+            topic_tokens: HashMap::new(),
+        };
+
+        let cloud_event =
+            cloud_event_from_request_parts(&parts).expect("valid fields should parse");
+        assert_eq!(cloud_event.id, "test-id");
+        assert_eq!(cloud_event.source, "test-source");
+        assert_eq!(cloud_event.spec_version, "1.0");
+        assert_eq!(cloud_event.event_type, "test-type");
     }
 }
 
