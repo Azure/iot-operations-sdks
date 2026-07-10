@@ -1,4 +1,4 @@
-* @avishekpant @jrdouceur @timtay-microsoft @olivakar @maximsemenov80 @cartertinney @vaavva @RLeclair @clecompt-msft
+* @avishekpant @varunpuranik @timtay-microsoft @olivakar @maximsemenov80 @cartertinney @vaavva @RLeclair @clecompt-msft @marcschier
 
 /doc/dev/adr @avishekpant @varunpuranik
 
@@ -7,3 +7,5 @@
 /rust   @cartertinney @vaavva @RLeclair @avishekpant
 
 /go @clecompt-msft @avishekpant
+
+/wot-codegen @marcschier @koepalex @avishekpant
