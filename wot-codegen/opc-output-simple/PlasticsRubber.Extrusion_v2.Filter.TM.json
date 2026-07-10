@@ -90,6 +90,12 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/Area",
+      "/properties/BackflushPressure",
+      "/events/Area",
+      "/events/BackflushPressure"
+    ],
     "actions": {
     },
     "properties": {
@@ -259,6 +265,12 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/Area",
+      "/properties/BackflushCounter",
+      "/properties/BackflushTime",
+      "/events/Area"
+    ],
     "actions": {
     },
     "properties": {
@@ -385,6 +397,12 @@
         "dov:topic": "opcua/PlasticsRubber.Extrusion_v2.Filter/PlasticsRubber_Extrusion_v2_Filter_ScreenPackageType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/Area",
+      "/properties/PackageSetup",
+      "/properties/SerialNr",
+      "/events/Area"
     ],
     "actions": {
     },

@@ -30,6 +30,9 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/LocalTime"
+    ],
     "actions": {
     },
     "properties": {
@@ -229,6 +232,14 @@
         "dov:topic": "opcua/CommercialKitchenEquipment/CommercialKitchenEquipment_KitchenDeviceParameterType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/ProgramId",
+      "/properties/ProgramName",
+      "/properties/ProgramUId",
+      "/events/ProgramId",
+      "/events/ProgramName",
+      "/events/ProgramUId"
     ],
     "actions": {
     },
@@ -448,6 +459,62 @@
         "dov:topic": "opcua/CommercialKitchenEquipment/CommercialKitchenEquipment_ChamberType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/ActualBoilerTemperature_No_",
+      "/properties/ActualBottomTemperature_No_",
+      "/properties/ActualChamberTemperature_No_",
+      "/properties/ActualCoreTemperature_No_",
+      "/properties/ActualFanSpeed_No_",
+      "/properties/ActualHumidity_No_",
+      "/properties/ActualTopTemperature_No_",
+      "/properties/IsDoorOpen",
+      "/properties/IsProgramEnd",
+      "/properties/IsReadyToStart",
+      "/properties/SetBoilerTemperature",
+      "/properties/SetBottomTemperature",
+      "/properties/SetChamberTemperature",
+      "/properties/SetCoreTemperature",
+      "/properties/SetFanSpeed",
+      "/properties/SetHumidity",
+      "/properties/SetProcessTimeProgram",
+      "/properties/SetTopTemperature",
+      "/properties/TimeRemaining",
+      "/properties/ActualBoilerTemperature_No__EngineeringUnits",
+      "/properties/ActualBottomTemperature_No__EngineeringUnits",
+      "/properties/ActualChamberTemperature_No__EngineeringUnits",
+      "/properties/ActualCoreTemperature_No__EngineeringUnits",
+      "/properties/ActualFanSpeed_No__EngineeringUnits",
+      "/properties/ActualHumidity_No__EngineeringUnits",
+      "/properties/ActualTopTemperature_No__EngineeringUnits",
+      "/properties/SetBoilerTemperature_EngineeringUnits",
+      "/properties/SetBottomTemperature_EngineeringUnits",
+      "/properties/SetChamberTemperature_EngineeringUnits",
+      "/properties/SetCoreTemperature_EngineeringUnits",
+      "/properties/SetFanSpeed_EngineeringUnits",
+      "/properties/SetHumidity_EngineeringUnits",
+      "/properties/SetProcessTimeProgram_EngineeringUnits",
+      "/properties/SetTopTemperature_EngineeringUnits",
+      "/properties/TimeRemaining_EngineeringUnits",
+      "/events/ActualBoilerTemperature_No_",
+      "/events/ActualBottomTemperature_No_",
+      "/events/ActualChamberTemperature_No_",
+      "/events/ActualCoreTemperature_No_",
+      "/events/ActualFanSpeed_No_",
+      "/events/ActualHumidity_No_",
+      "/events/ActualTopTemperature_No_",
+      "/events/IsDoorOpen",
+      "/events/IsProgramEnd",
+      "/events/IsReadyToStart",
+      "/events/SetBoilerTemperature",
+      "/events/SetBottomTemperature",
+      "/events/SetChamberTemperature",
+      "/events/SetCoreTemperature",
+      "/events/SetFanSpeed",
+      "/events/SetHumidity",
+      "/events/SetProcessTimeProgram",
+      "/events/SetTopTemperature",
+      "/events/TimeRemaining"
     ],
     "actions": {
     },
@@ -1359,6 +1426,13 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/BoilerTempSteam",
+      "/properties/BoilerPressureWater_EngineeringUnits",
+      "/properties/BoilerTempWater_EngineeringUnits",
+      "/properties/GrinderRuntime_No__EngineeringUnits",
+      "/events/BoilerTempSteam"
+    ],
     "actions": {
     },
     "properties": {
@@ -1746,6 +1820,14 @@
         "dov:topic": "opcua/CommercialKitchenEquipment/CommercialKitchenEquipment_CoffeeMachineRecipeParameterType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/BeverageSize_EngineeringUnits",
+      "/properties/FoamAmount_EngineeringUnits",
+      "/properties/GroundsAmount_EngineeringUnits",
+      "/properties/GroundsWater_EngineeringUnits",
+      "/properties/MilkAmount_EngineeringUnits",
+      "/properties/PowderAmount_EngineeringUnits"
     ],
     "actions": {
     },
@@ -2325,6 +2407,44 @@
         "dov:topic": "opcua/CommercialKitchenEquipment/CommercialKitchenEquipment_CombiSteamerParameterType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/ActualExternalCoreTemperature_No_",
+      "/properties/ActualHumidity",
+      "/properties/ActualInternalCoreTemperature_No_",
+      "/properties/IsEnergySavingActive",
+      "/properties/IsLoaActive",
+      "/properties/IsSteamExhaustSystemActive",
+      "/properties/SetExternalCoreTemperature",
+      "/properties/SetHumidity",
+      "/properties/SetInternalCoreTemperature",
+      "/properties/SetProcessTimeStep",
+      "/properties/SpecialCookingMode",
+      "/properties/TimeRemainingStep",
+      "/properties/ActualExternalCoreTemperature_No__EngineeringUnits",
+      "/properties/ActualHumidity_EngineeringUnits",
+      "/properties/ActualInternalCoreTemperature_No__EngineeringUnits",
+      "/properties/ActualTemperatureChamber_No__EngineeringUnits",
+      "/properties/SetExternalCoreTemperature_EngineeringUnits",
+      "/properties/SetHumidity_EngineeringUnits",
+      "/properties/SetInternalCoreTemperature_EngineeringUnits",
+      "/properties/SetProcessTimeProgram_EngineeringUnits",
+      "/properties/SetProcessTimeStep_EngineeringUnits",
+      "/properties/SetTemperature_EngineeringUnits",
+      "/properties/TimeRemainingProgram_EngineeringUnits",
+      "/properties/TimeRemainingStep_EngineeringUnits",
+      "/events/ActualExternalCoreTemperature_No_",
+      "/events/ActualHumidity",
+      "/events/ActualInternalCoreTemperature_No_",
+      "/events/IsEnergySavingActive",
+      "/events/IsLoaActive",
+      "/events/IsSteamExhaustSystemActive",
+      "/events/SetExternalCoreTemperature",
+      "/events/SetHumidity",
+      "/events/SetInternalCoreTemperature",
+      "/events/SetProcessTimeStep",
+      "/events/SpecialCookingMode",
+      "/events/TimeRemainingStep"
     ],
     "actions": {
     },
@@ -3146,6 +3266,14 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/ActualCoreTemperature_EngineeringUnits",
+      "/properties/ActualTemperature_EngineeringUnits",
+      "/properties/SetCoreTemperature_EngineeringUnits",
+      "/properties/SetProcessTime_EngineeringUnits",
+      "/properties/SetTemperature_EngineeringUnits",
+      "/properties/TimeRemaining_EngineeringUnits"
+    ],
     "actions": {
     },
     "properties": {
@@ -3573,6 +3701,29 @@
         "dov:topic": "opcua/CommercialKitchenEquipment/CommercialKitchenEquipment_CookingZoneParameterType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/ActualPower",
+      "/properties/ActualProcessTime",
+      "/properties/ActualTemperature",
+      "/properties/CookingZoneName",
+      "/properties/CurrentState",
+      "/properties/IsPanDetected",
+      "/properties/SetPowerValue",
+      "/properties/SetTemperature",
+      "/properties/ActualProcessTime_EngineeringUnits",
+      "/properties/ActualTemperature_EngineeringUnits",
+      "/properties/NominalPower_EngineeringUnits",
+      "/properties/SetPowerValue_EngineeringUnits",
+      "/properties/SetTemperature_EngineeringUnits",
+      "/events/ActualPower",
+      "/events/ActualProcessTime",
+      "/events/ActualTemperature",
+      "/events/CookingZoneName",
+      "/events/CurrentState",
+      "/events/IsPanDetected",
+      "/events/SetPowerValue",
+      "/events/SetTemperature"
     ],
     "actions": {
     },
@@ -4101,6 +4252,26 @@
         "dov:topic": "opcua/CommercialKitchenEquipment/CommercialKitchenEquipment_DishWashingMachineProgramParameterType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/ActualHygieneValue",
+      "/properties/HygieneMode",
+      "/properties/HygieneSetpoint",
+      "/properties/ProductGroup",
+      "/properties/ProductType",
+      "/properties/ProgramMode",
+      "/properties/ActualFinalRinseTemperature_No__EngineeringUnits",
+      "/properties/ActualMainTankTemperature_No__EngineeringUnits",
+      "/properties/ActualPreTankTemperature_No__EngineeringUnits",
+      "/properties/ActualPumpedFinalRinseTemperature_No__EngineeringUnits",
+      "/properties/FinalRinseTemperatureSetpoint_No__EngineeringUnits",
+      "/properties/MainTankTemperatureSetpoint_No__EngineeringUnits",
+      "/properties/PreTankTemperatureSetpoint_No__EngineeringUnits",
+      "/properties/PumpedFinalRinseTemperatureSetpoint_No__EngineeringUnits",
+      "/events/ActualHygieneValue",
+      "/events/HygieneMode",
+      "/events/HygieneSetpoint",
+      "/events/ProgramMode"
     ],
     "actions": {
     },
@@ -4988,6 +5159,14 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/IsLiftUp",
+      "/properties/ActualTemperature_EngineeringUnits",
+      "/properties/SetProcessTime_EngineeringUnits",
+      "/properties/SetTemperature_EngineeringUnits",
+      "/properties/TimeRemaining_EngineeringUnits",
+      "/events/IsLiftUp"
+    ],
     "actions": {
     },
     "properties": {
@@ -5345,6 +5524,32 @@
         "dov:topic": "opcua/CommercialKitchenEquipment/CommercialKitchenEquipment_FryingAndGrillingParameterType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/ActualGrillTemperature_No_",
+      "/properties/ActualPlatenTemperature_No_",
+      "/properties/CurrentState",
+      "/properties/GrillingZoneName",
+      "/properties/PlatenPositionState",
+      "/properties/RemainingProcessTime",
+      "/properties/SetGrillTemperature_No_",
+      "/properties/SetPlatenTemperature_No_",
+      "/properties/SetProcessTime",
+      "/properties/ActualGrillTemperature_No__EngineeringUnits",
+      "/properties/ActualPlatenTemperature_No__EngineeringUnits",
+      "/properties/RemainingProcessTime_EngineeringUnits",
+      "/properties/SetGrillTemperature_No__EngineeringUnits",
+      "/properties/SetPlatenTemperature_No__EngineeringUnits",
+      "/properties/SetProcessTime_EngineeringUnits",
+      "/events/ActualGrillTemperature_No_",
+      "/events/ActualPlatenTemperature_No_",
+      "/events/CurrentState",
+      "/events/GrillingZoneName",
+      "/events/PlatenPositionState",
+      "/events/RemainingProcessTime",
+      "/events/SetGrillTemperature_No_",
+      "/events/SetPlatenTemperature_No_",
+      "/events/SetProcessTime"
     ],
     "actions": {
     },
@@ -5846,6 +6051,19 @@
         "dov:topic": "opcua/CommercialKitchenEquipment/CommercialKitchenEquipment_FryingPanParameterType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/ActualPressurePan",
+      "/properties/IsLidLocked",
+      "/properties/ActualCoreTemperature_EngineeringUnits",
+      "/properties/ActualPressurePan_EngineeringUnits",
+      "/properties/ActualTemperature_EngineeringUnits",
+      "/properties/SetCoreTemperature_EngineeringUnits",
+      "/properties/SetProcessTime_EngineeringUnits",
+      "/properties/SetTemperature_EngineeringUnits",
+      "/properties/TimeRemaining_EngineeringUnits",
+      "/events/ActualPressurePan",
+      "/events/IsLidLocked"
     ],
     "actions": {
     },
@@ -6405,6 +6623,22 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/LastFreezeTime",
+      "/properties/LastHarvestTime",
+      "/properties/Status",
+      "/properties/Temperature_No_",
+      "/properties/WaterFillTime",
+      "/properties/LastFreezeTime_EngineeringUnits",
+      "/properties/LastHarvestTime_EngineeringUnits",
+      "/properties/Temperature_No__EngineeringUnits",
+      "/properties/WaterFillTime_EngineeringUnits",
+      "/events/LastFreezeTime",
+      "/events/LastHarvestTime",
+      "/events/Status",
+      "/events/Temperature_No_",
+      "/events/WaterFillTime"
+    ],
     "actions": {
     },
     "properties": {
@@ -6707,6 +6941,23 @@
         "dov:topic": "opcua/CommercialKitchenEquipment/CommercialKitchenEquipment_MicrowaveCombiOvenParameterType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/CookingStep",
+      "/properties/FanSpeed",
+      "/properties/MicrowaveEnergy",
+      "/properties/RemainingProcessTimeStep",
+      "/properties/ActualTemperatureChamber_EngineeringUnits",
+      "/properties/FanSpeed_EngineeringUnits",
+      "/properties/MicrowaveEnergy_EngineeringUnits",
+      "/properties/RemainingProcessTime_EngineeringUnits",
+      "/properties/RemainingProcessTimeStep_EngineeringUnits",
+      "/properties/SetProcessTime_EngineeringUnits",
+      "/properties/SetTemperature_EngineeringUnits",
+      "/events/CookingStep",
+      "/events/FanSpeed",
+      "/events/MicrowaveEnergy",
+      "/events/RemainingProcessTimeStep"
     ],
     "actions": {
     },
@@ -7249,6 +7500,45 @@
         "dov:topic": "opcua/CommercialKitchenEquipment/CommercialKitchenEquipment_MultiFunctionPanParameterType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/ActualPressureAbsolute",
+      "/properties/ActualZoneTemperature_No_",
+      "/properties/CookingLevel",
+      "/properties/IsLidLocked",
+      "/properties/IsLidOpen",
+      "/properties/IsWithCleaning",
+      "/properties/IsWithLift",
+      "/properties/IsWithPressure",
+      "/properties/IsWithTilting",
+      "/properties/SetProcessTimeStep",
+      "/properties/SetZoneTemperature_No_",
+      "/properties/SpecialFunctionMode",
+      "/properties/TimeRemainingStep",
+      "/properties/ActualCoreTemperature_EngineeringUnits",
+      "/properties/ActualPressureAbsolute_EngineeringUnits",
+      "/properties/ActualTemperatureBottom_EngineeringUnits",
+      "/properties/ActualTemperatureCup_EngineeringUnits",
+      "/properties/SetCoreTemperature_EngineeringUnits",
+      "/properties/SetProcessTimeProgram_EngineeringUnits",
+      "/properties/SetProcessTimeStep_EngineeringUnits",
+      "/properties/SetTemperature_EngineeringUnits",
+      "/properties/SetZoneTemperature_No__EngineeringUnits",
+      "/properties/TimeRemainingProgram_EngineeringUnits",
+      "/properties/TimeRemainingStep_EngineeringUnits",
+      "/events/ActualPressureAbsolute",
+      "/events/ActualZoneTemperature_No_",
+      "/events/CookingLevel",
+      "/events/IsLidLocked",
+      "/events/IsLidOpen",
+      "/events/IsWithCleaning",
+      "/events/IsWithLift",
+      "/events/IsWithPressure",
+      "/events/IsWithTilting",
+      "/events/SetProcessTimeStep",
+      "/events/SetZoneTemperature_No_",
+      "/events/SpecialFunctionMode",
+      "/events/TimeRemainingStep"
     ],
     "actions": {
     },
@@ -8122,6 +8412,12 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/ActualTemperature_EngineeringUnits",
+      "/properties/SetProcessTime_EngineeringUnits",
+      "/properties/SetTemperature_EngineeringUnits",
+      "/properties/TimeRemaining_EngineeringUnits"
+    ],
     "actions": {
     },
     "properties": {
@@ -8499,6 +8795,18 @@
         "dov:topic": "opcua/CommercialKitchenEquipment/CommercialKitchenEquipment_PressureCookingKettleParameterType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/IsOpenExpressActive",
+      "/properties/ActualCoreTemperature_EngineeringUnits",
+      "/properties/ActualPressureAbsolute_EngineeringUnits",
+      "/properties/ActualPressureKettle_EngineeringUnits",
+      "/properties/ActualTemperature_EngineeringUnits",
+      "/properties/SetCoreTemperature_EngineeringUnits",
+      "/properties/SetProcessTime_EngineeringUnits",
+      "/properties/SetTemperature_EngineeringUnits",
+      "/properties/TimeRemaining_EngineeringUnits",
+      "/events/IsOpenExpressActive"
     ],
     "actions": {
     },
@@ -9154,6 +9462,12 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/ActiveSince_EngineeringUnits",
+      "/properties/ActualTemperature_EngineeringUnits",
+      "/properties/OperatingCounter_EngineeringUnits",
+      "/properties/SetTemperature_EngineeringUnits"
+    ],
     "actions": {
     },
     "properties": {
@@ -9483,6 +9797,9 @@
         "dov:topic": "opcua/CommercialKitchenEquipment/CommercialKitchenEquipment_CommercialKitchenDeviceType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/DeviceLocationName"
     ],
     "actions": {
     },
@@ -9837,6 +10154,9 @@
         "dov:topic": "opcua/CommercialKitchenEquipment/CommercialKitchenEquipment_CookingZoneDeviceType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/NominalVoltage_EngineeringUnits"
     ],
     "actions": {
     },

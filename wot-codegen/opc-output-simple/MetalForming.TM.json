@@ -250,6 +250,10 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/PartId",
+      "/events/PartId"
+    ],
     "actions": {
     },
     "properties": {

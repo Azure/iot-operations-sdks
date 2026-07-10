@@ -642,6 +642,10 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/actions/ClearMESMessage",
+      "/actions/SetMESMessage"
+    ],
     "actions": {
       "ClearMESMessage": {
         "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion/ExtrusionLine/",
@@ -808,6 +812,13 @@
         "dov:topic": "opcua/PlasticsRubber.Extrusion.ExtrusionLine/PlasticsRubber_Extrusion_ExtrusionLine_JobGroupsType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/actions/AddJobGroup",
+      "/actions/FinishJobGroupById",
+      "/actions/InterruptJobGroupById",
+      "/actions/RemoveJobGroupById",
+      "/actions/StartJobGroupById"
     ],
     "actions": {
       "AddJobGroup": {
@@ -1092,6 +1103,19 @@
         "dov:topic": "opcua/PlasticsRubber.Extrusion.ExtrusionLine/PlasticsRubber_Extrusion_ExtrusionLine_JobGroupType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/actions/AddJob",
+      "/actions/FinishJobById",
+      "/actions/InterruptJobById",
+      "/actions/RemoveJobById",
+      "/actions/StartJobById",
+      "/properties/ElectricalEnergyConsumption",
+      "/properties/FluidEnergyConsumption",
+      "/properties/PressureAirConsumption",
+      "/events/ElectricalEnergyConsumption",
+      "/events/FluidEnergyConsumption",
+      "/events/PressureAirConsumption"
     ],
     "actions": {
       "AddJob": {
@@ -1681,6 +1705,22 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/ActualBadOutput",
+      "/properties/ActualGoodOutput",
+      "/properties/ActualLotName",
+      "/properties/ActualSampleOutput",
+      "/properties/LineSpeed",
+      "/properties/ProductWeight",
+      "/properties/Throughput",
+      "/events/ActualBadOutput",
+      "/events/ActualGoodOutput",
+      "/events/ActualLotName",
+      "/events/ActualSampleOutput",
+      "/events/LineSpeed",
+      "/events/ProductWeight",
+      "/events/Throughput"
+    ],
     "actions": {
     },
     "properties": {
@@ -2214,6 +2254,14 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/LineSpeed",
+      "/properties/ProductWeight",
+      "/properties/Throughput",
+      "/events/LineSpeed",
+      "/events/ProductWeight",
+      "/events/Throughput"
+    ],
     "actions": {
     },
     "properties": {
@@ -2358,6 +2406,13 @@
         "dov:topic": "opcua/OpcUaCore/OpcUaCore_BaseEventType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/ConditionClassId",
+      "/properties/ConditionClassName",
+      "/properties/ConditionSubClassId",
+      "/properties/ConditionSubClassName",
+      "/properties/LocalTime"
     ],
     "actions": {
     },
@@ -2884,6 +2939,14 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/AvailableStates",
+      "/properties/AvailableTransitions",
+      "/properties/LastTransition",
+      "/events/AvailableStates",
+      "/events/AvailableTransitions",
+      "/events/LastTransition"
+    ],
     "actions": {
     },
     "properties": {
@@ -3026,6 +3089,10 @@
         "dov:topic": "opcua/OpcUaCore/OpcUaCore_StateMachineType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/LastTransition",
+      "/events/LastTransition"
     ],
     "actions": {
     },
@@ -3229,6 +3296,11 @@
         "dov:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_MachineConfigurationType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/actions/GetCurrentPage",
+      "/actions/GetPage",
+      "/properties/PageDirectory"
     ],
     "actions": {
       "GetCurrentPage": {
@@ -3653,6 +3725,9 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/MESUrl"
+    ],
     "actions": {
     },
     "properties": {
@@ -3767,6 +3842,10 @@
         "dov:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_MaterialListType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/actions/AddMaterial",
+      "/actions/RemoveMaterialById"
     ],
     "actions": {
       "AddMaterial": {
@@ -4073,6 +4152,10 @@
     ],
     "schemaDefinitions": {
     },
+    "tm:optional": [
+      "/actions/GetProductionDatasetInformation",
+      "/actions/SendProductionDatasetInformation"
+    ],
     "actions": {
       "GetProductionDatasetInformation": {
         "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
@@ -4343,6 +4426,12 @@
         "dov:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_ProductionDatasetStatusType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/actions/Load",
+      "/actions/Save",
+      "/properties/Frozen",
+      "/properties/Modified"
     ],
     "actions": {
       "Load": {
@@ -4823,6 +4912,16 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/ActualPower",
+      "/properties/ActualSpecificEnergy",
+      "/properties/PowerConsumption",
+      "/properties/PowerFactor",
+      "/events/ActualPower",
+      "/events/ActualSpecificEnergy",
+      "/events/PowerConsumption",
+      "/events/PowerFactor"
+    ],
     "actions": {
     },
     "properties": {
@@ -5022,6 +5121,12 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/CardUid",
+      "/properties/Language",
+      "/properties/UserLevel",
+      "/properties/UserRole"
+    ],
     "actions": {
     },
     "properties": {
@@ -5145,6 +5250,22 @@
         "dov:topic": "opcua/DI/DI_ComponentType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/AssetId",
+      "/properties/ComponentName",
+      "/properties/DeviceClass",
+      "/properties/DeviceManual",
+      "/properties/DeviceRevision",
+      "/properties/HardwareRevision",
+      "/properties/Manufacturer",
+      "/properties/ManufacturerUri",
+      "/properties/Model",
+      "/properties/ProductCode",
+      "/properties/ProductInstanceUri",
+      "/properties/RevisionCounter",
+      "/properties/SerialNumber",
+      "/properties/SoftwareRevision"
     ],
     "actions": {
     },
@@ -5416,6 +5537,10 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/UIElement",
+      "/events/UIElement"
+    ],
     "actions": {
     },
     "properties": {
@@ -5475,6 +5600,9 @@
         "dov:topic": "opcua/DI/DI_LockingServicesType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/DefaultInstanceBrowseName"
     ],
     "actions": {
       "BreakLock": {

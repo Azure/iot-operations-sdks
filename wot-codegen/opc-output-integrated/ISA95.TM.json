@@ -288,6 +288,10 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/AssetAssignment",
+      "/events/AssetAssignment"
+    ],
     "actions": {
     },
     "properties": {
@@ -439,6 +443,10 @@
         "dov:topic": "opcua/ISA95/ISA95_EquipmentType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/AssetAssignment",
+      "/events/AssetAssignment"
     ],
     "actions": {
     },

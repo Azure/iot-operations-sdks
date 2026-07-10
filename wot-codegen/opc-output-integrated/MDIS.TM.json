@@ -30,6 +30,18 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/actions/EnableDisable",
+      "/properties/Enabled",
+      "/properties/FaultCode",
+      "/properties/TagId",
+      "/properties/Warning",
+      "/properties/WarningCode",
+      "/events/Enabled",
+      "/events/FaultCode",
+      "/events/Warning",
+      "/events/WarningCode"
+    ],
     "actions": {
       "EnableDisable": {
         "dov:namespace": "http://opcfoundation.org/UA/MDIS",
@@ -437,6 +449,26 @@
         "dov:topic": "opcua/MDIS/MDIS_MDISChokeObjectType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/actions/Step",
+      "/properties/CommandRejected",
+      "/properties/DefeatableCloseInterlock",
+      "/properties/DefeatableOpenInterlock",
+      "/properties/NonDefeatableCloseInterlock",
+      "/properties/NonDefeatableOpenInterlock",
+      "/properties/PositionInSteps",
+      "/properties/SetCalculatedPositionStatus",
+      "/properties/StepDurationClose",
+      "/properties/StepDurationOpen",
+      "/properties/TotalSteps",
+      "/events/CommandRejected",
+      "/events/DefeatableCloseInterlock",
+      "/events/DefeatableOpenInterlock",
+      "/events/NonDefeatableCloseInterlock",
+      "/events/NonDefeatableOpenInterlock",
+      "/events/PositionInSteps",
+      "/events/SetCalculatedPositionStatus"
     ],
     "actions": {
       "Abort": {
@@ -956,6 +988,28 @@
         "dov:topic": "opcua/MDIS/MDIS_MDISCIMVObjectType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/actions/ResetTotalFlow",
+      "/actions/SetManual",
+      "/properties/CommandRejected",
+      "/properties/DeviceCurrent",
+      "/properties/InletPressure",
+      "/properties/InternalPressure",
+      "/properties/NonDefeatableCloseInterlock",
+      "/properties/NonDefeatableCommandInProgressInterlock",
+      "/properties/NonDefeatableOpenInterlock",
+      "/properties/OutletPressure",
+      "/properties/TotalFlow",
+      "/events/CommandRejected",
+      "/events/DeviceCurrent",
+      "/events/InletPressure",
+      "/events/InternalPressure",
+      "/events/NonDefeatableCloseInterlock",
+      "/events/NonDefeatableCommandInProgressInterlock",
+      "/events/NonDefeatableOpenInterlock",
+      "/events/OutletPressure",
+      "/events/TotalFlow"
     ],
     "actions": {
       "Abort": {
@@ -1605,6 +1659,9 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/actions/SetCount"
+    ],
     "actions": {
       "SetCount": {
         "dov:namespace": "http://opcfoundation.org/UA/MDIS",
@@ -1731,6 +1788,9 @@
         "dov:topic": "opcua/MDIS/MDIS_MDISDigitalArbitrationObjectType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/actions/SetArbitrationMode"
     ],
     "actions": {
       "SetArbitrationMode": {
@@ -2030,6 +2090,9 @@
         "dov:topic": "opcua/MDIS/MDIS_MDISDiscreteArbitrationObjectType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/actions/SetArbitrationMode"
     ],
     "actions": {
       "SetArbitrationMode": {
@@ -2341,6 +2404,18 @@
         "dov:topic": "opcua/MDIS/MDIS_MDISElectricChokeObjectType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/CommandRejected",
+      "/properties/DefeatableCloseInterlock",
+      "/properties/DefeatableOpenInterlock",
+      "/properties/NonDefeatableCloseInterlock",
+      "/properties/NonDefeatableOpenInterlock",
+      "/events/CommandRejected",
+      "/events/DefeatableCloseInterlock",
+      "/events/DefeatableOpenInterlock",
+      "/events/NonDefeatableCloseInterlock",
+      "/events/NonDefeatableOpenInterlock"
     ],
     "actions": {
       "Abort": {
@@ -2660,6 +2735,10 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/actions/SetArbitrationMode",
+      "/properties/DiscrepancySetPoint"
+    ],
     "actions": {
       "SetArbitrationMode": {
         "dov:namespace": "http://opcfoundation.org/UA/MDIS",
@@ -2837,6 +2916,20 @@
         "dov:topic": "opcua/MDIS/MDIS_MDISInstrumentObjectType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/HHlimit",
+      "/properties/HHSetPoint",
+      "/properties/Hlimit",
+      "/properties/HSetPoint",
+      "/properties/Llimit",
+      "/properties/LLlimit",
+      "/properties/LLSetPoint",
+      "/properties/LSetPoint",
+      "/events/HHlimit",
+      "/events/Hlimit",
+      "/events/Llimit",
+      "/events/LLlimit"
     ],
     "actions": {
     },
@@ -3152,6 +3245,19 @@
         "dov:topic": "opcua/MDIS/MDIS_MDISMotorObjectType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/actions/SetOperation",
+      "/actions/Start",
+      "/actions/Stop",
+      "/properties/DefeatableStartInterlock",
+      "/properties/DefeatableStopInterlock",
+      "/properties/NonDefeatableStartInterlock",
+      "/properties/NonDefeatableStopInterlock",
+      "/events/DefeatableStartInterlock",
+      "/events/DefeatableStopInterlock",
+      "/events/NonDefeatableStartInterlock",
+      "/events/NonDefeatableStopInterlock"
     ],
     "actions": {
       "SetOperation": {
@@ -3519,6 +3625,24 @@
         "dov:topic": "opcua/MDIS/MDIS_MDISValveObjectType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/CloseTimeDuration",
+      "/properties/CommandRejected",
+      "/properties/DefeatableCloseInterlock",
+      "/properties/DefeatableOpenInterlock",
+      "/properties/LastCommand",
+      "/properties/NonDefeatableCloseInterlock",
+      "/properties/NonDefeatableOpenInterlock",
+      "/properties/OpenTimeDuration",
+      "/properties/SignatureRequestStatus",
+      "/events/CommandRejected",
+      "/events/DefeatableCloseInterlock",
+      "/events/DefeatableOpenInterlock",
+      "/events/LastCommand",
+      "/events/NonDefeatableCloseInterlock",
+      "/events/NonDefeatableOpenInterlock",
+      "/events/SignatureRequestStatus"
     ],
     "actions": {
       "Move": {
@@ -4031,6 +4155,11 @@
         "dov:topic": "opcua/OpcUaCore/OpcUaCore_FileType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/LastModifiedTime",
+      "/properties/MaxByteStringLength",
+      "/properties/MimeType"
     ],
     "actions": {
       "Close": {

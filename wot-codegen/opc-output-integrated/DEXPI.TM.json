@@ -42,6 +42,12 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/DEXPISpecificationVersion",
+      "/properties/DEXPIXMIExternalLink",
+      "/properties/ProteusSchemaVersion",
+      "/properties/ProteusXMLExternalLink"
+    ],
     "actions": {
     },
     "properties": {
@@ -246,6 +252,82 @@
         "dov:topic": "opcua/DEXPI/DEXPI_MetaDataType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/ApprovalDateRepresentationAssignmentClass",
+      "/properties/ApprovalDescriptionAssignmentClass",
+      "/properties/ApproverNameAssignmentClass",
+      "/properties/ArchiveNumberAssignmentClass",
+      "/properties/AreaIsa95NameAssignmentClass",
+      "/properties/BlockNameAssignmentClass",
+      "/properties/BlockNumberAssignmentClass",
+      "/properties/CheckerNameAssignmentClass",
+      "/properties/CompanyNameAssignmentClass",
+      "/properties/CompanyNumberAssignmentClass",
+      "/properties/ConfidentialitySpecialization",
+      "/properties/CreationDateRepresentationAssignmentClass",
+      "/properties/CreatorNameAssignmentClass",
+      "/properties/DesignerNameAssignmentClass",
+      "/properties/DrafterNameAssignmentClass",
+      "/properties/DrawingNameAssignmentClass",
+      "/properties/DrawingNumberAssignmentClass",
+      "/properties/DrawingSubTitleAssignmentClass",
+      "/properties/FileNameAssignmentClass",
+      "/properties/LocationNameAssignmentClass",
+      "/properties/ModificationDataRepresentationAssignmentClass",
+      "/properties/ProcessCellIsa95NameAssignmentClass",
+      "/properties/ProcessCellIsa95NumberAssignmentClass",
+      "/properties/ProjectNameAssignmentClass",
+      "/properties/ProjectNumberAssignmentClass",
+      "/properties/ProjectRangeNumberAssignmentClass",
+      "/properties/ReplacedDrawingAssignmentClass",
+      "/properties/ResponsibleDepartmentNameAssignmentClass",
+      "/properties/RevisionNumberAssignmentClass",
+      "/properties/SheetFormatAssignmentClass",
+      "/properties/SheetNumberAssignmentClass",
+      "/properties/SiteIsa95NameAssignmentClass",
+      "/properties/SubProjectNameAssignmentClass",
+      "/properties/SubProjectNumberAssignmentClass",
+      "/properties/TotalNumberOfSheets",
+      "/properties/UnitIsa95NameAssignmentClass",
+      "/properties/UnitIsa95NumberAssignmentClass",
+      "/events/ApprovalDateRepresentationAssignmentClass",
+      "/events/ApprovalDescriptionAssignmentClass",
+      "/events/ApproverNameAssignmentClass",
+      "/events/ArchiveNumberAssignmentClass",
+      "/events/AreaIsa95NameAssignmentClass",
+      "/events/BlockNameAssignmentClass",
+      "/events/BlockNumberAssignmentClass",
+      "/events/CheckerNameAssignmentClass",
+      "/events/CompanyNameAssignmentClass",
+      "/events/CompanyNumberAssignmentClass",
+      "/events/ConfidentialitySpecialization",
+      "/events/CreationDateRepresentationAssignmentClass",
+      "/events/CreatorNameAssignmentClass",
+      "/events/DesignerNameAssignmentClass",
+      "/events/DrafterNameAssignmentClass",
+      "/events/DrawingNameAssignmentClass",
+      "/events/DrawingNumberAssignmentClass",
+      "/events/DrawingSubTitleAssignmentClass",
+      "/events/FileNameAssignmentClass",
+      "/events/LocationNameAssignmentClass",
+      "/events/ModificationDataRepresentationAssignmentClass",
+      "/events/ProcessCellIsa95NameAssignmentClass",
+      "/events/ProcessCellIsa95NumberAssignmentClass",
+      "/events/ProjectNameAssignmentClass",
+      "/events/ProjectNumberAssignmentClass",
+      "/events/ProjectRangeNumberAssignmentClass",
+      "/events/ReplacedDrawingAssignmentClass",
+      "/events/ResponsibleDepartmentNameAssignmentClass",
+      "/events/RevisionNumberAssignmentClass",
+      "/events/SheetFormatAssignmentClass",
+      "/events/SheetNumberAssignmentClass",
+      "/events/SiteIsa95NameAssignmentClass",
+      "/events/SubProjectNameAssignmentClass",
+      "/events/SubProjectNumberAssignmentClass",
+      "/events/TotalNumberOfSheets",
+      "/events/UnitIsa95NameAssignmentClass",
+      "/events/UnitIsa95NumberAssignmentClass"
     ],
     "actions": {
     },
@@ -1592,6 +1674,12 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/ActuatingSystemNumberAssignmentClass",
+      "/properties/TypicalInformationAssignmentClass",
+      "/events/ActuatingSystemNumberAssignmentClass",
+      "/events/TypicalInformationAssignmentClass"
+    ],
     "actions": {
     },
     "properties": {
@@ -1722,6 +1810,16 @@
         "dov:topic": "opcua/DEXPI/DEXPI_ControlledActuatorType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/DeviceTypeNameAssignmentClass",
+      "/properties/FailActionRepresentationAssignmentClass",
+      "/properties/FailActionSpecialization",
+      "/properties/SubTagNameAssignmentClass",
+      "/events/DeviceTypeNameAssignmentClass",
+      "/events/FailActionRepresentationAssignmentClass",
+      "/events/FailActionSpecialization",
+      "/events/SubTagNameAssignmentClass"
     ],
     "actions": {
     },
@@ -1902,6 +2000,10 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/SubTagNameAssignmentClass",
+      "/events/SubTagNameAssignmentClass"
+    ],
     "actions": {
     },
     "properties": {
@@ -1976,6 +2078,12 @@
         "dov:topic": "opcua/DEXPI/DEXPI_PositionerType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/DeviceTypeNameAssignmentClass",
+      "/properties/SubTagNameAssignmentClass",
+      "/events/DeviceTypeNameAssignmentClass",
+      "/events/SubTagNameAssignmentClass"
     ],
     "actions": {
     },
@@ -2083,6 +2191,10 @@
         "dov:topic": "opcua/DEXPI/DEXPI_InstrumentationLoopFunctionType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/InstrumentationLoopFunctionNumberAssignmentClass",
+      "/events/InstrumentationLoopFunctionNumberAssignmentClass"
     ],
     "actions": {
     },
@@ -2576,6 +2688,42 @@
         "dov:topic": "opcua/DEXPI/DEXPI_PipingNetworkSystemType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/FluidCodeAssignmentClass",
+      "/properties/HeatTracingTypeAssignmentClass",
+      "/properties/HeatTracingTypeSpecialization",
+      "/properties/InsulationThickness",
+      "/properties/InsulationTypeAssignmentClass",
+      "/properties/JacketedLineNumberAssignmentClass",
+      "/properties/JacketedPipeSpecialization",
+      "/properties/JacketLineNumberAssignmentClass",
+      "/properties/LineNumberAssignmentClassOfPipingNetworkSystem",
+      "/properties/LowerLimitHeatTracingTemperature",
+      "/properties/NominalDiameterNumericalValueRepresentationAssignmentClass",
+      "/properties/NominalDiameterRepresentationAssignmentClass",
+      "/properties/NominalDiameterStandardSpecialization",
+      "/properties/NominalDiameterTypeRepresentationAssignmentClass",
+      "/properties/OnHoldSpecialization",
+      "/properties/PipingClassCodeAssignmentClass",
+      "/properties/PipingNetworkSystemGroupNumberAssignmentClass",
+      "/events/FluidCodeAssignmentClass",
+      "/events/HeatTracingTypeAssignmentClass",
+      "/events/HeatTracingTypeSpecialization",
+      "/events/InsulationThickness",
+      "/events/InsulationTypeAssignmentClass",
+      "/events/JacketedLineNumberAssignmentClass",
+      "/events/JacketedPipeSpecialization",
+      "/events/JacketLineNumberAssignmentClass",
+      "/events/LineNumberAssignmentClassOfPipingNetworkSystem",
+      "/events/LowerLimitHeatTracingTemperature",
+      "/events/NominalDiameterNumericalValueRepresentationAssignmentClass",
+      "/events/NominalDiameterRepresentationAssignmentClass",
+      "/events/NominalDiameterStandardSpecialization",
+      "/events/NominalDiameterTypeRepresentationAssignmentClass",
+      "/events/OnHoldSpecialization",
+      "/events/PipingClassCodeAssignmentClass",
+      "/events/PipingNetworkSystemGroupNumberAssignmentClass"
     ],
     "actions": {
     },
@@ -3698,6 +3846,54 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/BasfLineClassAssignmentClass",
+      "/properties/ColorCodeAssignmentClass",
+      "/properties/FlowDirectionSpecialization",
+      "/properties/FluidCodeAssignmentClass",
+      "/properties/HeatTracingTypeAssignmentClass",
+      "/properties/HeatTracingTypeSpecialization",
+      "/properties/Inclination",
+      "/properties/InsulationThickness",
+      "/properties/InsulationTypeAssignmentClass",
+      "/properties/JacketedPipeSpecialization",
+      "/properties/LowerLimitHeatTracingTemperature",
+      "/properties/NominalDiameterNumericalValueRepresentationAssignmentClass",
+      "/properties/NominalDiameterRepresentationAssignmentClass",
+      "/properties/NominalDiameterStandardSpecialization",
+      "/properties/NominalDiameterTypeRepresentationAssignmentClass",
+      "/properties/OnHoldSpecialization",
+      "/properties/OperatingTemperature",
+      "/properties/PipingClassCodeAssignmentClass",
+      "/properties/PressureTestCircuitNumberAssignmentClass",
+      "/properties/PrimarySecondaryPipingNetworkSegmentSpecialization",
+      "/properties/SegmentNumberAssignmentClass",
+      "/properties/SiphonSpecialization",
+      "/properties/SlopeSpecialization",
+      "/events/BasfLineClassAssignmentClass",
+      "/events/ColorCodeAssignmentClass",
+      "/events/FlowDirectionSpecialization",
+      "/events/FluidCodeAssignmentClass",
+      "/events/HeatTracingTypeAssignmentClass",
+      "/events/HeatTracingTypeSpecialization",
+      "/events/Inclination",
+      "/events/InsulationThickness",
+      "/events/InsulationTypeAssignmentClass",
+      "/events/JacketedPipeSpecialization",
+      "/events/LowerLimitHeatTracingTemperature",
+      "/events/NominalDiameterNumericalValueRepresentationAssignmentClass",
+      "/events/NominalDiameterRepresentationAssignmentClass",
+      "/events/NominalDiameterStandardSpecialization",
+      "/events/NominalDiameterTypeRepresentationAssignmentClass",
+      "/events/OnHoldSpecialization",
+      "/events/OperatingTemperature",
+      "/events/PipingClassCodeAssignmentClass",
+      "/events/PressureTestCircuitNumberAssignmentClass",
+      "/events/PrimarySecondaryPipingNetworkSegmentSpecialization",
+      "/events/SegmentNumberAssignmentClass",
+      "/events/SiphonSpecialization",
+      "/events/SlopeSpecialization"
+    ],
     "actions": {
     },
     "properties": {
@@ -4691,6 +4887,16 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/CompositionBreakSpecialization",
+      "/properties/InsulationBreakSpecialization",
+      "/properties/NominalDiameterBreakSpecialization",
+      "/properties/PipingClassBreakSpecialization",
+      "/events/CompositionBreakSpecialization",
+      "/events/InsulationBreakSpecialization",
+      "/events/NominalDiameterBreakSpecialization",
+      "/events/PipingClassBreakSpecialization"
+    ],
     "actions": {
     },
     "properties": {
@@ -5247,6 +5453,18 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/NodeFlowSpecialization",
+      "/properties/NominalDiameterNumericalValueRepresentationAssignmentClass",
+      "/properties/NominalDiameterRepresentationAssignmentClass",
+      "/properties/NominalDiameterStandardSpecialization",
+      "/properties/NominalDiameterTypeRepresentationAssignmentClass",
+      "/events/NodeFlowSpecialization",
+      "/events/NominalDiameterNumericalValueRepresentationAssignmentClass",
+      "/events/NominalDiameterRepresentationAssignmentClass",
+      "/events/NominalDiameterStandardSpecialization",
+      "/events/NominalDiameterTypeRepresentationAssignmentClass"
+    ],
     "actions": {
     },
     "properties": {
@@ -5564,6 +5782,36 @@
         "dov:topic": "opcua/DEXPI/DEXPI_ProcessInstrumentationFunctionType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/DeviceInformationAssignmentClass",
+      "/properties/GmpRelevanceSpecialization",
+      "/properties/GuaranteedSupplyFunctionSpecialization",
+      "/properties/LocationSpecialization",
+      "/properties/PanelIdentificationCodeAssignmentClass",
+      "/properties/ProcessInstrumentationFunctionCategoryAssignmentClass",
+      "/properties/ProcessInstrumentationFunctionModifierAssignmentClass",
+      "/properties/ProcessInstrumentationFunctionNumberAssignmentClass",
+      "/properties/ProcessInstrumentationFunctionsAssignmentClass",
+      "/properties/QualityRelevanceSpecialization",
+      "/properties/SafetyRelevanceClassAssignmentClass",
+      "/properties/TypicalInformationAssignmentClass",
+      "/properties/VendorCompanyNameAssignmentClass",
+      "/properties/VotingSystemRepresentationAssignmentClass",
+      "/events/DeviceInformationAssignmentClass",
+      "/events/GmpRelevanceSpecialization",
+      "/events/GuaranteedSupplyFunctionSpecialization",
+      "/events/LocationSpecialization",
+      "/events/PanelIdentificationCodeAssignmentClass",
+      "/events/ProcessInstrumentationFunctionCategoryAssignmentClass",
+      "/events/ProcessInstrumentationFunctionModifierAssignmentClass",
+      "/events/ProcessInstrumentationFunctionNumberAssignmentClass",
+      "/events/ProcessInstrumentationFunctionsAssignmentClass",
+      "/events/QualityRelevanceSpecialization",
+      "/events/SafetyRelevanceClassAssignmentClass",
+      "/events/TypicalInformationAssignmentClass",
+      "/events/VendorCompanyNameAssignmentClass",
+      "/events/VotingSystemRepresentationAssignmentClass"
     ],
     "actions": {
     },
@@ -6088,6 +6336,10 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/ActuatingFunctionNumberAssignmentClass",
+      "/events/ActuatingFunctionNumberAssignmentClass"
+    ],
     "actions": {
     },
     "properties": {
@@ -6162,6 +6414,12 @@
         "dov:topic": "opcua/DEXPI/DEXPI_ProcessSignalGeneratingFunctionType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/ProcessSignalGeneratingFunctionNumberAssignmentClass",
+      "/properties/SensorTypeAssignmentClass",
+      "/events/ProcessSignalGeneratingFunctionNumberAssignmentClass",
+      "/events/SensorTypeAssignmentClass"
     ],
     "actions": {
     },
@@ -6342,6 +6600,16 @@
         "dov:topic": "opcua/DEXPI/DEXPI_SignalConveyingFunctionType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/PortStatusSpecialization",
+      "/properties/SignalConveyingTypeSpecialization",
+      "/properties/SignalPointNumberAssignmentClass",
+      "/properties/SignalProcessControlFunctionsAssignmentClass",
+      "/events/PortStatusSpecialization",
+      "/events/SignalConveyingTypeSpecialization",
+      "/events/SignalPointNumberAssignmentClass",
+      "/events/SignalProcessControlFunctionsAssignmentClass"
     ],
     "actions": {
     },
@@ -6542,6 +6810,12 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/ProcessSignalGeneratingSystemNumberAssignmentClass",
+      "/properties/TypicalInformationAssignmentClass",
+      "/events/ProcessSignalGeneratingSystemNumberAssignmentClass",
+      "/events/TypicalInformationAssignmentClass"
+    ],
     "actions": {
     },
     "properties": {
@@ -6649,6 +6923,10 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/SubTagNameAssignmentClass",
+      "/events/SubTagNameAssignmentClass"
+    ],
     "actions": {
     },
     "properties": {
@@ -6723,6 +7001,12 @@
         "dov:topic": "opcua/DEXPI/DEXPI_TransmitterType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/DeviceTypeNameAssignmentClass",
+      "/properties/SubTagNameAssignmentClass",
+      "/events/DeviceTypeNameAssignmentClass",
+      "/events/SubTagNameAssignmentClass"
     ],
     "actions": {
     },
@@ -6830,6 +7114,16 @@
         "dov:topic": "opcua/DEXPI/DEXPI_TaggedPlantItemType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/TagNameAssignmentClass",
+      "/properties/TagNamePrefixAssignmentClass",
+      "/properties/TagNameSequenceNumberAssignmentClass",
+      "/properties/TagNameSuffixAssignmentClass",
+      "/events/TagNameAssignmentClass",
+      "/events/TagNamePrefixAssignmentClass",
+      "/events/TagNameSequenceNumberAssignmentClass",
+      "/events/TagNameSuffixAssignmentClass"
     ],
     "actions": {
     },
@@ -7127,6 +7421,36 @@
         "dov:topic": "opcua/DEXPI/DEXPI_ProcessControlFunctionType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/DeviceInformationAssignmentClass",
+      "/properties/GmpRelevanceSpecialization",
+      "/properties/GuaranteedSupplyFunctionSpecialization",
+      "/properties/LocationSpecialization",
+      "/properties/PanelIdentificationCodeAssignmentClass",
+      "/properties/ProcessInstrumentationFunctionCategoryAssignmentClass",
+      "/properties/ProcessInstrumentationFunctionModifierAssignmentClass",
+      "/properties/ProcessInstrumentationFunctionNumberAssignmentClass",
+      "/properties/ProcessInstrumentationFunctionsAssignmentClass",
+      "/properties/QualityRelevanceSpecialization",
+      "/properties/SafetyRelevanceClassAssignmentClass",
+      "/properties/TypicalInformationAssignmentClass",
+      "/properties/VendorCompanyNameAssignmentClass",
+      "/properties/VotingSystemRepresentationAssignmentClass",
+      "/events/DeviceInformationAssignmentClass",
+      "/events/GmpRelevanceSpecialization",
+      "/events/GuaranteedSupplyFunctionSpecialization",
+      "/events/LocationSpecialization",
+      "/events/PanelIdentificationCodeAssignmentClass",
+      "/events/ProcessInstrumentationFunctionCategoryAssignmentClass",
+      "/events/ProcessInstrumentationFunctionModifierAssignmentClass",
+      "/events/ProcessInstrumentationFunctionNumberAssignmentClass",
+      "/events/ProcessInstrumentationFunctionsAssignmentClass",
+      "/events/QualityRelevanceSpecialization",
+      "/events/SafetyRelevanceClassAssignmentClass",
+      "/events/TypicalInformationAssignmentClass",
+      "/events/VendorCompanyNameAssignmentClass",
+      "/events/VotingSystemRepresentationAssignmentClass"
     ],
     "actions": {
     },
@@ -7725,6 +8049,16 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/PortStatusSpecialization",
+      "/properties/SignalConveyingTypeSpecialization",
+      "/properties/SignalPointNumberAssignmentClass",
+      "/properties/SignalProcessControlFunctionsAssignmentClass",
+      "/events/PortStatusSpecialization",
+      "/events/SignalConveyingTypeSpecialization",
+      "/events/SignalPointNumberAssignmentClass",
+      "/events/SignalProcessControlFunctionsAssignmentClass"
+    ],
     "actions": {
     },
     "properties": {
@@ -7985,6 +8319,16 @@
         "dov:topic": "opcua/DEXPI/DEXPI_MeasuringLineFunctionType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/PortStatusSpecialization",
+      "/properties/SignalConveyingTypeSpecialization",
+      "/properties/SignalPointNumberAssignmentClass",
+      "/properties/SignalProcessControlFunctionsAssignmentClass",
+      "/events/PortStatusSpecialization",
+      "/events/SignalConveyingTypeSpecialization",
+      "/events/SignalPointNumberAssignmentClass",
+      "/events/SignalProcessControlFunctionsAssignmentClass"
     ],
     "actions": {
     },
@@ -8568,6 +8912,36 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/ConnectionNominalDiameterNumericalValueRepresentationAssignmentClass",
+      "/properties/ConnectionNominalDiameterRepresentationAssignmentClass",
+      "/properties/ConnectionNominalDiameterStandardSpecialization",
+      "/properties/ConnectionNominalDiameterTypeRepresentationAssignmentClass",
+      "/properties/FluidCodeAssignmentClass",
+      "/properties/HeatTracingTypeAssignmentClass",
+      "/properties/HeatTracingTypeSpecialization",
+      "/properties/InsulationThickness",
+      "/properties/InsulationTypeAssignmentClass",
+      "/properties/LocationNominalDiameterNumericalValueRepresentationAssignmentClass",
+      "/properties/LocationNominalDiameterRepresentationAssignmentClass",
+      "/properties/LocationNominalDiameterStandardSpecialization",
+      "/properties/LocationNominalDiameterTypeRepresentationAssignmentClass",
+      "/properties/LowerLimitHeatTracingTemperature",
+      "/events/ConnectionNominalDiameterNumericalValueRepresentationAssignmentClass",
+      "/events/ConnectionNominalDiameterRepresentationAssignmentClass",
+      "/events/ConnectionNominalDiameterStandardSpecialization",
+      "/events/ConnectionNominalDiameterTypeRepresentationAssignmentClass",
+      "/events/FluidCodeAssignmentClass",
+      "/events/HeatTracingTypeAssignmentClass",
+      "/events/HeatTracingTypeSpecialization",
+      "/events/InsulationThickness",
+      "/events/InsulationTypeAssignmentClass",
+      "/events/LocationNominalDiameterNumericalValueRepresentationAssignmentClass",
+      "/events/LocationNominalDiameterRepresentationAssignmentClass",
+      "/events/LocationNominalDiameterStandardSpecialization",
+      "/events/LocationNominalDiameterTypeRepresentationAssignmentClass",
+      "/events/LowerLimitHeatTracingTemperature"
+    ],
     "actions": {
     },
     "properties": {
@@ -9145,6 +9519,12 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/PlantSectionIdentificationCodeAssignmentClass",
+      "/properties/PlantSectionNameAssignmentClass",
+      "/events/PlantSectionIdentificationCodeAssignmentClass",
+      "/events/PlantSectionNameAssignmentClass"
+    ],
     "actions": {
     },
     "properties": {
@@ -9278,6 +9658,12 @@
         "dov:topic": "opcua/DEXPI/DEXPI_IndustrialComplexIso10209_2012Type/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/IndustrialComplexIdentificationCodeAssignmentClass",
+      "/properties/IndustrialComplexNameAssignmentClass",
+      "/events/IndustrialComplexIdentificationCodeAssignmentClass",
+      "/events/IndustrialComplexNameAssignmentClass"
     ],
     "actions": {
     },
@@ -9439,6 +9825,12 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/SiteIdentificationCodeAssignmentClass",
+      "/properties/SiteNameAssignmentClass",
+      "/events/SiteIdentificationCodeAssignmentClass",
+      "/events/SiteNameAssignmentClass"
+    ],
     "actions": {
     },
     "properties": {
@@ -9598,6 +9990,12 @@
         "dov:topic": "opcua/DEXPI/DEXPI_AreaIsa95Type/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/AreaIdentificationCodeAssignmentClass",
+      "/properties/AreaNameAssignmentClass",
+      "/events/AreaIdentificationCodeAssignmentClass",
+      "/events/AreaNameAssignmentClass"
     ],
     "actions": {
     },
@@ -9785,6 +10183,12 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/PlantSystemIdentificationCodeAssignmentClass",
+      "/properties/PlantSystemNameAssignmentClass",
+      "/events/PlantSystemIdentificationCodeAssignmentClass",
+      "/events/PlantSystemNameAssignmentClass"
+    ],
     "actions": {
     },
     "properties": {
@@ -9892,6 +10296,12 @@
         "dov:topic": "opcua/DEXPI/DEXPI_ProcessPlantType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/ProcessPlantIdentificationCodeAssignmentClass",
+      "/properties/ProcessPlantNameAssignmentClass",
+      "/events/ProcessPlantIdentificationCodeAssignmentClass",
+      "/events/ProcessPlantNameAssignmentClass"
     ],
     "actions": {
     },
@@ -10001,6 +10411,12 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/EnterpriseIdentificationCodeAssignmentClass",
+      "/properties/EnterpriseNameAssignmentClass",
+      "/events/EnterpriseIdentificationCodeAssignmentClass",
+      "/events/EnterpriseNameAssignmentClass"
+    ],
     "actions": {
     },
     "properties": {
@@ -10108,6 +10524,12 @@
         "dov:topic": "opcua/DEXPI/DEXPI_PlantTrainType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/PlantTrainIdentificationCodeAssignmentClass",
+      "/properties/PlantTrainNameAssignmentClass",
+      "/events/PlantTrainIdentificationCodeAssignmentClass",
+      "/events/PlantTrainNameAssignmentClass"
     ],
     "actions": {
     },
@@ -10217,6 +10639,10 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/DesignCapacityMotiveFluid",
+      "/events/DesignCapacityMotiveFluid"
+    ],
     "actions": {
     },
     "properties": {
@@ -10296,6 +10722,14 @@
         "dov:topic": "opcua/DEXPI/DEXPI_PumpType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/DesignPressureHead",
+      "/properties/DesignVolumeFlowRate",
+      "/properties/DifferentialPressure",
+      "/events/DesignPressureHead",
+      "/events/DesignVolumeFlowRate",
+      "/events/DifferentialPressure"
     ],
     "actions": {
     },
@@ -10459,6 +10893,18 @@
         "dov:topic": "opcua/DEXPI/DEXPI_EquipmentType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/EquipmentDescriptionAssignmentClass",
+      "/properties/TagNameAssignmentClass",
+      "/properties/TagNamePrefixAssignmentClass",
+      "/properties/TagNameSequenceNumberAssignmentClass",
+      "/properties/TagNameSuffixAssignmentClass",
+      "/events/EquipmentDescriptionAssignmentClass",
+      "/events/TagNameAssignmentClass",
+      "/events/TagNamePrefixAssignmentClass",
+      "/events/TagNameSequenceNumberAssignmentClass",
+      "/events/TagNameSuffixAssignmentClass"
     ],
     "actions": {
     },
@@ -10691,6 +11137,38 @@
         "dov:topic": "opcua/DEXPI/DEXPI_ChamberType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/ChamberDescriptionAssignmentClass",
+      "/properties/ChamberFunctionAssignmentClass",
+      "/properties/ChamberFunctionSpecialization",
+      "/properties/Height",
+      "/properties/InsideDiameter",
+      "/properties/Length",
+      "/properties/LowerLimitDesignPressure",
+      "/properties/LowerLimitDesignTemperature",
+      "/properties/MaterialOfConstructionCodeAssignmentClass",
+      "/properties/NominalDiameter",
+      "/properties/NominalDiameterTypeRepresentationAssignmentClass",
+      "/properties/SubTagNameAssignmentClass",
+      "/properties/UpperLimitDesignPressure",
+      "/properties/UpperLimitDesignTemperature",
+      "/properties/Width",
+      "/events/ChamberDescriptionAssignmentClass",
+      "/events/ChamberFunctionAssignmentClass",
+      "/events/ChamberFunctionSpecialization",
+      "/events/Height",
+      "/events/InsideDiameter",
+      "/events/Length",
+      "/events/LowerLimitDesignPressure",
+      "/events/LowerLimitDesignTemperature",
+      "/events/MaterialOfConstructionCodeAssignmentClass",
+      "/events/NominalDiameter",
+      "/events/NominalDiameterTypeRepresentationAssignmentClass",
+      "/events/SubTagNameAssignmentClass",
+      "/events/UpperLimitDesignPressure",
+      "/events/UpperLimitDesignTemperature",
+      "/events/Width"
     ],
     "actions": {
     },
@@ -11494,6 +11972,18 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/NominalPressureNumericalValueRepresentationAssignmentClass",
+      "/properties/NominalPressureRepresentationAssignmentClass",
+      "/properties/NominalPressureStandardSpecialization",
+      "/properties/NominalPressureTypeRepresentationAssignmentClass",
+      "/properties/SubTagNameAssignmentClass",
+      "/events/NominalPressureNumericalValueRepresentationAssignmentClass",
+      "/events/NominalPressureRepresentationAssignmentClass",
+      "/events/NominalPressureStandardSpecialization",
+      "/events/NominalPressureTypeRepresentationAssignmentClass",
+      "/events/SubTagNameAssignmentClass"
+    ],
     "actions": {
     },
     "properties": {
@@ -11706,6 +12196,14 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/DesignRotationalSpeed",
+      "/properties/DesignShaftPower",
+      "/properties/UpperLimitAllowableDesignPressureDrop",
+      "/events/DesignRotationalSpeed",
+      "/events/DesignShaftPower",
+      "/events/UpperLimitAllowableDesignPressureDrop"
+    ],
     "actions": {
     },
     "properties": {
@@ -11890,6 +12388,12 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/MaterialOfConstructionCodeAssignmentClass",
+      "/properties/MixingElementAssembly",
+      "/events/MaterialOfConstructionCodeAssignmentClass",
+      "/events/MixingElementAssembly"
+    ],
     "actions": {
     },
     "properties": {
@@ -12001,6 +12505,14 @@
         "dov:topic": "opcua/DEXPI/DEXPI_HeatExchangerType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/DesignHeatFlowRate",
+      "/properties/DesignHeatTransferArea",
+      "/properties/DesignHeatTransferCoefficient",
+      "/events/DesignHeatFlowRate",
+      "/events/DesignHeatTransferArea",
+      "/events/DesignHeatTransferCoefficient"
     ],
     "actions": {
     },
@@ -12160,6 +12672,12 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/DesignRotationalSpeed",
+      "/properties/DesignShaftPower",
+      "/events/DesignRotationalSpeed",
+      "/events/DesignShaftPower"
+    ],
     "actions": {
     },
     "properties": {
@@ -12274,6 +12792,14 @@
         "dov:topic": "opcua/DEXPI/DEXPI_DisplacerType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/MaterialOfConstructionCodeAssignmentClass",
+      "/properties/StageIdentifierAssignmentClass",
+      "/properties/VolumePerStroke",
+      "/events/MaterialOfConstructionCodeAssignmentClass",
+      "/events/StageIdentifierAssignmentClass",
+      "/events/VolumePerStroke"
     ],
     "actions": {
     },
@@ -12424,6 +12950,14 @@
         "dov:topic": "opcua/DEXPI/DEXPI_ThinFilmEvaporatorType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/DesignPower",
+      "/properties/DesignRotationalSpeed",
+      "/properties/DesignShaftPower",
+      "/events/DesignPower",
+      "/events/DesignRotationalSpeed",
+      "/events/DesignShaftPower"
     ],
     "actions": {
     },
@@ -12576,6 +13110,10 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/MaterialOfConstructionCodeAssignmentClass",
+      "/events/MaterialOfConstructionCodeAssignmentClass"
+    ],
     "actions": {
     },
     "properties": {
@@ -12678,6 +13216,16 @@
         "dov:topic": "opcua/DEXPI/DEXPI_ColumnPackingsArrangementType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/Height",
+      "/properties/MaterialOfConstructionCodeAssignmentClass",
+      "/properties/NumberOfPackings",
+      "/properties/PackingTypeAssignmentClass",
+      "/events/Height",
+      "/events/MaterialOfConstructionCodeAssignmentClass",
+      "/events/NumberOfPackings",
+      "/events/PackingTypeAssignmentClass"
     ],
     "actions": {
     },
@@ -12897,6 +13445,12 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/DesignRotationalSpeed",
+      "/properties/DesignShaftPower",
+      "/events/DesignRotationalSpeed",
+      "/events/DesignShaftPower"
+    ],
     "actions": {
     },
     "properties": {
@@ -13012,6 +13566,12 @@
         "dov:topic": "opcua/DEXPI/DEXPI_CompressorType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/DesignVolumeFlowRate",
+      "/properties/DifferentialPressure",
+      "/events/DesignVolumeFlowRate",
+      "/events/DifferentialPressure"
     ],
     "actions": {
     },
@@ -13134,6 +13694,16 @@
         "dov:topic": "opcua/DEXPI/DEXPI_SpecialCompressorType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/DesignCapacityMotiveFluid",
+      "/properties/DesignRotationalSpeed",
+      "/properties/DesignShaftPower",
+      "/properties/TypeNameAssignmentClass",
+      "/events/DesignCapacityMotiveFluid",
+      "/events/DesignRotationalSpeed",
+      "/events/DesignShaftPower",
+      "/events/TypeNameAssignmentClass"
     ],
     "actions": {
     },
@@ -13350,6 +13920,14 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/Height",
+      "/properties/InsideDiameter",
+      "/properties/SubTagNameAssignmentClass",
+      "/events/Height",
+      "/events/InsideDiameter",
+      "/events/SubTagNameAssignmentClass"
+    ],
     "actions": {
     },
     "properties": {
@@ -13524,6 +14102,14 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/DesignRotationalSpeed",
+      "/properties/DesignShaftPower",
+      "/properties/UpperLimitAllowableDesignPressureDrop",
+      "/events/DesignRotationalSpeed",
+      "/events/DesignShaftPower",
+      "/events/UpperLimitAllowableDesignPressureDrop"
+    ],
     "actions": {
     },
     "properties": {
@@ -13676,6 +14262,10 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/NominalCapacityVolume",
+      "/events/NominalCapacityVolume"
+    ],
     "actions": {
     },
     "properties": {
@@ -13761,6 +14351,16 @@
         "dov:topic": "opcua/DEXPI/DEXPI_GasFilterType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/Capacity_VolumeFlowRate",
+      "/properties/DesignRotationalSpeed",
+      "/properties/DesignShaftPower",
+      "/properties/UpperLimitAllowableDesignPressureDrop",
+      "/events/Capacity_VolumeFlowRate",
+      "/events/DesignRotationalSpeed",
+      "/events/DesignShaftPower",
+      "/events/UpperLimitAllowableDesignPressureDrop"
     ],
     "actions": {
     },
@@ -13975,6 +14575,24 @@
         "dov:topic": "opcua/DEXPI/DEXPI_FilterUnitType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/Efficiency",
+      "/properties/FilterArea",
+      "/properties/LowerLimitAllowableSolidsConcentration",
+      "/properties/LowerLimitPermeableParticleDiameter",
+      "/properties/MaterialOfConstructionCodeAssignmentClass",
+      "/properties/NumberOfFilterElements",
+      "/properties/UpperLimitAllowableSolidsConcentration",
+      "/properties/UpperLimitPermeableParticleDiameter",
+      "/events/Efficiency",
+      "/events/FilterArea",
+      "/events/LowerLimitAllowableSolidsConcentration",
+      "/events/LowerLimitPermeableParticleDiameter",
+      "/events/MaterialOfConstructionCodeAssignmentClass",
+      "/events/NumberOfFilterElements",
+      "/events/UpperLimitAllowableSolidsConcentration",
+      "/events/UpperLimitPermeableParticleDiameter"
     ],
     "actions": {
     },
@@ -14304,6 +14922,10 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/CylinderLength",
+      "/events/CylinderLength"
+    ],
     "actions": {
     },
     "properties": {
@@ -14383,6 +15005,12 @@
         "dov:topic": "opcua/DEXPI/DEXPI_SpecialVesselType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/CylinderLength",
+      "/properties/TypeNameAssignmentClass",
+      "/events/CylinderLength",
+      "/events/TypeNameAssignmentClass"
     ],
     "actions": {
     },
@@ -14501,6 +15129,14 @@
         "dov:topic": "opcua/DEXPI/DEXPI_AirCoolingSystemType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/DesignPower",
+      "/properties/DesignRotationalSpeed",
+      "/properties/DesignShaftPower",
+      "/events/DesignPower",
+      "/events/DesignRotationalSpeed",
+      "/events/DesignShaftPower"
     ],
     "actions": {
     },
@@ -14686,6 +15322,12 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/Height",
+      "/properties/InsideDiameter",
+      "/events/Height",
+      "/events/InsideDiameter"
+    ],
     "actions": {
     },
     "properties": {
@@ -14834,6 +15476,12 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/DesignRotationalSpeed",
+      "/properties/DesignShaftPower",
+      "/events/DesignRotationalSpeed",
+      "/events/DesignShaftPower"
+    ],
     "actions": {
     },
     "properties": {
@@ -14955,6 +15603,20 @@
         "dov:topic": "opcua/DEXPI/DEXPI_TaggedColumnSectionType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/Height",
+      "/properties/InsideDiameter",
+      "/properties/TagNameAssignmentClass",
+      "/properties/TagNamePrefixAssignmentClass",
+      "/properties/TagNameSequenceNumberAssignmentClass",
+      "/properties/TagNameSuffixAssignmentClass",
+      "/events/Height",
+      "/events/InsideDiameter",
+      "/events/TagNameAssignmentClass",
+      "/events/TagNamePrefixAssignmentClass",
+      "/events/TagNameSequenceNumberAssignmentClass",
+      "/events/TagNameSuffixAssignmentClass"
     ],
     "actions": {
     },
@@ -15205,6 +15867,10 @@
         "dov:topic": "opcua/DEXPI/DEXPI_ElectricHeaterType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/DesignPower",
+      "/events/DesignPower"
     ],
     "actions": {
     },
@@ -15619,6 +16285,22 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/NumberOfTubes",
+      "/properties/TubeLength",
+      "/properties/TubeMaterialOfConstructionCodeAssignmentClass",
+      "/properties/TubeNominalDiameterNumericalValueRepresentationAssignmentClass",
+      "/properties/TubeNominalDiameterRepresentationAssignmentClass",
+      "/properties/TubeNominalDiameterStandardSpecialization",
+      "/properties/TubeNominalDiameterTypeRepresentationAssignmentClass",
+      "/events/NumberOfTubes",
+      "/events/TubeLength",
+      "/events/TubeMaterialOfConstructionCodeAssignmentClass",
+      "/events/TubeNominalDiameterNumericalValueRepresentationAssignmentClass",
+      "/events/TubeNominalDiameterRepresentationAssignmentClass",
+      "/events/TubeNominalDiameterStandardSpecialization",
+      "/events/TubeNominalDiameterTypeRepresentationAssignmentClass"
+    ],
     "actions": {
     },
     "properties": {
@@ -15909,6 +16591,12 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/DesignRotationalSpeed",
+      "/properties/DesignShaftPower",
+      "/events/DesignRotationalSpeed",
+      "/events/DesignShaftPower"
+    ],
     "actions": {
     },
     "properties": {
@@ -16023,6 +16711,14 @@
         "dov:topic": "opcua/DEXPI/DEXPI_ImpellerType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/Diameter",
+      "/properties/MaterialOfConstructionCodeAssignmentClass",
+      "/properties/StageIdentifierAssignmentClass",
+      "/events/Diameter",
+      "/events/MaterialOfConstructionCodeAssignmentClass",
+      "/events/StageIdentifierAssignmentClass"
     ],
     "actions": {
     },
@@ -16200,6 +16896,14 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/NumberOfPlates",
+      "/properties/PlateHeight",
+      "/properties/PlateWidth",
+      "/events/NumberOfPlates",
+      "/events/PlateHeight",
+      "/events/PlateWidth"
+    ],
     "actions": {
     },
     "properties": {
@@ -16358,6 +17062,12 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/DesignRotationalSpeed",
+      "/properties/DesignShaftPower",
+      "/events/DesignRotationalSpeed",
+      "/events/DesignShaftPower"
+    ],
     "actions": {
     },
     "properties": {
@@ -16473,6 +17183,14 @@
         "dov:topic": "opcua/DEXPI/DEXPI_ColumnTraysArrangementType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/MaterialOfConstructionCodeAssignmentClass",
+      "/properties/NumberOfTrays",
+      "/properties/TrayTypeAssignmentClass",
+      "/events/MaterialOfConstructionCodeAssignmentClass",
+      "/events/NumberOfTrays",
+      "/events/TrayTypeAssignmentClass"
     ],
     "actions": {
     },
@@ -16623,6 +17341,16 @@
         "dov:topic": "opcua/DEXPI/DEXPI_SpecialPumpType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/DesignCapacityMotiveFluid",
+      "/properties/DesignRotationalSpeed",
+      "/properties/DesignShaftPower",
+      "/properties/TypeNameAssignmentClass",
+      "/events/DesignCapacityMotiveFluid",
+      "/events/DesignRotationalSpeed",
+      "/events/DesignShaftPower",
+      "/events/TypeNameAssignmentClass"
     ],
     "actions": {
     },
@@ -16814,6 +17542,10 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/DesignCapacityMotiveFluid",
+      "/events/DesignCapacityMotiveFluid"
+    ],
     "actions": {
     },
     "properties": {
@@ -16893,6 +17625,10 @@
         "dov:topic": "opcua/DEXPI/DEXPI_StaticMixerType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/UpperLimitAllowableDesignPressureDrop",
+      "/events/UpperLimitAllowableDesignPressureDrop"
     ],
     "actions": {
     },
@@ -16979,6 +17715,12 @@
         "dov:topic": "opcua/DEXPI/DEXPI_AgitatorType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/DesignRotationalSpeed",
+      "/properties/DesignShaftPower",
+      "/events/DesignRotationalSpeed",
+      "/events/DesignShaftPower"
     ],
     "actions": {
     },
@@ -17094,6 +17836,16 @@
         "dov:topic": "opcua/DEXPI/DEXPI_AgitatorRotorType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/Diameter",
+      "/properties/LengthToMountingFlange",
+      "/properties/MaterialOfConstructionCodeAssignmentClass",
+      "/properties/RotorTypeAssignmentClass",
+      "/events/Diameter",
+      "/events/LengthToMountingFlange",
+      "/events/MaterialOfConstructionCodeAssignmentClass",
+      "/events/RotorTypeAssignmentClass"
     ],
     "actions": {
     },
@@ -17281,6 +18033,12 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/DesignRotationalSpeed",
+      "/properties/DesignShaftPower",
+      "/events/DesignRotationalSpeed",
+      "/events/DesignShaftPower"
+    ],
     "actions": {
     },
     "properties": {
@@ -17403,6 +18161,10 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/TemaStandardTypeAssignmentClass",
+      "/events/TemaStandardTypeAssignmentClass"
+    ],
     "actions": {
     },
     "properties": {
@@ -17478,6 +18240,10 @@
         "dov:topic": "opcua/DEXPI/DEXPI_TankType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/CylinderLength",
+      "/events/CylinderLength"
     ],
     "actions": {
     },
@@ -17565,6 +18331,10 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/NominalCapacityVolume",
+      "/events/NominalCapacityVolume"
+    ],
     "actions": {
     },
     "properties": {
@@ -17650,6 +18420,16 @@
         "dov:topic": "opcua/DEXPI/DEXPI_LiquidFilterType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/Capacity_VolumeFlowRate",
+      "/properties/DesignRotationalSpeed",
+      "/properties/DesignShaftPower",
+      "/properties/UpperLimitAllowableDesignPressureDrop",
+      "/events/Capacity_VolumeFlowRate",
+      "/events/DesignRotationalSpeed",
+      "/events/DesignShaftPower",
+      "/events/UpperLimitAllowableDesignPressureDrop"
     ],
     "actions": {
     },
@@ -17845,6 +18625,12 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/DesignRotationalSpeed",
+      "/properties/DesignShaftPower",
+      "/events/DesignRotationalSpeed",
+      "/events/DesignShaftPower"
+    ],
     "actions": {
     },
     "properties": {
@@ -18021,6 +18807,22 @@
         "dov:topic": "opcua/DEXPI/DEXPI_InlinePrimaryElementType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/HeatTracingTypeAssignmentClass",
+      "/properties/HeatTracingTypeSpecialization",
+      "/properties/InsulationThickness",
+      "/properties/InsulationTypeAssignmentClass",
+      "/properties/LowerLimitHeatTracingTemperature",
+      "/properties/PipingComponentNameAssignmentClass",
+      "/properties/PipingComponentNumberAssignmentClass",
+      "/events/HeatTracingTypeAssignmentClass",
+      "/events/HeatTracingTypeSpecialization",
+      "/events/InsulationThickness",
+      "/events/InsulationTypeAssignmentClass",
+      "/events/LowerLimitHeatTracingTemperature",
+      "/events/PipingComponentNameAssignmentClass",
+      "/events/PipingComponentNumberAssignmentClass"
     ],
     "actions": {
     },
@@ -18348,6 +19150,20 @@
         "dov:topic": "opcua/DEXPI/DEXPI_PipingComponentType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/BasfLineClassAssignmentClass",
+      "/properties/FluidCodeAssignmentClass",
+      "/properties/NominalDiametersRepresentationAssignmentClass",
+      "/properties/OnHoldSpecialization",
+      "/properties/PipingClassArtefactSpecialization",
+      "/properties/PressureTestCircuitNumberAssignmentClass",
+      "/events/BasfLineClassAssignmentClass",
+      "/events/FluidCodeAssignmentClass",
+      "/events/NominalDiametersRepresentationAssignmentClass",
+      "/events/OnHoldSpecialization",
+      "/events/PipingClassArtefactSpecialization",
+      "/events/PressureTestCircuitNumberAssignmentClass"
     ],
     "actions": {
     },
@@ -18704,6 +19520,28 @@
         "dov:topic": "opcua/DEXPI/DEXPI_ShutOffValveType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/HeatTracingTypeAssignmentClass",
+      "/properties/HeatTracingTypeSpecialization",
+      "/properties/InsulationThickness",
+      "/properties/InsulationTypeAssignmentClass",
+      "/properties/LowerLimitHeatTracingTemperature",
+      "/properties/NumberOfPortsSpecialization",
+      "/properties/OperationSpecialization",
+      "/properties/PipingClassCodeAssignmentClass",
+      "/properties/PipingComponentNameAssignmentClass",
+      "/properties/PipingComponentNumberAssignmentClass",
+      "/events/HeatTracingTypeAssignmentClass",
+      "/events/HeatTracingTypeSpecialization",
+      "/events/InsulationThickness",
+      "/events/InsulationTypeAssignmentClass",
+      "/events/LowerLimitHeatTracingTemperature",
+      "/events/NumberOfPortsSpecialization",
+      "/events/OperationSpecialization",
+      "/events/PipingClassCodeAssignmentClass",
+      "/events/PipingComponentNameAssignmentClass",
+      "/events/PipingComponentNumberAssignmentClass"
     ],
     "actions": {
     },
@@ -19135,6 +19973,24 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/HeatTracingTypeAssignmentClass",
+      "/properties/HeatTracingTypeSpecialization",
+      "/properties/InsulationThickness",
+      "/properties/InsulationTypeAssignmentClass",
+      "/properties/LowerLimitHeatTracingTemperature",
+      "/properties/PipingClassCodeAssignmentClass",
+      "/properties/PipingComponentNameAssignmentClass",
+      "/properties/PipingComponentNumberAssignmentClass",
+      "/events/HeatTracingTypeAssignmentClass",
+      "/events/HeatTracingTypeSpecialization",
+      "/events/InsulationThickness",
+      "/events/InsulationTypeAssignmentClass",
+      "/events/LowerLimitHeatTracingTemperature",
+      "/events/PipingClassCodeAssignmentClass",
+      "/events/PipingComponentNameAssignmentClass",
+      "/events/PipingComponentNumberAssignmentClass"
+    ],
     "actions": {
     },
     "properties": {
@@ -19511,6 +20367,24 @@
         "dov:topic": "opcua/DEXPI/DEXPI_PipeFittingType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/HeatTracingTypeAssignmentClass",
+      "/properties/HeatTracingTypeSpecialization",
+      "/properties/InsulationThickness",
+      "/properties/InsulationTypeAssignmentClass",
+      "/properties/LowerLimitHeatTracingTemperature",
+      "/properties/PipingClassCodeAssignmentClass",
+      "/properties/PipingComponentNameAssignmentClass",
+      "/properties/PipingComponentNumberAssignmentClass",
+      "/events/HeatTracingTypeAssignmentClass",
+      "/events/HeatTracingTypeSpecialization",
+      "/events/InsulationThickness",
+      "/events/InsulationTypeAssignmentClass",
+      "/events/LowerLimitHeatTracingTemperature",
+      "/events/PipingClassCodeAssignmentClass",
+      "/events/PipingComponentNameAssignmentClass",
+      "/events/PipingComponentNumberAssignmentClass"
     ],
     "actions": {
     },
@@ -19915,6 +20789,24 @@
         "dov:topic": "opcua/DEXPI/DEXPI_CheckValveType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/HeatTracingTypeAssignmentClass",
+      "/properties/HeatTracingTypeSpecialization",
+      "/properties/InsulationThickness",
+      "/properties/InsulationTypeAssignmentClass",
+      "/properties/LowerLimitHeatTracingTemperature",
+      "/properties/PipingClassCodeAssignmentClass",
+      "/properties/PipingComponentNameAssignmentClass",
+      "/properties/PipingComponentNumberAssignmentClass",
+      "/events/HeatTracingTypeAssignmentClass",
+      "/events/HeatTracingTypeSpecialization",
+      "/events/InsulationThickness",
+      "/events/InsulationTypeAssignmentClass",
+      "/events/LowerLimitHeatTracingTemperature",
+      "/events/PipingClassCodeAssignmentClass",
+      "/events/PipingComponentNameAssignmentClass",
+      "/events/PipingComponentNumberAssignmentClass"
     ],
     "actions": {
     },
@@ -20621,6 +21513,24 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/HeatTracingTypeAssignmentClass",
+      "/properties/HeatTracingTypeSpecialization",
+      "/properties/InsulationThickness",
+      "/properties/InsulationTypeAssignmentClass",
+      "/properties/LowerLimitHeatTracingTemperature",
+      "/properties/PipingClassCodeAssignmentClass",
+      "/properties/PipingComponentNameAssignmentClass",
+      "/properties/PipingComponentNumberAssignmentClass",
+      "/events/HeatTracingTypeAssignmentClass",
+      "/events/HeatTracingTypeSpecialization",
+      "/events/InsulationThickness",
+      "/events/InsulationTypeAssignmentClass",
+      "/events/LowerLimitHeatTracingTemperature",
+      "/events/PipingClassCodeAssignmentClass",
+      "/events/PipingComponentNameAssignmentClass",
+      "/events/PipingComponentNumberAssignmentClass"
+    ],
     "actions": {
     },
     "properties": {
@@ -21083,6 +21993,20 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/FlowInPipingClassCodeAssignmentClass",
+      "/properties/FlowOutPipingClassCodeAssignmentClass",
+      "/properties/LocationRegistrationNumberAssignmentClass",
+      "/properties/PositionNumberAssignmentClass",
+      "/properties/SetPressureHigh",
+      "/properties/SetPressureLow",
+      "/events/FlowInPipingClassCodeAssignmentClass",
+      "/events/FlowOutPipingClassCodeAssignmentClass",
+      "/events/LocationRegistrationNumberAssignmentClass",
+      "/events/PositionNumberAssignmentClass",
+      "/events/SetPressureHigh",
+      "/events/SetPressureLow"
+    ],
     "actions": {
     },
     "properties": {
@@ -21360,6 +22284,24 @@
         "dov:topic": "opcua/DEXPI/DEXPI_SilencerType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/HeatTracingTypeAssignmentClass",
+      "/properties/HeatTracingTypeSpecialization",
+      "/properties/InsulationThickness",
+      "/properties/InsulationTypeAssignmentClass",
+      "/properties/LowerLimitHeatTracingTemperature",
+      "/properties/PipingClassCodeAssignmentClass",
+      "/properties/PipingComponentNameAssignmentClass",
+      "/properties/PipingComponentNumberAssignmentClass",
+      "/events/HeatTracingTypeAssignmentClass",
+      "/events/HeatTracingTypeSpecialization",
+      "/events/InsulationThickness",
+      "/events/InsulationTypeAssignmentClass",
+      "/events/LowerLimitHeatTracingTemperature",
+      "/events/PipingClassCodeAssignmentClass",
+      "/events/PipingComponentNameAssignmentClass",
+      "/events/PipingComponentNumberAssignmentClass"
     ],
     "actions": {
     },
@@ -22305,6 +23247,24 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/HeatTracingTypeAssignmentClass",
+      "/properties/HeatTracingTypeSpecialization",
+      "/properties/InsulationThickness",
+      "/properties/InsulationTypeAssignmentClass",
+      "/properties/LowerLimitHeatTracingTemperature",
+      "/properties/PipingClassCodeAssignmentClass",
+      "/properties/PipingComponentNameAssignmentClass",
+      "/properties/PipingComponentNumberAssignmentClass",
+      "/events/HeatTracingTypeAssignmentClass",
+      "/events/HeatTracingTypeSpecialization",
+      "/events/InsulationThickness",
+      "/events/InsulationTypeAssignmentClass",
+      "/events/LowerLimitHeatTracingTemperature",
+      "/events/PipingClassCodeAssignmentClass",
+      "/events/PipingComponentNameAssignmentClass",
+      "/events/PipingComponentNumberAssignmentClass"
+    ],
     "actions": {
     },
     "properties": {
@@ -22705,6 +23665,14 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/DetonationProofArtefactSpecialization",
+      "/properties/ExplosionProofArtefactSpecialization",
+      "/properties/FireResistantArtefactSpecialization",
+      "/events/DetonationProofArtefactSpecialization",
+      "/events/ExplosionProofArtefactSpecialization",
+      "/events/FireResistantArtefactSpecialization"
+    ],
     "actions": {
     },
     "properties": {
@@ -22902,6 +23870,24 @@
         "dov:topic": "opcua/DEXPI/DEXPI_OrificePlateType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/HeatTracingTypeAssignmentClass",
+      "/properties/HeatTracingTypeSpecialization",
+      "/properties/InsulationThickness",
+      "/properties/InsulationTypeAssignmentClass",
+      "/properties/LowerLimitHeatTracingTemperature",
+      "/properties/PipingClassCodeAssignmentClass",
+      "/properties/PipingComponentNameAssignmentClass",
+      "/properties/PipingComponentNumberAssignmentClass",
+      "/events/HeatTracingTypeAssignmentClass",
+      "/events/HeatTracingTypeSpecialization",
+      "/events/InsulationThickness",
+      "/events/InsulationTypeAssignmentClass",
+      "/events/LowerLimitHeatTracingTemperature",
+      "/events/PipingClassCodeAssignmentClass",
+      "/events/PipingComponentNameAssignmentClass",
+      "/events/PipingComponentNumberAssignmentClass"
     ],
     "actions": {
     },
@@ -23359,6 +24345,12 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/Unit",
+      "/properties/Value",
+      "/events/Unit",
+      "/events/Value"
+    ],
     "actions": {
     },
     "properties": {
@@ -23470,6 +24462,12 @@
         "dov:topic": "opcua/DEXPI/DEXPI_HeatTransferCoefficientType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/Unit",
+      "/properties/Value",
+      "/events/Unit",
+      "/events/Value"
     ],
     "actions": {
     },
@@ -23583,6 +24581,12 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/Unit",
+      "/properties/Value",
+      "/events/Unit",
+      "/events/Value"
+    ],
     "actions": {
     },
     "properties": {
@@ -23694,6 +24698,10 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/Value",
+      "/events/Value"
+    ],
     "actions": {
     },
     "properties": {
@@ -23773,6 +24781,12 @@
         "dov:topic": "opcua/DEXPI/DEXPI_AreaType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/Unit",
+      "/properties/Value",
+      "/events/Unit",
+      "/events/Value"
     ],
     "actions": {
     },
@@ -23886,6 +24900,12 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/Unit",
+      "/properties/Value",
+      "/events/Unit",
+      "/events/Value"
+    ],
     "actions": {
     },
     "properties": {
@@ -23997,6 +25017,12 @@
         "dov:topic": "opcua/DEXPI/DEXPI_PowerType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/Unit",
+      "/properties/Value",
+      "/events/Unit",
+      "/events/Value"
     ],
     "actions": {
     },
@@ -24110,6 +25136,12 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/Unit",
+      "/properties/Value",
+      "/events/Unit",
+      "/events/Value"
+    ],
     "actions": {
     },
     "properties": {
@@ -24221,6 +25253,12 @@
         "dov:topic": "opcua/DEXPI/DEXPI_PercentageType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/Unit",
+      "/properties/Value",
+      "/events/Unit",
+      "/events/Value"
     ],
     "actions": {
     },
@@ -24334,6 +25372,12 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/Unit",
+      "/properties/Value",
+      "/events/Unit",
+      "/events/Value"
+    ],
     "actions": {
     },
     "properties": {
@@ -24445,6 +25489,12 @@
         "dov:topic": "opcua/DEXPI/DEXPI_MassType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/Unit",
+      "/properties/Value",
+      "/events/Unit",
+      "/events/Value"
     ],
     "actions": {
     },
@@ -24558,6 +25608,12 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/Unit",
+      "/properties/Value",
+      "/events/Unit",
+      "/events/Value"
+    ],
     "actions": {
     },
     "properties": {
@@ -24669,6 +25725,12 @@
         "dov:topic": "opcua/DEXPI/DEXPI_AngleType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/Unit",
+      "/properties/Value",
+      "/events/Unit",
+      "/events/Value"
     ],
     "actions": {
     },
@@ -24791,6 +25853,11 @@
         "dov:topic": "opcua/OpcUaCore/OpcUaCore_FileType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/LastModifiedTime",
+      "/properties/MaxByteStringLength",
+      "/properties/MimeType"
     ],
     "actions": {
       "Close": {

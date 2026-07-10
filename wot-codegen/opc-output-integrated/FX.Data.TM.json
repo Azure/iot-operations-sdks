@@ -86,6 +86,10 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/OutputArguments",
+      "/properties/StatusCodeId"
+    ],
     "actions": {
     },
     "properties": {
@@ -171,6 +175,9 @@
         "dov:topic": "opcua/OpcUaCore/OpcUaCore_AuditEventType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/ClientApplicationUri"
     ],
     "actions": {
     },
@@ -271,6 +278,13 @@
         "dov:topic": "opcua/OpcUaCore/OpcUaCore_BaseEventType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/ConditionClassId",
+      "/properties/ConditionClassName",
+      "/properties/ConditionSubClassId",
+      "/properties/ConditionSubClassName",
+      "/properties/LocalTime"
     ],
     "actions": {
     },

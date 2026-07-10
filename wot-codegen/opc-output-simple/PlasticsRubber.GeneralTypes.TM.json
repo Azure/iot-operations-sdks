@@ -99,6 +99,9 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/BoxId"
+    ],
     "actions": {
       "FinishJob": {
         "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
@@ -223,6 +226,26 @@
         "dov:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_ActiveCyclicJobValuesType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/actions/ResetAverageCycleTime",
+      "/actions/ResetBoxCounters",
+      "/properties/AverageCycleTime",
+      "/properties/BoxBadPartsCounter",
+      "/properties/BoxCycleCounter",
+      "/properties/BoxGoodPartsCounter",
+      "/properties/BoxPartsCounter",
+      "/properties/BoxTestSamplesCounter",
+      "/properties/LastPartId",
+      "/properties/MachineCycleCounter",
+      "/events/AverageCycleTime",
+      "/events/BoxBadPartsCounter",
+      "/events/BoxCycleCounter",
+      "/events/BoxGoodPartsCounter",
+      "/events/BoxPartsCounter",
+      "/events/BoxTestSamplesCounter",
+      "/events/LastPartId",
+      "/events/MachineCycleCounter"
     ],
     "actions": {
       "ResetAverageCycleTime": {
@@ -1049,6 +1072,18 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/AverageCycleTime",
+      "/properties/BoxBadPartsCounter",
+      "/properties/BoxCycleCounter",
+      "/properties/BoxGoodPartsCounter",
+      "/properties/BoxId",
+      "/properties/BoxPartsCounter",
+      "/properties/BoxTestSamplesCounter",
+      "/properties/CavityCycleQuality",
+      "/properties/MachineCycleCounter",
+      "/properties/PartId"
+    ],
     "actions": {
     },
     "properties": {
@@ -1416,6 +1451,9 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/Status"
+    ],
     "actions": {
     },
     "properties": {
@@ -1563,6 +1601,9 @@
         "dov:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_LogbookEventType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/JobCycleCounter"
     ],
     "actions": {
     },
@@ -1809,6 +1850,10 @@
         "dov:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_ParameterChangeLogType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/NewValueUnit",
+      "/properties/OldValueUnit"
     ],
     "actions": {
     },
@@ -2192,6 +2237,9 @@
         "dov:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_RemoteAccessLogType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/Origin"
     ],
     "actions": {
     },
@@ -2933,6 +2981,13 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/actions/AutoTuningOff",
+      "/actions/AutoTuningOn",
+      "/properties/AutomaticControllerMode",
+      "/properties/AutoTuningActive",
+      "/properties/PIDParameters"
+    ],
     "actions": {
       "AutoTuningOff": {
         "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
@@ -3254,6 +3309,9 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/Position"
+    ],
     "actions": {
     },
     "properties": {
@@ -3303,6 +3361,16 @@
         "dov:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_EnergyType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/ActualPower",
+      "/properties/ActualSpecificEnergy",
+      "/properties/PowerConsumption",
+      "/properties/PowerFactor",
+      "/events/ActualPower",
+      "/events/ActualSpecificEnergy",
+      "/events/PowerConsumption",
+      "/events/PowerFactor"
     ],
     "actions": {
     },
@@ -3628,6 +3696,12 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/ExpectedCycleTime",
+      "/properties/MouldId",
+      "/properties/NominalBoxParts",
+      "/properties/NumCavities"
+    ],
     "actions": {
       "SetCyclicJobData": {
         "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
@@ -3836,6 +3910,10 @@
     ],
     "schemaDefinitions": {
     },
+    "tm:optional": [
+      "/actions/SendCyclicJobList",
+      "/actions/SendJobList"
+    ],
     "actions": {
       "SendCyclicJobList": {
         "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
@@ -4025,6 +4103,11 @@
         "dov:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_MachineConfigurationType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/actions/GetCurrentPage",
+      "/actions/GetPage",
+      "/properties/PageDirectory"
     ],
     "actions": {
       "GetCurrentPage": {
@@ -4265,6 +4348,9 @@
         "dov:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_MachineMESConfigurationType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/MESUrl"
     ],
     "actions": {
     },
@@ -4525,6 +4611,10 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/actions/ActivateSleepMode",
+      "/actions/DeactivateSleepMode"
+    ],
     "actions": {
       "ActivateSleepMode": {
         "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
@@ -4638,6 +4728,15 @@
         "dov:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_MaintenanceType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/AdditionalInformation",
+      "/properties/Interval",
+      "/properties/RemainingInterval",
+      "/properties/TotalOperation",
+      "/events/Interval",
+      "/events/RemainingInterval",
+      "/events/TotalOperation"
     ],
     "actions": {
       "Reset": {
@@ -4812,6 +4911,10 @@
         "dov:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_MaterialListType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/actions/AddMaterial",
+      "/actions/RemoveMaterialById"
     ],
     "actions": {
       "AddMaterial": {
@@ -5159,6 +5262,34 @@
         "dov:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_MonitoredParameterType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/actions/ResetMonitoring",
+      "/properties/AlarmSuppression",
+      "/properties/AutomaticMonitoring",
+      "/properties/LowerTolerance",
+      "/properties/LowerTolerance2",
+      "/properties/MaxValue",
+      "/properties/MinValue",
+      "/properties/MonitoringSensitivity",
+      "/properties/SetRampDown",
+      "/properties/SetRampUp",
+      "/properties/SetValue",
+      "/properties/Status",
+      "/properties/UpperTolerance",
+      "/properties/UpperTolerance2",
+      "/events/AlarmSuppression",
+      "/events/LowerTolerance",
+      "/events/LowerTolerance2",
+      "/events/MaxValue",
+      "/events/MinValue",
+      "/events/MonitoringSensitivity",
+      "/events/SetRampDown",
+      "/events/SetRampUp",
+      "/events/SetValue",
+      "/events/Status",
+      "/events/UpperTolerance",
+      "/events/UpperTolerance2"
     ],
     "actions": {
       "ResetMonitoring": {
@@ -5687,6 +5818,12 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/SetRampDown",
+      "/properties/SetRampUp",
+      "/events/SetRampDown",
+      "/events/SetRampUp"
+    ],
     "actions": {
     },
     "properties": {
@@ -5847,6 +5984,10 @@
         "dov:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_MeasuringDeviceType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/Name",
+      "/properties/Position"
     ],
     "actions": {
     },
@@ -6239,6 +6380,10 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/ActualTemperature",
+      "/events/ActualTemperature"
+    ],
     "actions": {
     },
     "properties": {
@@ -6390,6 +6535,10 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/ActualPressure",
+      "/events/ActualPressure"
+    ],
     "actions": {
     },
     "properties": {
@@ -6497,6 +6646,12 @@
         "dov:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_ProductionControlType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/actions/RequestTestSample",
+      "/actions/ResetWatchDog",
+      "/actions/SetWatchDogTime",
+      "/properties/ProductionOnlyWithMES"
     ],
     "actions": {
       "DisableAutomaticRun": {
@@ -6940,6 +7095,10 @@
     ],
     "schemaDefinitions": {
     },
+    "tm:optional": [
+      "/actions/GetProductionDatasetInformation",
+      "/actions/SendProductionDatasetInformation"
+    ],
     "actions": {
       "GetProductionDatasetInformation": {
         "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
@@ -7210,6 +7369,12 @@
         "dov:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_ProductionDatasetStatusType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/actions/Load",
+      "/actions/Save",
+      "/properties/Frozen",
+      "/properties/Modified"
     ],
     "actions": {
       "Load": {
@@ -7546,6 +7711,11 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/actions/StartRequest",
+      "/actions/StopRequest",
+      "/properties/StartBlockedByClient"
+    ],
     "actions": {
       "StartRequest": {
         "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
@@ -7676,6 +7846,9 @@
         "dov:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_TemperatureZoneCycleParametersType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/Classification"
     ],
     "actions": {
     },
@@ -7923,6 +8096,19 @@
         "dov:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_TemperatureZoneType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/Classification",
+      "/properties/HighDeviationTemperature1",
+      "/properties/HighDeviationTemperature2",
+      "/properties/LowDeviationTemperature1",
+      "/properties/LowDeviationTemperature2",
+      "/properties/StandbyTemperature",
+      "/events/HighDeviationTemperature1",
+      "/events/HighDeviationTemperature2",
+      "/events/LowDeviationTemperature1",
+      "/events/LowDeviationTemperature2",
+      "/events/StandbyTemperature"
     ],
     "actions": {
     },
@@ -8326,6 +8512,9 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/YearOfConstruction"
+    ],
     "actions": {
     },
     "properties": {
@@ -8658,6 +8847,12 @@
         "dov:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_UserType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/CardUid",
+      "/properties/Language",
+      "/properties/UserLevel",
+      "/properties/UserRole"
     ],
     "actions": {
     },

@@ -1,0 +1,1825 @@
+[
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dov": "http://azure.com/DigitalOperations/vocab#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "PlasticsRubber_Dosing_ComponentsType",
+    "dov:typeRef": "org.opcfoundation.UA.PlasticsRubber.Dosing.ComponentsType",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:component",
+        "dov:refName": "Component_Nr",
+        "href": "#title=PlasticsRubber_Dosing_ComponentType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dov:topic": "opcua/PlasticsRubber.Dosing/PlasticsRubber_Dosing_ComponentsType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "NodeVersion": {
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/PlasticsRubber.Dosing/PlasticsRubber_Dosing_ComponentsType/property/NodeVersion/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dov": "http://azure.com/DigitalOperations/vocab#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "PlasticsRubber_Dosing_ComponentType",
+    "dov:typeRef": "org.opcfoundation.UA.PlasticsRubber.Dosing.ComponentType",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:reference",
+        "dov:refName": "ElectricalEnergy",
+        "href": "./PlasticsRubber.GeneralTypes.TM.json#title=PlasticsRubber_GeneralTypes_EnergyType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:reference",
+        "dov:refName": "Levels",
+        "href": "#title=PlasticsRubber_Dosing_LevelsType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:reference",
+        "dov:refName": "Material",
+        "href": "#title=PlasticsRubber_Dosing_DosingMaterialType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:reference",
+        "dov:refName": "MaterialConsumption",
+        "href": "#title=PlasticsRubber_Dosing_MaterialConsumptionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:reference",
+        "dov:refName": "Throughput",
+        "href": "./PlasticsRubber.GeneralTypes.TM.json#title=PlasticsRubber_GeneralTypes_ControlledParameterType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+      "ComponentStateEnumeration": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.PlasticsRubber.Dosing.ComponentStateEnumeration",
+        "const": {
+          "Off": 0,
+          "Ready": 1,
+          "Dosing": 2,
+          "Calibration": 3,
+          "Error": 4,
+          "Cleaning": 5,
+          "Purging": 6,
+          "Priming": 7
+        },
+        "properties": {
+          "Off": {
+            "description": "The component has been switched off",
+            "type": "integer"
+          },
+          "Ready": {
+            "description": "The component is waiting for a start dosing signal",
+            "type": "integer"
+          },
+          "Dosing": {
+            "description": "The component is actively feeding material",
+            "type": "integer"
+          },
+          "Calibration": {
+            "description": "Component is in calibration mode and can typically not be used for dosing or filling",
+            "type": "integer"
+          },
+          "Error": {
+            "description": "The component has an active error",
+            "type": "integer"
+          },
+          "Cleaning": {
+            "description": "The component is in cleaning mode e.g. hopper draining",
+            "type": "integer"
+          },
+          "Purging": {
+            "description": "The component is in purging mode",
+            "type": "integer"
+          },
+          "Priming": {
+            "description": "The component is in priming mode",
+            "type": "integer"
+          }
+        }
+      }
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dov:topic": "opcua/PlasticsRubber.Dosing/PlasticsRubber_Dosing_ComponentType/events/{senderId}",
+        "op": "subscribeallevents"
+      },
+      {
+        "contentType": "application/json",
+        "dov:topic": "opcua/PlasticsRubber.Dosing/PlasticsRubber_Dosing_ComponentType/properties/write",
+        "op": "writemultipleproperties"
+      },
+      {
+        "contentType": "application/json",
+        "dov:topic": "opcua/PlasticsRubber.Dosing/PlasticsRubber_Dosing_ComponentType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "tm:optional": [
+      "/actions/AbortCalibration",
+      "/actions/AbortCleaning",
+      "/actions/IdentifyComponent",
+      "/actions/StartCalibration",
+      "/actions/StartCleaning",
+      "/properties/BulkDensity",
+      "/properties/FeedRateScalingFactor",
+      "/properties/IsActive",
+      "/properties/SetActive",
+      "/properties/Weight",
+      "/events/BulkDensity",
+      "/events/SetActive",
+      "/events/Weight"
+    ],
+    "actions": {
+      "AbortCalibration": {
+        "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Dosing/",
+        "description": "Abort the current calibration sequence for this component.",
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/PlasticsRubber.Dosing/PlasticsRubber_Dosing_ComponentType/action/AbortCalibration",
+            "op": "invokeaction"
+          }
+        ]
+      },
+      "AbortCleaning": {
+        "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Dosing/",
+        "description": "Method without arguments to abort the current cleaning sequence.",
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/PlasticsRubber.Dosing/PlasticsRubber_Dosing_ComponentType/action/AbortCleaning",
+            "op": "invokeaction"
+          }
+        ]
+      },
+      "IdentifyComponent": {
+        "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Dosing/",
+        "description": "The dosing component on which this method is called shows itself by e.g. activation of a LED.",
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/PlasticsRubber.Dosing/PlasticsRubber_Dosing_ComponentType/action/IdentifyComponent",
+            "op": "invokeaction"
+          }
+        ]
+      },
+      "StartCalibration": {
+        "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Dosing/",
+        "description": "Start the automated calibration sequence for this component.",
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/PlasticsRubber.Dosing/PlasticsRubber_Dosing_ComponentType/action/StartCalibration",
+            "op": "invokeaction"
+          }
+        ]
+      },
+      "StartCleaning": {
+        "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Dosing/",
+        "description": "Start the automated cleaning sequence for this component.",
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/PlasticsRubber.Dosing/PlasticsRubber_Dosing_ComponentType/action/StartCleaning",
+            "op": "invokeaction"
+          }
+        ]
+      }
+    },
+    "properties": {
+      "BulkDensity": {
+        "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Dosing/",
+        "description": "Bulk density of the material which is dosed (not to be confused with the density of the material itself defined in MaterialType).",
+        "type": "number",
+        "minimum": -1.80e+308,
+        "maximum": 1.80e+308,
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/PlasticsRubber.Dosing/PlasticsRubber_Dosing_ComponentType/property/BulkDensity/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/PlasticsRubber.Dosing/PlasticsRubber_Dosing_ComponentType/property/BulkDensity/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "DosingMode": {
+        "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Dosing/",
+        "description": "Provides information, how the dosing of the component is controlled.",
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 65535,
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/PlasticsRubber.Dosing/PlasticsRubber_Dosing_ComponentType/property/DosingMode/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/PlasticsRubber.Dosing/PlasticsRubber_Dosing_ComponentType/property/DosingMode/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "FeedRateScalingFactor": {
+        "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Dosing/",
+        "description": "Material-specific output of the Component per DrivePercentage.",
+        "type": "number",
+        "minimum": -1.80e+308,
+        "maximum": 1.80e+308,
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/PlasticsRubber.Dosing/PlasticsRubber_Dosing_ComponentType/property/FeedRateScalingFactor/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/PlasticsRubber.Dosing/PlasticsRubber_Dosing_ComponentType/property/FeedRateScalingFactor/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "IsActive": {
+        "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Dosing/",
+        "description": "Provides information if the dosing component is active in the current production.",
+        "type": "boolean",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/PlasticsRubber.Dosing/PlasticsRubber_Dosing_ComponentType/property/IsActive/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "IsPresent": {
+        "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Dosing/",
+        "description": "Indicates if the hardware of this component is installed. ",
+        "type": "boolean",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/PlasticsRubber.Dosing/PlasticsRubber_Dosing_ComponentType/property/IsPresent/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "SetActive": {
+        "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Dosing/",
+        "description": "Activates the dosing component for the current production.",
+        "type": "boolean",
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/PlasticsRubber.Dosing/PlasticsRubber_Dosing_ComponentType/property/SetActive/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/PlasticsRubber.Dosing/PlasticsRubber_Dosing_ComponentType/property/SetActive/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "State": {
+        "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Dosing/",
+        "title": "ComponentStateEnumeration",
+        "description": "The actual working state of the component. ",
+        "dov:typeRef": "org.opcfoundation.UA.PlasticsRubber.Dosing.ComponentStateEnumeration",
+        "type": "integer",
+        "minimum": -2147483648,
+        "maximum": 2147483647,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/PlasticsRubber.Dosing/PlasticsRubber_Dosing_ComponentType/property/State/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "Weight": {
+        "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Dosing/",
+        "description": "Weight of the Material (e.g. inside the hopper).",
+        "type": "number",
+        "minimum": -1.80e+308,
+        "maximum": 1.80e+308,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/PlasticsRubber.Dosing/PlasticsRubber_Dosing_ComponentType/property/Weight/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+      "BulkDensity": {
+        "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Dosing/",
+        "data": {
+          "description": "Bulk density of the material which is dosed (not to be confused with the density of the material itself defined in MaterialType).",
+          "type": "number",
+          "minimum": -1.80e+308,
+          "maximum": 1.80e+308
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/PlasticsRubber.Dosing/PlasticsRubber_Dosing_ComponentType/event/BulkDensity/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "DosingMode": {
+        "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Dosing/",
+        "data": {
+          "description": "Provides information, how the dosing of the component is controlled.",
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 65535
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/PlasticsRubber.Dosing/PlasticsRubber_Dosing_ComponentType/event/DosingMode/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "SetActive": {
+        "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Dosing/",
+        "data": {
+          "description": "Activates the dosing component for the current production.",
+          "type": "boolean"
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/PlasticsRubber.Dosing/PlasticsRubber_Dosing_ComponentType/event/SetActive/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "State": {
+        "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Dosing/",
+        "data": {
+          "title": "ComponentStateEnumeration",
+          "description": "The actual working state of the component. ",
+          "dov:typeRef": "org.opcfoundation.UA.PlasticsRubber.Dosing.ComponentStateEnumeration",
+          "type": "integer",
+          "minimum": -2147483648,
+          "maximum": 2147483647
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/PlasticsRubber.Dosing/PlasticsRubber_Dosing_ComponentType/event/State/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "Weight": {
+        "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Dosing/",
+        "data": {
+          "description": "Weight of the Material (e.g. inside the hopper).",
+          "type": "number",
+          "minimum": -1.80e+308,
+          "maximum": 1.80e+308
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/PlasticsRubber.Dosing/PlasticsRubber_Dosing_ComponentType/event/Weight/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dov": "http://azure.com/DigitalOperations/vocab#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "PlasticsRubber_Dosing_BatchComponentType",
+    "dov:typeRef": "org.opcfoundation.UA.PlasticsRubber.Dosing.BatchComponentType",
+    "dov:isComposite": true,
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=PlasticsRubber_Dosing_ComponentType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:capability",
+        "dov:refName": "Percentage",
+        "href": "./PlasticsRubber.GeneralTypes.TM.json#title=PlasticsRubber_GeneralTypes_ControlledParameterType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dov": "http://azure.com/DigitalOperations/vocab#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "PlasticsRubber_Dosing_ContinuousComponentType",
+    "dov:typeRef": "org.opcfoundation.UA.PlasticsRubber.Dosing.ContinuousComponentType",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=PlasticsRubber_Dosing_ComponentType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:reference",
+        "dov:refName": "DrivePercentage",
+        "href": "./PlasticsRubber.GeneralTypes.TM.json#title=PlasticsRubber_GeneralTypes_ControlledParameterType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:reference",
+        "dov:refName": "Percentage",
+        "href": "./PlasticsRubber.GeneralTypes.TM.json#title=PlasticsRubber_GeneralTypes_ControlledParameterType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:reference",
+        "dov:refName": "WeighingProcess",
+        "href": "#title=PlasticsRubber_Dosing_WeighingProcessType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "tm:optional": [
+      "/actions/StartPriming",
+      "/actions/StopPriming"
+    ],
+    "actions": {
+      "StartPriming": {
+        "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Dosing/",
+        "description": "Method to start the priming function on the component.",
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/PlasticsRubber.Dosing/PlasticsRubber_Dosing_ContinuousComponentType/action/StartPriming",
+            "op": "invokeaction"
+          }
+        ]
+      },
+      "StopPriming": {
+        "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Dosing/",
+        "description": "Method to stop the priming function on the component.",
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/PlasticsRubber.Dosing/PlasticsRubber_Dosing_ContinuousComponentType/action/StopPriming",
+            "op": "invokeaction"
+          }
+        ]
+      }
+    },
+    "properties": {
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dov": "http://azure.com/DigitalOperations/vocab#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "PlasticsRubber_Dosing_DosingSystemType",
+    "dov:typeRef": "org.opcfoundation.UA.PlasticsRubber.Dosing.DosingSystemType",
+    "dov:isComposite": true,
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:component",
+        "dov:refName": "Feeder",
+        "href": "#title=PlasticsRubber_Dosing_ContinuousComponentType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:capability",
+        "dov:refName": "Identification",
+        "href": "./Machinery.TM.json#title=Machinery_MachineIdentificationType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:capability",
+        "dov:refName": "MachineConfiguration",
+        "href": "./PlasticsRubber.GeneralTypes.TM.json#title=PlasticsRubber_GeneralTypes_MachineConfigurationType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:component",
+        "dov:refName": "MachineryBuildingBlocks",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_FolderType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:capability",
+        "dov:refName": "Operation",
+        "href": "#title=PlasticsRubber_Dosing_OperationType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dov:topic": "opcua/PlasticsRubber.Dosing/PlasticsRubber_Dosing_DosingSystemType/properties/write",
+        "op": "writemultipleproperties"
+      },
+      {
+        "contentType": "application/json",
+        "dov:topic": "opcua/PlasticsRubber.Dosing/PlasticsRubber_Dosing_DosingSystemType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "tm:optional": [
+      "/properties/DisplayLanguage"
+    ],
+    "actions": {
+    },
+    "properties": {
+      "DeviceMappingNumber": {
+        "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Dosing/",
+        "description": "Unique identifier/address/number for devices of the same DeviceType within a local network.",
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 4294967295,
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/PlasticsRubber.Dosing/PlasticsRubber_Dosing_DosingSystemType/property/DeviceMappingNumber/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/PlasticsRubber.Dosing/PlasticsRubber_Dosing_DosingSystemType/property/DeviceMappingNumber/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "DisplayLanguage": {
+        "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Dosing/",
+        "description": "With the DisplayLanguage Property the client can set the desired language on the user interface at the Dosing System.",
+        "type": "string",
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/PlasticsRubber.Dosing/PlasticsRubber_Dosing_DosingSystemType/property/DisplayLanguage/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/PlasticsRubber.Dosing/PlasticsRubber_Dosing_DosingSystemType/property/DisplayLanguage/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "IsContinuous": {
+        "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Dosing/",
+        "description": "The dosing device can be installed on an extruder (EXT) or an injection moulding machine (IMM). EXT is a continuous process, IMM is a cyclic process. For inline dosing devices, directly mounted on the feed throat of an IMM the IsContinuous flag is false, when installed on an EXT this flag is true.",
+        "type": "boolean",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/PlasticsRubber.Dosing/PlasticsRubber_Dosing_DosingSystemType/property/IsContinuous/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dov": "http://azure.com/DigitalOperations/vocab#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "PlasticsRubber_Dosing_LevelsType",
+    "dov:typeRef": "org.opcfoundation.UA.PlasticsRubber.Dosing.LevelsType",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:capability",
+        "dov:refName": "Level",
+        "href": "./PlasticsRubber.GeneralTypes.TM.json#title=PlasticsRubber_GeneralTypes_MonitoredParameterType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dov:topic": "opcua/PlasticsRubber.Dosing/PlasticsRubber_Dosing_LevelsType/events/{senderId}",
+        "op": "subscribeallevents"
+      },
+      {
+        "contentType": "application/json",
+        "dov:topic": "opcua/PlasticsRubber.Dosing/PlasticsRubber_Dosing_LevelsType/properties/write",
+        "op": "writemultipleproperties"
+      },
+      {
+        "contentType": "application/json",
+        "dov:topic": "opcua/PlasticsRubber.Dosing/PlasticsRubber_Dosing_LevelsType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "tm:optional": [
+      "/actions/AbortFilling",
+      "/actions/StartFilling",
+      "/properties/Filling",
+      "/events/Filling"
+    ],
+    "actions": {
+      "AbortFilling": {
+        "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Dosing/",
+        "description": "Method to abort filling the Component.",
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/PlasticsRubber.Dosing/PlasticsRubber_Dosing_LevelsType/action/AbortFilling",
+            "op": "invokeaction"
+          }
+        ]
+      },
+      "StartFilling": {
+        "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Dosing/",
+        "description": "Method to fill the Component up to the MaxValue of the MonitoredParameterType in the Level Variable.",
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/PlasticsRubber.Dosing/PlasticsRubber_Dosing_LevelsType/action/StartFilling",
+            "op": "invokeaction"
+          }
+        ]
+      }
+    },
+    "properties": {
+      "Filling": {
+        "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Dosing/",
+        "description": "Flag to indicate if the hopper is being filled right now.",
+        "type": "boolean",
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/PlasticsRubber.Dosing/PlasticsRubber_Dosing_LevelsType/property/Filling/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/PlasticsRubber.Dosing/PlasticsRubber_Dosing_LevelsType/property/Filling/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+      "Filling": {
+        "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Dosing/",
+        "data": {
+          "description": "Flag to indicate if the hopper is being filled right now.",
+          "type": "boolean"
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/PlasticsRubber.Dosing/PlasticsRubber_Dosing_LevelsType/event/Filling/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dov": "http://azure.com/DigitalOperations/vocab#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "PlasticsRubber_Dosing_DosingMaintenanceType",
+    "dov:typeRef": "org.opcfoundation.UA.PlasticsRubber.Dosing.DosingMaintenanceType",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./PlasticsRubber.GeneralTypes.TM.json#title=PlasticsRubber_GeneralTypes_MaintenanceType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dov:topic": "opcua/PlasticsRubber.Dosing/PlasticsRubber_Dosing_DosingMaintenanceType/events/{senderId}",
+        "op": "subscribeallevents"
+      },
+      {
+        "contentType": "application/json",
+        "dov:topic": "opcua/PlasticsRubber.Dosing/PlasticsRubber_Dosing_DosingMaintenanceType/properties/write",
+        "op": "writemultipleproperties"
+      },
+      {
+        "contentType": "application/json",
+        "dov:topic": "opcua/PlasticsRubber.Dosing/PlasticsRubber_Dosing_DosingMaintenanceType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "Interval": {
+        "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
+        "description": "Regular interval between two maintenances",
+        "type": "number",
+        "minimum": -1.80e+308,
+        "maximum": 1.80e+308,
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/PlasticsRubber.Dosing/PlasticsRubber_Dosing_DosingMaintenanceType/property/Interval/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/PlasticsRubber.Dosing/PlasticsRubber_Dosing_DosingMaintenanceType/property/Interval/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+      "Interval": {
+        "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
+        "data": {
+          "description": "Regular interval between two maintenances",
+          "type": "number",
+          "minimum": -1.80e+308,
+          "maximum": 1.80e+308
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/PlasticsRubber.Dosing/PlasticsRubber_Dosing_DosingMaintenanceType/event/Interval/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dov": "http://azure.com/DigitalOperations/vocab#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "PlasticsRubber_Dosing_MaterialConsumptionType",
+    "dov:typeRef": "org.opcfoundation.UA.PlasticsRubber.Dosing.MaterialConsumptionType",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dov:topic": "opcua/PlasticsRubber.Dosing/PlasticsRubber_Dosing_MaterialConsumptionType/events/{senderId}",
+        "op": "subscribeallevents"
+      },
+      {
+        "contentType": "application/json",
+        "dov:topic": "opcua/PlasticsRubber.Dosing/PlasticsRubber_Dosing_MaterialConsumptionType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "tm:optional": [
+      "/properties/Scrap",
+      "/events/Scrap"
+    ],
+    "actions": {
+      "Reset": {
+        "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Dosing/",
+        "description": "The Method Reset resets the two counters TotalConsumption and Scrap.",
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/PlasticsRubber.Dosing/PlasticsRubber_Dosing_MaterialConsumptionType/action/Reset",
+            "op": "invokeaction"
+          }
+        ]
+      }
+    },
+    "properties": {
+      "Scrap": {
+        "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Dosing/",
+        "description": "Total mass or volume of fed scrap since last reset.",
+        "type": "number",
+        "minimum": -1.80e+308,
+        "maximum": 1.80e+308,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/PlasticsRubber.Dosing/PlasticsRubber_Dosing_MaterialConsumptionType/property/Scrap/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "TotalConsumption": {
+        "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Dosing/",
+        "description": "Total mass or volume of fed material (good + scrap) since last reset.",
+        "type": "number",
+        "minimum": -1.80e+308,
+        "maximum": 1.80e+308,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/PlasticsRubber.Dosing/PlasticsRubber_Dosing_MaterialConsumptionType/property/TotalConsumption/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+      "Scrap": {
+        "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Dosing/",
+        "data": {
+          "description": "Total mass or volume of fed scrap since last reset.",
+          "type": "number",
+          "minimum": -1.80e+308,
+          "maximum": 1.80e+308
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/PlasticsRubber.Dosing/PlasticsRubber_Dosing_MaterialConsumptionType/event/Scrap/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "TotalConsumption": {
+        "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Dosing/",
+        "data": {
+          "description": "Total mass or volume of fed material (good + scrap) since last reset.",
+          "type": "number",
+          "minimum": -1.80e+308,
+          "maximum": 1.80e+308
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/PlasticsRubber.Dosing/PlasticsRubber_Dosing_MaterialConsumptionType/event/TotalConsumption/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dov": "http://azure.com/DigitalOperations/vocab#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "PlasticsRubber_Dosing_DosingMaterialType",
+    "dov:typeRef": "org.opcfoundation.UA.PlasticsRubber.Dosing.DosingMaterialType",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./PlasticsRubber.GeneralTypes.TM.json#title=PlasticsRubber_GeneralTypes_MaterialType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dov:topic": "opcua/PlasticsRubber.Dosing/PlasticsRubber_Dosing_DosingMaterialType/events/{senderId}",
+        "op": "subscribeallevents"
+      },
+      {
+        "contentType": "application/json",
+        "dov:topic": "opcua/PlasticsRubber.Dosing/PlasticsRubber_Dosing_DosingMaterialType/properties/write",
+        "op": "writemultipleproperties"
+      },
+      {
+        "contentType": "application/json",
+        "dov:topic": "opcua/PlasticsRubber.Dosing/PlasticsRubber_Dosing_DosingMaterialType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "MaterialClass": {
+        "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Dosing/",
+        "description": "Provides information about the material class, which can be used for the recipe calculation by the server or client.",
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 65535,
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/PlasticsRubber.Dosing/PlasticsRubber_Dosing_DosingMaterialType/property/MaterialClass/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/PlasticsRubber.Dosing/PlasticsRubber_Dosing_DosingMaterialType/property/MaterialClass/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+      "MaterialClass": {
+        "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Dosing/",
+        "data": {
+          "description": "Provides information about the material class, which can be used for the recipe calculation by the server or client.",
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 65535
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/PlasticsRubber.Dosing/PlasticsRubber_Dosing_DosingMaterialType/event/MaterialClass/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dov": "http://azure.com/DigitalOperations/vocab#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "PlasticsRubber_Dosing_MixingType",
+    "dov:typeRef": "org.opcfoundation.UA.PlasticsRubber.Dosing.MixingType",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dov:topic": "opcua/PlasticsRubber.Dosing/PlasticsRubber_Dosing_MixingType/events/{senderId}",
+        "op": "subscribeallevents"
+      },
+      {
+        "contentType": "application/json",
+        "dov:topic": "opcua/PlasticsRubber.Dosing/PlasticsRubber_Dosing_MixingType/properties/write",
+        "op": "writemultipleproperties"
+      },
+      {
+        "contentType": "application/json",
+        "dov:topic": "opcua/PlasticsRubber.Dosing/PlasticsRubber_Dosing_MixingType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "tm:optional": [
+      "/properties/IdleMixing",
+      "/properties/MixingDuration",
+      "/properties/MixingInterval",
+      "/events/IdleMixing"
+    ],
+    "actions": {
+    },
+    "properties": {
+      "IdleMixing": {
+        "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Dosing/",
+        "description": "With idle mixing the mixer of the batch blender rotates once in a while to keep the material in the mixer flowing and material does not get blocked by the mixer blades.",
+        "type": "boolean",
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/PlasticsRubber.Dosing/PlasticsRubber_Dosing_MixingType/property/IdleMixing/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/PlasticsRubber.Dosing/PlasticsRubber_Dosing_MixingType/property/IdleMixing/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "MixingDuration": {
+        "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Dosing/",
+        "description": "Duration of a mixing process.",
+        "type": "string",
+        "pattern": "^P(?!$)(?:(?:(?:(?:\\d+Y)|(?:\\d+\\.\\d+Y$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?)|(?:(?:(?:\\d+W)|(?:\\d+\\.\\d+W$))?))(?:(?:\\d+D)|(?:\\d+\\.\\d+D$))?(?:T(?!$)(?:(?:\\d+H)|(?:\\d+\\.\\d+H$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?(?:\\d+(?:\\.\\d+)?S)?)?$",
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/PlasticsRubber.Dosing/PlasticsRubber_Dosing_MixingType/property/MixingDuration/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/PlasticsRubber.Dosing/PlasticsRubber_Dosing_MixingType/property/MixingDuration/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "MixingInterval": {
+        "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Dosing/",
+        "description": "Interval between two mixing processes, in number of shots.",
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 65535,
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/PlasticsRubber.Dosing/PlasticsRubber_Dosing_MixingType/property/MixingInterval/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/PlasticsRubber.Dosing/PlasticsRubber_Dosing_MixingType/property/MixingInterval/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "MixingMode": {
+        "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Dosing/",
+        "description": "Can be used to set the required mixing mode. ",
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 65535,
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/PlasticsRubber.Dosing/PlasticsRubber_Dosing_MixingType/property/MixingMode/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/PlasticsRubber.Dosing/PlasticsRubber_Dosing_MixingType/property/MixingMode/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+      "IdleMixing": {
+        "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Dosing/",
+        "data": {
+          "description": "With idle mixing the mixer of the batch blender rotates once in a while to keep the material in the mixer flowing and material does not get blocked by the mixer blades.",
+          "type": "boolean"
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/PlasticsRubber.Dosing/PlasticsRubber_Dosing_MixingType/event/IdleMixing/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "MixingMode": {
+        "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Dosing/",
+        "data": {
+          "description": "Can be used to set the required mixing mode. ",
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 65535
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/PlasticsRubber.Dosing/PlasticsRubber_Dosing_MixingType/event/MixingMode/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dov": "http://azure.com/DigitalOperations/vocab#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "PlasticsRubber_Dosing_OperationType",
+    "dov:typeRef": "org.opcfoundation.UA.PlasticsRubber.Dosing.OperationType",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:reference",
+        "dov:refName": "BatchWeight",
+        "href": "./PlasticsRubber.GeneralTypes.TM.json#title=PlasticsRubber_GeneralTypes_ControlledParameterType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:component",
+        "dov:refName": "Components",
+        "href": "#title=PlasticsRubber_Dosing_ComponentsType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:reference",
+        "dov:refName": "ElectricalEnergy",
+        "href": "./PlasticsRubber.GeneralTypes.TM.json#title=PlasticsRubber_GeneralTypes_EnergyType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:reference",
+        "dov:refName": "Maintenance",
+        "href": "#title=PlasticsRubber_Dosing_DosingMaintenanceType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:reference",
+        "dov:refName": "Mixing",
+        "href": "#title=PlasticsRubber_Dosing_MixingType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:reference",
+        "dov:refName": "ProductionDataSetManagement",
+        "href": "./PlasticsRubber.GeneralTypes.TM.json#title=PlasticsRubber_GeneralTypes_ProductionDatasetManagementType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:reference",
+        "dov:refName": "ShotWeight",
+        "href": "./PlasticsRubber.GeneralTypes.TM.json#title=PlasticsRubber_GeneralTypes_ControlledParameterType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:reference",
+        "dov:refName": "Throughput",
+        "href": "./PlasticsRubber.GeneralTypes.TM.json#title=PlasticsRubber_GeneralTypes_ControlledParameterType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dov:topic": "opcua/PlasticsRubber.Dosing/PlasticsRubber_Dosing_OperationType/events/{senderId}",
+        "op": "subscribeallevents"
+      },
+      {
+        "contentType": "application/json",
+        "dov:topic": "opcua/PlasticsRubber.Dosing/PlasticsRubber_Dosing_OperationType/properties/write",
+        "op": "writemultipleproperties"
+      },
+      {
+        "contentType": "application/json",
+        "dov:topic": "opcua/PlasticsRubber.Dosing/PlasticsRubber_Dosing_OperationType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "tm:optional": [
+      "/actions/FirstFilling",
+      "/actions/IdentifyDevice",
+      "/actions/ResetAllErrors",
+      "/actions/ResetErrorById",
+      "/actions/StartDosingContinuous",
+      "/actions/StartDosingShot",
+      "/actions/StartPurge",
+      "/actions/StopDosing",
+      "/actions/StopDosingAfterCycle",
+      "/properties/DosingDuration",
+      "/properties/IsActive",
+      "/properties/PurgeDuration",
+      "/properties/SetActive",
+      "/events/DosingDuration",
+      "/events/PurgeDuration",
+      "/events/SetActive"
+    ],
+    "actions": {
+      "DisableDevice": {
+        "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Dosing/",
+        "description": "Disables the device, for example deactivate motor drives.",
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/PlasticsRubber.Dosing/PlasticsRubber_Dosing_OperationType/action/DisableDevice",
+            "op": "invokeaction"
+          }
+        ]
+      },
+      "EnableDevice": {
+        "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Dosing/",
+        "description": "Enables the device, for example activate motor drives. Triggers the transition from MachineryItemState NotAvailable to NotExecuting.",
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/PlasticsRubber.Dosing/PlasticsRubber_Dosing_OperationType/action/EnableDevice",
+            "op": "invokeaction"
+          }
+        ]
+      },
+      "FirstFilling": {
+        "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Dosing/",
+        "description": "Method to fill the DosingSystem for the first time with the mixture of materials from the current recipe.",
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/PlasticsRubber.Dosing/PlasticsRubber_Dosing_OperationType/action/FirstFilling",
+            "op": "invokeaction"
+          }
+        ]
+      },
+      "IdentifyDevice": {
+        "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Dosing/",
+        "description": "The DosingSystem on which this method is called shows itself by e.g. activation of a LED.",
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/PlasticsRubber.Dosing/PlasticsRubber_Dosing_OperationType/action/IdentifyDevice",
+            "op": "invokeaction"
+          }
+        ]
+      },
+      "ResetAllErrors": {
+        "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Dosing/",
+        "description": "Method to reset all errors of the device.",
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/PlasticsRubber.Dosing/PlasticsRubber_Dosing_OperationType/action/ResetAllErrors",
+            "op": "invokeaction"
+          }
+        ]
+      },
+      "ResetErrorById": {
+        "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Dosing/",
+        "description": "Method to reset one error of the device.",
+        "input": {
+          "type": "object",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
+          "required": [ "Id" ],
+          "properties": {
+            "Id": {
+              "description": "Id of the error, listed in ActiveErrors, that shall be reset.",
+              "type": "string"
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/PlasticsRubber.Dosing/PlasticsRubber_Dosing_OperationType/action/ResetErrorById",
+            "op": "invokeaction"
+          }
+        ]
+      },
+      "StartDosingContinuous": {
+        "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Dosing/",
+        "description": "If EnableDosingOpcUa is TRUE, this method can be used to start dosing continuously.",
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/PlasticsRubber.Dosing/PlasticsRubber_Dosing_OperationType/action/StartDosingContinuous",
+            "op": "invokeaction"
+          }
+        ]
+      },
+      "StartDosingShot": {
+        "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Dosing/",
+        "description": "If EnableDosingOpcUa is TRUE, this method can be used to start dosing for one shot with a defined duration specified by DosingDuration.",
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/PlasticsRubber.Dosing/PlasticsRubber_Dosing_OperationType/action/StartDosingShot",
+            "op": "invokeaction"
+          }
+        ]
+      },
+      "StartPurge": {
+        "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Dosing/",
+        "description": "Method to start the purging function on the dosing system.",
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/PlasticsRubber.Dosing/PlasticsRubber_Dosing_OperationType/action/StartPurge",
+            "op": "invokeaction"
+          }
+        ]
+      },
+      "StopDosing": {
+        "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Dosing/",
+        "description": "Method to stop dosing immediately.",
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/PlasticsRubber.Dosing/PlasticsRubber_Dosing_OperationType/action/StopDosing",
+            "op": "invokeaction"
+          }
+        ]
+      },
+      "StopDosingAfterCycle": {
+        "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Dosing/",
+        "description": "Method to stop dosing after the current dosing cycle (e.g. to get a valid batch mix with batch blending).",
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/PlasticsRubber.Dosing/PlasticsRubber_Dosing_OperationType/action/StopDosingAfterCycle",
+            "op": "invokeaction"
+          }
+        ]
+      }
+    },
+    "properties": {
+      "ActiveErrors": {
+        "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Dosing/",
+        "description": "List of the active errors of the device.",
+        "type": "array",
+        "items": {
+          "title": "ActiveErrorDataType",
+          "description": "Iinformation about an active error in a device",
+          "type": "object",
+          "dov:typeRef": "org.opcfoundation.UA.PlasticsRubber.GeneralTypes.ActiveErrorDataType",
+          "required": [ "Id", "Severity", "Message" ],
+          "properties": {
+            "Id": {
+              "description": "Unique identifier defined by manufacturer",
+              "type": "string"
+            },
+            "Severity": {
+              "description": "Severity as defined in the BaseEventType (1 = low – 1000 = high)",
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 65535
+            },
+            "Message": {
+              "description": "Message giving information about the error",
+              "type": "string"
+            }
+          }
+        },
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/PlasticsRubber.Dosing/PlasticsRubber_Dosing_OperationType/property/ActiveErrors/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "DosingDuration": {
+        "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Dosing/",
+        "description": "This parameter defines the duration the dosing shall be active after receiving the StartDosingShot signal.",
+        "type": "string",
+        "pattern": "^P(?!$)(?:(?:(?:(?:\\d+Y)|(?:\\d+\\.\\d+Y$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?)|(?:(?:(?:\\d+W)|(?:\\d+\\.\\d+W$))?))(?:(?:\\d+D)|(?:\\d+\\.\\d+D$))?(?:T(?!$)(?:(?:\\d+H)|(?:\\d+\\.\\d+H$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?(?:\\d+(?:\\.\\d+)?S)?)?$",
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/PlasticsRubber.Dosing/PlasticsRubber_Dosing_OperationType/property/DosingDuration/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/PlasticsRubber.Dosing/PlasticsRubber_Dosing_OperationType/property/DosingDuration/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "EnableDosingOpcUa": {
+        "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Dosing/",
+        "description": "Variable to set and read the actual state how the dosing signal is transferred from the client to the dosing system in addition to RemoteControlOpcUa.",
+        "type": "boolean",
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/PlasticsRubber.Dosing/PlasticsRubber_Dosing_OperationType/property/EnableDosingOpcUa/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/PlasticsRubber.Dosing/PlasticsRubber_Dosing_OperationType/property/EnableDosingOpcUa/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "HighestActiveAlarmSeverity": {
+        "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Dosing/",
+        "description": "Indication of the severity of the highest active alarm.",
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 65535,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/PlasticsRubber.Dosing/PlasticsRubber_Dosing_OperationType/property/HighestActiveAlarmSeverity/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "IsActive": {
+        "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Dosing/",
+        "description": "The IsActive Property provides information if the dosing unit is active in the current production.",
+        "type": "boolean",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/PlasticsRubber.Dosing/PlasticsRubber_Dosing_OperationType/property/IsActive/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "PurgeDuration": {
+        "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Dosing/",
+        "description": "Duration of the purging function of the dosing system.",
+        "type": "string",
+        "pattern": "^P(?!$)(?:(?:(?:(?:\\d+Y)|(?:\\d+\\.\\d+Y$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?)|(?:(?:(?:\\d+W)|(?:\\d+\\.\\d+W$))?))(?:(?:\\d+D)|(?:\\d+\\.\\d+D$))?(?:T(?!$)(?:(?:\\d+H)|(?:\\d+\\.\\d+H$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?(?:\\d+(?:\\.\\d+)?S)?)?$",
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/PlasticsRubber.Dosing/PlasticsRubber_Dosing_OperationType/property/PurgeDuration/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/PlasticsRubber.Dosing/PlasticsRubber_Dosing_OperationType/property/PurgeDuration/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "RemoteControlOpcUa": {
+        "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Dosing/",
+        "type": "boolean",
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/PlasticsRubber.Dosing/PlasticsRubber_Dosing_OperationType/property/RemoteControlOpcUa/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/PlasticsRubber.Dosing/PlasticsRubber_Dosing_OperationType/property/RemoteControlOpcUa/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "SetActive": {
+        "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Dosing/",
+        "description": "Activates the dosing unit for the current production.",
+        "type": "boolean",
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/PlasticsRubber.Dosing/PlasticsRubber_Dosing_OperationType/property/SetActive/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/PlasticsRubber.Dosing/PlasticsRubber_Dosing_OperationType/property/SetActive/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+      "ActiveErrors": {
+        "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Dosing/",
+        "data": {
+          "description": "List of the active errors of the device.",
+          "type": "array",
+          "items": {
+            "title": "ActiveErrorDataType",
+            "description": "Iinformation about an active error in a device",
+            "type": "object",
+            "dov:typeRef": "org.opcfoundation.UA.PlasticsRubber.GeneralTypes.ActiveErrorDataType",
+            "required": [ "Id", "Severity", "Message" ],
+            "properties": {
+              "Id": {
+                "description": "Unique identifier defined by manufacturer",
+                "type": "string"
+              },
+              "Severity": {
+                "description": "Severity as defined in the BaseEventType (1 = low – 1000 = high)",
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 65535
+              },
+              "Message": {
+                "description": "Message giving information about the error",
+                "type": "string"
+              }
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/PlasticsRubber.Dosing/PlasticsRubber_Dosing_OperationType/event/ActiveErrors/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "DosingDuration": {
+        "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Dosing/",
+        "data": {
+          "description": "This parameter defines the duration the dosing shall be active after receiving the StartDosingShot signal.",
+          "type": "string",
+          "pattern": "^P(?!$)(?:(?:(?:(?:\\d+Y)|(?:\\d+\\.\\d+Y$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?)|(?:(?:(?:\\d+W)|(?:\\d+\\.\\d+W$))?))(?:(?:\\d+D)|(?:\\d+\\.\\d+D$))?(?:T(?!$)(?:(?:\\d+H)|(?:\\d+\\.\\d+H$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?(?:\\d+(?:\\.\\d+)?S)?)?$"
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/PlasticsRubber.Dosing/PlasticsRubber_Dosing_OperationType/event/DosingDuration/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "EnableDosingOpcUa": {
+        "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Dosing/",
+        "data": {
+          "description": "Variable to set and read the actual state how the dosing signal is transferred from the client to the dosing system in addition to RemoteControlOpcUa.",
+          "type": "boolean"
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/PlasticsRubber.Dosing/PlasticsRubber_Dosing_OperationType/event/EnableDosingOpcUa/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "PurgeDuration": {
+        "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Dosing/",
+        "data": {
+          "description": "Duration of the purging function of the dosing system.",
+          "type": "string",
+          "pattern": "^P(?!$)(?:(?:(?:(?:\\d+Y)|(?:\\d+\\.\\d+Y$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?)|(?:(?:(?:\\d+W)|(?:\\d+\\.\\d+W$))?))(?:(?:\\d+D)|(?:\\d+\\.\\d+D$))?(?:T(?!$)(?:(?:\\d+H)|(?:\\d+\\.\\d+H$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?(?:\\d+(?:\\.\\d+)?S)?)?$"
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/PlasticsRubber.Dosing/PlasticsRubber_Dosing_OperationType/event/PurgeDuration/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "RemoteControlOpcUa": {
+        "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Dosing/",
+        "data": {
+          "type": "boolean"
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/PlasticsRubber.Dosing/PlasticsRubber_Dosing_OperationType/event/RemoteControlOpcUa/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "SetActive": {
+        "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Dosing/",
+        "data": {
+          "description": "Activates the dosing unit for the current production.",
+          "type": "boolean"
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/PlasticsRubber.Dosing/PlasticsRubber_Dosing_OperationType/event/SetActive/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dov": "http://azure.com/DigitalOperations/vocab#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "PlasticsRubber_Dosing_WeighingProcessType",
+    "dov:typeRef": "org.opcfoundation.UA.PlasticsRubber.Dosing.WeighingProcessType",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dov:topic": "opcua/PlasticsRubber.Dosing/PlasticsRubber_Dosing_WeighingProcessType/events/{senderId}",
+        "op": "subscribeallevents"
+      },
+      {
+        "contentType": "application/json",
+        "dov:topic": "opcua/PlasticsRubber.Dosing/PlasticsRubber_Dosing_WeighingProcessType/properties/write",
+        "op": "writemultipleproperties"
+      },
+      {
+        "contentType": "application/json",
+        "dov:topic": "opcua/PlasticsRubber.Dosing/PlasticsRubber_Dosing_WeighingProcessType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "TestWeight": {
+        "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Dosing/",
+        "description": "Weight of the material of this component.",
+        "type": "number",
+        "minimum": -1.80e+308,
+        "maximum": 1.80e+308,
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/PlasticsRubber.Dosing/PlasticsRubber_Dosing_WeighingProcessType/property/TestWeight/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/PlasticsRubber.Dosing/PlasticsRubber_Dosing_WeighingProcessType/property/TestWeight/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "WeighingTime": {
+        "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Dosing/",
+        "description": "Duration of the weighing process.",
+        "type": "string",
+        "pattern": "^P(?!$)(?:(?:(?:(?:\\d+Y)|(?:\\d+\\.\\d+Y$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?)|(?:(?:(?:\\d+W)|(?:\\d+\\.\\d+W$))?))(?:(?:\\d+D)|(?:\\d+\\.\\d+D$))?(?:T(?!$)(?:(?:\\d+H)|(?:\\d+\\.\\d+H$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?(?:\\d+(?:\\.\\d+)?S)?)?$",
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/PlasticsRubber.Dosing/PlasticsRubber_Dosing_WeighingProcessType/property/WeighingTime/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/PlasticsRubber.Dosing/PlasticsRubber_Dosing_WeighingProcessType/property/WeighingTime/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+      "TestWeight": {
+        "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Dosing/",
+        "data": {
+          "description": "Weight of the material of this component.",
+          "type": "number",
+          "minimum": -1.80e+308,
+          "maximum": 1.80e+308
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/PlasticsRubber.Dosing/PlasticsRubber_Dosing_WeighingProcessType/event/TestWeight/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      }
+    }
+  }
+]

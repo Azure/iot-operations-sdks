@@ -30,6 +30,10 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/Revision",
+      "/properties/Version"
+    ],
     "actions": {
     },
     "properties": {
@@ -627,6 +631,9 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/Value"
+    ],
     "actions": {
     },
     "properties": {
@@ -1140,6 +1147,18 @@
         "dov:topic": "opcua/I4AAS/I4AAS_AASDataSpecificationIEC61360Type/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/Category",
+      "/properties/DataType",
+      "/properties/Definition",
+      "/properties/LevelType",
+      "/properties/ShortName",
+      "/properties/SourceOfDefinition",
+      "/properties/Symbol",
+      "/properties/Unit",
+      "/properties/Value",
+      "/properties/ValueFormat"
     ],
     "actions": {
     },
@@ -1784,6 +1803,9 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/Value"
+    ],
     "actions": {
     },
     "properties": {
@@ -1958,6 +1980,9 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/Value"
+    ],
     "actions": {
     },
     "properties": {
@@ -2107,6 +2132,10 @@
         "dov:topic": "opcua/I4AAS/I4AAS_AASRangeType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/Max",
+      "/properties/Min"
     ],
     "actions": {
     },
@@ -2314,6 +2343,9 @@
         "dov:topic": "opcua/I4AAS/I4AAS_AASSubmodelElementCollectionType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/AllowDuplicates"
     ],
     "actions": {
     },
@@ -2649,6 +2681,11 @@
         "dov:topic": "opcua/OpcUaCore/OpcUaCore_FileType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/LastModifiedTime",
+      "/properties/MaxByteStringLength",
+      "/properties/MimeType"
     ],
     "actions": {
       "Close": {

@@ -49,6 +49,9 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/DefaultInstanceBrowseName"
+    ],
     "actions": {
     },
     "properties": {
@@ -139,6 +142,12 @@
       },
       {
         "rel": "dov:component",
+        "dov:refName": "Components",
+        "href": "./Machinery.TM.json#title=Machinery_MachineComponentsType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:component",
         "dov:refName": "MachineProperties",
         "href": "./OpcUaCore.TM.json#title=OpcUaCore_FolderType",
         "type": "application/tm+json"
@@ -159,6 +168,12 @@
         "rel": "dov:component",
         "dov:refName": "MethodSet",
         "href": "./OpcUaCore.TM.json#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:capability",
+        "dov:refName": "MiningEquipmentIdentification",
+        "href": "#title=Mining_General_MiningEquipmentIdentificationType",
         "type": "application/tm+json"
       },
       {

@@ -167,6 +167,9 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/ProbeName"
+    ],
     "actions": {
     },
     "properties": {
@@ -453,6 +456,19 @@
         "dov:topic": "opcua/PNENC/PNENC_EncoderAxisConfigType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/actions/SetAxisConfig",
+      "/properties/AccelerationDampingTimeConstant",
+      "/properties/AxisType",
+      "/properties/CodeSequence",
+      "/properties/PositionScalingFactor",
+      "/properties/PresetOrShiftValue",
+      "/properties/VelocityDampingTimeConstant",
+      "/properties/VelocityReference",
+      "/events/AccelerationDampingTimeConstant",
+      "/events/VelocityDampingTimeConstant",
+      "/events/VelocityReference"
     ],
     "actions": {
       "SetAxisConfig": {
@@ -804,6 +820,51 @@
         "dov:topic": "opcua/PNENC/PNENC_EncoderChannelType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/actions/SetApplicationTag",
+      "/properties/Acceleration",
+      "/properties/ApplicationTag",
+      "/properties/EncoderChannelState",
+      "/properties/EncoderProfileVersion",
+      "/properties/G1_STW",
+      "/properties/G1_XIST_PRESET_B",
+      "/properties/G1_XIST_PRESET_B1",
+      "/properties/G1_XIST_PRESET_C",
+      "/properties/G1_XIST1",
+      "/properties/G1_XIST2",
+      "/properties/G1_XIST3",
+      "/properties/G1_ZSW",
+      "/properties/NIST_A",
+      "/properties/NIST_B",
+      "/properties/Position",
+      "/properties/Position_Resolution",
+      "/properties/PositionSensorSignalValue",
+      "/properties/STW2_ENC",
+      "/properties/Temperature",
+      "/properties/Velocity",
+      "/properties/Velocity_Damping",
+      "/properties/ZSW2_ENC",
+      "/events/Acceleration",
+      "/events/EncoderChannelState",
+      "/events/G1_STW",
+      "/events/G1_XIST_PRESET_B",
+      "/events/G1_XIST_PRESET_B1",
+      "/events/G1_XIST_PRESET_C",
+      "/events/G1_XIST1",
+      "/events/G1_XIST2",
+      "/events/G1_XIST3",
+      "/events/G1_ZSW",
+      "/events/NIST_A",
+      "/events/NIST_B",
+      "/events/Position",
+      "/events/Position_Resolution",
+      "/events/PositionSensorSignalValue",
+      "/events/STW2_ENC",
+      "/events/Temperature",
+      "/events/Velocity",
+      "/events/Velocity_Damping",
+      "/events/ZSW2_ENC"
     ],
     "actions": {
       "SetApplicationTag": {
@@ -1506,6 +1567,12 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/actions/SetControlConfig",
+      "/properties/AlarmChannelControl",
+      "/properties/SignOfLifeFailuresTolerated",
+      "/properties/XIST1PresetControl"
+    ],
     "actions": {
       "SetControlConfig": {
         "dov:namespace": "http://opcfoundation.org/UA/PNENC/",
@@ -1688,6 +1755,11 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/actions/LatchStart",
+      "/properties/LatchActive",
+      "/events/LatchActive"
+    ],
     "actions": {
       "LatchStart": {
         "dov:namespace": "http://opcfoundation.org/UA/PNENC/",
@@ -1816,6 +1888,17 @@
         "dov:topic": "opcua/PNENC/PNENC_EncoderSensorConfigType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/actions/SetSensorConfig",
+      "/properties/AbsolutePosDeterminableRevolutions",
+      "/properties/AbsolutePosLinSupported",
+      "/properties/ConfigType",
+      "/properties/SensorAbsoluteType",
+      "/properties/SensorResolutionIncPerRotation",
+      "/properties/SensorResolutionNanometerPerIncrement",
+      "/properties/ShiftFactorXIST1",
+      "/properties/ShiftFactorXIST2"
     ],
     "actions": {
       "SetSensorConfig": {
@@ -2019,6 +2102,14 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/actions/PresetControl",
+      "/actions/Ref1LatchStart",
+      "/properties/Ref1LastLatchedPos",
+      "/properties/Ref1LatchActive",
+      "/events/Ref1LastLatchedPos",
+      "/events/Ref1LatchActive"
+    ],
     "actions": {
       "PresetControl": {
         "dov:namespace": "http://opcfoundation.org/UA/PNENC/",
@@ -2184,6 +2275,13 @@
         "dov:topic": "opcua/PNENC/PNENC_LogbookType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/actions/DeleteLogbook",
+      "/actions/GetActiveDiagnosis",
+      "/actions/GetCurrentFaultSituation",
+      "/actions/GetFilteredLogbookEntries",
+      "/actions/GetHistoricFaultSituation"
     ],
     "actions": {
       "DeleteLogbook": {

@@ -128,6 +128,15 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/Accumulative",
+      "/properties/ChannelNumber",
+      "/properties/ExtChannelAddValue",
+      "/properties/ExtChannelErrorType",
+      "/properties/Maintenance",
+      "/properties/ManufacturerData",
+      "/properties/QualifiedChannelQualifier"
+    ],
     "actions": {
     },
     "properties": {
@@ -617,6 +626,10 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/DataItemx",
+      "/events/DataItemx"
+    ],
     "actions": {
     },
     "properties": {
@@ -782,6 +795,23 @@
         "dov:topic": "opcua/PNGSDGM/PNGSDGM_GsdGenSubmoduleApplicationType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/actions/SetApplicationTag",
+      "/properties/ApplicationTag",
+      "/properties/ARIdentifier",
+      "/properties/ControllerName",
+      "/properties/EnumerationVariable",
+      "/properties/OptionSetVariable",
+      "/properties/UnitRangeVariable",
+      "/properties/UnitVariable",
+      "/properties/ValueProperty",
+      "/properties/ValueVariable",
+      "/events/EnumerationVariable",
+      "/events/OptionSetVariable",
+      "/events/UnitRangeVariable",
+      "/events/UnitVariable",
+      "/events/ValueVariable"
     ],
     "actions": {
       "SetApplicationTag": {

@@ -212,6 +212,14 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/actions/ResetOutput",
+      "/properties/LengthCorrection",
+      "/properties/WallThickeningLength",
+      "/properties/WallThickeningPosition",
+      "/events/LengthCorrection",
+      "/events/WallThickeningLength"
+    ],
     "actions": {
       "ResetOutput": {
         "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion_v2/Cutter/",
@@ -510,6 +518,20 @@
         "dov:topic": "opcua/PlasticsRubber.Extrusion_v2.Cutter/PlasticsRubber_Extrusion_v2_Cutter_Cutter_InterfaceType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/actions/ManualCut",
+      "/actions/SampleCut",
+      "/properties/SampleCuttingLength",
+      "/properties/SideClampClosed",
+      "/properties/TotalWasteLength",
+      "/properties/WasteCuttingLength",
+      "/properties/WasteIndicator",
+      "/events/SampleCuttingLength",
+      "/events/SideClampClosed",
+      "/events/TotalWasteLength",
+      "/events/WasteCuttingLength",
+      "/events/WasteIndicator"
     ],
     "actions": {
       "ManualCut": {

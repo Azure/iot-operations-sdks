@@ -30,6 +30,24 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/MaxSpeed",
+      "/properties/MaxSpeed_PhysicalQuantity",
+      "/properties/MaxTorque",
+      "/properties/MaxTorque_PhysicalQuantity",
+      "/properties/MinTorque",
+      "/properties/MinTorque_PhysicalQuantity",
+      "/properties/MotorType",
+      "/properties/ShutOffMethod",
+      "/events/MaxSpeed",
+      "/events/MaxSpeed_PhysicalQuantity",
+      "/events/MaxTorque",
+      "/events/MaxTorque_PhysicalQuantity",
+      "/events/MinTorque",
+      "/events/MinTorque_PhysicalQuantity",
+      "/events/MotorType",
+      "/events/ShutOffMethod"
+    ],
     "actions": {
     },
     "properties": {
