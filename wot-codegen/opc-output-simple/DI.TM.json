@@ -81,6 +81,22 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/DeviceClass",
+      "/properties/DeviceManual",
+      "/properties/DeviceRevision",
+      "/properties/HardwareRevision",
+      "/properties/Manufacturer",
+      "/properties/ManufacturerUri",
+      "/properties/Model",
+      "/properties/PatchIdentifiers",
+      "/properties/ProductCode",
+      "/properties/ProductInstanceUri",
+      "/properties/RevisionCounter",
+      "/properties/SerialNumber",
+      "/properties/SoftwareReleaseDate",
+      "/properties/SoftwareRevision"
+    ],
     "actions": {
     },
     "properties": {
@@ -288,6 +304,10 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/AssetId",
+      "/properties/ComponentName"
+    ],
     "actions": {
     },
     "properties": {
@@ -388,6 +408,10 @@
         "dov:topic": "opcua/DI/DI_IDeviceHealthType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/DeviceHealth",
+      "/events/DeviceHealth"
     ],
     "actions": {
     },
@@ -529,6 +553,10 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/SupportedIndicationTypes",
+      "/properties/UsedIndicationType"
+    ],
     "actions": {
       "StartLocationIndication": {
         "dov:namespace": "http://opcfoundation.org/UA/DI/",
@@ -636,6 +664,22 @@
         "dov:topic": "opcua/DI/DI_ComponentType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/AssetId",
+      "/properties/ComponentName",
+      "/properties/DeviceClass",
+      "/properties/DeviceManual",
+      "/properties/DeviceRevision",
+      "/properties/HardwareRevision",
+      "/properties/Manufacturer",
+      "/properties/ManufacturerUri",
+      "/properties/Model",
+      "/properties/ProductCode",
+      "/properties/ProductInstanceUri",
+      "/properties/RevisionCounter",
+      "/properties/SerialNumber",
+      "/properties/SoftwareRevision"
     ],
     "actions": {
     },
@@ -913,6 +957,14 @@
         "dov:topic": "opcua/DI/DI_DeviceType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/DeviceClass",
+      "/properties/DeviceHealth",
+      "/properties/ManufacturerUri",
+      "/properties/ProductCode",
+      "/properties/ProductInstanceUri",
+      "/events/DeviceHealth"
     ],
     "actions": {
     },
@@ -1195,6 +1247,13 @@
         "dov:topic": "opcua/DI/DI_BlockType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/ActualMode",
+      "/properties/NormalMode",
+      "/properties/PermittedMode",
+      "/properties/RevisionCounter",
+      "/properties/TargetMode"
     ],
     "actions": {
     },
@@ -1667,6 +1726,10 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/UIElement",
+      "/events/UIElement"
+    ],
     "actions": {
     },
     "properties": {
@@ -1752,6 +1815,11 @@
         "dov:topic": "opcua/DI/DI_IOperationCounterType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/OperationCycleCounter",
+      "/properties/OperationDuration",
+      "/properties/PowerOnDuration"
     ],
     "actions": {
     },
@@ -2044,6 +2112,9 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/DefaultInstanceBrowseName"
+    ],
     "actions": {
       "BreakLock": {
         "dov:namespace": "http://opcfoundation.org/UA/DI/",
@@ -2305,6 +2376,17 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/DefaultInstanceBrowseName",
+      "/properties/SoftwareClass",
+      "/properties/SoftwareName",
+      "/properties/SoftwareSubclass",
+      "/properties/UnsignedPackageAllowed",
+      "/properties/UpdateStatus",
+      "/properties/VendorErrorCode",
+      "/events/UpdateStatus",
+      "/events/VendorErrorCode"
+    ],
     "actions": {
     },
     "properties": {
@@ -2460,6 +2542,10 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/UpdateKey",
+      "/events/UpdateKey"
+    ],
     "actions": {
     },
     "properties": {
@@ -2534,6 +2620,9 @@
         "dov:topic": "opcua/DI/DI_PackageLoadingType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/WriteBlockSize"
     ],
     "actions": {
     },
@@ -2645,6 +2734,9 @@
         "dov:topic": "opcua/DI/DI_DirectLoadingType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/WriteTimeout"
     ],
     "actions": {
     },
@@ -2873,6 +2965,9 @@
         }
       }
     },
+    "tm:optional": [
+      "/actions/ValidateFiles"
+    ],
     "actions": {
       "GetUpdateBehavior": {
         "dov:namespace": "http://opcfoundation.org/UA/DI/",
@@ -2980,6 +3075,13 @@
         "dov:topic": "opcua/DI/DI_SoftwareVersionType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/actions/Clear",
+      "/properties/ChangeLogReference",
+      "/properties/Hash",
+      "/properties/PatchIdentifiers",
+      "/properties/ReleaseDate"
     ],
     "actions": {
       "Clear": {
@@ -3293,6 +3395,11 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/actions/Resume",
+      "/properties/PercentComplete",
+      "/events/PercentComplete"
+    ],
     "actions": {
       "Abort": {
         "dov:namespace": "http://opcfoundation.org/UA/DI/",
@@ -3431,6 +3538,15 @@
         "dov:topic": "opcua/DI/DI_InstallationStateMachineType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/actions/InstallFiles",
+      "/actions/InstallSoftwarePackage",
+      "/actions/Uninstall",
+      "/properties/InstallationDelay",
+      "/properties/PercentComplete",
+      "/events/InstallationDelay",
+      "/events/PercentComplete"
     ],
     "actions": {
       "InstallFiles": {

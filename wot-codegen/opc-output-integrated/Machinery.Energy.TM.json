@@ -36,6 +36,14 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/Pressure",
+      "/properties/Temperature",
+      "/properties/Pressure_EngineeringUnits",
+      "/properties/Temperature_EngineeringUnits",
+      "/events/Pressure",
+      "/events/Temperature"
+    ],
     "actions": {
     },
     "properties": {
@@ -318,6 +326,14 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/Mass",
+      "/properties/MassFlowRate",
+      "/properties/Mass_EngineeringUnits",
+      "/properties/MassFlowRate_EngineeringUnits",
+      "/events/Mass",
+      "/events/MassFlowRate"
+    ],
     "actions": {
     },
     "properties": {
@@ -599,6 +615,14 @@
         "dov:topic": "opcua/Machinery.Energy/Machinery_Energy_IVolumeFlowType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/Volume",
+      "/properties/VolumeFlowRate",
+      "/properties/Volume_EngineeringUnits",
+      "/properties/VolumeFlowRate_EngineeringUnits",
+      "/events/Volume",
+      "/events/VolumeFlowRate"
     ],
     "actions": {
     },

@@ -73,6 +73,10 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/Client",
+      "/properties/Command"
+    ],
     "actions": {
     },
     "properties": {
@@ -1317,6 +1321,22 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/actions/GetDeviceLocation",
+      "/actions/Scan",
+      "/actions/ScanStart",
+      "/actions/ScanStop",
+      "/properties/DeviceInfo",
+      "/properties/DeviceLocation",
+      "/properties/DeviceLocationName",
+      "/properties/LastScanData",
+      "/properties/LastScanTimestamp",
+      "/properties/ScanActive",
+      "/events/DeviceLocation",
+      "/events/LastScanData",
+      "/events/LastScanTimestamp",
+      "/events/ScanActive"
+    ],
     "actions": {
       "GetDeviceLocation": {
         "dov:namespace": "http://opcfoundation.org/UA/AutoID/",
@@ -2355,6 +2375,9 @@
         }
       }
     },
+    "tm:optional": [
+      "/actions/Scan"
+    ],
     "actions": {
       "Scan": {
         "dov:namespace": "http://opcfoundation.org/UA/AutoID/",
@@ -2658,6 +2681,9 @@
         }
       }
     },
+    "tm:optional": [
+      "/actions/Scan"
+    ],
     "actions": {
       "Scan": {
         "dov:namespace": "http://opcfoundation.org/UA/AutoID/",
@@ -2941,6 +2967,9 @@
         }
       }
     },
+    "tm:optional": [
+      "/actions/Scan"
+    ],
     "actions": {
       "Scan": {
         "dov:namespace": "http://opcfoundation.org/UA/AutoID/",
@@ -3323,6 +3352,20 @@
         "dov:topic": "opcua/AutoID/AutoID_RfidReaderDeviceType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/actions/KillTag",
+      "/actions/LockTag",
+      "/actions/ReadTag",
+      "/actions/Scan",
+      "/actions/SetTagPassword",
+      "/actions/WriteTag",
+      "/actions/WriteTagID",
+      "/properties/AntennaNames",
+      "/properties/LastScanAntenna",
+      "/properties/LastScanRSSI",
+      "/events/LastScanAntenna",
+      "/events/LastScanRSSI"
     ],
     "actions": {
       "KillTag": {
@@ -4292,6 +4335,12 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/actions/GetLocation",
+      "/actions/GetSupportedLocationTypes",
+      "/actions/GetUnits",
+      "/actions/Scan"
+    ],
     "actions": {
       "GetLocation": {
         "dov:namespace": "http://opcfoundation.org/UA/AutoID/",
@@ -4736,6 +4785,13 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/ConditionClassId",
+      "/properties/ConditionClassName",
+      "/properties/ConditionSubClassId",
+      "/properties/ConditionSubClassName",
+      "/properties/LocalTime"
+    ],
     "actions": {
     },
     "properties": {
@@ -5057,6 +5113,14 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/DeviceClass",
+      "/properties/DeviceHealth",
+      "/properties/ManufacturerUri",
+      "/properties/ProductCode",
+      "/properties/ProductInstanceUri",
+      "/events/DeviceHealth"
+    ],
     "actions": {
     },
     "properties": {
@@ -5268,6 +5332,22 @@
         "dov:topic": "opcua/DI/DI_ComponentType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/AssetId",
+      "/properties/ComponentName",
+      "/properties/DeviceClass",
+      "/properties/DeviceManual",
+      "/properties/DeviceRevision",
+      "/properties/HardwareRevision",
+      "/properties/Manufacturer",
+      "/properties/ManufacturerUri",
+      "/properties/Model",
+      "/properties/ProductCode",
+      "/properties/ProductInstanceUri",
+      "/properties/RevisionCounter",
+      "/properties/SerialNumber",
+      "/properties/SoftwareRevision"
     ],
     "actions": {
     },
@@ -5539,6 +5619,10 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/UIElement",
+      "/events/UIElement"
+    ],
     "actions": {
     },
     "properties": {
@@ -5598,6 +5682,9 @@
         "dov:topic": "opcua/DI/DI_LockingServicesType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/DefaultInstanceBrowseName"
     ],
     "actions": {
       "BreakLock": {

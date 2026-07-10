@@ -31,6 +31,12 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/Identifier",
+      "/properties/JobdIdentifier",
+      "/properties/Location",
+      "/properties/MaterialIdentifier"
+    ],
     "actions": {
     },
     "properties": {
@@ -273,6 +279,10 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/ProcessStep",
+      "/properties/Status"
+    ],
     "actions": {
     },
     "properties": {
@@ -345,6 +355,9 @@
         "dov:topic": "opcua/Glass.Flat/Glass_Flat_InterruptedEventType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/ProcessName"
     ],
     "actions": {
     },
@@ -564,6 +577,9 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/NewPosition"
+    ],
     "actions": {
     },
     "properties": {
@@ -640,6 +656,18 @@
         "dov:topic": "opcua/Glass.Flat/Glass_Flat_BaseMaterialType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/Description",
+      "/properties/Identifier",
+      "/properties/Weight",
+      "/properties/X",
+      "/properties/Y",
+      "/properties/Z",
+      "/events/Weight",
+      "/events/X",
+      "/events/Y",
+      "/events/Z"
     ],
     "actions": {
     },
@@ -1006,6 +1034,14 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/GasFilling",
+      "/properties/MixingRatio",
+      "/properties/GasFilling_EngineeringUnits",
+      "/properties/MixingRatio_EngineeringUnits",
+      "/events/GasFilling",
+      "/events/MixingRatio"
+    ],
     "actions": {
     },
     "properties": {
@@ -1204,6 +1240,19 @@
         "dov:topic": "opcua/Glass.Flat/Glass_Flat_GlassType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/Absorption",
+      "/properties/CoatingEmessivity",
+      "/properties/CoatingSubClass",
+      "/properties/ElectricalConductivity",
+      "/properties/Reflection",
+      "/properties/Transmission",
+      "/events/Absorption",
+      "/events/CoatingEmessivity",
+      "/events/ElectricalConductivity",
+      "/events/Reflection",
+      "/events/Transmission"
     ],
     "actions": {
     },
@@ -1728,6 +1777,11 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/AddOnMaterial",
+      "/properties/MixingRatio_EngineeringUnits",
+      "/events/AddOnMaterial"
+    ],
     "actions": {
     },
     "properties": {
@@ -1879,6 +1933,13 @@
         "dov:topic": "opcua/Glass.Flat/Glass_Flat_SpacerType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/Filling",
+      "/properties/SealantDepth",
+      "/properties/SpacerMaterialSubClass",
+      "/events/Filling",
+      "/events/SealantDepth"
     ],
     "actions": {
     },
@@ -2102,6 +2163,10 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/AllowedEngineeringUnits",
+      "/properties/AllowedFileFormats"
+    ],
     "actions": {
     },
     "properties": {
@@ -2219,6 +2284,9 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/LoggedInProfiles"
+    ],
     "actions": {
     },
     "properties": {
@@ -2297,6 +2365,9 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/ExternalManuals"
+    ],
     "actions": {
     },
     "properties": {
@@ -2337,9 +2408,21 @@
         "type": "application/tm+json"
       },
       {
+        "rel": "dov:component",
+        "dov:refName": "Components",
+        "href": "#title=Machinery_MachineComponentsType",
+        "type": "application/tm+json"
+      },
+      {
         "rel": "dov:capability",
         "dov:refName": "ConfigurationRules",
         "href": "#title=Glass_Flat_ConfigurationRulesType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:capability",
+        "dov:refName": "Identification",
+        "href": "#title=Glass_Flat_GlassMachineIdentificationType",
         "type": "application/tm+json"
       },
       {
@@ -2406,6 +2489,14 @@
         "dov:topic": "opcua/Glass.Flat/Glass_Flat_ProductionType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/actions/ChangePositionInList",
+      "/actions/DeleteJob",
+      "/actions/InsertJob",
+      "/properties/CurrentCountOfJobs",
+      "/properties/MaxCountOfJobs",
+      "/properties/SupportedMaterialTypes"
     ],
     "actions": {
       "ChangePositionInList": {
@@ -2746,6 +2837,14 @@
         "dov:topic": "opcua/Glass.Flat/Glass_Flat_ProductionJobType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/actions/AbortJob",
+      "/actions/QueueJob",
+      "/actions/ReleaseJob",
+      "/actions/SuspendJob",
+      "/properties/JobGroup",
+      "/properties/Name"
     ],
     "actions": {
       "AbortJob": {
@@ -3296,6 +3395,13 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/ConditionClassId",
+      "/properties/ConditionClassName",
+      "/properties/ConditionSubClassId",
+      "/properties/ConditionSubClassName",
+      "/properties/LocalTime"
+    ],
     "actions": {
     },
     "properties": {
@@ -3542,6 +3648,11 @@
         "dov:topic": "opcua/OpcUaCore/OpcUaCore_FileType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/LastModifiedTime",
+      "/properties/MaxByteStringLength",
+      "/properties/MimeType"
     ],
     "actions": {
       "Close": {
@@ -3836,6 +3947,9 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/NodeVersion"
+    ],
     "actions": {
     },
     "properties": {
@@ -3884,6 +3998,14 @@
         "dov:topic": "opcua/OpcUaCore/OpcUaCore_FiniteStateMachineType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/AvailableStates",
+      "/properties/AvailableTransitions",
+      "/properties/LastTransition",
+      "/events/AvailableStates",
+      "/events/AvailableTransitions",
+      "/events/LastTransition"
     ],
     "actions": {
     },
@@ -4027,6 +4149,10 @@
         "dov:topic": "opcua/OpcUaCore/OpcUaCore_StateMachineType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/LastTransition",
+      "/events/LastTransition"
     ],
     "actions": {
     },
@@ -4231,6 +4357,10 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/DefaultInstanceBrowseName",
+      "/properties/Location"
+    ],
     "actions": {
     },
     "properties": {
@@ -4311,6 +4441,21 @@
         "dov:topic": "opcua/Machinery/Machinery_MachineryItemIdentificationType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/AssetId",
+      "/properties/ComponentName",
+      "/properties/DefaultInstanceBrowseName",
+      "/properties/DeviceClass",
+      "/properties/HardwareRevision",
+      "/properties/InitialOperationDate",
+      "/properties/ManufacturerUri",
+      "/properties/Model",
+      "/properties/MonthOfConstruction",
+      "/properties/ProductCode",
+      "/properties/ProductInstanceUri",
+      "/properties/SoftwareRevision",
+      "/properties/YearOfConstruction"
     ],
     "actions": {
     },
@@ -4541,6 +4686,71 @@
       }
     ],
     "@type": "tm:ThingModel",
+    "title": "Machinery_MachineComponentsType",
+    "dov:typeRef": "org.opcfoundation.UA.Machinery.MachineComponentsType",
+    "dov:isComposite": true,
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:component",
+        "dov:refName": "Component",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dov:topic": "opcua/Machinery/Machinery_MachineComponentsType/properties/write",
+        "op": "writemultipleproperties"
+      },
+      {
+        "contentType": "application/json",
+        "dov:topic": "opcua/Machinery/Machinery_MachineComponentsType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "tm:optional": [
+      "/properties/DefaultInstanceBrowseName"
+    ],
+    "actions": {
+    },
+    "properties": {
+      "DefaultInstanceBrowseName": {
+        "description": "The default BrowseName for instances of the type.",
+        "type": "string",
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/Machinery/Machinery_MachineComponentsType/property/DefaultInstanceBrowseName/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/Machinery/Machinery_MachineComponentsType/property/DefaultInstanceBrowseName/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dov": "http://azure.com/DigitalOperations/vocab#"
+      }
+    ],
+    "@type": "tm:ThingModel",
     "title": "DI_FunctionalGroupType",
     "dov:typeRef": "org.opcfoundation.UA.DI.FunctionalGroupType",
     "links": [
@@ -4569,6 +4779,10 @@
         "dov:topic": "opcua/DI/DI_FunctionalGroupType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/UIElement",
+      "/events/UIElement"
     ],
     "actions": {
     },
@@ -4629,6 +4843,9 @@
         "dov:topic": "opcua/DI/DI_LockingServicesType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/DefaultInstanceBrowseName"
     ],
     "actions": {
       "BreakLock": {

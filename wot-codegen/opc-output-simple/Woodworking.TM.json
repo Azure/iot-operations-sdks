@@ -65,6 +65,12 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/Arguments",
+      "/properties/Group",
+      "/properties/LocalizedMessages",
+      "/properties/MessageName"
+    ],
     "actions": {
     },
     "properties": {
@@ -349,6 +355,12 @@
         "dov:topic": "opcua/Woodworking/Woodworking_WwAcknowledgeableConditionType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/Arguments",
+      "/properties/Group",
+      "/properties/LocalizedMessages",
+      "/properties/MessageName"
     ],
     "actions": {
     },
@@ -635,6 +647,12 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/Arguments",
+      "/properties/Group",
+      "/properties/LocalizedMessages",
+      "/properties/MessageName"
+    ],
     "actions": {
     },
     "properties": {
@@ -919,6 +937,12 @@
         "dov:topic": "opcua/Woodworking/Woodworking_WwBaseEventType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/Arguments",
+      "/properties/Group",
+      "/properties/LocalizedMessages",
+      "/properties/MessageName"
     ],
     "actions": {
     },
@@ -1248,6 +1272,12 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/Arguments",
+      "/properties/Group",
+      "/properties/LocalizedMessages",
+      "/properties/MessageName"
+    ],
     "actions": {
     },
     "properties": {
@@ -1567,6 +1597,42 @@
         "dov:topic": "opcua/Woodworking/Woodworking_IWwUnitFlagsType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/AirPresent",
+      "/properties/DustChipSuction",
+      "/properties/EnergySaving",
+      "/properties/ExternalEmergency",
+      "/properties/FeedRuns",
+      "/properties/Hold",
+      "/properties/LoadingEnabled",
+      "/properties/MaintenanceRequired",
+      "/properties/ManualActivityRequired",
+      "/properties/Moving",
+      "/properties/RecipeInHold",
+      "/properties/RecipeInSetup",
+      "/properties/Remote",
+      "/properties/Safety",
+      "/properties/WaitLoad",
+      "/properties/WaitUnload",
+      "/properties/WorkpiecePresent",
+      "/events/AirPresent",
+      "/events/DustChipSuction",
+      "/events/EnergySaving",
+      "/events/ExternalEmergency",
+      "/events/FeedRuns",
+      "/events/Hold",
+      "/events/LoadingEnabled",
+      "/events/MaintenanceRequired",
+      "/events/ManualActivityRequired",
+      "/events/Moving",
+      "/events/RecipeInHold",
+      "/events/RecipeInSetup",
+      "/events/Remote",
+      "/events/Safety",
+      "/events/WaitLoad",
+      "/events/WaitUnload",
+      "/events/WorkpiecePresent"
     ],
     "actions": {
     },
@@ -2486,6 +2552,78 @@
         "dov:topic": "opcua/Woodworking/Woodworking_IWwUnitValuesType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/AbsoluteErrorTime",
+      "/properties/AbsoluteLength",
+      "/properties/AbsoluteMachineOffTime",
+      "/properties/AbsoluteMachineOnTime",
+      "/properties/AbsolutePiecesIn",
+      "/properties/AbsolutePiecesOut",
+      "/properties/AbsolutePowerPresentTime",
+      "/properties/AbsoluteProductionTime",
+      "/properties/AbsoluteProductionWaitWorkpieceTime",
+      "/properties/AbsoluteProductionWithoutWorkpieceTime",
+      "/properties/AbsoluteReadyTime",
+      "/properties/AbsoluteRunsAborted",
+      "/properties/AbsoluteRunsGood",
+      "/properties/AbsoluteRunsTotal",
+      "/properties/AbsoluteStandbyTime",
+      "/properties/AbsoluteWorkingTime",
+      "/properties/ActualCycle",
+      "/properties/AxisOverride",
+      "/properties/FeedSpeed",
+      "/properties/RelativeErrorTime",
+      "/properties/RelativeLength",
+      "/properties/RelativeMachineOnTime",
+      "/properties/RelativePiecesIn",
+      "/properties/RelativePiecesOut",
+      "/properties/RelativePowerPresentTime",
+      "/properties/RelativeProductionTime",
+      "/properties/RelativeProductionWaitWorkpieceTime",
+      "/properties/RelativeProductionWithoutWorkpieceTime",
+      "/properties/RelativeReadyTime",
+      "/properties/RelativeRunsAborted",
+      "/properties/RelativeRunsGood",
+      "/properties/RelativeRunsTotal",
+      "/properties/RelativeStandbyTime",
+      "/properties/RelativeWorkingTime",
+      "/properties/SpindleOverride",
+      "/events/AbsoluteErrorTime",
+      "/events/AbsoluteLength",
+      "/events/AbsoluteMachineOffTime",
+      "/events/AbsoluteMachineOnTime",
+      "/events/AbsolutePiecesIn",
+      "/events/AbsolutePiecesOut",
+      "/events/AbsolutePowerPresentTime",
+      "/events/AbsoluteProductionTime",
+      "/events/AbsoluteProductionWaitWorkpieceTime",
+      "/events/AbsoluteProductionWithoutWorkpieceTime",
+      "/events/AbsoluteReadyTime",
+      "/events/AbsoluteRunsAborted",
+      "/events/AbsoluteRunsGood",
+      "/events/AbsoluteRunsTotal",
+      "/events/AbsoluteStandbyTime",
+      "/events/AbsoluteWorkingTime",
+      "/events/ActualCycle",
+      "/events/AxisOverride",
+      "/events/FeedSpeed",
+      "/events/RelativeErrorTime",
+      "/events/RelativeLength",
+      "/events/RelativeMachineOnTime",
+      "/events/RelativePiecesIn",
+      "/events/RelativePiecesOut",
+      "/events/RelativePowerPresentTime",
+      "/events/RelativeProductionTime",
+      "/events/RelativeProductionWaitWorkpieceTime",
+      "/events/RelativeProductionWithoutWorkpieceTime",
+      "/events/RelativeReadyTime",
+      "/events/RelativeRunsAborted",
+      "/events/RelativeRunsGood",
+      "/events/RelativeRunsTotal",
+      "/events/RelativeStandbyTime",
+      "/events/RelativeWorkingTime",
+      "/events/SpindleOverride"
     ],
     "actions": {
     },
@@ -3626,6 +3764,18 @@
         "rel": "dov:reference",
         "dov:refName": "Events",
         "href": "#title=Woodworking_WwEventsDispatcherType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:capability",
+        "dov:refName": "Identification",
+        "href": "./Machinery.TM.json#title=Machinery_MachineIdentificationType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:reference",
+        "dov:refName": "JobManagement",
+        "href": "./Machinery.Jobs.TM.json#title=Machinery_Jobs_JobManagementType",
         "type": "application/tm+json"
       },
       {

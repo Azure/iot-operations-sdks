@@ -145,6 +145,41 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/ActualProcessPower",
+      "/properties/ActualPumpPower",
+      "/properties/ActualPumpSpeedRPM",
+      "/properties/ActualRegulationRatio",
+      "/properties/DelayTimeAfterCooling",
+      "/properties/InternalMeasuringPoint",
+      "/properties/PressureMainLine",
+      "/properties/PressureReturnLine",
+      "/properties/PumpControlMode",
+      "/properties/StandbyTemperature",
+      "/properties/SwitchingOffTemperature",
+      "/properties/TemperatureLimitation",
+      "/properties/TemperatureMainLine",
+      "/properties/TemperatureReturnLine",
+      "/properties/ActualProcessPower_EngineeringUnits",
+      "/properties/ActualPumpPower_EngineeringUnits",
+      "/properties/ActualPumpSpeedRPM_EngineeringUnits",
+      "/properties/ActualRegulationRatio_EngineeringUnits",
+      "/properties/DelayTimeAfterCooling_EngineeringUnits",
+      "/events/ActualProcessPower",
+      "/events/ActualPumpPower",
+      "/events/ActualPumpSpeedRPM",
+      "/events/ActualRegulationRatio",
+      "/events/DelayTimeAfterCooling",
+      "/events/InternalMeasuringPoint",
+      "/events/PressureMainLine",
+      "/events/PressureReturnLine",
+      "/events/PumpControlMode",
+      "/events/StandbyTemperature",
+      "/events/SwitchingOffTemperature",
+      "/events/TemperatureLimitation",
+      "/events/TemperatureMainLine",
+      "/events/TemperatureReturnLine"
+    ],
     "actions": {
     },
     "properties": {
@@ -806,6 +841,21 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/actions/SwitchOff",
+      "/actions/SwitchOn",
+      "/properties/ControlMode",
+      "/properties/PressureMainLine",
+      "/properties/PressureReturnLine",
+      "/properties/SwitchedOn",
+      "/properties/TemperatureMainLine",
+      "/properties/TemperatureReturnLine",
+      "/events/ControlMode",
+      "/events/PressureMainLine",
+      "/events/PressureReturnLine",
+      "/events/TemperatureMainLine",
+      "/events/TemperatureReturnLine"
+    ],
     "actions": {
       "SwitchOff": {
         "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/TCD/",
@@ -1054,6 +1104,9 @@
         "dov:topic": "opcua/PlasticsRubber.TCD/PlasticsRubber_TCD_ExternalSensorType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/AutomaticModeSwitch"
     ],
     "actions": {
       "ExternalSensorModeOff": {
@@ -1356,6 +1409,17 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/Mode",
+      "/properties/Sink",
+      "/properties/TemperatureLimit",
+      "/properties/Time",
+      "/properties/Time_EngineeringUnits",
+      "/events/Mode",
+      "/events/Sink",
+      "/events/TemperatureLimit",
+      "/events/Time"
+    ],
     "actions": {
       "Off": {
         "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/TCD/",
@@ -1640,6 +1704,16 @@
         "dov:topic": "opcua/PlasticsRubber.TCD/PlasticsRubber_TCD_OperationType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/actions/IdentifyDevice",
+      "/actions/ReduceToStandByOff",
+      "/actions/ReduceToStandByOn",
+      "/actions/ResetAllErrors",
+      "/actions/ResetErrorById",
+      "/properties/HoursOfOperation",
+      "/properties/HoursOfOperation_EngineeringUnits",
+      "/events/HoursOfOperation"
     ],
     "actions": {
       "IdentifyDevice": {
@@ -1969,6 +2043,9 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/DisplayLanguage"
+    ],
     "actions": {
     },
     "properties": {
@@ -2025,6 +2102,14 @@
         "dov:topic": "opcua/PlasticsRubber.TCD/PlasticsRubber_TCD_TCDSpecificationType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/CoolingCapacity",
+      "/properties/DeviceZoneId",
+      "/properties/ConnectedLoad_EngineeringUnits",
+      "/properties/CoolingCapacity_EngineeringUnits",
+      "/properties/PowerValue_EngineeringUnits",
+      "/events/CoolingCapacity"
     ],
     "actions": {
     },

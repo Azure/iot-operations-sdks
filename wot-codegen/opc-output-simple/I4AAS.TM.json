@@ -30,6 +30,10 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/Revision",
+      "/properties/Version"
+    ],
     "actions": {
     },
     "properties": {
@@ -473,6 +477,18 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/Category",
+      "/properties/DataType",
+      "/properties/Definition",
+      "/properties/LevelType",
+      "/properties/ShortName",
+      "/properties/SourceOfDefinition",
+      "/properties/Symbol",
+      "/properties/Unit",
+      "/properties/Value",
+      "/properties/ValueFormat"
+    ],
     "actions": {
     },
     "properties": {
@@ -904,6 +920,9 @@
         "dov:topic": "opcua/I4AAS/I4AAS_AASQualifierType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/Value"
     ],
     "actions": {
     },
@@ -1625,6 +1644,9 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/Value"
+    ],
     "actions": {
     },
     "properties": {
@@ -1799,6 +1821,9 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/Value"
+    ],
     "actions": {
     },
     "properties": {
@@ -1948,6 +1973,10 @@
         "dov:topic": "opcua/I4AAS/I4AAS_AASRangeType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/Max",
+      "/properties/Min"
     ],
     "actions": {
     },
@@ -2155,6 +2184,9 @@
         "dov:topic": "opcua/I4AAS/I4AAS_AASSubmodelElementCollectionType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/AllowDuplicates"
     ],
     "actions": {
     },

@@ -45,7 +45,7 @@ namespace Azure.Iot.Operations.Opc2WotLib
                 .Select(node => GetModelRef(uaObjectType, node))
                 .ToHashSet();
             this.linkInfos = uaObjectType.TypeAndObjectOfReferences
-                .Where(t => t.Item1.NsIndex != 0 || t.Item1.IsComponentReference)
+                .Where(t => t.Item1.NsIndex != 0 || t.Item1.IsComponentReference || t.Item1.IsAddInReference)
                 .Select(t => GetLinkInfo(uaObjectType, t.Item1, t.Item2, linkRelRuleEngine))
                 .ToList();
 

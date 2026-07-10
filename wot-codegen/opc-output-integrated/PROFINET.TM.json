@@ -176,6 +176,14 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/ExtChannelAddValue",
+      "/properties/ExtChannelErrorType",
+      "/properties/HelpText",
+      "/properties/Maintenance",
+      "/properties/ManufacturerData",
+      "/properties/QualifiedChannelQualifier"
+    ],
     "actions": {
     },
     "properties": {
@@ -833,6 +841,12 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/actions/ShowLocation",
+      "/properties/Diagnosis",
+      "/properties/Vendor",
+      "/events/Diagnosis"
+    ],
     "actions": {
       "ShowLocation": {
         "dov:namespace": "http://opcfoundation.org/UA/PROFINET/",
@@ -1148,6 +1162,10 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/HardwareRevision",
+      "/properties/SoftwareRevision"
+    ],
     "actions": {
     },
     "properties": {
@@ -1355,6 +1373,19 @@
         "dov:topic": "opcua/PROFINET/PROFINET_PnIdentificationType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/actions/SetDate",
+      "/actions/SetDescriptor",
+      "/actions/SetTags",
+      "/properties/Date",
+      "/properties/Descriptor",
+      "/properties/IM5",
+      "/properties/IMSupported",
+      "/properties/RevisionCounter",
+      "/properties/Signature",
+      "/properties/TagFunction",
+      "/properties/TagLocation"
     ],
     "actions": {
       "SetDate": {
@@ -1911,6 +1942,11 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/DataHoldFactor",
+      "/properties/ReductionRatio",
+      "/properties/SendClockFactor"
+    ],
     "actions": {
     },
     "properties": {
@@ -2119,6 +2155,11 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/GSDDescription",
+      "/properties/State",
+      "/events/State"
+    ],
     "actions": {
     },
     "properties": {
@@ -2248,6 +2289,13 @@
         "dov:topic": "opcua/PROFINET/PROFINET_IPnInterfaceType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/actions/SetNameOfStation",
+      "/properties/DeviceInstance",
+      "/properties/DeviceVendor",
+      "/properties/OEMDeviceId",
+      "/properties/OEMVendorId"
     ],
     "actions": {
       "SetNameOfStation": {
@@ -2511,6 +2559,10 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/Enabled",
+      "/events/Enabled"
+    ],
     "actions": {
     },
     "properties": {
@@ -2606,6 +2658,10 @@
         "dov:topic": "opcua/PROFINET/PROFINET_EthernetPortType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/PhysAddress",
+      "/events/PhysAddress"
     ],
     "actions": {
     },
@@ -2808,6 +2864,20 @@
         "dov:topic": "opcua/PROFINET/PROFINET_PnPortType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/CableDelay",
+      "/properties/IsWireless",
+      "/properties/LinkState",
+      "/properties/MAUType",
+      "/properties/PortState",
+      "/properties/PowerBudget",
+      "/events/CableDelay",
+      "/events/IsWireless",
+      "/events/LinkState",
+      "/events/MAUType",
+      "/events/PortState",
+      "/events/PowerBudget"
     ],
     "actions": {
     },
@@ -3025,6 +3095,20 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/InDiscards",
+      "/properties/InErrors",
+      "/properties/InOctets",
+      "/properties/OutDiscards",
+      "/properties/OutErrors",
+      "/properties/OutOctets",
+      "/events/InDiscards",
+      "/events/InErrors",
+      "/events/InOctets",
+      "/events/OutDiscards",
+      "/events/OutErrors",
+      "/events/OutOctets"
+    ],
     "actions": {
     },
     "properties": {
@@ -3231,6 +3315,10 @@
         "dov:topic": "opcua/PROFINET/PROFINET_IPnModuleType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/GSDDescription",
+      "/properties/GSDName"
     ],
     "actions": {
     },
@@ -3633,6 +3721,10 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/Diagnosis",
+      "/events/Diagnosis"
+    ],
     "actions": {
     },
     "properties": {
@@ -3926,6 +4018,10 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/GSDDescription",
+      "/properties/GSDName"
+    ],
     "actions": {
     },
     "properties": {
@@ -4139,6 +4235,22 @@
         "dov:topic": "opcua/PROFINET/PROFINET_PnSubmoduleStateType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/AddInfo",
+      "/properties/ARInfo",
+      "/properties/DiagInfo",
+      "/properties/IdentInfo",
+      "/properties/MaintenanceDemanded",
+      "/properties/MaintenanceRequired",
+      "/properties/QualifiedInfo",
+      "/events/AddInfo",
+      "/events/ARInfo",
+      "/events/DiagInfo",
+      "/events/IdentInfo",
+      "/events/MaintenanceDemanded",
+      "/events/MaintenanceRequired",
+      "/events/QualifiedInfo"
     ],
     "actions": {
     },
@@ -4538,6 +4650,10 @@
         "dov:topic": "opcua/PROFINET/PROFINET_IPnRealSubmoduleType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/Diagnosis",
+      "/events/Diagnosis"
     ],
     "actions": {
     },
@@ -4985,6 +5101,39 @@
         "dov:topic": "opcua/OpcUaCore/OpcUaCore_AlarmConditionType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/actions/GetGroupMemberships",
+      "/actions/PlaceInService",
+      "/actions/PlaceInService2",
+      "/actions/RemoveFromService",
+      "/actions/RemoveFromService2",
+      "/actions/Reset",
+      "/actions/Reset2",
+      "/actions/Silence",
+      "/actions/Suppress",
+      "/actions/Suppress2",
+      "/actions/Unsuppress",
+      "/actions/Unsuppress2",
+      "/properties/AudibleEnabled",
+      "/properties/AudibleSound",
+      "/properties/FirstInGroupFlag",
+      "/properties/LatchedState",
+      "/properties/MaxTimeShelved",
+      "/properties/OffDelay",
+      "/properties/OnDelay",
+      "/properties/OutOfServiceState",
+      "/properties/ReAlarmRepeatCount",
+      "/properties/ReAlarmTime",
+      "/properties/SilenceState",
+      "/properties/SuppressedState",
+      "/events/AudibleSound",
+      "/events/FirstInGroupFlag",
+      "/events/LatchedState",
+      "/events/OutOfServiceState",
+      "/events/ReAlarmRepeatCount",
+      "/events/SilenceState",
+      "/events/SuppressedState"
     ],
     "actions": {
       "GetGroupMemberships": {
@@ -5490,6 +5639,11 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/actions/Confirm",
+      "/properties/ConfirmedState",
+      "/events/ConfirmedState"
+    ],
     "actions": {
       "Acknowledge": {
         "input": {
@@ -5647,6 +5801,13 @@
         "dov:topic": "opcua/OpcUaCore/OpcUaCore_ConditionType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/actions/ConditionRefresh",
+      "/actions/ConditionRefresh2",
+      "/properties/ConditionSubClassId",
+      "/properties/ConditionSubClassName",
+      "/properties/SupportsFilteredRetain"
     ],
     "actions": {
       "AddComment": {
@@ -5975,6 +6136,13 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/ConditionClassId",
+      "/properties/ConditionClassName",
+      "/properties/ConditionSubClassId",
+      "/properties/ConditionSubClassName",
+      "/properties/LocalTime"
+    ],
     "actions": {
     },
     "properties": {
@@ -6250,6 +6418,11 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/actions/OneShotShelve2",
+      "/actions/TimedShelve2",
+      "/actions/Unshelve2"
+    ],
     "actions": {
       "OneShotShelve": {
         "forms": [
@@ -6399,6 +6572,14 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/AvailableStates",
+      "/properties/AvailableTransitions",
+      "/properties/LastTransition",
+      "/events/AvailableStates",
+      "/events/AvailableTransitions",
+      "/events/LastTransition"
+    ],
     "actions": {
     },
     "properties": {
@@ -6541,6 +6722,10 @@
         "dov:topic": "opcua/OpcUaCore/OpcUaCore_StateMachineType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/LastTransition",
+      "/events/LastTransition"
     ],
     "actions": {
     },

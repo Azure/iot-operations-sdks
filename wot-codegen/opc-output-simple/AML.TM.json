@@ -7,13 +7,13 @@
       }
     ],
     "@type": "tm:ThingModel",
-    "title": "AMLBaseTypes_CAEXBasicObjectType",
+    "title": "AML_CAEXBasicObjectType",
     "dov:typeRef": "org.opcfoundation.UA.AML.CAEXBasicObjectType",
     "dov:isComposite": true,
     "links": [
       {
         "rel": "tm:extends",
-        "href": "#title=OpcUaCore_BaseObjectType",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_BaseObjectType",
         "type": "application/tm+json"
       }
     ],
@@ -22,7 +22,7 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dov:topic": "opcua/AMLBaseTypes/AMLBaseTypes_CAEXBasicObjectType/properties/read",
+        "dov:topic": "opcua/AML/AML_CAEXBasicObjectType/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -36,7 +36,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dov:topic": "opcua/AMLBaseTypes/AMLBaseTypes_CAEXBasicObjectType/property/Version/read",
+            "dov:topic": "opcua/AML/AML_CAEXBasicObjectType/property/Version/read",
             "op": "readproperty"
           }
         ]
@@ -53,37 +53,37 @@
       }
     ],
     "@type": "tm:ThingModel",
-    "title": "AMLBaseTypes_CAEXFileType",
+    "title": "AML_CAEXFileType",
     "dov:typeRef": "org.opcfoundation.UA.AML.CAEXFileType",
     "dov:isComposite": true,
     "links": [
       {
         "rel": "tm:extends",
-        "href": "#title=AMLBaseTypes_CAEXBasicObjectType",
+        "href": "#title=AML_CAEXBasicObjectType",
         "type": "application/tm+json"
       },
       {
         "rel": "dov:component",
         "dov:refName": "InstanceHierarchies",
-        "href": "#title=OpcUaCore_FolderType",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_FolderType",
         "type": "application/tm+json"
       },
       {
         "rel": "dov:component",
         "dov:refName": "InterfaceClassLibs",
-        "href": "#title=OpcUaCore_FolderType",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_FolderType",
         "type": "application/tm+json"
       },
       {
         "rel": "dov:component",
         "dov:refName": "RoleClassLibs",
-        "href": "#title=OpcUaCore_FolderType",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_FolderType",
         "type": "application/tm+json"
       },
       {
         "rel": "dov:component",
         "dov:refName": "SystemUnitClassLibs",
-        "href": "#title=OpcUaCore_FolderType",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_FolderType",
         "type": "application/tm+json"
       }
     ],
@@ -104,13 +104,13 @@
       }
     ],
     "@type": "tm:ThingModel",
-    "title": "AMLBaseTypes_CAEXObjectType",
+    "title": "AML_CAEXObjectType",
     "dov:typeRef": "org.opcfoundation.UA.AML.CAEXObjectType",
     "dov:isComposite": true,
     "links": [
       {
         "rel": "tm:extends",
-        "href": "#title=AMLBaseTypes_CAEXBasicObjectType",
+        "href": "#title=AML_CAEXBasicObjectType",
         "type": "application/tm+json"
       }
     ],
@@ -119,7 +119,7 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dov:topic": "opcua/AMLBaseTypes/AMLBaseTypes_CAEXObjectType/properties/read",
+        "dov:topic": "opcua/AML/AML_CAEXObjectType/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -133,7 +133,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dov:topic": "opcua/AMLBaseTypes/AMLBaseTypes_CAEXObjectType/property/ID/read",
+            "dov:topic": "opcua/AML/AML_CAEXObjectType/property/ID/read",
             "op": "readproperty"
           }
         ]
@@ -150,13 +150,13 @@
       }
     ],
     "@type": "tm:ThingModel",
-    "title": "AMLBaseTypes_AutomationMLBaseInterface",
+    "title": "AML_AutomationMLBaseInterface",
     "dov:typeRef": "org.opcfoundation.UA.AML.AutomationMLBaseInterface",
     "dov:isComposite": true,
     "links": [
       {
         "rel": "tm:extends",
-        "href": "#title=AMLBaseTypes_CAEXObjectType",
+        "href": "#title=AML_CAEXObjectType",
         "type": "application/tm+json"
       }
     ],
@@ -177,13 +177,13 @@
       }
     ],
     "@type": "tm:ThingModel",
-    "title": "AMLBaseTypes_AutomationMLBaseRole",
+    "title": "AML_AutomationMLBaseRole",
     "dov:typeRef": "org.opcfoundation.UA.AML.AutomationMLBaseRole",
     "dov:isComposite": true,
     "links": [
       {
         "rel": "tm:extends",
-        "href": "#title=AMLBaseTypes_CAEXObjectType",
+        "href": "#title=AML_CAEXObjectType",
         "type": "application/tm+json"
       }
     ],
@@ -204,60 +204,13 @@
       }
     ],
     "@type": "tm:ThingModel",
-    "title": "AMLBaseTypes_AutomationMLBaseSystemUnit",
+    "title": "AML_AutomationMLBaseSystemUnit",
     "dov:typeRef": "org.opcfoundation.UA.AML.AutomationMLBaseSystemUnit",
     "dov:isComposite": true,
     "links": [
       {
         "rel": "tm:extends",
-        "href": "#title=AMLBaseTypes_CAEXObjectType",
-        "type": "application/tm+json"
-      }
-    ],
-    "schemaDefinitions": {
-    },
-    "actions": {
-    },
-    "properties": {
-    },
-    "events": {
-    }
-  },
-  {
-    "@context": [
-      "https://www.w3.org/2022/wot/td/v1.1",
-      {
-        "dov": "http://azure.com/DigitalOperations/vocab#"
-      }
-    ],
-    "@type": "tm:ThingModel",
-    "title": "OpcUaCore_BaseObjectType",
-    "dov:typeRef": "org.opcfoundation.UA.BaseObjectType",
-    "links": [
-    ],
-    "schemaDefinitions": {
-    },
-    "actions": {
-    },
-    "properties": {
-    },
-    "events": {
-    }
-  },
-  {
-    "@context": [
-      "https://www.w3.org/2022/wot/td/v1.1",
-      {
-        "dov": "http://azure.com/DigitalOperations/vocab#"
-      }
-    ],
-    "@type": "tm:ThingModel",
-    "title": "OpcUaCore_FolderType",
-    "dov:typeRef": "org.opcfoundation.UA.FolderType",
-    "links": [
-      {
-        "rel": "tm:extends",
-        "href": "#title=OpcUaCore_BaseObjectType",
+        "href": "#title=AML_CAEXObjectType",
         "type": "application/tm+json"
       }
     ],
