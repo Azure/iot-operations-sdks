@@ -95,10 +95,9 @@ where
     pub invoker_id: Option<String>,
     /// Resolved static and dynamic topic tokens from the incoming request's topic.
     pub topic_tokens: HashMap<String, String>,
-    // Internal fields
-    command_name: String,
-    response_tx: oneshot::Sender<Response<TResp>>,
-    publish_completion_rx: oneshot::Receiver<Result<(), AIOProtocolError>>,
+    // Internal handle used to respond to the invoker. Kept private so that all response logic
+    // lives on `Responder` and `Request` simply delegates to it.
+    responder: Responder<TResp>,
 }
 
 impl<TReq, TResp> Request<TReq, TResp>
@@ -128,8 +127,7 @@ where
     /// [`AIOProtocolError`] of kind [`InternalLogicError`](crate::common::aio_protocol_error::AIOProtocolErrorKind::InternalLogicError)
     /// if the response publish completion fails. This should not happen.
     pub async fn complete(self, response: Response<TResp>) -> Result<(), AIOProtocolError> {
-        let (_parts, responder) = self.into_parts();
-        responder.complete(response).await
+        self.responder.complete(response).await
     }
 
     /// Splits the command request into its owned data ([`RequestParts`]) and a [`Responder`] used
@@ -152,29 +150,37 @@ where
     /// ```
     #[must_use]
     pub fn into_parts(self) -> (RequestParts<TReq>, Responder<TResp>) {
+        let Request {
+            payload,
+            content_type,
+            format_indicator,
+            custom_user_data,
+            timestamp,
+            invoker_id,
+            topic_tokens,
+            responder,
+        } = self;
+
         (
             RequestParts {
-                payload: self.payload,
-                content_type: self.content_type,
-                format_indicator: self.format_indicator,
-                custom_user_data: self.custom_user_data,
-                timestamp: self.timestamp,
-                invoker_id: self.invoker_id,
-                topic_tokens: self.topic_tokens,
+                payload,
+                content_type,
+                format_indicator,
+                custom_user_data,
+                timestamp,
+                invoker_id,
+                topic_tokens,
             },
-            Responder {
-                command_name: self.command_name,
-                response_tx: self.response_tx,
-                publish_completion_rx: self.publish_completion_rx,
-            },
+            responder,
         )
     }
 
     /// Check if the command response is no longer expected.
     ///
     /// Returns true if the response is no longer expected, otherwise returns false.
+    #[must_use]
     pub fn is_cancelled(&self) -> bool {
-        self.response_tx.is_closed()
+        self.responder.is_cancelled()
     }
 }
 
@@ -266,8 +272,6 @@ where
     /// Check if the command response is no longer expected.
     ///
     /// Returns true if the response is no longer expected, otherwise returns false.
-    // Intentionally mirrors `Request::is_cancelled`: both check the same `response_tx`, but expose
-    // the check across the two stages of a request's lifecycle (before and after `into_parts`).
     #[must_use]
     pub fn is_cancelled(&self) -> bool {
         self.response_tx.is_closed()
@@ -299,7 +303,7 @@ pub fn cloud_event_from_request<TReq: PayloadSerialize, TResp: PayloadSerialize>
 /// [`RequestCloudEventParseError`] if
 /// - the [`RequestParts`] does not contain the required fields for a [`RequestCloudEvent`].
 /// - any of the field values are not valid for a [`RequestCloudEvent`].
-pub fn cloud_event_from_request_parts<TReq: PayloadSerialize>(
+pub fn cloud_event_from_request_parts<TReq>(
     request_parts: &RequestParts<TReq>,
 ) -> Result<RequestCloudEvent, RequestCloudEventParseError> {
     RequestCloudEvent::try_from((
@@ -1347,9 +1351,11 @@ where
                             timestamp,
                             invoker_id,
                             topic_tokens,
-                            command_name: self.command_name.clone(),
-                            response_tx,
-                            publish_completion_rx,
+                            responder: Responder {
+                                command_name: self.command_name.clone(),
+                                response_tx,
+                                publish_completion_rx,
+                            },
                         };
 
                         // Check the command has not expired, if it has, we do not respond to the invoker.
@@ -2032,9 +2038,11 @@ mod tests {
             timestamp: None,
             invoker_id: Some("test_invoker_id".to_string()),
             topic_tokens: HashMap::from([("commandName".to_string(), "test".to_string())]),
-            command_name: "test_command_name".to_string(),
-            response_tx,
-            publish_completion_rx,
+            responder: Responder {
+                command_name: "test_command_name".to_string(),
+                response_tx,
+                publish_completion_rx,
+            },
         };
 
         (request, response_rx, publish_completion_tx)
