@@ -10,6 +10,7 @@ set -e
 # Thing Model extension surfaces — the same set of Thing Models the SDK client is generated from.
 
 rm -rf ./Generated
+rm -rf ./schemas
 
 dotnet run --project ../../../../../wot-codegen/src/Azure.Iot.Operations.ProtocolCompiler/ \
  --serverThings ../../../../../eng/wot/edge-registry/EdgeRegistry.TM.json ../../../../../eng/wot/edge-registry/SchemaExtensions.TM.json ../../../../../eng/wot/edge-registry/ThingDescriptionExtensions.TM.json ../../../../../eng/wot/edge-registry/ThingModelExtensions.TM.json \
