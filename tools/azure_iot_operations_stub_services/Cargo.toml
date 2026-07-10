@@ -8,8 +8,8 @@ edition = "2024"
 publish = false
 
 [dependencies]
-azure_iot_operations_protocol = { version = "0.10.0", registry = "aio-sdks"  }
-azure_iot_operations_mqtt = { version = "0.10.0", registry = "aio-sdks"  }
+azure_iot_operations_protocol = { version = "1.0.1-rc1" }
+azure_iot_operations_mqtt = { version = "1.1.0-rc1" }
 tokio = { version = "1.41", features = ["rt", "time", "sync"] }
 serde = { version = "1.0", features = ["derive"] }
 serde_repr = "0.1"
