@@ -42,6 +42,7 @@ namespace Azure.Iot.Operations.Opc2WotLib.UnitTests
                 <Alias Alias="HasModellingRule">i=37</Alias>
                 <Alias Alias="HasTypeDefinition">i=40</Alias>
                 <Alias Alias="HasSubtype">i=45</Alias>
+                <Alias Alias="Structure">i=22</Alias>
                 <Alias Alias="HasProperty">i=46</Alias>
                 <Alias Alias="HasComponent">i=47</Alias>
               </Aliases>
@@ -115,7 +116,7 @@ namespace Azure.Iot.Operations.Opc2WotLib.UnitTests
               <UADataType NodeId="ns=1;i=55" BrowseName="1:BaseStruct">
                 <DisplayName>BaseStruct</DisplayName>
                 <References>
-                  <Reference ReferenceType="HasSubtype" IsForward="false">i=22</Reference>
+                  <Reference ReferenceType="HasSubtype" IsForward="false">Structure</Reference>
                 </References>
                 <Definition Name="1:BaseStruct">
                   <Field Name="BaseRequired" DataType="i=6" />
