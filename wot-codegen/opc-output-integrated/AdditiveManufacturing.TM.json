@@ -63,6 +63,9 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/NodeVersion"
+    ],
     "actions": {
     },
     "properties": {
@@ -145,6 +148,19 @@
         "dov:topic": "opcua/AdditiveManufacturing/AdditiveManufacturing_FeedstockType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/Cycle",
+      "/properties/ExternalIdentifier",
+      "/properties/Function",
+      "/properties/Manufacturer",
+      "/properties/Name",
+      "/properties/ReadyForProduction",
+      "/properties/RemainingQuantity",
+      "/events/Cycle",
+      "/events/Function",
+      "/events/ReadyForProduction",
+      "/events/RemainingQuantity"
     ],
     "actions": {
     },
@@ -432,6 +448,12 @@
         "type": "application/tm+json"
       },
       {
+        "rel": "dov:capability",
+        "dov:refName": "Identification",
+        "href": "#title=AdditiveManufacturing_MachineIdentificationAMType",
+        "type": "application/tm+json"
+      },
+      {
         "rel": "dov:component",
         "dov:refName": "MachineryBuildingBlocks",
         "href": "#title=OpcUaCore_FolderType",
@@ -527,6 +549,9 @@
         "dov:topic": "opcua/AdditiveManufacturing/AdditiveManufacturing_ProcessValueAMType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/Severity"
     ],
     "actions": {
     },
@@ -641,6 +666,9 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/NodeVersion"
+    ],
     "actions": {
     },
     "properties": {
@@ -690,6 +718,10 @@
         "dov:topic": "opcua/MachineTool/MachineTool_BaseToolType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/Identifier",
+      "/properties/Name"
     ],
     "actions": {
     },
@@ -772,6 +804,12 @@
         "type": "application/tm+json"
       },
       {
+        "rel": "dov:component",
+        "dov:refName": "Components",
+        "href": "#title=Machinery_MachineComponentsType",
+        "type": "application/tm+json"
+      },
+      {
         "rel": "dov:capability",
         "dov:refName": "Equipment",
         "href": "#title=MachineTool_EquipmentType",
@@ -781,6 +819,12 @@
         "rel": "dov:component",
         "dov:refName": "FileSystem",
         "href": "#title=OpcUaCore_FileDirectoryType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:capability",
+        "dov:refName": "Identification",
+        "href": "#title=MachineTool_MachineToolIdentificationType",
         "type": "application/tm+json"
       },
       {
@@ -923,9 +967,27 @@
         "type": "application/tm+json"
       },
       {
+        "rel": "dov:capability",
+        "dov:refName": "MachineryItemState",
+        "href": "#title=Machinery_MachineryItemState_StateMachineType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:capability",
+        "dov:refName": "MachineryOperationMode",
+        "href": "#title=MachineTool_MachineOperationModeStateMachineType",
+        "type": "application/tm+json"
+      },
+      {
         "rel": "dov:reference",
         "dov:refName": "Obligation",
         "href": "#title=MachineTool_ObligationType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:capability",
+        "dov:refName": "OperationCounters",
+        "href": "#title=Machinery_MachineryOperationCounterType",
         "type": "application/tm+json"
       }
     ],
@@ -980,6 +1042,14 @@
         "dov:topic": "opcua/MachineTool/MachineTool_MachineOperationMonitoringType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/FeedOverride",
+      "/properties/IsWarmUp",
+      "/properties/PowerOnDuration",
+      "/events/FeedOverride",
+      "/events/IsWarmUp",
+      "/events/PowerOnDuration"
     ],
     "actions": {
     },
@@ -1102,6 +1172,246 @@
           }
         ]
       }
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dov": "http://azure.com/DigitalOperations/vocab#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "MachineTool_MachineOperationModeStateMachineType",
+    "dov:typeRef": "org.opcfoundation.UA.MachineTool.MachineOperationModeStateMachineType",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=Machinery_MachineryOperationModeStateMachineType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:reference",
+        "dov:refName": "FromMaintenanceToMaintenance",
+        "href": "#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:reference",
+        "dov:refName": "FromMaintenanceToNone",
+        "href": "#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:reference",
+        "dov:refName": "FromMaintenanceToProcessing",
+        "href": "#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:reference",
+        "dov:refName": "FromMaintenanceToSetup",
+        "href": "#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:reference",
+        "dov:refName": "FromNoneToMaintenance",
+        "href": "#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:reference",
+        "dov:refName": "FromNoneToNone",
+        "href": "#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:reference",
+        "dov:refName": "FromNoneToProcessing",
+        "href": "#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:reference",
+        "dov:refName": "FromNoneToSetup",
+        "href": "#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:reference",
+        "dov:refName": "FromProcessingToMaintenance",
+        "href": "#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:reference",
+        "dov:refName": "FromProcessingToNone",
+        "href": "#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:reference",
+        "dov:refName": "FromProcessingToProcessing",
+        "href": "#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:reference",
+        "dov:refName": "FromProcessingToSetup",
+        "href": "#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:reference",
+        "dov:refName": "FromSetupToMaintenance",
+        "href": "#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:reference",
+        "dov:refName": "FromSetupToNone",
+        "href": "#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:reference",
+        "dov:refName": "FromSetupToProcessing",
+        "href": "#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:reference",
+        "dov:refName": "FromSetupToSetup",
+        "href": "#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:reference",
+        "dov:refName": "Maintenance",
+        "href": "#title=OpcUaCore_StateType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:capability",
+        "dov:refName": "MaintenanceMode",
+        "href": "#title=MachineTool_MaintenanceModeStateMachineType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:reference",
+        "dov:refName": "None",
+        "href": "#title=OpcUaCore_StateType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:reference",
+        "dov:refName": "Processing",
+        "href": "#title=OpcUaCore_StateType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:reference",
+        "dov:refName": "Setup",
+        "href": "#title=OpcUaCore_StateType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dov:topic": "opcua/MachineTool/MachineTool_MachineOperationModeStateMachineType/properties/write",
+        "op": "writemultipleproperties"
+      },
+      {
+        "contentType": "application/json",
+        "dov:topic": "opcua/MachineTool/MachineTool_MachineOperationModeStateMachineType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "tm:optional": [
+      "/properties/DefaultInstanceBrowseName"
+    ],
+    "actions": {
+    },
+    "properties": {
+      "DefaultInstanceBrowseName": {
+        "description": "The default BrowseName for instances of the type",
+        "type": "string",
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/MachineTool/MachineTool_MachineOperationModeStateMachineType/property/DefaultInstanceBrowseName/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/MachineTool/MachineTool_MachineOperationModeStateMachineType/property/DefaultInstanceBrowseName/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dov": "http://azure.com/DigitalOperations/vocab#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "MachineTool_MaintenanceModeStateMachineType",
+    "dov:typeRef": "org.opcfoundation.UA.MachineTool.MaintenanceModeStateMachineType",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_FiniteStateMachineType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:reference",
+        "dov:refName": "Inspection",
+        "href": "#title=OpcUaCore_StateType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:reference",
+        "dov:refName": "Other",
+        "href": "#title=OpcUaCore_StateType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:reference",
+        "dov:refName": "Repair",
+        "href": "#title=OpcUaCore_StateType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:reference",
+        "dov:refName": "Service",
+        "href": "#title=OpcUaCore_StateType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:reference",
+        "dov:refName": "Upgrade",
+        "href": "#title=OpcUaCore_StateType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
     }
   },
   {
@@ -1288,6 +1598,9 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/NodeVersion"
+    ],
     "actions": {
     },
     "properties": {
@@ -1432,6 +1745,12 @@
         "dov:topic": "opcua/MachineTool/MachineTool_ProductionActiveProgramType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/JobIdentifier",
+      "/properties/JobNodeId",
+      "/events/JobIdentifier",
+      "/events/JobNodeId"
     ],
     "actions": {
     },
@@ -1792,6 +2111,10 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/LastTransition",
+      "/events/LastTransition"
+    ],
     "actions": {
     },
     "properties": {
@@ -1901,6 +2224,10 @@
         "dov:topic": "opcua/MachineTool/MachineTool_ProductionStatisticsType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/PartsProducedInLifetime",
+      "/events/PartsProducedInLifetime"
     ],
     "actions": {
     },
@@ -2142,51 +2469,6 @@
       }
     ],
     "@type": "tm:ThingModel",
-    "title": "OpcUaCore_OrderedListType",
-    "dov:typeRef": "org.opcfoundation.UA.OrderedListType",
-    "dov:isComposite": true,
-    "links": [
-      {
-        "rel": "tm:extends",
-        "href": "#title=OpcUaCore_BaseObjectType",
-        "type": "application/tm+json"
-      }
-    ],
-    "schemaDefinitions": {
-    },
-    "forms": [
-      {
-        "contentType": "application/json",
-        "dov:topic": "opcua/OpcUaCore/OpcUaCore_OrderedListType/properties/read",
-        "op": "readallproperties"
-      }
-    ],
-    "actions": {
-    },
-    "properties": {
-      "NodeVersion": {
-        "type": "string",
-        "readOnly": true,
-        "forms": [
-          {
-            "contentType": "application/json",
-            "dov:topic": "opcua/OpcUaCore/OpcUaCore_OrderedListType/property/NodeVersion/read",
-            "op": "readproperty"
-          }
-        ]
-      }
-    },
-    "events": {
-    }
-  },
-  {
-    "@context": [
-      "https://www.w3.org/2022/wot/td/v1.1",
-      {
-        "dov": "http://azure.com/DigitalOperations/vocab#"
-      }
-    ],
-    "@type": "tm:ThingModel",
     "title": "OpcUaCore_FiniteStateMachineType",
     "dov:typeRef": "org.opcfoundation.UA.FiniteStateMachineType",
     "links": [
@@ -2209,6 +2491,14 @@
         "dov:topic": "opcua/OpcUaCore/OpcUaCore_FiniteStateMachineType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/AvailableStates",
+      "/properties/AvailableTransitions",
+      "/properties/LastTransition",
+      "/events/AvailableStates",
+      "/events/AvailableTransitions",
+      "/events/LastTransition"
     ],
     "actions": {
     },
@@ -2352,6 +2642,10 @@
         "dov:topic": "opcua/OpcUaCore/OpcUaCore_StateMachineType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/LastTransition",
+      "/events/LastTransition"
     ],
     "actions": {
     },
@@ -2506,6 +2800,54 @@
       }
     ],
     "@type": "tm:ThingModel",
+    "title": "OpcUaCore_OrderedListType",
+    "dov:typeRef": "org.opcfoundation.UA.OrderedListType",
+    "dov:isComposite": true,
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dov:topic": "opcua/OpcUaCore/OpcUaCore_OrderedListType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "tm:optional": [
+      "/properties/NodeVersion"
+    ],
+    "actions": {
+    },
+    "properties": {
+      "NodeVersion": {
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/OpcUaCore/OpcUaCore_OrderedListType/property/NodeVersion/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dov": "http://azure.com/DigitalOperations/vocab#"
+      }
+    ],
+    "@type": "tm:ThingModel",
     "title": "OpcUaCore_InitialStateType",
     "dov:typeRef": "org.opcfoundation.UA.InitialStateType",
     "links": [
@@ -2550,6 +2892,9 @@
         "dov:topic": "opcua/OpcUaCore/OpcUaCore_ExclusiveDeviationAlarmType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/BaseSetpointNode"
     ],
     "actions": {
     },
@@ -2674,6 +3019,24 @@
         "dov:topic": "opcua/OpcUaCore/OpcUaCore_LimitAlarmType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/BaseHighHighLimit",
+      "/properties/BaseHighLimit",
+      "/properties/BaseLowLimit",
+      "/properties/BaseLowLowLimit",
+      "/properties/HighDeadband",
+      "/properties/HighHighDeadband",
+      "/properties/HighHighLimit",
+      "/properties/HighLimit",
+      "/properties/LowDeadband",
+      "/properties/LowLimit",
+      "/properties/LowLowDeadband",
+      "/properties/LowLowLimit",
+      "/properties/SeverityHigh",
+      "/properties/SeverityHighHigh",
+      "/properties/SeverityLow",
+      "/properties/SeverityLowLow"
     ],
     "actions": {
     },
@@ -2933,6 +3296,39 @@
         "dov:topic": "opcua/OpcUaCore/OpcUaCore_AlarmConditionType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/actions/GetGroupMemberships",
+      "/actions/PlaceInService",
+      "/actions/PlaceInService2",
+      "/actions/RemoveFromService",
+      "/actions/RemoveFromService2",
+      "/actions/Reset",
+      "/actions/Reset2",
+      "/actions/Silence",
+      "/actions/Suppress",
+      "/actions/Suppress2",
+      "/actions/Unsuppress",
+      "/actions/Unsuppress2",
+      "/properties/AudibleEnabled",
+      "/properties/AudibleSound",
+      "/properties/FirstInGroupFlag",
+      "/properties/LatchedState",
+      "/properties/MaxTimeShelved",
+      "/properties/OffDelay",
+      "/properties/OnDelay",
+      "/properties/OutOfServiceState",
+      "/properties/ReAlarmRepeatCount",
+      "/properties/ReAlarmTime",
+      "/properties/SilenceState",
+      "/properties/SuppressedState",
+      "/events/AudibleSound",
+      "/events/FirstInGroupFlag",
+      "/events/LatchedState",
+      "/events/OutOfServiceState",
+      "/events/ReAlarmRepeatCount",
+      "/events/SilenceState",
+      "/events/SuppressedState"
     ],
     "actions": {
       "GetGroupMemberships": {
@@ -3438,6 +3834,11 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/actions/Confirm",
+      "/properties/ConfirmedState",
+      "/events/ConfirmedState"
+    ],
     "actions": {
       "Acknowledge": {
         "input": {
@@ -3595,6 +3996,13 @@
         "dov:topic": "opcua/OpcUaCore/OpcUaCore_ConditionType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/actions/ConditionRefresh",
+      "/actions/ConditionRefresh2",
+      "/properties/ConditionSubClassId",
+      "/properties/ConditionSubClassName",
+      "/properties/SupportsFilteredRetain"
     ],
     "actions": {
       "AddComment": {
@@ -3923,6 +4331,13 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/ConditionClassId",
+      "/properties/ConditionClassName",
+      "/properties/ConditionSubClassId",
+      "/properties/ConditionSubClassName",
+      "/properties/LocalTime"
+    ],
     "actions": {
     },
     "properties": {
@@ -4177,6 +4592,11 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/actions/OneShotShelve2",
+      "/actions/TimedShelve2",
+      "/actions/Unshelve2"
+    ],
     "actions": {
       "OneShotShelve": {
         "forms": [
@@ -4427,6 +4847,10 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/DefaultInstanceBrowseName",
+      "/properties/Location"
+    ],
     "actions": {
     },
     "properties": {
@@ -4507,6 +4931,21 @@
         "dov:topic": "opcua/Machinery/Machinery_MachineryItemIdentificationType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/AssetId",
+      "/properties/ComponentName",
+      "/properties/DefaultInstanceBrowseName",
+      "/properties/DeviceClass",
+      "/properties/HardwareRevision",
+      "/properties/InitialOperationDate",
+      "/properties/ManufacturerUri",
+      "/properties/Model",
+      "/properties/MonthOfConstruction",
+      "/properties/ProductCode",
+      "/properties/ProductInstanceUri",
+      "/properties/SoftwareRevision",
+      "/properties/YearOfConstruction"
     ],
     "actions": {
     },
@@ -4737,6 +5176,546 @@
       }
     ],
     "@type": "tm:ThingModel",
+    "title": "Machinery_MachineComponentsType",
+    "dov:typeRef": "org.opcfoundation.UA.Machinery.MachineComponentsType",
+    "dov:isComposite": true,
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:component",
+        "dov:refName": "Component",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dov:topic": "opcua/Machinery/Machinery_MachineComponentsType/properties/write",
+        "op": "writemultipleproperties"
+      },
+      {
+        "contentType": "application/json",
+        "dov:topic": "opcua/Machinery/Machinery_MachineComponentsType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "tm:optional": [
+      "/properties/DefaultInstanceBrowseName"
+    ],
+    "actions": {
+    },
+    "properties": {
+      "DefaultInstanceBrowseName": {
+        "description": "The default BrowseName for instances of the type.",
+        "type": "string",
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/Machinery/Machinery_MachineComponentsType/property/DefaultInstanceBrowseName/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/Machinery/Machinery_MachineComponentsType/property/DefaultInstanceBrowseName/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dov": "http://azure.com/DigitalOperations/vocab#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "Machinery_MachineryItemState_StateMachineType",
+    "dov:typeRef": "org.opcfoundation.UA.Machinery.MachineryItemState_StateMachineType",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_FiniteStateMachineType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:reference",
+        "dov:refName": "Executing",
+        "href": "#title=OpcUaCore_StateType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:reference",
+        "dov:refName": "FromExecutingToExecuting",
+        "href": "#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:reference",
+        "dov:refName": "FromExecutingToNotAvailable",
+        "href": "#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:reference",
+        "dov:refName": "FromExecutingToNotExecuting",
+        "href": "#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:reference",
+        "dov:refName": "FromExecutingToOutOfService",
+        "href": "#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:reference",
+        "dov:refName": "FromNotAvailableToExecuting",
+        "href": "#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:reference",
+        "dov:refName": "FromNotAvailableToNotAvailable",
+        "href": "#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:reference",
+        "dov:refName": "FromNotAvailableToNotExecuting",
+        "href": "#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:reference",
+        "dov:refName": "FromNotAvailableToOutOfService",
+        "href": "#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:reference",
+        "dov:refName": "FromNotExecutingToExecuting",
+        "href": "#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:reference",
+        "dov:refName": "FromNotExecutingToNotAvailable",
+        "href": "#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:reference",
+        "dov:refName": "FromNotExecutingToNotExecuting",
+        "href": "#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:reference",
+        "dov:refName": "FromNotExecutingToOutOfService",
+        "href": "#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:reference",
+        "dov:refName": "FromOutOfServiceToExecuting",
+        "href": "#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:reference",
+        "dov:refName": "FromOutOfServiceToNotAvailable",
+        "href": "#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:reference",
+        "dov:refName": "FromOutOfServiceToNotExecuting",
+        "href": "#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:reference",
+        "dov:refName": "FromOutOfServiceToOutOfService",
+        "href": "#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:reference",
+        "dov:refName": "NotAvailable",
+        "href": "#title=OpcUaCore_StateType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:reference",
+        "dov:refName": "NotExecuting",
+        "href": "#title=OpcUaCore_StateType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:reference",
+        "dov:refName": "OutOfService",
+        "href": "#title=OpcUaCore_StateType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dov:topic": "opcua/Machinery/Machinery_MachineryItemState_StateMachineType/properties/write",
+        "op": "writemultipleproperties"
+      },
+      {
+        "contentType": "application/json",
+        "dov:topic": "opcua/Machinery/Machinery_MachineryItemState_StateMachineType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "tm:optional": [
+      "/properties/DefaultInstanceBrowseName"
+    ],
+    "actions": {
+    },
+    "properties": {
+      "DefaultInstanceBrowseName": {
+        "description": "The default BrowseName for instances of the type",
+        "type": "string",
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/Machinery/Machinery_MachineryItemState_StateMachineType/property/DefaultInstanceBrowseName/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/Machinery/Machinery_MachineryItemState_StateMachineType/property/DefaultInstanceBrowseName/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dov": "http://azure.com/DigitalOperations/vocab#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "Machinery_MachineryOperationModeStateMachineType",
+    "dov:typeRef": "org.opcfoundation.UA.Machinery.MachineryOperationModeStateMachineType",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_FiniteStateMachineType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:reference",
+        "dov:refName": "FromMaintenanceToMaintenance",
+        "href": "#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:reference",
+        "dov:refName": "FromMaintenanceToNone",
+        "href": "#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:reference",
+        "dov:refName": "FromMaintenanceToProcessing",
+        "href": "#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:reference",
+        "dov:refName": "FromMaintenanceToSetup",
+        "href": "#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:reference",
+        "dov:refName": "FromNoneToMaintenance",
+        "href": "#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:reference",
+        "dov:refName": "FromNoneToNone",
+        "href": "#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:reference",
+        "dov:refName": "FromNoneToProcessing",
+        "href": "#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:reference",
+        "dov:refName": "FromNoneToSetup",
+        "href": "#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:reference",
+        "dov:refName": "FromProcessingToMaintenance",
+        "href": "#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:reference",
+        "dov:refName": "FromProcessingToNone",
+        "href": "#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:reference",
+        "dov:refName": "FromProcessingToProcessing",
+        "href": "#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:reference",
+        "dov:refName": "FromProcessingToSetup",
+        "href": "#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:reference",
+        "dov:refName": "FromSetupToMaintenance",
+        "href": "#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:reference",
+        "dov:refName": "FromSetupToNone",
+        "href": "#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:reference",
+        "dov:refName": "FromSetupToProcessing",
+        "href": "#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:reference",
+        "dov:refName": "FromSetupToSetup",
+        "href": "#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:reference",
+        "dov:refName": "Maintenance",
+        "href": "#title=OpcUaCore_StateType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:reference",
+        "dov:refName": "None",
+        "href": "#title=OpcUaCore_StateType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:reference",
+        "dov:refName": "Processing",
+        "href": "#title=OpcUaCore_StateType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:reference",
+        "dov:refName": "Setup",
+        "href": "#title=OpcUaCore_StateType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dov:topic": "opcua/Machinery/Machinery_MachineryOperationModeStateMachineType/properties/write",
+        "op": "writemultipleproperties"
+      },
+      {
+        "contentType": "application/json",
+        "dov:topic": "opcua/Machinery/Machinery_MachineryOperationModeStateMachineType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "tm:optional": [
+      "/properties/DefaultInstanceBrowseName"
+    ],
+    "actions": {
+    },
+    "properties": {
+      "DefaultInstanceBrowseName": {
+        "description": "The default BrowseName for instances of the type",
+        "type": "string",
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/Machinery/Machinery_MachineryOperationModeStateMachineType/property/DefaultInstanceBrowseName/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/Machinery/Machinery_MachineryOperationModeStateMachineType/property/DefaultInstanceBrowseName/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dov": "http://azure.com/DigitalOperations/vocab#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "Machinery_MachineryOperationCounterType",
+    "dov:typeRef": "org.opcfoundation.UA.Machinery.MachineryOperationCounterType",
+    "dov:isComposite": true,
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=DI_FunctionalGroupType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dov:topic": "opcua/Machinery/Machinery_MachineryOperationCounterType/properties/write",
+        "op": "writemultipleproperties"
+      },
+      {
+        "contentType": "application/json",
+        "dov:topic": "opcua/Machinery/Machinery_MachineryOperationCounterType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "tm:optional": [
+      "/properties/DefaultInstanceBrowseName",
+      "/properties/OperationCycleCounter",
+      "/properties/OperationDuration",
+      "/properties/PowerOnDuration"
+    ],
+    "actions": {
+    },
+    "properties": {
+      "DefaultInstanceBrowseName": {
+        "description": "The default BrowseName for instances of the type",
+        "type": "string",
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/Machinery/Machinery_MachineryOperationCounterType/property/DefaultInstanceBrowseName/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/Machinery/Machinery_MachineryOperationCounterType/property/DefaultInstanceBrowseName/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "OperationCycleCounter": {
+        "dov:namespace": "http://opcfoundation.org/UA/DI/",
+        "description": "OperationCycleCounter is counting the times the component switches from not performing an activity to performing an activity. For example, each time a valve starts moving, is counted. This value shall only increase during the lifetime of the component and shall not be reset when the component is restarted.",
+        "type": "integer",
+        "minimum": 0,
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/Machinery/Machinery_MachineryOperationCounterType/property/OperationCycleCounter/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/Machinery/Machinery_MachineryOperationCounterType/property/OperationCycleCounter/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "OperationDuration": {
+        "dov:namespace": "http://opcfoundation.org/UA/DI/",
+        "description": "OperationDuration is the duration the MachineryItem has been powered and performing an activity. This counter is intended for machines and components where a distinction is made between switched on and in operation. For example, a drive might be powered on but not operating. It is not intended for machines or components always performing an activity like sensors always measuring data. This value shall only increase during the lifetime of the MachineryItem and shall not be reset when it is restarted. The OperationDuration is provided as Duration, i.e., in milliseconds or even fractions of a millisecond. However, the Server is not expected to update the value in such a high frequency, but maybe once a minute or once an hour, depending on the application.",
+        "type": "string",
+        "pattern": "^P(?!$)(?:(?:(?:(?:\\d+Y)|(?:\\d+\\.\\d+Y$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?)|(?:(?:(?:\\d+W)|(?:\\d+\\.\\d+W$))?))(?:(?:\\d+D)|(?:\\d+\\.\\d+D$))?(?:T(?!$)(?:(?:\\d+H)|(?:\\d+\\.\\d+H$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?(?:\\d+(?:\\.\\d+)?S)?)?$",
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/Machinery/Machinery_MachineryOperationCounterType/property/OperationDuration/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/Machinery/Machinery_MachineryOperationCounterType/property/OperationDuration/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "PowerOnDuration": {
+        "dov:namespace": "http://opcfoundation.org/UA/DI/",
+        "description": "PowerOnDuration is the duration the MachineryItem has been powered. The main purpose is to determine the time in which degradation of the MachineryItem occurred. The details, when the time is counted, is implementation-specific. Companion specifications might define specific rules. Typically, when the MachineryItem has supply voltage and the main CPU is running, the time is counted. This may include any kind of sleep mode, but may not include pure Wake on LAN. This value shall only increase during the lifetime of the MachineryItem and shall not be reset when it is restarted. The PowerOnDuration is provided as Duration, i.e., in milliseconds or even fractions of a millisecond. However, the Server is not expected to update the value in such a high frequency, but maybe once a minute or once an hour, depending on the application.",
+        "type": "string",
+        "pattern": "^P(?!$)(?:(?:(?:(?:\\d+Y)|(?:\\d+\\.\\d+Y$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?)|(?:(?:(?:\\d+W)|(?:\\d+\\.\\d+W$))?))(?:(?:\\d+D)|(?:\\d+\\.\\d+D$))?(?:T(?!$)(?:(?:\\d+H)|(?:\\d+\\.\\d+H$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?(?:\\d+(?:\\.\\d+)?S)?)?$",
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/Machinery/Machinery_MachineryOperationCounterType/property/PowerOnDuration/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/Machinery/Machinery_MachineryOperationCounterType/property/PowerOnDuration/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dov": "http://azure.com/DigitalOperations/vocab#"
+      }
+    ],
+    "@type": "tm:ThingModel",
     "title": "DI_FunctionalGroupType",
     "dov:typeRef": "org.opcfoundation.UA.DI.FunctionalGroupType",
     "links": [
@@ -4765,6 +5744,10 @@
         "dov:topic": "opcua/DI/DI_FunctionalGroupType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/UIElement",
+      "/events/UIElement"
     ],
     "actions": {
     },
@@ -5120,6 +6103,26 @@
         "dov:topic": "opcua/Machinery.ProcessValues/Machinery_ProcessValues_ProcessValueType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/actions/ZeroPointAdjustment",
+      "/properties/AlarmSuppression",
+      "/properties/AnalogSignal_HighHighLimit",
+      "/properties/AnalogSignal_HighLimit",
+      "/properties/AnalogSignal_LowLimit",
+      "/properties/AnalogSignal_LowLowLimit",
+      "/properties/AnalogSignal_PercentageValue",
+      "/properties/ProcessValueSetpoint",
+      "/properties/Status",
+      "/properties/AnalogSignal_PercentageValue_EngineeringUnits",
+      "/events/AlarmSuppression",
+      "/events/AnalogSignal_HighHighLimit",
+      "/events/AnalogSignal_HighLimit",
+      "/events/AnalogSignal_LowLimit",
+      "/events/AnalogSignal_LowLowLimit",
+      "/events/AnalogSignal_PercentageValue",
+      "/events/ProcessValueSetpoint",
+      "/events/Status"
     ],
     "actions": {
       "ZeroPointAdjustment": {
@@ -5514,6 +6517,9 @@
         "dov:topic": "opcua/PADIM/PADIM_AnalogSignalType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/actions/ZeroPointAdjustment"
     ],
     "actions": {
       "ZeroPointAdjustment": {

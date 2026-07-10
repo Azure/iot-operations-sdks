@@ -535,6 +535,12 @@
         "type": "application/tm+json"
       },
       {
+        "rel": "dov:component",
+        "dov:refName": "Components",
+        "href": "./Machinery.TM.json#title=Machinery_MachineComponentsType",
+        "type": "application/tm+json"
+      },
+      {
         "rel": "dov:reference",
         "dov:refName": "JobGroups",
         "href": "#title=PlasticsRubber_Extrusion_v2_ExtrusionLine_JobGroupsType",
@@ -579,6 +585,10 @@
         "dov:topic": "opcua/PlasticsRubber.Extrusion_v2.ExtrusionLine/PlasticsRubber_Extrusion_v2_ExtrusionLine_ExtrusionLine_InterfaceType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/actions/ClearMESMessage",
+      "/actions/SetMESMessage"
     ],
     "actions": {
       "ClearMESMessage": {
@@ -713,6 +723,13 @@
         "dov:topic": "opcua/PlasticsRubber.Extrusion_v2.ExtrusionLine/PlasticsRubber_Extrusion_v2_ExtrusionLine_JobGroupsType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/actions/AddJobGroup",
+      "/actions/FinishJobGroupById",
+      "/actions/InterruptJobGroupById",
+      "/actions/RemoveJobGroupById",
+      "/actions/StartJobGroupById"
     ],
     "actions": {
       "AddJobGroup": {
@@ -997,6 +1014,19 @@
         "dov:topic": "opcua/PlasticsRubber.Extrusion_v2.ExtrusionLine/PlasticsRubber_Extrusion_v2_ExtrusionLine_JobGroupType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/actions/AddJob",
+      "/actions/FinishJobById",
+      "/actions/InterruptJobById",
+      "/actions/RemoveJobById",
+      "/actions/StartJobById",
+      "/properties/ElectricalEnergyConsumption",
+      "/properties/FluidEnergyConsumption",
+      "/properties/PressureAirConsumption",
+      "/events/ElectricalEnergyConsumption",
+      "/events/FluidEnergyConsumption",
+      "/events/PressureAirConsumption"
     ],
     "actions": {
       "AddJob": {
@@ -1586,6 +1616,22 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/ActualBadOutput",
+      "/properties/ActualGoodOutput",
+      "/properties/ActualLotName",
+      "/properties/ActualSampleOutput",
+      "/properties/LineSpeed",
+      "/properties/ProductWeight",
+      "/properties/Throughput",
+      "/events/ActualBadOutput",
+      "/events/ActualGoodOutput",
+      "/events/ActualLotName",
+      "/events/ActualSampleOutput",
+      "/events/LineSpeed",
+      "/events/ProductWeight",
+      "/events/Throughput"
+    ],
     "actions": {
     },
     "properties": {
@@ -2118,6 +2164,14 @@
         "dov:topic": "opcua/PlasticsRubber.Extrusion_v2.ExtrusionLine/PlasticsRubber_Extrusion_v2_ExtrusionLine_ProductionParametersType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/LineSpeed",
+      "/properties/ProductWeight",
+      "/properties/Throughput",
+      "/events/LineSpeed",
+      "/events/ProductWeight",
+      "/events/Throughput"
     ],
     "actions": {
     },

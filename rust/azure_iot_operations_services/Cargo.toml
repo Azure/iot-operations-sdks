@@ -15,7 +15,7 @@ publish = true
 [features]
 default = []
 all = ["state_store", "schema_registry", "leased_lock", "azure_device_registry", "edge_registry"]
-state_store = []
+state_store = ["azure_iot_operations_protocol/internal-utils"]
 schema_registry = [
   "serde",
   "serde_json",
@@ -39,6 +39,7 @@ edge_registry = [
   "bytes",
 ]
 azure_device_registry = [
+  "azure_iot_operations_protocol/internal-utils",
   "serde",
   "serde_json",
   "chrono",
@@ -51,8 +52,8 @@ azure_device_registry = [
 ]
 
 [dependencies]
-azure_iot_operations_protocol = { version = "1.0.1-rc1", path = "../azure_iot_operations_protocol" }
-azure_iot_operations_mqtt = { version = "1.1.0-rc1", path = "../azure_iot_operations_mqtt" }
+azure_iot_operations_protocol = { version = "1.0", path = "../azure_iot_operations_protocol" }
+azure_iot_operations_mqtt = { version = "1.1", path = "../azure_iot_operations_mqtt" }
 bytes = { workspace = true, optional = true }
 derive_builder.workspace = true
 log.workspace = true

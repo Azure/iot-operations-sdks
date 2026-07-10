@@ -12,6 +12,7 @@ namespace Azure.Iot.Operations.Opc2WotLib
         private const int HasSubtypeNodeIndex = 45;
         private const int HasPropertyNodeIndex = 46;
         private const int HasComponentNodeIndex = 47;
+        private const int HasAddInNodeIndex = 17604;
 
         public OpcUaNodeId(int nsIndex, int nodeIndex)
         {
@@ -35,6 +36,8 @@ namespace Azure.Iot.Operations.Opc2WotLib
         public bool IsPropertyReference { get => NsIndex == 0 && NodeIndex == HasPropertyNodeIndex; }
 
         public bool IsComponentReference { get => NsIndex == 0 && NodeIndex == HasComponentNodeIndex; }
+
+        public bool IsAddInReference { get => NsIndex == 0 && NodeIndex == HasAddInNodeIndex; }
 
         public bool IsRuleOptional { get => NsIndex == 0 && (NodeIndex == (int)ModellingRule.Optional || NodeIndex == (int)ModellingRule.OptionalPlaceholder); }
 

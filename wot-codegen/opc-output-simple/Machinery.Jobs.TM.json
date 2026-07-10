@@ -19,13 +19,13 @@
       {
         "rel": "dov:capability",
         "dov:refName": "JobOrderControl",
-        "href": "./isa95-jobcontrol.TM.json#title=Isa95_jobcontrol_ISA95JobOrderReceiverObjectType",
+        "href": "./ISA95-JOBCONTROL_V2.TM.json#title=ISA95_JOBCONTROL_V2_ISA95JobOrderReceiverObjectType",
         "type": "application/tm+json"
       },
       {
         "rel": "dov:capability",
         "dov:refName": "JobOrderResults",
-        "href": "./isa95-jobcontrol.TM.json#title=Isa95_jobcontrol_ISA95JobResponseProviderObjectType",
+        "href": "./ISA95-JOBCONTROL_V2.TM.json#title=ISA95_JOBCONTROL_V2_ISA95JobResponseProviderObjectType",
         "type": "application/tm+json"
       }
     ],
@@ -42,6 +42,9 @@
         "dov:topic": "opcua/Machinery.Jobs/Machinery_Jobs_JobManagementType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/DefaultInstanceBrowseName"
     ],
     "actions": {
     },

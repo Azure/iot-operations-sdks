@@ -518,6 +518,10 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/actions/ResetStatistics",
+      "/properties/StartTime"
+    ],
     "actions": {
       "ResetStatistics": {
         "dov:namespace": "http://opcfoundation.org/UA/IA/",
@@ -589,6 +593,9 @@
         "dov:topic": "opcua/TTD/TTD_RecurrentPrognosisType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/Interval"
     ],
     "actions": {
     },
@@ -693,6 +700,13 @@
         "dov:topic": "opcua/TTD/TTD_RecipeManagementType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/actions/DeleteRecipe",
+      "/actions/GetRecipe",
+      "/actions/GetRecipes",
+      "/actions/SetRecipe",
+      "/actions/SetRecipes"
     ],
     "actions": {
       "DeleteRecipe": {
@@ -1440,6 +1454,18 @@
       {
         "rel": "tm:extends",
         "href": "./OpcUaCore.TM.json#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:capability",
+        "dov:refName": "Identification",
+        "href": "./Machinery.TM.json#title=Machinery_MachineIdentificationType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:component",
+        "dov:refName": "MachineryBuildingBlocks",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_FolderType",
         "type": "application/tm+json"
       },
       {

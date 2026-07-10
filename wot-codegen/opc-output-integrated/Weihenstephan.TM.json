@@ -265,6 +265,14 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/AvailableStates",
+      "/properties/AvailableTransitions",
+      "/properties/LastTransition",
+      "/events/AvailableStates",
+      "/events/AvailableTransitions",
+      "/events/LastTransition"
+    ],
     "actions": {
     },
     "properties": {
@@ -407,6 +415,10 @@
         "dov:topic": "opcua/OpcUaCore/OpcUaCore_StateMachineType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/LastTransition",
+      "/events/LastTransition"
     ],
     "actions": {
     },
@@ -626,6 +638,10 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/actions/Abort",
+      "/actions/Clear"
+    ],
     "actions": {
       "Abort": {
         "dov:namespace": "http://opcfoundation.org/UA/PackML/",
@@ -795,6 +811,10 @@
         "dov:topic": "opcua/PackML/PackML_PackMLMachineStateMachineType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/actions/Reset",
+      "/actions/Stop"
     ],
     "actions": {
       "Reset": {
@@ -1097,6 +1117,15 @@
         "dov:topic": "opcua/PackML/PackML_PackMLExecuteStateMachineType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/actions/Hold",
+      "/actions/Reset",
+      "/actions/Start",
+      "/actions/Suspend",
+      "/actions/ToComplete",
+      "/actions/Unhold",
+      "/actions/Unsuspend"
     ],
     "actions": {
       "Hold": {

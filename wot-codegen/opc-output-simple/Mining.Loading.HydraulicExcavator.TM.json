@@ -15,6 +15,18 @@
         "rel": "tm:extends",
         "href": "./Mining.General.TM.json#title=Mining_General_MiningEquipmentType",
         "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:capability",
+        "dov:refName": "LoadingMachine",
+        "href": "./Mining.Loading.General.TM.json#title=Mining_Loading_General_LoadingMachineType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:capability",
+        "dov:refName": "MiningEquipmentIdentification",
+        "href": "./Mining.General.TM.json#title=Mining_General_MiningEquipmentIdentificationType",
+        "type": "application/tm+json"
       }
     ],
     "schemaDefinitions": {

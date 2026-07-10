@@ -31,6 +31,11 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/Comment",
+      "/properties/ContactInformation",
+      "/properties/Function"
+    ],
     "actions": {
     },
     "properties": {
@@ -120,6 +125,9 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/DefaultInstanceBrowseName"
+    ],
     "actions": {
     },
     "properties": {
@@ -178,6 +186,11 @@
         "dov:topic": "opcua/Powertrain/Powertrain_PtBleedAttributesType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/DefaultInstanceBrowseName",
+      "/properties/ResistanceValue",
+      "/events/ResistanceValue"
     ],
     "actions": {
     },
@@ -297,6 +310,54 @@
         "dov:topic": "opcua/Powertrain/Powertrain_PtBrakeAttributesType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/B10dValue",
+      "/properties/BrakeAccelerationVoltage",
+      "/properties/BrakeCoolingMethod",
+      "/properties/BrakeCurrentRated",
+      "/properties/BrakeDesignType",
+      "/properties/BrakeDutyType",
+      "/properties/BrakeEmergencySwitchOffCount",
+      "/properties/BrakeHoldingVoltage",
+      "/properties/BrakeInertia",
+      "/properties/BrakeInsulationClass",
+      "/properties/BrakePowerRated",
+      "/properties/BrakeProtectionMechanicalImpact",
+      "/properties/BrakeRectifierType",
+      "/properties/BrakeSurroundingAirTemperature",
+      "/properties/BrakeTorqueHolding",
+      "/properties/BrakeTorqueRated",
+      "/properties/BrakeTurnOffDelayAC",
+      "/properties/BrakeTurnOffDelayDC",
+      "/properties/BrakeTurnOffType",
+      "/properties/BrakeTurnOnDelay",
+      "/properties/BrakeVibrationClass",
+      "/properties/BrakeVoltageRated",
+      "/properties/BrakeVoltageType",
+      "/properties/BrakeWearMaximum",
+      "/properties/BrakeWireTerminalCount",
+      "/properties/BrakingEnergySingleEngagementMax",
+      "/properties/BrakingFrequencyOperation",
+      "/properties/DefaultInstanceBrowseName",
+      "/properties/SafetyPropertySupported",
+      "/events/B10dValue",
+      "/events/BrakeAccelerationVoltage",
+      "/events/BrakeCurrentRated",
+      "/events/BrakeDesignType",
+      "/events/BrakeHoldingVoltage",
+      "/events/BrakeInertia",
+      "/events/BrakePowerRated",
+      "/events/BrakeSurroundingAirTemperature",
+      "/events/BrakeTorqueHolding",
+      "/events/BrakeTorqueRated",
+      "/events/BrakeTurnOffDelayAC",
+      "/events/BrakeTurnOffDelayDC",
+      "/events/BrakeTurnOffType",
+      "/events/BrakeTurnOnDelay",
+      "/events/BrakeVoltageRated",
+      "/events/BrakeWearMaximum",
+      "/events/BrakingEnergySingleEngagementMax"
     ],
     "actions": {
     },
@@ -1017,6 +1078,9 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/DefaultInstanceBrowseName"
+    ],
     "actions": {
     },
     "properties": {
@@ -1100,6 +1164,9 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/DefaultInstanceBrowseName"
+    ],
     "actions": {
     },
     "properties": {
@@ -1158,6 +1225,19 @@
         "dov:topic": "opcua/Powertrain/Powertrain_PtAmbientAttributesType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/AltitudeMax",
+      "/properties/DefaultInstanceBrowseName",
+      "/properties/HumidityMax",
+      "/properties/HumidityMin",
+      "/properties/PressureMax",
+      "/properties/PressureMin",
+      "/events/AltitudeMax",
+      "/events/HumidityMax",
+      "/events/HumidityMin",
+      "/events/PressureMax",
+      "/events/PressureMin"
     ],
     "actions": {
     },
@@ -1420,6 +1500,20 @@
         "dov:topic": "opcua/Powertrain/Powertrain_PtAnalogInputElectricalAttributesType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/AnalogInputElectricalType",
+      "/properties/DefaultInstanceBrowseName",
+      "/properties/GalvanicIsolationSupported",
+      "/properties/InputCurrentRange",
+      "/properties/InputVoltageRange",
+      "/properties/InternalResistance",
+      "/properties/NumberOfChannels",
+      "/properties/Resolution",
+      "/events/AnalogInputElectricalType",
+      "/events/InputCurrentRange",
+      "/events/InputVoltageRange",
+      "/events/InternalResistance"
     ],
     "actions": {
     },
@@ -1688,6 +1782,16 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/AnalogOutputElectricalType",
+      "/properties/DefaultInstanceBrowseName",
+      "/properties/FrequencyRange",
+      "/properties/LoadResistance",
+      "/properties/NumberOfChannels",
+      "/events/AnalogOutputElectricalType",
+      "/events/FrequencyRange",
+      "/events/LoadResistance"
+    ],
     "actions": {
     },
     "properties": {
@@ -1873,6 +1977,19 @@
         "dov:topic": "opcua/Powertrain/Powertrain_PtAuxiliarySupplyAttributesType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/CurrentMax",
+      "/properties/DefaultInstanceBrowseName",
+      "/properties/FuseProtectionCurrentMax",
+      "/properties/PowerConsumptionMax",
+      "/properties/SupplyVoltageAc",
+      "/properties/SupplyVoltageDc",
+      "/events/CurrentMax",
+      "/events/FuseProtectionCurrentMax",
+      "/events/PowerConsumptionMax",
+      "/events/SupplyVoltageAc",
+      "/events/SupplyVoltageDc"
     ],
     "actions": {
     },
@@ -2073,6 +2190,10 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/Certificates",
+      "/properties/DefaultInstanceBrowseName"
+    ],
     "actions": {
     },
     "properties": {
@@ -2146,6 +2267,15 @@
         "dov:topic": "opcua/Powertrain/Powertrain_PtCommunicationInterfaceAttributesType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/CommunicationSpeed",
+      "/properties/DefaultInstanceBrowseName",
+      "/properties/NumberOfPorts",
+      "/properties/ProfileTypes",
+      "/properties/SafetyProtocolTypes",
+      "/events/ProfileTypes",
+      "/events/SafetyProtocolTypes"
     ],
     "actions": {
     },
@@ -2337,6 +2467,11 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/CoolingMethod",
+      "/properties/DefaultInstanceBrowseName",
+      "/events/CoolingMethod"
+    ],
     "actions": {
     },
     "properties": {
@@ -2424,6 +2559,13 @@
         "dov:topic": "opcua/Powertrain/Powertrain_PtDigitalInputElectricalAttributesType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/DefaultInstanceBrowseName",
+      "/properties/DigitalInputElectricalType",
+      "/properties/NumberOfChannels",
+      "/properties/SafetyPropertySupported",
+      "/events/DigitalInputElectricalType"
     ],
     "actions": {
     },
@@ -2538,6 +2680,15 @@
         "dov:topic": "opcua/Powertrain/Powertrain_PtDigitalOutputElectricalAttributesType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/DefaultInstanceBrowseName",
+      "/properties/DigitalOutputElectricalType",
+      "/properties/NumberOfChannels",
+      "/properties/OutputCurrentMax",
+      "/properties/SafetyPropertySupported",
+      "/events/DigitalOutputElectricalType",
+      "/events/OutputCurrentMax"
     ],
     "actions": {
     },
@@ -2684,6 +2835,11 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/DefaultInstanceBrowseName",
+      "/properties/SafetyAssessor",
+      "/properties/SafetyTransportProtocols"
+    ],
     "actions": {
     },
     "properties": {
@@ -2769,6 +2925,18 @@
         "dov:topic": "opcua/Powertrain/Powertrain_PtFuseAttributesType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/BreakingCapacity",
+      "/properties/CurrentRated",
+      "/properties/DefaultInstanceBrowseName",
+      "/properties/FuseElementSpeedMarking",
+      "/properties/FuseIdentificationType",
+      "/properties/VoltageRated",
+      "/events/BreakingCapacity",
+      "/events/CurrentRated",
+      "/events/FuseElementSpeedMarking",
+      "/events/VoltageRated"
     ],
     "actions": {
     },
@@ -2956,6 +3124,22 @@
         "dov:topic": "opcua/Powertrain/Powertrain_PtHardwareAttributesType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/DefaultInstanceBrowseName",
+      "/properties/FrameSizeCoding",
+      "/properties/HeatDissipationPower",
+      "/properties/Height",
+      "/properties/Length",
+      "/properties/NoiseLevel",
+      "/properties/Weight",
+      "/properties/Width",
+      "/events/HeatDissipationPower",
+      "/events/Height",
+      "/events/Length",
+      "/events/NoiseLevel",
+      "/events/Weight",
+      "/events/Width"
     ],
     "actions": {
     },
@@ -3204,6 +3388,27 @@
         "dov:topic": "opcua/Powertrain/Powertrain_PtInputInterfaceAttributesType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/DefaultInstanceBrowseName",
+      "/properties/InputCurrentMax",
+      "/properties/InputCurrentRated",
+      "/properties/InputFrequencyMax",
+      "/properties/InputFrequencyRangeRated",
+      "/properties/InputPowerMax",
+      "/properties/InputPowerRated",
+      "/properties/InputVoltageMax",
+      "/properties/InputVoltageRange",
+      "/properties/InputVoltageRated",
+      "/events/InputCurrentMax",
+      "/events/InputCurrentRated",
+      "/events/InputFrequencyMax",
+      "/events/InputFrequencyRangeRated",
+      "/events/InputPowerMax",
+      "/events/InputPowerRated",
+      "/events/InputVoltageMax",
+      "/events/InputVoltageRange",
+      "/events/InputVoltageRated"
     ],
     "actions": {
     },
@@ -3586,6 +3791,11 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/DefaultInstanceBrowseName",
+      "/properties/Shock",
+      "/properties/Vibration"
+    ],
     "actions": {
     },
     "properties": {
@@ -3674,6 +3884,31 @@
         "dov:topic": "opcua/Powertrain/Powertrain_PtOutputInterfaceAttributesType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/DefaultInstanceBrowseName",
+      "/properties/InputCurrentRated",
+      "/properties/InputVoltageRated",
+      "/properties/OutputCurrentMax",
+      "/properties/OutputCurrentRated",
+      "/properties/OutputFrequencyMax",
+      "/properties/OutputFrequencyRated",
+      "/properties/OutputPowerMax",
+      "/properties/OutputPowerRated",
+      "/properties/OutputVoltageMax",
+      "/properties/OutputVoltageRange",
+      "/properties/OutputVoltageRated",
+      "/events/InputCurrentRated",
+      "/events/InputVoltageRated",
+      "/events/OutputCurrentMax",
+      "/events/OutputCurrentRated",
+      "/events/OutputFrequencyMax",
+      "/events/OutputFrequencyRated",
+      "/events/OutputPowerMax",
+      "/events/OutputPowerRated",
+      "/events/OutputVoltageMax",
+      "/events/OutputVoltageRange",
+      "/events/OutputVoltageRated"
     ],
     "actions": {
     },
@@ -4093,6 +4328,12 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/DefaultInstanceBrowseName",
+      "/properties/ExClass",
+      "/properties/IpClass",
+      "/events/IpClass"
+    ],
     "actions": {
     },
     "properties": {
@@ -4192,6 +4433,18 @@
         "dov:topic": "opcua/Powertrain/Powertrain_PtSafetyFunctionsAttributesType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/DefaultInstanceBrowseName",
+      "/properties/FunctionalSafetyCategory",
+      "/properties/FunctionalSafetyPerformanceLevel",
+      "/properties/FunctionalSafetySilLevel",
+      "/properties/SafetyFunctions",
+      "/properties/SafetyStandards",
+      "/events/FunctionalSafetyCategory",
+      "/events/FunctionalSafetyPerformanceLevel",
+      "/events/FunctionalSafetySilLevel",
+      "/events/SafetyFunctions"
     ],
     "actions": {
     },
@@ -4378,6 +4631,10 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/DefaultInstanceBrowseName",
+      "/properties/Standards"
+    ],
     "actions": {
     },
     "properties": {
@@ -4446,6 +4703,9 @@
         "dov:topic": "opcua/Powertrain/Powertrain_PtContactorAttributesType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/DefaultInstanceBrowseName"
     ],
     "actions": {
     },
@@ -4588,6 +4848,11 @@
         "dov:topic": "opcua/Powertrain/Powertrain_PtDcBusAttributesType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/DcBusVoltageRated",
+      "/properties/DefaultInstanceBrowseName",
+      "/events/DcBusVoltageRated"
     ],
     "actions": {
     },
@@ -4733,6 +4998,9 @@
         "dov:topic": "opcua/Powertrain/Powertrain_PtElectronicOverloadRelayAttributesType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/DefaultInstanceBrowseName"
     ],
     "actions": {
     },
@@ -4926,6 +5194,13 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/DefaultInstanceBrowseName",
+      "/properties/EncoderTechnology",
+      "/properties/EncoderType",
+      "/events/EncoderTechnology",
+      "/events/EncoderType"
+    ],
     "actions": {
     },
     "properties": {
@@ -5042,6 +5317,19 @@
         "dov:topic": "opcua/Powertrain/Powertrain_PtEncoderLinearAttributesType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/DefaultInstanceBrowseName",
+      "/properties/EncoderMounting",
+      "/properties/EncoderReadingDistance",
+      "/properties/EncoderSpeedLinearMax",
+      "/properties/RangeLinear",
+      "/properties/ResolutionLinearAbsolute",
+      "/properties/ResolutionLinearIncremental",
+      "/events/EncoderReadingDistance",
+      "/events/EncoderSpeedLinearMax",
+      "/events/RangeLinear",
+      "/events/ResolutionLinearAbsolute"
     ],
     "actions": {
     },
@@ -5245,6 +5533,31 @@
         "dov:topic": "opcua/Powertrain/Powertrain_PtEncoderRotaryAttributesType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/DefaultInstanceBrowseName",
+      "/properties/EncoderFlangeSize",
+      "/properties/EncoderFlangeType",
+      "/properties/EncoderRotarySpeedMax",
+      "/properties/EncoderShaftSize",
+      "/properties/EncoderShaftType",
+      "/properties/FeedbackResolverExcitationFrequency",
+      "/properties/FeedbackResolverExcitationVoltage",
+      "/properties/FeedbackResolverPolePairNumber",
+      "/properties/FeedbackResolverRatio",
+      "/properties/ResolutionMultiturnAbsolute",
+      "/properties/ResolutionRotaryIncremental",
+      "/properties/ResolutionSingleturnAbsolute",
+      "/events/EncoderFlangeSize",
+      "/events/EncoderFlangeType",
+      "/events/EncoderRotarySpeedMax",
+      "/events/EncoderShaftSize",
+      "/events/EncoderShaftType",
+      "/events/FeedbackResolverExcitationFrequency",
+      "/events/FeedbackResolverExcitationVoltage",
+      "/events/ResolutionMultiturnAbsolute",
+      "/events/ResolutionRotaryIncremental",
+      "/events/ResolutionSingleturnAbsolute"
     ],
     "actions": {
     },
@@ -5630,6 +5943,11 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/DefaultInstanceBrowseName",
+      "/properties/EncoderSignal",
+      "/events/EncoderSignal"
+    ],
     "actions": {
     },
     "properties": {
@@ -5718,6 +6036,11 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/DefaultInstanceBrowseName",
+      "/properties/EncoderProtocol",
+      "/events/EncoderProtocol"
+    ],
     "actions": {
     },
     "properties": {
@@ -5805,6 +6128,30 @@
         "dov:topic": "opcua/Powertrain/Powertrain_PtGearAttributesType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/AxialForceMax",
+      "/properties/Backlash",
+      "/properties/DefaultInstanceBrowseName",
+      "/properties/Efficiency",
+      "/properties/GearInertia",
+      "/properties/GearRatio",
+      "/properties/GearType",
+      "/properties/LubricantInterval",
+      "/properties/LubricantType",
+      "/properties/SpeedRated",
+      "/properties/TorqueRated",
+      "/properties/TorsionalRigidity",
+      "/events/AxialForceMax",
+      "/events/Backlash",
+      "/events/Efficiency",
+      "/events/GearInertia",
+      "/events/GearRatio",
+      "/events/GearType",
+      "/events/LubricantType",
+      "/events/SpeedRated",
+      "/events/TorqueRated",
+      "/events/TorsionalRigidity"
     ],
     "actions": {
     },
@@ -6173,6 +6520,18 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/DefaultInstanceBrowseName",
+      "/properties/EfficiencyClass",
+      "/properties/PowerFactorCorrection",
+      "/properties/PwmSwitchingFrequency",
+      "/properties/RegenerativeFeedbackSupported",
+      "/properties/RegenerativePowerRated",
+      "/events/EfficiencyClass",
+      "/events/PowerFactorCorrection",
+      "/events/PwmSwitchingFrequency",
+      "/events/RegenerativePowerRated"
+    ],
     "actions": {
     },
     "properties": {
@@ -6391,6 +6750,17 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/DefaultInstanceBrowseName",
+      "/properties/LineFilterEmcCategory",
+      "/properties/LineFilterEmcClass",
+      "/properties/LineFilterEmcGroup",
+      "/properties/LineFilterPowerLoss",
+      "/events/LineFilterEmcCategory",
+      "/events/LineFilterEmcClass",
+      "/events/LineFilterEmcGroup",
+      "/events/LineFilterPowerLoss"
+    ],
     "actions": {
     },
     "properties": {
@@ -6567,6 +6937,11 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/DefaultInstanceBrowseName",
+      "/properties/MotorType",
+      "/events/MotorType"
+    ],
     "actions": {
     },
     "properties": {
@@ -6654,6 +7029,15 @@
         "dov:topic": "opcua/Powertrain/Powertrain_PtMotorLinearAttributesType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/DefaultInstanceBrowseName",
+      "/properties/ForcerWeight",
+      "/properties/MotorBackEMF",
+      "/properties/MotorPolePairPitch",
+      "/events/ForcerWeight",
+      "/events/MotorBackEMF",
+      "/events/MotorPolePairPitch"
     ],
     "actions": {
     },
@@ -6801,6 +7185,14 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/DefaultInstanceBrowseName",
+      "/properties/MotorBackEMF",
+      "/properties/MotorInertia",
+      "/properties/MotorPolePairs",
+      "/events/MotorBackEMF",
+      "/events/MotorInertia"
+    ],
     "actions": {
     },
     "properties": {
@@ -6932,6 +7324,10 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/DefaultInstanceBrowseName",
+      "/properties/LoadProfile"
+    ],
     "actions": {
     },
     "properties": {
@@ -7034,6 +7430,9 @@
         "dov:topic": "opcua/Powertrain/Powertrain_PtMotorManagementDeviceAttributesType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/DefaultInstanceBrowseName"
     ],
     "actions": {
     },
@@ -7402,6 +7801,18 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/DefaultInstanceBrowseName",
+      "/properties/IsCooled",
+      "/properties/MotorCurrentContinuousStall",
+      "/properties/MotorEfficiencyClass",
+      "/properties/MotorPowerFactor",
+      "/properties/MotorPowerRated",
+      "/events/MotorCurrentContinuousStall",
+      "/events/MotorEfficiencyClass",
+      "/events/MotorPowerFactor",
+      "/events/MotorPowerRated"
+    ],
     "actions": {
     },
     "properties": {
@@ -7617,6 +8028,19 @@
         "dov:topic": "opcua/Powertrain/Powertrain_PtMotorLinearRatedAttributesType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/DefaultInstanceBrowseName",
+      "/properties/MotorForceConstant",
+      "/properties/MotorForceContinuousStall",
+      "/properties/MotorForceMax",
+      "/properties/MotorForceRated",
+      "/properties/MotorSpeedRated",
+      "/events/MotorForceConstant",
+      "/events/MotorForceContinuousStall",
+      "/events/MotorForceMax",
+      "/events/MotorForceRated",
+      "/events/MotorSpeedRated"
     ],
     "actions": {
     },
@@ -7851,6 +8275,17 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/DefaultInstanceBrowseName",
+      "/properties/MotorSpeedRated",
+      "/properties/MotorTorqueConstant",
+      "/properties/MotorTorqueContinuousStall",
+      "/properties/MotorTorqueRated",
+      "/events/MotorSpeedRated",
+      "/events/MotorTorqueConstant",
+      "/events/MotorTorqueContinuousStall",
+      "/events/MotorTorqueRated"
+    ],
     "actions": {
     },
     "properties": {
@@ -8084,6 +8519,9 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/DefaultInstanceBrowseName"
+    ],
     "actions": {
     },
     "properties": {
@@ -8282,6 +8720,11 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/DefaultInstanceBrowseName",
+      "/properties/EfficiencyClass",
+      "/events/EfficiencyClass"
+    ],
     "actions": {
     },
     "properties": {
@@ -8401,6 +8844,11 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/DefaultInstanceBrowseName",
+      "/properties/OutputFilterPowerLoss",
+      "/events/OutputFilterPowerLoss"
+    ],
     "actions": {
     },
     "properties": {
@@ -8517,6 +8965,19 @@
         "dov:topic": "opcua/Powertrain/Powertrain_PtPrechargeAttributesType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/DefaultInstanceBrowseName",
+      "/properties/PreChargeCycleTimeLimit",
+      "/properties/PreChargeMaximumCapacitance",
+      "/properties/PrechargeThreshold",
+      "/properties/PreChargeTime",
+      "/properties/PreChargeTimeout",
+      "/events/PreChargeCycleTimeLimit",
+      "/events/PreChargeMaximumCapacitance",
+      "/events/PrechargeThreshold",
+      "/events/PreChargeTime",
+      "/events/PreChargeTimeout"
     ],
     "actions": {
     },
@@ -8751,6 +9212,9 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/DefaultInstanceBrowseName"
+    ],
     "actions": {
     },
     "properties": {
@@ -8833,6 +9297,9 @@
         "dov:topic": "opcua/Powertrain/Powertrain_PtSoftStarterAttributesType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/DefaultInstanceBrowseName"
     ],
     "actions": {
     },
@@ -8957,6 +9424,12 @@
         "dov:topic": "opcua/Powertrain/Powertrain_PtTemperatureSensorAttributesType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/Accuracy",
+      "/properties/DefaultInstanceBrowseName",
+      "/properties/TemperatureSensorType",
+      "/events/Accuracy"
     ],
     "actions": {
     },
@@ -9144,6 +9617,27 @@
         "dov:topic": "opcua/Powertrain/Powertrain_PtVibrationSensorAttributesType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/Accuracy",
+      "/properties/AnalogInputElectricalType",
+      "/properties/AnalogOutputElectricalType",
+      "/properties/DefaultInstanceBrowseName",
+      "/properties/DigitalInputElectricalType",
+      "/properties/DigitalOutputElectricalType",
+      "/properties/Linearity",
+      "/properties/OperatingVoltage",
+      "/properties/OutputFunction",
+      "/properties/Resolution",
+      "/events/Accuracy",
+      "/events/AnalogInputElectricalType",
+      "/events/AnalogOutputElectricalType",
+      "/events/DigitalInputElectricalType",
+      "/events/DigitalOutputElectricalType",
+      "/events/Linearity",
+      "/events/OperatingVoltage",
+      "/events/OutputFunction",
+      "/events/Resolution"
     ],
     "actions": {
     },
@@ -9611,6 +10105,12 @@
         "type": "application/tm+json"
       },
       {
+        "rel": "dov:capability",
+        "dov:refName": "Identification",
+        "href": "./Machinery.TM.json#title=Machinery_MachineryComponentIdentificationType",
+        "type": "application/tm+json"
+      },
+      {
         "rel": "dov:component",
         "dov:refName": "ImageSet",
         "href": "./OpcUaCore.TM.json#title=OpcUaCore_FolderType",
@@ -9761,6 +10261,37 @@
         "dov:topic": "opcua/Powertrain/Powertrain_PtAssetType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/actions/VerifyAsset",
+      "/properties/AssetId",
+      "/properties/BuildAssetNumber",
+      "/properties/Comment",
+      "/properties/ComponentName",
+      "/properties/ContactInformation",
+      "/properties/DefaultInstanceBrowseName",
+      "/properties/DeviceClass",
+      "/properties/DeviceHealth",
+      "/properties/DeviceManual",
+      "/properties/DeviceRevision",
+      "/properties/Function",
+      "/properties/HardwareRevision",
+      "/properties/InitialOperationDate",
+      "/properties/Location",
+      "/properties/MajorAssetVersion",
+      "/properties/ManufacturerUri",
+      "/properties/MinorAssetVersion",
+      "/properties/Model",
+      "/properties/MonthOfConstruction",
+      "/properties/PatchIdentifiers",
+      "/properties/ProductCode",
+      "/properties/ProductInstanceUri",
+      "/properties/RevisionCounter",
+      "/properties/SoftwareReleaseDate",
+      "/properties/SoftwareRevision",
+      "/properties/SubBuildAssetNumber",
+      "/properties/YearOfConstruction",
+      "/events/DeviceHealth"
     ],
     "actions": {
       "VerifyAsset": {
@@ -10321,6 +10852,9 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/DefaultInstanceBrowseName"
+    ],
     "actions": {
     },
     "properties": {
@@ -10382,6 +10916,9 @@
         "dov:topic": "opcua/Powertrain/Powertrain_PtAssetBrakeType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/DefaultInstanceBrowseName"
     ],
     "actions": {
     },
@@ -10452,6 +10989,9 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/DefaultInstanceBrowseName"
+    ],
     "actions": {
     },
     "properties": {
@@ -10513,6 +11053,9 @@
         "dov:topic": "opcua/Powertrain/Powertrain_PtAssetContactorType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/DefaultInstanceBrowseName"
     ],
     "actions": {
     },
@@ -10590,6 +11133,9 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/DefaultInstanceBrowseName"
+    ],
     "actions": {
     },
     "properties": {
@@ -10651,6 +11197,9 @@
         "dov:topic": "opcua/Powertrain/Powertrain_PtAssetCoolingType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/DefaultInstanceBrowseName"
     ],
     "actions": {
     },
@@ -10720,6 +11269,9 @@
         "dov:topic": "opcua/Powertrain/Powertrain_PtAssetDcBusModuleType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/DefaultInstanceBrowseName"
     ],
     "actions": {
     },
@@ -10860,6 +11412,9 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/DefaultInstanceBrowseName"
+    ],
     "actions": {
     },
     "properties": {
@@ -10914,6 +11469,9 @@
         "dov:topic": "opcua/Powertrain/Powertrain_PtAssetFrequencyConverterType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/DefaultInstanceBrowseName"
     ],
     "actions": {
     },
@@ -10977,6 +11535,9 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/DefaultInstanceBrowseName"
+    ],
     "actions": {
     },
     "properties": {
@@ -11038,6 +11599,9 @@
         "dov:topic": "opcua/Powertrain/Powertrain_PtAssetVariableSpeedDriveType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/DefaultInstanceBrowseName"
     ],
     "actions": {
     },
@@ -11115,6 +11679,9 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/DefaultInstanceBrowseName"
+    ],
     "actions": {
     },
     "properties": {
@@ -11184,6 +11751,9 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/DefaultInstanceBrowseName"
+    ],
     "actions": {
     },
     "properties": {
@@ -11252,6 +11822,9 @@
         "dov:topic": "opcua/Powertrain/Powertrain_PtAssetEncoderInterfaceModuleType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/DefaultInstanceBrowseName"
     ],
     "actions": {
     },
@@ -11329,6 +11902,9 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/DefaultInstanceBrowseName"
+    ],
     "actions": {
     },
     "properties": {
@@ -11391,6 +11967,9 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/DefaultInstanceBrowseName"
+    ],
     "actions": {
     },
     "properties": {
@@ -11452,6 +12031,9 @@
         "dov:topic": "opcua/Powertrain/Powertrain_PtAssetEncoderRotaryType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/DefaultInstanceBrowseName"
     ],
     "actions": {
     },
@@ -11528,6 +12110,9 @@
         "dov:topic": "opcua/Powertrain/Powertrain_PtAssetGearType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/DefaultInstanceBrowseName"
     ],
     "actions": {
     },
@@ -11661,6 +12246,9 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/DefaultInstanceBrowseName"
+    ],
     "actions": {
     },
     "properties": {
@@ -11736,6 +12324,9 @@
         "dov:topic": "opcua/Powertrain/Powertrain_PtAssetInputFilterType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/DefaultInstanceBrowseName"
     ],
     "actions": {
     },
@@ -11883,6 +12474,9 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/DefaultInstanceBrowseName"
+    ],
     "actions": {
     },
     "properties": {
@@ -11951,6 +12545,9 @@
         "dov:topic": "opcua/Powertrain/Powertrain_PtAssetInputReactorType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/DefaultInstanceBrowseName"
     ],
     "actions": {
     },
@@ -12021,6 +12618,9 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/DefaultInstanceBrowseName"
+    ],
     "actions": {
     },
     "properties": {
@@ -12090,6 +12690,9 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/DefaultInstanceBrowseName"
+    ],
     "actions": {
     },
     "properties": {
@@ -12158,6 +12761,9 @@
         "dov:topic": "opcua/Powertrain/Powertrain_PtAssetMotorStarterType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/DefaultInstanceBrowseName"
     ],
     "actions": {
     },
@@ -12242,6 +12848,9 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/DefaultInstanceBrowseName"
+    ],
     "actions": {
     },
     "properties": {
@@ -12317,6 +12926,9 @@
         "dov:topic": "opcua/Powertrain/Powertrain_PtAssetMotorLinearType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/DefaultInstanceBrowseName"
     ],
     "actions": {
     },
@@ -12415,6 +13027,9 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/DefaultInstanceBrowseName"
+    ],
     "actions": {
     },
     "properties": {
@@ -12477,6 +13092,9 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/DefaultInstanceBrowseName"
+    ],
     "actions": {
     },
     "properties": {
@@ -12538,6 +13156,9 @@
         "dov:topic": "opcua/Powertrain/Powertrain_PtAssetGearMotorLinearType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/DefaultInstanceBrowseName"
     ],
     "actions": {
     },
@@ -12614,6 +13235,9 @@
         "dov:topic": "opcua/Powertrain/Powertrain_PtAssetMotorRotaryType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/DefaultInstanceBrowseName"
     ],
     "actions": {
     },
@@ -12712,6 +13336,9 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/DefaultInstanceBrowseName"
+    ],
     "actions": {
     },
     "properties": {
@@ -12774,6 +13401,9 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/DefaultInstanceBrowseName"
+    ],
     "actions": {
     },
     "properties": {
@@ -12835,6 +13465,9 @@
         "dov:topic": "opcua/Powertrain/Powertrain_PtAssetGearMotorRotaryType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/DefaultInstanceBrowseName"
     ],
     "actions": {
     },
@@ -12968,6 +13601,9 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/DefaultInstanceBrowseName"
+    ],
     "actions": {
     },
     "properties": {
@@ -13044,6 +13680,9 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/DefaultInstanceBrowseName"
+    ],
     "actions": {
     },
     "properties": {
@@ -13112,6 +13751,9 @@
         "dov:topic": "opcua/Powertrain/Powertrain_PtAssetOutputReactorType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/DefaultInstanceBrowseName"
     ],
     "actions": {
     },
@@ -13203,6 +13845,9 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/DefaultInstanceBrowseName"
+    ],
     "actions": {
     },
     "properties": {
@@ -13271,6 +13916,9 @@
         "dov:topic": "opcua/Powertrain/Powertrain_PtAssetReactorFilterType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/DefaultInstanceBrowseName"
     ],
     "actions": {
     },
@@ -13341,6 +13989,9 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/DefaultInstanceBrowseName"
+    ],
     "actions": {
     },
     "properties": {
@@ -13410,6 +14061,9 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/DefaultInstanceBrowseName"
+    ],
     "actions": {
     },
     "properties": {
@@ -13472,6 +14126,9 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/DefaultInstanceBrowseName"
+    ],
     "actions": {
     },
     "properties": {
@@ -13533,6 +14190,9 @@
         "dov:topic": "opcua/Powertrain/Powertrain_PtAssetVibrationSensorType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/DefaultInstanceBrowseName"
     ],
     "actions": {
     },

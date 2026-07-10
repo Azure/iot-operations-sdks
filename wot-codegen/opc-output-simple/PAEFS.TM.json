@@ -80,6 +80,12 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/actions/Close",
+      "/actions/Open",
+      "/properties/ConnectionOpen",
+      "/properties/Malfunction"
+    ],
     "actions": {
       "Close": {
         "dov:namespace": "http://opcfoundation.org/UA/PAEFS/",
@@ -917,9 +923,21 @@
         "type": "application/tm+json"
       },
       {
+        "rel": "dov:capability",
+        "dov:refName": "Identification",
+        "href": "./Machinery.TM.json#title=Machinery_MachineryComponentIdentificationType",
+        "type": "application/tm+json"
+      },
+      {
         "rel": "dov:component",
         "dov:refName": "MachineryBuildingBlocks",
         "href": "./OpcUaCore.TM.json#title=OpcUaCore_FolderType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:capability",
+        "dov:refName": "MachineryItemState",
+        "href": "./Machinery.TM.json#title=Machinery_MachineryItemState_StateMachineType",
         "type": "application/tm+json"
       },
       {
@@ -942,6 +960,13 @@
         "dov:topic": "opcua/PAEFS/PAEFS_CleaningUnitType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/actions/RequestCleaning",
+      "/properties/AutomaticCleaningEnabled",
+      "/properties/CleaningRecommended",
+      "/properties/Malfunction",
+      "/properties/TotalCleaningCycles"
     ],
     "actions": {
       "RequestCleaning": {
@@ -1059,6 +1084,10 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/Malfunction",
+      "/properties/Open"
+    ],
     "actions": {
     },
     "properties": {
@@ -1161,6 +1190,10 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/LifetimeConsumption",
+      "/events/LifetimeConsumption"
+    ],
     "actions": {
     },
     "properties": {
@@ -1228,9 +1261,21 @@
         "type": "application/tm+json"
       },
       {
+        "rel": "dov:capability",
+        "dov:refName": "Identification",
+        "href": "./Machinery.TM.json#title=Machinery_MachineryComponentIdentificationType",
+        "type": "application/tm+json"
+      },
+      {
         "rel": "dov:component",
         "dov:refName": "MachineryBuildingBlocks",
         "href": "./OpcUaCore.TM.json#title=OpcUaCore_FolderType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:capability",
+        "dov:refName": "MachineryItemState",
+        "href": "./Machinery.TM.json#title=Machinery_MachineryItemState_StateMachineType",
         "type": "application/tm+json"
       }
     ],
@@ -1247,6 +1292,11 @@
         "dov:topic": "opcua/PAEFS/PAEFS_DischargeSystemType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/DischargeContainerInstalled",
+      "/properties/DischargeSystemEnabled",
+      "/properties/Malfunction"
     ],
     "actions": {
     },
@@ -1329,9 +1379,21 @@
         "type": "application/tm+json"
       },
       {
+        "rel": "dov:capability",
+        "dov:refName": "Identification",
+        "href": "./Machinery.TM.json#title=Machinery_MachineryComponentIdentificationType",
+        "type": "application/tm+json"
+      },
+      {
         "rel": "dov:component",
         "dov:refName": "MachineryBuildingBlocks",
         "href": "./OpcUaCore.TM.json#title=OpcUaCore_FolderType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:capability",
+        "dov:refName": "MachineryItemState",
+        "href": "./Machinery.TM.json#title=Machinery_MachineryItemState_StateMachineType",
         "type": "application/tm+json"
       },
       {
@@ -1355,6 +1417,10 @@
         "dov:topic": "opcua/PAEFS/PAEFS_FanType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/MaintenanceSwitchOn",
+      "/properties/Malfunction"
     ],
     "actions": {
     },
@@ -1424,9 +1490,21 @@
         "type": "application/tm+json"
       },
       {
+        "rel": "dov:capability",
+        "dov:refName": "Identification",
+        "href": "./Machinery.TM.json#title=Machinery_MachineryComponentIdentificationType",
+        "type": "application/tm+json"
+      },
+      {
         "rel": "dov:component",
         "dov:refName": "MachineryBuildingBlocks",
         "href": "./OpcUaCore.TM.json#title=OpcUaCore_FolderType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:capability",
+        "dov:refName": "MachineryItemState",
+        "href": "./Machinery.TM.json#title=Machinery_MachineryItemState_StateMachineType",
         "type": "application/tm+json"
       },
       {
@@ -1474,6 +1552,15 @@
         "dov:topic": "opcua/PAEFS/PAEFS_FilterAidDeviceType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/actions/ResetFillingLevel",
+      "/actions/TriggerDosing",
+      "/properties/AutomaticDosingEnabled",
+      "/properties/CompressedAirSupplyInterrupted",
+      "/properties/ContainerOpen",
+      "/properties/DosingRequested",
+      "/properties/FilterAidDeviceStatus"
     ],
     "actions": {
       "ResetFillingLevel": {
@@ -1657,9 +1744,21 @@
         "type": "application/tm+json"
       },
       {
+        "rel": "dov:capability",
+        "dov:refName": "Identification",
+        "href": "./Machinery.TM.json#title=Machinery_MachineIdentificationType",
+        "type": "application/tm+json"
+      },
+      {
         "rel": "dov:component",
         "dov:refName": "MachineryBuildingBlocks",
         "href": "./OpcUaCore.TM.json#title=OpcUaCore_FolderType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:capability",
+        "dov:refName": "MachineryItemState",
+        "href": "./Machinery.TM.json#title=Machinery_MachineryItemState_StateMachineType",
         "type": "application/tm+json"
       },
       {
@@ -1704,6 +1803,15 @@
         "dov:topic": "opcua/PAEFS/PAEFS_FilterSystemType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/actions/OperationOff",
+      "/actions/OperationOn",
+      "/properties/ControlMode",
+      "/properties/MaintenanceRequested",
+      "/properties/OperationCycleCounter",
+      "/properties/OperationDuration",
+      "/properties/PowerOnDuration"
     ],
     "actions": {
       "OperationOff": {
@@ -1875,9 +1983,21 @@
         "type": "application/tm+json"
       },
       {
+        "rel": "dov:capability",
+        "dov:refName": "Identification",
+        "href": "./Machinery.TM.json#title=Machinery_MachineryItemIdentificationType",
+        "type": "application/tm+json"
+      },
+      {
         "rel": "dov:component",
         "dov:refName": "MachineryBuildingBlocks",
         "href": "./OpcUaCore.TM.json#title=OpcUaCore_FolderType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:capability",
+        "dov:refName": "MachineryItemState",
+        "href": "./Machinery.TM.json#title=Machinery_MachineryItemState_StateMachineType",
         "type": "application/tm+json"
       },
       {
@@ -1913,6 +2033,17 @@
         "dov:topic": "opcua/PAEFS/PAEFS_FilterUnitType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/actions/OperationOff",
+      "/actions/OperationOn",
+      "/actions/SetAndActivateAirflowSetpoint",
+      "/actions/SetAndActivatePressureSetpoint",
+      "/actions/SetAndActivateRotationalSpeedSetpoint",
+      "/properties/MaintenanceRequested",
+      "/properties/OperationCycleCounter",
+      "/properties/OperationDuration",
+      "/properties/PowerOnDuration"
     ],
     "actions": {
       "OperationOff": {
@@ -2114,6 +2245,11 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/ExIdentification",
+      "/properties/RatedPower",
+      "/events/RatedPower"
+    ],
     "actions": {
     },
     "properties": {
@@ -2248,6 +2384,16 @@
         "dov:topic": "opcua/PAEFS/PAEFS_HighVoltageUnitType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/CurrentOutput",
+      "/properties/MaintenanceRequested",
+      "/properties/Malfunction",
+      "/properties/OperationCycleCounter",
+      "/properties/OperationDuration",
+      "/properties/PowerOnDuration",
+      "/properties/SupplyActive",
+      "/events/CurrentOutput"
     ],
     "actions": {
     },
@@ -2414,9 +2560,21 @@
         "type": "application/tm+json"
       },
       {
+        "rel": "dov:capability",
+        "dov:refName": "Identification",
+        "href": "./Machinery.TM.json#title=Machinery_MachineryComponentIdentificationType",
+        "type": "application/tm+json"
+      },
+      {
         "rel": "dov:component",
         "dov:refName": "MachineryBuildingBlocks",
         "href": "./OpcUaCore.TM.json#title=OpcUaCore_FolderType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:capability",
+        "dov:refName": "MachineryItemState",
+        "href": "./Machinery.TM.json#title=Machinery_MachineryItemState_StateMachineType",
         "type": "application/tm+json"
       }
     ],
@@ -2428,6 +2586,10 @@
         "dov:topic": "opcua/PAEFS/PAEFS_SafetySystemType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/Malfunction",
+      "/properties/Triggered"
     ],
     "actions": {
     },
@@ -2479,6 +2641,12 @@
         "type": "application/tm+json"
       },
       {
+        "rel": "dov:capability",
+        "dov:refName": "Identification",
+        "href": "./Machinery.TM.json#title=Machinery_MachineryComponentIdentificationType",
+        "type": "application/tm+json"
+      },
+      {
         "rel": "dov:component",
         "dov:refName": "MachineryBuildingBlocks",
         "href": "./OpcUaCore.TM.json#title=OpcUaCore_FolderType",
@@ -2516,6 +2684,9 @@
         "dov:topic": "opcua/PAEFS/PAEFS_SensorMonitoringType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/SignalForm"
     ],
     "actions": {
     },
@@ -2572,6 +2743,9 @@
         "dov:topic": "opcua/PAEFS/PAEFS_SensorSetpointReadType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/IsActiveSetpoint"
     ],
     "actions": {
     },
@@ -2654,9 +2828,21 @@
         "type": "application/tm+json"
       },
       {
+        "rel": "dov:capability",
+        "dov:refName": "Identification",
+        "href": "./Machinery.TM.json#title=Machinery_MachineryComponentIdentificationType",
+        "type": "application/tm+json"
+      },
+      {
         "rel": "dov:component",
         "dov:refName": "MachineryBuildingBlocks",
         "href": "./OpcUaCore.TM.json#title=OpcUaCore_FolderType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:capability",
+        "dov:refName": "MachineryItemState",
+        "href": "./Machinery.TM.json#title=Machinery_MachineryItemState_StateMachineType",
         "type": "application/tm+json"
       },
       {
@@ -2674,6 +2860,9 @@
         "dov:topic": "opcua/PAEFS/PAEFS_SeparatorType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/FilterMediumOperatingHours"
     ],
     "actions": {
     },
@@ -2723,6 +2912,9 @@
         "dov:topic": "opcua/PAEFS/PAEFS_AutomaticRollFilterType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/EndOfFilterRoll"
     ],
     "actions": {
     },
@@ -2831,6 +3023,12 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/WashingAgentDrainMalfunction",
+      "/properties/WashingAgentDrainOpen",
+      "/properties/WashingAgentInflowMalfunction",
+      "/properties/WashingAgentInflowOpen"
+    ],
     "actions": {
     },
     "properties": {
@@ -2907,9 +3105,21 @@
         "type": "application/tm+json"
       },
       {
+        "rel": "dov:capability",
+        "dov:refName": "Identification",
+        "href": "./Machinery.TM.json#title=Machinery_MachineryComponentIdentificationType",
+        "type": "application/tm+json"
+      },
+      {
         "rel": "dov:component",
         "dov:refName": "MachineryBuildingBlocks",
         "href": "./OpcUaCore.TM.json#title=OpcUaCore_FolderType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:capability",
+        "dov:refName": "MachineryItemState",
+        "href": "./Machinery.TM.json#title=Machinery_MachineryItemState_StateMachineType",
         "type": "application/tm+json"
       },
       {
@@ -2933,6 +3143,9 @@
         "dov:topic": "opcua/PAEFS/PAEFS_TemperatureRegulatorType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/Malfunction"
     ],
     "actions": {
     },

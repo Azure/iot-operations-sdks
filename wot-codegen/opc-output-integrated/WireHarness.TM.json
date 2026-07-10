@@ -1060,6 +1060,17 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/actions/FindPartsByType",
+      "/properties/Seals",
+      "/properties/Sleeves",
+      "/properties/Terminals",
+      "/properties/Wires",
+      "/events/Seals",
+      "/events/Sleeves",
+      "/events/Terminals",
+      "/events/Wires"
+    ],
     "actions": {
       "ClearPart": {
         "dov:namespace": "http://opcfoundation.org/UA/WireHarness/",
@@ -2596,7 +2607,7 @@
     "links": [
       {
         "rel": "tm:extends",
-        "href": "#title=Isa95_jobcontrol_ISA95JobOrderReceiverSubStatesType",
+        "href": "#title=ISA95_JOBCONTROL_V2_ISA95JobOrderReceiverSubStatesType",
         "type": "application/tm+json"
       }
     ],
@@ -3557,6 +3568,18 @@
       },
       {
         "rel": "dov:component",
+        "dov:refName": "Components",
+        "href": "#title=Machinery_MachineComponentsType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:capability",
+        "dov:refName": "Identification",
+        "href": "#title=WireHarness_WireHarnessMachineIdentificationType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:component",
         "dov:refName": "MachineryBuildingBlocks",
         "href": "#title=OpcUaCore_FolderType",
         "type": "application/tm+json"
@@ -3623,6 +3646,13 @@
         "dov:topic": "opcua/OpcUaCore/OpcUaCore_BaseEventType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/ConditionClassId",
+      "/properties/ConditionClassName",
+      "/properties/ConditionSubClassId",
+      "/properties/ConditionSubClassName",
+      "/properties/LocalTime"
     ],
     "actions": {
     },
@@ -3855,6 +3885,14 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/AvailableStates",
+      "/properties/AvailableTransitions",
+      "/properties/LastTransition",
+      "/events/AvailableStates",
+      "/events/AvailableTransitions",
+      "/events/LastTransition"
+    ],
     "actions": {
     },
     "properties": {
@@ -3997,6 +4035,10 @@
         "dov:topic": "opcua/OpcUaCore/OpcUaCore_StateMachineType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/LastTransition",
+      "/events/LastTransition"
     ],
     "actions": {
     },
@@ -4175,6 +4217,10 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/DefaultInstanceBrowseName",
+      "/properties/Location"
+    ],
     "actions": {
     },
     "properties": {
@@ -4255,6 +4301,21 @@
         "dov:topic": "opcua/Machinery/Machinery_MachineryItemIdentificationType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/AssetId",
+      "/properties/ComponentName",
+      "/properties/DefaultInstanceBrowseName",
+      "/properties/DeviceClass",
+      "/properties/HardwareRevision",
+      "/properties/InitialOperationDate",
+      "/properties/ManufacturerUri",
+      "/properties/Model",
+      "/properties/MonthOfConstruction",
+      "/properties/ProductCode",
+      "/properties/ProductInstanceUri",
+      "/properties/SoftwareRevision",
+      "/properties/YearOfConstruction"
     ],
     "actions": {
     },
@@ -4485,6 +4546,71 @@
       }
     ],
     "@type": "tm:ThingModel",
+    "title": "Machinery_MachineComponentsType",
+    "dov:typeRef": "org.opcfoundation.UA.Machinery.MachineComponentsType",
+    "dov:isComposite": true,
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:component",
+        "dov:refName": "Component",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dov:topic": "opcua/Machinery/Machinery_MachineComponentsType/properties/write",
+        "op": "writemultipleproperties"
+      },
+      {
+        "contentType": "application/json",
+        "dov:topic": "opcua/Machinery/Machinery_MachineComponentsType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "tm:optional": [
+      "/properties/DefaultInstanceBrowseName"
+    ],
+    "actions": {
+    },
+    "properties": {
+      "DefaultInstanceBrowseName": {
+        "description": "The default BrowseName for instances of the type.",
+        "type": "string",
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/Machinery/Machinery_MachineComponentsType/property/DefaultInstanceBrowseName/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/Machinery/Machinery_MachineComponentsType/property/DefaultInstanceBrowseName/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dov": "http://azure.com/DigitalOperations/vocab#"
+      }
+    ],
+    "@type": "tm:ThingModel",
     "title": "DI_FunctionalGroupType",
     "dov:typeRef": "org.opcfoundation.UA.DI.FunctionalGroupType",
     "links": [
@@ -4513,6 +4639,10 @@
         "dov:topic": "opcua/DI/DI_FunctionalGroupType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/UIElement",
+      "/events/UIElement"
     ],
     "actions": {
     },
@@ -4556,13 +4686,13 @@
       }
     ],
     "@type": "tm:ThingModel",
-    "title": "Isa95_jobcontrol_ISA95JobOrderReceiverSubStatesType",
+    "title": "ISA95_JOBCONTROL_V2_ISA95JobOrderReceiverSubStatesType",
     "dov:typeRef": "org.opcfoundation.UA.ISA95-JOBCONTROL_V2.ISA95JobOrderReceiverSubStatesType",
     "dov:isComposite": true,
     "links": [
       {
         "rel": "tm:extends",
-        "href": "#title=Isa95_jobcontrol_ISA95JobOrderReceiverObjectType",
+        "href": "#title=ISA95_JOBCONTROL_V2_ISA95JobOrderReceiverObjectType",
         "type": "application/tm+json"
       },
       {
@@ -4580,7 +4710,7 @@
       {
         "rel": "dov:capability",
         "dov:refName": "AllowedToStartSubstates",
-        "href": "#title=Isa95_jobcontrol_ISA95PrepareStateMachineType",
+        "href": "#title=ISA95_JOBCONTROL_V2_ISA95PrepareStateMachineType",
         "type": "application/tm+json"
       },
       {
@@ -4592,7 +4722,7 @@
       {
         "rel": "dov:capability",
         "dov:refName": "EndedSubstates",
-        "href": "#title=Isa95_jobcontrol_ISA95EndedStateMachineType",
+        "href": "#title=ISA95_JOBCONTROL_V2_ISA95EndedStateMachineType",
         "type": "application/tm+json"
       },
       {
@@ -4682,7 +4812,7 @@
       {
         "rel": "dov:capability",
         "dov:refName": "InterruptedSubstates",
-        "href": "#title=Isa95_jobcontrol_ISA95InterruptedStateMachineType",
+        "href": "#title=ISA95_JOBCONTROL_V2_ISA95InterruptedStateMachineType",
         "type": "application/tm+json"
       },
       {
@@ -4694,7 +4824,7 @@
       {
         "rel": "dov:capability",
         "dov:refName": "NotAllowedToStartSubstates",
-        "href": "#title=Isa95_jobcontrol_ISA95PrepareStateMachineType",
+        "href": "#title=ISA95_JOBCONTROL_V2_ISA95PrepareStateMachineType",
         "type": "application/tm+json"
       },
       {
@@ -4721,7 +4851,7 @@
       }
     ],
     "@type": "tm:ThingModel",
-    "title": "Isa95_jobcontrol_ISA95JobOrderReceiverObjectType",
+    "title": "ISA95_JOBCONTROL_V2_ISA95JobOrderReceiverObjectType",
     "dov:typeRef": "org.opcfoundation.UA.ISA95-JOBCONTROL_V2.ISA95JobOrderReceiverObjectType",
     "dov:isComposite": true,
     "links": [
@@ -4850,14 +4980,27 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dov:topic": "opcua/isa95-jobcontrol/Isa95_jobcontrol_ISA95JobOrderReceiverObjectType/events/{senderId}",
+        "dov:topic": "opcua/ISA95-JOBCONTROL_V2/ISA95_JOBCONTROL_V2_ISA95JobOrderReceiverObjectType/events/{senderId}",
         "op": "subscribeallevents"
       },
       {
         "contentType": "application/json",
-        "dov:topic": "opcua/isa95-jobcontrol/Isa95_jobcontrol_ISA95JobOrderReceiverObjectType/properties/read",
+        "dov:topic": "opcua/ISA95-JOBCONTROL_V2/ISA95_JOBCONTROL_V2_ISA95JobOrderReceiverObjectType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/actions/Abort",
+      "/actions/Cancel",
+      "/actions/Clear",
+      "/actions/Pause",
+      "/actions/Resume",
+      "/actions/RevokeStart",
+      "/actions/Start",
+      "/actions/Stop",
+      "/actions/Store",
+      "/actions/StoreAndStart",
+      "/actions/Update"
     ],
     "actions": {
       "Abort": {
@@ -4896,7 +5039,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dov:topic": "opcua/isa95-jobcontrol/Isa95_jobcontrol_ISA95JobOrderReceiverObjectType/action/Abort",
+            "dov:topic": "opcua/ISA95-JOBCONTROL_V2/ISA95_JOBCONTROL_V2_ISA95JobOrderReceiverObjectType/action/Abort",
             "op": "invokeaction"
           }
         ]
@@ -4937,7 +5080,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dov:topic": "opcua/isa95-jobcontrol/Isa95_jobcontrol_ISA95JobOrderReceiverObjectType/action/Cancel",
+            "dov:topic": "opcua/ISA95-JOBCONTROL_V2/ISA95_JOBCONTROL_V2_ISA95JobOrderReceiverObjectType/action/Cancel",
             "op": "invokeaction"
           }
         ]
@@ -4978,7 +5121,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dov:topic": "opcua/isa95-jobcontrol/Isa95_jobcontrol_ISA95JobOrderReceiverObjectType/action/Clear",
+            "dov:topic": "opcua/ISA95-JOBCONTROL_V2/ISA95_JOBCONTROL_V2_ISA95JobOrderReceiverObjectType/action/Clear",
             "op": "invokeaction"
           }
         ]
@@ -5019,7 +5162,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dov:topic": "opcua/isa95-jobcontrol/Isa95_jobcontrol_ISA95JobOrderReceiverObjectType/action/Pause",
+            "dov:topic": "opcua/ISA95-JOBCONTROL_V2/ISA95_JOBCONTROL_V2_ISA95JobOrderReceiverObjectType/action/Pause",
             "op": "invokeaction"
           }
         ]
@@ -5060,7 +5203,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dov:topic": "opcua/isa95-jobcontrol/Isa95_jobcontrol_ISA95JobOrderReceiverObjectType/action/Resume",
+            "dov:topic": "opcua/ISA95-JOBCONTROL_V2/ISA95_JOBCONTROL_V2_ISA95JobOrderReceiverObjectType/action/Resume",
             "op": "invokeaction"
           }
         ]
@@ -5101,7 +5244,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dov:topic": "opcua/isa95-jobcontrol/Isa95_jobcontrol_ISA95JobOrderReceiverObjectType/action/RevokeStart",
+            "dov:topic": "opcua/ISA95-JOBCONTROL_V2/ISA95_JOBCONTROL_V2_ISA95JobOrderReceiverObjectType/action/RevokeStart",
             "op": "invokeaction"
           }
         ]
@@ -5142,7 +5285,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dov:topic": "opcua/isa95-jobcontrol/Isa95_jobcontrol_ISA95JobOrderReceiverObjectType/action/Start",
+            "dov:topic": "opcua/ISA95-JOBCONTROL_V2/ISA95_JOBCONTROL_V2_ISA95JobOrderReceiverObjectType/action/Start",
             "op": "invokeaction"
           }
         ]
@@ -5183,7 +5326,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dov:topic": "opcua/isa95-jobcontrol/Isa95_jobcontrol_ISA95JobOrderReceiverObjectType/action/Stop",
+            "dov:topic": "opcua/ISA95-JOBCONTROL_V2/ISA95_JOBCONTROL_V2_ISA95JobOrderReceiverObjectType/action/Stop",
             "op": "invokeaction"
           }
         ]
@@ -5860,7 +6003,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dov:topic": "opcua/isa95-jobcontrol/Isa95_jobcontrol_ISA95JobOrderReceiverObjectType/action/Store",
+            "dov:topic": "opcua/ISA95-JOBCONTROL_V2/ISA95_JOBCONTROL_V2_ISA95JobOrderReceiverObjectType/action/Store",
             "op": "invokeaction"
           }
         ]
@@ -6537,7 +6680,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dov:topic": "opcua/isa95-jobcontrol/Isa95_jobcontrol_ISA95JobOrderReceiverObjectType/action/StoreAndStart",
+            "dov:topic": "opcua/ISA95-JOBCONTROL_V2/ISA95_JOBCONTROL_V2_ISA95JobOrderReceiverObjectType/action/StoreAndStart",
             "op": "invokeaction"
           }
         ]
@@ -7214,7 +7357,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dov:topic": "opcua/isa95-jobcontrol/Isa95_jobcontrol_ISA95JobOrderReceiverObjectType/action/Update",
+            "dov:topic": "opcua/ISA95-JOBCONTROL_V2/ISA95_JOBCONTROL_V2_ISA95JobOrderReceiverObjectType/action/Update",
             "op": "invokeaction"
           }
         ]
@@ -7232,7 +7375,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dov:topic": "opcua/isa95-jobcontrol/Isa95_jobcontrol_ISA95JobOrderReceiverObjectType/property/EquipmentID/read",
+            "dov:topic": "opcua/ISA95-JOBCONTROL_V2/ISA95_JOBCONTROL_V2_ISA95JobOrderReceiverObjectType/property/EquipmentID/read",
             "op": "readproperty"
           }
         ]
@@ -7949,7 +8092,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dov:topic": "opcua/isa95-jobcontrol/Isa95_jobcontrol_ISA95JobOrderReceiverObjectType/property/JobOrderList/read",
+            "dov:topic": "opcua/ISA95-JOBCONTROL_V2/ISA95_JOBCONTROL_V2_ISA95JobOrderReceiverObjectType/property/JobOrderList/read",
             "op": "readproperty"
           }
         ]
@@ -7965,7 +8108,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dov:topic": "opcua/isa95-jobcontrol/Isa95_jobcontrol_ISA95JobOrderReceiverObjectType/property/MaterialClassID/read",
+            "dov:topic": "opcua/ISA95-JOBCONTROL_V2/ISA95_JOBCONTROL_V2_ISA95JobOrderReceiverObjectType/property/MaterialClassID/read",
             "op": "readproperty"
           }
         ]
@@ -7981,7 +8124,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dov:topic": "opcua/isa95-jobcontrol/Isa95_jobcontrol_ISA95JobOrderReceiverObjectType/property/MaterialDefinitionID/read",
+            "dov:topic": "opcua/ISA95-JOBCONTROL_V2/ISA95_JOBCONTROL_V2_ISA95JobOrderReceiverObjectType/property/MaterialDefinitionID/read",
             "op": "readproperty"
           }
         ]
@@ -7995,7 +8138,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dov:topic": "opcua/isa95-jobcontrol/Isa95_jobcontrol_ISA95JobOrderReceiverObjectType/property/MaxDownloadableJobOrders/read",
+            "dov:topic": "opcua/ISA95-JOBCONTROL_V2/ISA95_JOBCONTROL_V2_ISA95JobOrderReceiverObjectType/property/MaxDownloadableJobOrders/read",
             "op": "readproperty"
           }
         ]
@@ -8011,7 +8154,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dov:topic": "opcua/isa95-jobcontrol/Isa95_jobcontrol_ISA95JobOrderReceiverObjectType/property/PersonnelID/read",
+            "dov:topic": "opcua/ISA95-JOBCONTROL_V2/ISA95_JOBCONTROL_V2_ISA95JobOrderReceiverObjectType/property/PersonnelID/read",
             "op": "readproperty"
           }
         ]
@@ -8027,7 +8170,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dov:topic": "opcua/isa95-jobcontrol/Isa95_jobcontrol_ISA95JobOrderReceiverObjectType/property/PhysicalAssetID/read",
+            "dov:topic": "opcua/ISA95-JOBCONTROL_V2/ISA95_JOBCONTROL_V2_ISA95JobOrderReceiverObjectType/property/PhysicalAssetID/read",
             "op": "readproperty"
           }
         ]
@@ -8115,7 +8258,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dov:topic": "opcua/isa95-jobcontrol/Isa95_jobcontrol_ISA95JobOrderReceiverObjectType/property/WorkMaster/read",
+            "dov:topic": "opcua/ISA95-JOBCONTROL_V2/ISA95_JOBCONTROL_V2_ISA95JobOrderReceiverObjectType/property/WorkMaster/read",
             "op": "readproperty"
           }
         ]
@@ -8134,7 +8277,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dov:topic": "opcua/isa95-jobcontrol/Isa95_jobcontrol_ISA95JobOrderReceiverObjectType/event/EquipmentID/{senderId}",
+            "dov:topic": "opcua/ISA95-JOBCONTROL_V2/ISA95_JOBCONTROL_V2_ISA95JobOrderReceiverObjectType/event/EquipmentID/{senderId}",
             "op": "subscribeevent"
           }
         ]
@@ -8852,7 +8995,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dov:topic": "opcua/isa95-jobcontrol/Isa95_jobcontrol_ISA95JobOrderReceiverObjectType/event/JobOrderList/{senderId}",
+            "dov:topic": "opcua/ISA95-JOBCONTROL_V2/ISA95_JOBCONTROL_V2_ISA95JobOrderReceiverObjectType/event/JobOrderList/{senderId}",
             "op": "subscribeevent"
           }
         ]
@@ -8869,7 +9012,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dov:topic": "opcua/isa95-jobcontrol/Isa95_jobcontrol_ISA95JobOrderReceiverObjectType/event/MaterialClassID/{senderId}",
+            "dov:topic": "opcua/ISA95-JOBCONTROL_V2/ISA95_JOBCONTROL_V2_ISA95JobOrderReceiverObjectType/event/MaterialClassID/{senderId}",
             "op": "subscribeevent"
           }
         ]
@@ -8886,7 +9029,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dov:topic": "opcua/isa95-jobcontrol/Isa95_jobcontrol_ISA95JobOrderReceiverObjectType/event/MaterialDefinitionID/{senderId}",
+            "dov:topic": "opcua/ISA95-JOBCONTROL_V2/ISA95_JOBCONTROL_V2_ISA95JobOrderReceiverObjectType/event/MaterialDefinitionID/{senderId}",
             "op": "subscribeevent"
           }
         ]
@@ -8903,7 +9046,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dov:topic": "opcua/isa95-jobcontrol/Isa95_jobcontrol_ISA95JobOrderReceiverObjectType/event/PersonnelID/{senderId}",
+            "dov:topic": "opcua/ISA95-JOBCONTROL_V2/ISA95_JOBCONTROL_V2_ISA95JobOrderReceiverObjectType/event/PersonnelID/{senderId}",
             "op": "subscribeevent"
           }
         ]
@@ -8920,7 +9063,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dov:topic": "opcua/isa95-jobcontrol/Isa95_jobcontrol_ISA95JobOrderReceiverObjectType/event/PhysicalAssetID/{senderId}",
+            "dov:topic": "opcua/ISA95-JOBCONTROL_V2/ISA95_JOBCONTROL_V2_ISA95JobOrderReceiverObjectType/event/PhysicalAssetID/{senderId}",
             "op": "subscribeevent"
           }
         ]
@@ -9009,7 +9152,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dov:topic": "opcua/isa95-jobcontrol/Isa95_jobcontrol_ISA95JobOrderReceiverObjectType/event/WorkMaster/{senderId}",
+            "dov:topic": "opcua/ISA95-JOBCONTROL_V2/ISA95_JOBCONTROL_V2_ISA95JobOrderReceiverObjectType/event/WorkMaster/{senderId}",
             "op": "subscribeevent"
           }
         ]
@@ -9024,7 +9167,7 @@
       }
     ],
     "@type": "tm:ThingModel",
-    "title": "Isa95_jobcontrol_ISA95PrepareStateMachineType",
+    "title": "ISA95_JOBCONTROL_V2_ISA95PrepareStateMachineType",
     "dov:typeRef": "org.opcfoundation.UA.ISA95-JOBCONTROL_V2.ISA95PrepareStateMachineType",
     "links": [
       {
@@ -9098,7 +9241,7 @@
       }
     ],
     "@type": "tm:ThingModel",
-    "title": "Isa95_jobcontrol_ISA95EndedStateMachineType",
+    "title": "ISA95_JOBCONTROL_V2_ISA95EndedStateMachineType",
     "dov:typeRef": "org.opcfoundation.UA.ISA95-JOBCONTROL_V2.ISA95EndedStateMachineType",
     "links": [
       {
@@ -9142,7 +9285,7 @@
       }
     ],
     "@type": "tm:ThingModel",
-    "title": "Isa95_jobcontrol_ISA95InterruptedStateMachineType",
+    "title": "ISA95_JOBCONTROL_V2_ISA95InterruptedStateMachineType",
     "dov:typeRef": "org.opcfoundation.UA.ISA95-JOBCONTROL_V2.ISA95InterruptedStateMachineType",
     "links": [
       {

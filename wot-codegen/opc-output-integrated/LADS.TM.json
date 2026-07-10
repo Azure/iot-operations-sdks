@@ -1474,6 +1474,14 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/AvailableStates",
+      "/properties/AvailableTransitions",
+      "/properties/LastTransition",
+      "/events/AvailableStates",
+      "/events/AvailableTransitions",
+      "/events/LastTransition"
+    ],
     "actions": {
     },
     "properties": {
@@ -1616,6 +1624,10 @@
         "dov:topic": "opcua/OpcUaCore/OpcUaCore_StateMachineType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/LastTransition",
+      "/events/LastTransition"
     ],
     "actions": {
     },
@@ -1812,6 +1824,39 @@
         "dov:topic": "opcua/OpcUaCore/OpcUaCore_AlarmConditionType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/actions/GetGroupMemberships",
+      "/actions/PlaceInService",
+      "/actions/PlaceInService2",
+      "/actions/RemoveFromService",
+      "/actions/RemoveFromService2",
+      "/actions/Reset",
+      "/actions/Reset2",
+      "/actions/Silence",
+      "/actions/Suppress",
+      "/actions/Suppress2",
+      "/actions/Unsuppress",
+      "/actions/Unsuppress2",
+      "/properties/AudibleEnabled",
+      "/properties/AudibleSound",
+      "/properties/FirstInGroupFlag",
+      "/properties/LatchedState",
+      "/properties/MaxTimeShelved",
+      "/properties/OffDelay",
+      "/properties/OnDelay",
+      "/properties/OutOfServiceState",
+      "/properties/ReAlarmRepeatCount",
+      "/properties/ReAlarmTime",
+      "/properties/SilenceState",
+      "/properties/SuppressedState",
+      "/events/AudibleSound",
+      "/events/FirstInGroupFlag",
+      "/events/LatchedState",
+      "/events/OutOfServiceState",
+      "/events/ReAlarmRepeatCount",
+      "/events/SilenceState",
+      "/events/SuppressedState"
     ],
     "actions": {
       "GetGroupMemberships": {
@@ -2317,6 +2362,11 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/actions/Confirm",
+      "/properties/ConfirmedState",
+      "/events/ConfirmedState"
+    ],
     "actions": {
       "Acknowledge": {
         "input": {
@@ -2474,6 +2524,13 @@
         "dov:topic": "opcua/OpcUaCore/OpcUaCore_ConditionType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/actions/ConditionRefresh",
+      "/actions/ConditionRefresh2",
+      "/properties/ConditionSubClassId",
+      "/properties/ConditionSubClassName",
+      "/properties/SupportsFilteredRetain"
     ],
     "actions": {
       "AddComment": {
@@ -2802,6 +2859,13 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/ConditionClassId",
+      "/properties/ConditionClassName",
+      "/properties/ConditionSubClassId",
+      "/properties/ConditionSubClassName",
+      "/properties/LocalTime"
+    ],
     "actions": {
     },
     "properties": {
@@ -3055,6 +3119,11 @@
         "dov:topic": "opcua/OpcUaCore/OpcUaCore_ShelvedStateMachineType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/actions/OneShotShelve2",
+      "/actions/TimedShelve2",
+      "/actions/Unshelve2"
     ],
     "actions": {
       "OneShotShelve": {
@@ -3330,6 +3399,9 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/DefaultInstanceBrowseName"
+    ],
     "actions": {
     },
     "properties": {
@@ -3385,6 +3457,12 @@
         "dov:topic": "opcua/Machinery/Machinery_MachineryOperationCounterType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/DefaultInstanceBrowseName",
+      "/properties/OperationCycleCounter",
+      "/properties/OperationDuration",
+      "/properties/PowerOnDuration"
     ],
     "actions": {
     },
@@ -3618,6 +3696,9 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/DefaultInstanceBrowseName"
+    ],
     "actions": {
     },
     "properties": {
@@ -3678,6 +3759,10 @@
         "dov:topic": "opcua/DI/DI_FunctionalGroupType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/UIElement",
+      "/events/UIElement"
     ],
     "actions": {
     },
@@ -3866,6 +3951,14 @@
         "dov:topic": "opcua/DI/DI_DeviceType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/DeviceClass",
+      "/properties/DeviceHealth",
+      "/properties/ManufacturerUri",
+      "/properties/ProductCode",
+      "/properties/ProductInstanceUri",
+      "/events/DeviceHealth"
     ],
     "actions": {
     },
@@ -4078,6 +4171,22 @@
         "dov:topic": "opcua/DI/DI_ComponentType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/AssetId",
+      "/properties/ComponentName",
+      "/properties/DeviceClass",
+      "/properties/DeviceManual",
+      "/properties/DeviceRevision",
+      "/properties/HardwareRevision",
+      "/properties/Manufacturer",
+      "/properties/ManufacturerUri",
+      "/properties/Model",
+      "/properties/ProductCode",
+      "/properties/ProductInstanceUri",
+      "/properties/RevisionCounter",
+      "/properties/SerialNumber",
+      "/properties/SoftwareRevision"
     ],
     "actions": {
     },
@@ -4337,6 +4446,9 @@
         "dov:topic": "opcua/DI/DI_LockingServicesType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/DefaultInstanceBrowseName"
     ],
     "actions": {
       "BreakLock": {

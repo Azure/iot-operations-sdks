@@ -1415,6 +1415,22 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/Address",
+      "/properties/HeaderLayoutUri",
+      "/properties/PublishingInterval",
+      "/properties/Qos",
+      "/properties/SecurityGroupId",
+      "/properties/SecurityMode",
+      "/properties/TransportProfileUri",
+      "/events/Address",
+      "/events/HeaderLayoutUri",
+      "/events/PublishingInterval",
+      "/events/Qos",
+      "/events/SecurityGroupId",
+      "/events/SecurityMode",
+      "/events/TransportProfileUri"
+    ],
     "actions": {
     },
     "properties": {
@@ -1733,6 +1749,12 @@
         "dov:topic": "opcua/FX.CM/FX_CM_SubscriberConfigurationType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/Address",
+      "/properties/ReceiveQos",
+      "/events/Address",
+      "/events/ReceiveQos"
     ],
     "actions": {
     },
@@ -4063,6 +4085,19 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/ConnectionsDiagnostics",
+      "/properties/Edit",
+      "/properties/PubSubKeyPushTargets",
+      "/properties/SecurityGroups",
+      "/properties/SecurityKeyServer",
+      "/properties/Version",
+      "/events/ConnectionsDiagnostics",
+      "/events/PubSubKeyPushTargets",
+      "/events/SecurityGroups",
+      "/events/SecurityKeyServer",
+      "/events/Version"
+    ],
     "actions": {
     },
     "properties": {
@@ -4896,6 +4931,14 @@
         "dov:topic": "opcua/FX.CM/FX_CM_ConnectionEndpointConfigurationType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/ConfigurationData",
+      "/properties/ControlGroups",
+      "/properties/ExpectedVerificationVariables",
+      "/events/ConfigurationData",
+      "/events/ControlGroups",
+      "/events/ExpectedVerificationVariables"
     ],
     "actions": {
     },
@@ -5749,6 +5792,18 @@
         "dov:topic": "opcua/FX.CM/FX_CM_ConnectionEndpointParameterType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/CommunicationLinks",
+      "/properties/InputVariableIds",
+      "/properties/OutputVariableIds",
+      "/properties/PreconfiguredPublishedDataSet",
+      "/properties/PreconfiguredSubscribedDataSet",
+      "/events/CommunicationLinks",
+      "/events/InputVariableIds",
+      "/events/OutputVariableIds",
+      "/events/PreconfiguredPublishedDataSet",
+      "/events/PreconfiguredSubscribedDataSet"
     ],
     "actions": {
     },
@@ -6619,6 +6674,12 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/actions/EditConnectionConfigurationSets",
+      "/actions/ProcessConnectionConfigurationSets",
+      "/properties/AggregatedCurrentState",
+      "/events/AggregatedCurrentState"
+    ],
     "actions": {
       "EditConnectionConfigurationSets": {
         "dov:namespace": "http://opcfoundation.org/UA/FX/CM/",
@@ -6922,6 +6983,11 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/ErrorCode",
+      "/properties/ErrorCodeNode",
+      "/properties/TraceContext"
+    ],
     "actions": {
     },
     "properties": {
@@ -6968,6 +7034,30 @@
             "op": "readproperty"
           }
         ]
+      },
+      "TraceContext": {
+        "title": "TraceContextDataType",
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.TraceContextDataType",
+        "required": [ "ParentSpanId", "ParentIdentifier" ],
+        "properties": {
+          "ParentSpanId": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 18446744073709551615
+          },
+          "ParentIdentifier": {
+            "type": "string"
+          }
+        },
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/OpcUaCore/OpcUaCore_BaseLogEventType/property/TraceContext/read",
+            "op": "readproperty"
+          }
+        ]
       }
     },
     "events": {
@@ -6998,6 +7088,13 @@
         "dov:topic": "opcua/OpcUaCore/OpcUaCore_BaseEventType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/ConditionClassId",
+      "/properties/ConditionClassName",
+      "/properties/ConditionSubClassId",
+      "/properties/ConditionSubClassName",
+      "/properties/LocalTime"
     ],
     "actions": {
     },
@@ -7204,6 +7301,14 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/AvailableStates",
+      "/properties/AvailableTransitions",
+      "/properties/LastTransition",
+      "/events/AvailableStates",
+      "/events/AvailableTransitions",
+      "/events/LastTransition"
+    ],
     "actions": {
     },
     "properties": {
@@ -7346,6 +7451,10 @@
         "dov:topic": "opcua/OpcUaCore/OpcUaCore_StateMachineType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/LastTransition",
+      "/events/LastTransition"
     ],
     "actions": {
     },
@@ -7543,6 +7652,11 @@
         "dov:topic": "opcua/OpcUaCore/OpcUaCore_FileType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/LastModifiedTime",
+      "/properties/MaxByteStringLength",
+      "/properties/MimeType"
     ],
     "actions": {
       "Close": {
@@ -7864,6 +7978,12 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/actions/ReleaseContinuationPoint",
+      "/properties/MaxRecords",
+      "/properties/MaxStorageDuration",
+      "/properties/MinimumSeverity"
+    ],
     "actions": {
       "GetRecords": {
         "input": {
@@ -7994,6 +8114,26 @@
             "op": "invokeaction"
           }
         ]
+      },
+      "ReleaseContinuationPoint": {
+        "input": {
+          "type": "object",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
+          "required": [ "ContinuationPointIn" ],
+          "properties": {
+            "ContinuationPointIn": {
+              "type": "string",
+              "contentEncoding": "base64"
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/OpcUaCore/OpcUaCore_LogObjectType/action/ReleaseContinuationPoint",
+            "op": "invokeaction"
+          }
+        ]
       }
     },
     "properties": {
@@ -8064,6 +8204,9 @@
         "dov:topic": "opcua/DI/DI_LockingServicesType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/DefaultInstanceBrowseName"
     ],
     "actions": {
       "BreakLock": {
@@ -8266,6 +8409,10 @@
         "dov:topic": "opcua/DI/DI_FunctionalGroupType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/UIElement",
+      "/events/UIElement"
     ],
     "actions": {
     },

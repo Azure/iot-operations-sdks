@@ -15,20 +15,18 @@ use async_tungstenite::{
 };
 use either::Either;
 use futures_util::{Sink, Stream};
-use tokio::{
-    io::{AsyncRead, AsyncReadExt, AsyncWrite, AsyncWriteExt, ReadBuf, ReadHalf, WriteHalf},
-    net::TcpStream,
-};
+use tokio::io::{AsyncRead, AsyncReadExt, AsyncWrite, AsyncWriteExt, ReadBuf, ReadHalf, WriteHalf};
 
 use crate::azure_mqtt::buffer_pool::{BufferPool, EitherAccumulator};
-use crate::azure_mqtt::client::ConnectionTransportTlsConfig;
-use crate::azure_mqtt::io::{ReadableStream, Reader, WritableStream, Writer, tokio_tls};
+use crate::azure_mqtt::transport::{Proxy, TlsConfig};
+use crate::azure_mqtt::io::{ReadableStream, Reader, WritableStream, Writer};
 
 /// Establish a WebSocket connection using the given request parameters,
 /// and use the given buffer pools to initialize the buffers for the stream reader and writer.
 pub async fn connect<BP>(
     request: impl IntoClientRequest,
-    tls_config: Option<ConnectionTransportTlsConfig>,
+    tls_config: Option<TlsConfig>,
+    proxy: Option<Proxy>,
     tcp_nodelay: bool,
     reader_pool: &BP,
 ) -> io::Result<(Reader<BP>, Writer<BP>)>
@@ -61,11 +59,25 @@ where
         ));
     }
 
+    // Guard against the two sources of truth for "is this TLS" disagreeing: the scheme
+    // (`wss`/`https`) and the presence of `tls_config`. Without this, a `wss` URI with no
+    // `tls_config` would silently connect in plaintext (and `ws` with a `tls_config` would use TLS),
+    // since the TLS decision below is driven by `tls_config` rather than the scheme.
+    let scheme_is_tls = matches!(scheme, "wss" | "https");
+    if scheme_is_tls != tls_config.is_some() {
+        return Err(IoError::new(
+            io::ErrorKind::InvalidInput,
+            format!("`tls_config` must be provided for a `{scheme}` URI and omitted otherwise"),
+        ));
+    }
+
     let stream = if let Some(tls_config) = tls_config {
-        tokio_tls::connect_inner(addr, port.unwrap_or(443), tls_config, tcp_nodelay).await?
+        Either::Right(
+            super::stream::connect_tls(addr, port.unwrap_or(443), tls_config, proxy, tcp_nodelay)
+                .await?,
+        )
     } else {
-        let stream = TcpStream::connect((addr, port.unwrap_or(80))).await?;
-        stream.set_nodelay(tcp_nodelay)?;
+        let stream = super::stream::connect(addr, port.unwrap_or(80), proxy, tcp_nodelay).await?;
         Either::Left(stream)
     };
 

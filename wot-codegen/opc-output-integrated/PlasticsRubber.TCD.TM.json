@@ -145,6 +145,41 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/ActualProcessPower",
+      "/properties/ActualPumpPower",
+      "/properties/ActualPumpSpeedRPM",
+      "/properties/ActualRegulationRatio",
+      "/properties/DelayTimeAfterCooling",
+      "/properties/InternalMeasuringPoint",
+      "/properties/PressureMainLine",
+      "/properties/PressureReturnLine",
+      "/properties/PumpControlMode",
+      "/properties/StandbyTemperature",
+      "/properties/SwitchingOffTemperature",
+      "/properties/TemperatureLimitation",
+      "/properties/TemperatureMainLine",
+      "/properties/TemperatureReturnLine",
+      "/properties/ActualProcessPower_EngineeringUnits",
+      "/properties/ActualPumpPower_EngineeringUnits",
+      "/properties/ActualPumpSpeedRPM_EngineeringUnits",
+      "/properties/ActualRegulationRatio_EngineeringUnits",
+      "/properties/DelayTimeAfterCooling_EngineeringUnits",
+      "/events/ActualProcessPower",
+      "/events/ActualPumpPower",
+      "/events/ActualPumpSpeedRPM",
+      "/events/ActualRegulationRatio",
+      "/events/DelayTimeAfterCooling",
+      "/events/InternalMeasuringPoint",
+      "/events/PressureMainLine",
+      "/events/PressureReturnLine",
+      "/events/PumpControlMode",
+      "/events/StandbyTemperature",
+      "/events/SwitchingOffTemperature",
+      "/events/TemperatureLimitation",
+      "/events/TemperatureMainLine",
+      "/events/TemperatureReturnLine"
+    ],
     "actions": {
     },
     "properties": {
@@ -806,6 +841,21 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/actions/SwitchOff",
+      "/actions/SwitchOn",
+      "/properties/ControlMode",
+      "/properties/PressureMainLine",
+      "/properties/PressureReturnLine",
+      "/properties/SwitchedOn",
+      "/properties/TemperatureMainLine",
+      "/properties/TemperatureReturnLine",
+      "/events/ControlMode",
+      "/events/PressureMainLine",
+      "/events/PressureReturnLine",
+      "/events/TemperatureMainLine",
+      "/events/TemperatureReturnLine"
+    ],
     "actions": {
       "SwitchOff": {
         "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/TCD/",
@@ -1054,6 +1104,9 @@
         "dov:topic": "opcua/PlasticsRubber.TCD/PlasticsRubber_TCD_ExternalSensorType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/AutomaticModeSwitch"
     ],
     "actions": {
       "ExternalSensorModeOff": {
@@ -1356,6 +1409,17 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/Mode",
+      "/properties/Sink",
+      "/properties/TemperatureLimit",
+      "/properties/Time",
+      "/properties/Time_EngineeringUnits",
+      "/events/Mode",
+      "/events/Sink",
+      "/events/TemperatureLimit",
+      "/events/Time"
+    ],
     "actions": {
       "Off": {
         "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/TCD/",
@@ -1640,6 +1704,16 @@
         "dov:topic": "opcua/PlasticsRubber.TCD/PlasticsRubber_TCD_OperationType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/actions/IdentifyDevice",
+      "/actions/ReduceToStandByOff",
+      "/actions/ReduceToStandByOn",
+      "/actions/ResetAllErrors",
+      "/actions/ResetErrorById",
+      "/properties/HoursOfOperation",
+      "/properties/HoursOfOperation_EngineeringUnits",
+      "/events/HoursOfOperation"
     ],
     "actions": {
       "IdentifyDevice": {
@@ -1969,6 +2043,9 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/DisplayLanguage"
+    ],
     "actions": {
     },
     "properties": {
@@ -2025,6 +2102,14 @@
         "dov:topic": "opcua/PlasticsRubber.TCD/PlasticsRubber_TCD_TCDSpecificationType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/CoolingCapacity",
+      "/properties/DeviceZoneId",
+      "/properties/ConnectedLoad_EngineeringUnits",
+      "/properties/CoolingCapacity_EngineeringUnits",
+      "/properties/PowerValue_EngineeringUnits",
+      "/events/CoolingCapacity"
     ],
     "actions": {
     },
@@ -2330,6 +2415,34 @@
         "dov:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_MonitoredParameterType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/actions/ResetMonitoring",
+      "/properties/AlarmSuppression",
+      "/properties/AutomaticMonitoring",
+      "/properties/LowerTolerance",
+      "/properties/LowerTolerance2",
+      "/properties/MaxValue",
+      "/properties/MinValue",
+      "/properties/MonitoringSensitivity",
+      "/properties/SetRampDown",
+      "/properties/SetRampUp",
+      "/properties/SetValue",
+      "/properties/Status",
+      "/properties/UpperTolerance",
+      "/properties/UpperTolerance2",
+      "/events/AlarmSuppression",
+      "/events/LowerTolerance",
+      "/events/LowerTolerance2",
+      "/events/MaxValue",
+      "/events/MinValue",
+      "/events/MonitoringSensitivity",
+      "/events/SetRampDown",
+      "/events/SetRampUp",
+      "/events/SetValue",
+      "/events/Status",
+      "/events/UpperTolerance",
+      "/events/UpperTolerance2"
     ],
     "actions": {
       "ResetMonitoring": {
@@ -2846,6 +2959,13 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/actions/AutoTuningOff",
+      "/actions/AutoTuningOn",
+      "/properties/AutomaticControllerMode",
+      "/properties/AutoTuningActive",
+      "/properties/PIDParameters"
+    ],
     "actions": {
       "AutoTuningOff": {
         "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
@@ -3005,6 +3125,15 @@
         "dov:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_MaintenanceType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/AdditionalInformation",
+      "/properties/Interval",
+      "/properties/RemainingInterval",
+      "/properties/TotalOperation",
+      "/events/Interval",
+      "/events/RemainingInterval",
+      "/events/TotalOperation"
     ],
     "actions": {
       "Reset": {
@@ -3190,6 +3319,12 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/SetRampDown",
+      "/properties/SetRampUp",
+      "/events/SetRampDown",
+      "/events/SetRampUp"
+    ],
     "actions": {
     },
     "properties": {
@@ -3296,6 +3431,9 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/YearOfConstruction"
+    ],
     "actions": {
     },
     "properties": {
@@ -3401,6 +3539,11 @@
         "dov:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_MachineConfigurationType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/actions/GetCurrentPage",
+      "/actions/GetPage",
+      "/properties/PageDirectory"
     ],
     "actions": {
       "GetCurrentPage": {
@@ -3725,6 +3868,39 @@
         "dov:topic": "opcua/OpcUaCore/OpcUaCore_AlarmConditionType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/actions/GetGroupMemberships",
+      "/actions/PlaceInService",
+      "/actions/PlaceInService2",
+      "/actions/RemoveFromService",
+      "/actions/RemoveFromService2",
+      "/actions/Reset",
+      "/actions/Reset2",
+      "/actions/Silence",
+      "/actions/Suppress",
+      "/actions/Suppress2",
+      "/actions/Unsuppress",
+      "/actions/Unsuppress2",
+      "/properties/AudibleEnabled",
+      "/properties/AudibleSound",
+      "/properties/FirstInGroupFlag",
+      "/properties/LatchedState",
+      "/properties/MaxTimeShelved",
+      "/properties/OffDelay",
+      "/properties/OnDelay",
+      "/properties/OutOfServiceState",
+      "/properties/ReAlarmRepeatCount",
+      "/properties/ReAlarmTime",
+      "/properties/SilenceState",
+      "/properties/SuppressedState",
+      "/events/AudibleSound",
+      "/events/FirstInGroupFlag",
+      "/events/LatchedState",
+      "/events/OutOfServiceState",
+      "/events/ReAlarmRepeatCount",
+      "/events/SilenceState",
+      "/events/SuppressedState"
     ],
     "actions": {
       "GetGroupMemberships": {
@@ -4230,6 +4406,11 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/actions/Confirm",
+      "/properties/ConfirmedState",
+      "/events/ConfirmedState"
+    ],
     "actions": {
       "Acknowledge": {
         "input": {
@@ -4387,6 +4568,13 @@
         "dov:topic": "opcua/OpcUaCore/OpcUaCore_ConditionType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/actions/ConditionRefresh",
+      "/actions/ConditionRefresh2",
+      "/properties/ConditionSubClassId",
+      "/properties/ConditionSubClassName",
+      "/properties/SupportsFilteredRetain"
     ],
     "actions": {
       "AddComment": {
@@ -4715,6 +4903,13 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/ConditionClassId",
+      "/properties/ConditionClassName",
+      "/properties/ConditionSubClassId",
+      "/properties/ConditionSubClassName",
+      "/properties/LocalTime"
+    ],
     "actions": {
     },
     "properties": {
@@ -4990,6 +5185,11 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/actions/OneShotShelve2",
+      "/actions/TimedShelve2",
+      "/actions/Unshelve2"
+    ],
     "actions": {
       "OneShotShelve": {
         "forms": [
@@ -5139,6 +5339,14 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/AvailableStates",
+      "/properties/AvailableTransitions",
+      "/properties/LastTransition",
+      "/events/AvailableStates",
+      "/events/AvailableTransitions",
+      "/events/LastTransition"
+    ],
     "actions": {
     },
     "properties": {
@@ -5281,6 +5489,10 @@
         "dov:topic": "opcua/OpcUaCore/OpcUaCore_StateMachineType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/LastTransition",
+      "/events/LastTransition"
     ],
     "actions": {
     },
@@ -5504,6 +5716,22 @@
         "dov:topic": "opcua/DI/DI_ComponentType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/AssetId",
+      "/properties/ComponentName",
+      "/properties/DeviceClass",
+      "/properties/DeviceManual",
+      "/properties/DeviceRevision",
+      "/properties/HardwareRevision",
+      "/properties/Manufacturer",
+      "/properties/ManufacturerUri",
+      "/properties/Model",
+      "/properties/ProductCode",
+      "/properties/ProductInstanceUri",
+      "/properties/RevisionCounter",
+      "/properties/SerialNumber",
+      "/properties/SoftwareRevision"
     ],
     "actions": {
     },
@@ -5775,6 +6003,10 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/UIElement",
+      "/events/UIElement"
+    ],
     "actions": {
     },
     "properties": {
@@ -5834,6 +6066,9 @@
         "dov:topic": "opcua/DI/DI_LockingServicesType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/DefaultInstanceBrowseName"
     ],
     "actions": {
       "BreakLock": {

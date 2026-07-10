@@ -403,6 +403,10 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/CustomerOrderIdentifier",
+      "/properties/OrderIdentifier"
+    ],
     "actions": {
     },
     "properties": {
@@ -596,6 +600,10 @@
         "dov:topic": "opcua/MachineTool/MachineTool_ProductionPartTransitionEventType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/CustomerOrderIdentifier",
+      "/properties/Identifier"
     ],
     "actions": {
     },
@@ -808,6 +816,10 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/Identifier",
+      "/properties/Name"
+    ],
     "actions": {
     },
     "properties": {
@@ -931,6 +943,14 @@
         "dov:topic": "opcua/MachineTool/MachineTool_ToolType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/ControlIdentifier2",
+      "/properties/LastUsage",
+      "/properties/PlannedForOperating",
+      "/events/ControlIdentifier2",
+      "/events/LastUsage",
+      "/events/PlannedForOperating"
     ],
     "actions": {
     },
@@ -1137,6 +1157,12 @@
         "dov:topic": "opcua/MachineTool/MachineTool_ChannelModifierType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/BlockSkip",
+      "/properties/TestMode",
+      "/events/BlockSkip",
+      "/events/TestMode"
     ],
     "actions": {
     },
@@ -1423,6 +1449,10 @@
         "dov:topic": "opcua/MachineTool/MachineTool_ChannelMonitoringType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/RapidOverride",
+      "/events/RapidOverride"
     ],
     "actions": {
     },
@@ -1895,6 +1925,12 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/IsUsedAsAxis",
+      "/properties/Override",
+      "/events/IsUsedAsAxis",
+      "/events/Override"
+    ],
     "actions": {
     },
     "properties": {
@@ -2062,9 +2098,27 @@
         "type": "application/tm+json"
       },
       {
+        "rel": "dov:capability",
+        "dov:refName": "MachineryItemState",
+        "href": "./Machinery.TM.json#title=Machinery_MachineryItemState_StateMachineType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:capability",
+        "dov:refName": "MachineryOperationMode",
+        "href": "#title=MachineTool_MachineOperationModeStateMachineType",
+        "type": "application/tm+json"
+      },
+      {
         "rel": "dov:reference",
         "dov:refName": "Obligation",
         "href": "#title=MachineTool_ObligationType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:capability",
+        "dov:refName": "OperationCounters",
+        "href": "./Machinery.TM.json#title=Machinery_MachineryOperationCounterType",
         "type": "application/tm+json"
       }
     ],
@@ -2119,6 +2173,14 @@
         "dov:topic": "opcua/MachineTool/MachineTool_MachineOperationMonitoringType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/FeedOverride",
+      "/properties/IsWarmUp",
+      "/properties/PowerOnDuration",
+      "/events/FeedOverride",
+      "/events/IsWarmUp",
+      "/events/PowerOnDuration"
     ],
     "actions": {
     },
@@ -2261,6 +2323,12 @@
         "type": "application/tm+json"
       },
       {
+        "rel": "dov:component",
+        "dov:refName": "Components",
+        "href": "./Machinery.TM.json#title=Machinery_MachineComponentsType",
+        "type": "application/tm+json"
+      },
+      {
         "rel": "dov:capability",
         "dov:refName": "Equipment",
         "href": "#title=MachineTool_EquipmentType",
@@ -2270,6 +2338,12 @@
         "rel": "dov:component",
         "dov:refName": "FileSystem",
         "href": "./OpcUaCore.TM.json#title=OpcUaCore_FileDirectoryType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:capability",
+        "dov:refName": "Identification",
+        "href": "#title=MachineTool_MachineToolIdentificationType",
         "type": "application/tm+json"
       },
       {
@@ -2577,6 +2651,14 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/CustomerOrderIdentifier",
+      "/properties/OrderIdentifier",
+      "/properties/PartsCompleted",
+      "/properties/PartsGood",
+      "/events/PartsCompleted",
+      "/events/PartsGood"
+    ],
     "actions": {
     },
     "properties": {
@@ -2786,6 +2868,9 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/Name"
+    ],
     "actions": {
     },
     "properties": {
@@ -2972,6 +3057,10 @@
         "dov:topic": "opcua/MachineTool/MachineTool_ProductionPartType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/CustomerOrderIdentifier",
+      "/properties/Identifier"
     ],
     "actions": {
     },
@@ -3183,6 +3272,12 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/JobIdentifier",
+      "/properties/JobNodeId",
+      "/events/JobIdentifier",
+      "/events/JobNodeId"
+    ],
     "actions": {
     },
     "properties": {
@@ -3270,6 +3365,10 @@
         "dov:topic": "opcua/MachineTool/MachineTool_ProductionStatisticsType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/PartsProducedInLifetime",
+      "/events/PartsProducedInLifetime"
     ],
     "actions": {
     },
@@ -3382,6 +3481,9 @@
         "dov:topic": "opcua/MachineTool/MachineTool_PrognosisListType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/NodeVersion"
     ],
     "actions": {
     },
@@ -3607,6 +3709,12 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/PartIdentifier",
+      "/properties/PartNodeId",
+      "/events/PartIdentifier",
+      "/events/PartNodeId"
+    ],
     "actions": {
     },
     "properties": {
@@ -3745,6 +3853,12 @@
         "dov:topic": "opcua/MachineTool/MachineTool_PartUnloadPrognosisType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/PartIdentifier",
+      "/properties/PartNodeId",
+      "/events/PartIdentifier",
+      "/events/PartNodeId"
     ],
     "actions": {
     },
@@ -3974,6 +4088,10 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/JobNodeId",
+      "/events/JobNodeId"
+    ],
     "actions": {
     },
     "properties": {
@@ -4062,6 +4180,14 @@
         "dov:topic": "opcua/MachineTool/MachineTool_ToolChangePrognosisType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/ToolIdentifier",
+      "/properties/ToolName",
+      "/properties/ToolNodeId",
+      "/events/ToolIdentifier",
+      "/events/ToolName",
+      "/events/ToolNodeId"
     ],
     "actions": {
     },
@@ -4202,6 +4328,12 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/ToolIdentifier",
+      "/properties/ToolName",
+      "/events/ToolIdentifier",
+      "/events/ToolName"
+    ],
     "actions": {
     },
     "properties": {
@@ -4315,6 +4447,14 @@
         "dov:topic": "opcua/MachineTool/MachineTool_ToolUnloadPrognosisType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/ToolIdentifier",
+      "/properties/ToolName",
+      "/properties/ToolNodeId",
+      "/events/ToolIdentifier",
+      "/events/ToolName",
+      "/events/ToolNodeId"
     ],
     "actions": {
     },
@@ -4512,6 +4652,9 @@
         "dov:topic": "opcua/MachineTool/MachineTool_SoftwareIdentificationType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/Manufacturer"
     ],
     "actions": {
     },
@@ -4712,6 +4855,9 @@
         "dov:topic": "opcua/MachineTool/MachineTool_MachineOperationModeStateMachineType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/DefaultInstanceBrowseName"
     ],
     "actions": {
     },
@@ -4914,6 +5060,10 @@
         "dov:topic": "opcua/MachineTool/MachineTool_ProductionStateMachineType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/LastTransition",
+      "/events/LastTransition"
     ],
     "actions": {
     },
@@ -5347,6 +5497,9 @@
         "dov:topic": "opcua/MachineTool/MachineTool_ToolListType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/NodeVersion"
     ],
     "actions": {
     },

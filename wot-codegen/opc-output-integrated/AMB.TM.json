@@ -418,6 +418,16 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/ConfigurationChanged",
+      "/properties/EstimatedDowntime",
+      "/properties/MaintenanceMethod",
+      "/properties/MaintenanceSupplier",
+      "/properties/PartsOfAssetReplaced",
+      "/properties/PartsOfAssetServiced",
+      "/properties/PlannedDate",
+      "/properties/QualificationOfPersonnel"
+    ],
     "actions": {
     },
     "properties": {
@@ -807,6 +817,13 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/actions/AddLink",
+      "/actions/RemoveLink",
+      "/properties/DefaultInstanceBrowseName",
+      "/properties/Link",
+      "/events/Link"
+    ],
     "actions": {
       "AddLink": {
         "dov:namespace": "http://opcfoundation.org/UA/AMB/",
@@ -1087,6 +1104,14 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/AvailableStates",
+      "/properties/AvailableTransitions",
+      "/properties/LastTransition",
+      "/events/AvailableStates",
+      "/events/AvailableTransitions",
+      "/events/LastTransition"
+    ],
     "actions": {
     },
     "properties": {
@@ -1229,6 +1254,10 @@
         "dov:topic": "opcua/OpcUaCore/OpcUaCore_StateMachineType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/LastTransition",
+      "/events/LastTransition"
     ],
     "actions": {
     },

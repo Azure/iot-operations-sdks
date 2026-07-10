@@ -624,6 +624,18 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/actions/LabelsEncodingEvent",
+      "/actions/LabelsInspectingEvent",
+      "/actions/LabelsSamplingEvent",
+      "/actions/LabelsScrappingEvent",
+      "/actions/SIDCommissioningEvent",
+      "/actions/SIDDecommissioningEvent",
+      "/actions/SIDDestroyingEvent",
+      "/actions/SIDInspectingEvent",
+      "/actions/SIDShippingEvent",
+      "/actions/SNInvalidatingEvent"
+    ],
     "actions": {
       "LabelsEncodingEvent": {
         "dov:namespace": "http://opcfoundation.org/UA/OPENSCS-SER/",
@@ -2938,6 +2950,11 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/IntendedUse",
+      "/properties/SIDClassDescription",
+      "/properties/SIDClassProperty"
+    ],
     "actions": {
     },
     "properties": {
@@ -3403,6 +3420,14 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/AvailableStates",
+      "/properties/AvailableTransitions",
+      "/properties/LastTransition",
+      "/events/AvailableStates",
+      "/events/AvailableTransitions",
+      "/events/LastTransition"
+    ],
     "actions": {
     },
     "properties": {
@@ -3545,6 +3570,10 @@
         "dov:topic": "opcua/OpcUaCore/OpcUaCore_StateMachineType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/LastTransition",
+      "/events/LastTransition"
     ],
     "actions": {
     },

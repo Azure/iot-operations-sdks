@@ -13,6 +13,8 @@ use std::{
 mod reader;
 pub use reader::Reader;
 
+mod stream;
+
 #[cfg(feature = "test-utils")]
 pub mod test;
 

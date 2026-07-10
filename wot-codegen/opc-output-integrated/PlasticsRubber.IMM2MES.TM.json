@@ -173,6 +173,15 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/MaxScrewStroke",
+      "/properties/ScrewDiameter",
+      "/properties/ScrewId",
+      "/properties/ScrewVolume",
+      "/events/MaxScrewStroke",
+      "/events/ScrewDiameter",
+      "/events/ScrewVolume"
+    ],
     "actions": {
     },
     "properties": {
@@ -370,6 +379,64 @@
         "dov:topic": "opcua/PlasticsRubber.IMM2MES/PlasticsRubber_IMM2MES_InjectionUnitCycleParametersType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/BackPressure",
+      "/properties/CavityPressureMaximum",
+      "/properties/CushionStroke",
+      "/properties/DecompressionVolumeAfterPlastification",
+      "/properties/DecompressionVolumeBeforePlastification",
+      "/properties/FlowIndex",
+      "/properties/HoldHydraulicPressureAverage",
+      "/properties/HoldHydraulicPressureMaximum",
+      "/properties/HoldSpecificPressureAverage",
+      "/properties/HoldSpecificPressureMaximum",
+      "/properties/HydraulicPressureMaximum",
+      "/properties/InjectionSpeedAverage",
+      "/properties/InjectionSpeedMaximum",
+      "/properties/InjectionStartPosition",
+      "/properties/PlastificationCircumferentialSpeedAverage",
+      "/properties/PlastificationCircumferentialSpeedMaximum",
+      "/properties/PlastificationHydraulicPressureAverage",
+      "/properties/PlastificationHydraulicPressureMaximum",
+      "/properties/PlastificationRotationalSpeedAverage",
+      "/properties/PlastificationRotationalSpeedMaximum",
+      "/properties/PlastificationSpecificPressureAverage",
+      "/properties/PlastificationSpecificPressureMaximum",
+      "/properties/TransferCavityPressure",
+      "/properties/TransferHydraulicPressure",
+      "/properties/TransferSpecificPressure",
+      "/properties/TransferStroke",
+      "/properties/TransferVolume",
+      "/properties/VPChangeOverPosition",
+      "/events/BackPressure",
+      "/events/CavityPressureMaximum",
+      "/events/CushionStroke",
+      "/events/DecompressionVolumeAfterPlastification",
+      "/events/DecompressionVolumeBeforePlastification",
+      "/events/FlowIndex",
+      "/events/HoldHydraulicPressureAverage",
+      "/events/HoldHydraulicPressureMaximum",
+      "/events/HoldSpecificPressureAverage",
+      "/events/HoldSpecificPressureMaximum",
+      "/events/HydraulicPressureMaximum",
+      "/events/InjectionSpeedAverage",
+      "/events/InjectionSpeedMaximum",
+      "/events/InjectionStartPosition",
+      "/events/PlastificationCircumferentialSpeedAverage",
+      "/events/PlastificationCircumferentialSpeedMaximum",
+      "/events/PlastificationHydraulicPressureAverage",
+      "/events/PlastificationHydraulicPressureMaximum",
+      "/events/PlastificationRotationalSpeedAverage",
+      "/events/PlastificationRotationalSpeedMaximum",
+      "/events/PlastificationSpecificPressureAverage",
+      "/events/PlastificationSpecificPressureMaximum",
+      "/events/TransferCavityPressure",
+      "/events/TransferHydraulicPressure",
+      "/events/TransferSpecificPressure",
+      "/events/TransferStroke",
+      "/events/TransferVolume",
+      "/events/VPChangeOverPosition"
     ],
     "actions": {
     },
@@ -1763,6 +1830,14 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/AvailableStates",
+      "/properties/AvailableTransitions",
+      "/properties/LastTransition",
+      "/events/AvailableStates",
+      "/events/AvailableTransitions",
+      "/events/LastTransition"
+    ],
     "actions": {
     },
     "properties": {
@@ -1905,6 +1980,10 @@
         "dov:topic": "opcua/OpcUaCore/OpcUaCore_StateMachineType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/LastTransition",
+      "/events/LastTransition"
     ],
     "actions": {
     },
@@ -2240,6 +2319,19 @@
         "dov:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_TemperatureZoneType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/Classification",
+      "/properties/HighDeviationTemperature1",
+      "/properties/HighDeviationTemperature2",
+      "/properties/LowDeviationTemperature1",
+      "/properties/LowDeviationTemperature2",
+      "/properties/StandbyTemperature",
+      "/events/HighDeviationTemperature1",
+      "/events/HighDeviationTemperature2",
+      "/events/LowDeviationTemperature1",
+      "/events/LowDeviationTemperature2",
+      "/events/StandbyTemperature"
     ],
     "actions": {
     },
@@ -2578,6 +2670,10 @@
     ],
     "schemaDefinitions": {
     },
+    "tm:optional": [
+      "/actions/SendCyclicJobList",
+      "/actions/SendJobList"
+    ],
     "actions": {
       "SendCyclicJobList": {
         "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
@@ -3005,6 +3101,9 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/BoxId"
+    ],
     "actions": {
       "FinishJob": {
         "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
@@ -3129,6 +3228,11 @@
         "dov:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_MachineConfigurationType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/actions/GetCurrentPage",
+      "/actions/GetPage",
+      "/properties/PageDirectory"
     ],
     "actions": {
       "GetCurrentPage": {
@@ -3553,6 +3657,9 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/MESUrl"
+    ],
     "actions": {
     },
     "properties": {
@@ -3883,6 +3990,12 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/actions/RequestTestSample",
+      "/actions/ResetWatchDog",
+      "/actions/SetWatchDogTime",
+      "/properties/ProductionOnlyWithMES"
+    ],
     "actions": {
       "DisableAutomaticRun": {
         "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
@@ -4177,6 +4290,10 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/actions/ActivateSleepMode",
+      "/actions/DeactivateSleepMode"
+    ],
     "actions": {
       "ActivateSleepMode": {
         "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
@@ -4311,6 +4428,12 @@
         "dov:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_UserType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/CardUid",
+      "/properties/Language",
+      "/properties/UserLevel",
+      "/properties/UserRole"
     ],
     "actions": {
     },
@@ -4682,6 +4805,10 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/ActualTemperature",
+      "/events/ActualTemperature"
+    ],
     "actions": {
     },
     "properties": {
@@ -4818,6 +4945,10 @@
     ],
     "schemaDefinitions": {
     },
+    "tm:optional": [
+      "/actions/GetProductionDatasetInformation",
+      "/actions/SendProductionDatasetInformation"
+    ],
     "actions": {
       "GetProductionDatasetInformation": {
         "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
@@ -5088,6 +5219,12 @@
         "dov:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_ProductionDatasetStatusType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/actions/Load",
+      "/actions/Save",
+      "/properties/Frozen",
+      "/properties/Modified"
     ],
     "actions": {
       "Load": {
@@ -5563,6 +5700,22 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/AssetId",
+      "/properties/ComponentName",
+      "/properties/DeviceClass",
+      "/properties/DeviceManual",
+      "/properties/DeviceRevision",
+      "/properties/HardwareRevision",
+      "/properties/Manufacturer",
+      "/properties/ManufacturerUri",
+      "/properties/Model",
+      "/properties/ProductCode",
+      "/properties/ProductInstanceUri",
+      "/properties/RevisionCounter",
+      "/properties/SerialNumber",
+      "/properties/SoftwareRevision"
+    ],
     "actions": {
     },
     "properties": {
@@ -5833,6 +5986,10 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/UIElement",
+      "/events/UIElement"
+    ],
     "actions": {
     },
     "properties": {
@@ -5892,6 +6049,9 @@
         "dov:topic": "opcua/DI/DI_LockingServicesType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/DefaultInstanceBrowseName"
     ],
     "actions": {
       "BreakLock": {
