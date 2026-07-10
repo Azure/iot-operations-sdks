@@ -173,7 +173,6 @@ where
     /// Check if the command response is no longer expected.
     ///
     /// Returns true if the response is no longer expected, otherwise returns false.
-    #[must_use]
     pub fn is_cancelled(&self) -> bool {
         self.response_tx.is_closed()
     }
