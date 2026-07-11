@@ -136,8 +136,7 @@ namespace Azure.Iot.Operations.CodeGeneration
             // Schema-catalog Thing Models (no affordances) intentionally carry reusable schema
             // definitions that need not be referenced, so the coverage heuristic does not apply.
             bool hasAffordances = (thing.Actions?.Entries?.Count ?? 0) > 0
-                || (thing.Properties?.Entries?.Count ?? 0) > 0
-                || (thing.Events?.Entries?.Count ?? 0) > 0;
+                || (thing.Properties?.Entries?.Count ?? 0) > 0;
             if (hasAffordances)
             {
                 CheckSchemaDefinitionsCoverage(thing.SchemaDefinitions, thing.Actions, thing.Properties);
