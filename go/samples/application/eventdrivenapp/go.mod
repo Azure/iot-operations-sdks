@@ -25,6 +25,6 @@ require (
 	github.com/princjef/mageutil v1.0.0 // indirect
 	github.com/relvacode/iso8601 v1.7.0 // indirect
 	github.com/sosodev/duration v1.4.0 // indirect
-	golang.org/x/crypto v0.49.0 // indirect
-	golang.org/x/sys v0.42.0 // indirect
+	golang.org/x/crypto v0.52.0 // indirect
+	golang.org/x/sys v0.45.0 // indirect
 )
