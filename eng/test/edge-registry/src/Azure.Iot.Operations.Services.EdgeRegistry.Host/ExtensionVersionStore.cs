@@ -6,6 +6,7 @@ namespace Azure.Iot.Operations.Services.EdgeRegistry.Host;
 using System.Security.Cryptography;
 using Azure.Iot.Operations.Protocol.RPC;
 using Azure.Iot.Operations.Services.EdgeRegistry.Host.Generated;
+using static Azure.Iot.Operations.Services.EdgeRegistry.Host.ExtensionStub;
 
 /// <summary>
 /// Shared in-memory store for an xRegistry extension surface (Schema / Thing Description / Thing Model).
@@ -14,7 +15,7 @@ using Azure.Iot.Operations.Services.EdgeRegistry.Host.Generated;
 /// type so all three extensions reuse the same Create / Get / List / Delete behavior.
 /// </summary>
 /// <typeparam name="TAttributes">The generated create-version attributes type for the surface.</typeparam>
-internal sealed class ExtensionVersionStore<TAttributes>(Func<TAttributes, List<Label>> versionLabels)
+internal sealed class ExtensionVersionStore<TAttributes>(Func<TAttributes, List<Label>> versionLabels, Func<TAttributes, byte[]> versionDocument)
 {
     private readonly object _gate = new();
     private readonly Dictionary<(string GroupId, string ResourceId), StoredResource> _resources = new();
@@ -52,7 +53,7 @@ internal sealed class ExtensionVersionStore<TAttributes>(Func<TAttributes, List<
         }
     }
 
-    public List<(string GroupId, string ResourceId, ulong VersionId)> ListVersions(string? groupId, bool allGroups, string? resourceId, Label? label)
+    public List<(string GroupId, string ResourceId, ulong VersionId)> ListVersions(string? groupId, bool allGroups, string? resourceId, string? documentHash, Label? label)
     {
         lock (_gate)
         {
@@ -76,6 +77,15 @@ internal sealed class ExtensionVersionStore<TAttributes>(Func<TAttributes, List<
                         continue;
                     }
 
+                    if (documentHash is not null)
+                    {
+                        string hash = ComputeHash(versionDocument(version.Attributes));
+                        if (!string.Equals(hash, documentHash, StringComparison.OrdinalIgnoreCase))
+                        {
+                            continue;
+                        }
+                    }
+
                     result.Add((resource.GroupId, resource.ResourceId, version.VersionId));
                 }
             }
@@ -84,13 +94,14 @@ internal sealed class ExtensionVersionStore<TAttributes>(Func<TAttributes, List<
         }
     }
 
-    public void DeleteVersion(string groupId, string resourceId, ulong versionId)
+    // TODO: for correct behavior, this should return an error if the item isn't found or the expected epoch doesn't match.
+    public void DeleteVersion(string groupId, string resourceId, ulong versionId, ulong? expectedEpoch)
     {
         lock (_gate)
         {
             if (_resources.TryGetValue((groupId, resourceId), out StoredResource? resource))
             {
-                resource.Versions.RemoveAll(v => v.VersionId == versionId);
+                resource.Versions.RemoveAll(v => v.VersionId == versionId && (expectedEpoch is null || v.Epoch == expectedEpoch));
                 if (resource.DefaultVersionId == versionId)
                 {
                     resource.DefaultVersionId = resource.Versions.Count > 0 ? resource.Versions[^1].VersionId : 0;

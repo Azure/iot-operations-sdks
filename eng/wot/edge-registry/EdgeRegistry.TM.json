@@ -273,7 +273,7 @@
             ]
         },
         "listVersions": {
-            "description": "List xRegistry Versions, optionally filtered by Group type, Group, Resource type, Resource, and/or label.",
+            "description": "List xRegistry Versions, optionally filtered by Group type, Group, Resource type, Resource, document hash, and/or label.",
             "input": {
                 "dov:ref": "./core-xregistry/ListVersionsRequestPayload.schema.json",
                 "description": "The constraints to filter the listed Versions by."

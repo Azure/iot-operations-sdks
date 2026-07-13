@@ -48,11 +48,12 @@ public interface IThingModelClient
     /// <summary>Lists the XIDs of Thing Model Versions matching the query, optionally filtered by Thing Model id and/or a single label.</summary>
     /// <param name="groups">The Groups to search; see <see cref="GroupSelector"/> for the available scopes.</param>
     /// <param name="thingModelId">When set, restricts the results to this Thing Model.</param>
+    /// <param name="documentHash">When set, restricts the results to entities whose document has this hash.</param>
     /// <param name="label">When set, restricts the results to entities carrying this label.</param>
     /// <param name="timeout">The command timeout; when <see langword="null"/>, the client's default timeout is used.</param>
     /// <param name="cancellationToken">A token to cancel the operation.</param>
     /// <returns>A task whose result is the XIDs of the matching Thing Model Versions.</returns>
-    Task<IReadOnlyList<Models.ThingModelVersionXid>> ListThingModelVersionsAsync(GroupSelector groups, string? thingModelId = null, Models.Label? label = null, TimeSpan? timeout = null, CancellationToken cancellationToken = default);
+    Task<IReadOnlyList<Models.ThingModelVersionXid>> ListThingModelVersionsAsync(GroupSelector groups, string? thingModelId = null, string? documentHash = null, Models.Label? label = null, TimeSpan? timeout = null, CancellationToken cancellationToken = default);
 
     /// <summary>Deletes a specific Thing Model Version.</summary>
     /// <param name="groupId">The Thing Model Group. Use <see cref="GroupId.CloudDefault"/> for the cloud-default Group (the configured namespace).</param>
