@@ -2316,5 +2316,159 @@
     },
     "events": {
     }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dov": "http://azure.com/DigitalOperations/vocab#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "GMS_DataTypes",
+    "links": [
+    ],
+    "schemaDefinitions": {
+      "CartesianWorkspaceType": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.GMS.CartesianWorkspaceType",
+        "required": [ "Length", "Width", "Height" ],
+        "properties": {
+          "Length": {
+            "type": "number",
+            "minimum": -1.80e+308,
+            "maximum": 1.80e+308
+          },
+          "Width": {
+            "type": "number",
+            "minimum": -1.80e+308,
+            "maximum": 1.80e+308
+          },
+          "Height": {
+            "type": "number",
+            "minimum": -1.80e+308,
+            "maximum": 1.80e+308
+          }
+        }
+      },
+      "CylindricalWorkspaceType": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.GMS.CylindricalWorkspaceType",
+        "required": [ "Length", "Radius" ],
+        "properties": {
+          "Length": {
+            "type": "number",
+            "minimum": -1.80e+308,
+            "maximum": 1.80e+308
+          },
+          "Radius": {
+            "type": "number",
+            "minimum": -1.80e+308,
+            "maximum": 1.80e+308
+          }
+        }
+      },
+      "MeasurementReasonEnum": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.GMS.MeasurementReasonEnum",
+        "const": {
+          "ContinuousMeasurements": 0,
+          "SpecialMeasurement": 1,
+          "AuditMeasurement": 2,
+          "MinMastering": 3,
+          "MedMastering": 4,
+          "MaxMastering": 5
+        },
+        "properties": {
+          "ContinuousMeasurements": {
+            "type": "integer"
+          },
+          "SpecialMeasurement": {
+            "type": "integer"
+          },
+          "AuditMeasurement": {
+            "type": "integer"
+          },
+          "MinMastering": {
+            "type": "integer"
+          },
+          "MedMastering": {
+            "type": "integer"
+          },
+          "MaxMastering": {
+            "type": "integer"
+          }
+        }
+      },
+      "ToleranceLimitEnum": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.GMS.ToleranceLimitEnum",
+        "const": {
+          "NoLimit": 0,
+          "LimitValue": 1,
+          "NaturalLimit": 2
+        },
+        "properties": {
+          "NoLimit": {
+            "type": "integer"
+          },
+          "LimitValue": {
+            "type": "integer"
+          },
+          "NaturalLimit": {
+            "type": "integer"
+          }
+        }
+      },
+      "ToolAlignmentState": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.GMS.ToolAlignmentState",
+        "const": {
+          "Fixed": 0,
+          "Indexed": 1,
+          "Continuous": 2
+        },
+        "properties": {
+          "Fixed": {
+            "type": "integer"
+          },
+          "Indexed": {
+            "type": "integer"
+          },
+          "Continuous": {
+            "type": "integer"
+          }
+        }
+      },
+      "ToolIsQualifiedStatus": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.GMS.ToolIsQualifiedStatus",
+        "const": {
+          "Qualified": 0,
+          "Imprecise": 1,
+          "NotQualified": 2
+        },
+        "properties": {
+          "Qualified": {
+            "type": "integer"
+          },
+          "Imprecise": {
+            "type": "integer"
+          },
+          "NotQualified": {
+            "type": "integer"
+          }
+        }
+      },
+      "WorkspaceType": {
+        "type": "string"
+      }
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
   }
 ]

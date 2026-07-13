@@ -711,5 +711,49 @@
         ]
       }
     }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dov": "http://azure.com/DigitalOperations/vocab#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "PlasticsRubber_Extrusion_Cutter_DataTypes",
+    "links": [
+    ],
+    "schemaDefinitions": {
+      "WallThickeningEnumeration": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.PlasticsRubber.Extrusion.Cutter.WallThickeningEnumeration",
+        "const": {
+          "NO": 0,
+          "FRONT": 1,
+          "END": 2,
+          "BOTH": 3
+        },
+        "properties": {
+          "NO": {
+            "type": "integer"
+          },
+          "FRONT": {
+            "type": "integer"
+          },
+          "END": {
+            "type": "integer"
+          },
+          "BOTH": {
+            "type": "integer"
+          }
+        }
+      }
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
   }
 ]

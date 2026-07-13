@@ -2186,5 +2186,164 @@
     },
     "events": {
     }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dov": "http://azure.com/DigitalOperations/vocab#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "ADI_DataTypes",
+    "links": [
+    ],
+    "schemaDefinitions": {
+      "AcquisitionResultStatusEnumeration": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.ADI.AcquisitionResultStatusEnumeration",
+        "const": {
+          "NOT_USED": 0,
+          "GOOD": 1,
+          "BAD": 2,
+          "UNKNOWN": 3,
+          "PARTIAL": 4
+        },
+        "properties": {
+          "NOT_USED": {
+            "description": "No longer used.",
+            "type": "integer"
+          },
+          "GOOD": {
+            "description": "The acquisition has been completed as requested without any error.",
+            "type": "integer"
+          },
+          "BAD": {
+            "description": "The acquisition has been completed as requested with error.",
+            "type": "integer"
+          },
+          "UNKNOWN": {
+            "description": "The acquisition has been completed but nothing can be said about the quality of the result.",
+            "type": "integer"
+          },
+          "PARTIAL": {
+            "description": "The acquisition has been partially completed as requested without any error.",
+            "type": "integer"
+          }
+        }
+      },
+      "AlarmStateEnumeration": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.ADI.AlarmStateEnumeration",
+        "const": {
+          "NORMAL_0": 0,
+          "WARNING_LOW_1": 1,
+          "WARNING_HIGH_2": 2,
+          "WARNING_4": 4,
+          "ALARM_LOW_8": 8,
+          "ALARM_HIGH_16": 16,
+          "ALARM_32": 32
+        },
+        "properties": {
+          "NORMAL_0": {
+            "description": "Normal",
+            "type": "integer"
+          },
+          "WARNING_LOW_1": {
+            "description": "In low warning range",
+            "type": "integer"
+          },
+          "WARNING_HIGH_2": {
+            "description": "In high warning range",
+            "type": "integer"
+          },
+          "WARNING_4": {
+            "description": "In warning range (low or high) or some other warning cause",
+            "type": "integer"
+          },
+          "ALARM_LOW_8": {
+            "description": "In low alarm range",
+            "type": "integer"
+          },
+          "ALARM_HIGH_16": {
+            "description": "In high alarm range",
+            "type": "integer"
+          },
+          "ALARM_32": {
+            "description": "In alarm range (low or high) or some other alarm cause",
+            "type": "integer"
+          }
+        }
+      },
+      "ExecutionCycleEnumeration": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.ADI.ExecutionCycleEnumeration",
+        "const": {
+          "IDLE": 0,
+          "DIAGNOSTIC": 1,
+          "CLEANING": 2,
+          "CALIBRATION": 4,
+          "VALIDATION": 8,
+          "SAMPLING": 16,
+          "DIAGNOSTIC_WITH_GRAB_SAMPLE": 32769,
+          "CLEANING_WITH_GRAB_SAMPLE": 32770,
+          "CALIBRATION_WITH_GRAB_SAMPLE": 32772,
+          "VALIDATION_WITH_GRAB_SAMPLE": 32776,
+          "SAMPLING_WITH_GRAB_SAMPLE": 32784
+        },
+        "properties": {
+          "IDLE": {
+            "description": "Idle, no cleaning or acquisition cycle in progress",
+            "type": "integer"
+          },
+          "DIAGNOSTIC": {
+            "description": "Scquisition cycle collecting data for diagnostic purpose",
+            "type": "integer"
+          },
+          "CLEANING": {
+            "description": "Cleaning cycle",
+            "type": "integer"
+          },
+          "CALIBRATION": {
+            "description": "Calibration acquisition cycle",
+            "type": "integer"
+          },
+          "VALIDATION": {
+            "description": "Validation acquisition cycle",
+            "type": "integer"
+          },
+          "SAMPLING": {
+            "description": "Sample acquisition cycle",
+            "type": "integer"
+          },
+          "DIAGNOSTIC_WITH_GRAB_SAMPLE": {
+            "description": "Scquisition cycle collecting data for diagnostic purpose and sample is extracted from the process to be sent in control lab",
+            "type": "integer"
+          },
+          "CLEANING_WITH_GRAB_SAMPLE": {
+            "description": "Cleaning cycle with or without acquisition and sample is extracted from the process to be sent in control lab",
+            "type": "integer"
+          },
+          "CALIBRATION_WITH_GRAB_SAMPLE": {
+            "description": "Calibration acquisition cycle and sample is extracted from the process to be sent in control lab",
+            "type": "integer"
+          },
+          "VALIDATION_WITH_GRAB_SAMPLE": {
+            "description": "Validation acquisition cycle and sample is extracted from the process to be sent in control lab",
+            "type": "integer"
+          },
+          "SAMPLING_WITH_GRAB_SAMPLE": {
+            "description": "Sample acquisition cycle and sample is extracted from the process to be sent in control lab",
+            "type": "integer"
+          }
+        }
+      }
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
   }
 ]

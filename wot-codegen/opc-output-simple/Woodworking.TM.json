@@ -83,8 +83,30 @@
           "description": "The WwArgumentDataType definition extends the argument structure with an argument value.",
           "type": "object",
           "dov:typeRef": "org.opcfoundation.UA.Woodworking.WwMessageArgumentDataType",
-          "required": [ "Value" ],
+          "required": [ "Name", "DataType", "ValueRank", "ArrayDimensions", "Description", "Value" ],
           "properties": {
+            "Name": {
+              "type": "string"
+            },
+            "DataType": {
+              "type": "string"
+            },
+            "ValueRank": {
+              "type": "integer",
+              "minimum": -2147483648,
+              "maximum": 2147483647
+            },
+            "ArrayDimensions": {
+              "type": "array",
+              "items": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 4294967295
+              }
+            },
+            "Description": {
+              "type": "string"
+            },
             "Value": {
               "title": "WwMessageArgumentValueDataType",
               "description": "The WwArgumentValueDataType definition defines the possible types of an argument value.",
@@ -374,8 +396,30 @@
           "description": "The WwArgumentDataType definition extends the argument structure with an argument value.",
           "type": "object",
           "dov:typeRef": "org.opcfoundation.UA.Woodworking.WwMessageArgumentDataType",
-          "required": [ "Value" ],
+          "required": [ "Name", "DataType", "ValueRank", "ArrayDimensions", "Description", "Value" ],
           "properties": {
+            "Name": {
+              "type": "string"
+            },
+            "DataType": {
+              "type": "string"
+            },
+            "ValueRank": {
+              "type": "integer",
+              "minimum": -2147483648,
+              "maximum": 2147483647
+            },
+            "ArrayDimensions": {
+              "type": "array",
+              "items": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 4294967295
+              }
+            },
+            "Description": {
+              "type": "string"
+            },
             "Value": {
               "title": "WwMessageArgumentValueDataType",
               "description": "The WwArgumentValueDataType definition defines the possible types of an argument value.",
@@ -665,8 +709,30 @@
           "description": "The WwArgumentDataType definition extends the argument structure with an argument value.",
           "type": "object",
           "dov:typeRef": "org.opcfoundation.UA.Woodworking.WwMessageArgumentDataType",
-          "required": [ "Value" ],
+          "required": [ "Name", "DataType", "ValueRank", "ArrayDimensions", "Description", "Value" ],
           "properties": {
+            "Name": {
+              "type": "string"
+            },
+            "DataType": {
+              "type": "string"
+            },
+            "ValueRank": {
+              "type": "integer",
+              "minimum": -2147483648,
+              "maximum": 2147483647
+            },
+            "ArrayDimensions": {
+              "type": "array",
+              "items": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 4294967295
+              }
+            },
+            "Description": {
+              "type": "string"
+            },
             "Value": {
               "title": "WwMessageArgumentValueDataType",
               "description": "The WwArgumentValueDataType definition defines the possible types of an argument value.",
@@ -956,8 +1022,30 @@
           "description": "The WwArgumentDataType definition extends the argument structure with an argument value.",
           "type": "object",
           "dov:typeRef": "org.opcfoundation.UA.Woodworking.WwMessageArgumentDataType",
-          "required": [ "Value" ],
+          "required": [ "Name", "DataType", "ValueRank", "ArrayDimensions", "Description", "Value" ],
           "properties": {
+            "Name": {
+              "type": "string"
+            },
+            "DataType": {
+              "type": "string"
+            },
+            "ValueRank": {
+              "type": "integer",
+              "minimum": -2147483648,
+              "maximum": 2147483647
+            },
+            "ArrayDimensions": {
+              "type": "array",
+              "items": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 4294967295
+              }
+            },
+            "Description": {
+              "type": "string"
+            },
             "Value": {
               "title": "WwMessageArgumentValueDataType",
               "description": "The WwArgumentValueDataType definition defines the possible types of an argument value.",
@@ -1290,8 +1378,30 @@
           "description": "The WwArgumentDataType definition extends the argument structure with an argument value.",
           "type": "object",
           "dov:typeRef": "org.opcfoundation.UA.Woodworking.WwMessageArgumentDataType",
-          "required": [ "Value" ],
+          "required": [ "Name", "DataType", "ValueRank", "ArrayDimensions", "Description", "Value" ],
           "properties": {
+            "Name": {
+              "type": "string"
+            },
+            "DataType": {
+              "type": "string"
+            },
+            "ValueRank": {
+              "type": "integer",
+              "minimum": -2147483648,
+              "maximum": 2147483647
+            },
+            "ArrayDimensions": {
+              "type": "array",
+              "items": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 4294967295
+              }
+            },
+            "Description": {
+              "type": "string"
+            },
             "Value": {
               "title": "WwMessageArgumentValueDataType",
               "description": "The WwArgumentValueDataType definition defines the possible types of an argument value.",
@@ -3798,6 +3908,469 @@
       }
     ],
     "schemaDefinitions": {
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dov": "http://azure.com/DigitalOperations/vocab#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "Woodworking_DataTypes",
+    "links": [
+    ],
+    "schemaDefinitions": {
+      "WwEventCategoryEnumeration": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.Woodworking.WwEventCategoryEnumeration",
+        "const": {
+          "OTHER": 0,
+          "DIAGNOSTIC": 1,
+          "INFORMATION": 2,
+          "WARNING": 3,
+          "ALARM": 4,
+          "ERROR": 5
+        },
+        "description": "This enumeration represents the category of an event.",
+        "properties": {
+          "OTHER": {
+            "description": "No other event category applies or it is unknown.",
+            "type": "integer"
+          },
+          "DIAGNOSTIC": {
+            "description": "The event is a diagnostic event.",
+            "type": "integer"
+          },
+          "INFORMATION": {
+            "description": "The event is an information event.",
+            "type": "integer"
+          },
+          "WARNING": {
+            "description": "The event is a warning event.",
+            "type": "integer"
+          },
+          "ALARM": {
+            "description": "The event is an alarm event.",
+            "type": "integer"
+          },
+          "ERROR": {
+            "description": "The event is an error event.",
+            "type": "integer"
+          }
+        }
+      },
+      "WwMessageArgumentDataType": {
+        "description": "The WwArgumentDataType definition extends the argument structure with an argument value.",
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.Woodworking.WwMessageArgumentDataType",
+        "required": [ "Name", "DataType", "ValueRank", "ArrayDimensions", "Description", "Value" ],
+        "properties": {
+          "Name": {
+            "type": "string"
+          },
+          "DataType": {
+            "type": "string"
+          },
+          "ValueRank": {
+            "type": "integer",
+            "minimum": -2147483648,
+            "maximum": 2147483647
+          },
+          "ArrayDimensions": {
+            "type": "array",
+            "items": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 4294967295
+            }
+          },
+          "Description": {
+            "type": "string"
+          },
+          "Value": {
+            "title": "WwMessageArgumentValueDataType",
+            "description": "The WwArgumentValueDataType definition defines the possible types of an argument value.",
+            "type": "object",
+            "dov:typeRef": "org.opcfoundation.UA.Woodworking.WwMessageArgumentValueDataType",
+            "properties": {
+              "Array": {
+                "description": "The content of the value as an array of the own type",
+                "type": "array",
+                "items": {
+                  "description": "Stand-in for the infinite remainder of this data structure, which is recursively defined.",
+                  "type": "string"
+                }
+              },
+              "Boolean": {
+                "description": "The content of the value as a boolean",
+                "type": "boolean"
+              },
+              "Int16": {
+                "description": "The content of the value as a 16 bit integer",
+                "type": "integer",
+                "minimum": -32768,
+                "maximum": 32767
+              },
+              "Int32": {
+                "description": "The content of the value as a 32 bit integer",
+                "type": "integer",
+                "minimum": -2147483648,
+                "maximum": 2147483647
+              },
+              "Int64": {
+                "description": "The content of the value as a 64 bit integer",
+                "type": "integer",
+                "minimum": -9223372036854775808,
+                "maximum": 9223372036854775807
+              },
+              "SByte": {
+                "description": "The content of the value as a 8 bit integer",
+                "type": "integer",
+                "minimum": -128,
+                "maximum": 127
+              },
+              "UInt16": {
+                "description": "The content of the value as a 16 bit unsigned integer",
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 65535
+              },
+              "UInt32": {
+                "description": "The content of the value as a 32 bit unsigned integer",
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 4294967295
+              },
+              "UInt64": {
+                "description": "The content of the value as a 64 bit unsigned integer",
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 18446744073709551615
+              },
+              "Byte": {
+                "description": "The content of the value as a 8 bit unsigned integer",
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 255
+              },
+              "DateTime": {
+                "description": "The content of the value as a datetime",
+                "type": "string",
+                "format": "date-time"
+              },
+              "Guid": {
+                "description": "The content of the value as a GUID",
+                "type": "string",
+                "format": "uuid"
+              },
+              "LocalizedText": {
+                "description": "The content of the value as a localized text",
+                "type": "string"
+              },
+              "Double": {
+                "description": "The content of the value as a double",
+                "type": "number",
+                "minimum": -1.80e+308,
+                "maximum": 1.80e+308
+              },
+              "Float": {
+                "description": "The content of the value as a float",
+                "type": "number",
+                "minimum": -3.40e+38,
+                "maximum": 3.40e+38
+              },
+              "String": {
+                "description": "The content of the value as a string",
+                "type": "string"
+              },
+              "Other": {
+                "description": "The content of the value has no standard format and is instantiated as a string",
+                "type": "string"
+              }
+            }
+          }
+        }
+      },
+      "WwMessageArgumentValueDataType": {
+        "description": "The WwArgumentValueDataType definition defines the possible types of an argument value.",
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.Woodworking.WwMessageArgumentValueDataType",
+        "properties": {
+          "Array": {
+            "description": "The content of the value as an array of the own type",
+            "type": "array",
+            "items": {
+              "title": "WwMessageArgumentValueDataType",
+              "description": "The WwArgumentValueDataType definition defines the possible types of an argument value.",
+              "type": "object",
+              "dov:typeRef": "org.opcfoundation.UA.Woodworking.WwMessageArgumentValueDataType",
+              "properties": {
+                "Array": {
+                  "description": "The content of the value as an array of the own type",
+                  "type": "array",
+                  "items": {
+                    "description": "Stand-in for the infinite remainder of this data structure, which is recursively defined.",
+                    "type": "string"
+                  }
+                },
+                "Boolean": {
+                  "description": "The content of the value as a boolean",
+                  "type": "boolean"
+                },
+                "Int16": {
+                  "description": "The content of the value as a 16 bit integer",
+                  "type": "integer",
+                  "minimum": -32768,
+                  "maximum": 32767
+                },
+                "Int32": {
+                  "description": "The content of the value as a 32 bit integer",
+                  "type": "integer",
+                  "minimum": -2147483648,
+                  "maximum": 2147483647
+                },
+                "Int64": {
+                  "description": "The content of the value as a 64 bit integer",
+                  "type": "integer",
+                  "minimum": -9223372036854775808,
+                  "maximum": 9223372036854775807
+                },
+                "SByte": {
+                  "description": "The content of the value as a 8 bit integer",
+                  "type": "integer",
+                  "minimum": -128,
+                  "maximum": 127
+                },
+                "UInt16": {
+                  "description": "The content of the value as a 16 bit unsigned integer",
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 65535
+                },
+                "UInt32": {
+                  "description": "The content of the value as a 32 bit unsigned integer",
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 4294967295
+                },
+                "UInt64": {
+                  "description": "The content of the value as a 64 bit unsigned integer",
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 18446744073709551615
+                },
+                "Byte": {
+                  "description": "The content of the value as a 8 bit unsigned integer",
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 255
+                },
+                "DateTime": {
+                  "description": "The content of the value as a datetime",
+                  "type": "string",
+                  "format": "date-time"
+                },
+                "Guid": {
+                  "description": "The content of the value as a GUID",
+                  "type": "string",
+                  "format": "uuid"
+                },
+                "LocalizedText": {
+                  "description": "The content of the value as a localized text",
+                  "type": "string"
+                },
+                "Double": {
+                  "description": "The content of the value as a double",
+                  "type": "number",
+                  "minimum": -1.80e+308,
+                  "maximum": 1.80e+308
+                },
+                "Float": {
+                  "description": "The content of the value as a float",
+                  "type": "number",
+                  "minimum": -3.40e+38,
+                  "maximum": 3.40e+38
+                },
+                "String": {
+                  "description": "The content of the value as a string",
+                  "type": "string"
+                },
+                "Other": {
+                  "description": "The content of the value has no standard format and is instantiated as a string",
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "Boolean": {
+            "description": "The content of the value as a boolean",
+            "type": "boolean"
+          },
+          "Int16": {
+            "description": "The content of the value as a 16 bit integer",
+            "type": "integer",
+            "minimum": -32768,
+            "maximum": 32767
+          },
+          "Int32": {
+            "description": "The content of the value as a 32 bit integer",
+            "type": "integer",
+            "minimum": -2147483648,
+            "maximum": 2147483647
+          },
+          "Int64": {
+            "description": "The content of the value as a 64 bit integer",
+            "type": "integer",
+            "minimum": -9223372036854775808,
+            "maximum": 9223372036854775807
+          },
+          "SByte": {
+            "description": "The content of the value as a 8 bit integer",
+            "type": "integer",
+            "minimum": -128,
+            "maximum": 127
+          },
+          "UInt16": {
+            "description": "The content of the value as a 16 bit unsigned integer",
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 65535
+          },
+          "UInt32": {
+            "description": "The content of the value as a 32 bit unsigned integer",
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 4294967295
+          },
+          "UInt64": {
+            "description": "The content of the value as a 64 bit unsigned integer",
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 18446744073709551615
+          },
+          "Byte": {
+            "description": "The content of the value as a 8 bit unsigned integer",
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 255
+          },
+          "DateTime": {
+            "description": "The content of the value as a datetime",
+            "type": "string",
+            "format": "date-time"
+          },
+          "Guid": {
+            "description": "The content of the value as a GUID",
+            "type": "string",
+            "format": "uuid"
+          },
+          "LocalizedText": {
+            "description": "The content of the value as a localized text",
+            "type": "string"
+          },
+          "Double": {
+            "description": "The content of the value as a double",
+            "type": "number",
+            "minimum": -1.80e+308,
+            "maximum": 1.80e+308
+          },
+          "Float": {
+            "description": "The content of the value as a float",
+            "type": "number",
+            "minimum": -3.40e+38,
+            "maximum": 3.40e+38
+          },
+          "String": {
+            "description": "The content of the value as a string",
+            "type": "string"
+          },
+          "Other": {
+            "description": "The content of the value has no standard format and is instantiated as a string",
+            "type": "string"
+          }
+        }
+      },
+      "WwUnitModeEnumeration": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.Woodworking.WwUnitModeEnumeration",
+        "const": {
+          "OTHER": 0,
+          "AUTOMATIC": 1,
+          "SEMIAUTOMATIC": 2,
+          "MANUAL": 3,
+          "SETUP": 4,
+          "SLEEP": 5
+        },
+        "description": "This enumeration represents the generalized mode of a unit.",
+        "properties": {
+          "OTHER": {
+            "description": "This state is used if none of the other states below applies.",
+            "type": "integer"
+          },
+          "AUTOMATIC": {
+            "description": "The unit is in automatic mode.",
+            "type": "integer"
+          },
+          "SEMIAUTOMATIC": {
+            "description": "The unit is in semi-automatic mode.",
+            "type": "integer"
+          },
+          "MANUAL": {
+            "description": "The unit is in manual mode.",
+            "type": "integer"
+          },
+          "SETUP": {
+            "description": "The unit is in setup mode.",
+            "type": "integer"
+          },
+          "SLEEP": {
+            "description": "The unit is in sleep mode. Component is still switched on, energy consumption reduced by e.g. reducing heating, switching drives off. Production is not possible.",
+            "type": "integer"
+          }
+        }
+      },
+      "WwUnitStateEnumeration": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.Woodworking.WwUnitStateEnumeration",
+        "const": {
+          "OFFLINE": 0,
+          "STANDBY": 1,
+          "READY": 2,
+          "WORKING": 3,
+          "ERROR": 4
+        },
+        "description": "This enumeration represents the generalized state of a unit.",
+        "properties": {
+          "OFFLINE": {
+            "description": "The component is offline.",
+            "type": "integer"
+          },
+          "STANDBY": {
+            "description": "The unit is in standby.",
+            "type": "integer"
+          },
+          "READY": {
+            "description": "The unit is ready to start working.",
+            "type": "integer"
+          },
+          "WORKING": {
+            "description": "The unit is working.",
+            "type": "integer"
+          },
+          "ERROR": {
+            "description": "The unit is not able to start working because there is an error. The cause can be an alarm or error or user intervention.",
+            "type": "integer"
+          }
+        }
+      }
     },
     "actions": {
     },

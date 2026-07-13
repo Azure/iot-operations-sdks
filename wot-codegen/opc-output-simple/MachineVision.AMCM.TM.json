@@ -2693,5 +2693,65 @@
     },
     "events": {
     }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dov": "http://azure.com/DigitalOperations/vocab#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "MachineVision_AMCM_DataTypes",
+    "links": [
+    ],
+    "schemaDefinitions": {
+      "SEMI_E10SystemStateDataType": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.MachineVision.AMCM.SEMI_E10SystemStateDataType",
+        "required": [ "Id", "Priority" ],
+        "properties": {
+          "Id": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 4294967295
+          },
+          "Priority": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 4294967295
+          }
+        }
+      },
+      "SEMI_E10SystemStateInfoDataType": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.MachineVision.AMCM.SEMI_E10SystemStateInfoDataType",
+        "required": [ "Id", "Name", "ParentStateId", "Description" ],
+        "properties": {
+          "Id": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 4294967295
+          },
+          "Name": {
+            "type": "string"
+          },
+          "ParentStateId": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 4294967295
+          },
+          "Description": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
   }
 ]

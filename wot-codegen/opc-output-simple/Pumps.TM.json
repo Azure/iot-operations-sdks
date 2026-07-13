@@ -26841,5 +26841,1203 @@
     },
     "events": {
     }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dov": "http://azure.com/DigitalOperations/vocab#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "Pumps_DataTypes",
+    "links": [
+    ],
+    "schemaDefinitions": {
+      "ControlModeEnum": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.Pumps.ControlModeEnum",
+        "const": {
+          "ConstantPressureControl": 0,
+          "ConstantTemperatureControl": 1,
+          "DifferentialPressureControl": 2,
+          "ConstantDifferentialPressureControl": 3,
+          "VariableDifferentialPressureControl": 4,
+          "FlowDependentDifferentialPressureControl": 5,
+          "ReturnFlowTemperatureControl": 6,
+          "FlowTemperatureControl": 7,
+          "FlowRateControl": 8,
+          "SpeedControl": 9,
+          "Automatic": 10,
+          "Uncontrolled": 11
+        },
+        "description": "describes the possible control modes of the pump",
+        "properties": {
+          "ConstantPressureControl": {
+            "description": "Constant pressure control mode",
+            "type": "integer"
+          },
+          "ConstantTemperatureControl": {
+            "description": "Constant temperature control mode",
+            "type": "integer"
+          },
+          "DifferentialPressureControl": {
+            "description": "Differential pressure control mode",
+            "type": "integer"
+          },
+          "ConstantDifferentialPressureControl": {
+            "description": "Constant differential pressure control mode",
+            "type": "integer"
+          },
+          "VariableDifferentialPressureControl": {
+            "description": "Variable differential pressure control mode",
+            "type": "integer"
+          },
+          "FlowDependentDifferentialPressureControl": {
+            "description": "Flow-dependent differential pressure control mode",
+            "type": "integer"
+          },
+          "ReturnFlowTemperatureControl": {
+            "description": "Return flow temperature control mode",
+            "type": "integer"
+          },
+          "FlowTemperatureControl": {
+            "description": "Flow temperature control mode",
+            "type": "integer"
+          },
+          "FlowRateControl": {
+            "description": "Flow rate control mode",
+            "type": "integer"
+          },
+          "SpeedControl": {
+            "description": "Speed control mode",
+            "type": "integer"
+          },
+          "Automatic": {
+            "description": "Automatic control mode",
+            "type": "integer"
+          },
+          "Uncontrolled": {
+            "description": "None / uncontrolled mode",
+            "type": "integer"
+          }
+        }
+      },
+      "DeclarationOfConformityOptionSet": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.Pumps.DeclarationOfConformityOptionSet",
+        "const": {
+          "S2006_42_EC": 0,
+          "S2009_125_EC": 1,
+          "S2011_65_EU": 2,
+          "S2014_35_EU": 3,
+          "S2014_34_EU": 4,
+          "S2014_30_EU": 5,
+          "S2014_68_EU": 6,
+          "S2014_29_EU": 7
+        },
+        "description": "defines flags for directives on the basis of which conformity was determined",
+        "properties": {
+          "S2006_42_EC": {
+            "description": "Directives of the EU Declaration of Conformity - 2006/ 42/ EG, concerning machinery and amending Directive 95/16/EG",
+            "type": "integer"
+          },
+          "S2009_125_EC": {
+            "description": "Directives of the EU Declaration of Conformity - 2009/ 125/ EC, establishing a framework for the setting of ecodesign requirements for energy-related products",
+            "type": "integer"
+          },
+          "S2011_65_EU": {
+            "description": "Directives of the EU Declaration of Conformity - 2011/ 65/ EU, restriction of the use of certain hazardous substances in electrical and electronic equipment",
+            "type": "integer"
+          },
+          "S2014_35_EU": {
+            "description": "Directives of the EU Declaration of Conformity - 2014/ 35/ EU, harmonisation of the laws of the Member States on the provision of electrical equipment for use within certain voltage limits on the market",
+            "type": "integer"
+          },
+          "S2014_34_EU": {
+            "description": "Directives of the EU Declaration of Conformity - 2014/ 34/ EU, harmonisation of the laws of the Member States concerning equipment and protective systems intended for use in potentially explosive atmospheres",
+            "type": "integer"
+          },
+          "S2014_30_EU": {
+            "description": "Directives of the EU Declaration of Conformity - 2014/ 30/ EU, harmonisation of the laws of the Member States on electromagnetic compatibility",
+            "type": "integer"
+          },
+          "S2014_68_EU": {
+            "description": "Directives of the EU Declaration of Conformity - 2014/ 68/ EU, harmonisation of Member States' legislation on the provision of pressure equipment on the market",
+            "type": "integer"
+          },
+          "S2014_29_EU": {
+            "description": "Directives of the EU Declaration of Conformity - 2014/ 29/ EU, harmonisation of the laws of the Member States relating to the making available on the market of simple pressure vessels",
+            "type": "integer"
+          }
+        }
+      },
+      "DeviceTypeEnum": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.Pumps.DeviceTypeEnum",
+        "const": {
+          "RotodynamicPump": 0,
+          "PositiveDisplacementPump": 1,
+          "ProcessVacuumPump": 2,
+          "TurboVacuumPump": 3,
+          "VacuumPump": 4,
+          "LiquidPump": 5,
+          "Pump": 6
+        },
+        "description": "defines possible pump types",
+        "properties": {
+          "RotodynamicPump": {
+            "description": "Rotodynamic pump",
+            "type": "integer"
+          },
+          "PositiveDisplacementPump": {
+            "description": "Positive displacement pump",
+            "type": "integer"
+          },
+          "ProcessVacuumPump": {
+            "description": "Process vacuum pump",
+            "type": "integer"
+          },
+          "TurboVacuumPump": {
+            "description": "Turbo vacuum pump",
+            "type": "integer"
+          },
+          "VacuumPump": {
+            "description": "Vacuum pump",
+            "type": "integer"
+          },
+          "LiquidPump": {
+            "description": "Liquid pump",
+            "type": "integer"
+          },
+          "Pump": {
+            "description": "Pump",
+            "type": "integer"
+          }
+        }
+      },
+      "DistributionTypeEnum": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.Pumps.DistributionTypeEnum",
+        "const": {
+          "ManufacturerSpecific": 0,
+          "OperatorSpecific": 1,
+          "ConcerningTimeDistribution": 2,
+          "ConcerningLoadDistribution": 3
+        },
+        "description": "describes the share of operation time of different pumps of the pump system in addition operation mode",
+        "properties": {
+          "ManufacturerSpecific": {
+            "description": "Manufacturer specific distribution of operation time",
+            "type": "integer"
+          },
+          "OperatorSpecific": {
+            "description": "Operator specific distribution of operation time",
+            "type": "integer"
+          },
+          "ConcerningTimeDistribution": {
+            "description": "Equivalent distribution of operation time, concerning time distribution",
+            "type": "integer"
+          },
+          "ConcerningLoadDistribution": {
+            "description": "Equivalent distribution of operation time, concerning load distribution",
+            "type": "integer"
+          }
+        }
+      },
+      "ExchangeModeEnum": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.Pumps.ExchangeModeEnum",
+        "const": {
+          "ManufacturerSpecific": 0,
+          "ExchangeDisabled": 1,
+          "OperatorSpecific": 2
+        },
+        "description": "specifies the exchange mode of the pump",
+        "properties": {
+          "ManufacturerSpecific": {
+            "description": "Manufacturer specific pump exchange mode",
+            "type": "integer"
+          },
+          "ExchangeDisabled": {
+            "description": "Pump exchange disabled",
+            "type": "integer"
+          },
+          "OperatorSpecific": {
+            "description": "Operator specific pump exchange mode",
+            "type": "integer"
+          }
+        }
+      },
+      "ExplosionProtectionOptionSet": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.Pumps.ExplosionProtectionOptionSet",
+        "const": {
+          "M1": 0,
+          "M2": 1,
+          "S1G": 2,
+          "S2G": 3,
+          "S3G": 4,
+          "S1D": 5,
+          "S2D": 6,
+          "S3D": 7
+        },
+        "description": "defines flags for the category of explosion protection for devices according to EU Directive 2014/34/EU (ATEX)",
+        "properties": {
+          "M1": {
+            "description": "This category is intended for use in underground mines and their surface installations which may be endangered by firedamp and/or combustible dust. Category 1 comprises devices designed to be capable of functioning in conformity with the parameters specified by the manufacturer and ensuring a very high level of safety. (2014/34/EU)",
+            "type": "integer"
+          },
+          "M2": {
+            "description": "This category is intended for use in underground mines and their surface installations which may be endangered by firedamp and/or combustible dust. Category 2 comprises devices designed to be capable of functioning in conformity with the parameters specified by the manufacturer and ensuring a high level of safety. (2014/34/EU)",
+            "type": "integer"
+          },
+          "S1G": {
+            "description": "Devices in this category are intended for use in areas in which an explosive atmosphere consisting of a mixture of air and gases, vapours or mists is present. Category 1 comprises devices designed to be capable of functioning in conformity with the parameters specified by the manufacturer and ensuring a very high level of safety. (2014/34/EU)",
+            "type": "integer"
+          },
+          "S2G": {
+            "description": "Devices in this category are intended for use in areas in which an explosive atmosphere consisting of a mixture of air and gases, vapours or mists is present. Category 2 comprises devices designed to be capable of functioning in conformity with the parameters specified by the manufacturer and ensuring a high level of safety. (2014/34/EU)",
+            "type": "integer"
+          },
+          "S3G": {
+            "description": "Devices in this category are intended for use in areas in which an explosive atmosphere consisting of a mixture of air and gases, vapours or mists is present. Category 3 comprises devices designed to be capable of functioning in conformity with the parameters specified by the manufacturer and ensuring a normal level of safety. (2014/34/EU)",
+            "type": "integer"
+          },
+          "S1D": {
+            "description": "Devices in this category are intended for use in areas in which an explosive atmosphere consisting of a mixture of air and dust is present. Category 1 comprises devices designed to be capable of functioning in conformity with the parameters specified by the manufacturer and ensuring a very high level of safety. (2014/34/EU)",
+            "type": "integer"
+          },
+          "S2D": {
+            "description": "Devices in this category are intended for use in areas in which an explosive atmosphere consisting of a mixture of air and dust is present. Category 2 comprises devices designed to be capable of functioning in conformity with the parameters specified by the manufacturer and ensuring a high level of safety. (2014/34/EU)",
+            "type": "integer"
+          },
+          "S3D": {
+            "description": "Devices in this category are intended for use in areas in which an explosive atmosphere consisting of a mixture of air and dust is present. Category 3 comprises devices designed to be capable of functioning in conformity with the parameters specified by the manufacturer and ensuring a normal level of safety. (2014/34/EU)",
+            "type": "integer"
+          }
+        }
+      },
+      "ExplosionZoneOptionSet": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.Pumps.ExplosionZoneOptionSet",
+        "const": {
+          "Zone_0": 0,
+          "Zone_1": 1,
+          "Zone_2": 2,
+          "Zone_20": 3,
+          "Zone_21": 4,
+          "Zone_22": 5
+        },
+        "description": "defines flags for the category of explosion zones for devices",
+        "properties": {
+          "Zone_0": {
+            "description": "A zone in which an explosive atmosphere consisting of a mixture with air of flammable substances in the form of gas, vapour or mist is present continuously or for long periods or frequently.",
+            "type": "integer"
+          },
+          "Zone_1": {
+            "description": "A zone in which an explosive atmosphere consisting of a mixture with air of flammable substances in the form of gas, vapour or mist is likely to occur in normal operation occasionally.",
+            "type": "integer"
+          },
+          "Zone_2": {
+            "description": "A zone in which an explosive atmosphere consisting of a mixture with air of flammable substances in the form of gas, vapour or mist is not likely to occur in normal operation but, if it does occur, will persist for a short period only.",
+            "type": "integer"
+          },
+          "Zone_20": {
+            "description": "A zone in which an explosive atmosphere in the form of a cloud of combustible dust in air is present continuously, for long periods or frequently.",
+            "type": "integer"
+          },
+          "Zone_21": {
+            "description": "A zone in which an explosive atmosphere in the form of a cloud of combustible dust in air is likely to occur in normal operation occasionally.",
+            "type": "integer"
+          },
+          "Zone_22": {
+            "description": "A zone in which an explosive atmosphere in the form of a cloud of combustible dust in air is not likely to occur in normal operation but, if it does occur, will persist for a short period only.",
+            "type": "integer"
+          }
+        }
+      },
+      "FieldbusEnum": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.Pumps.FieldbusEnum",
+        "const": {
+          "Other": 0,
+          "ARCNET": 1,
+          "AS_Interface": 2,
+          "BACnet_IP": 3,
+          "BACnet_MSTP": 4,
+          "Bluetooth": 5,
+          "BluetoothLowEnergy": 6,
+          "CAN": 7,
+          "CANopen": 8,
+          "CC_Link": 9,
+          "ControlNet": 10,
+          "DALI": 11,
+          "DECTULE": 12,
+          "DeviceNet": 13,
+          "DMX": 14,
+          "KNX": 15,
+          "EnOcean": 16,
+          "EtherCAT": 17,
+          "Ethernet_IP": 18,
+          "EthernetTCP_IP": 19,
+          "IEEE1588": 20,
+          "GSM": 21,
+          "Interbus": 22,
+          "IO_Link": 23,
+          "HART": 24,
+          "LON": 25,
+          "LoRaWAN": 26,
+          "LIN_Bus": 27,
+          "LTE": 28,
+          "LTE_M": 29,
+          "M_Bus": 30,
+          "ModbusTCP": 31,
+          "ModbusRTU": 32,
+          "MP_Bus": 33,
+          "NB_IOT": 34,
+          "NFC": 35,
+          "OPCUA": 36,
+          "OPCDA": 37,
+          "PROFIBUSDP": 38,
+          "PROFINETRT": 39,
+          "Powerlink": 40,
+          "SERCOS": 41,
+          "SMI": 42,
+          "Thread": 43,
+          "UMTS": 44,
+          "WIFI": 45,
+          "X2X_Link": 46,
+          "VARAN": 47,
+          "ZigBee": 48,
+          "Z_Wave": 49
+        },
+        "description": "defines possible field buses",
+        "properties": {
+          "Other": {
+            "description": "Fieldbus is not specified in this enumeration",
+            "type": "integer"
+          },
+          "ARCNET": {
+            "description": "ARCNET",
+            "type": "integer"
+          },
+          "AS_Interface": {
+            "description": "AS-Interface",
+            "type": "integer"
+          },
+          "BACnet_IP": {
+            "description": "BACnet/IP",
+            "type": "integer"
+          },
+          "BACnet_MSTP": {
+            "description": "BACnet/MSTP",
+            "type": "integer"
+          },
+          "Bluetooth": {
+            "description": "Bluetooth",
+            "type": "integer"
+          },
+          "BluetoothLowEnergy": {
+            "description": "Bluetooth Low Energy",
+            "type": "integer"
+          },
+          "CAN": {
+            "description": "CAN",
+            "type": "integer"
+          },
+          "CANopen": {
+            "description": "CANopen",
+            "type": "integer"
+          },
+          "CC_Link": {
+            "description": "CC-Link",
+            "type": "integer"
+          },
+          "ControlNet": {
+            "description": "ControlNet",
+            "type": "integer"
+          },
+          "DALI": {
+            "description": "DALI",
+            "type": "integer"
+          },
+          "DECTULE": {
+            "description": "DECT ULE",
+            "type": "integer"
+          },
+          "DeviceNet": {
+            "description": "DeviceNet",
+            "type": "integer"
+          },
+          "DMX": {
+            "description": "DMX",
+            "type": "integer"
+          },
+          "KNX": {
+            "description": "KNX",
+            "type": "integer"
+          },
+          "EnOcean": {
+            "description": "EnOcean",
+            "type": "integer"
+          },
+          "EtherCAT": {
+            "description": "EtherCAT",
+            "type": "integer"
+          },
+          "Ethernet_IP": {
+            "description": "Ethernet/IP",
+            "type": "integer"
+          },
+          "EthernetTCP_IP": {
+            "description": "Ethernet TCP/IP",
+            "type": "integer"
+          },
+          "IEEE1588": {
+            "description": "IEEE1588",
+            "type": "integer"
+          },
+          "GSM": {
+            "description": "GSM",
+            "type": "integer"
+          },
+          "Interbus": {
+            "description": "Interbus",
+            "type": "integer"
+          },
+          "IO_Link": {
+            "description": "IO-Link",
+            "type": "integer"
+          },
+          "HART": {
+            "description": "HART",
+            "type": "integer"
+          },
+          "LON": {
+            "description": "LON",
+            "type": "integer"
+          },
+          "LoRaWAN": {
+            "description": "LoRaWAN",
+            "type": "integer"
+          },
+          "LIN_Bus": {
+            "description": "LIN-Bus",
+            "type": "integer"
+          },
+          "LTE": {
+            "description": "LTE",
+            "type": "integer"
+          },
+          "LTE_M": {
+            "description": "LTE-M",
+            "type": "integer"
+          },
+          "M_Bus": {
+            "description": "M-Bus",
+            "type": "integer"
+          },
+          "ModbusTCP": {
+            "description": "Modbus TCP",
+            "type": "integer"
+          },
+          "ModbusRTU": {
+            "description": "Modbus RTU",
+            "type": "integer"
+          },
+          "MP_Bus": {
+            "description": "MP-Bus",
+            "type": "integer"
+          },
+          "NB_IOT": {
+            "description": "NB-IOT",
+            "type": "integer"
+          },
+          "NFC": {
+            "description": "NFC",
+            "type": "integer"
+          },
+          "OPCUA": {
+            "description": "OPC UA",
+            "type": "integer"
+          },
+          "OPCDA": {
+            "description": "OPC DA",
+            "type": "integer"
+          },
+          "PROFIBUSDP": {
+            "description": "PROFIBUS DP",
+            "type": "integer"
+          },
+          "PROFINETRT": {
+            "description": "PROFINET RT",
+            "type": "integer"
+          },
+          "Powerlink": {
+            "description": "Powerlink",
+            "type": "integer"
+          },
+          "SERCOS": {
+            "description": "SERCOS",
+            "type": "integer"
+          },
+          "SMI": {
+            "description": "SMI",
+            "type": "integer"
+          },
+          "Thread": {
+            "description": "Thread",
+            "type": "integer"
+          },
+          "UMTS": {
+            "description": "UMTS",
+            "type": "integer"
+          },
+          "WIFI": {
+            "description": "WIFI",
+            "type": "integer"
+          },
+          "X2X_Link": {
+            "description": "X2X-Link",
+            "type": "integer"
+          },
+          "VARAN": {
+            "description": "VARAN",
+            "type": "integer"
+          },
+          "ZigBee": {
+            "description": "ZigBee",
+            "type": "integer"
+          },
+          "Z_Wave": {
+            "description": "Z-Wave",
+            "type": "integer"
+          }
+        }
+      },
+      "MaintenanceLevelEnum": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.Pumps.MaintenanceLevelEnum",
+        "const": {
+          "Level1": 0,
+          "Level2": 1,
+          "Level3": 2,
+          "Level4": 3,
+          "Level5": 4
+        },
+        "description": "defines maintenance levels for the pump",
+        "properties": {
+          "Level1": {
+            "description": "Level 1 is characterized by simple actions carried out with minimal training",
+            "type": "integer"
+          },
+          "Level2": {
+            "description": "Level 2 is characterized by basic actions which have to be carried out by qualified personnel using detailed procedures ",
+            "type": "integer"
+          },
+          "Level3": {
+            "description": "Level 3 is characterized by complex actions carried out by qualified technical personnel using detailed procedures",
+            "type": "integer"
+          },
+          "Level4": {
+            "description": "Level 4 is characterized by actions which imply the know-how of a technique or a technology and carried out by specialized technical personnel",
+            "type": "integer"
+          },
+          "Level5": {
+            "description": "Level 5 is characterized by actions which imply a knowledge held by the manufacturer or a specialized company with industrial logistic support equipment",
+            "type": "integer"
+          }
+        }
+      },
+      "MultiPumpOperationModeEnum": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.Pumps.MultiPumpOperationModeEnum",
+        "const": {
+          "Standalone": 0,
+          "RedundancyOperation": 1,
+          "AdditionOperation": 2,
+          "MixedRedundancy": 3
+        },
+        "description": "specifies the actual multi pump operation mode",
+        "properties": {
+          "Standalone": {
+            "description": "Standalone mode",
+            "type": "integer"
+          },
+          "RedundancyOperation": {
+            "description": "pump fulfils the process function of another pump",
+            "type": "integer"
+          },
+          "AdditionOperation": {
+            "description": "supplementary fulfilling of the process function",
+            "type": "integer"
+          },
+          "MixedRedundancy": {
+            "description": "Redundancy and addition operation mixed",
+            "type": "integer"
+          }
+        }
+      },
+      "OfferedControlModesOptionSet": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.Pumps.OfferedControlModesOptionSet",
+        "const": {
+          "Constant_pressure_control": 0,
+          "Constant_temperature_control": 1,
+          "Differential_pressure_control": 2,
+          "Constant_differential_pressure_control": 3,
+          "Variable_differential_pressure_control": 4,
+          "Flow_dependent_differential_pressure_control": 5,
+          "Return_flow_temperature_control": 6,
+          "Flow_temperature_control": 7,
+          "Flow_rate_control": 8,
+          "Automatic": 9,
+          "Uncontrolled": 10,
+          "Speed_control": 11
+        },
+        "description": "defines flags for offerd control modes supported by the manufacturer for the product",
+        "properties": {
+          "Constant_pressure_control": {
+            "description": "Constant pressure control mode",
+            "type": "integer"
+          },
+          "Constant_temperature_control": {
+            "description": "Constant temperature control mode",
+            "type": "integer"
+          },
+          "Differential_pressure_control": {
+            "description": "Differential pressure control mode",
+            "type": "integer"
+          },
+          "Constant_differential_pressure_control": {
+            "description": "Constant differential pressure control mode",
+            "type": "integer"
+          },
+          "Variable_differential_pressure_control": {
+            "description": "Variable differential pressure control mode",
+            "type": "integer"
+          },
+          "Flow_dependent_differential_pressure_control": {
+            "description": "Flow-dependent differential pressure control mode",
+            "type": "integer"
+          },
+          "Return_flow_temperature_control": {
+            "description": "Return flow temperature control mode",
+            "type": "integer"
+          },
+          "Flow_temperature_control": {
+            "description": "Flow temperature control mode",
+            "type": "integer"
+          },
+          "Flow_rate_control": {
+            "description": "Flow rate control mode",
+            "type": "integer"
+          },
+          "Automatic": {
+            "description": "Automatic control mode",
+            "type": "integer"
+          },
+          "Uncontrolled": {
+            "description": "None / uncontrolled mode",
+            "type": "integer"
+          },
+          "Speed_control": {
+            "description": "Speed control mode",
+            "type": "integer"
+          }
+        }
+      },
+      "OfferedFieldbusesOptionSet": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.Pumps.OfferedFieldbusesOptionSet",
+        "const": {
+          "Other": 0,
+          "ARCNET": 1,
+          "AS_Interface": 2,
+          "BACnet_IP": 3,
+          "BACnet_MSTP": 4,
+          "Bluetooth": 5,
+          "Bluetooth_Low_Energy": 6,
+          "CAN": 7,
+          "CANopen": 8,
+          "CC_Link": 9,
+          "ControlNet": 10,
+          "DALI": 11,
+          "DECT_ULE": 12,
+          "DeviceNet": 13,
+          "DMX": 14,
+          "KNX": 15,
+          "EnOcean": 16,
+          "EtherCAT": 17,
+          "Ethernet_IP": 18,
+          "Ethernet_TCP_IP": 19,
+          "IEEE1588": 20,
+          "GSM": 21,
+          "Interbus": 22,
+          "IO_Link": 23,
+          "HART": 24,
+          "LON": 25,
+          "LoRaWAN": 26,
+          "LIN_Bus": 27,
+          "LTE": 28,
+          "LTE_M": 29,
+          "M_Bus": 30,
+          "Modbus_TCP": 31,
+          "Modbus_RTU": 32,
+          "MP_Bus": 33,
+          "NB_IOT": 34,
+          "NFC": 35,
+          "OPC_UA": 36,
+          "OPC_DA": 37,
+          "PROFIBUS_DP": 38,
+          "PROFINET_RT": 39,
+          "Powerlink": 40,
+          "SERCOS": 41,
+          "SMI": 42,
+          "Thread": 43,
+          "UMTS": 44,
+          "WIFI": 45,
+          "X2X_Link": 46,
+          "VARAN": 47,
+          "ZigBee": 48,
+          "Z_Wave": 49
+        },
+        "description": "defines flags for fieldbuses supported by the manufacturer for the product",
+        "properties": {
+          "Other": {
+            "description": "Additional fieldbuses listed in the AdditionalFieldbuses variable",
+            "type": "integer"
+          },
+          "ARCNET": {
+            "description": "ARCNET",
+            "type": "integer"
+          },
+          "AS_Interface": {
+            "description": "AS-Interface",
+            "type": "integer"
+          },
+          "BACnet_IP": {
+            "description": "BACnet/IP",
+            "type": "integer"
+          },
+          "BACnet_MSTP": {
+            "description": "BACnet/MSTP",
+            "type": "integer"
+          },
+          "Bluetooth": {
+            "description": "Bluetooth",
+            "type": "integer"
+          },
+          "Bluetooth_Low_Energy": {
+            "description": "Bluetooth Low Energy",
+            "type": "integer"
+          },
+          "CAN": {
+            "description": "CAN",
+            "type": "integer"
+          },
+          "CANopen": {
+            "description": "CANopen",
+            "type": "integer"
+          },
+          "CC_Link": {
+            "description": "CC-Link",
+            "type": "integer"
+          },
+          "ControlNet": {
+            "description": "ControlNet",
+            "type": "integer"
+          },
+          "DALI": {
+            "description": "DALI",
+            "type": "integer"
+          },
+          "DECT_ULE": {
+            "description": "DECT ULE",
+            "type": "integer"
+          },
+          "DeviceNet": {
+            "description": "DeviceNet",
+            "type": "integer"
+          },
+          "DMX": {
+            "description": "DMX",
+            "type": "integer"
+          },
+          "KNX": {
+            "description": "KNX",
+            "type": "integer"
+          },
+          "EnOcean": {
+            "description": "EnOcean",
+            "type": "integer"
+          },
+          "EtherCAT": {
+            "description": "EtherCAT",
+            "type": "integer"
+          },
+          "Ethernet_IP": {
+            "description": "Ethernet/IP",
+            "type": "integer"
+          },
+          "Ethernet_TCP_IP": {
+            "description": "Ethernet TCP/IP",
+            "type": "integer"
+          },
+          "IEEE1588": {
+            "description": "IEEE1588",
+            "type": "integer"
+          },
+          "GSM": {
+            "description": "GSM",
+            "type": "integer"
+          },
+          "Interbus": {
+            "description": "Interbus",
+            "type": "integer"
+          },
+          "IO_Link": {
+            "description": "IO-Link",
+            "type": "integer"
+          },
+          "HART": {
+            "description": "HART",
+            "type": "integer"
+          },
+          "LON": {
+            "description": "LON",
+            "type": "integer"
+          },
+          "LoRaWAN": {
+            "description": "LoRaWAN",
+            "type": "integer"
+          },
+          "LIN_Bus": {
+            "description": "LIN-Bus",
+            "type": "integer"
+          },
+          "LTE": {
+            "description": "LTE",
+            "type": "integer"
+          },
+          "LTE_M": {
+            "description": "LTE-M",
+            "type": "integer"
+          },
+          "M_Bus": {
+            "description": "M-Bus",
+            "type": "integer"
+          },
+          "Modbus_TCP": {
+            "description": "Modbus TCP",
+            "type": "integer"
+          },
+          "Modbus_RTU": {
+            "description": "Modbus RTU",
+            "type": "integer"
+          },
+          "MP_Bus": {
+            "description": "MP-Bus",
+            "type": "integer"
+          },
+          "NB_IOT": {
+            "description": "NB-IOT",
+            "type": "integer"
+          },
+          "NFC": {
+            "description": "NFC",
+            "type": "integer"
+          },
+          "OPC_UA": {
+            "description": "OPC UA",
+            "type": "integer"
+          },
+          "OPC_DA": {
+            "description": "OPC DA",
+            "type": "integer"
+          },
+          "PROFIBUS_DP": {
+            "description": "PROFIBUS DP",
+            "type": "integer"
+          },
+          "PROFINET_RT": {
+            "description": "PROFINET RT",
+            "type": "integer"
+          },
+          "Powerlink": {
+            "description": "Powerlink",
+            "type": "integer"
+          },
+          "SERCOS": {
+            "description": "SERCOS",
+            "type": "integer"
+          },
+          "SMI": {
+            "description": "SMI",
+            "type": "integer"
+          },
+          "Thread": {
+            "description": "Thread",
+            "type": "integer"
+          },
+          "UMTS": {
+            "description": "UMTS",
+            "type": "integer"
+          },
+          "WIFI": {
+            "description": "WIFI",
+            "type": "integer"
+          },
+          "X2X_Link": {
+            "description": "X2X_Link",
+            "type": "integer"
+          },
+          "VARAN": {
+            "description": "VARAN",
+            "type": "integer"
+          },
+          "ZigBee": {
+            "description": "ZigBee",
+            "type": "integer"
+          },
+          "Z_Wave": {
+            "description": "Z-Wave",
+            "type": "integer"
+          }
+        }
+      },
+      "OperatingModeEnum": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.Pumps.OperatingModeEnum",
+        "const": {
+          "SingleOperation": 0,
+          "SeriesOperation": 1,
+          "ParallelOperation": 2
+        },
+        "description": "specifies whether the pump is to be operated in single, parallel or series connection",
+        "properties": {
+          "SingleOperation": {
+            "description": "Single operating mode",
+            "type": "integer"
+          },
+          "SeriesOperation": {
+            "description": "Series operating mode",
+            "type": "integer"
+          },
+          "ParallelOperation": {
+            "description": "Parallel operating mode",
+            "type": "integer"
+          }
+        }
+      },
+      "OperationModeEnum": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.Pumps.OperationModeEnum",
+        "const": {
+          "AutoControl": 0,
+          "ClosedLoopStandardPID": 1,
+          "Advanced": 2,
+          "StandBy": 3,
+          "OpenLoopMin": 4,
+          "OpenLoopValue": 5,
+          "OpenLoopMax": 6,
+          "ClosedLoopMin": 7,
+          "ClosedLoopMax": 8,
+          "Test": 9,
+          "Calibration": 10
+        },
+        "description": "describes the possible operation modes of the pump",
+        "properties": {
+          "AutoControl": {
+            "description": "standard control algorithm, not configurable",
+            "type": "integer"
+          },
+          "ClosedLoopStandardPID": {
+            "description": "pid algorithm, control parameters configurable in functional element ControlPID",
+            "type": "integer"
+          },
+          "Advanced": {
+            "description": "manufacturer specific control algorithm, control parameters configurable",
+            "type": "integer"
+          },
+          "StandBy": {
+            "description": "ready for operation ",
+            "type": "integer"
+          },
+          "OpenLoopMin": {
+            "description": "open loop operation at minimum characteristic",
+            "type": "integer"
+          },
+          "OpenLoopValue": {
+            "description": "open loop operation at set point value",
+            "type": "integer"
+          },
+          "OpenLoopMax": {
+            "description": "open loop operation at maximum characteristic",
+            "type": "integer"
+          },
+          "ClosedLoopMin": {
+            "description": "closed loop operation at minimum characteristic",
+            "type": "integer"
+          },
+          "ClosedLoopMax": {
+            "description": "closed loop operation at maximum characteristic",
+            "type": "integer"
+          },
+          "Test": {
+            "description": "Test operation",
+            "type": "integer"
+          },
+          "Calibration": {
+            "description": "Calibration mode",
+            "type": "integer"
+          }
+        }
+      },
+      "PhysicalAddressDataType": {
+        "description": "Physical address of the manufacturer.",
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.Pumps.PhysicalAddressDataType",
+        "properties": {
+          "Street": {
+            "description": "Street name where the manufacturer is located.",
+            "type": "string"
+          },
+          "Number": {
+            "description": "Street number where the manufacturer is located.",
+            "type": "string"
+          },
+          "City": {
+            "description": "City where the manufacturer is located.",
+            "type": "string"
+          },
+          "PostalCode": {
+            "description": "Postal code where the manufacturer is located.",
+            "type": "string"
+          },
+          "State": {
+            "description": "State where the manufacturer is located.",
+            "type": "string"
+          },
+          "Country": {
+            "description": "Country where the manufacturer is located.",
+            "type": "string"
+          }
+        }
+      },
+      "PortDirectionEnum": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.Pumps.PortDirectionEnum",
+        "const": {
+          "In": 0,
+          "Out": 1,
+          "InOut": 2
+        },
+        "description": "determines whether the port is an inlet and outlet or both",
+        "properties": {
+          "In": {
+            "description": "Ports with the direction “In” can only be connected to ports with the direction “Out” or “InOut”.",
+            "type": "integer"
+          },
+          "Out": {
+            "description": "Ports with the direction “Out” can only be connected to ports with the direction “In” or “InOut”.",
+            "type": "integer"
+          },
+          "InOut": {
+            "description": "Ports with the direction “InOut” can be connected to ports with arbitrary directions.",
+            "type": "integer"
+          }
+        }
+      },
+      "PumpKickModeEnum": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.Pumps.PumpKickModeEnum",
+        "const": {
+          "ManufacturerSpecific": 0,
+          "Disabled": 1,
+          "OperatorSpecific": 2
+        },
+        "description": "describes the pump kick mode of the pump",
+        "properties": {
+          "ManufacturerSpecific": {
+            "description": "Manufacturer specific pump kick mode",
+            "type": "integer"
+          },
+          "Disabled": {
+            "description": "Pump kick mode disabled",
+            "type": "integer"
+          },
+          "OperatorSpecific": {
+            "description": "Operator specific pump kick mode",
+            "type": "integer"
+          }
+        }
+      },
+      "PumpRoleEnum": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.Pumps.PumpRoleEnum",
+        "const": {
+          "Slave": 0,
+          "Master": 1,
+          "SlaveAndAuxiliaryMaster": 2
+        },
+        "description": "identifies the role rsp. task of the pump within the multi pump management",
+        "properties": {
+          "Slave": {
+            "description": "Slave",
+            "type": "integer"
+          },
+          "Master": {
+            "description": "Master",
+            "type": "integer"
+          },
+          "SlaveAndAuxiliaryMaster": {
+            "description": "Slave and auxiliary master",
+            "type": "integer"
+          }
+        }
+      },
+      "StateOfTheItemEnum": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.Pumps.StateOfTheItemEnum",
+        "const": {
+          "IdleState": 0,
+          "StandByState": 1,
+          "OperatingState": 2,
+          "ExternalDisabledState": 3,
+          "DownState": 4
+        },
+        "description": "describes the state of the pump",
+        "properties": {
+          "IdleState": {
+            "description": "Item is in up state and non-operating outside required time",
+            "type": "integer"
+          },
+          "StandByState": {
+            "description": "Item is in up state and non-operating during required time",
+            "type": "integer"
+          },
+          "OperatingState": {
+            "description": "Item is in up state and operating as required",
+            "type": "integer"
+          },
+          "ExternalDisabledState": {
+            "description": "Item is in up state, but lacks required external resources or is disabled due to planned actions other than maintenance",
+            "type": "integer"
+          },
+          "DownState": {
+            "description": "Item is unable to perform a required function due to preventive maintenance or a fault",
+            "type": "integer"
+          }
+        }
+      }
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
   }
 ]

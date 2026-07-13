@@ -664,5 +664,462 @@
     },
     "events": {
     }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dov": "http://azure.com/DigitalOperations/vocab#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "Glass_Flat_v2_DataTypes",
+    "links": [
+    ],
+    "schemaDefinitions": {
+      "CoatingClassEnumeration": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.Glass.Flat.v2.CoatingClassEnumeration",
+        "const": {
+          "HardCoating": 0,
+          "SoftCoating": 1,
+          "CoatedWithFoilProtection": 2,
+          "UserDefined": 3
+        },
+        "properties": {
+          "HardCoating": {
+            "type": "integer"
+          },
+          "SoftCoating": {
+            "type": "integer"
+          },
+          "CoatedWithFoilProtection": {
+            "type": "integer"
+          },
+          "UserDefined": {
+            "type": "integer"
+          }
+        }
+      },
+      "CoordinateSystemEnumeration": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.Glass.Flat.v2.CoordinateSystemEnumeration",
+        "const": {
+          "Unknown": 0,
+          "System1": 1,
+          "System2": 2,
+          "System3": 3,
+          "System4": 4,
+          "System5": 5,
+          "System6": 6,
+          "System7": 7,
+          "System8": 8
+        },
+        "properties": {
+          "Unknown": {
+            "type": "integer"
+          },
+          "System1": {
+            "type": "integer"
+          },
+          "System2": {
+            "type": "integer"
+          },
+          "System3": {
+            "type": "integer"
+          },
+          "System4": {
+            "type": "integer"
+          },
+          "System5": {
+            "type": "integer"
+          },
+          "System6": {
+            "type": "integer"
+          },
+          "System7": {
+            "type": "integer"
+          },
+          "System8": {
+            "type": "integer"
+          }
+        }
+      },
+      "EClassTermDataType": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.Glass.Flat.v2.EClassTermDataType",
+        "required": [ "ID", "Description", "EClass" ],
+        "properties": {
+          "ID": {
+            "type": "string"
+          },
+          "Description": {
+            "type": "string"
+          },
+          "EClass": {
+            "type": "string"
+          }
+        }
+      },
+      "FileFormatDataType": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.Glass.Flat.v2.FileFormatDataType",
+        "required": [ "Name", "FileExtension", "Version" ],
+        "properties": {
+          "Name": {
+            "type": "string"
+          },
+          "FileExtension": {
+            "type": "string"
+          },
+          "Version": {
+            "type": "string"
+          }
+        }
+      },
+      "ProcessingCategoryDataType": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.Glass.Flat.v2.ProcessingCategoryDataType",
+        "required": [ "ID", "Description", "SupportedParameter", "SupportedAssignment", "SupportedVariable", "SupportsTransformation", "SupportsSubProcessing" ],
+        "properties": {
+          "ID": {
+            "type": "string"
+          },
+          "Description": {
+            "type": "string"
+          },
+          "SupportedParameter": {
+            "type": "array",
+            "items": {
+              "title": "ProcessingParameterDataType",
+              "type": "object",
+              "dov:typeRef": "org.opcfoundation.UA.Glass.Flat.v2.ProcessingParameterDataType",
+              "required": [ "Name", "Description", "ValueType", "TypicalValue", "Mandatory", "EClass" ],
+              "properties": {
+                "Name": {
+                  "type": "string"
+                },
+                "Description": {
+                  "type": "string"
+                },
+                "ValueType": {
+                  "title": "ValueDataType",
+                  "type": "object",
+                  "dov:typeRef": "org.opcfoundation.UA.Glass.Flat.v2.ValueDataType",
+                  "required": [ "Name", "Description", "BaseUnit", "PossibleValue" ],
+                  "properties": {
+                    "Name": {
+                      "type": "string"
+                    },
+                    "Description": {
+                      "type": "string"
+                    },
+                    "BaseUnit": {
+                      "type": "string"
+                    },
+                    "PossibleValue": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "TypicalValue": {
+                  "type": "string"
+                },
+                "Mandatory": {
+                  "type": "boolean"
+                },
+                "EClass": {
+                  "title": "EClassTermDataType",
+                  "type": "object",
+                  "dov:typeRef": "org.opcfoundation.UA.Glass.Flat.v2.EClassTermDataType",
+                  "required": [ "ID", "Description", "EClass" ],
+                  "properties": {
+                    "ID": {
+                      "type": "string"
+                    },
+                    "Description": {
+                      "type": "string"
+                    },
+                    "EClass": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "SupportedAssignment": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "SupportedVariable": {
+            "type": "array",
+            "items": {
+              "title": "ProcessingParameterDataType",
+              "type": "object",
+              "dov:typeRef": "org.opcfoundation.UA.Glass.Flat.v2.ProcessingParameterDataType",
+              "required": [ "Name", "Description", "ValueType", "TypicalValue", "Mandatory", "EClass" ],
+              "properties": {
+                "Name": {
+                  "type": "string"
+                },
+                "Description": {
+                  "type": "string"
+                },
+                "ValueType": {
+                  "title": "ValueDataType",
+                  "type": "object",
+                  "dov:typeRef": "org.opcfoundation.UA.Glass.Flat.v2.ValueDataType",
+                  "required": [ "Name", "Description", "BaseUnit", "PossibleValue" ],
+                  "properties": {
+                    "Name": {
+                      "type": "string"
+                    },
+                    "Description": {
+                      "type": "string"
+                    },
+                    "BaseUnit": {
+                      "type": "string"
+                    },
+                    "PossibleValue": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "TypicalValue": {
+                  "type": "string"
+                },
+                "Mandatory": {
+                  "type": "boolean"
+                },
+                "EClass": {
+                  "title": "EClassTermDataType",
+                  "type": "object",
+                  "dov:typeRef": "org.opcfoundation.UA.Glass.Flat.v2.EClassTermDataType",
+                  "required": [ "ID", "Description", "EClass" ],
+                  "properties": {
+                    "ID": {
+                      "type": "string"
+                    },
+                    "Description": {
+                      "type": "string"
+                    },
+                    "EClass": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "SupportsTransformation": {
+            "type": "integer",
+            "minimum": -2147483648,
+            "maximum": 2147483647
+          },
+          "SupportsSubProcessing": {
+            "type": "integer",
+            "minimum": -2147483648,
+            "maximum": 2147483647
+          }
+        }
+      },
+      "ProcessingParameterDataType": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.Glass.Flat.v2.ProcessingParameterDataType",
+        "required": [ "Name", "Description", "ValueType", "TypicalValue", "Mandatory", "EClass" ],
+        "properties": {
+          "Name": {
+            "type": "string"
+          },
+          "Description": {
+            "type": "string"
+          },
+          "ValueType": {
+            "title": "ValueDataType",
+            "type": "object",
+            "dov:typeRef": "org.opcfoundation.UA.Glass.Flat.v2.ValueDataType",
+            "required": [ "Name", "Description", "BaseUnit", "PossibleValue" ],
+            "properties": {
+              "Name": {
+                "type": "string"
+              },
+              "Description": {
+                "type": "string"
+              },
+              "BaseUnit": {
+                "type": "string"
+              },
+              "PossibleValue": {
+                "type": "string"
+              }
+            }
+          },
+          "TypicalValue": {
+            "type": "string"
+          },
+          "Mandatory": {
+            "type": "boolean"
+          },
+          "EClass": {
+            "title": "EClassTermDataType",
+            "type": "object",
+            "dov:typeRef": "org.opcfoundation.UA.Glass.Flat.v2.EClassTermDataType",
+            "required": [ "ID", "Description", "EClass" ],
+            "properties": {
+              "ID": {
+                "type": "string"
+              },
+              "Description": {
+                "type": "string"
+              },
+              "EClass": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      },
+      "ReasonDescriptionType": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.Glass.Flat.v2.ReasonDescriptionType",
+        "required": [ "Description" ],
+        "properties": {
+          "Description": {
+            "type": "string"
+          },
+          "Reference": {
+            "type": "string"
+          },
+          "Category": {
+            "type": "string"
+          },
+          "VendorCode": {
+            "type": "string"
+          }
+        }
+      },
+      "SignificantSideEnumeration": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.Glass.Flat.v2.SignificantSideEnumeration",
+        "const": {
+          "Indifferent": 0,
+          "Top": 1,
+          "Down": 2
+        },
+        "properties": {
+          "Indifferent": {
+            "type": "integer"
+          },
+          "Top": {
+            "type": "integer"
+          },
+          "Down": {
+            "type": "integer"
+          }
+        }
+      },
+      "SpacerMaterialClass": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.Glass.Flat.v2.SpacerMaterialClass",
+        "const": {
+          "Other": 0,
+          "Metallic": 1,
+          "TPS": 2,
+          "Plastic": 3,
+          "Elastic": 4
+        },
+        "properties": {
+          "Other": {
+            "type": "integer"
+          },
+          "Metallic": {
+            "type": "integer"
+          },
+          "TPS": {
+            "type": "integer"
+          },
+          "Plastic": {
+            "type": "integer"
+          },
+          "Elastic": {
+            "type": "integer"
+          }
+        }
+      },
+      "StructureAlignmentEnumeration": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.Glass.Flat.v2.StructureAlignmentEnumeration",
+        "const": {
+          "Indifferent": 0,
+          "Longitudinal": 1,
+          "Transverse": 2
+        },
+        "properties": {
+          "Indifferent": {
+            "type": "integer"
+          },
+          "Longitudinal": {
+            "type": "integer"
+          },
+          "Transverse": {
+            "type": "integer"
+          }
+        }
+      },
+      "UserProfileDataType": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.Glass.Flat.v2.UserProfileDataType",
+        "required": [ "Name", "LoginTime", "Language", "MeasurementFormat", "AccessLevel", "OpcUaUser" ],
+        "properties": {
+          "Name": {
+            "type": "string"
+          },
+          "LoginTime": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "Language": {
+            "type": "string"
+          },
+          "MeasurementFormat": {
+            "type": "string"
+          },
+          "AccessLevel": {
+            "type": "string"
+          },
+          "OpcUaUser": {
+            "type": "boolean"
+          }
+        }
+      },
+      "ValueDataType": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.Glass.Flat.v2.ValueDataType",
+        "required": [ "Name", "Description", "BaseUnit", "PossibleValue" ],
+        "properties": {
+          "Name": {
+            "type": "string"
+          },
+          "Description": {
+            "type": "string"
+          },
+          "BaseUnit": {
+            "type": "string"
+          },
+          "PossibleValue": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
   }
 ]

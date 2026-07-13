@@ -2291,5 +2291,41 @@
         ]
       }
     }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dov": "http://azure.com/DigitalOperations/vocab#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "PlasticsRubber_Extrusion_v2_ExtrusionLine_DataTypes",
+    "links": [
+    ],
+    "schemaDefinitions": {
+      "MaterialMappingType": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.PlasticsRubber.Extrusion_v2.ExtrusionLine.MaterialMappingType",
+        "required": [ "MaterialId", "MaterialLot", "HopperId" ],
+        "properties": {
+          "MaterialId": {
+            "type": "string"
+          },
+          "MaterialLot": {
+            "type": "string"
+          },
+          "HopperId": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
   }
 ]

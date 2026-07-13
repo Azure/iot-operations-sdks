@@ -25806,5 +25806,1176 @@
         ]
       }
     }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dov": "http://azure.com/DigitalOperations/vocab#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "DEXPI_DataTypes",
+    "links": [
+    ],
+    "schemaDefinitions": {
+      "ChamberFunctionClassification": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.DEXPI.ChamberFunctionClassification",
+        "const": {
+          "Cooling": 0,
+          "Heating": 1,
+          "Processing": 2,
+          "Tempering": 3
+        },
+        "description": "",
+        "properties": {
+          "Cooling": {
+            "description": "Cooling",
+            "type": "integer"
+          },
+          "Heating": {
+            "description": "Heating",
+            "type": "integer"
+          },
+          "Processing": {
+            "description": "Processing",
+            "type": "integer"
+          },
+          "Tempering": {
+            "description": "Tempering",
+            "type": "integer"
+          }
+        }
+      },
+      "CompositionBreakClassification": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.DEXPI.CompositionBreakClassification",
+        "const": {
+          "CompositionBreak": 0,
+          "NoCompositionBreak": 1
+        },
+        "description": "",
+        "properties": {
+          "CompositionBreak": {
+            "description": "CompositionBreak",
+            "type": "integer"
+          },
+          "NoCompositionBreak": {
+            "description": "NoCompositionBreak",
+            "type": "integer"
+          }
+        }
+      },
+      "ConfidentialityClassification": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.DEXPI.ConfidentialityClassification",
+        "const": {
+          "ConfidentialInformation": 0,
+          "NonConfidentialInformation": 1
+        },
+        "description": "",
+        "properties": {
+          "ConfidentialInformation": {
+            "description": "ConfidentialInformation",
+            "type": "integer"
+          },
+          "NonConfidentialInformation": {
+            "description": "NonConfidentialInformation",
+            "type": "integer"
+          }
+        }
+      },
+      "DetonationProofArtefactClassification": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.DEXPI.DetonationProofArtefactClassification",
+        "const": {
+          "DetonationProofArtefact": 0,
+          "NonDetonationProofArtefact": 1
+        },
+        "description": "",
+        "properties": {
+          "DetonationProofArtefact": {
+            "description": "DetonationProofArtefact",
+            "type": "integer"
+          },
+          "NonDetonationProofArtefact": {
+            "description": "NonDetonationProofArtefact",
+            "type": "integer"
+          }
+        }
+      },
+      "ExplosionProofArtefactClassification": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.DEXPI.ExplosionProofArtefactClassification",
+        "const": {
+          "ExplosionProofArtefact": 0,
+          "NonExplosionProofArtefact": 1
+        },
+        "description": "",
+        "properties": {
+          "ExplosionProofArtefact": {
+            "description": "ExplosionProofArtefact",
+            "type": "integer"
+          },
+          "NonExplosionProofArtefact": {
+            "description": "NonExplosionProofArtefact",
+            "type": "integer"
+          }
+        }
+      },
+      "FailActionClassification": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.DEXPI.FailActionClassification",
+        "const": {
+          "FailClose": 0,
+          "FailOpen": 1,
+          "FailRetainPosition": 2
+        },
+        "description": "",
+        "properties": {
+          "FailClose": {
+            "description": "FailClose",
+            "type": "integer"
+          },
+          "FailOpen": {
+            "description": "FailOpen",
+            "type": "integer"
+          },
+          "FailRetainPosition": {
+            "description": "FailRetainPosition",
+            "type": "integer"
+          }
+        }
+      },
+      "FireResistantArtefactClassification": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.DEXPI.FireResistantArtefactClassification",
+        "const": {
+          "FireResistantArtefact": 0,
+          "NonFireResistantArtefact": 1
+        },
+        "description": "",
+        "properties": {
+          "FireResistantArtefact": {
+            "description": "FireResistantArtefact",
+            "type": "integer"
+          },
+          "NonFireResistantArtefact": {
+            "description": "NonFireResistantArtefact",
+            "type": "integer"
+          }
+        }
+      },
+      "GmpRelevanceClassification": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.DEXPI.GmpRelevanceClassification",
+        "const": {
+          "GmpRelevantFunction": 0,
+          "NonGmpRelevantFunction": 1
+        },
+        "description": "",
+        "properties": {
+          "GmpRelevantFunction": {
+            "description": "GmpRelevantFunction",
+            "type": "integer"
+          },
+          "NonGmpRelevantFunction": {
+            "description": "NonGmpRelevantFunction",
+            "type": "integer"
+          }
+        }
+      },
+      "GuaranteedSupplyFunctionClassification": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.DEXPI.GuaranteedSupplyFunctionClassification",
+        "const": {
+          "GuaranteedSupplyFunction": 0,
+          "NonGuaranteedSupplyFunction": 1
+        },
+        "description": "",
+        "properties": {
+          "GuaranteedSupplyFunction": {
+            "description": "GuaranteedSupplyFunction",
+            "type": "integer"
+          },
+          "NonGuaranteedSupplyFunction": {
+            "description": "NonGuaranteedSupplyFunction",
+            "type": "integer"
+          }
+        }
+      },
+      "HeatTracingTypeClassification": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.DEXPI.HeatTracingTypeClassification",
+        "const": {
+          "ElectricalHeatTracingSystem": 0,
+          "HeatTracingSystem": 1,
+          "NoHeatTracingSystem": 2,
+          "SteamHeatTracingSystem": 3,
+          "TubularHeatTracingSystem": 4
+        },
+        "description": "",
+        "properties": {
+          "ElectricalHeatTracingSystem": {
+            "description": "ElectricalHeatTracingSystem",
+            "type": "integer"
+          },
+          "HeatTracingSystem": {
+            "description": "HeatTracingSystem",
+            "type": "integer"
+          },
+          "NoHeatTracingSystem": {
+            "description": "NoHeatTracingSystem",
+            "type": "integer"
+          },
+          "SteamHeatTracingSystem": {
+            "description": "SteamHeatTracingSystem",
+            "type": "integer"
+          },
+          "TubularHeatTracingSystem": {
+            "description": "TubularHeatTracingSystem",
+            "type": "integer"
+          }
+        }
+      },
+      "InsulationBreakClassification": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.DEXPI.InsulationBreakClassification",
+        "const": {
+          "InsulationBreak": 0,
+          "NoInsulationBreak": 1
+        },
+        "description": "",
+        "properties": {
+          "InsulationBreak": {
+            "description": "InsulationBreak",
+            "type": "integer"
+          },
+          "NoInsulationBreak": {
+            "description": "NoInsulationBreak",
+            "type": "integer"
+          }
+        }
+      },
+      "JacketedPipeClassification": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.DEXPI.JacketedPipeClassification",
+        "const": {
+          "JacketedPipe": 0,
+          "UnjacketedPipe": 1
+        },
+        "description": "",
+        "properties": {
+          "JacketedPipe": {
+            "description": "JacketedPipe",
+            "type": "integer"
+          },
+          "UnjacketedPipe": {
+            "description": "UnjacketedPipe",
+            "type": "integer"
+          }
+        }
+      },
+      "LocationClassification": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.DEXPI.LocationClassification",
+        "const": {
+          "CentralLocation": 0,
+          "ControlPanel": 1,
+          "Field": 2
+        },
+        "description": "",
+        "properties": {
+          "CentralLocation": {
+            "description": "CentralLocation",
+            "type": "integer"
+          },
+          "ControlPanel": {
+            "description": "ControlPanel",
+            "type": "integer"
+          },
+          "Field": {
+            "description": "Field",
+            "type": "integer"
+          }
+        }
+      },
+      "NodeFlowClassification": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.DEXPI.NodeFlowClassification",
+        "const": {
+          "MainFlowInNode": 0,
+          "MainFlowOutNode": 1
+        },
+        "description": "",
+        "properties": {
+          "MainFlowInNode": {
+            "description": "MainFlowInNode",
+            "type": "integer"
+          },
+          "MainFlowOutNode": {
+            "description": "MainFlowOutNode",
+            "type": "integer"
+          }
+        }
+      },
+      "NominalDiameterBreakClassification": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.DEXPI.NominalDiameterBreakClassification",
+        "const": {
+          "NoNominalDiameterBreak": 0,
+          "NominalDiameterBreak": 1
+        },
+        "description": "",
+        "properties": {
+          "NoNominalDiameterBreak": {
+            "description": "NoNominalDiameterBreak",
+            "type": "integer"
+          },
+          "NominalDiameterBreak": {
+            "description": "NominalDiameterBreak",
+            "type": "integer"
+          }
+        }
+      },
+      "NominalDiameterStandardClassification": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.DEXPI.NominalDiameterStandardClassification",
+        "const": {
+          "Din2448ObjectDn100": 0,
+          "Din2448ObjectDn125": 1,
+          "Din2448ObjectDn15": 2,
+          "Din2448ObjectDn150": 3,
+          "Din2448ObjectDn20": 4,
+          "Din2448ObjectDn200": 5,
+          "Din2448ObjectDn25": 6,
+          "Din2448ObjectDn32": 7,
+          "Din2448ObjectDn40": 8,
+          "Din2448ObjectDn50": 9,
+          "Din2448ObjectDn65": 10,
+          "Din2448ObjectDn80": 11,
+          "Iso6708ObjectDn100": 12,
+          "Iso6708ObjectDn1000": 13,
+          "Iso6708ObjectDn1200": 14,
+          "Iso6708ObjectDn125": 15,
+          "Iso6708ObjectDn1400": 16,
+          "Iso6708ObjectDn15": 17,
+          "Iso6708ObjectDn150": 18,
+          "Iso6708ObjectDn1600": 19,
+          "Iso6708ObjectDn20": 20,
+          "Iso6708ObjectDn200": 21,
+          "Iso6708ObjectDn25": 22,
+          "Iso6708ObjectDn250": 23,
+          "Iso6708ObjectDn300": 24,
+          "Iso6708ObjectDn32": 25,
+          "Iso6708ObjectDn350": 26,
+          "Iso6708ObjectDn40": 27,
+          "Iso6708ObjectDn400": 28,
+          "Iso6708ObjectDn450": 29,
+          "Iso6708ObjectDn50": 30,
+          "Iso6708ObjectDn500": 31,
+          "Iso6708ObjectDn600": 32,
+          "Iso6708ObjectDn65": 33,
+          "Iso6708ObjectDn700": 34,
+          "Iso6708ObjectDn80": 35,
+          "Iso6708ObjectDn800": 36,
+          "Iso6708ObjectDn900": 37,
+          "Nps1_2Artefact": 38,
+          "Nps1_4Artefact": 39,
+          "Nps10Artefact": 40,
+          "Nps12Artefact": 41,
+          "Nps14Artefact": 42,
+          "Nps16Artefact": 43,
+          "Nps18Artefact": 44,
+          "Nps1Artefact": 45,
+          "Nps1_1_2Artefact": 46,
+          "Nps1_1_4Artefact": 47,
+          "Nps20Artefact": 48,
+          "Nps24Artefact": 49,
+          "Nps2Artefact": 50,
+          "Nps2_1_2Artefact": 51,
+          "Nps3_4Artefact": 52,
+          "Nps30Artefact": 53,
+          "Nps36Artefact": 54,
+          "Nps3Artefact": 55,
+          "Nps3_1_2Artefact": 56,
+          "Nps42Artefact": 57,
+          "Nps48Artefact": 58,
+          "Nps4Artefact": 59,
+          "Nps54Artefact": 60,
+          "Nps5Artefact": 61,
+          "Nps60Artefact": 62,
+          "Nps6Artefact": 63,
+          "Nps8Artefact": 64
+        },
+        "description": "",
+        "properties": {
+          "Din2448ObjectDn100": {
+            "description": "Din2448ObjectDn100",
+            "type": "integer"
+          },
+          "Din2448ObjectDn125": {
+            "description": "Din2448ObjectDn125",
+            "type": "integer"
+          },
+          "Din2448ObjectDn15": {
+            "description": "Din2448ObjectDn15",
+            "type": "integer"
+          },
+          "Din2448ObjectDn150": {
+            "description": "Din2448ObjectDn150",
+            "type": "integer"
+          },
+          "Din2448ObjectDn20": {
+            "description": "Din2448ObjectDn20",
+            "type": "integer"
+          },
+          "Din2448ObjectDn200": {
+            "description": "Din2448ObjectDn200",
+            "type": "integer"
+          },
+          "Din2448ObjectDn25": {
+            "description": "Din2448ObjectDn25",
+            "type": "integer"
+          },
+          "Din2448ObjectDn32": {
+            "description": "Din2448ObjectDn32",
+            "type": "integer"
+          },
+          "Din2448ObjectDn40": {
+            "description": "Din2448ObjectDn40",
+            "type": "integer"
+          },
+          "Din2448ObjectDn50": {
+            "description": "Din2448ObjectDn50",
+            "type": "integer"
+          },
+          "Din2448ObjectDn65": {
+            "description": "Din2448ObjectDn65",
+            "type": "integer"
+          },
+          "Din2448ObjectDn80": {
+            "description": "Din2448ObjectDn80",
+            "type": "integer"
+          },
+          "Iso6708ObjectDn100": {
+            "description": "Iso6708ObjectDn100",
+            "type": "integer"
+          },
+          "Iso6708ObjectDn1000": {
+            "description": "Iso6708ObjectDn1000",
+            "type": "integer"
+          },
+          "Iso6708ObjectDn1200": {
+            "description": "Iso6708ObjectDn1200",
+            "type": "integer"
+          },
+          "Iso6708ObjectDn125": {
+            "description": "Iso6708ObjectDn125",
+            "type": "integer"
+          },
+          "Iso6708ObjectDn1400": {
+            "description": "Iso6708ObjectDn1400",
+            "type": "integer"
+          },
+          "Iso6708ObjectDn15": {
+            "description": "Iso6708ObjectDn15",
+            "type": "integer"
+          },
+          "Iso6708ObjectDn150": {
+            "description": "Iso6708ObjectDn150",
+            "type": "integer"
+          },
+          "Iso6708ObjectDn1600": {
+            "description": "Iso6708ObjectDn1600",
+            "type": "integer"
+          },
+          "Iso6708ObjectDn20": {
+            "description": "Iso6708ObjectDn20",
+            "type": "integer"
+          },
+          "Iso6708ObjectDn200": {
+            "description": "Iso6708ObjectDn200",
+            "type": "integer"
+          },
+          "Iso6708ObjectDn25": {
+            "description": "Iso6708ObjectDn25",
+            "type": "integer"
+          },
+          "Iso6708ObjectDn250": {
+            "description": "Iso6708ObjectDn250",
+            "type": "integer"
+          },
+          "Iso6708ObjectDn300": {
+            "description": "Iso6708ObjectDn300",
+            "type": "integer"
+          },
+          "Iso6708ObjectDn32": {
+            "description": "Iso6708ObjectDn32",
+            "type": "integer"
+          },
+          "Iso6708ObjectDn350": {
+            "description": "Iso6708ObjectDn350",
+            "type": "integer"
+          },
+          "Iso6708ObjectDn40": {
+            "description": "Iso6708ObjectDn40",
+            "type": "integer"
+          },
+          "Iso6708ObjectDn400": {
+            "description": "Iso6708ObjectDn400",
+            "type": "integer"
+          },
+          "Iso6708ObjectDn450": {
+            "description": "Iso6708ObjectDn450",
+            "type": "integer"
+          },
+          "Iso6708ObjectDn50": {
+            "description": "Iso6708ObjectDn50",
+            "type": "integer"
+          },
+          "Iso6708ObjectDn500": {
+            "description": "Iso6708ObjectDn500",
+            "type": "integer"
+          },
+          "Iso6708ObjectDn600": {
+            "description": "Iso6708ObjectDn600",
+            "type": "integer"
+          },
+          "Iso6708ObjectDn65": {
+            "description": "Iso6708ObjectDn65",
+            "type": "integer"
+          },
+          "Iso6708ObjectDn700": {
+            "description": "Iso6708ObjectDn700",
+            "type": "integer"
+          },
+          "Iso6708ObjectDn80": {
+            "description": "Iso6708ObjectDn80",
+            "type": "integer"
+          },
+          "Iso6708ObjectDn800": {
+            "description": "Iso6708ObjectDn800",
+            "type": "integer"
+          },
+          "Iso6708ObjectDn900": {
+            "description": "Iso6708ObjectDn900",
+            "type": "integer"
+          },
+          "Nps1_2Artefact": {
+            "description": "Nps1/2Artefact",
+            "type": "integer"
+          },
+          "Nps1_4Artefact": {
+            "description": "Nps1/4Artefact",
+            "type": "integer"
+          },
+          "Nps10Artefact": {
+            "description": "Nps10Artefact",
+            "type": "integer"
+          },
+          "Nps12Artefact": {
+            "description": "Nps12Artefact",
+            "type": "integer"
+          },
+          "Nps14Artefact": {
+            "description": "Nps14Artefact",
+            "type": "integer"
+          },
+          "Nps16Artefact": {
+            "description": "Nps16Artefact",
+            "type": "integer"
+          },
+          "Nps18Artefact": {
+            "description": "Nps18Artefact",
+            "type": "integer"
+          },
+          "Nps1Artefact": {
+            "description": "Nps1Artefact",
+            "type": "integer"
+          },
+          "Nps1_1_2Artefact": {
+            "description": "Nps1_1/2Artefact",
+            "type": "integer"
+          },
+          "Nps1_1_4Artefact": {
+            "description": "Nps1_1/4Artefact",
+            "type": "integer"
+          },
+          "Nps20Artefact": {
+            "description": "Nps20Artefact",
+            "type": "integer"
+          },
+          "Nps24Artefact": {
+            "description": "Nps24Artefact",
+            "type": "integer"
+          },
+          "Nps2Artefact": {
+            "description": "Nps2Artefact",
+            "type": "integer"
+          },
+          "Nps2_1_2Artefact": {
+            "description": "Nps2_1/2Artefact",
+            "type": "integer"
+          },
+          "Nps3_4Artefact": {
+            "description": "Nps3/4Artefact",
+            "type": "integer"
+          },
+          "Nps30Artefact": {
+            "description": "Nps30Artefact",
+            "type": "integer"
+          },
+          "Nps36Artefact": {
+            "description": "Nps36Artefact",
+            "type": "integer"
+          },
+          "Nps3Artefact": {
+            "description": "Nps3Artefact",
+            "type": "integer"
+          },
+          "Nps3_1_2Artefact": {
+            "description": "Nps3_1/2Artefact",
+            "type": "integer"
+          },
+          "Nps42Artefact": {
+            "description": "Nps42Artefact",
+            "type": "integer"
+          },
+          "Nps48Artefact": {
+            "description": "Nps48Artefact",
+            "type": "integer"
+          },
+          "Nps4Artefact": {
+            "description": "Nps4Artefact",
+            "type": "integer"
+          },
+          "Nps54Artefact": {
+            "description": "Nps54Artefact",
+            "type": "integer"
+          },
+          "Nps5Artefact": {
+            "description": "Nps5Artefact",
+            "type": "integer"
+          },
+          "Nps60Artefact": {
+            "description": "Nps60Artefact",
+            "type": "integer"
+          },
+          "Nps6Artefact": {
+            "description": "Nps6Artefact",
+            "type": "integer"
+          },
+          "Nps8Artefact": {
+            "description": "Nps8Artefact",
+            "type": "integer"
+          }
+        }
+      },
+      "NominalPressureStandardClassification": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.DEXPI.NominalPressureStandardClassification",
+        "const": {
+          "Class10000PsiArtefact": 0,
+          "Class1000KpaArtefact": 1,
+          "Class125LbsArtefact": 2,
+          "Class15000PsiArtefact": 3,
+          "Class1500LbsArtefact": 4,
+          "Class150LbsArtefact": 5,
+          "Class16BarArtefact": 6,
+          "Class20000PsiArtefact": 7,
+          "Class2000PsiArtefact": 8,
+          "Class2500LbsArtefact": 9,
+          "Class250PsiArtefact": 10,
+          "Class3000PsiArtefact": 11,
+          "Class300LbsArtefact": 12,
+          "Class300PsiArtefact": 13,
+          "Class315BarArtefact": 14,
+          "Class345BarArtefact": 15,
+          "Class350BarArtefact": 16,
+          "Class4000PsiArtefact": 17,
+          "Class400LbsArtefact": 18,
+          "Class4500LbsArtefact": 19,
+          "Class4500PsiArtefact": 20,
+          "Class5000PsiArtefact": 21,
+          "Class50BarArtefact": 22,
+          "Class517BarArtefact": 23,
+          "Class6000PsiArtefact": 24,
+          "Class600LbsArtefact": 25,
+          "Class690BarArtefact": 26,
+          "Class800LbsArtefact": 27,
+          "Class800PsiArtefact": 28,
+          "Class850KpaArtefact": 29,
+          "Class9000LbsArtefact": 30,
+          "Class900LbsArtefact": 31,
+          "En1333Pn100Artefact": 32,
+          "En1333Pn10Artefact": 33,
+          "En1333Pn160Artefact": 34,
+          "En1333Pn16Artefact": 35,
+          "En1333Pn2_5Artefact": 36,
+          "En1333Pn250Artefact": 37,
+          "En1333Pn25Artefact": 38,
+          "En1333Pn320Artefact": 39,
+          "En1333Pn400Artefact": 40,
+          "En1333Pn40Artefact": 41,
+          "En1333Pn63Artefact": 42,
+          "En1333Pn6Artefact": 43
+        },
+        "description": "",
+        "properties": {
+          "Class10000PsiArtefact": {
+            "description": "Class10000PsiArtefact",
+            "type": "integer"
+          },
+          "Class1000KpaArtefact": {
+            "description": "Class1000KpaArtefact",
+            "type": "integer"
+          },
+          "Class125LbsArtefact": {
+            "description": "Class125LbsArtefact",
+            "type": "integer"
+          },
+          "Class15000PsiArtefact": {
+            "description": "Class15000PsiArtefact",
+            "type": "integer"
+          },
+          "Class1500LbsArtefact": {
+            "description": "Class1500LbsArtefact",
+            "type": "integer"
+          },
+          "Class150LbsArtefact": {
+            "description": "Class150LbsArtefact",
+            "type": "integer"
+          },
+          "Class16BarArtefact": {
+            "description": "Class16BarArtefact",
+            "type": "integer"
+          },
+          "Class20000PsiArtefact": {
+            "description": "Class20000PsiArtefact",
+            "type": "integer"
+          },
+          "Class2000PsiArtefact": {
+            "description": "Class2000PsiArtefact",
+            "type": "integer"
+          },
+          "Class2500LbsArtefact": {
+            "description": "Class2500LbsArtefact",
+            "type": "integer"
+          },
+          "Class250PsiArtefact": {
+            "description": "Class250PsiArtefact",
+            "type": "integer"
+          },
+          "Class3000PsiArtefact": {
+            "description": "Class3000PsiArtefact",
+            "type": "integer"
+          },
+          "Class300LbsArtefact": {
+            "description": "Class300LbsArtefact",
+            "type": "integer"
+          },
+          "Class300PsiArtefact": {
+            "description": "Class300PsiArtefact",
+            "type": "integer"
+          },
+          "Class315BarArtefact": {
+            "description": "Class315BarArtefact",
+            "type": "integer"
+          },
+          "Class345BarArtefact": {
+            "description": "Class345BarArtefact",
+            "type": "integer"
+          },
+          "Class350BarArtefact": {
+            "description": "Class350BarArtefact",
+            "type": "integer"
+          },
+          "Class4000PsiArtefact": {
+            "description": "Class4000PsiArtefact",
+            "type": "integer"
+          },
+          "Class400LbsArtefact": {
+            "description": "Class400LbsArtefact",
+            "type": "integer"
+          },
+          "Class4500LbsArtefact": {
+            "description": "Class4500LbsArtefact",
+            "type": "integer"
+          },
+          "Class4500PsiArtefact": {
+            "description": "Class4500PsiArtefact",
+            "type": "integer"
+          },
+          "Class5000PsiArtefact": {
+            "description": "Class5000PsiArtefact",
+            "type": "integer"
+          },
+          "Class50BarArtefact": {
+            "description": "Class50BarArtefact",
+            "type": "integer"
+          },
+          "Class517BarArtefact": {
+            "description": "Class517BarArtefact",
+            "type": "integer"
+          },
+          "Class6000PsiArtefact": {
+            "description": "Class6000PsiArtefact",
+            "type": "integer"
+          },
+          "Class600LbsArtefact": {
+            "description": "Class600LbsArtefact",
+            "type": "integer"
+          },
+          "Class690BarArtefact": {
+            "description": "Class690BarArtefact",
+            "type": "integer"
+          },
+          "Class800LbsArtefact": {
+            "description": "Class800LbsArtefact",
+            "type": "integer"
+          },
+          "Class800PsiArtefact": {
+            "description": "Class800PsiArtefact",
+            "type": "integer"
+          },
+          "Class850KpaArtefact": {
+            "description": "Class850KpaArtefact",
+            "type": "integer"
+          },
+          "Class9000LbsArtefact": {
+            "description": "Class9000LbsArtefact",
+            "type": "integer"
+          },
+          "Class900LbsArtefact": {
+            "description": "Class900LbsArtefact",
+            "type": "integer"
+          },
+          "En1333Pn100Artefact": {
+            "description": "En1333Pn100Artefact",
+            "type": "integer"
+          },
+          "En1333Pn10Artefact": {
+            "description": "En1333Pn10Artefact",
+            "type": "integer"
+          },
+          "En1333Pn160Artefact": {
+            "description": "En1333Pn160Artefact",
+            "type": "integer"
+          },
+          "En1333Pn16Artefact": {
+            "description": "En1333Pn16Artefact",
+            "type": "integer"
+          },
+          "En1333Pn2_5Artefact": {
+            "description": "En1333Pn2,5Artefact",
+            "type": "integer"
+          },
+          "En1333Pn250Artefact": {
+            "description": "En1333Pn250Artefact",
+            "type": "integer"
+          },
+          "En1333Pn25Artefact": {
+            "description": "En1333Pn25Artefact",
+            "type": "integer"
+          },
+          "En1333Pn320Artefact": {
+            "description": "En1333Pn320Artefact",
+            "type": "integer"
+          },
+          "En1333Pn400Artefact": {
+            "description": "En1333Pn400Artefact",
+            "type": "integer"
+          },
+          "En1333Pn40Artefact": {
+            "description": "En1333Pn40Artefact",
+            "type": "integer"
+          },
+          "En1333Pn63Artefact": {
+            "description": "En1333Pn63Artefact",
+            "type": "integer"
+          },
+          "En1333Pn6Artefact": {
+            "description": "En1333Pn6Artefact",
+            "type": "integer"
+          }
+        }
+      },
+      "NumberOfPortsClassification": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.DEXPI.NumberOfPortsClassification",
+        "const": {
+          "FourPortValve": 0,
+          "ThreePortValve": 1,
+          "TwoPortValve": 2
+        },
+        "description": "",
+        "properties": {
+          "FourPortValve": {
+            "description": "FourPortValve",
+            "type": "integer"
+          },
+          "ThreePortValve": {
+            "description": "ThreePortValve",
+            "type": "integer"
+          },
+          "TwoPortValve": {
+            "description": "TwoPortValve",
+            "type": "integer"
+          }
+        }
+      },
+      "OnHoldClassification": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.DEXPI.OnHoldClassification",
+        "const": {
+          "NotOnHold": 0,
+          "OnHold": 1
+        },
+        "description": "",
+        "properties": {
+          "NotOnHold": {
+            "description": "NotOnHold",
+            "type": "integer"
+          },
+          "OnHold": {
+            "description": "OnHold",
+            "type": "integer"
+          }
+        }
+      },
+      "OperationClassification": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.DEXPI.OperationClassification",
+        "const": {
+          "ContinuousOperation": 0,
+          "IntermittentOperation": 1
+        },
+        "description": "",
+        "properties": {
+          "ContinuousOperation": {
+            "description": "ContinuousOperation",
+            "type": "integer"
+          },
+          "IntermittentOperation": {
+            "description": "IntermittentOperation",
+            "type": "integer"
+          }
+        }
+      },
+      "PipingClassArtefactClassification": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.DEXPI.PipingClassArtefactClassification",
+        "const": {
+          "NonPipingClassArtefact": 0,
+          "PipingClassArtefact": 1
+        },
+        "description": "",
+        "properties": {
+          "NonPipingClassArtefact": {
+            "description": "NonPipingClassArtefact",
+            "type": "integer"
+          },
+          "PipingClassArtefact": {
+            "description": "PipingClassArtefact",
+            "type": "integer"
+          }
+        }
+      },
+      "PipingClassBreakClassification": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.DEXPI.PipingClassBreakClassification",
+        "const": {
+          "NoPipingClassBreak": 0,
+          "PipingClassBreak": 1
+        },
+        "description": "",
+        "properties": {
+          "NoPipingClassBreak": {
+            "description": "NoPipingClassBreak",
+            "type": "integer"
+          },
+          "PipingClassBreak": {
+            "description": "PipingClassBreak",
+            "type": "integer"
+          }
+        }
+      },
+      "PipingNetworkSegmentFlowClassification": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.DEXPI.PipingNetworkSegmentFlowClassification",
+        "const": {
+          "DualFlowPipingNetworkSegment": 0,
+          "SingleFlowPipingNetworkSegment": 1
+        },
+        "description": "",
+        "properties": {
+          "DualFlowPipingNetworkSegment": {
+            "description": "DualFlowPipingNetworkSegment",
+            "type": "integer"
+          },
+          "SingleFlowPipingNetworkSegment": {
+            "description": "SingleFlowPipingNetworkSegment",
+            "type": "integer"
+          }
+        }
+      },
+      "PipingNetworkSegmentSlopeClassification": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.DEXPI.PipingNetworkSegmentSlopeClassification",
+        "const": {
+          "SlopedPipingNetworkSegment": 0,
+          "UnslopedPipingNetworkSegment": 1
+        },
+        "description": "",
+        "properties": {
+          "SlopedPipingNetworkSegment": {
+            "description": "SlopedPipingNetworkSegment",
+            "type": "integer"
+          },
+          "UnslopedPipingNetworkSegment": {
+            "description": "UnslopedPipingNetworkSegment",
+            "type": "integer"
+          }
+        }
+      },
+      "PortStatusClassification": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.DEXPI.PortStatusClassification",
+        "const": {
+          "StatusHighHighHighPort": 0,
+          "StatusHighHighPort": 1,
+          "StatusHighPort": 2,
+          "StatusLowLowLowPort": 3,
+          "StatusLowLowPort": 4,
+          "StatusLowPort": 5
+        },
+        "description": "",
+        "properties": {
+          "StatusHighHighHighPort": {
+            "description": "StatusHighHighHighPort",
+            "type": "integer"
+          },
+          "StatusHighHighPort": {
+            "description": "StatusHighHighPort",
+            "type": "integer"
+          },
+          "StatusHighPort": {
+            "description": "StatusHighPort",
+            "type": "integer"
+          },
+          "StatusLowLowLowPort": {
+            "description": "StatusLowLowLowPort",
+            "type": "integer"
+          },
+          "StatusLowLowPort": {
+            "description": "StatusLowLowPort",
+            "type": "integer"
+          },
+          "StatusLowPort": {
+            "description": "StatusLowPort",
+            "type": "integer"
+          }
+        }
+      },
+      "PrimarySecondaryPipingNetworkSegmentClassification": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.DEXPI.PrimarySecondaryPipingNetworkSegmentClassification",
+        "const": {
+          "PrimaryPipingNetworkSegment": 0,
+          "SecondaryPipingNetworkSegment": 1
+        },
+        "description": "",
+        "properties": {
+          "PrimaryPipingNetworkSegment": {
+            "description": "PrimaryPipingNetworkSegment",
+            "type": "integer"
+          },
+          "SecondaryPipingNetworkSegment": {
+            "description": "SecondaryPipingNetworkSegment",
+            "type": "integer"
+          }
+        }
+      },
+      "QualityRelevanceClassification": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.DEXPI.QualityRelevanceClassification",
+        "const": {
+          "NonQualityRelevantFunction": 0,
+          "QualityRelevantFunction": 1
+        },
+        "description": "",
+        "properties": {
+          "NonQualityRelevantFunction": {
+            "description": "NonQualityRelevantFunction",
+            "type": "integer"
+          },
+          "QualityRelevantFunction": {
+            "description": "QualityRelevantFunction",
+            "type": "integer"
+          }
+        }
+      },
+      "SignalConveyingTypeClassification": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.DEXPI.SignalConveyingTypeClassification",
+        "const": {
+          "CapillarySignalConveying": 0,
+          "ConductedRadiationSignalConveying": 1,
+          "ElectricalSignalConveying": 2,
+          "HydraulicSignalConveying": 3,
+          "PneumaticSignalConveying": 4
+        },
+        "description": "",
+        "properties": {
+          "CapillarySignalConveying": {
+            "description": "CapillarySignalConveying",
+            "type": "integer"
+          },
+          "ConductedRadiationSignalConveying": {
+            "description": "ConductedRadiationSignalConveying",
+            "type": "integer"
+          },
+          "ElectricalSignalConveying": {
+            "description": "ElectricalSignalConveying",
+            "type": "integer"
+          },
+          "HydraulicSignalConveying": {
+            "description": "HydraulicSignalConveying",
+            "type": "integer"
+          },
+          "PneumaticSignalConveying": {
+            "description": "PneumaticSignalConveying",
+            "type": "integer"
+          }
+        }
+      },
+      "SiphonClassification": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.DEXPI.SiphonClassification",
+        "const": {
+          "NoSiphon": 0,
+          "Siphon": 1
+        },
+        "description": "",
+        "properties": {
+          "NoSiphon": {
+            "description": "NoSiphon",
+            "type": "integer"
+          },
+          "Siphon": {
+            "description": "Siphon",
+            "type": "integer"
+          }
+        }
+      }
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
   }
 ]

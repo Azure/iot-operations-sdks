@@ -1203,8 +1203,22 @@
           "description": "Iinformation about an active error in a device including the SoureNodes and a Classification",
           "type": "object",
           "dov:typeRef": "org.opcfoundation.UA.PlasticsRubber.GeneralTypes.ClassifiedActiveErrorDataType",
-          "required": [ "SourceNodes", "Classification" ],
+          "required": [ "Id", "Severity", "Message", "SourceNodes", "Classification" ],
           "properties": {
+            "Id": {
+              "description": "Unique identifier defined by manufacturer",
+              "type": "string"
+            },
+            "Severity": {
+              "description": "Severity as defined in the BaseEventType (1 = low – 1000 = high)",
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 65535
+            },
+            "Message": {
+              "description": "Message giving information about the error",
+              "type": "string"
+            },
             "SourceNodes": {
               "description": "NodeIds of the Nodes which cause the error",
               "type": "array",
@@ -1362,8 +1376,22 @@
             "description": "Iinformation about an active error in a device including the SoureNodes and a Classification",
             "type": "object",
             "dov:typeRef": "org.opcfoundation.UA.PlasticsRubber.GeneralTypes.ClassifiedActiveErrorDataType",
-            "required": [ "SourceNodes", "Classification" ],
+            "required": [ "Id", "Severity", "Message", "SourceNodes", "Classification" ],
             "properties": {
+              "Id": {
+                "description": "Unique identifier defined by manufacturer",
+                "type": "string"
+              },
+              "Severity": {
+                "description": "Severity as defined in the BaseEventType (1 = low – 1000 = high)",
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 65535
+              },
+              "Message": {
+                "description": "Message giving information about the error",
+                "type": "string"
+              },
               "SourceNodes": {
                 "description": "NodeIds of the Nodes which cause the error",
                 "type": "array",
@@ -1799,6 +1827,141 @@
           }
         ]
       }
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dov": "http://azure.com/DigitalOperations/vocab#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "PlasticsRubber_HotRunner_DataTypes",
+    "links": [
+    ],
+    "schemaDefinitions": {
+      "ControllerTypeEnumeration": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.PlasticsRubber.HotRunner.ControllerTypeEnumeration",
+        "const": {
+          "CLOSED_LOOP_CONTROL": 0,
+          "MANUAL": 1,
+          "SYNCHRONOUS_ZONE": 2,
+          "CASCADE": 3,
+          "COOL_ZONE": 4,
+          "MEASURING_ZONE": 5,
+          "NOT_USED": 6
+        },
+        "properties": {
+          "CLOSED_LOOP_CONTROL": {
+            "type": "integer"
+          },
+          "MANUAL": {
+            "type": "integer"
+          },
+          "SYNCHRONOUS_ZONE": {
+            "type": "integer"
+          },
+          "CASCADE": {
+            "type": "integer"
+          },
+          "COOL_ZONE": {
+            "type": "integer"
+          },
+          "MEASURING_ZONE": {
+            "type": "integer"
+          },
+          "NOT_USED": {
+            "type": "integer"
+          }
+        }
+      },
+      "TimeMethodPIDParametersDataType": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.PlasticsRubber.HotRunner.TimeMethodPIDParametersDataType",
+        "required": [ "Xp", "Tn", "Tv", "Ts" ],
+        "properties": {
+          "Xp": {
+            "description": "proportional band",
+            "type": "number",
+            "minimum": -1.80e+308,
+            "maximum": 1.80e+308
+          },
+          "Tn": {
+            "description": "reset time",
+            "type": "number",
+            "minimum": -1.80e+308,
+            "maximum": 1.80e+308
+          },
+          "Tv": {
+            "description": "derivative time",
+            "type": "number",
+            "minimum": -1.80e+308,
+            "maximum": 1.80e+308
+          },
+          "Ts": {
+            "description": "sample time",
+            "type": "number",
+            "minimum": -1.80e+308,
+            "maximum": 1.80e+308
+          }
+        }
+      },
+      "ZoneStatusEnumeration": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.PlasticsRubber.HotRunner.ZoneStatusEnumeration",
+        "const": {
+          "OTHER": 0,
+          "GOOD": 1,
+          "SENSOR_FAULT": 2,
+          "TEMPERATURE_SENSOR_BROKEN": 3,
+          "TEMPERATURE_SENSOR_REVERSED": 4,
+          "POWER_UNIT_FAILED": 5,
+          "HEATING_OUTPUT_TO_LOW": 6,
+          "ERROR": 7,
+          "WARNING": 8,
+          "LEAKAGE_DETECTED": 9
+        },
+        "properties": {
+          "OTHER": {
+            "type": "integer"
+          },
+          "GOOD": {
+            "type": "integer"
+          },
+          "SENSOR_FAULT": {
+            "type": "integer"
+          },
+          "TEMPERATURE_SENSOR_BROKEN": {
+            "type": "integer"
+          },
+          "TEMPERATURE_SENSOR_REVERSED": {
+            "type": "integer"
+          },
+          "POWER_UNIT_FAILED": {
+            "type": "integer"
+          },
+          "HEATING_OUTPUT_TO_LOW": {
+            "type": "integer"
+          },
+          "ERROR": {
+            "type": "integer"
+          },
+          "WARNING": {
+            "type": "integer"
+          },
+          "LEAKAGE_DETECTED": {
+            "type": "integer"
+          }
+        }
+      }
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
     }
   }
 ]

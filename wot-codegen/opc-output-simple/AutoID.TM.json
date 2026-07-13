@@ -226,6 +226,61 @@
           "type": "object",
           "dov:typeRef": "org.opcfoundation.UA.AutoID.RfidAccessResult",
           "properties": {
+            "CodeType": {
+              "description": "Defines the format of Identifier as string.",
+              "type": "string"
+            },
+            "Identifier": {
+              "title": "ScanData",
+              "description": "The AutoID Identifier (e.g. a code or a transponder) which was accessed by a command.",
+              "type": "object",
+              "dov:typeRef": "org.opcfoundation.UA.AutoID.ScanData",
+              "properties": {
+                "ByteString": {
+                  "type": "string",
+                  "contentEncoding": "base64"
+                },
+                "String": {
+                  "type": "string"
+                },
+                "Epc": {
+                  "title": "ScanDataEpc",
+                  "type": "object",
+                  "dov:typeRef": "org.opcfoundation.UA.AutoID.ScanDataEpc",
+                  "required": [ "PC", "UId", "XPC_W1", "XPC_W2" ],
+                  "properties": {
+                    "PC": {
+                      "type": "integer",
+                      "minimum": 0,
+                      "maximum": 65535
+                    },
+                    "UId": {
+                      "type": "string",
+                      "contentEncoding": "base64"
+                    },
+                    "XPC_W1": {
+                      "type": "integer",
+                      "minimum": 0,
+                      "maximum": 65535
+                    },
+                    "XPC_W2": {
+                      "type": "integer",
+                      "minimum": 0,
+                      "maximum": 65535
+                    }
+                  }
+                },
+                "Custom": {
+                  "description": "Stand-in for an unspecified data type.",
+                  "type": "string"
+                }
+              }
+            },
+            "Timestamp": {
+              "description": "The point of time the AutoID Identifier was accessed by the command.",
+              "type": "string",
+              "format": "time"
+            },
             "CodeTypeRWData": {
               "description": "Defines the format of RWData as string.",
               "type": "string"
@@ -655,8 +710,165 @@
           "title": "OcrScanResult",
           "type": "object",
           "dov:typeRef": "org.opcfoundation.UA.AutoID.OcrScanResult",
-          "required": [ "ImageId", "Quality", "Position" ],
+          "required": [ "CodeType", "ScanData", "Timestamp", "ImageId", "Quality", "Position" ],
           "properties": {
+            "CodeType": {
+              "description": "Defines the format of the ScanData as string.",
+              "type": "string"
+            },
+            "ScanData": {
+              "title": "ScanData",
+              "description": "Holds the information about the detected objects e.g. the detected transponders.",
+              "type": "object",
+              "dov:typeRef": "org.opcfoundation.UA.AutoID.ScanData",
+              "properties": {
+                "ByteString": {
+                  "type": "string",
+                  "contentEncoding": "base64"
+                },
+                "String": {
+                  "type": "string"
+                },
+                "Epc": {
+                  "title": "ScanDataEpc",
+                  "type": "object",
+                  "dov:typeRef": "org.opcfoundation.UA.AutoID.ScanDataEpc",
+                  "required": [ "PC", "UId", "XPC_W1", "XPC_W2" ],
+                  "properties": {
+                    "PC": {
+                      "type": "integer",
+                      "minimum": 0,
+                      "maximum": 65535
+                    },
+                    "UId": {
+                      "type": "string",
+                      "contentEncoding": "base64"
+                    },
+                    "XPC_W1": {
+                      "type": "integer",
+                      "minimum": 0,
+                      "maximum": 65535
+                    },
+                    "XPC_W2": {
+                      "type": "integer",
+                      "minimum": 0,
+                      "maximum": 65535
+                    }
+                  }
+                },
+                "Custom": {
+                  "description": "Stand-in for an unspecified data type.",
+                  "type": "string"
+                }
+              }
+            },
+            "Timestamp": {
+              "description": "Timestamp of the ScanResult creation.",
+              "type": "string",
+              "format": "time"
+            },
+            "Location": {
+              "title": "Location",
+              "description": "Returns the location of the object detection.",
+              "type": "object",
+              "dov:typeRef": "org.opcfoundation.UA.AutoID.Location",
+              "properties": {
+                "NMEA": {
+                  "type": "string"
+                },
+                "Local": {
+                  "title": "LocalCoordinate",
+                  "type": "object",
+                  "dov:typeRef": "org.opcfoundation.UA.AutoID.LocalCoordinate",
+                  "required": [ "X", "Y", "Z", "Timestamp", "DilutionOfPrecision", "UsefulPrecision" ],
+                  "properties": {
+                    "X": {
+                      "type": "number",
+                      "minimum": -1.80e+308,
+                      "maximum": 1.80e+308
+                    },
+                    "Y": {
+                      "type": "number",
+                      "minimum": -1.80e+308,
+                      "maximum": 1.80e+308
+                    },
+                    "Z": {
+                      "type": "number",
+                      "minimum": -1.80e+308,
+                      "maximum": 1.80e+308
+                    },
+                    "Timestamp": {
+                      "description": "Optional",
+                      "type": "string",
+                      "format": "time"
+                    },
+                    "DilutionOfPrecision": {
+                      "description": "Optional",
+                      "type": "number",
+                      "minimum": -1.80e+308,
+                      "maximum": 1.80e+308
+                    },
+                    "UsefulPrecision": {
+                      "description": "Optional",
+                      "type": "integer",
+                      "minimum": -2147483648,
+                      "maximum": 2147483647
+                    }
+                  }
+                },
+                "WGS84": {
+                  "title": "WGS84Coordinate",
+                  "type": "object",
+                  "dov:typeRef": "org.opcfoundation.UA.AutoID.WGS84Coordinate",
+                  "required": [ "N/S Hemisphere", "Latitude", "E/W Hemisphere", "Longitude", "Altitude", "Timestamp", "DilutionOfPrecision", "UsefulPrecisionLatLon", "UsefulPrecisionAlt" ],
+                  "properties": {
+                    "N/S Hemisphere": {
+                      "type": "string"
+                    },
+                    "Latitude": {
+                      "type": "number",
+                      "minimum": -1.80e+308,
+                      "maximum": 1.80e+308
+                    },
+                    "E/W Hemisphere": {
+                      "type": "string"
+                    },
+                    "Longitude": {
+                      "type": "number",
+                      "minimum": -1.80e+308,
+                      "maximum": 1.80e+308
+                    },
+                    "Altitude": {
+                      "type": "number",
+                      "minimum": -1.80e+308,
+                      "maximum": 1.80e+308
+                    },
+                    "Timestamp": {
+                      "type": "string",
+                      "format": "time"
+                    },
+                    "DilutionOfPrecision": {
+                      "type": "number",
+                      "minimum": -1.80e+308,
+                      "maximum": 1.80e+308
+                    },
+                    "UsefulPrecisionLatLon": {
+                      "type": "integer",
+                      "minimum": -2147483648,
+                      "maximum": 2147483647
+                    },
+                    "UsefulPrecisionAlt": {
+                      "type": "integer",
+                      "minimum": -2147483648,
+                      "maximum": 2147483647
+                    }
+                  }
+                },
+                "Name": {
+                  "type": "string"
+                }
+              }
+            },
             "ImageId": {
               "description": "NodeId of the original scan image file object used for this scan result.",
               "type": "string"
@@ -762,7 +974,165 @@
           "title": "OpticalScanResult",
           "type": "object",
           "dov:typeRef": "org.opcfoundation.UA.AutoID.OpticalScanResult",
+          "required": [ "CodeType", "ScanData", "Timestamp" ],
           "properties": {
+            "CodeType": {
+              "description": "Defines the format of the ScanData as string.",
+              "type": "string"
+            },
+            "ScanData": {
+              "title": "ScanData",
+              "description": "Holds the information about the detected objects e.g. the detected transponders.",
+              "type": "object",
+              "dov:typeRef": "org.opcfoundation.UA.AutoID.ScanData",
+              "properties": {
+                "ByteString": {
+                  "type": "string",
+                  "contentEncoding": "base64"
+                },
+                "String": {
+                  "type": "string"
+                },
+                "Epc": {
+                  "title": "ScanDataEpc",
+                  "type": "object",
+                  "dov:typeRef": "org.opcfoundation.UA.AutoID.ScanDataEpc",
+                  "required": [ "PC", "UId", "XPC_W1", "XPC_W2" ],
+                  "properties": {
+                    "PC": {
+                      "type": "integer",
+                      "minimum": 0,
+                      "maximum": 65535
+                    },
+                    "UId": {
+                      "type": "string",
+                      "contentEncoding": "base64"
+                    },
+                    "XPC_W1": {
+                      "type": "integer",
+                      "minimum": 0,
+                      "maximum": 65535
+                    },
+                    "XPC_W2": {
+                      "type": "integer",
+                      "minimum": 0,
+                      "maximum": 65535
+                    }
+                  }
+                },
+                "Custom": {
+                  "description": "Stand-in for an unspecified data type.",
+                  "type": "string"
+                }
+              }
+            },
+            "Timestamp": {
+              "description": "Timestamp of the ScanResult creation.",
+              "type": "string",
+              "format": "time"
+            },
+            "Location": {
+              "title": "Location",
+              "description": "Returns the location of the object detection.",
+              "type": "object",
+              "dov:typeRef": "org.opcfoundation.UA.AutoID.Location",
+              "properties": {
+                "NMEA": {
+                  "type": "string"
+                },
+                "Local": {
+                  "title": "LocalCoordinate",
+                  "type": "object",
+                  "dov:typeRef": "org.opcfoundation.UA.AutoID.LocalCoordinate",
+                  "required": [ "X", "Y", "Z", "Timestamp", "DilutionOfPrecision", "UsefulPrecision" ],
+                  "properties": {
+                    "X": {
+                      "type": "number",
+                      "minimum": -1.80e+308,
+                      "maximum": 1.80e+308
+                    },
+                    "Y": {
+                      "type": "number",
+                      "minimum": -1.80e+308,
+                      "maximum": 1.80e+308
+                    },
+                    "Z": {
+                      "type": "number",
+                      "minimum": -1.80e+308,
+                      "maximum": 1.80e+308
+                    },
+                    "Timestamp": {
+                      "description": "Optional",
+                      "type": "string",
+                      "format": "time"
+                    },
+                    "DilutionOfPrecision": {
+                      "description": "Optional",
+                      "type": "number",
+                      "minimum": -1.80e+308,
+                      "maximum": 1.80e+308
+                    },
+                    "UsefulPrecision": {
+                      "description": "Optional",
+                      "type": "integer",
+                      "minimum": -2147483648,
+                      "maximum": 2147483647
+                    }
+                  }
+                },
+                "WGS84": {
+                  "title": "WGS84Coordinate",
+                  "type": "object",
+                  "dov:typeRef": "org.opcfoundation.UA.AutoID.WGS84Coordinate",
+                  "required": [ "N/S Hemisphere", "Latitude", "E/W Hemisphere", "Longitude", "Altitude", "Timestamp", "DilutionOfPrecision", "UsefulPrecisionLatLon", "UsefulPrecisionAlt" ],
+                  "properties": {
+                    "N/S Hemisphere": {
+                      "type": "string"
+                    },
+                    "Latitude": {
+                      "type": "number",
+                      "minimum": -1.80e+308,
+                      "maximum": 1.80e+308
+                    },
+                    "E/W Hemisphere": {
+                      "type": "string"
+                    },
+                    "Longitude": {
+                      "type": "number",
+                      "minimum": -1.80e+308,
+                      "maximum": 1.80e+308
+                    },
+                    "Altitude": {
+                      "type": "number",
+                      "minimum": -1.80e+308,
+                      "maximum": 1.80e+308
+                    },
+                    "Timestamp": {
+                      "type": "string",
+                      "format": "time"
+                    },
+                    "DilutionOfPrecision": {
+                      "type": "number",
+                      "minimum": -1.80e+308,
+                      "maximum": 1.80e+308
+                    },
+                    "UsefulPrecisionLatLon": {
+                      "type": "integer",
+                      "minimum": -2147483648,
+                      "maximum": 2147483647
+                    },
+                    "UsefulPrecisionAlt": {
+                      "type": "integer",
+                      "minimum": -2147483648,
+                      "maximum": 2147483647
+                    }
+                  }
+                },
+                "Name": {
+                  "type": "string"
+                }
+              }
+            },
             "Grade": {
               "description": "Returns the quality of the 1D/2D code.",
               "type": "number",
@@ -861,8 +1231,211 @@
           "title": "OpticalVerifierScanResult",
           "type": "object",
           "dov:typeRef": "org.opcfoundation.UA.AutoID.OpticalVerifierScanResult",
-          "required": [ "IsoGrade", "RMin", "SymbolContrast", "ECMin", "Modulation", "Defects", "Decodability", "Decode", "PrintGain" ],
+          "required": [ "CodeType", "ScanData", "Timestamp", "IsoGrade", "RMin", "SymbolContrast", "ECMin", "Modulation", "Defects", "Decodability", "Decode", "PrintGain" ],
           "properties": {
+            "CodeType": {
+              "description": "Defines the format of the ScanData as string.",
+              "type": "string"
+            },
+            "ScanData": {
+              "title": "ScanData",
+              "description": "Holds the information about the detected objects e.g. the detected transponders.",
+              "type": "object",
+              "dov:typeRef": "org.opcfoundation.UA.AutoID.ScanData",
+              "properties": {
+                "ByteString": {
+                  "type": "string",
+                  "contentEncoding": "base64"
+                },
+                "String": {
+                  "type": "string"
+                },
+                "Epc": {
+                  "title": "ScanDataEpc",
+                  "type": "object",
+                  "dov:typeRef": "org.opcfoundation.UA.AutoID.ScanDataEpc",
+                  "required": [ "PC", "UId", "XPC_W1", "XPC_W2" ],
+                  "properties": {
+                    "PC": {
+                      "type": "integer",
+                      "minimum": 0,
+                      "maximum": 65535
+                    },
+                    "UId": {
+                      "type": "string",
+                      "contentEncoding": "base64"
+                    },
+                    "XPC_W1": {
+                      "type": "integer",
+                      "minimum": 0,
+                      "maximum": 65535
+                    },
+                    "XPC_W2": {
+                      "type": "integer",
+                      "minimum": 0,
+                      "maximum": 65535
+                    }
+                  }
+                },
+                "Custom": {
+                  "description": "Stand-in for an unspecified data type.",
+                  "type": "string"
+                }
+              }
+            },
+            "Timestamp": {
+              "description": "Timestamp of the ScanResult creation.",
+              "type": "string",
+              "format": "time"
+            },
+            "Location": {
+              "title": "Location",
+              "description": "Returns the location of the object detection.",
+              "type": "object",
+              "dov:typeRef": "org.opcfoundation.UA.AutoID.Location",
+              "properties": {
+                "NMEA": {
+                  "type": "string"
+                },
+                "Local": {
+                  "title": "LocalCoordinate",
+                  "type": "object",
+                  "dov:typeRef": "org.opcfoundation.UA.AutoID.LocalCoordinate",
+                  "required": [ "X", "Y", "Z", "Timestamp", "DilutionOfPrecision", "UsefulPrecision" ],
+                  "properties": {
+                    "X": {
+                      "type": "number",
+                      "minimum": -1.80e+308,
+                      "maximum": 1.80e+308
+                    },
+                    "Y": {
+                      "type": "number",
+                      "minimum": -1.80e+308,
+                      "maximum": 1.80e+308
+                    },
+                    "Z": {
+                      "type": "number",
+                      "minimum": -1.80e+308,
+                      "maximum": 1.80e+308
+                    },
+                    "Timestamp": {
+                      "description": "Optional",
+                      "type": "string",
+                      "format": "time"
+                    },
+                    "DilutionOfPrecision": {
+                      "description": "Optional",
+                      "type": "number",
+                      "minimum": -1.80e+308,
+                      "maximum": 1.80e+308
+                    },
+                    "UsefulPrecision": {
+                      "description": "Optional",
+                      "type": "integer",
+                      "minimum": -2147483648,
+                      "maximum": 2147483647
+                    }
+                  }
+                },
+                "WGS84": {
+                  "title": "WGS84Coordinate",
+                  "type": "object",
+                  "dov:typeRef": "org.opcfoundation.UA.AutoID.WGS84Coordinate",
+                  "required": [ "N/S Hemisphere", "Latitude", "E/W Hemisphere", "Longitude", "Altitude", "Timestamp", "DilutionOfPrecision", "UsefulPrecisionLatLon", "UsefulPrecisionAlt" ],
+                  "properties": {
+                    "N/S Hemisphere": {
+                      "type": "string"
+                    },
+                    "Latitude": {
+                      "type": "number",
+                      "minimum": -1.80e+308,
+                      "maximum": 1.80e+308
+                    },
+                    "E/W Hemisphere": {
+                      "type": "string"
+                    },
+                    "Longitude": {
+                      "type": "number",
+                      "minimum": -1.80e+308,
+                      "maximum": 1.80e+308
+                    },
+                    "Altitude": {
+                      "type": "number",
+                      "minimum": -1.80e+308,
+                      "maximum": 1.80e+308
+                    },
+                    "Timestamp": {
+                      "type": "string",
+                      "format": "time"
+                    },
+                    "DilutionOfPrecision": {
+                      "type": "number",
+                      "minimum": -1.80e+308,
+                      "maximum": 1.80e+308
+                    },
+                    "UsefulPrecisionLatLon": {
+                      "type": "integer",
+                      "minimum": -2147483648,
+                      "maximum": 2147483647
+                    },
+                    "UsefulPrecisionAlt": {
+                      "type": "integer",
+                      "minimum": -2147483648,
+                      "maximum": 2147483647
+                    }
+                  }
+                },
+                "Name": {
+                  "type": "string"
+                }
+              }
+            },
+            "Grade": {
+              "description": "Returns the quality of the 1D/2D code.",
+              "type": "number",
+              "minimum": -3.40e+38,
+              "maximum": 3.40e+38
+            },
+            "Position": {
+              "title": "Position",
+              "description": "Returns the position of the text within the image.",
+              "type": "object",
+              "dov:typeRef": "org.opcfoundation.UA.AutoID.Position",
+              "required": [ "PositionX", "PositionY", "SizeX", "SizeY", "Rotation" ],
+              "properties": {
+                "PositionX": {
+                  "type": "integer",
+                  "minimum": -2147483648,
+                  "maximum": 2147483647
+                },
+                "PositionY": {
+                  "type": "integer",
+                  "minimum": -2147483648,
+                  "maximum": 2147483647
+                },
+                "SizeX": {
+                  "type": "integer",
+                  "minimum": -2147483648,
+                  "maximum": 2147483647
+                },
+                "SizeY": {
+                  "type": "integer",
+                  "minimum": -2147483648,
+                  "maximum": 2147483647
+                },
+                "Rotation": {
+                  "type": "integer",
+                  "minimum": -2147483648,
+                  "maximum": 2147483647
+                }
+              }
+            },
+            "Symbology": {
+              "type": "string"
+            },
+            "ImageId": {
+              "type": "string"
+            },
             "IsoGrade": {
               "type": "string"
             },
@@ -958,8 +1531,165 @@
           "title": "RfidScanResult",
           "type": "object",
           "dov:typeRef": "org.opcfoundation.UA.AutoID.RfidScanResult",
-          "required": [ "Sighting" ],
+          "required": [ "CodeType", "ScanData", "Timestamp", "Sighting" ],
           "properties": {
+            "CodeType": {
+              "description": "Defines the format of the ScanData as string.",
+              "type": "string"
+            },
+            "ScanData": {
+              "title": "ScanData",
+              "description": "Holds the information about the detected objects e.g. the detected transponders.",
+              "type": "object",
+              "dov:typeRef": "org.opcfoundation.UA.AutoID.ScanData",
+              "properties": {
+                "ByteString": {
+                  "type": "string",
+                  "contentEncoding": "base64"
+                },
+                "String": {
+                  "type": "string"
+                },
+                "Epc": {
+                  "title": "ScanDataEpc",
+                  "type": "object",
+                  "dov:typeRef": "org.opcfoundation.UA.AutoID.ScanDataEpc",
+                  "required": [ "PC", "UId", "XPC_W1", "XPC_W2" ],
+                  "properties": {
+                    "PC": {
+                      "type": "integer",
+                      "minimum": 0,
+                      "maximum": 65535
+                    },
+                    "UId": {
+                      "type": "string",
+                      "contentEncoding": "base64"
+                    },
+                    "XPC_W1": {
+                      "type": "integer",
+                      "minimum": 0,
+                      "maximum": 65535
+                    },
+                    "XPC_W2": {
+                      "type": "integer",
+                      "minimum": 0,
+                      "maximum": 65535
+                    }
+                  }
+                },
+                "Custom": {
+                  "description": "Stand-in for an unspecified data type.",
+                  "type": "string"
+                }
+              }
+            },
+            "Timestamp": {
+              "description": "Timestamp of the ScanResult creation.",
+              "type": "string",
+              "format": "time"
+            },
+            "Location": {
+              "title": "Location",
+              "description": "Returns the location of the object detection.",
+              "type": "object",
+              "dov:typeRef": "org.opcfoundation.UA.AutoID.Location",
+              "properties": {
+                "NMEA": {
+                  "type": "string"
+                },
+                "Local": {
+                  "title": "LocalCoordinate",
+                  "type": "object",
+                  "dov:typeRef": "org.opcfoundation.UA.AutoID.LocalCoordinate",
+                  "required": [ "X", "Y", "Z", "Timestamp", "DilutionOfPrecision", "UsefulPrecision" ],
+                  "properties": {
+                    "X": {
+                      "type": "number",
+                      "minimum": -1.80e+308,
+                      "maximum": 1.80e+308
+                    },
+                    "Y": {
+                      "type": "number",
+                      "minimum": -1.80e+308,
+                      "maximum": 1.80e+308
+                    },
+                    "Z": {
+                      "type": "number",
+                      "minimum": -1.80e+308,
+                      "maximum": 1.80e+308
+                    },
+                    "Timestamp": {
+                      "description": "Optional",
+                      "type": "string",
+                      "format": "time"
+                    },
+                    "DilutionOfPrecision": {
+                      "description": "Optional",
+                      "type": "number",
+                      "minimum": -1.80e+308,
+                      "maximum": 1.80e+308
+                    },
+                    "UsefulPrecision": {
+                      "description": "Optional",
+                      "type": "integer",
+                      "minimum": -2147483648,
+                      "maximum": 2147483647
+                    }
+                  }
+                },
+                "WGS84": {
+                  "title": "WGS84Coordinate",
+                  "type": "object",
+                  "dov:typeRef": "org.opcfoundation.UA.AutoID.WGS84Coordinate",
+                  "required": [ "N/S Hemisphere", "Latitude", "E/W Hemisphere", "Longitude", "Altitude", "Timestamp", "DilutionOfPrecision", "UsefulPrecisionLatLon", "UsefulPrecisionAlt" ],
+                  "properties": {
+                    "N/S Hemisphere": {
+                      "type": "string"
+                    },
+                    "Latitude": {
+                      "type": "number",
+                      "minimum": -1.80e+308,
+                      "maximum": 1.80e+308
+                    },
+                    "E/W Hemisphere": {
+                      "type": "string"
+                    },
+                    "Longitude": {
+                      "type": "number",
+                      "minimum": -1.80e+308,
+                      "maximum": 1.80e+308
+                    },
+                    "Altitude": {
+                      "type": "number",
+                      "minimum": -1.80e+308,
+                      "maximum": 1.80e+308
+                    },
+                    "Timestamp": {
+                      "type": "string",
+                      "format": "time"
+                    },
+                    "DilutionOfPrecision": {
+                      "type": "number",
+                      "minimum": -1.80e+308,
+                      "maximum": 1.80e+308
+                    },
+                    "UsefulPrecisionLatLon": {
+                      "type": "integer",
+                      "minimum": -2147483648,
+                      "maximum": 2147483647
+                    },
+                    "UsefulPrecisionAlt": {
+                      "type": "integer",
+                      "minimum": -2147483648,
+                      "maximum": 2147483647
+                    }
+                  }
+                },
+                "Name": {
+                  "type": "string"
+                }
+              }
+            },
             "Sighting": {
               "description": "Returns additional information on the RFID-related properties of the scan event.",
               "type": "array",
@@ -1047,8 +1777,165 @@
           "title": "RtlsLocationResult",
           "type": "object",
           "dov:typeRef": "org.opcfoundation.UA.AutoID.RtlsLocationResult",
-          "required": [ "Speed", "Heading", "Rotation", "ReceiveTime" ],
+          "required": [ "CodeType", "ScanData", "Timestamp", "Speed", "Heading", "Rotation", "ReceiveTime" ],
           "properties": {
+            "CodeType": {
+              "description": "Defines the format of the ScanData as string.",
+              "type": "string"
+            },
+            "ScanData": {
+              "title": "ScanData",
+              "description": "Holds the information about the detected objects e.g. the detected transponders.",
+              "type": "object",
+              "dov:typeRef": "org.opcfoundation.UA.AutoID.ScanData",
+              "properties": {
+                "ByteString": {
+                  "type": "string",
+                  "contentEncoding": "base64"
+                },
+                "String": {
+                  "type": "string"
+                },
+                "Epc": {
+                  "title": "ScanDataEpc",
+                  "type": "object",
+                  "dov:typeRef": "org.opcfoundation.UA.AutoID.ScanDataEpc",
+                  "required": [ "PC", "UId", "XPC_W1", "XPC_W2" ],
+                  "properties": {
+                    "PC": {
+                      "type": "integer",
+                      "minimum": 0,
+                      "maximum": 65535
+                    },
+                    "UId": {
+                      "type": "string",
+                      "contentEncoding": "base64"
+                    },
+                    "XPC_W1": {
+                      "type": "integer",
+                      "minimum": 0,
+                      "maximum": 65535
+                    },
+                    "XPC_W2": {
+                      "type": "integer",
+                      "minimum": 0,
+                      "maximum": 65535
+                    }
+                  }
+                },
+                "Custom": {
+                  "description": "Stand-in for an unspecified data type.",
+                  "type": "string"
+                }
+              }
+            },
+            "Timestamp": {
+              "description": "Timestamp of the ScanResult creation.",
+              "type": "string",
+              "format": "time"
+            },
+            "Location": {
+              "title": "Location",
+              "description": "Returns the location of the object detection.",
+              "type": "object",
+              "dov:typeRef": "org.opcfoundation.UA.AutoID.Location",
+              "properties": {
+                "NMEA": {
+                  "type": "string"
+                },
+                "Local": {
+                  "title": "LocalCoordinate",
+                  "type": "object",
+                  "dov:typeRef": "org.opcfoundation.UA.AutoID.LocalCoordinate",
+                  "required": [ "X", "Y", "Z", "Timestamp", "DilutionOfPrecision", "UsefulPrecision" ],
+                  "properties": {
+                    "X": {
+                      "type": "number",
+                      "minimum": -1.80e+308,
+                      "maximum": 1.80e+308
+                    },
+                    "Y": {
+                      "type": "number",
+                      "minimum": -1.80e+308,
+                      "maximum": 1.80e+308
+                    },
+                    "Z": {
+                      "type": "number",
+                      "minimum": -1.80e+308,
+                      "maximum": 1.80e+308
+                    },
+                    "Timestamp": {
+                      "description": "Optional",
+                      "type": "string",
+                      "format": "time"
+                    },
+                    "DilutionOfPrecision": {
+                      "description": "Optional",
+                      "type": "number",
+                      "minimum": -1.80e+308,
+                      "maximum": 1.80e+308
+                    },
+                    "UsefulPrecision": {
+                      "description": "Optional",
+                      "type": "integer",
+                      "minimum": -2147483648,
+                      "maximum": 2147483647
+                    }
+                  }
+                },
+                "WGS84": {
+                  "title": "WGS84Coordinate",
+                  "type": "object",
+                  "dov:typeRef": "org.opcfoundation.UA.AutoID.WGS84Coordinate",
+                  "required": [ "N/S Hemisphere", "Latitude", "E/W Hemisphere", "Longitude", "Altitude", "Timestamp", "DilutionOfPrecision", "UsefulPrecisionLatLon", "UsefulPrecisionAlt" ],
+                  "properties": {
+                    "N/S Hemisphere": {
+                      "type": "string"
+                    },
+                    "Latitude": {
+                      "type": "number",
+                      "minimum": -1.80e+308,
+                      "maximum": 1.80e+308
+                    },
+                    "E/W Hemisphere": {
+                      "type": "string"
+                    },
+                    "Longitude": {
+                      "type": "number",
+                      "minimum": -1.80e+308,
+                      "maximum": 1.80e+308
+                    },
+                    "Altitude": {
+                      "type": "number",
+                      "minimum": -1.80e+308,
+                      "maximum": 1.80e+308
+                    },
+                    "Timestamp": {
+                      "type": "string",
+                      "format": "time"
+                    },
+                    "DilutionOfPrecision": {
+                      "type": "number",
+                      "minimum": -1.80e+308,
+                      "maximum": 1.80e+308
+                    },
+                    "UsefulPrecisionLatLon": {
+                      "type": "integer",
+                      "minimum": -2147483648,
+                      "maximum": 2147483647
+                    },
+                    "UsefulPrecisionAlt": {
+                      "type": "integer",
+                      "minimum": -2147483648,
+                      "maximum": 2147483647
+                    }
+                  }
+                },
+                "Name": {
+                  "type": "string"
+                }
+              }
+            },
             "Speed": {
               "type": "number",
               "minimum": -1.80e+308,
@@ -2426,8 +3313,165 @@
                 "title": "OcrScanResult",
                 "type": "object",
                 "dov:typeRef": "org.opcfoundation.UA.AutoID.OcrScanResult",
-                "required": [ "ImageId", "Quality", "Position" ],
+                "required": [ "CodeType", "ScanData", "Timestamp", "ImageId", "Quality", "Position" ],
                 "properties": {
+                  "CodeType": {
+                    "description": "Defines the format of the ScanData as string.",
+                    "type": "string"
+                  },
+                  "ScanData": {
+                    "title": "ScanData",
+                    "description": "Holds the information about the detected objects e.g. the detected transponders.",
+                    "type": "object",
+                    "dov:typeRef": "org.opcfoundation.UA.AutoID.ScanData",
+                    "properties": {
+                      "ByteString": {
+                        "type": "string",
+                        "contentEncoding": "base64"
+                      },
+                      "String": {
+                        "type": "string"
+                      },
+                      "Epc": {
+                        "title": "ScanDataEpc",
+                        "type": "object",
+                        "dov:typeRef": "org.opcfoundation.UA.AutoID.ScanDataEpc",
+                        "required": [ "PC", "UId", "XPC_W1", "XPC_W2" ],
+                        "properties": {
+                          "PC": {
+                            "type": "integer",
+                            "minimum": 0,
+                            "maximum": 65535
+                          },
+                          "UId": {
+                            "type": "string",
+                            "contentEncoding": "base64"
+                          },
+                          "XPC_W1": {
+                            "type": "integer",
+                            "minimum": 0,
+                            "maximum": 65535
+                          },
+                          "XPC_W2": {
+                            "type": "integer",
+                            "minimum": 0,
+                            "maximum": 65535
+                          }
+                        }
+                      },
+                      "Custom": {
+                        "description": "Stand-in for an unspecified data type.",
+                        "type": "string"
+                      }
+                    }
+                  },
+                  "Timestamp": {
+                    "description": "Timestamp of the ScanResult creation.",
+                    "type": "string",
+                    "format": "time"
+                  },
+                  "Location": {
+                    "title": "Location",
+                    "description": "Returns the location of the object detection.",
+                    "type": "object",
+                    "dov:typeRef": "org.opcfoundation.UA.AutoID.Location",
+                    "properties": {
+                      "NMEA": {
+                        "type": "string"
+                      },
+                      "Local": {
+                        "title": "LocalCoordinate",
+                        "type": "object",
+                        "dov:typeRef": "org.opcfoundation.UA.AutoID.LocalCoordinate",
+                        "required": [ "X", "Y", "Z", "Timestamp", "DilutionOfPrecision", "UsefulPrecision" ],
+                        "properties": {
+                          "X": {
+                            "type": "number",
+                            "minimum": -1.80e+308,
+                            "maximum": 1.80e+308
+                          },
+                          "Y": {
+                            "type": "number",
+                            "minimum": -1.80e+308,
+                            "maximum": 1.80e+308
+                          },
+                          "Z": {
+                            "type": "number",
+                            "minimum": -1.80e+308,
+                            "maximum": 1.80e+308
+                          },
+                          "Timestamp": {
+                            "description": "Optional",
+                            "type": "string",
+                            "format": "time"
+                          },
+                          "DilutionOfPrecision": {
+                            "description": "Optional",
+                            "type": "number",
+                            "minimum": -1.80e+308,
+                            "maximum": 1.80e+308
+                          },
+                          "UsefulPrecision": {
+                            "description": "Optional",
+                            "type": "integer",
+                            "minimum": -2147483648,
+                            "maximum": 2147483647
+                          }
+                        }
+                      },
+                      "WGS84": {
+                        "title": "WGS84Coordinate",
+                        "type": "object",
+                        "dov:typeRef": "org.opcfoundation.UA.AutoID.WGS84Coordinate",
+                        "required": [ "N/S Hemisphere", "Latitude", "E/W Hemisphere", "Longitude", "Altitude", "Timestamp", "DilutionOfPrecision", "UsefulPrecisionLatLon", "UsefulPrecisionAlt" ],
+                        "properties": {
+                          "N/S Hemisphere": {
+                            "type": "string"
+                          },
+                          "Latitude": {
+                            "type": "number",
+                            "minimum": -1.80e+308,
+                            "maximum": 1.80e+308
+                          },
+                          "E/W Hemisphere": {
+                            "type": "string"
+                          },
+                          "Longitude": {
+                            "type": "number",
+                            "minimum": -1.80e+308,
+                            "maximum": 1.80e+308
+                          },
+                          "Altitude": {
+                            "type": "number",
+                            "minimum": -1.80e+308,
+                            "maximum": 1.80e+308
+                          },
+                          "Timestamp": {
+                            "type": "string",
+                            "format": "time"
+                          },
+                          "DilutionOfPrecision": {
+                            "type": "number",
+                            "minimum": -1.80e+308,
+                            "maximum": 1.80e+308
+                          },
+                          "UsefulPrecisionLatLon": {
+                            "type": "integer",
+                            "minimum": -2147483648,
+                            "maximum": 2147483647
+                          },
+                          "UsefulPrecisionAlt": {
+                            "type": "integer",
+                            "minimum": -2147483648,
+                            "maximum": 2147483647
+                          }
+                        }
+                      },
+                      "Name": {
+                        "type": "string"
+                      }
+                    }
+                  },
                   "ImageId": {
                     "description": "NodeId of the original scan image file object used for this scan result.",
                     "type": "string"
@@ -2732,7 +3776,165 @@
                 "title": "OpticalScanResult",
                 "type": "object",
                 "dov:typeRef": "org.opcfoundation.UA.AutoID.OpticalScanResult",
+                "required": [ "CodeType", "ScanData", "Timestamp" ],
                 "properties": {
+                  "CodeType": {
+                    "description": "Defines the format of the ScanData as string.",
+                    "type": "string"
+                  },
+                  "ScanData": {
+                    "title": "ScanData",
+                    "description": "Holds the information about the detected objects e.g. the detected transponders.",
+                    "type": "object",
+                    "dov:typeRef": "org.opcfoundation.UA.AutoID.ScanData",
+                    "properties": {
+                      "ByteString": {
+                        "type": "string",
+                        "contentEncoding": "base64"
+                      },
+                      "String": {
+                        "type": "string"
+                      },
+                      "Epc": {
+                        "title": "ScanDataEpc",
+                        "type": "object",
+                        "dov:typeRef": "org.opcfoundation.UA.AutoID.ScanDataEpc",
+                        "required": [ "PC", "UId", "XPC_W1", "XPC_W2" ],
+                        "properties": {
+                          "PC": {
+                            "type": "integer",
+                            "minimum": 0,
+                            "maximum": 65535
+                          },
+                          "UId": {
+                            "type": "string",
+                            "contentEncoding": "base64"
+                          },
+                          "XPC_W1": {
+                            "type": "integer",
+                            "minimum": 0,
+                            "maximum": 65535
+                          },
+                          "XPC_W2": {
+                            "type": "integer",
+                            "minimum": 0,
+                            "maximum": 65535
+                          }
+                        }
+                      },
+                      "Custom": {
+                        "description": "Stand-in for an unspecified data type.",
+                        "type": "string"
+                      }
+                    }
+                  },
+                  "Timestamp": {
+                    "description": "Timestamp of the ScanResult creation.",
+                    "type": "string",
+                    "format": "time"
+                  },
+                  "Location": {
+                    "title": "Location",
+                    "description": "Returns the location of the object detection.",
+                    "type": "object",
+                    "dov:typeRef": "org.opcfoundation.UA.AutoID.Location",
+                    "properties": {
+                      "NMEA": {
+                        "type": "string"
+                      },
+                      "Local": {
+                        "title": "LocalCoordinate",
+                        "type": "object",
+                        "dov:typeRef": "org.opcfoundation.UA.AutoID.LocalCoordinate",
+                        "required": [ "X", "Y", "Z", "Timestamp", "DilutionOfPrecision", "UsefulPrecision" ],
+                        "properties": {
+                          "X": {
+                            "type": "number",
+                            "minimum": -1.80e+308,
+                            "maximum": 1.80e+308
+                          },
+                          "Y": {
+                            "type": "number",
+                            "minimum": -1.80e+308,
+                            "maximum": 1.80e+308
+                          },
+                          "Z": {
+                            "type": "number",
+                            "minimum": -1.80e+308,
+                            "maximum": 1.80e+308
+                          },
+                          "Timestamp": {
+                            "description": "Optional",
+                            "type": "string",
+                            "format": "time"
+                          },
+                          "DilutionOfPrecision": {
+                            "description": "Optional",
+                            "type": "number",
+                            "minimum": -1.80e+308,
+                            "maximum": 1.80e+308
+                          },
+                          "UsefulPrecision": {
+                            "description": "Optional",
+                            "type": "integer",
+                            "minimum": -2147483648,
+                            "maximum": 2147483647
+                          }
+                        }
+                      },
+                      "WGS84": {
+                        "title": "WGS84Coordinate",
+                        "type": "object",
+                        "dov:typeRef": "org.opcfoundation.UA.AutoID.WGS84Coordinate",
+                        "required": [ "N/S Hemisphere", "Latitude", "E/W Hemisphere", "Longitude", "Altitude", "Timestamp", "DilutionOfPrecision", "UsefulPrecisionLatLon", "UsefulPrecisionAlt" ],
+                        "properties": {
+                          "N/S Hemisphere": {
+                            "type": "string"
+                          },
+                          "Latitude": {
+                            "type": "number",
+                            "minimum": -1.80e+308,
+                            "maximum": 1.80e+308
+                          },
+                          "E/W Hemisphere": {
+                            "type": "string"
+                          },
+                          "Longitude": {
+                            "type": "number",
+                            "minimum": -1.80e+308,
+                            "maximum": 1.80e+308
+                          },
+                          "Altitude": {
+                            "type": "number",
+                            "minimum": -1.80e+308,
+                            "maximum": 1.80e+308
+                          },
+                          "Timestamp": {
+                            "type": "string",
+                            "format": "time"
+                          },
+                          "DilutionOfPrecision": {
+                            "type": "number",
+                            "minimum": -1.80e+308,
+                            "maximum": 1.80e+308
+                          },
+                          "UsefulPrecisionLatLon": {
+                            "type": "integer",
+                            "minimum": -2147483648,
+                            "maximum": 2147483647
+                          },
+                          "UsefulPrecisionAlt": {
+                            "type": "integer",
+                            "minimum": -2147483648,
+                            "maximum": 2147483647
+                          }
+                        }
+                      },
+                      "Name": {
+                        "type": "string"
+                      }
+                    }
+                  },
                   "Grade": {
                     "description": "Returns the quality of the 1D/2D code.",
                     "type": "number",
@@ -3707,8 +4909,165 @@
                 "title": "RfidScanResult",
                 "type": "object",
                 "dov:typeRef": "org.opcfoundation.UA.AutoID.RfidScanResult",
-                "required": [ "Sighting" ],
+                "required": [ "CodeType", "ScanData", "Timestamp", "Sighting" ],
                 "properties": {
+                  "CodeType": {
+                    "description": "Defines the format of the ScanData as string.",
+                    "type": "string"
+                  },
+                  "ScanData": {
+                    "title": "ScanData",
+                    "description": "Holds the information about the detected objects e.g. the detected transponders.",
+                    "type": "object",
+                    "dov:typeRef": "org.opcfoundation.UA.AutoID.ScanData",
+                    "properties": {
+                      "ByteString": {
+                        "type": "string",
+                        "contentEncoding": "base64"
+                      },
+                      "String": {
+                        "type": "string"
+                      },
+                      "Epc": {
+                        "title": "ScanDataEpc",
+                        "type": "object",
+                        "dov:typeRef": "org.opcfoundation.UA.AutoID.ScanDataEpc",
+                        "required": [ "PC", "UId", "XPC_W1", "XPC_W2" ],
+                        "properties": {
+                          "PC": {
+                            "type": "integer",
+                            "minimum": 0,
+                            "maximum": 65535
+                          },
+                          "UId": {
+                            "type": "string",
+                            "contentEncoding": "base64"
+                          },
+                          "XPC_W1": {
+                            "type": "integer",
+                            "minimum": 0,
+                            "maximum": 65535
+                          },
+                          "XPC_W2": {
+                            "type": "integer",
+                            "minimum": 0,
+                            "maximum": 65535
+                          }
+                        }
+                      },
+                      "Custom": {
+                        "description": "Stand-in for an unspecified data type.",
+                        "type": "string"
+                      }
+                    }
+                  },
+                  "Timestamp": {
+                    "description": "Timestamp of the ScanResult creation.",
+                    "type": "string",
+                    "format": "time"
+                  },
+                  "Location": {
+                    "title": "Location",
+                    "description": "Returns the location of the object detection.",
+                    "type": "object",
+                    "dov:typeRef": "org.opcfoundation.UA.AutoID.Location",
+                    "properties": {
+                      "NMEA": {
+                        "type": "string"
+                      },
+                      "Local": {
+                        "title": "LocalCoordinate",
+                        "type": "object",
+                        "dov:typeRef": "org.opcfoundation.UA.AutoID.LocalCoordinate",
+                        "required": [ "X", "Y", "Z", "Timestamp", "DilutionOfPrecision", "UsefulPrecision" ],
+                        "properties": {
+                          "X": {
+                            "type": "number",
+                            "minimum": -1.80e+308,
+                            "maximum": 1.80e+308
+                          },
+                          "Y": {
+                            "type": "number",
+                            "minimum": -1.80e+308,
+                            "maximum": 1.80e+308
+                          },
+                          "Z": {
+                            "type": "number",
+                            "minimum": -1.80e+308,
+                            "maximum": 1.80e+308
+                          },
+                          "Timestamp": {
+                            "description": "Optional",
+                            "type": "string",
+                            "format": "time"
+                          },
+                          "DilutionOfPrecision": {
+                            "description": "Optional",
+                            "type": "number",
+                            "minimum": -1.80e+308,
+                            "maximum": 1.80e+308
+                          },
+                          "UsefulPrecision": {
+                            "description": "Optional",
+                            "type": "integer",
+                            "minimum": -2147483648,
+                            "maximum": 2147483647
+                          }
+                        }
+                      },
+                      "WGS84": {
+                        "title": "WGS84Coordinate",
+                        "type": "object",
+                        "dov:typeRef": "org.opcfoundation.UA.AutoID.WGS84Coordinate",
+                        "required": [ "N/S Hemisphere", "Latitude", "E/W Hemisphere", "Longitude", "Altitude", "Timestamp", "DilutionOfPrecision", "UsefulPrecisionLatLon", "UsefulPrecisionAlt" ],
+                        "properties": {
+                          "N/S Hemisphere": {
+                            "type": "string"
+                          },
+                          "Latitude": {
+                            "type": "number",
+                            "minimum": -1.80e+308,
+                            "maximum": 1.80e+308
+                          },
+                          "E/W Hemisphere": {
+                            "type": "string"
+                          },
+                          "Longitude": {
+                            "type": "number",
+                            "minimum": -1.80e+308,
+                            "maximum": 1.80e+308
+                          },
+                          "Altitude": {
+                            "type": "number",
+                            "minimum": -1.80e+308,
+                            "maximum": 1.80e+308
+                          },
+                          "Timestamp": {
+                            "type": "string",
+                            "format": "time"
+                          },
+                          "DilutionOfPrecision": {
+                            "type": "number",
+                            "minimum": -1.80e+308,
+                            "maximum": 1.80e+308
+                          },
+                          "UsefulPrecisionLatLon": {
+                            "type": "integer",
+                            "minimum": -2147483648,
+                            "maximum": 2147483647
+                          },
+                          "UsefulPrecisionAlt": {
+                            "type": "integer",
+                            "minimum": -2147483648,
+                            "maximum": 2147483647
+                          }
+                        }
+                      },
+                      "Name": {
+                        "type": "string"
+                      }
+                    }
+                  },
                   "Sighting": {
                     "description": "Returns additional information on the RFID-related properties of the scan event.",
                     "type": "array",
@@ -4415,8 +5774,165 @@
               "title": "RtlsLocationResult",
               "type": "object",
               "dov:typeRef": "org.opcfoundation.UA.AutoID.RtlsLocationResult",
-              "required": [ "Speed", "Heading", "Rotation", "ReceiveTime" ],
+              "required": [ "CodeType", "ScanData", "Timestamp", "Speed", "Heading", "Rotation", "ReceiveTime" ],
               "properties": {
+                "CodeType": {
+                  "description": "Defines the format of the ScanData as string.",
+                  "type": "string"
+                },
+                "ScanData": {
+                  "title": "ScanData",
+                  "description": "Holds the information about the detected objects e.g. the detected transponders.",
+                  "type": "object",
+                  "dov:typeRef": "org.opcfoundation.UA.AutoID.ScanData",
+                  "properties": {
+                    "ByteString": {
+                      "type": "string",
+                      "contentEncoding": "base64"
+                    },
+                    "String": {
+                      "type": "string"
+                    },
+                    "Epc": {
+                      "title": "ScanDataEpc",
+                      "type": "object",
+                      "dov:typeRef": "org.opcfoundation.UA.AutoID.ScanDataEpc",
+                      "required": [ "PC", "UId", "XPC_W1", "XPC_W2" ],
+                      "properties": {
+                        "PC": {
+                          "type": "integer",
+                          "minimum": 0,
+                          "maximum": 65535
+                        },
+                        "UId": {
+                          "type": "string",
+                          "contentEncoding": "base64"
+                        },
+                        "XPC_W1": {
+                          "type": "integer",
+                          "minimum": 0,
+                          "maximum": 65535
+                        },
+                        "XPC_W2": {
+                          "type": "integer",
+                          "minimum": 0,
+                          "maximum": 65535
+                        }
+                      }
+                    },
+                    "Custom": {
+                      "description": "Stand-in for an unspecified data type.",
+                      "type": "string"
+                    }
+                  }
+                },
+                "Timestamp": {
+                  "description": "Timestamp of the ScanResult creation.",
+                  "type": "string",
+                  "format": "time"
+                },
+                "Location": {
+                  "title": "Location",
+                  "description": "Returns the location of the object detection.",
+                  "type": "object",
+                  "dov:typeRef": "org.opcfoundation.UA.AutoID.Location",
+                  "properties": {
+                    "NMEA": {
+                      "type": "string"
+                    },
+                    "Local": {
+                      "title": "LocalCoordinate",
+                      "type": "object",
+                      "dov:typeRef": "org.opcfoundation.UA.AutoID.LocalCoordinate",
+                      "required": [ "X", "Y", "Z", "Timestamp", "DilutionOfPrecision", "UsefulPrecision" ],
+                      "properties": {
+                        "X": {
+                          "type": "number",
+                          "minimum": -1.80e+308,
+                          "maximum": 1.80e+308
+                        },
+                        "Y": {
+                          "type": "number",
+                          "minimum": -1.80e+308,
+                          "maximum": 1.80e+308
+                        },
+                        "Z": {
+                          "type": "number",
+                          "minimum": -1.80e+308,
+                          "maximum": 1.80e+308
+                        },
+                        "Timestamp": {
+                          "description": "Optional",
+                          "type": "string",
+                          "format": "time"
+                        },
+                        "DilutionOfPrecision": {
+                          "description": "Optional",
+                          "type": "number",
+                          "minimum": -1.80e+308,
+                          "maximum": 1.80e+308
+                        },
+                        "UsefulPrecision": {
+                          "description": "Optional",
+                          "type": "integer",
+                          "minimum": -2147483648,
+                          "maximum": 2147483647
+                        }
+                      }
+                    },
+                    "WGS84": {
+                      "title": "WGS84Coordinate",
+                      "type": "object",
+                      "dov:typeRef": "org.opcfoundation.UA.AutoID.WGS84Coordinate",
+                      "required": [ "N/S Hemisphere", "Latitude", "E/W Hemisphere", "Longitude", "Altitude", "Timestamp", "DilutionOfPrecision", "UsefulPrecisionLatLon", "UsefulPrecisionAlt" ],
+                      "properties": {
+                        "N/S Hemisphere": {
+                          "type": "string"
+                        },
+                        "Latitude": {
+                          "type": "number",
+                          "minimum": -1.80e+308,
+                          "maximum": 1.80e+308
+                        },
+                        "E/W Hemisphere": {
+                          "type": "string"
+                        },
+                        "Longitude": {
+                          "type": "number",
+                          "minimum": -1.80e+308,
+                          "maximum": 1.80e+308
+                        },
+                        "Altitude": {
+                          "type": "number",
+                          "minimum": -1.80e+308,
+                          "maximum": 1.80e+308
+                        },
+                        "Timestamp": {
+                          "type": "string",
+                          "format": "time"
+                        },
+                        "DilutionOfPrecision": {
+                          "type": "number",
+                          "minimum": -1.80e+308,
+                          "maximum": 1.80e+308
+                        },
+                        "UsefulPrecisionLatLon": {
+                          "type": "integer",
+                          "minimum": -2147483648,
+                          "maximum": 2147483647
+                        },
+                        "UsefulPrecisionAlt": {
+                          "type": "integer",
+                          "minimum": -2147483648,
+                          "maximum": 2147483647
+                        }
+                      }
+                    },
+                    "Name": {
+                      "type": "string"
+                    }
+                  }
+                },
                 "Speed": {
                   "type": "number",
                   "minimum": -1.80e+308,
@@ -4550,8 +6066,165 @@
                 "title": "RtlsLocationResult",
                 "type": "object",
                 "dov:typeRef": "org.opcfoundation.UA.AutoID.RtlsLocationResult",
-                "required": [ "Speed", "Heading", "Rotation", "ReceiveTime" ],
+                "required": [ "CodeType", "ScanData", "Timestamp", "Speed", "Heading", "Rotation", "ReceiveTime" ],
                 "properties": {
+                  "CodeType": {
+                    "description": "Defines the format of the ScanData as string.",
+                    "type": "string"
+                  },
+                  "ScanData": {
+                    "title": "ScanData",
+                    "description": "Holds the information about the detected objects e.g. the detected transponders.",
+                    "type": "object",
+                    "dov:typeRef": "org.opcfoundation.UA.AutoID.ScanData",
+                    "properties": {
+                      "ByteString": {
+                        "type": "string",
+                        "contentEncoding": "base64"
+                      },
+                      "String": {
+                        "type": "string"
+                      },
+                      "Epc": {
+                        "title": "ScanDataEpc",
+                        "type": "object",
+                        "dov:typeRef": "org.opcfoundation.UA.AutoID.ScanDataEpc",
+                        "required": [ "PC", "UId", "XPC_W1", "XPC_W2" ],
+                        "properties": {
+                          "PC": {
+                            "type": "integer",
+                            "minimum": 0,
+                            "maximum": 65535
+                          },
+                          "UId": {
+                            "type": "string",
+                            "contentEncoding": "base64"
+                          },
+                          "XPC_W1": {
+                            "type": "integer",
+                            "minimum": 0,
+                            "maximum": 65535
+                          },
+                          "XPC_W2": {
+                            "type": "integer",
+                            "minimum": 0,
+                            "maximum": 65535
+                          }
+                        }
+                      },
+                      "Custom": {
+                        "description": "Stand-in for an unspecified data type.",
+                        "type": "string"
+                      }
+                    }
+                  },
+                  "Timestamp": {
+                    "description": "Timestamp of the ScanResult creation.",
+                    "type": "string",
+                    "format": "time"
+                  },
+                  "Location": {
+                    "title": "Location",
+                    "description": "Returns the location of the object detection.",
+                    "type": "object",
+                    "dov:typeRef": "org.opcfoundation.UA.AutoID.Location",
+                    "properties": {
+                      "NMEA": {
+                        "type": "string"
+                      },
+                      "Local": {
+                        "title": "LocalCoordinate",
+                        "type": "object",
+                        "dov:typeRef": "org.opcfoundation.UA.AutoID.LocalCoordinate",
+                        "required": [ "X", "Y", "Z", "Timestamp", "DilutionOfPrecision", "UsefulPrecision" ],
+                        "properties": {
+                          "X": {
+                            "type": "number",
+                            "minimum": -1.80e+308,
+                            "maximum": 1.80e+308
+                          },
+                          "Y": {
+                            "type": "number",
+                            "minimum": -1.80e+308,
+                            "maximum": 1.80e+308
+                          },
+                          "Z": {
+                            "type": "number",
+                            "minimum": -1.80e+308,
+                            "maximum": 1.80e+308
+                          },
+                          "Timestamp": {
+                            "description": "Optional",
+                            "type": "string",
+                            "format": "time"
+                          },
+                          "DilutionOfPrecision": {
+                            "description": "Optional",
+                            "type": "number",
+                            "minimum": -1.80e+308,
+                            "maximum": 1.80e+308
+                          },
+                          "UsefulPrecision": {
+                            "description": "Optional",
+                            "type": "integer",
+                            "minimum": -2147483648,
+                            "maximum": 2147483647
+                          }
+                        }
+                      },
+                      "WGS84": {
+                        "title": "WGS84Coordinate",
+                        "type": "object",
+                        "dov:typeRef": "org.opcfoundation.UA.AutoID.WGS84Coordinate",
+                        "required": [ "N/S Hemisphere", "Latitude", "E/W Hemisphere", "Longitude", "Altitude", "Timestamp", "DilutionOfPrecision", "UsefulPrecisionLatLon", "UsefulPrecisionAlt" ],
+                        "properties": {
+                          "N/S Hemisphere": {
+                            "type": "string"
+                          },
+                          "Latitude": {
+                            "type": "number",
+                            "minimum": -1.80e+308,
+                            "maximum": 1.80e+308
+                          },
+                          "E/W Hemisphere": {
+                            "type": "string"
+                          },
+                          "Longitude": {
+                            "type": "number",
+                            "minimum": -1.80e+308,
+                            "maximum": 1.80e+308
+                          },
+                          "Altitude": {
+                            "type": "number",
+                            "minimum": -1.80e+308,
+                            "maximum": 1.80e+308
+                          },
+                          "Timestamp": {
+                            "type": "string",
+                            "format": "time"
+                          },
+                          "DilutionOfPrecision": {
+                            "type": "number",
+                            "minimum": -1.80e+308,
+                            "maximum": 1.80e+308
+                          },
+                          "UsefulPrecisionLatLon": {
+                            "type": "integer",
+                            "minimum": -2147483648,
+                            "maximum": 2147483647
+                          },
+                          "UsefulPrecisionAlt": {
+                            "type": "integer",
+                            "minimum": -2147483648,
+                            "maximum": 2147483647
+                          }
+                        }
+                      },
+                      "Name": {
+                        "type": "string"
+                      }
+                    }
+                  },
                   "Speed": {
                     "type": "number",
                     "minimum": -1.80e+308,
@@ -4755,6 +6428,2166 @@
           }
         ]
       }
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dov": "http://azure.com/DigitalOperations/vocab#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "AutoID_DataTypes",
+    "links": [
+    ],
+    "schemaDefinitions": {
+      "AccessResult": {
+        "description": "Result values of an AutoID Identifier access.",
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.AutoID.AccessResult",
+        "properties": {
+          "CodeType": {
+            "description": "Defines the format of Identifier as string.",
+            "type": "string"
+          },
+          "Identifier": {
+            "title": "ScanData",
+            "description": "The AutoID Identifier (e.g. a code or a transponder) which was accessed by a command.",
+            "type": "object",
+            "dov:typeRef": "org.opcfoundation.UA.AutoID.ScanData",
+            "properties": {
+              "ByteString": {
+                "type": "string",
+                "contentEncoding": "base64"
+              },
+              "String": {
+                "type": "string"
+              },
+              "Epc": {
+                "title": "ScanDataEpc",
+                "type": "object",
+                "dov:typeRef": "org.opcfoundation.UA.AutoID.ScanDataEpc",
+                "required": [ "PC", "UId", "XPC_W1", "XPC_W2" ],
+                "properties": {
+                  "PC": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 65535
+                  },
+                  "UId": {
+                    "type": "string",
+                    "contentEncoding": "base64"
+                  },
+                  "XPC_W1": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 65535
+                  },
+                  "XPC_W2": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 65535
+                  }
+                }
+              },
+              "Custom": {
+                "description": "Stand-in for an unspecified data type.",
+                "type": "string"
+              }
+            }
+          },
+          "Timestamp": {
+            "description": "The point of time the AutoID Identifier was accessed by the command.",
+            "type": "string",
+            "format": "time"
+          }
+        }
+      },
+      "AntennaNameIdPair": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.AutoID.AntennaNameIdPair",
+        "required": [ "AntennaId", "AntennaName" ],
+        "properties": {
+          "AntennaId": {
+            "type": "integer",
+            "minimum": -2147483648,
+            "maximum": 2147483647
+          },
+          "AntennaName": {
+            "type": "string"
+          }
+        }
+      },
+      "AutoIdOperationStatusEnumeration": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.AutoID.AutoIdOperationStatusEnumeration",
+        "const": {
+          "SUCCESS": 0,
+          "MISC_ERROR_TOTAL": 1,
+          "MISC_ERROR_PARTIAL": 2,
+          "PERMISSON_ERROR": 3,
+          "PASSWORD_ERROR": 4,
+          "REGION_NOT_FOUND_ERROR": 5,
+          "OP_NOT_POSSIBLE_ERROR": 6,
+          "OUT_OF_RANGE_ERROR": 7,
+          "NO_IDENTIFIER": 8,
+          "MULTIPLE_IDENTIFIERS": 9,
+          "READ_ERROR": 10,
+          "DECODING_ERROR": 11,
+          "MATCH_ERROR": 12,
+          "CODE_NOT_SUPPORTED": 13,
+          "WRITE_ERROR": 14,
+          "NOT_SUPPORTED_BY_DEVICE": 15,
+          "NOT_SUPPORTED_BY_TAG": 16,
+          "DEVICE_NOT_READY": 17,
+          "INVALID_CONFIGURATION": 18,
+          "RF_COMMUNICATION_ERROR": 19,
+          "DEVICE_FAULT": 20,
+          "TAG_HAS_LOW_BATTERY": 21
+        },
+        "properties": {
+          "SUCCESS": {
+            "description": "Successful operation",
+            "type": "integer"
+          },
+          "MISC_ERROR_TOTAL": {
+            "description": "The operation has not be executed in total.",
+            "type": "integer"
+          },
+          "MISC_ERROR_PARTIAL": {
+            "description": "The operation has been executed only partial.",
+            "type": "integer"
+          },
+          "PERMISSON_ERROR": {
+            "description": "Password required",
+            "type": "integer"
+          },
+          "PASSWORD_ERROR": {
+            "description": "Password is wrong.",
+            "type": "integer"
+          },
+          "REGION_NOT_FOUND_ERROR": {
+            "description": "Memory region not available for the actual tag.",
+            "type": "integer"
+          },
+          "OP_NOT_POSSIBLE_ERROR": {
+            "description": "Operation not supported by the actual tag.",
+            "type": "integer"
+          },
+          "OUT_OF_RANGE_ERROR": {
+            "description": "Addressed memory not available for the actual tag.",
+            "type": "integer"
+          },
+          "NO_IDENTIFIER": {
+            "description": "The operation cannot be executed because no tag or code was inside the range of the AutoID Device or the tag or code has been moved out of the range during execution.",
+            "type": "integer"
+          },
+          "MULTIPLE_IDENTIFIERS": {
+            "description": "Multiple tags or codes have been selected, but the command can only be used with a single tag or code.",
+            "type": "integer"
+          },
+          "READ_ERROR": {
+            "description": "The tag or code exists and has a valid format, but there was a problem reading the data (e.g. still CRC error after maximum number of retries).",
+            "type": "integer"
+          },
+          "DECODING_ERROR": {
+            "description": "The (optical) code or plain text has too many failures and cannot be detected.",
+            "type": "integer"
+          },
+          "MATCH_ERROR": {
+            "description": "The code doesn’t match the given target value.",
+            "type": "integer"
+          },
+          "CODE_NOT_SUPPORTED": {
+            "description": "The code format is not supported by the AutoID Device.",
+            "type": "integer"
+          },
+          "WRITE_ERROR": {
+            "description": "The tag exists, but there was a problem writing the data.",
+            "type": "integer"
+          },
+          "NOT_SUPPORTED_BY_DEVICE": {
+            "description": "The command or a parameter combination is not supported by the AutoID Device.",
+            "type": "integer"
+          },
+          "NOT_SUPPORTED_BY_TAG": {
+            "description": "The command or a parameter combination is not supported by the tag.",
+            "type": "integer"
+          },
+          "DEVICE_NOT_READY": {
+            "description": "The AutoID Device is in a state not ready to execute the command.",
+            "type": "integer"
+          },
+          "INVALID_CONFIGURATION": {
+            "description": "The AutoID Device configuration is not valid.",
+            "type": "integer"
+          },
+          "RF_COMMUNICATION_ERROR": {
+            "description": "This error indicates that there is a general error in the communication between the transponder and the reader.",
+            "type": "integer"
+          },
+          "DEVICE_FAULT": {
+            "description": "The AutoID Device has a hardware fault.",
+            "type": "integer"
+          },
+          "TAG_HAS_LOW_BATTERY": {
+            "description": "The battery of the (active) tag is low.",
+            "type": "integer"
+          }
+        }
+      },
+      "CodeTypeDataType": {
+        "type": "string"
+      },
+      "DeviceStatusEnumeration": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.AutoID.DeviceStatusEnumeration",
+        "const": {
+          "Idle": 0,
+          "Error": 1,
+          "Scanning": 2,
+          "Busy": 3
+        },
+        "properties": {
+          "Idle": {
+            "type": "integer"
+          },
+          "Error": {
+            "type": "integer"
+          },
+          "Scanning": {
+            "type": "integer"
+          },
+          "Busy": {
+            "type": "integer"
+          }
+        }
+      },
+      "DhcpGeoConfCoordinate": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.AutoID.DhcpGeoConfCoordinate",
+        "required": [ "LaRes", "LatitudeInteger", "LatitudeFraction", "LoRes", "LongitudeInteger", "LongitudeFraction", "AT", "AltRes", "AltitudeInteger", "AltitudeFraction", "Datum" ],
+        "properties": {
+          "LaRes": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 255
+          },
+          "LatitudeInteger": {
+            "type": "integer",
+            "minimum": -32768,
+            "maximum": 32767
+          },
+          "LatitudeFraction": {
+            "type": "integer",
+            "minimum": -2147483648,
+            "maximum": 2147483647
+          },
+          "LoRes": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 255
+          },
+          "LongitudeInteger": {
+            "type": "integer",
+            "minimum": -32768,
+            "maximum": 32767
+          },
+          "LongitudeFraction": {
+            "type": "integer",
+            "minimum": -2147483648,
+            "maximum": 2147483647
+          },
+          "AT": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 255
+          },
+          "AltRes": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 255
+          },
+          "AltitudeInteger": {
+            "type": "integer",
+            "minimum": -2147483648,
+            "maximum": 2147483647
+          },
+          "AltitudeFraction": {
+            "type": "integer",
+            "minimum": -32768,
+            "maximum": 32767
+          },
+          "Datum": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 255
+          }
+        }
+      },
+      "LocalCoordinate": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.AutoID.LocalCoordinate",
+        "required": [ "X", "Y", "Z", "Timestamp", "DilutionOfPrecision", "UsefulPrecision" ],
+        "properties": {
+          "X": {
+            "type": "number",
+            "minimum": -1.80e+308,
+            "maximum": 1.80e+308
+          },
+          "Y": {
+            "type": "number",
+            "minimum": -1.80e+308,
+            "maximum": 1.80e+308
+          },
+          "Z": {
+            "type": "number",
+            "minimum": -1.80e+308,
+            "maximum": 1.80e+308
+          },
+          "Timestamp": {
+            "description": "Optional",
+            "type": "string",
+            "format": "time"
+          },
+          "DilutionOfPrecision": {
+            "description": "Optional",
+            "type": "number",
+            "minimum": -1.80e+308,
+            "maximum": 1.80e+308
+          },
+          "UsefulPrecision": {
+            "description": "Optional",
+            "type": "integer",
+            "minimum": -2147483648,
+            "maximum": 2147483647
+          }
+        }
+      },
+      "Location": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.AutoID.Location",
+        "properties": {
+          "NMEA": {
+            "type": "string"
+          },
+          "Local": {
+            "title": "LocalCoordinate",
+            "type": "object",
+            "dov:typeRef": "org.opcfoundation.UA.AutoID.LocalCoordinate",
+            "required": [ "X", "Y", "Z", "Timestamp", "DilutionOfPrecision", "UsefulPrecision" ],
+            "properties": {
+              "X": {
+                "type": "number",
+                "minimum": -1.80e+308,
+                "maximum": 1.80e+308
+              },
+              "Y": {
+                "type": "number",
+                "minimum": -1.80e+308,
+                "maximum": 1.80e+308
+              },
+              "Z": {
+                "type": "number",
+                "minimum": -1.80e+308,
+                "maximum": 1.80e+308
+              },
+              "Timestamp": {
+                "description": "Optional",
+                "type": "string",
+                "format": "time"
+              },
+              "DilutionOfPrecision": {
+                "description": "Optional",
+                "type": "number",
+                "minimum": -1.80e+308,
+                "maximum": 1.80e+308
+              },
+              "UsefulPrecision": {
+                "description": "Optional",
+                "type": "integer",
+                "minimum": -2147483648,
+                "maximum": 2147483647
+              }
+            }
+          },
+          "WGS84": {
+            "title": "WGS84Coordinate",
+            "type": "object",
+            "dov:typeRef": "org.opcfoundation.UA.AutoID.WGS84Coordinate",
+            "required": [ "N/S Hemisphere", "Latitude", "E/W Hemisphere", "Longitude", "Altitude", "Timestamp", "DilutionOfPrecision", "UsefulPrecisionLatLon", "UsefulPrecisionAlt" ],
+            "properties": {
+              "N/S Hemisphere": {
+                "type": "string"
+              },
+              "Latitude": {
+                "type": "number",
+                "minimum": -1.80e+308,
+                "maximum": 1.80e+308
+              },
+              "E/W Hemisphere": {
+                "type": "string"
+              },
+              "Longitude": {
+                "type": "number",
+                "minimum": -1.80e+308,
+                "maximum": 1.80e+308
+              },
+              "Altitude": {
+                "type": "number",
+                "minimum": -1.80e+308,
+                "maximum": 1.80e+308
+              },
+              "Timestamp": {
+                "type": "string",
+                "format": "time"
+              },
+              "DilutionOfPrecision": {
+                "type": "number",
+                "minimum": -1.80e+308,
+                "maximum": 1.80e+308
+              },
+              "UsefulPrecisionLatLon": {
+                "type": "integer",
+                "minimum": -2147483648,
+                "maximum": 2147483647
+              },
+              "UsefulPrecisionAlt": {
+                "type": "integer",
+                "minimum": -2147483648,
+                "maximum": 2147483647
+              }
+            }
+          },
+          "Name": {
+            "type": "string"
+          }
+        }
+      },
+      "LocationName": {
+        "type": "string"
+      },
+      "LocationTypeEnumeration": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.AutoID.LocationTypeEnumeration",
+        "const": {
+          "NMEA": 0,
+          "LOCAL": 1,
+          "WGS84": 2,
+          "NAME": 3
+        },
+        "properties": {
+          "NMEA": {
+            "type": "integer"
+          },
+          "LOCAL": {
+            "type": "integer"
+          },
+          "WGS84": {
+            "type": "integer"
+          },
+          "NAME": {
+            "type": "integer"
+          }
+        }
+      },
+      "NmeaCoordinateString": {
+        "type": "string"
+      },
+      "OcrScanResult": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.AutoID.OcrScanResult",
+        "required": [ "CodeType", "ScanData", "Timestamp", "ImageId", "Quality", "Position" ],
+        "properties": {
+          "CodeType": {
+            "description": "Defines the format of the ScanData as string.",
+            "type": "string"
+          },
+          "ScanData": {
+            "title": "ScanData",
+            "description": "Holds the information about the detected objects e.g. the detected transponders.",
+            "type": "object",
+            "dov:typeRef": "org.opcfoundation.UA.AutoID.ScanData",
+            "properties": {
+              "ByteString": {
+                "type": "string",
+                "contentEncoding": "base64"
+              },
+              "String": {
+                "type": "string"
+              },
+              "Epc": {
+                "title": "ScanDataEpc",
+                "type": "object",
+                "dov:typeRef": "org.opcfoundation.UA.AutoID.ScanDataEpc",
+                "required": [ "PC", "UId", "XPC_W1", "XPC_W2" ],
+                "properties": {
+                  "PC": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 65535
+                  },
+                  "UId": {
+                    "type": "string",
+                    "contentEncoding": "base64"
+                  },
+                  "XPC_W1": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 65535
+                  },
+                  "XPC_W2": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 65535
+                  }
+                }
+              },
+              "Custom": {
+                "description": "Stand-in for an unspecified data type.",
+                "type": "string"
+              }
+            }
+          },
+          "Timestamp": {
+            "description": "Timestamp of the ScanResult creation.",
+            "type": "string",
+            "format": "time"
+          },
+          "Location": {
+            "title": "Location",
+            "description": "Returns the location of the object detection.",
+            "type": "object",
+            "dov:typeRef": "org.opcfoundation.UA.AutoID.Location",
+            "properties": {
+              "NMEA": {
+                "type": "string"
+              },
+              "Local": {
+                "title": "LocalCoordinate",
+                "type": "object",
+                "dov:typeRef": "org.opcfoundation.UA.AutoID.LocalCoordinate",
+                "required": [ "X", "Y", "Z", "Timestamp", "DilutionOfPrecision", "UsefulPrecision" ],
+                "properties": {
+                  "X": {
+                    "type": "number",
+                    "minimum": -1.80e+308,
+                    "maximum": 1.80e+308
+                  },
+                  "Y": {
+                    "type": "number",
+                    "minimum": -1.80e+308,
+                    "maximum": 1.80e+308
+                  },
+                  "Z": {
+                    "type": "number",
+                    "minimum": -1.80e+308,
+                    "maximum": 1.80e+308
+                  },
+                  "Timestamp": {
+                    "description": "Optional",
+                    "type": "string",
+                    "format": "time"
+                  },
+                  "DilutionOfPrecision": {
+                    "description": "Optional",
+                    "type": "number",
+                    "minimum": -1.80e+308,
+                    "maximum": 1.80e+308
+                  },
+                  "UsefulPrecision": {
+                    "description": "Optional",
+                    "type": "integer",
+                    "minimum": -2147483648,
+                    "maximum": 2147483647
+                  }
+                }
+              },
+              "WGS84": {
+                "title": "WGS84Coordinate",
+                "type": "object",
+                "dov:typeRef": "org.opcfoundation.UA.AutoID.WGS84Coordinate",
+                "required": [ "N/S Hemisphere", "Latitude", "E/W Hemisphere", "Longitude", "Altitude", "Timestamp", "DilutionOfPrecision", "UsefulPrecisionLatLon", "UsefulPrecisionAlt" ],
+                "properties": {
+                  "N/S Hemisphere": {
+                    "type": "string"
+                  },
+                  "Latitude": {
+                    "type": "number",
+                    "minimum": -1.80e+308,
+                    "maximum": 1.80e+308
+                  },
+                  "E/W Hemisphere": {
+                    "type": "string"
+                  },
+                  "Longitude": {
+                    "type": "number",
+                    "minimum": -1.80e+308,
+                    "maximum": 1.80e+308
+                  },
+                  "Altitude": {
+                    "type": "number",
+                    "minimum": -1.80e+308,
+                    "maximum": 1.80e+308
+                  },
+                  "Timestamp": {
+                    "type": "string",
+                    "format": "time"
+                  },
+                  "DilutionOfPrecision": {
+                    "type": "number",
+                    "minimum": -1.80e+308,
+                    "maximum": 1.80e+308
+                  },
+                  "UsefulPrecisionLatLon": {
+                    "type": "integer",
+                    "minimum": -2147483648,
+                    "maximum": 2147483647
+                  },
+                  "UsefulPrecisionAlt": {
+                    "type": "integer",
+                    "minimum": -2147483648,
+                    "maximum": 2147483647
+                  }
+                }
+              },
+              "Name": {
+                "type": "string"
+              }
+            }
+          },
+          "ImageId": {
+            "description": "NodeId of the original scan image file object used for this scan result.",
+            "type": "string"
+          },
+          "Quality": {
+            "description": "Returns the probability of correct decoding.",
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 255
+          },
+          "Position": {
+            "title": "Position",
+            "description": "Returns the position of the text within the image.",
+            "type": "object",
+            "dov:typeRef": "org.opcfoundation.UA.AutoID.Position",
+            "required": [ "PositionX", "PositionY", "SizeX", "SizeY", "Rotation" ],
+            "properties": {
+              "PositionX": {
+                "type": "integer",
+                "minimum": -2147483648,
+                "maximum": 2147483647
+              },
+              "PositionY": {
+                "type": "integer",
+                "minimum": -2147483648,
+                "maximum": 2147483647
+              },
+              "SizeX": {
+                "type": "integer",
+                "minimum": -2147483648,
+                "maximum": 2147483647
+              },
+              "SizeY": {
+                "type": "integer",
+                "minimum": -2147483648,
+                "maximum": 2147483647
+              },
+              "Rotation": {
+                "type": "integer",
+                "minimum": -2147483648,
+                "maximum": 2147483647
+              }
+            }
+          },
+          "Font": {
+            "description": "Returns the font name used for decoding.",
+            "type": "string"
+          },
+          "DecodingTime": {
+            "description": "Returns the required decoding time.",
+            "type": "string",
+            "format": "time"
+          }
+        }
+      },
+      "OpticalScanResult": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.AutoID.OpticalScanResult",
+        "required": [ "CodeType", "ScanData", "Timestamp" ],
+        "properties": {
+          "CodeType": {
+            "description": "Defines the format of the ScanData as string.",
+            "type": "string"
+          },
+          "ScanData": {
+            "title": "ScanData",
+            "description": "Holds the information about the detected objects e.g. the detected transponders.",
+            "type": "object",
+            "dov:typeRef": "org.opcfoundation.UA.AutoID.ScanData",
+            "properties": {
+              "ByteString": {
+                "type": "string",
+                "contentEncoding": "base64"
+              },
+              "String": {
+                "type": "string"
+              },
+              "Epc": {
+                "title": "ScanDataEpc",
+                "type": "object",
+                "dov:typeRef": "org.opcfoundation.UA.AutoID.ScanDataEpc",
+                "required": [ "PC", "UId", "XPC_W1", "XPC_W2" ],
+                "properties": {
+                  "PC": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 65535
+                  },
+                  "UId": {
+                    "type": "string",
+                    "contentEncoding": "base64"
+                  },
+                  "XPC_W1": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 65535
+                  },
+                  "XPC_W2": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 65535
+                  }
+                }
+              },
+              "Custom": {
+                "description": "Stand-in for an unspecified data type.",
+                "type": "string"
+              }
+            }
+          },
+          "Timestamp": {
+            "description": "Timestamp of the ScanResult creation.",
+            "type": "string",
+            "format": "time"
+          },
+          "Location": {
+            "title": "Location",
+            "description": "Returns the location of the object detection.",
+            "type": "object",
+            "dov:typeRef": "org.opcfoundation.UA.AutoID.Location",
+            "properties": {
+              "NMEA": {
+                "type": "string"
+              },
+              "Local": {
+                "title": "LocalCoordinate",
+                "type": "object",
+                "dov:typeRef": "org.opcfoundation.UA.AutoID.LocalCoordinate",
+                "required": [ "X", "Y", "Z", "Timestamp", "DilutionOfPrecision", "UsefulPrecision" ],
+                "properties": {
+                  "X": {
+                    "type": "number",
+                    "minimum": -1.80e+308,
+                    "maximum": 1.80e+308
+                  },
+                  "Y": {
+                    "type": "number",
+                    "minimum": -1.80e+308,
+                    "maximum": 1.80e+308
+                  },
+                  "Z": {
+                    "type": "number",
+                    "minimum": -1.80e+308,
+                    "maximum": 1.80e+308
+                  },
+                  "Timestamp": {
+                    "description": "Optional",
+                    "type": "string",
+                    "format": "time"
+                  },
+                  "DilutionOfPrecision": {
+                    "description": "Optional",
+                    "type": "number",
+                    "minimum": -1.80e+308,
+                    "maximum": 1.80e+308
+                  },
+                  "UsefulPrecision": {
+                    "description": "Optional",
+                    "type": "integer",
+                    "minimum": -2147483648,
+                    "maximum": 2147483647
+                  }
+                }
+              },
+              "WGS84": {
+                "title": "WGS84Coordinate",
+                "type": "object",
+                "dov:typeRef": "org.opcfoundation.UA.AutoID.WGS84Coordinate",
+                "required": [ "N/S Hemisphere", "Latitude", "E/W Hemisphere", "Longitude", "Altitude", "Timestamp", "DilutionOfPrecision", "UsefulPrecisionLatLon", "UsefulPrecisionAlt" ],
+                "properties": {
+                  "N/S Hemisphere": {
+                    "type": "string"
+                  },
+                  "Latitude": {
+                    "type": "number",
+                    "minimum": -1.80e+308,
+                    "maximum": 1.80e+308
+                  },
+                  "E/W Hemisphere": {
+                    "type": "string"
+                  },
+                  "Longitude": {
+                    "type": "number",
+                    "minimum": -1.80e+308,
+                    "maximum": 1.80e+308
+                  },
+                  "Altitude": {
+                    "type": "number",
+                    "minimum": -1.80e+308,
+                    "maximum": 1.80e+308
+                  },
+                  "Timestamp": {
+                    "type": "string",
+                    "format": "time"
+                  },
+                  "DilutionOfPrecision": {
+                    "type": "number",
+                    "minimum": -1.80e+308,
+                    "maximum": 1.80e+308
+                  },
+                  "UsefulPrecisionLatLon": {
+                    "type": "integer",
+                    "minimum": -2147483648,
+                    "maximum": 2147483647
+                  },
+                  "UsefulPrecisionAlt": {
+                    "type": "integer",
+                    "minimum": -2147483648,
+                    "maximum": 2147483647
+                  }
+                }
+              },
+              "Name": {
+                "type": "string"
+              }
+            }
+          },
+          "Grade": {
+            "description": "Returns the quality of the 1D/2D code.",
+            "type": "number",
+            "minimum": -3.40e+38,
+            "maximum": 3.40e+38
+          },
+          "Position": {
+            "title": "Position",
+            "description": "Returns the position of the text within the image.",
+            "type": "object",
+            "dov:typeRef": "org.opcfoundation.UA.AutoID.Position",
+            "required": [ "PositionX", "PositionY", "SizeX", "SizeY", "Rotation" ],
+            "properties": {
+              "PositionX": {
+                "type": "integer",
+                "minimum": -2147483648,
+                "maximum": 2147483647
+              },
+              "PositionY": {
+                "type": "integer",
+                "minimum": -2147483648,
+                "maximum": 2147483647
+              },
+              "SizeX": {
+                "type": "integer",
+                "minimum": -2147483648,
+                "maximum": 2147483647
+              },
+              "SizeY": {
+                "type": "integer",
+                "minimum": -2147483648,
+                "maximum": 2147483647
+              },
+              "Rotation": {
+                "type": "integer",
+                "minimum": -2147483648,
+                "maximum": 2147483647
+              }
+            }
+          },
+          "Symbology": {
+            "type": "string"
+          },
+          "ImageId": {
+            "type": "string"
+          }
+        }
+      },
+      "OpticalVerifierScanResult": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.AutoID.OpticalVerifierScanResult",
+        "required": [ "CodeType", "ScanData", "Timestamp", "IsoGrade", "RMin", "SymbolContrast", "ECMin", "Modulation", "Defects", "Decodability", "Decode", "PrintGain" ],
+        "properties": {
+          "CodeType": {
+            "description": "Defines the format of the ScanData as string.",
+            "type": "string"
+          },
+          "ScanData": {
+            "title": "ScanData",
+            "description": "Holds the information about the detected objects e.g. the detected transponders.",
+            "type": "object",
+            "dov:typeRef": "org.opcfoundation.UA.AutoID.ScanData",
+            "properties": {
+              "ByteString": {
+                "type": "string",
+                "contentEncoding": "base64"
+              },
+              "String": {
+                "type": "string"
+              },
+              "Epc": {
+                "title": "ScanDataEpc",
+                "type": "object",
+                "dov:typeRef": "org.opcfoundation.UA.AutoID.ScanDataEpc",
+                "required": [ "PC", "UId", "XPC_W1", "XPC_W2" ],
+                "properties": {
+                  "PC": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 65535
+                  },
+                  "UId": {
+                    "type": "string",
+                    "contentEncoding": "base64"
+                  },
+                  "XPC_W1": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 65535
+                  },
+                  "XPC_W2": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 65535
+                  }
+                }
+              },
+              "Custom": {
+                "description": "Stand-in for an unspecified data type.",
+                "type": "string"
+              }
+            }
+          },
+          "Timestamp": {
+            "description": "Timestamp of the ScanResult creation.",
+            "type": "string",
+            "format": "time"
+          },
+          "Location": {
+            "title": "Location",
+            "description": "Returns the location of the object detection.",
+            "type": "object",
+            "dov:typeRef": "org.opcfoundation.UA.AutoID.Location",
+            "properties": {
+              "NMEA": {
+                "type": "string"
+              },
+              "Local": {
+                "title": "LocalCoordinate",
+                "type": "object",
+                "dov:typeRef": "org.opcfoundation.UA.AutoID.LocalCoordinate",
+                "required": [ "X", "Y", "Z", "Timestamp", "DilutionOfPrecision", "UsefulPrecision" ],
+                "properties": {
+                  "X": {
+                    "type": "number",
+                    "minimum": -1.80e+308,
+                    "maximum": 1.80e+308
+                  },
+                  "Y": {
+                    "type": "number",
+                    "minimum": -1.80e+308,
+                    "maximum": 1.80e+308
+                  },
+                  "Z": {
+                    "type": "number",
+                    "minimum": -1.80e+308,
+                    "maximum": 1.80e+308
+                  },
+                  "Timestamp": {
+                    "description": "Optional",
+                    "type": "string",
+                    "format": "time"
+                  },
+                  "DilutionOfPrecision": {
+                    "description": "Optional",
+                    "type": "number",
+                    "minimum": -1.80e+308,
+                    "maximum": 1.80e+308
+                  },
+                  "UsefulPrecision": {
+                    "description": "Optional",
+                    "type": "integer",
+                    "minimum": -2147483648,
+                    "maximum": 2147483647
+                  }
+                }
+              },
+              "WGS84": {
+                "title": "WGS84Coordinate",
+                "type": "object",
+                "dov:typeRef": "org.opcfoundation.UA.AutoID.WGS84Coordinate",
+                "required": [ "N/S Hemisphere", "Latitude", "E/W Hemisphere", "Longitude", "Altitude", "Timestamp", "DilutionOfPrecision", "UsefulPrecisionLatLon", "UsefulPrecisionAlt" ],
+                "properties": {
+                  "N/S Hemisphere": {
+                    "type": "string"
+                  },
+                  "Latitude": {
+                    "type": "number",
+                    "minimum": -1.80e+308,
+                    "maximum": 1.80e+308
+                  },
+                  "E/W Hemisphere": {
+                    "type": "string"
+                  },
+                  "Longitude": {
+                    "type": "number",
+                    "minimum": -1.80e+308,
+                    "maximum": 1.80e+308
+                  },
+                  "Altitude": {
+                    "type": "number",
+                    "minimum": -1.80e+308,
+                    "maximum": 1.80e+308
+                  },
+                  "Timestamp": {
+                    "type": "string",
+                    "format": "time"
+                  },
+                  "DilutionOfPrecision": {
+                    "type": "number",
+                    "minimum": -1.80e+308,
+                    "maximum": 1.80e+308
+                  },
+                  "UsefulPrecisionLatLon": {
+                    "type": "integer",
+                    "minimum": -2147483648,
+                    "maximum": 2147483647
+                  },
+                  "UsefulPrecisionAlt": {
+                    "type": "integer",
+                    "minimum": -2147483648,
+                    "maximum": 2147483647
+                  }
+                }
+              },
+              "Name": {
+                "type": "string"
+              }
+            }
+          },
+          "Grade": {
+            "description": "Returns the quality of the 1D/2D code.",
+            "type": "number",
+            "minimum": -3.40e+38,
+            "maximum": 3.40e+38
+          },
+          "Position": {
+            "title": "Position",
+            "description": "Returns the position of the text within the image.",
+            "type": "object",
+            "dov:typeRef": "org.opcfoundation.UA.AutoID.Position",
+            "required": [ "PositionX", "PositionY", "SizeX", "SizeY", "Rotation" ],
+            "properties": {
+              "PositionX": {
+                "type": "integer",
+                "minimum": -2147483648,
+                "maximum": 2147483647
+              },
+              "PositionY": {
+                "type": "integer",
+                "minimum": -2147483648,
+                "maximum": 2147483647
+              },
+              "SizeX": {
+                "type": "integer",
+                "minimum": -2147483648,
+                "maximum": 2147483647
+              },
+              "SizeY": {
+                "type": "integer",
+                "minimum": -2147483648,
+                "maximum": 2147483647
+              },
+              "Rotation": {
+                "type": "integer",
+                "minimum": -2147483648,
+                "maximum": 2147483647
+              }
+            }
+          },
+          "Symbology": {
+            "type": "string"
+          },
+          "ImageId": {
+            "type": "string"
+          },
+          "IsoGrade": {
+            "type": "string"
+          },
+          "RMin": {
+            "type": "integer",
+            "minimum": -32768,
+            "maximum": 32767
+          },
+          "SymbolContrast": {
+            "type": "integer",
+            "minimum": -32768,
+            "maximum": 32767
+          },
+          "ECMin": {
+            "type": "integer",
+            "minimum": -32768,
+            "maximum": 32767
+          },
+          "Modulation": {
+            "type": "integer",
+            "minimum": -32768,
+            "maximum": 32767
+          },
+          "Defects": {
+            "type": "integer",
+            "minimum": -32768,
+            "maximum": 32767
+          },
+          "Decodability": {
+            "type": "integer",
+            "minimum": -32768,
+            "maximum": 32767
+          },
+          "Decode": {
+            "type": "integer",
+            "minimum": -32768,
+            "maximum": 32767
+          },
+          "PrintGain": {
+            "type": "integer",
+            "minimum": -32768,
+            "maximum": 32767
+          }
+        }
+      },
+      "Position": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.AutoID.Position",
+        "required": [ "PositionX", "PositionY", "SizeX", "SizeY", "Rotation" ],
+        "properties": {
+          "PositionX": {
+            "type": "integer",
+            "minimum": -2147483648,
+            "maximum": 2147483647
+          },
+          "PositionY": {
+            "type": "integer",
+            "minimum": -2147483648,
+            "maximum": 2147483647
+          },
+          "SizeX": {
+            "type": "integer",
+            "minimum": -2147483648,
+            "maximum": 2147483647
+          },
+          "SizeY": {
+            "type": "integer",
+            "minimum": -2147483648,
+            "maximum": 2147483647
+          },
+          "Rotation": {
+            "type": "integer",
+            "minimum": -2147483648,
+            "maximum": 2147483647
+          }
+        }
+      },
+      "RfidAccessResult": {
+        "description": "Additional result values of an Rfid Transponder access.",
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.AutoID.RfidAccessResult",
+        "properties": {
+          "CodeType": {
+            "description": "Defines the format of Identifier as string.",
+            "type": "string"
+          },
+          "Identifier": {
+            "title": "ScanData",
+            "description": "The AutoID Identifier (e.g. a code or a transponder) which was accessed by a command.",
+            "type": "object",
+            "dov:typeRef": "org.opcfoundation.UA.AutoID.ScanData",
+            "properties": {
+              "ByteString": {
+                "type": "string",
+                "contentEncoding": "base64"
+              },
+              "String": {
+                "type": "string"
+              },
+              "Epc": {
+                "title": "ScanDataEpc",
+                "type": "object",
+                "dov:typeRef": "org.opcfoundation.UA.AutoID.ScanDataEpc",
+                "required": [ "PC", "UId", "XPC_W1", "XPC_W2" ],
+                "properties": {
+                  "PC": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 65535
+                  },
+                  "UId": {
+                    "type": "string",
+                    "contentEncoding": "base64"
+                  },
+                  "XPC_W1": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 65535
+                  },
+                  "XPC_W2": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 65535
+                  }
+                }
+              },
+              "Custom": {
+                "description": "Stand-in for an unspecified data type.",
+                "type": "string"
+              }
+            }
+          },
+          "Timestamp": {
+            "description": "The point of time the AutoID Identifier was accessed by the command.",
+            "type": "string",
+            "format": "time"
+          },
+          "CodeTypeRWData": {
+            "description": "Defines the format of RWData as string.",
+            "type": "string"
+          },
+          "RWData": {
+            "title": "ScanData",
+            "description": "The user data which was written to / was read from the Rfid Transponder by the command.",
+            "type": "object",
+            "dov:typeRef": "org.opcfoundation.UA.AutoID.ScanData",
+            "properties": {
+              "ByteString": {
+                "type": "string",
+                "contentEncoding": "base64"
+              },
+              "String": {
+                "type": "string"
+              },
+              "Epc": {
+                "title": "ScanDataEpc",
+                "type": "object",
+                "dov:typeRef": "org.opcfoundation.UA.AutoID.ScanDataEpc",
+                "required": [ "PC", "UId", "XPC_W1", "XPC_W2" ],
+                "properties": {
+                  "PC": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 65535
+                  },
+                  "UId": {
+                    "type": "string",
+                    "contentEncoding": "base64"
+                  },
+                  "XPC_W1": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 65535
+                  },
+                  "XPC_W2": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 65535
+                  }
+                }
+              },
+              "Custom": {
+                "description": "Stand-in for an unspecified data type.",
+                "type": "string"
+              }
+            }
+          },
+          "Antenna": {
+            "description": "The antenna by which the transponder was accessed by the command.",
+            "type": "integer",
+            "minimum": -2147483648,
+            "maximum": 2147483647
+          },
+          "CurrentPowerLevel": {
+            "description": "The power level with which the transponder was accessed by the command.",
+            "type": "integer",
+            "minimum": -2147483648,
+            "maximum": 2147483647
+          },
+          "PC": {
+            "description": "The Protocol Control Word of the transponder accessed by the command.",
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 65535
+          },
+          "Polarization": {
+            "description": "The polarization with which the last transponder was accessed by the command.",
+            "type": "string"
+          },
+          "Strength": {
+            "description": "The Rssi value with which the transponder was accessed by the command.",
+            "type": "integer",
+            "minimum": -2147483648,
+            "maximum": 2147483647
+          }
+        }
+      },
+      "RfidLockOperationEnumeration": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.AutoID.RfidLockOperationEnumeration",
+        "const": {
+          "Lock": 0,
+          "Unlock": 1,
+          "PermanentLock": 2,
+          "PermanentUnlock": 3
+        },
+        "properties": {
+          "Lock": {
+            "type": "integer"
+          },
+          "Unlock": {
+            "type": "integer"
+          },
+          "PermanentLock": {
+            "type": "integer"
+          },
+          "PermanentUnlock": {
+            "type": "integer"
+          }
+        }
+      },
+      "RfidLockRegionEnumeration": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.AutoID.RfidLockRegionEnumeration",
+        "const": {
+          "Kill": 0,
+          "Access": 1,
+          "EPC": 2,
+          "TID": 3,
+          "User": 4
+        },
+        "properties": {
+          "Kill": {
+            "type": "integer"
+          },
+          "Access": {
+            "type": "integer"
+          },
+          "EPC": {
+            "type": "integer"
+          },
+          "TID": {
+            "type": "integer"
+          },
+          "User": {
+            "type": "integer"
+          }
+        }
+      },
+      "RfidPasswordTypeEnumeration": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.AutoID.RfidPasswordTypeEnumeration",
+        "const": {
+          "Access": 0,
+          "Kill": 1,
+          "Read": 2,
+          "Write": 3
+        },
+        "properties": {
+          "Access": {
+            "type": "integer"
+          },
+          "Kill": {
+            "type": "integer"
+          },
+          "Read": {
+            "type": "integer"
+          },
+          "Write": {
+            "type": "integer"
+          }
+        }
+      },
+      "RfidScanResult": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.AutoID.RfidScanResult",
+        "required": [ "CodeType", "ScanData", "Timestamp", "Sighting" ],
+        "properties": {
+          "CodeType": {
+            "description": "Defines the format of the ScanData as string.",
+            "type": "string"
+          },
+          "ScanData": {
+            "title": "ScanData",
+            "description": "Holds the information about the detected objects e.g. the detected transponders.",
+            "type": "object",
+            "dov:typeRef": "org.opcfoundation.UA.AutoID.ScanData",
+            "properties": {
+              "ByteString": {
+                "type": "string",
+                "contentEncoding": "base64"
+              },
+              "String": {
+                "type": "string"
+              },
+              "Epc": {
+                "title": "ScanDataEpc",
+                "type": "object",
+                "dov:typeRef": "org.opcfoundation.UA.AutoID.ScanDataEpc",
+                "required": [ "PC", "UId", "XPC_W1", "XPC_W2" ],
+                "properties": {
+                  "PC": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 65535
+                  },
+                  "UId": {
+                    "type": "string",
+                    "contentEncoding": "base64"
+                  },
+                  "XPC_W1": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 65535
+                  },
+                  "XPC_W2": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 65535
+                  }
+                }
+              },
+              "Custom": {
+                "description": "Stand-in for an unspecified data type.",
+                "type": "string"
+              }
+            }
+          },
+          "Timestamp": {
+            "description": "Timestamp of the ScanResult creation.",
+            "type": "string",
+            "format": "time"
+          },
+          "Location": {
+            "title": "Location",
+            "description": "Returns the location of the object detection.",
+            "type": "object",
+            "dov:typeRef": "org.opcfoundation.UA.AutoID.Location",
+            "properties": {
+              "NMEA": {
+                "type": "string"
+              },
+              "Local": {
+                "title": "LocalCoordinate",
+                "type": "object",
+                "dov:typeRef": "org.opcfoundation.UA.AutoID.LocalCoordinate",
+                "required": [ "X", "Y", "Z", "Timestamp", "DilutionOfPrecision", "UsefulPrecision" ],
+                "properties": {
+                  "X": {
+                    "type": "number",
+                    "minimum": -1.80e+308,
+                    "maximum": 1.80e+308
+                  },
+                  "Y": {
+                    "type": "number",
+                    "minimum": -1.80e+308,
+                    "maximum": 1.80e+308
+                  },
+                  "Z": {
+                    "type": "number",
+                    "minimum": -1.80e+308,
+                    "maximum": 1.80e+308
+                  },
+                  "Timestamp": {
+                    "description": "Optional",
+                    "type": "string",
+                    "format": "time"
+                  },
+                  "DilutionOfPrecision": {
+                    "description": "Optional",
+                    "type": "number",
+                    "minimum": -1.80e+308,
+                    "maximum": 1.80e+308
+                  },
+                  "UsefulPrecision": {
+                    "description": "Optional",
+                    "type": "integer",
+                    "minimum": -2147483648,
+                    "maximum": 2147483647
+                  }
+                }
+              },
+              "WGS84": {
+                "title": "WGS84Coordinate",
+                "type": "object",
+                "dov:typeRef": "org.opcfoundation.UA.AutoID.WGS84Coordinate",
+                "required": [ "N/S Hemisphere", "Latitude", "E/W Hemisphere", "Longitude", "Altitude", "Timestamp", "DilutionOfPrecision", "UsefulPrecisionLatLon", "UsefulPrecisionAlt" ],
+                "properties": {
+                  "N/S Hemisphere": {
+                    "type": "string"
+                  },
+                  "Latitude": {
+                    "type": "number",
+                    "minimum": -1.80e+308,
+                    "maximum": 1.80e+308
+                  },
+                  "E/W Hemisphere": {
+                    "type": "string"
+                  },
+                  "Longitude": {
+                    "type": "number",
+                    "minimum": -1.80e+308,
+                    "maximum": 1.80e+308
+                  },
+                  "Altitude": {
+                    "type": "number",
+                    "minimum": -1.80e+308,
+                    "maximum": 1.80e+308
+                  },
+                  "Timestamp": {
+                    "type": "string",
+                    "format": "time"
+                  },
+                  "DilutionOfPrecision": {
+                    "type": "number",
+                    "minimum": -1.80e+308,
+                    "maximum": 1.80e+308
+                  },
+                  "UsefulPrecisionLatLon": {
+                    "type": "integer",
+                    "minimum": -2147483648,
+                    "maximum": 2147483647
+                  },
+                  "UsefulPrecisionAlt": {
+                    "type": "integer",
+                    "minimum": -2147483648,
+                    "maximum": 2147483647
+                  }
+                }
+              },
+              "Name": {
+                "type": "string"
+              }
+            }
+          },
+          "Sighting": {
+            "description": "Returns additional information on the RFID-related properties of the scan event.",
+            "type": "array",
+            "items": {
+              "title": "RfidSighting",
+              "type": "object",
+              "dov:typeRef": "org.opcfoundation.UA.AutoID.RfidSighting",
+              "required": [ "Antenna", "Strength", "Timestamp", "CurrentPowerLevel" ],
+              "properties": {
+                "Antenna": {
+                  "description": "Returns the number of the antenna which detects the RFID tag first.",
+                  "type": "integer",
+                  "minimum": -2147483648,
+                  "maximum": 2147483647
+                },
+                "Strength": {
+                  "description": "Returns the signal strength (RSSI) of the transponder. Higher values indicate a better strength.",
+                  "type": "integer",
+                  "minimum": -2147483648,
+                  "maximum": 2147483647
+                },
+                "Timestamp": {
+                  "description": "Timestamp in UtcTime",
+                  "type": "string",
+                  "format": "time"
+                },
+                "CurrentPowerLevel": {
+                  "description": "Returns the current power level (unit according to parameter settings).",
+                  "type": "integer",
+                  "minimum": -2147483648,
+                  "maximum": 2147483647
+                }
+              }
+            }
+          }
+        }
+      },
+      "RfidSighting": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.AutoID.RfidSighting",
+        "required": [ "Antenna", "Strength", "Timestamp", "CurrentPowerLevel" ],
+        "properties": {
+          "Antenna": {
+            "description": "Returns the number of the antenna which detects the RFID tag first.",
+            "type": "integer",
+            "minimum": -2147483648,
+            "maximum": 2147483647
+          },
+          "Strength": {
+            "description": "Returns the signal strength (RSSI) of the transponder. Higher values indicate a better strength.",
+            "type": "integer",
+            "minimum": -2147483648,
+            "maximum": 2147483647
+          },
+          "Timestamp": {
+            "description": "Timestamp in UtcTime",
+            "type": "string",
+            "format": "time"
+          },
+          "CurrentPowerLevel": {
+            "description": "Returns the current power level (unit according to parameter settings).",
+            "type": "integer",
+            "minimum": -2147483648,
+            "maximum": 2147483647
+          }
+        }
+      },
+      "Rotation": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.AutoID.Rotation",
+        "required": [ "Yaw", "Pitch", "Roll" ],
+        "properties": {
+          "Yaw": {
+            "type": "number",
+            "minimum": -1.80e+308,
+            "maximum": 1.80e+308
+          },
+          "Pitch": {
+            "type": "number",
+            "minimum": -1.80e+308,
+            "maximum": 1.80e+308
+          },
+          "Roll": {
+            "type": "number",
+            "minimum": -1.80e+308,
+            "maximum": 1.80e+308
+          }
+        }
+      },
+      "RtlsLocationResult": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.AutoID.RtlsLocationResult",
+        "required": [ "CodeType", "ScanData", "Timestamp", "Speed", "Heading", "Rotation", "ReceiveTime" ],
+        "properties": {
+          "CodeType": {
+            "description": "Defines the format of the ScanData as string.",
+            "type": "string"
+          },
+          "ScanData": {
+            "title": "ScanData",
+            "description": "Holds the information about the detected objects e.g. the detected transponders.",
+            "type": "object",
+            "dov:typeRef": "org.opcfoundation.UA.AutoID.ScanData",
+            "properties": {
+              "ByteString": {
+                "type": "string",
+                "contentEncoding": "base64"
+              },
+              "String": {
+                "type": "string"
+              },
+              "Epc": {
+                "title": "ScanDataEpc",
+                "type": "object",
+                "dov:typeRef": "org.opcfoundation.UA.AutoID.ScanDataEpc",
+                "required": [ "PC", "UId", "XPC_W1", "XPC_W2" ],
+                "properties": {
+                  "PC": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 65535
+                  },
+                  "UId": {
+                    "type": "string",
+                    "contentEncoding": "base64"
+                  },
+                  "XPC_W1": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 65535
+                  },
+                  "XPC_W2": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 65535
+                  }
+                }
+              },
+              "Custom": {
+                "description": "Stand-in for an unspecified data type.",
+                "type": "string"
+              }
+            }
+          },
+          "Timestamp": {
+            "description": "Timestamp of the ScanResult creation.",
+            "type": "string",
+            "format": "time"
+          },
+          "Location": {
+            "title": "Location",
+            "description": "Returns the location of the object detection.",
+            "type": "object",
+            "dov:typeRef": "org.opcfoundation.UA.AutoID.Location",
+            "properties": {
+              "NMEA": {
+                "type": "string"
+              },
+              "Local": {
+                "title": "LocalCoordinate",
+                "type": "object",
+                "dov:typeRef": "org.opcfoundation.UA.AutoID.LocalCoordinate",
+                "required": [ "X", "Y", "Z", "Timestamp", "DilutionOfPrecision", "UsefulPrecision" ],
+                "properties": {
+                  "X": {
+                    "type": "number",
+                    "minimum": -1.80e+308,
+                    "maximum": 1.80e+308
+                  },
+                  "Y": {
+                    "type": "number",
+                    "minimum": -1.80e+308,
+                    "maximum": 1.80e+308
+                  },
+                  "Z": {
+                    "type": "number",
+                    "minimum": -1.80e+308,
+                    "maximum": 1.80e+308
+                  },
+                  "Timestamp": {
+                    "description": "Optional",
+                    "type": "string",
+                    "format": "time"
+                  },
+                  "DilutionOfPrecision": {
+                    "description": "Optional",
+                    "type": "number",
+                    "minimum": -1.80e+308,
+                    "maximum": 1.80e+308
+                  },
+                  "UsefulPrecision": {
+                    "description": "Optional",
+                    "type": "integer",
+                    "minimum": -2147483648,
+                    "maximum": 2147483647
+                  }
+                }
+              },
+              "WGS84": {
+                "title": "WGS84Coordinate",
+                "type": "object",
+                "dov:typeRef": "org.opcfoundation.UA.AutoID.WGS84Coordinate",
+                "required": [ "N/S Hemisphere", "Latitude", "E/W Hemisphere", "Longitude", "Altitude", "Timestamp", "DilutionOfPrecision", "UsefulPrecisionLatLon", "UsefulPrecisionAlt" ],
+                "properties": {
+                  "N/S Hemisphere": {
+                    "type": "string"
+                  },
+                  "Latitude": {
+                    "type": "number",
+                    "minimum": -1.80e+308,
+                    "maximum": 1.80e+308
+                  },
+                  "E/W Hemisphere": {
+                    "type": "string"
+                  },
+                  "Longitude": {
+                    "type": "number",
+                    "minimum": -1.80e+308,
+                    "maximum": 1.80e+308
+                  },
+                  "Altitude": {
+                    "type": "number",
+                    "minimum": -1.80e+308,
+                    "maximum": 1.80e+308
+                  },
+                  "Timestamp": {
+                    "type": "string",
+                    "format": "time"
+                  },
+                  "DilutionOfPrecision": {
+                    "type": "number",
+                    "minimum": -1.80e+308,
+                    "maximum": 1.80e+308
+                  },
+                  "UsefulPrecisionLatLon": {
+                    "type": "integer",
+                    "minimum": -2147483648,
+                    "maximum": 2147483647
+                  },
+                  "UsefulPrecisionAlt": {
+                    "type": "integer",
+                    "minimum": -2147483648,
+                    "maximum": 2147483647
+                  }
+                }
+              },
+              "Name": {
+                "type": "string"
+              }
+            }
+          },
+          "Speed": {
+            "type": "number",
+            "minimum": -1.80e+308,
+            "maximum": 1.80e+308
+          },
+          "Heading": {
+            "type": "number",
+            "minimum": -1.80e+308,
+            "maximum": 1.80e+308
+          },
+          "Rotation": {
+            "title": "Rotation",
+            "type": "object",
+            "dov:typeRef": "org.opcfoundation.UA.AutoID.Rotation",
+            "required": [ "Yaw", "Pitch", "Roll" ],
+            "properties": {
+              "Yaw": {
+                "type": "number",
+                "minimum": -1.80e+308,
+                "maximum": 1.80e+308
+              },
+              "Pitch": {
+                "type": "number",
+                "minimum": -1.80e+308,
+                "maximum": 1.80e+308
+              },
+              "Roll": {
+                "type": "number",
+                "minimum": -1.80e+308,
+                "maximum": 1.80e+308
+              }
+            }
+          },
+          "ReceiveTime": {
+            "type": "string",
+            "format": "time"
+          }
+        }
+      },
+      "ScanData": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.AutoID.ScanData",
+        "properties": {
+          "ByteString": {
+            "type": "string",
+            "contentEncoding": "base64"
+          },
+          "String": {
+            "type": "string"
+          },
+          "Epc": {
+            "title": "ScanDataEpc",
+            "type": "object",
+            "dov:typeRef": "org.opcfoundation.UA.AutoID.ScanDataEpc",
+            "required": [ "PC", "UId", "XPC_W1", "XPC_W2" ],
+            "properties": {
+              "PC": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 65535
+              },
+              "UId": {
+                "type": "string",
+                "contentEncoding": "base64"
+              },
+              "XPC_W1": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 65535
+              },
+              "XPC_W2": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 65535
+              }
+            }
+          },
+          "Custom": {
+            "description": "Stand-in for an unspecified data type.",
+            "type": "string"
+          }
+        }
+      },
+      "ScanDataEpc": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.AutoID.ScanDataEpc",
+        "required": [ "PC", "UId", "XPC_W1", "XPC_W2" ],
+        "properties": {
+          "PC": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 65535
+          },
+          "UId": {
+            "type": "string",
+            "contentEncoding": "base64"
+          },
+          "XPC_W1": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 65535
+          },
+          "XPC_W2": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 65535
+          }
+        }
+      },
+      "ScanResult": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.AutoID.ScanResult",
+        "required": [ "CodeType", "ScanData", "Timestamp" ],
+        "properties": {
+          "CodeType": {
+            "description": "Defines the format of the ScanData as string.",
+            "type": "string"
+          },
+          "ScanData": {
+            "title": "ScanData",
+            "description": "Holds the information about the detected objects e.g. the detected transponders.",
+            "type": "object",
+            "dov:typeRef": "org.opcfoundation.UA.AutoID.ScanData",
+            "properties": {
+              "ByteString": {
+                "type": "string",
+                "contentEncoding": "base64"
+              },
+              "String": {
+                "type": "string"
+              },
+              "Epc": {
+                "title": "ScanDataEpc",
+                "type": "object",
+                "dov:typeRef": "org.opcfoundation.UA.AutoID.ScanDataEpc",
+                "required": [ "PC", "UId", "XPC_W1", "XPC_W2" ],
+                "properties": {
+                  "PC": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 65535
+                  },
+                  "UId": {
+                    "type": "string",
+                    "contentEncoding": "base64"
+                  },
+                  "XPC_W1": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 65535
+                  },
+                  "XPC_W2": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 65535
+                  }
+                }
+              },
+              "Custom": {
+                "description": "Stand-in for an unspecified data type.",
+                "type": "string"
+              }
+            }
+          },
+          "Timestamp": {
+            "description": "Timestamp of the ScanResult creation.",
+            "type": "string",
+            "format": "time"
+          },
+          "Location": {
+            "title": "Location",
+            "description": "Returns the location of the object detection.",
+            "type": "object",
+            "dov:typeRef": "org.opcfoundation.UA.AutoID.Location",
+            "properties": {
+              "NMEA": {
+                "type": "string"
+              },
+              "Local": {
+                "title": "LocalCoordinate",
+                "type": "object",
+                "dov:typeRef": "org.opcfoundation.UA.AutoID.LocalCoordinate",
+                "required": [ "X", "Y", "Z", "Timestamp", "DilutionOfPrecision", "UsefulPrecision" ],
+                "properties": {
+                  "X": {
+                    "type": "number",
+                    "minimum": -1.80e+308,
+                    "maximum": 1.80e+308
+                  },
+                  "Y": {
+                    "type": "number",
+                    "minimum": -1.80e+308,
+                    "maximum": 1.80e+308
+                  },
+                  "Z": {
+                    "type": "number",
+                    "minimum": -1.80e+308,
+                    "maximum": 1.80e+308
+                  },
+                  "Timestamp": {
+                    "description": "Optional",
+                    "type": "string",
+                    "format": "time"
+                  },
+                  "DilutionOfPrecision": {
+                    "description": "Optional",
+                    "type": "number",
+                    "minimum": -1.80e+308,
+                    "maximum": 1.80e+308
+                  },
+                  "UsefulPrecision": {
+                    "description": "Optional",
+                    "type": "integer",
+                    "minimum": -2147483648,
+                    "maximum": 2147483647
+                  }
+                }
+              },
+              "WGS84": {
+                "title": "WGS84Coordinate",
+                "type": "object",
+                "dov:typeRef": "org.opcfoundation.UA.AutoID.WGS84Coordinate",
+                "required": [ "N/S Hemisphere", "Latitude", "E/W Hemisphere", "Longitude", "Altitude", "Timestamp", "DilutionOfPrecision", "UsefulPrecisionLatLon", "UsefulPrecisionAlt" ],
+                "properties": {
+                  "N/S Hemisphere": {
+                    "type": "string"
+                  },
+                  "Latitude": {
+                    "type": "number",
+                    "minimum": -1.80e+308,
+                    "maximum": 1.80e+308
+                  },
+                  "E/W Hemisphere": {
+                    "type": "string"
+                  },
+                  "Longitude": {
+                    "type": "number",
+                    "minimum": -1.80e+308,
+                    "maximum": 1.80e+308
+                  },
+                  "Altitude": {
+                    "type": "number",
+                    "minimum": -1.80e+308,
+                    "maximum": 1.80e+308
+                  },
+                  "Timestamp": {
+                    "type": "string",
+                    "format": "time"
+                  },
+                  "DilutionOfPrecision": {
+                    "type": "number",
+                    "minimum": -1.80e+308,
+                    "maximum": 1.80e+308
+                  },
+                  "UsefulPrecisionLatLon": {
+                    "type": "integer",
+                    "minimum": -2147483648,
+                    "maximum": 2147483647
+                  },
+                  "UsefulPrecisionAlt": {
+                    "type": "integer",
+                    "minimum": -2147483648,
+                    "maximum": 2147483647
+                  }
+                }
+              },
+              "Name": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      },
+      "ScanSettings": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.AutoID.ScanSettings",
+        "required": [ "Duration", "Cycles", "DataAvailable" ],
+        "properties": {
+          "Duration": {
+            "type": "string",
+            "pattern": "^P(?!$)(?:(?:(?:(?:\\d+Y)|(?:\\d+\\.\\d+Y$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?)|(?:(?:(?:\\d+W)|(?:\\d+\\.\\d+W$))?))(?:(?:\\d+D)|(?:\\d+\\.\\d+D$))?(?:T(?!$)(?:(?:\\d+H)|(?:\\d+\\.\\d+H$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?(?:\\d+(?:\\.\\d+)?S)?)?$"
+          },
+          "Cycles": {
+            "type": "integer",
+            "minimum": -2147483648,
+            "maximum": 2147483647
+          },
+          "DataAvailable": {
+            "type": "boolean"
+          },
+          "LocationType": {
+            "title": "LocationTypeEnumeration",
+            "dov:typeRef": "org.opcfoundation.UA.AutoID.LocationTypeEnumeration",
+            "type": "integer",
+            "minimum": -2147483648,
+            "maximum": 2147483647
+          }
+        }
+      },
+      "WGS84Coordinate": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.AutoID.WGS84Coordinate",
+        "required": [ "N/S Hemisphere", "Latitude", "E/W Hemisphere", "Longitude", "Altitude", "Timestamp", "DilutionOfPrecision", "UsefulPrecisionLatLon", "UsefulPrecisionAlt" ],
+        "properties": {
+          "N/S Hemisphere": {
+            "type": "string"
+          },
+          "Latitude": {
+            "type": "number",
+            "minimum": -1.80e+308,
+            "maximum": 1.80e+308
+          },
+          "E/W Hemisphere": {
+            "type": "string"
+          },
+          "Longitude": {
+            "type": "number",
+            "minimum": -1.80e+308,
+            "maximum": 1.80e+308
+          },
+          "Altitude": {
+            "type": "number",
+            "minimum": -1.80e+308,
+            "maximum": 1.80e+308
+          },
+          "Timestamp": {
+            "type": "string",
+            "format": "time"
+          },
+          "DilutionOfPrecision": {
+            "type": "number",
+            "minimum": -1.80e+308,
+            "maximum": 1.80e+308
+          },
+          "UsefulPrecisionLatLon": {
+            "type": "integer",
+            "minimum": -2147483648,
+            "maximum": 2147483647
+          },
+          "UsefulPrecisionAlt": {
+            "type": "integer",
+            "minimum": -2147483648,
+            "maximum": 2147483647
+          }
+        }
+      }
+    },
+    "actions": {
+    },
+    "properties": {
     },
     "events": {
     }

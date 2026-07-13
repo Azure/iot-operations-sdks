@@ -3368,5 +3368,206 @@
         ]
       }
     }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dov": "http://azure.com/DigitalOperations/vocab#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "Glass_Flat_DataTypes",
+    "links": [
+    ],
+    "schemaDefinitions": {
+      "CoatingClassEnumeration": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.Glass.Flat.CoatingClassEnumeration",
+        "const": {
+          "HardCoating": 0,
+          "SoftCoating": 1,
+          "CoatedWithFoilProtection": 2,
+          "UserDefined": 3
+        },
+        "properties": {
+          "HardCoating": {
+            "type": "integer"
+          },
+          "SoftCoating": {
+            "type": "integer"
+          },
+          "CoatedWithFoilProtection": {
+            "type": "integer"
+          },
+          "UserDefined": {
+            "type": "integer"
+          }
+        }
+      },
+      "CoordinateSystemEnumeration": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.Glass.Flat.CoordinateSystemEnumeration",
+        "const": {
+          "Unknown": 0,
+          "System1": 1,
+          "System2": 2,
+          "System3": 3,
+          "System4": 4,
+          "System5": 5,
+          "System6": 6,
+          "System7": 7,
+          "System8": 8
+        },
+        "properties": {
+          "Unknown": {
+            "type": "integer"
+          },
+          "System1": {
+            "type": "integer"
+          },
+          "System2": {
+            "type": "integer"
+          },
+          "System3": {
+            "type": "integer"
+          },
+          "System4": {
+            "type": "integer"
+          },
+          "System5": {
+            "type": "integer"
+          },
+          "System6": {
+            "type": "integer"
+          },
+          "System7": {
+            "type": "integer"
+          },
+          "System8": {
+            "type": "integer"
+          }
+        }
+      },
+      "FileFormatType": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.Glass.Flat.FileFormatType",
+        "required": [ "Name", "FileExtension", "Version" ],
+        "properties": {
+          "Name": {
+            "type": "string"
+          },
+          "FileExtension": {
+            "type": "string"
+          },
+          "Version": {
+            "type": "string"
+          }
+        }
+      },
+      "LimitedString64": {
+        "type": "string"
+      },
+      "SignificantSideEnumeration": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.Glass.Flat.SignificantSideEnumeration",
+        "const": {
+          "Indifferent": 0,
+          "Top": 1,
+          "Down": 2
+        },
+        "properties": {
+          "Indifferent": {
+            "type": "integer"
+          },
+          "Top": {
+            "type": "integer"
+          },
+          "Down": {
+            "type": "integer"
+          }
+        }
+      },
+      "SpacerMaterialClass": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.Glass.Flat.SpacerMaterialClass",
+        "const": {
+          "Other": 0,
+          "Metalic": 1,
+          "TPS": 2,
+          "Plastic": 3,
+          "Elastic": 4
+        },
+        "properties": {
+          "Other": {
+            "type": "integer"
+          },
+          "Metalic": {
+            "type": "integer"
+          },
+          "TPS": {
+            "type": "integer"
+          },
+          "Plastic": {
+            "type": "integer"
+          },
+          "Elastic": {
+            "type": "integer"
+          }
+        }
+      },
+      "StructureAlignmentEnumeration": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.Glass.Flat.StructureAlignmentEnumeration",
+        "const": {
+          "Indifferent": 0,
+          "Longitudinal": 1,
+          "Transverse": 2
+        },
+        "properties": {
+          "Indifferent": {
+            "type": "integer"
+          },
+          "Longitudinal": {
+            "type": "integer"
+          },
+          "Transverse": {
+            "type": "integer"
+          }
+        }
+      },
+      "UserProfileType": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.Glass.Flat.UserProfileType",
+        "required": [ "Name", "LoginTime", "Language", "MeasurementFormat", "AccessLevel", "OpcUaUser" ],
+        "properties": {
+          "Name": {
+            "type": "string"
+          },
+          "LoginTime": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "Language": {
+            "type": "string"
+          },
+          "MeasurementFormat": {
+            "type": "string"
+          },
+          "AccessLevel": {
+            "type": "string"
+          },
+          "OpcUaUser": {
+            "type": "boolean"
+          }
+        }
+      }
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
   }
 ]

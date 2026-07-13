@@ -4108,5 +4108,338 @@
     },
     "events": {
     }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dov": "http://azure.com/DigitalOperations/vocab#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "MDIS_DataTypes",
+    "links": [
+    ],
+    "schemaDefinitions": {
+      "ArbitrationModeEnum": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.MDIS.ArbitrationModeEnum",
+        "const": {
+          "Average": 1,
+          "DefaultA": 2,
+          "DefaultB": 4,
+          "ForceA": 8,
+          "ForceB": 16,
+          "High": 32,
+          "Low": 64
+        },
+        "properties": {
+          "Average": {
+            "description": "Build the average of both values (if both available)",
+            "type": "integer"
+          },
+          "DefaultA": {
+            "description": "Select SourceA (if available), else SourceB",
+            "type": "integer"
+          },
+          "DefaultB": {
+            "description": "Select SourceB (if available), else SourceA",
+            "type": "integer"
+          },
+          "ForceA": {
+            "description": "Always select SourceA",
+            "type": "integer"
+          },
+          "ForceB": {
+            "description": "Always select SourceB",
+            "type": "integer"
+          },
+          "High": {
+            "description": "Highest Value (for digital this is an OR operation)",
+            "type": "integer"
+          },
+          "Low": {
+            "description": "Lowest Value (for digital this is an AND operation)",
+            "type": "integer"
+          }
+        }
+      },
+      "CIMVMoveEnum": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.MDIS.CIMVMoveEnum",
+        "const": {
+          "MoveClose": 1,
+          "MoveOpen": 2,
+          "Stop": 4
+        },
+        "properties": {
+          "MoveClose": {
+            "description": "The CIMV is moving in the close direction",
+            "type": "integer"
+          },
+          "MoveOpen": {
+            "description": "The CIMV is moving in the open direction",
+            "type": "integer"
+          },
+          "Stop": {
+            "description": "The CIMV is not moving",
+            "type": "integer"
+          }
+        }
+      },
+      "CIMVOperationModeEnum": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.MDIS.CIMVOperationModeEnum",
+        "const": {
+          "Position": 1,
+          "Flow": 2,
+          "Manual": 4
+        },
+        "properties": {
+          "Position": {
+            "description": "The CIMV is in closed-loop Position control mode. Sending fix position",
+            "type": "integer"
+          },
+          "Flow": {
+            "description": "The CIMV is in closed-loop Flow control mode (auto regulate)",
+            "type": "integer"
+          },
+          "Manual": {
+            "description": "The CIMV is in open-loop Manual mode (compare it to step mode – i.e., move some increment relative to current). Note: some CIMV instance may not support this mode.",
+            "type": "integer"
+          }
+        }
+      },
+      "ChokeCommandEnum": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.MDIS.ChokeCommandEnum",
+        "const": {
+          "Close": 1,
+          "Open": 2
+        },
+        "properties": {
+          "Close": {
+            "description": "The command to the Choke is Close",
+            "type": "integer"
+          },
+          "Open": {
+            "description": "The command to the Choke is Open",
+            "type": "integer"
+          }
+        }
+      },
+      "ChokeMoveEnum": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.MDIS.ChokeMoveEnum",
+        "const": {
+          "Moving": 1,
+          "Stopped": 2
+        },
+        "properties": {
+          "Moving": {
+            "description": "The choke is currently moving (in progress)",
+            "type": "integer"
+          },
+          "Stopped": {
+            "description": "The move has stopped",
+            "type": "integer"
+          }
+        }
+      },
+      "CommandEnum": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.MDIS.CommandEnum",
+        "const": {
+          "Close": 1,
+          "Open": 2,
+          "None": 4
+        },
+        "properties": {
+          "Close": {
+            "description": "The last command to the valve was Close",
+            "type": "integer"
+          },
+          "Open": {
+            "description": "The last command to the valve was Open",
+            "type": "integer"
+          },
+          "None": {
+            "description": "No known command has been sent to the valve. The initial setting on start-up of a server.",
+            "type": "integer"
+          }
+        }
+      },
+      "MDISVersionDataType": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.MDIS.MDISVersionDataType",
+        "required": [ "MajorVersion", "MinorVersion", "Build" ],
+        "properties": {
+          "MajorVersion": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 255
+          },
+          "MinorVersion": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 255
+          },
+          "Build": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 255
+          }
+        }
+      },
+      "MotorOperationEnum": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.MDIS.MotorOperationEnum",
+        "const": {
+          "Off": 1,
+          "Auto": 2,
+          "Manual": 4
+        },
+        "properties": {
+          "Off": {
+            "description": "The Motor cannot be started either automatically or manually",
+            "type": "integer"
+          },
+          "Auto": {
+            "description": "The Motor works automatically",
+            "type": "integer"
+          },
+          "Manual": {
+            "description": "The Motor is controlled manually",
+            "type": "integer"
+          }
+        }
+      },
+      "MotorStateEnum": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.MDIS.MotorStateEnum",
+        "const": {
+          "Active": 1,
+          "NonActive": 2
+        },
+        "properties": {
+          "Active": {
+            "description": "The Motor is in active state",
+            "type": "integer"
+          },
+          "NonActive": {
+            "description": "The Motor is not in active state",
+            "type": "integer"
+          }
+        }
+      },
+      "SEMEnum": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.MDIS.SEMEnum",
+        "const": {
+          "SEM_A": 1,
+          "SEM_B": 2,
+          "Auto": 4
+        },
+        "properties": {
+          "SEM_A": {
+            "description": "Valve move command selection SEM A",
+            "type": "integer"
+          },
+          "SEM_B": {
+            "description": "Valve move command selection SEM B",
+            "type": "integer"
+          },
+          "Auto": {
+            "description": "Subsea equipment vendor decides how to send the command. In some cases, this would be both SEMs, in others it would mean a subsea system’s choice of a SEM.",
+            "type": "integer"
+          }
+        }
+      },
+      "SetCalculatedPositionEnum": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.MDIS.SetCalculatedPositionEnum",
+        "const": {
+          "Initial": 0,
+          "Inprogress": 1,
+          "Complete": 2,
+          "Fault": 4
+        },
+        "properties": {
+          "Initial": {
+            "description": "no command (initial state)",
+            "type": "integer"
+          },
+          "Inprogress": {
+            "description": "command in progress",
+            "type": "integer"
+          },
+          "Complete": {
+            "description": "command completed",
+            "type": "integer"
+          },
+          "Fault": {
+            "description": "command fault",
+            "type": "integer"
+          }
+        }
+      },
+      "SignatureStatusEnum": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.MDIS.SignatureStatusEnum",
+        "const": {
+          "NotAvailable": 1,
+          "Completed": 2,
+          "Failed": 4
+        },
+        "properties": {
+          "NotAvailable": {
+            "description": "The profile / signature is not available (in progress)",
+            "type": "integer"
+          },
+          "Completed": {
+            "description": "The profile / signature request has completed",
+            "type": "integer"
+          },
+          "Failed": {
+            "description": "The profile / signature request has failed",
+            "type": "integer"
+          }
+        }
+      },
+      "ValvePositionEnum": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.MDIS.ValvePositionEnum",
+        "const": {
+          "Closed": 1,
+          "Open": 2,
+          "Moving": 4,
+          "Unknown": 8
+        },
+        "properties": {
+          "Closed": {
+            "description": "The Valve is Closed",
+            "type": "integer"
+          },
+          "Open": {
+            "description": "The Valve is Open",
+            "type": "integer"
+          },
+          "Moving": {
+            "description": "The Valve is Moving",
+            "type": "integer"
+          },
+          "Unknown": {
+            "description": "The Valve is in an unknown state. This value can be used when a subsea vendor does not have any last command information and does not know the state of the valve.",
+            "type": "integer"
+          }
+        }
+      }
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
   }
 ]

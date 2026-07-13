@@ -1851,5 +1851,66 @@
     },
     "events": {
     }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dov": "http://azure.com/DigitalOperations/vocab#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "GDS_DataTypes",
+    "links": [
+    ],
+    "schemaDefinitions": {
+      "ApplicationRecordDataType": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.GDS.ApplicationRecordDataType",
+        "required": [ "ApplicationId", "ApplicationUri", "ApplicationType", "ApplicationNames", "ProductUri", "DiscoveryUrls", "ServerCapabilities" ],
+        "properties": {
+          "ApplicationId": {
+            "type": "string"
+          },
+          "ApplicationUri": {
+            "type": "string"
+          },
+          "ApplicationType": {
+            "title": "ApplicationType",
+            "dov:typeRef": "org.opcfoundation.UA.ApplicationType",
+            "type": "integer",
+            "minimum": -2147483648,
+            "maximum": 2147483647
+          },
+          "ApplicationNames": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "ProductUri": {
+            "type": "string"
+          },
+          "DiscoveryUrls": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "ServerCapabilities": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
   }
 ]

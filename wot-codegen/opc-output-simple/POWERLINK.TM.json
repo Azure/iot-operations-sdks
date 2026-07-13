@@ -304,5 +304,331 @@
     },
     "events": {
     }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dov": "http://azure.com/DigitalOperations/vocab#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "POWERLINK_DataTypes",
+    "links": [
+    ],
+    "schemaDefinitions": {
+      "ErrorRegisterBits": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.POWERLINK.ErrorRegisterBits",
+        "const": {
+          "Generic_error": 0,
+          "Current": 1,
+          "Voltage": 2,
+          "Temperature": 3,
+          "Communication_error": 4,
+          "Device_profile_specific": 5,
+          "Reserved": 6,
+          "Manufacturer_specific": 7
+        },
+        "description": "Represents the values of the POWERLINK ErrorRegister ",
+        "properties": {
+          "Generic_error": {
+            "description": "This bit shall be set if any error is present.  Additionally to this bit, the following bits may be used to signal more detailed error information.  ",
+            "type": "integer"
+          },
+          "Current": {
+            "type": "integer"
+          },
+          "Voltage": {
+            "type": "integer"
+          },
+          "Temperature": {
+            "type": "integer"
+          },
+          "Communication_error": {
+            "type": "integer"
+          },
+          "Device_profile_specific": {
+            "type": "integer"
+          },
+          "Reserved": {
+            "description": "always 0",
+            "type": "integer"
+          },
+          "Manufacturer_specific": {
+            "type": "integer"
+          }
+        }
+      },
+      "PowerlinkAttribute": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.POWERLINK.PowerlinkAttribute",
+        "const": {
+          "CONST": 0,
+          "R": 1,
+          "W": 2,
+          "I": 3,
+          "O": 4,
+          "S": 5,
+          "VR": 6,
+          "DEF": 7,
+          "RPDO": 8,
+          "TPDO": 9
+        },
+        "description": "Represents the POWERLINK entry attributes",
+        "properties": {
+          "CONST": {
+            "description": "Read access only, the value is not changing",
+            "type": "integer"
+          },
+          "R": {
+            "description": "Read access",
+            "type": "integer"
+          },
+          "W": {
+            "description": "Write access",
+            "type": "integer"
+          },
+          "I": {
+            "description": "Represents process input data, object can be used in PDO mapping",
+            "type": "integer"
+          },
+          "O": {
+            "description": "Represents process output data, object can be used in PDO mapping",
+            "type": "integer"
+          },
+          "S": {
+            "description": "Can be stored to non-volatile memory",
+            "type": "integer"
+          },
+          "VR": {
+            "description": "Only valid after reset",
+            "type": "integer"
+          },
+          "DEF": {
+            "description": "Variable is included in default mapping",
+            "type": "integer"
+          },
+          "RPDO": {
+            "description": "Variable may be mapped into receive PDO",
+            "type": "integer"
+          },
+          "TPDO": {
+            "description": "Variable may be mapped into transmit PDO",
+            "type": "integer"
+          }
+        }
+      },
+      "PowerlinkErrorEntryDataType": {
+        "description": "Represents the entries of the POWERLINK Object ERR_History_ADOM (Object 1003h, SubIndex 1..254)",
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.POWERLINK.PowerlinkErrorEntryDataType",
+        "required": [ "entryType", "errorCode", "timeStamp", "additionalInformation" ],
+        "properties": {
+          "entryType": {
+            "description": "Entry type as defined in the Powerlink specification EPSG DS 301",
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 65535
+          },
+          "errorCode": {
+            "description": "Error code as defined in the Powerlink specification EPSG DS 301",
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 65535
+          },
+          "timeStamp": {
+            "description": "SoC Nettime from the cycle when the error/event was detected",
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 18446744073709551615
+          },
+          "additionalInformation": {
+            "description": "This field contains device profile or vendor specific additional error information",
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 18446744073709551615
+          }
+        }
+      },
+      "PowerlinkIpAddressDataType": {
+        "description": "Structure DataType PowerlinkIpAddressDataType to represent POWERLINK Objects of the POWERLINK data type IP_ADDRESS",
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.POWERLINK.PowerlinkIpAddressDataType",
+        "required": [ "b1", "b2", "b3", "b4" ],
+        "properties": {
+          "b1": {
+            "description": "1st byte of the IP-Address, e.g. 192 for the Address 192.168.100.1",
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 255
+          },
+          "b2": {
+            "description": "2nd byte of the IP-Address, e.g. 168 for the Address 192.168.100.1",
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 255
+          },
+          "b3": {
+            "description": "3rd byte of the IP-Address, e.g. 100 for the Address 192.168.100.1",
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 255
+          },
+          "b4": {
+            "description": "4th byte of the IP-Address, e.g. 1 for the Address 192.168.100.1",
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 255
+          }
+        }
+      },
+      "PowerlinkNMTResetCmdEnumeration": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.POWERLINK.PowerlinkNMTResetCmdEnumeration",
+        "const": {
+          "NMTResetNode": 40,
+          "NMTResetCommunication": 41,
+          "NMTResetConfiguration": 42,
+          "NMTSwReset": 43,
+          "NMTInvalidService": 255
+        },
+        "description": "This DataType is an Enumeration that represents the NMT reset commands for POWERLINK",
+        "properties": {
+          "NMTResetNode": {
+            "description": "start application initialisation",
+            "type": "integer"
+          },
+          "NMTResetCommunication": {
+            "description": "start communication initialisation",
+            "type": "integer"
+          },
+          "NMTResetConfiguration": {
+            "description": "activate device configuration",
+            "type": "integer"
+          },
+          "NMTSwReset": {
+            "description": "start basic node initialisation",
+            "type": "integer"
+          },
+          "NMTInvalidService": {
+            "description": "readback value for the POWERLINK Object NMT_ResetCmd_U8",
+            "type": "integer"
+          }
+        }
+      },
+      "PowerlinkNMTStateEnumeration": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.POWERLINK.PowerlinkNMTStateEnumeration",
+        "const": {
+          "NMT_GS_OFF": 0,
+          "NMT_GS_INITIALISING": 25,
+          "NMT_GS_RESET_APPLICATION": 41,
+          "NMT_GS_RESET_COMMUNICATION": 57,
+          "NMT_GS_RESET_CONFIGURATION": 121,
+          "NMT_XS_NOT_ACTIVE": 28,
+          "NMT_XS_PRE_OPERATIONAL_1": 29,
+          "NMT_XS_PRE_OPERATIONAL_2": 93,
+          "NMT_XS_READY_TO_OPERATE": 109,
+          "NMT_XS_OPERATIONAL": 253,
+          "NMT_CS_STOPPED": 77,
+          "NMT_XS_BASIC_ETHERNET": 30
+        },
+        "description": "This DataType is an enumeration that represents the NMT State",
+        "properties": {
+          "NMT_GS_OFF": {
+            "type": "integer"
+          },
+          "NMT_GS_INITIALISING": {
+            "description": "first state after power-on of the POWERLINK Device",
+            "type": "integer"
+          },
+          "NMT_GS_RESET_APPLICATION": {
+            "description": "set manufacturer-specific and standardised device profile area to their power-on values",
+            "type": "integer"
+          },
+          "NMT_GS_RESET_COMMUNICATION": {
+            "description": "set communication profile area (except ERR_History_ADOM) to their power-on values",
+            "type": "integer"
+          },
+          "NMT_GS_RESET_CONFIGURATION": {
+            "description": "generate the active device configuration",
+            "type": "integer"
+          },
+          "NMT_XS_NOT_ACTIVE": {
+            "description": "a non-permanent state which allows a starting device to recognize the current network state",
+            "type": "integer"
+          },
+          "NMT_XS_PRE_OPERATIONAL_1": {
+            "description": "the POWERLINK network operates in reduced cycle",
+            "type": "integer"
+          },
+          "NMT_XS_PRE_OPERATIONAL_2": {
+            "description": "the POWERLINK network operates in isochronous operation, but the device is still in a configuration state",
+            "type": "integer"
+          },
+          "NMT_XS_READY_TO_OPERATE": {
+            "description": "the device configuration is completed and the device is ready to switch over to NMT_XS_OPERATIONAL",
+            "type": "integer"
+          },
+          "NMT_XS_OPERATIONAL": {
+            "description": "normal operating state of a POWERLINK Device",
+            "type": "integer"
+          },
+          "NMT_CS_STOPPED": {
+            "description": "the device is largely passive, NMT_CS_STOPPED shall be used for controlled shutdown of a selected CN while the system is still running",
+            "type": "integer"
+          },
+          "NMT_XS_BASIC_ETHERNET": {
+            "description": "Legacy Ethernet communication according to IEEE 802.3, no POWERLINK specific network traffic control",
+            "type": "integer"
+          }
+        }
+      },
+      "PowerlinkPDOMappingEntryDataType": {
+        "description": "Structure DataType PowerlinkPDOMappingEntryDataType to represent the entries of POWERLINK Objects like PDO_RxCommParam_00h_REC",
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.POWERLINK.PowerlinkPDOMappingEntryDataType",
+        "required": [ "length", "offset", "reserved", "subIndex", "index" ],
+        "properties": {
+          "length": {
+            "description": "Index of the object to be mapped",
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 65535
+          },
+          "offset": {
+            "description": "Sub-Index of the object to be mapped",
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 65535
+          },
+          "reserved": {
+            "description": "for alignment purpose",
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 255
+          },
+          "subIndex": {
+            "description": "Offset related to start of PDO payload (Bit count)",
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 255
+          },
+          "index": {
+            "description": "Length of the mapped object (Bit count)",
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 65535
+          }
+        }
+      }
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
   }
 ]

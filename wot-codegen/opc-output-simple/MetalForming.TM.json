@@ -634,5 +634,61 @@
         ]
       }
     }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dov": "http://azure.com/DigitalOperations/vocab#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "MetalForming_DataTypes",
+    "links": [
+    ],
+    "schemaDefinitions": {
+      "CyclicPartInformationDataType": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.MetalForming.CyclicPartInformationDataType",
+        "required": [ "CycleCount" ],
+        "properties": {
+          "CycleCount": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 4294967295
+          },
+          "PartId": {
+            "type": "string"
+          }
+        }
+      },
+      "CyclicProcessValueDataType": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.MetalForming.CyclicProcessValueDataType",
+        "required": [ "AnalogSignal", "Setpoint", "CycleCount", "IsActive" ],
+        "properties": {
+          "AnalogSignal": {
+            "type": "number"
+          },
+          "Setpoint": {
+            "type": "number"
+          },
+          "CycleCount": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 4294967295
+          },
+          "IsActive": {
+            "type": "boolean"
+          }
+        }
+      }
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
   }
 ]

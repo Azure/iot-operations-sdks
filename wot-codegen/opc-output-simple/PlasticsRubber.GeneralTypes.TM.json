@@ -3930,8 +3930,72 @@
                 "description": "Description of a job in a cyclic job list",
                 "type": "object",
                 "dov:typeRef": "org.opcfoundation.UA.PlasticsRubber.GeneralTypes.CyclicJobListElementType",
-                "required": [ "NominalParts", "NominalBoxParts", "ExpectedCycleTime", "MouldId", "NumCavities" ],
+                "required": [ "JobName", "JobDescription", "JobClassification", "CustomerName", "ProductionDatasetName", "ProductionDatasetDescription", "Material", "ProductName", "ProductDescription", "JobPriority", "PlannedStart", "PlannedProductionTime", "LatestEnd", "NominalParts", "NominalBoxParts", "ExpectedCycleTime", "MouldId", "NumCavities" ],
                 "properties": {
+                  "JobName": {
+                    "description": "Name of the job",
+                    "type": "string"
+                  },
+                  "JobDescription": {
+                    "description": "Description of the job",
+                    "type": "string"
+                  },
+                  "JobClassification": {
+                    "description": "Classification of the job",
+                    "type": "string"
+                  },
+                  "CustomerName": {
+                    "description": "Name of the cumstomer for that the job is produced",
+                    "type": "string"
+                  },
+                  "ProductionDatasetName": {
+                    "description": "Name of the production dataset which is needed for the job",
+                    "type": "string"
+                  },
+                  "ProductionDatasetDescription": {
+                    "description": "Additional description of the production dataset which is needed for the job",
+                    "type": "string"
+                  },
+                  "Material": {
+                    "description": "Array of material names used for the job",
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  },
+                  "ProductName": {
+                    "description": "Array of product names produced by the job",
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  },
+                  "ProductDescription": {
+                    "description": "Array of descriptions of the products produced by the job",
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  },
+                  "JobPriority": {
+                    "description": "Priority of the job",
+                    "type": "string"
+                  },
+                  "PlannedStart": {
+                    "description": "Planned start of the job",
+                    "type": "string",
+                    "format": "date-time"
+                  },
+                  "PlannedProductionTime": {
+                    "description": "Planned production time",
+                    "type": "string",
+                    "pattern": "^P(?!$)(?:(?:(?:(?:\\d+Y)|(?:\\d+\\.\\d+Y$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?)|(?:(?:(?:\\d+W)|(?:\\d+\\.\\d+W$))?))(?:(?:\\d+D)|(?:\\d+\\.\\d+D$))?(?:T(?!$)(?:(?:\\d+H)|(?:\\d+\\.\\d+H$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?(?:\\d+(?:\\.\\d+)?S)?)?$"
+                  },
+                  "LatestEnd": {
+                    "description": "Latest end of the job",
+                    "type": "string",
+                    "format": "date-time"
+                  },
                   "NominalParts": {
                     "description": "Total number (sum of all cavities) of parts that shall be produced by the job",
                     "type": "integer",
@@ -8948,6 +9012,1095 @@
           }
         ]
       }
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dov": "http://azure.com/DigitalOperations/vocab#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "PlasticsRubber_GeneralTypes_DataTypes",
+    "links": [
+    ],
+    "schemaDefinitions": {
+      "ActiveErrorDataType": {
+        "description": "Iinformation about an active error in a device",
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.PlasticsRubber.GeneralTypes.ActiveErrorDataType",
+        "required": [ "Id", "Severity", "Message" ],
+        "properties": {
+          "Id": {
+            "description": "Unique identifier defined by manufacturer",
+            "type": "string"
+          },
+          "Severity": {
+            "description": "Severity as defined in the BaseEventType (1 = low – 1000 = high)",
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 65535
+          },
+          "Message": {
+            "description": "Message giving information about the error",
+            "type": "string"
+          }
+        }
+      },
+      "CavityCycleQualityEnumeration": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.PlasticsRubber.GeneralTypes.CavityCycleQualityEnumeration",
+        "const": {
+          "NO_PART": 0,
+          "GOOD_PART": 1,
+          "BAD_PART": 2,
+          "REWORK": 3
+        },
+        "description": "Quality of the cycle for each cavity",
+        "properties": {
+          "NO_PART": {
+            "description": "There is no part in cavity",
+            "type": "integer"
+          },
+          "GOOD_PART": {
+            "description": "The machine has detected no failures during the cycle for this cavity and the part quality is assumed as good",
+            "type": "integer"
+          },
+          "BAD_PART": {
+            "description": "The machine has detected failures during the cycle for the cavity and the part quality is assumed as bad",
+            "type": "integer"
+          },
+          "REWORK": {
+            "description": "The machine has detected failures during the cycle for the cavity which might be fixed by reworking the part",
+            "type": "integer"
+          }
+        }
+      },
+      "ClassifiedActiveErrorDataType": {
+        "description": "Iinformation about an active error in a device including the SoureNodes and a Classification",
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.PlasticsRubber.GeneralTypes.ClassifiedActiveErrorDataType",
+        "required": [ "Id", "Severity", "Message", "SourceNodes", "Classification" ],
+        "properties": {
+          "Id": {
+            "description": "Unique identifier defined by manufacturer",
+            "type": "string"
+          },
+          "Severity": {
+            "description": "Severity as defined in the BaseEventType (1 = low – 1000 = high)",
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 65535
+          },
+          "Message": {
+            "description": "Message giving information about the error",
+            "type": "string"
+          },
+          "SourceNodes": {
+            "description": "NodeIds of the Nodes which cause the error",
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "Classification": {
+            "description": "Classification of the error, if a process parameter expressed as MonitoredParameterType is the cause of the error",
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 65535
+          }
+        }
+      },
+      "ConfigurationParameterType": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.PlasticsRubber.GeneralTypes.ConfigurationParameterType",
+        "required": [ "Id", "Description", "DefaultValue", "Unit" ],
+        "properties": {
+          "Id": {
+            "description": "Unique identifier",
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 4294967295
+          },
+          "Description": {
+            "description": "Description of the parameter",
+            "type": "string"
+          },
+          "DefaultValue": {
+            "description": "Default value of the parameter",
+            "type": "string"
+          },
+          "Unit": {
+            "title": "EUInformation",
+            "description": "Engineering unit of the parameter. If the Type of Defaultvalue is not a Number, then the Unit shall be empty",
+            "type": "object",
+            "dov:typeRef": "org.opcfoundation.UA.EUInformation",
+            "required": [ "NamespaceUri", "UnitId", "DisplayName", "Description" ],
+            "properties": {
+              "NamespaceUri": {
+                "type": "string"
+              },
+              "UnitId": {
+                "type": "integer",
+                "minimum": -2147483648,
+                "maximum": 2147483647
+              },
+              "DisplayName": {
+                "type": "string"
+              },
+              "Description": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      },
+      "ControlModeEnumeration": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.PlasticsRubber.GeneralTypes.ControlModeEnumeration",
+        "const": {
+          "OTHER": 0,
+          "OFF": 1,
+          "AUTOMATIC": 2,
+          "TUNING": 3,
+          "STANDBY": 4,
+          "OPEN_LOOP": 5,
+          "ONLY_MEASUREMENT": 6
+        },
+        "description": "Indication how the parameter is currently controlled",
+        "properties": {
+          "OTHER": {
+            "description": "This state is used if none of the other states below apply",
+            "type": "integer"
+          },
+          "OFF": {
+            "description": "Control is switched off",
+            "type": "integer"
+          },
+          "AUTOMATIC": {
+            "description": "The parameter is controlled automatically",
+            "type": "integer"
+          },
+          "TUNING": {
+            "description": "Optimisation of the control circuit",
+            "type": "integer"
+          },
+          "STANDBY": {
+            "description": "Parameter is controlled to stand by value",
+            "type": "integer"
+          },
+          "OPEN_LOOP": {
+            "description": "Open loop control is used",
+            "type": "integer"
+          },
+          "ONLY_MEASUREMENT": {
+            "description": "The sensors deliver the current value but there is no controlling",
+            "type": "integer"
+          }
+        }
+      },
+      "CycleQualityEnumeration": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.PlasticsRubber.GeneralTypes.CycleQualityEnumeration",
+        "const": {
+          "GOOD_CYCLE": 0,
+          "BAD_CYCLE": 1,
+          "TEST_SAMPLE_CYCLE": 2,
+          "FAILED_CYCLE": 3
+        },
+        "description": "Quality of the whole cycle",
+        "properties": {
+          "GOOD_CYCLE": {
+            "description": "The machine has detected no failures during the cycle and the part quality (for all cavities) is assumed as good",
+            "type": "integer"
+          },
+          "BAD_CYCLE": {
+            "description": "The quality of the part(s) is assumed as bad",
+            "type": "integer"
+          },
+          "TEST_SAMPLE_CYCLE": {
+            "description": "A cycle is separated as a test sample",
+            "type": "integer"
+          },
+          "FAILED_CYCLE": {
+            "description": "The machine has detected failures during the cycle and the part quality is assumed as bad. Further information is provided by the MessageCondition fired in this case.",
+            "type": "integer"
+          }
+        }
+      },
+      "CyclicJobListElementType": {
+        "description": "Description of a job in a cyclic job list",
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.PlasticsRubber.GeneralTypes.CyclicJobListElementType",
+        "required": [ "JobName", "JobDescription", "JobClassification", "CustomerName", "ProductionDatasetName", "ProductionDatasetDescription", "Material", "ProductName", "ProductDescription", "JobPriority", "PlannedStart", "PlannedProductionTime", "LatestEnd", "NominalParts", "NominalBoxParts", "ExpectedCycleTime", "MouldId", "NumCavities" ],
+        "properties": {
+          "JobName": {
+            "description": "Name of the job",
+            "type": "string"
+          },
+          "JobDescription": {
+            "description": "Description of the job",
+            "type": "string"
+          },
+          "JobClassification": {
+            "description": "Classification of the job",
+            "type": "string"
+          },
+          "CustomerName": {
+            "description": "Name of the cumstomer for that the job is produced",
+            "type": "string"
+          },
+          "ProductionDatasetName": {
+            "description": "Name of the production dataset which is needed for the job",
+            "type": "string"
+          },
+          "ProductionDatasetDescription": {
+            "description": "Additional description of the production dataset which is needed for the job",
+            "type": "string"
+          },
+          "Material": {
+            "description": "Array of material names used for the job",
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "ProductName": {
+            "description": "Array of product names produced by the job",
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "ProductDescription": {
+            "description": "Array of descriptions of the products produced by the job",
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "JobPriority": {
+            "description": "Priority of the job",
+            "type": "string"
+          },
+          "PlannedStart": {
+            "description": "Planned start of the job",
+            "type": "string",
+            "format": "date-time"
+          },
+          "PlannedProductionTime": {
+            "description": "Planned production time",
+            "type": "string",
+            "pattern": "^P(?!$)(?:(?:(?:(?:\\d+Y)|(?:\\d+\\.\\d+Y$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?)|(?:(?:(?:\\d+W)|(?:\\d+\\.\\d+W$))?))(?:(?:\\d+D)|(?:\\d+\\.\\d+D$))?(?:T(?!$)(?:(?:\\d+H)|(?:\\d+\\.\\d+H$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?(?:\\d+(?:\\.\\d+)?S)?)?$"
+          },
+          "LatestEnd": {
+            "description": "Latest end of the job",
+            "type": "string",
+            "format": "date-time"
+          },
+          "NominalParts": {
+            "description": "Total number (sum of all cavities) of parts that shall be produced by the job",
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 18446744073709551615
+          },
+          "NominalBoxParts": {
+            "description": "Number of parts that shall be put into one box",
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 18446744073709551615
+          },
+          "ExpectedCycleTime": {
+            "description": "Calculated cycle time for the job",
+            "type": "string",
+            "pattern": "^P(?!$)(?:(?:(?:(?:\\d+Y)|(?:\\d+\\.\\d+Y$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?)|(?:(?:(?:\\d+W)|(?:\\d+\\.\\d+W$))?))(?:(?:\\d+D)|(?:\\d+\\.\\d+D$))?(?:T(?!$)(?:(?:\\d+H)|(?:\\d+\\.\\d+H$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?(?:\\d+(?:\\.\\d+)?S)?)?$"
+          },
+          "MouldId": {
+            "description": "Id of the mould used for the job",
+            "type": "string"
+          },
+          "NumCavities": {
+            "description": "Number of cavities in the mould used for production",
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 4294967295
+          }
+        }
+      },
+      "DiagnosticsStatusEnumeration": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.PlasticsRubber.GeneralTypes.DiagnosticsStatusEnumeration",
+        "const": {
+          "OFF": 0,
+          "ACTIVE_OK": 1,
+          "ACTIVE_ERROR_DETECTED": 2,
+          "COMPLETE": 3,
+          "COMPLETE_ERROR_DETECTED": 4
+        },
+        "properties": {
+          "OFF": {
+            "description": "Diagnostics inactive ",
+            "type": "integer"
+          },
+          "ACTIVE_OK": {
+            "description": "Diagnostics active ",
+            "type": "integer"
+          },
+          "ACTIVE_ERROR_DETECTED": {
+            "description": "Diagnostics active, at least one error detected",
+            "type": "integer"
+          },
+          "COMPLETE": {
+            "description": "Diagnostics completed successfully, result in variable “Result” available",
+            "type": "integer"
+          },
+          "COMPLETE_ERROR_DETECTED": {
+            "description": "Diagnostics completed detected some error",
+            "type": "integer"
+          }
+        }
+      },
+      "EventOriginatorEnumeration": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.PlasticsRubber.GeneralTypes.EventOriginatorEnumeration",
+        "const": {
+          "OTHER": 0,
+          "MACHINE": 1,
+          "OPERATOR": 2,
+          "MES": 3,
+          "PERIPHERAL_DEVICE": 4
+        },
+        "description": "Originator of an event",
+        "properties": {
+          "OTHER": {
+            "description": "Undefined",
+            "type": "integer"
+          },
+          "MACHINE": {
+            "description": "The machine causes the event (e.g. an alarm)",
+            "type": "integer"
+          },
+          "OPERATOR": {
+            "description": "The operator of the machine causes the event (e.g. a parameter change)",
+            "type": "integer"
+          },
+          "MES": {
+            "description": "The MES causes the event (e.g. a MESMessage)",
+            "type": "integer"
+          },
+          "PERIPHERAL_DEVICE": {
+            "description": "A peripheral device causes the event (e.g. an alarm)",
+            "type": "integer"
+          }
+        }
+      },
+      "JobListElementType": {
+        "description": "Description of a job in a job list",
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.PlasticsRubber.GeneralTypes.JobListElementType",
+        "required": [ "JobName", "JobDescription", "JobClassification", "CustomerName", "ProductionDatasetName", "ProductionDatasetDescription", "Material", "ProductName", "ProductDescription", "JobPriority", "PlannedStart", "PlannedProductionTime", "LatestEnd" ],
+        "properties": {
+          "JobName": {
+            "description": "Name of the job",
+            "type": "string"
+          },
+          "JobDescription": {
+            "description": "Description of the job",
+            "type": "string"
+          },
+          "JobClassification": {
+            "description": "Classification of the job",
+            "type": "string"
+          },
+          "CustomerName": {
+            "description": "Name of the cumstomer for that the job is produced",
+            "type": "string"
+          },
+          "ProductionDatasetName": {
+            "description": "Name of the production dataset which is needed for the job",
+            "type": "string"
+          },
+          "ProductionDatasetDescription": {
+            "description": "Additional description of the production dataset which is needed for the job",
+            "type": "string"
+          },
+          "Material": {
+            "description": "Array of material names used for the job",
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "ProductName": {
+            "description": "Array of product names produced by the job",
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "ProductDescription": {
+            "description": "Array of descriptions of the products produced by the job",
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "JobPriority": {
+            "description": "Priority of the job",
+            "type": "string"
+          },
+          "PlannedStart": {
+            "description": "Planned start of the job",
+            "type": "string",
+            "format": "date-time"
+          },
+          "PlannedProductionTime": {
+            "description": "Planned production time",
+            "type": "string",
+            "pattern": "^P(?!$)(?:(?:(?:(?:\\d+Y)|(?:\\d+\\.\\d+Y$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?)|(?:(?:(?:\\d+W)|(?:\\d+\\.\\d+W$))?))(?:(?:\\d+D)|(?:\\d+\\.\\d+D$))?(?:T(?!$)(?:(?:\\d+H)|(?:\\d+\\.\\d+H$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?(?:\\d+(?:\\.\\d+)?S)?)?$"
+          },
+          "LatestEnd": {
+            "description": "Latest end of the job",
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "JobStatusEnumeration": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.PlasticsRubber.GeneralTypes.JobStatusEnumeration",
+        "const": {
+          "OTHER": 0,
+          "TRANSFERRED_ASSIGNED": 1,
+          "SET_UP_ACTIVE": 2,
+          "SET_UP_INTERRUPTED": 3,
+          "SET_UP_FINISHED": 4,
+          "START_UP_ACTIVE": 5,
+          "JOB_IN_PRODUCTION": 6,
+          "JOB_INTERRUPTED": 7,
+          "JOB_FINISHED": 8,
+          "TEAR_DOWN_ACTIVE": 9,
+          "TEAR_DOWN_INTERRUPTED": 10,
+          "TEAR_DOWN_FINISHED": 11
+        },
+        "description": "Current status of the job",
+        "properties": {
+          "OTHER": {
+            "description": "This state is used if none of the other states below apply",
+            "type": "integer"
+          },
+          "TRANSFERRED_ASSIGNED": {
+            "description": "The job has been transferred to the machine and assigned as current job",
+            "type": "integer"
+          },
+          "SET_UP_ACTIVE": {
+            "description": "The operator prepares the machine for the job",
+            "type": "integer"
+          },
+          "SET_UP_INTERRUPTED": {
+            "description": "The operator has interrupted but not finished the preparation of the machine for the job",
+            "type": "integer"
+          },
+          "SET_UP_FINISHED": {
+            "description": "The operator has finished the preparation of the machine for the job",
+            "type": "integer"
+          },
+          "START_UP_ACTIVE": {
+            "description": "The operator is setting the machine in the start-up phase",
+            "type": "integer"
+          },
+          "JOB_IN_PRODUCTION": {
+            "description": "The machine is producing parts/products for the job",
+            "type": "integer"
+          },
+          "JOB_INTERRUPTED": {
+            "description": "The job is interrupted. The nominal output is not reached",
+            "type": "integer"
+          },
+          "JOB_FINISHED": {
+            "description": "Nominal output reached",
+            "type": "integer"
+          },
+          "TEAR_DOWN_ACTIVE": {
+            "description": "The operator tears the machine down",
+            "type": "integer"
+          },
+          "TEAR_DOWN_INTERRUPTED": {
+            "description": "Tear-down is interrupted but not finished",
+            "type": "integer"
+          },
+          "TEAR_DOWN_FINISHED": {
+            "description": "Tear-down is finished",
+            "type": "integer"
+          }
+        }
+      },
+      "LogbookEventsEnumeration": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.PlasticsRubber.GeneralTypes.LogbookEventsEnumeration",
+        "const": {
+          "PARAMETER_CHANGE": 0,
+          "USER": 1,
+          "REMOTE_ACCESS": 2,
+          "SEQUENCE_CHANGE": 3,
+          "MACHINE_MODE_CHANGE": 4,
+          "PRODUCTION_STATUS_CHANGE": 5,
+          "PRODUCTION_DATASET_CHANGE": 6,
+          "PRODUCTION_DATASET_FROZEN": 7,
+          "STANDSTILL_REASON": 8,
+          "MESSAGE": 9,
+          "USER_FEEDBACK": 10
+        },
+        "description": "Information which LogbookEvents are supported by the machine",
+        "properties": {
+          "PARAMETER_CHANGE": {
+            "description": "Support of ParameterChangeLogType",
+            "type": "integer"
+          },
+          "USER": {
+            "description": "Support of UserLogType ",
+            "type": "integer"
+          },
+          "REMOTE_ACCESS": {
+            "description": "Support of RemoteAccessLogType",
+            "type": "integer"
+          },
+          "SEQUENCE_CHANGE": {
+            "description": "Support of SequenceChangeLogType",
+            "type": "integer"
+          },
+          "MACHINE_MODE_CHANGE": {
+            "description": "Support of MachineModeChangeLogType",
+            "type": "integer"
+          },
+          "PRODUCTION_STATUS_CHANGE": {
+            "description": "Support of ProductionStatusChangeLogType",
+            "type": "integer"
+          },
+          "PRODUCTION_DATASET_CHANGE": {
+            "description": "Support of ProductionDatasetChangeLogType",
+            "type": "integer"
+          },
+          "PRODUCTION_DATASET_FROZEN": {
+            "description": "Support of ProductionDatasetFrozenLogType",
+            "type": "integer"
+          },
+          "STANDSTILL_REASON": {
+            "description": "Support of StandstillReasonLogType",
+            "type": "integer"
+          },
+          "MESSAGE": {
+            "description": "Support of MessageLogType",
+            "type": "integer"
+          },
+          "USER_FEEDBACK": {
+            "description": "Support of UserFeedbackLogType",
+            "type": "integer"
+          }
+        }
+      },
+      "MachineModeEnumeration": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.PlasticsRubber.GeneralTypes.MachineModeEnumeration",
+        "const": {
+          "OTHER": 0,
+          "AUTOMATIC": 1,
+          "SEMI_AUTOMATIC": 2,
+          "MANUAL": 3,
+          "SETUP": 4,
+          "SLEEP": 5
+        },
+        "description": "Current machine mode (as defined by mode selector on the machine)",
+        "properties": {
+          "OTHER": {
+            "description": "This state is used if none of the other states apply",
+            "type": "integer"
+          },
+          "AUTOMATIC": {
+            "description": "The machine is in automatic mode",
+            "type": "integer"
+          },
+          "SEMI_AUTOMATIC": {
+            "description": "The machine is in semi-automatic mode",
+            "type": "integer"
+          },
+          "MANUAL": {
+            "description": "The machine is in manual mode",
+            "type": "integer"
+          },
+          "SETUP": {
+            "description": "The machine is in setup mode",
+            "type": "integer"
+          },
+          "SLEEP": {
+            "description": "The machine is in sleep mode. Machine is still switched on, energy consumption reduced by e.g. reducing heating, switching drives off. Production is not possible.",
+            "type": "integer"
+          }
+        }
+      },
+      "MaintenanceStatusEnumeration": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.PlasticsRubber.GeneralTypes.MaintenanceStatusEnumeration",
+        "const": {
+          "NOT_DUE": 0,
+          "WARNING": 1,
+          "DUE": 2
+        },
+        "description": "Maintenance status of a machine/device/component",
+        "properties": {
+          "NOT_DUE": {
+            "description": "Maintenance of the device/component is not due",
+            "type": "integer"
+          },
+          "WARNING": {
+            "description": "Maintenance of the device/component is due in the near future",
+            "type": "integer"
+          },
+          "DUE": {
+            "description": "Maintenance of the device/component is due",
+            "type": "integer"
+          }
+        }
+      },
+      "MouldStatusEnumeration": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.PlasticsRubber.GeneralTypes.MouldStatusEnumeration",
+        "const": {
+          "OTHER": 0,
+          "MOULD_NOT_INSTALLED": 1,
+          "MOULD_CHANGE": 2,
+          "MOULD_INSTALLED": 3
+        },
+        "description": "Current (physical) status of the mould",
+        "properties": {
+          "OTHER": {
+            "description": "This state is used if none of the other states below apply",
+            "type": "integer"
+          },
+          "MOULD_NOT_INSTALLED": {
+            "description": "The mould is not installed on the machine",
+            "type": "integer"
+          },
+          "MOULD_CHANGE": {
+            "description": "During installation or changing of the mould",
+            "type": "integer"
+          },
+          "MOULD_INSTALLED": {
+            "description": "The mould is installed and ready for production",
+            "type": "integer"
+          }
+        }
+      },
+      "PIDParametersDataType": {
+        "description": "Structure for storing the parameters of a PID controller",
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.PlasticsRubber.GeneralTypes.PIDParametersDataType",
+        "required": [ "P", "I", "D" ],
+        "properties": {
+          "P": {
+            "description": "Propotional gain",
+            "type": "number",
+            "minimum": -1.80e+308,
+            "maximum": 1.80e+308
+          },
+          "I": {
+            "description": "Integral gain",
+            "type": "number",
+            "minimum": -1.80e+308,
+            "maximum": 1.80e+308
+          },
+          "D": {
+            "description": "Derivative gain",
+            "type": "number",
+            "minimum": -1.80e+308,
+            "maximum": 1.80e+308
+          }
+        }
+      },
+      "PageEntryDataType": {
+        "description": "Information on a page that is implemented in the machine control system and shown on the screen of the machine",
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.PlasticsRubber.GeneralTypes.PageEntryDataType",
+        "required": [ "Id", "Title" ],
+        "properties": {
+          "Id": {
+            "description": "Unique identifier defined by manufacturer",
+            "type": "string"
+          },
+          "Title": {
+            "description": "Page name",
+            "type": "string"
+          }
+        }
+      },
+      "ParameterSettingType": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.PlasticsRubber.GeneralTypes.ParameterSettingType",
+        "required": [ "Id", "Value" ],
+        "properties": {
+          "Id": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 4294967295
+          },
+          "Value": {
+            "description": "Stand-in for an unspecified data type.",
+            "type": "string"
+          }
+        }
+      },
+      "ProductionDatasetInformationType": {
+        "description": "Information on a production dataset",
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.PlasticsRubber.GeneralTypes.ProductionDatasetInformationType",
+        "required": [ "Name", "Description", "MESId", "CreationTimestamp", "LastModificationTimestamp", "LastSaveTimestamp", "UserName", "Components", "Manufacturer", "SerialNumber", "Model", "ControllerName", "UserMachineName", "LocationName", "ProductName", "MouldId", "NumCavities" ],
+        "properties": {
+          "Name": {
+            "description": "Name of the production dataset (=identifier)",
+            "type": "string"
+          },
+          "Description": {
+            "description": "Additional description of the production dataset",
+            "type": "string"
+          },
+          "MESId": {
+            "description": "Id of the production dataset file assigned by MES",
+            "type": "string"
+          },
+          "CreationTimestamp": {
+            "description": "Time when the production dataset was originally created or saved with a new name",
+            "type": "string",
+            "format": "date-time"
+          },
+          "LastModificationTimestamp": {
+            "description": "Time of the last modification of the production dataset",
+            "type": "string",
+            "format": "date-time"
+          },
+          "LastSaveTimestamp": {
+            "description": "Time when the production dataset was saved to the file system of the machine",
+            "type": "string",
+            "format": "date-time"
+          },
+          "UserName": {
+            "description": "Name of the user who has made the last parameter change on the machine",
+            "type": "string"
+          },
+          "Components": {
+            "description": "Informs for which machines information is included in the file",
+            "type": "array",
+            "items": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 65535
+            }
+          },
+          "Manufacturer": {
+            "description": "Manufacturer of the machine from which the production dataset file is generated",
+            "type": "string"
+          },
+          "SerialNumber": {
+            "description": "Serial number of the machine from which the production dataset file is generated",
+            "type": "string"
+          },
+          "Model": {
+            "description": "Model of the machine from which the production dataset file is generated",
+            "type": "string"
+          },
+          "ControllerName": {
+            "description": "Name of Controller of the machine from which the production dataset file is generated",
+            "type": "string"
+          },
+          "UserMachineName": {
+            "description": "User machine name of the machine from which the production dataset file is generated",
+            "type": "string"
+          },
+          "LocationName": {
+            "description": "Location of the machine from which the production dataset file is generated",
+            "type": "string"
+          },
+          "ProductName": {
+            "description": "Name of the product produced with this production dataset",
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "MouldId": {
+            "description": "Id of the mould for this production dataset",
+            "type": "string"
+          },
+          "NumCavities": {
+            "description": "Number of cavities of the mould for this production dataset",
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 4294967295
+          }
+        }
+      },
+      "ProductionDatasetReadOptionsType": {
+        "description": "Used as GenerateOptions in the Method GenerateFileForRead in ProductionDatasetTransfer",
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.PlasticsRubber.GeneralTypes.ProductionDatasetReadOptionsType",
+        "required": [ "Storage", "Name" ],
+        "properties": {
+          "Storage": {
+            "title": "StorageEnumeration",
+            "description": "Indication from where the production dataset is read",
+            "dov:typeRef": "org.opcfoundation.UA.PlasticsRubber.GeneralTypes.StorageEnumeration",
+            "type": "integer",
+            "minimum": -2147483648,
+            "maximum": 2147483647
+          },
+          "Name": {
+            "description": "Name of the production dataset that should be transferred from the server to the client",
+            "type": "string"
+          }
+        }
+      },
+      "ProductionDatasetWriteOptionsType": {
+        "description": "Used as GenerateOptions in the Method GenerateFileForWrite in ProductionDatasetTransfer",
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.PlasticsRubber.GeneralTypes.ProductionDatasetWriteOptionsType",
+        "required": [ "Storage", "Name", "Components" ],
+        "properties": {
+          "Storage": {
+            "title": "StorageEnumeration",
+            "description": "Indication where the production dataset is written to",
+            "dov:typeRef": "org.opcfoundation.UA.PlasticsRubber.GeneralTypes.StorageEnumeration",
+            "type": "integer",
+            "minimum": -2147483648,
+            "maximum": 2147483647
+          },
+          "Name": {
+            "description": "Name of the production dataset that should be transferred from the client to the server",
+            "type": "string"
+          },
+          "Components": {
+            "description": "Array which indicates which parts of the production dataset shall be activated in the machine control after writing",
+            "type": "array",
+            "items": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 65535
+            }
+          }
+        }
+      },
+      "ProductionStatusEnumeration": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.PlasticsRubber.GeneralTypes.ProductionStatusEnumeration",
+        "const": {
+          "OTHER": 0,
+          "NO_PRODUCTION": 1,
+          "START_UP": 2,
+          "READY_FOR_PRODUCTION": 3,
+          "PRODUCTION": 4,
+          "DRY_RUN": 5
+        },
+        "description": "Production status of the machine",
+        "properties": {
+          "OTHER": {
+            "description": "This state is used if none of the other states below apply",
+            "type": "integer"
+          },
+          "NO_PRODUCTION": {
+            "description": "The machine does not produce any parts/products",
+            "type": "integer"
+          },
+          "START_UP": {
+            "description": "The machine is producing parts/products in the start-up phase. So the correct settings of the machines are not reached.",
+            "type": "integer"
+          },
+          "READY_FOR_PRODUCTION": {
+            "description": "The machine is producing parts/products, the correct settings of the machines are reached but the production is not yet released (e.g. waiting for release from quality assurance)",
+            "type": "integer"
+          },
+          "PRODUCTION": {
+            "description": "The machine is producing parts/products.  In semi-automatic mode also during waiting time (e.g. for manual loading/unloading of parts) ProductionStatus remains in this state (time out possible if e.g. cycle time exceeds a pre-defined limit)",
+            "type": "integer"
+          },
+          "DRY_RUN": {
+            "description": "The machine is moving without material",
+            "type": "integer"
+          }
+        }
+      },
+      "SequenceChangeEnumeration": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.PlasticsRubber.GeneralTypes.SequenceChangeEnumeration",
+        "const": {
+          "UPDATE": 0,
+          "ADD": 1,
+          "MODIFY": 2,
+          "MOVE": 3,
+          "DELETE": 4
+        },
+        "description": "Classification of production sequence change",
+        "properties": {
+          "UPDATE": {
+            "description": "The sequence has been updated (e.g. when a new production dataset has been activated)",
+            "type": "integer"
+          },
+          "ADD": {
+            "description": "An element has been added to the sequence",
+            "type": "integer"
+          },
+          "MODIFY": {
+            "description": "An element of the sequence has been modified",
+            "type": "integer"
+          },
+          "MOVE": {
+            "description": "An element of the sequence has been moved",
+            "type": "integer"
+          },
+          "DELETE": {
+            "description": "An element of the sequence has been deleted",
+            "type": "integer"
+          }
+        }
+      },
+      "StandstillReasonType": {
+        "description": "Description of a standstill reason",
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.PlasticsRubber.GeneralTypes.StandstillReasonType",
+        "required": [ "Id", "Text", "LockedByMES" ],
+        "properties": {
+          "Id": {
+            "description": "Id of the standstill reason",
+            "type": "string"
+          },
+          "Text": {
+            "description": "Text of the standstill reason",
+            "type": "string"
+          },
+          "LockedByMES": {
+            "description": "LockedByMES means that this StandstillReason has been set or modified by the MES and so this may not be changed by the machine",
+            "type": "boolean"
+          }
+        }
+      },
+      "StartEnumeration": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.PlasticsRubber.GeneralTypes.StartEnumeration",
+        "const": {
+          "NOT_READY_TO_START": 0,
+          "START_BLOCKED_BY_CLIENT": 1,
+          "READY_TO_START": 2,
+          "START_REQUESTED": 3,
+          "STARTED": 4,
+          "STOP_REQUESTED": 5
+        },
+        "properties": {
+          "NOT_READY_TO_START": {
+            "type": "integer"
+          },
+          "START_BLOCKED_BY_CLIENT": {
+            "type": "integer"
+          },
+          "READY_TO_START": {
+            "type": "integer"
+          },
+          "START_REQUESTED": {
+            "type": "integer"
+          },
+          "STARTED": {
+            "type": "integer"
+          },
+          "STOP_REQUESTED": {
+            "type": "integer"
+          }
+        }
+      },
+      "StorageEnumeration": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.PlasticsRubber.GeneralTypes.StorageEnumeration",
+        "const": {
+          "PRODUCTION": 1,
+          "PREPARATION": 2,
+          "FILE_SYSTEM": 4
+        },
+        "description": "Indication which parts of the production dataset shall be activated in the machine control after writing",
+        "properties": {
+          "PRODUCTION": {
+            "description": "The production dataset is written directly to the (active layer of the) control system of the machine",
+            "type": "integer"
+          },
+          "PREPARATION": {
+            "description": "The production dataset is written to the preparation layer of the control system of the machine (if supported)",
+            "type": "integer"
+          },
+          "FILE_SYSTEM": {
+            "description": "The production dataset is written to the file system of the machine for later activation",
+            "type": "integer"
+          }
+        }
+      },
+      "TemperatureZoneClassificationEnumeration": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.PlasticsRubber.GeneralTypes.TemperatureZoneClassificationEnumeration",
+        "const": {
+          "OTHER": 0,
+          "HEATING": 1,
+          "COOLING": 2,
+          "TEMPERATURE_CONTROL": 3,
+          "HOT_RUNNER": 4,
+          "MEASURING": 5
+        },
+        "description": "Type of the temperature zone",
+        "properties": {
+          "OTHER": {
+            "description": "This value is used if none of the other values below apply",
+            "type": "integer"
+          },
+          "HEATING": {
+            "description": "The zone is a heating zone",
+            "type": "integer"
+          },
+          "COOLING": {
+            "description": "The zone is a cooling zone",
+            "type": "integer"
+          },
+          "TEMPERATURE_CONTROL": {
+            "description": "The zone is controlled by a temperature control device",
+            "type": "integer"
+          },
+          "HOT_RUNNER": {
+            "description": "The zone is a hot runner zone",
+            "type": "integer"
+          },
+          "MEASURING": {
+            "description": "The zone has no heating or cooling, Only the temperature is measured.",
+            "type": "integer"
+          }
+        }
+      },
+      "UserChangeEnumeration": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.PlasticsRubber.GeneralTypes.UserChangeEnumeration",
+        "const": {
+          "LOG_ON": 0,
+          "LOG_OFF": 1
+        },
+        "description": "Information if a user logs in or off",
+        "properties": {
+          "LOG_ON": {
+            "description": "The user has logged on the machine",
+            "type": "integer"
+          },
+          "LOG_OFF": {
+            "description": "The user has logged off the machine",
+            "type": "integer"
+          }
+        }
+      }
+    },
+    "actions": {
+    },
+    "properties": {
     },
     "events": {
     }

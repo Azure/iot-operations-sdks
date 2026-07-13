@@ -5124,5 +5124,366 @@
         ]
       }
     }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dov": "http://azure.com/DigitalOperations/vocab#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "FX_AC_DataTypes",
+    "links": [
+    ],
+    "schemaDefinitions": {
+      "AggregatedHealthDataType": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.FX.AC.AggregatedHealthDataType",
+        "required": [ "AggregatedDeviceHealth", "AggregatedOperationalHealth" ],
+        "properties": {
+          "AggregatedDeviceHealth": {
+            "title": "DeviceHealthOptionSet",
+            "dov:typeRef": "org.opcfoundation.UA.FX.AC.DeviceHealthOptionSet",
+            "type": "integer",
+            "minimum": -2147483648,
+            "maximum": 2147483647
+          },
+          "AggregatedOperationalHealth": {
+            "title": "OperationalHealthOptionSet",
+            "dov:typeRef": "org.opcfoundation.UA.FX.AC.OperationalHealthOptionSet",
+            "type": "integer",
+            "minimum": -2147483648,
+            "maximum": 2147483647
+          }
+        }
+      },
+      "ApplicationId": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.FX.AC.ApplicationId",
+        "properties": {
+          "IdNumeric": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 4294967295
+          },
+          "IdString": {
+            "type": "string"
+          },
+          "IdGuid": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "IdByteString": {
+            "type": "string",
+            "contentEncoding": "base64"
+          }
+        }
+      },
+      "ApplicationIdentifierDataType": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.FX.AC.ApplicationIdentifierDataType",
+        "required": [ "Name", "UniqueIdentifier" ],
+        "properties": {
+          "Name": {
+            "type": "string"
+          },
+          "UniqueIdentifier": {
+            "title": "ApplicationId",
+            "type": "object",
+            "dov:typeRef": "org.opcfoundation.UA.FX.AC.ApplicationId",
+            "properties": {
+              "IdNumeric": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 4294967295
+              },
+              "IdString": {
+                "type": "string"
+              },
+              "IdGuid": {
+                "type": "string",
+                "format": "uuid"
+              },
+              "IdByteString": {
+                "type": "string",
+                "contentEncoding": "base64"
+              }
+            }
+          }
+        }
+      },
+      "ClampKindEnum": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.FX.AC.ClampKindEnum",
+        "const": {
+          "Screw": 0,
+          "Thumb": 1
+        },
+        "properties": {
+          "Screw": {
+            "description": "This is a screw connector",
+            "type": "integer"
+          },
+          "Thumb": {
+            "description": "This is a thumb connector",
+            "type": "integer"
+          }
+        }
+      },
+      "CommHealthOptionSet": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.FX.AC.CommHealthOptionSet",
+        "const": {
+          "CommInitial": 0,
+          "CommPreOperational": 1,
+          "CommError": 2
+        },
+        "properties": {
+          "CommInitial": {
+            "description": "At least one of the ConnectionEndpoints has its Status set to Initial.",
+            "type": "integer"
+          },
+          "CommPreOperational": {
+            "description": "At least one of the ConnectionEndpoints has its Status set to PreOperational.",
+            "type": "integer"
+          },
+          "CommError": {
+            "description": "At least one of the ConnectionEndpoints has its Status set to Error.",
+            "type": "integer"
+          }
+        }
+      },
+      "ConnectionEndpointStatusEnum": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.FX.AC.ConnectionEndpointStatusEnum",
+        "const": {
+          "Initial": 0,
+          "Ready": 1,
+          "PreOperational": 2,
+          "Operational": 3,
+          "Error": 4
+        },
+        "description": "This enumeration defines the values of the FlcConnectionStatus of an FlcConnectionEndpointType. ",
+        "properties": {
+          "Initial": {
+            "description": "Initial status of the logical connection. No communication-model objects referenced.",
+            "type": "integer"
+          },
+          "Ready": {
+            "description": "Logical connection is ready to operate, Communication-model objects are referenced but not enabled.",
+            "type": "integer"
+          },
+          "PreOperational": {
+            "description": "PreOperational status of the logical connection, Data output is active, but no input data received.",
+            "type": "integer"
+          },
+          "Operational": {
+            "description": "Operational status of the logical connection, Data output is active, and input data has been received.",
+            "type": "integer"
+          },
+          "Error": {
+            "description": "The logical connection has encountered an Error.",
+            "type": "integer"
+          }
+        }
+      },
+      "DeviceHealthOptionSet": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.FX.AC.DeviceHealthOptionSet",
+        "const": {
+          "DeviceFailure": 0,
+          "DeviceCheckFunction": 1,
+          "DeviceMaintenanceRequired": 2,
+          "DeviceOffSpec": 3
+        },
+        "properties": {
+          "DeviceFailure": {
+            "description": "At least one of the top-level Assets has its DeviceHealth set to Failure.",
+            "type": "integer"
+          },
+          "DeviceCheckFunction": {
+            "description": "At least one of the top-level Assets has its DeviceHealth set to CheckFunction.",
+            "type": "integer"
+          },
+          "DeviceMaintenanceRequired": {
+            "description": "At least one of the top-level Assets has its DeviceHealth set to MaintenanceRequired.",
+            "type": "integer"
+          },
+          "DeviceOffSpec": {
+            "description": "At least one of the top-level Assets has its DeviceHealth set to OffSpec.",
+            "type": "integer"
+          }
+        }
+      },
+      "FxTimeUnitsEnum": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.FX.AC.FxTimeUnitsEnum",
+        "const": {
+          "Nanosecond": 0,
+          "Microsecond": 1,
+          "Millisecond": 2,
+          "Second": 3
+        },
+        "description": "This enumeration describes the support units of time",
+        "properties": {
+          "Nanosecond": {
+            "type": "integer"
+          },
+          "Microsecond": {
+            "type": "integer"
+          },
+          "Millisecond": {
+            "type": "integer"
+          },
+          "Second": {
+            "type": "integer"
+          }
+        }
+      },
+      "FxVersion": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.FX.AC.FxVersion",
+        "required": [ "Major", "Minor", "Build", "SubBuild" ],
+        "properties": {
+          "Major": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 65535
+          },
+          "Minor": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 65535
+          },
+          "Build": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 65535
+          },
+          "SubBuild": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 65535
+          }
+        }
+      },
+      "IntervalRange": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.FX.AC.IntervalRange",
+        "required": [ "Min", "Max", "Increment", "Multiplier", "Unit" ],
+        "properties": {
+          "Min": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 4294967295
+          },
+          "Max": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 4294967295
+          },
+          "Increment": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 65535
+          },
+          "Multiplier": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 65535
+          },
+          "Unit": {
+            "title": "FxTimeUnitsEnum",
+            "dov:typeRef": "org.opcfoundation.UA.FX.AC.FxTimeUnitsEnum",
+            "type": "integer",
+            "minimum": -2147483648,
+            "maximum": 2147483647
+          }
+        }
+      },
+      "OperationalHealthOptionSet": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.FX.AC.OperationalHealthOptionSet",
+        "const": {
+          "OperationalWarning": 16,
+          "OperationalError": 17,
+          "SubOperationalWarning": 18,
+          "SubOperationalError": 19
+        },
+        "properties": {
+          "OperationalWarning": {
+            "description": "FunctionalEntity indicates a warning.",
+            "type": "integer"
+          },
+          "OperationalError": {
+            "description": "FunctionalEntity indicates an error.",
+            "type": "integer"
+          },
+          "SubOperationalWarning": {
+            "description": "One of the SubFunctionalEntities indicates a warning.",
+            "type": "integer"
+          },
+          "SubOperationalError": {
+            "description": "One of the SubFunctionalEntities indicates an error.",
+            "type": "integer"
+          }
+        }
+      },
+      "PublisherQosDataType": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.FX.AC.PublisherQosDataType",
+        "required": [ "QosCategory", "DatagramQos" ],
+        "properties": {
+          "QosCategory": {
+            "type": "string"
+          },
+          "DatagramQos": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "SocketKindEnum": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.FX.AC.SocketKindEnum",
+        "const": {
+          "RJ45": 0,
+          "M12": 1
+        },
+        "properties": {
+          "RJ45": {
+            "type": "integer"
+          },
+          "M12": {
+            "type": "integer"
+          }
+        }
+      },
+      "SubscriberQosDataType": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.FX.AC.SubscriberQosDataType",
+        "required": [ "QosCategory", "DatagramQos" ],
+        "properties": {
+          "QosCategory": {
+            "type": "string"
+          },
+          "DatagramQos": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
   }
 ]

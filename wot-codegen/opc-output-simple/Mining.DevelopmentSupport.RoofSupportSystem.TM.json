@@ -37,5 +37,53 @@
     },
     "events": {
     }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dov": "http://azure.com/DigitalOperations/vocab#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "Mining_DevelopmentSupport_RoofSupportSystem_DataTypes",
+    "links": [
+    ],
+    "schemaDefinitions": {
+      "RSSStateEnum": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.Mining.DevelopmentSupport.RoofSupportSystem.RSSStateEnum",
+        "const": {
+          "UNDEFINED": 0,
+          "ONGOING": 1,
+          "ERROR": 2,
+          "FINISHED": 3
+        },
+        "properties": {
+          "UNDEFINED": {
+            "description": "Enum value indicating an undefined RSS push operation stage",
+            "type": "integer"
+          },
+          "ONGOING": {
+            "description": "Enum value indicating an ongoing RSS push operation",
+            "type": "integer"
+          },
+          "ERROR": {
+            "description": "Enum value indicating an erroneous RSS push operation",
+            "type": "integer"
+          },
+          "FINISHED": {
+            "description": "Enum value indicating a finished RSS push operation ",
+            "type": "integer"
+          }
+        }
+      }
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
   }
 ]

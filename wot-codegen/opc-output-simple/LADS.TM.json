@@ -1395,5 +1395,89 @@
     },
     "events": {
     }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dov": "http://azure.com/DigitalOperations/vocab#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "LADS_DataTypes",
+    "links": [
+    ],
+    "schemaDefinitions": {
+      "KeyValueType": {
+        "description": "A key-value pair similar to 0:KeyValuePair which uses 0:String instead of 0:Qualifiedname for easu of use.",
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.LADS.KeyValueType",
+        "required": [ "Key", "Value" ],
+        "properties": {
+          "Key": {
+            "description": "Unique key to identify a value.",
+            "type": "string"
+          },
+          "Value": {
+            "description": "The value associated with the key.",
+            "type": "string"
+          }
+        }
+      },
+      "MaintenanceTaskResultEnum": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.LADS.MaintenanceTaskResultEnum",
+        "const": {
+          "Success": 0,
+          "Failure": 1,
+          "Undetermined": 2
+        },
+        "description": "This enumeration defines the different results when executing a Task..",
+        "properties": {
+          "Success": {
+            "description": "The maintenance task stopped successfully.",
+            "type": "integer"
+          },
+          "Failure": {
+            "description": "The maintenance task stopped with failure.",
+            "type": "integer"
+          },
+          "Undetermined": {
+            "description": "The status of the maintenance task upon stopping cannot be determined.",
+            "type": "integer"
+          }
+        }
+      },
+      "SampleInfoType": {
+        "description": "This DataType contains metadata for a sample, specifically data on the identification and location of the sample in a container.",
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.LADS.SampleInfoType",
+        "required": [ "ContainerId", "SampleId", "Position", "CustomData" ],
+        "properties": {
+          "ContainerId": {
+            "description": "Identifier of the container the sample is in.",
+            "type": "string"
+          },
+          "SampleId": {
+            "description": "Identifier of the sample.",
+            "type": "string"
+          },
+          "Position": {
+            "description": "Vendor-specific description of the position of the sample in the container.",
+            "type": "string"
+          },
+          "CustomData": {
+            "description": "Custom data field for vendor-specific data.",
+            "type": "string"
+          }
+        }
+      }
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
   }
 ]

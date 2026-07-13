@@ -2332,5 +2332,84 @@
         ]
       }
     }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dov": "http://azure.com/DigitalOperations/vocab#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "PlasticsRubber_TCD_DataTypes",
+    "links": [
+    ],
+    "schemaDefinitions": {
+      "OperatingModeEnumeration": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.PlasticsRubber.TCD.OperatingModeEnumeration",
+        "const": {
+          "OTHER": 0,
+          "READY_TO_OPERATE": 1,
+          "NORMAL_OPERATION": 2,
+          "LEAK_STOPPER": 3,
+          "MOULD_EVACUATION": 4,
+          "PRESSURE_RELIEF": 5,
+          "COOLING": 6,
+          "SAFETY_COOLING": 7,
+          "ECO": 8,
+          "BOOST": 9
+        },
+        "description": "Actual operating mode of the TCD",
+        "properties": {
+          "OTHER": {
+            "description": "Operating mode of the TCD is unknown",
+            "type": "integer"
+          },
+          "READY_TO_OPERATE": {
+            "description": "TCD is ready to operate (heating, pump and cooling are switched off)",
+            "type": "integer"
+          },
+          "NORMAL_OPERATION": {
+            "description": "TCD is running in normal operating mode",
+            "type": "integer"
+          },
+          "LEAK_STOPPER": {
+            "description": "TCD is running in leak stopper operating mode",
+            "type": "integer"
+          },
+          "MOULD_EVACUATION": {
+            "description": "TCD is carrying out a mould evacuation process",
+            "type": "integer"
+          },
+          "PRESSURE_RELIEF": {
+            "description": "TCD is carrying out a pressure relief process",
+            "type": "integer"
+          },
+          "COOLING": {
+            "description": "TCD is cooling down to StandbyTemperature and switch off",
+            "type": "integer"
+          },
+          "SAFETY_COOLING": {
+            "description": "TCD is cooling down to SwitchingOffTemperature and switch off",
+            "type": "integer"
+          },
+          "ECO": {
+            "description": "TCD is running in Eco operating mode (energy is saved via the reduced pump speed)",
+            "type": "integer"
+          },
+          "BOOST": {
+            "description": "TCD is running in Boost operating mode (pump runs at maximum possible speed)",
+            "type": "integer"
+          }
+        }
+      }
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
   }
 ]

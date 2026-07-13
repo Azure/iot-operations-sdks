@@ -2608,5 +2608,498 @@
     },
     "events": {
     }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dov": "http://azure.com/DigitalOperations/vocab#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "I4AAS_DataTypes",
+    "links": [
+    ],
+    "schemaDefinitions": {
+      "AASAssetKindDataType": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.I4AAS.AASAssetKindDataType",
+        "const": {
+          "Type": 0,
+          "Instance": 1
+        },
+        "properties": {
+          "Type": {
+            "description": "hardware or software element which specifies the common attributes shared by all instances of the type  [SOURCE: IEC TR 62390:2005-01, 3.1.25]  ",
+            "type": "integer"
+          },
+          "Instance": {
+            "description": "concrete, clearly identifiable component of a certain type    Note: It becomes an individual entity of a type, for example a device, by defining specific property values.    Note: In an object-oriented view, an instance denotes an object of a class (of a type).    [SOURCE: IEC 62890:2016, 3.1.16] 65/617/CDV  ",
+            "type": "integer"
+          }
+        }
+      },
+      "AASCategoryDataType": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.I4AAS.AASCategoryDataType",
+        "const": {
+          "CONSTANT": 0,
+          "PARAMETER": 1,
+          "VARIABLE": 2,
+          "RELATIONSHIP": 3
+        },
+        "properties": {
+          "CONSTANT": {
+            "description": "Constant",
+            "type": "integer"
+          },
+          "PARAMETER": {
+            "description": "Parameter",
+            "type": "integer"
+          },
+          "VARIABLE": {
+            "description": "Variable",
+            "type": "integer"
+          },
+          "RELATIONSHIP": {
+            "description": "Relationship",
+            "type": "integer"
+          }
+        }
+      },
+      "AASDataTypeIEC61360DataType": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.I4AAS.AASDataTypeIEC61360DataType",
+        "const": {
+          "BOOLEAN": 0,
+          "DATE": 1,
+          "RATIONAL": 2,
+          "RATIONAL_MEASURE": 3,
+          "REAL_COUNT": 4,
+          "REAL_CURRENCY": 5,
+          "REAL_MEASURE": 6,
+          "STRING": 7,
+          "STRING_TRANSLATABLE": 8,
+          "TIME": 9,
+          "TIME_STAMP": 10,
+          "URL": 11,
+          "INTEGER": 12,
+          "INTEGER_COUNT": 13,
+          "INTEGER_CURRENCY": 14
+        },
+        "properties": {
+          "BOOLEAN": {
+            "type": "integer"
+          },
+          "DATE": {
+            "type": "integer"
+          },
+          "RATIONAL": {
+            "type": "integer"
+          },
+          "RATIONAL_MEASURE": {
+            "type": "integer"
+          },
+          "REAL_COUNT": {
+            "type": "integer"
+          },
+          "REAL_CURRENCY": {
+            "type": "integer"
+          },
+          "REAL_MEASURE": {
+            "type": "integer"
+          },
+          "STRING": {
+            "type": "integer"
+          },
+          "STRING_TRANSLATABLE": {
+            "type": "integer"
+          },
+          "TIME": {
+            "type": "integer"
+          },
+          "TIME_STAMP": {
+            "type": "integer"
+          },
+          "URL": {
+            "type": "integer"
+          },
+          "INTEGER": {
+            "type": "integer"
+          },
+          "INTEGER_COUNT": {
+            "type": "integer"
+          },
+          "INTEGER_CURRENCY": {
+            "type": "integer"
+          }
+        }
+      },
+      "AASEntityTypeDataType": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.I4AAS.AASEntityTypeDataType",
+        "const": {
+          "CoManagedEntity": 0,
+          "SelfManagedEntity": 1
+        },
+        "properties": {
+          "CoManagedEntity": {
+            "description": "Self-Managed Entities have their own AAS. This is why a reference to this asset is specified as well (Entity/asset). Additionally, further property statements (compare to [15]) can be added to the asset that are not specified in the AAS of the asset itself because they are specified in relation to the complex I4.0 Component only.",
+            "type": "integer"
+          },
+          "SelfManagedEntity": {
+            "description": "For co-managed entities there is no separate AAS. The relationships and property statements of such entities are managed within the AAS of the composite I4.0 Component.",
+            "type": "integer"
+          }
+        }
+      },
+      "AASIdentifierTypeDataType": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.I4AAS.AASIdentifierTypeDataType",
+        "const": {
+          "IRDI": 0,
+          "IRI": 1,
+          "Custom": 2
+        },
+        "properties": {
+          "IRDI": {
+            "description": "IRDI according to ISO29002-5 as an Identifier scheme for properties and classifications",
+            "type": "integer"
+          },
+          "IRI": {
+            "description": "Internationalized Resource Identifier according to RFC3305",
+            "type": "integer"
+          },
+          "Custom": {
+            "description": "Custom identifiers like GUIDs (globally unique Identifiers)",
+            "type": "integer"
+          }
+        }
+      },
+      "AASKeyDataType": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.I4AAS.AASKeyDataType",
+        "required": [ "Type", "Local", "Value", "IdType" ],
+        "properties": {
+          "Type": {
+            "title": "AASKeyElementsDataType",
+            "dov:typeRef": "org.opcfoundation.UA.I4AAS.AASKeyElementsDataType",
+            "type": "integer",
+            "minimum": -2147483648,
+            "maximum": 2147483647
+          },
+          "Local": {
+            "type": "boolean"
+          },
+          "Value": {
+            "type": "string"
+          },
+          "IdType": {
+            "title": "AASKeyTypeDataType",
+            "dov:typeRef": "org.opcfoundation.UA.I4AAS.AASKeyTypeDataType",
+            "type": "integer",
+            "minimum": -2147483648,
+            "maximum": 2147483647
+          }
+        }
+      },
+      "AASKeyElementsDataType": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.I4AAS.AASKeyElementsDataType",
+        "const": {
+          "AccessPermissionRule": 0,
+          "AnnotatedRelationshipElement": 1,
+          "Asset": 2,
+          "AssetAdministrationShell": 3,
+          "Blob": 4,
+          "Capability": 5,
+          "ConceptDescription": 6,
+          "ConceptDictionary": 7,
+          "DataElement": 8,
+          "Entity": 9,
+          "Event": 10,
+          "File": 11,
+          "FragmentReference": 12,
+          "GlobalReference": 13,
+          "MultiLanguageProperty": 14,
+          "Operation": 15,
+          "Property": 16,
+          "Range": 17,
+          "ReferenceElement": 18,
+          "RelationshipElement": 19,
+          "Submodel": 20,
+          "SubmodelElement": 21,
+          "SubmodelElementCollection": 22,
+          "View": 23
+        },
+        "properties": {
+          "AccessPermissionRule": {
+            "description": "'AccessPermissionRule'",
+            "type": "integer"
+          },
+          "AnnotatedRelationshipElement": {
+            "description": "“AnnotatedRelationshipElement”",
+            "type": "integer"
+          },
+          "Asset": {
+            "description": "'Asset'",
+            "type": "integer"
+          },
+          "AssetAdministrationShell": {
+            "description": "'AssetAdministrationShell'",
+            "type": "integer"
+          },
+          "Blob": {
+            "description": "'Blob'",
+            "type": "integer"
+          },
+          "Capability": {
+            "description": "'Capability'",
+            "type": "integer"
+          },
+          "ConceptDescription": {
+            "description": "'ConceptDescription'",
+            "type": "integer"
+          },
+          "ConceptDictionary": {
+            "description": "'ConceptDictionary'",
+            "type": "integer"
+          },
+          "DataElement": {
+            "description": "'DataElement'",
+            "type": "integer"
+          },
+          "Entity": {
+            "description": "'Entity'",
+            "type": "integer"
+          },
+          "Event": {
+            "description": "'Event'",
+            "type": "integer"
+          },
+          "File": {
+            "description": "'File'",
+            "type": "integer"
+          },
+          "FragmentReference": {
+            "description": "'FragmentReference'",
+            "type": "integer"
+          },
+          "GlobalReference": {
+            "description": "'GlobalReference'",
+            "type": "integer"
+          },
+          "MultiLanguageProperty": {
+            "description": "'MultiLanguageProperty'",
+            "type": "integer"
+          },
+          "Operation": {
+            "description": "'Operation'",
+            "type": "integer"
+          },
+          "Property": {
+            "description": "'Property'",
+            "type": "integer"
+          },
+          "Range": {
+            "description": "'Range'",
+            "type": "integer"
+          },
+          "ReferenceElement": {
+            "description": "'ReferenceElement'",
+            "type": "integer"
+          },
+          "RelationshipElement": {
+            "description": "'RelationshipElement'",
+            "type": "integer"
+          },
+          "Submodel": {
+            "description": "'Submodel'",
+            "type": "integer"
+          },
+          "SubmodelElement": {
+            "description": "'SubmodelElement'",
+            "type": "integer"
+          },
+          "SubmodelElementCollection": {
+            "description": "'SubmodelElementCollection'",
+            "type": "integer"
+          },
+          "View": {
+            "description": "'View'",
+            "type": "integer"
+          }
+        }
+      },
+      "AASKeyTypeDataType": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.I4AAS.AASKeyTypeDataType",
+        "const": {
+          "IdShort": 0,
+          "FragmentId": 1,
+          "Custom": 2,
+          "IRDI": 3,
+          "IRI": 4
+        },
+        "properties": {
+          "IdShort": {
+            "description": "...",
+            "type": "integer"
+          },
+          "FragmentId": {
+            "description": "...",
+            "type": "integer"
+          },
+          "Custom": {
+            "description": "...",
+            "type": "integer"
+          },
+          "IRDI": {
+            "description": "...",
+            "type": "integer"
+          },
+          "IRI": {
+            "description": "...",
+            "type": "integer"
+          }
+        }
+      },
+      "AASLevelTypeDataType": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.I4AAS.AASLevelTypeDataType",
+        "const": {
+          "Min": 0,
+          "Max": 1,
+          "Num": 2,
+          "Type": 3
+        },
+        "properties": {
+          "Min": {
+            "description": "“Minimum”",
+            "type": "integer"
+          },
+          "Max": {
+            "description": "“Maximum”",
+            "type": "integer"
+          },
+          "Num": {
+            "description": "'Number'",
+            "type": "integer"
+          },
+          "Type": {
+            "description": "'Type'",
+            "type": "integer"
+          }
+        }
+      },
+      "AASMimeDataType": {
+        "type": "string"
+      },
+      "AASModelingKindDataType": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.I4AAS.AASModelingKindDataType",
+        "const": {
+          "Template": 0,
+          "Instance": 1
+        },
+        "properties": {
+          "Template": {
+            "description": "Hardware or software element which specifies the common attributes shared by all instances of the type  [SOURCE: IEC TR 62390:2005-01, 3.1.25]  ",
+            "type": "integer"
+          },
+          "Instance": {
+            "description": "Concrete, clearly identifiable component of a certain template.     Note: It becomes an individual entity of a template, for example a device model, by defining specific property values.     Note: In an object oriented view, an instance denotes an object of a template (class).     [SOURCE: IEC 62890:2016, 3.1.16 65/617/CDV] modified  ",
+            "type": "integer"
+          }
+        }
+      },
+      "AASPathDataType": {
+        "type": "string"
+      },
+      "AASPropertyValueDataType": {
+        "type": "string"
+      },
+      "AASQualifierDataType": {
+        "type": "string"
+      },
+      "AASValueTypeDataType": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.I4AAS.AASValueTypeDataType",
+        "const": {
+          "Boolean": 0,
+          "SByte": 1,
+          "Byte": 2,
+          "Int16": 3,
+          "UInt16": 4,
+          "Int32": 5,
+          "UInt32": 6,
+          "Int64": 7,
+          "UInt64": 8,
+          "Float": 9,
+          "Double": 10,
+          "String": 11,
+          "DateTime": 12,
+          "ByteString": 13,
+          "LocalizedText": 14,
+          "UtcTime": 15
+        },
+        "properties": {
+          "Boolean": {
+            "type": "integer"
+          },
+          "SByte": {
+            "type": "integer"
+          },
+          "Byte": {
+            "type": "integer"
+          },
+          "Int16": {
+            "type": "integer"
+          },
+          "UInt16": {
+            "type": "integer"
+          },
+          "Int32": {
+            "type": "integer"
+          },
+          "UInt32": {
+            "type": "integer"
+          },
+          "Int64": {
+            "type": "integer"
+          },
+          "UInt64": {
+            "type": "integer"
+          },
+          "Float": {
+            "type": "integer"
+          },
+          "Double": {
+            "type": "integer"
+          },
+          "String": {
+            "type": "integer"
+          },
+          "DateTime": {
+            "type": "integer"
+          },
+          "ByteString": {
+            "type": "integer"
+          },
+          "LocalizedText": {
+            "type": "integer"
+          },
+          "UtcTime": {
+            "type": "integer"
+          }
+        }
+      }
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
   }
 ]

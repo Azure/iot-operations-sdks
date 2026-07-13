@@ -4890,5 +4890,247 @@
     },
     "events": {
     }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dov": "http://azure.com/DigitalOperations/vocab#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "Mining_ExternalStandards_IREDES_DataTypes",
+    "links": [
+    ],
+    "schemaDefinitions": {
+      "Answer": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.Mining.ExternalStandards.IREDES.Answer",
+        "const": {
+          "Accepted": 0,
+          "Delayed": 1,
+          "AcceptedWithCondition": 2,
+          "Denied": 3
+        },
+        "properties": {
+          "Accepted": {
+            "description": "Order is accepted.",
+            "type": "integer"
+          },
+          "Delayed": {
+            "description": "Order can only be executed with delay.",
+            "type": "integer"
+          },
+          "AcceptedWithCondition": {
+            "description": "Order is accepted under a condition.",
+            "type": "integer"
+          },
+          "Denied": {
+            "description": "Orders denied.",
+            "type": "integer"
+          }
+        }
+      },
+      "AnyURI": {
+        "type": "string"
+      },
+      "DispFlag": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.Mining.ExternalStandards.IREDES.DispFlag",
+        "const": {
+          "MachStart": 0,
+          "FileLoad": 1
+        },
+        "properties": {
+          "MachStart": {
+            "description": "To be displayed when the machine is started. Machine start is defined as switching on the main power supply or power generation.",
+            "type": "integer"
+          },
+          "FileLoad": {
+            "description": "To be displayed as soon as the file is loaded (activated) in the machine’s automation system (applicable especially to plan files originating from the mine!).",
+            "type": "integer"
+          }
+        }
+      },
+      "IRLengthDataType": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.Mining.ExternalStandards.IREDES.IRLengthDataType",
+        "required": [ "Value", "Unit" ],
+        "properties": {
+          "Value": {
+            "description": "Data Type for length specification.",
+            "type": "number",
+            "minimum": -1.80e+308,
+            "maximum": 1.80e+308
+          },
+          "Unit": {
+            "title": "EUInformation",
+            "description": "Datatype for engineering unit description. Valid values: mm, cm, m, ft.",
+            "type": "object",
+            "dov:typeRef": "org.opcfoundation.UA.EUInformation",
+            "required": [ "NamespaceUri", "UnitId", "DisplayName", "Description" ],
+            "properties": {
+              "NamespaceUri": {
+                "type": "string"
+              },
+              "UnitId": {
+                "type": "integer",
+                "minimum": -2147483648,
+                "maximum": 2147483647
+              },
+              "DisplayName": {
+                "type": "string"
+              },
+              "Description": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      },
+      "IRVersion": {
+        "type": "string"
+      },
+      "IRangle": {
+        "type": "number",
+        "minimum": -3.40e+38,
+        "maximum": 3.40e+38
+      },
+      "IRtext": {
+        "type": "string"
+      },
+      "IRtextLong": {
+        "type": "string"
+      },
+      "IRtextShort": {
+        "type": "string"
+      },
+      "JobAssignmentTimeDataType": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.Mining.ExternalStandards.IREDES.JobAssignmentTimeDataType",
+        "properties": {
+          "ExpectedFinishTime": {
+            "description": "Time Machine is expected to finish the job.",
+            "type": "string",
+            "format": "date-time"
+          },
+          "ExpectedDuration": {
+            "description": "Time the job is going to take to finish.",
+            "type": "string",
+            "pattern": "^P(?!$)(?:(?:(?:(?:\\d+Y)|(?:\\d+\\.\\d+Y$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?)|(?:(?:(?:\\d+W)|(?:\\d+\\.\\d+W$))?))(?:(?:\\d+D)|(?:\\d+\\.\\d+D$))?(?:T(?!$)(?:(?:\\d+H)|(?:\\d+\\.\\d+H$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?(?:\\d+(?:\\.\\d+)?S)?)?$"
+          }
+        }
+      },
+      "LTPPMaction": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.Mining.ExternalStandards.IREDES.LTPPMaction",
+        "const": {
+          "Load": 0,
+          "Dump": 1,
+          "Parking": 2,
+          "Workshop": 3,
+          "Other": 4
+        },
+        "properties": {
+          "Load": {
+            "description": "Load.",
+            "type": "integer"
+          },
+          "Dump": {
+            "description": "Dump.",
+            "type": "integer"
+          },
+          "Parking": {
+            "description": "Parking.",
+            "type": "integer"
+          },
+          "Workshop": {
+            "description": "Workshop.",
+            "type": "integer"
+          },
+          "Other": {
+            "description": "Other.",
+            "type": "integer"
+          }
+        }
+      },
+      "LTPPMptFromType": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.Mining.ExternalStandards.IREDES.LTPPMptFromType",
+        "const": {
+          "LoadPt": 0,
+          "DumpPt": 1,
+          "Parking": 2,
+          "Workshop": 3,
+          "Others": 4
+        },
+        "properties": {
+          "LoadPt": {
+            "description": "Load point.",
+            "type": "integer"
+          },
+          "DumpPt": {
+            "description": "Dump point.",
+            "type": "integer"
+          },
+          "Parking": {
+            "description": "Parking.",
+            "type": "integer"
+          },
+          "Workshop": {
+            "description": "Workshop.",
+            "type": "integer"
+          },
+          "Others": {
+            "description": "Others.",
+            "type": "integer"
+          }
+        }
+      },
+      "LTPPMptToType": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.Mining.ExternalStandards.IREDES.LTPPMptToType",
+        "const": {
+          "LoadPt": 0,
+          "DumpPt": 1,
+          "Parking": 2,
+          "Boulder": 3,
+          "Workshop": 4,
+          "Others": 5
+        },
+        "properties": {
+          "LoadPt": {
+            "description": "Load point.",
+            "type": "integer"
+          },
+          "DumpPt": {
+            "description": "Dump point.",
+            "type": "integer"
+          },
+          "Parking": {
+            "description": "Parking.",
+            "type": "integer"
+          },
+          "Boulder": {
+            "description": "Boulder.",
+            "type": "integer"
+          },
+          "Workshop": {
+            "description": "Workshop.",
+            "type": "integer"
+          },
+          "Others": {
+            "description": "Others.",
+            "type": "integer"
+          }
+        }
+      }
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
   }
 ]

@@ -3166,5 +3166,113 @@
     },
     "events": {
     }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dov": "http://azure.com/DigitalOperations/vocab#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "PAEFS_DataTypes",
+    "links": [
+    ],
+    "schemaDefinitions": {
+      "AirConnectionOpenEnum": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.PAEFS.AirConnectionOpenEnum",
+        "const": {
+          "Open": 0,
+          "Closed": 1,
+          "Opening": 2,
+          "Closing": 3
+        },
+        "description": "Describes whether the air connection is open, i.e., it is in a state in which air can be passed through",
+        "properties": {
+          "Open": {
+            "type": "integer"
+          },
+          "Closed": {
+            "type": "integer"
+          },
+          "Opening": {
+            "type": "integer"
+          },
+          "Closing": {
+            "type": "integer"
+          }
+        }
+      },
+      "AnalogDigitalEnum": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.PAEFS.AnalogDigitalEnum",
+        "const": {
+          "Analog": 0,
+          "Digital": 1
+        },
+        "description": "Specifies the type of a sensor",
+        "properties": {
+          "Analog": {
+            "type": "integer"
+          },
+          "Digital": {
+            "type": "integer"
+          }
+        }
+      },
+      "ControlModeEnum": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.PAEFS.ControlModeEnum",
+        "const": {
+          "Automatic": 0,
+          "Manual": 1,
+          "Other": 2
+        },
+        "description": "Describes the possibility of controlling the system externally",
+        "properties": {
+          "Automatic": {
+            "type": "integer"
+          },
+          "Manual": {
+            "type": "integer"
+          },
+          "Other": {
+            "type": "integer"
+          }
+        }
+      },
+      "FilterAidDeviceStatusEnum": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.PAEFS.FilterAidDeviceStatusEnum",
+        "const": {
+          "DeviceActive": 0,
+          "DeviceInactive": 1,
+          "FillingActive": 2,
+          "DischargeActive": 3
+        },
+        "description": "Describes the action performed by the device for filter aid",
+        "properties": {
+          "DeviceActive": {
+            "type": "integer"
+          },
+          "DeviceInactive": {
+            "type": "integer"
+          },
+          "FillingActive": {
+            "type": "integer"
+          },
+          "DischargeActive": {
+            "type": "integer"
+          }
+        }
+      }
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
   }
 ]

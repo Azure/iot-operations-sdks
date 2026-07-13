@@ -947,5 +947,75 @@
     },
     "events": {
     }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dov": "http://azure.com/DigitalOperations/vocab#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "AMB_DataTypes",
+    "links": [
+    ],
+    "schemaDefinitions": {
+      "MaintenanceMethodEnum": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.AMB.MaintenanceMethodEnum",
+        "const": {
+          "Local": 0,
+          "Remote": 1
+        },
+        "properties": {
+          "Local": {
+            "description": "Maintenance close to the asset",
+            "type": "integer"
+          },
+          "Remote": {
+            "description": "Maintenance from another location",
+            "type": "integer"
+          }
+        }
+      },
+      "NameNodeIdDataType": {
+        "description": "A human-readable name of something plus optionally the NodeId in case the something is represented in the AddressSpace",
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.AMB.NameNodeIdDataType",
+        "required": [ "Name", "NodeId" ],
+        "properties": {
+          "Name": {
+            "description": "The human-readable name. Shall be the DisplayName of the NodeId field, in case the NodeId is provided",
+            "type": "string"
+          },
+          "NodeId": {
+            "description": "Optionally provided NodeId, in case the referenced thing is represented as Node in the AddressSpace.",
+            "type": "string"
+          }
+        }
+      },
+      "RootCauseDataType": {
+        "description": "Root cause of an alarm",
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.AMB.RootCauseDataType",
+        "required": [ "RootCauseId", "RootCause" ],
+        "properties": {
+          "RootCauseId": {
+            "description": "The NodeId of the root cause of an alarm. This can point to another Node in the AddressSpace or a ConditionId, that is not necessarily represent as Object in the AddressSpace. Ideally, this points directly to the root cause. Potentially, it points to an alarm that has an additional root cause. Clients shall expect, that they need to follow a path to find the root cause. If the root cause is unknown, the NodeId shall be set to NULL.",
+            "type": "string"
+          },
+          "RootCause": {
+            "description": "Localized description of the root cause of an alarm. This can be the DisplayName of the Node referenced by RootCauseId or a more descriptive text. If the root cause is unknown, this should be described in the text.",
+            "type": "string"
+          }
+        }
+      }
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
   }
 ]

@@ -7587,5 +7587,101 @@
     },
     "events": {
     }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dov": "http://azure.com/DigitalOperations/vocab#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "PADIM_DataTypes",
+    "links": [
+    ],
+    "schemaDefinitions": {
+      "ChemicalSubstance": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.PADIM.ChemicalSubstance",
+        "required": [ "PatDictionary", "Label", "Id" ],
+        "properties": {
+          "PatDictionary": {
+            "title": "PatDictionaryEnum",
+            "dov:typeRef": "org.opcfoundation.UA.PADIM.PatDictionaryEnum",
+            "type": "integer",
+            "minimum": -2147483648,
+            "maximum": 2147483647
+          },
+          "Label": {
+            "type": "string"
+          },
+          "Id": {
+            "type": "string"
+          }
+        }
+      },
+      "ExecutionModeEnum": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.PADIM.ExecutionModeEnum",
+        "const": {
+          "Start": 2,
+          "Abort": 255
+        },
+        "properties": {
+          "Start": {
+            "type": "integer"
+          },
+          "Abort": {
+            "type": "integer"
+          }
+        }
+      },
+      "PatDictionaryEnum": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.PADIM.PatDictionaryEnum",
+        "const": {
+          "CAS": 0,
+          "PAT": 1,
+          "User-defined": 2
+        },
+        "properties": {
+          "CAS": {
+            "type": "integer"
+          },
+          "PAT": {
+            "type": "integer"
+          },
+          "User-defined": {
+            "type": "integer"
+          }
+        }
+      },
+      "ResetModeEnum": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.PADIM.ResetModeEnum",
+        "const": {
+          "Application": 1,
+          "Communication": 2712,
+          "Factory": 2713
+        },
+        "properties": {
+          "Application": {
+            "type": "integer"
+          },
+          "Communication": {
+            "type": "integer"
+          },
+          "Factory": {
+            "type": "integer"
+          }
+        }
+      }
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
   }
 ]

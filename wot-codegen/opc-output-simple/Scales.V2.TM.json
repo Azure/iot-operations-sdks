@@ -8957,5 +8957,253 @@
         ]
       }
     }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dov": "http://azure.com/DigitalOperations/vocab#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "Scales_V2_DataTypes",
+    "links": [
+    ],
+    "schemaDefinitions": {
+      "AbstractWeightType": {
+        "type": "string"
+      },
+      "DraftShieldType": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.Scales.V2.DraftShieldType",
+        "const": {
+          "Right_0": 0,
+          "Left_1": 1,
+          "Top_2": 2,
+          "All_3": 3
+        },
+        "properties": {
+          "Right_0": {
+            "type": "integer"
+          },
+          "Left_1": {
+            "type": "integer"
+          },
+          "Top_2": {
+            "type": "integer"
+          },
+          "All_3": {
+            "type": "integer"
+          }
+        }
+      },
+      "EdgeOperator": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.Scales.V2.EdgeOperator",
+        "const": {
+          "Rising_0": 0,
+          "Falling_1": 1
+        },
+        "properties": {
+          "Rising_0": {
+            "type": "integer"
+          },
+          "Falling_1": {
+            "type": "integer"
+          }
+        }
+      },
+      "EqualityAndRelationalOperator": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.Scales.V2.EqualityAndRelationalOperator",
+        "const": {
+          "Equal_0": 0,
+          "NotEqual_1": 1,
+          "LessOrEqualThan_2": 2,
+          "GreaterOrEqualThan_3": 3,
+          "LessThan_4": 4,
+          "GreaterThan_5": 5
+        },
+        "description": "This enumeration describes the different condition modes for an analog condition.",
+        "properties": {
+          "Equal_0": {
+            "type": "integer"
+          },
+          "NotEqual_1": {
+            "type": "integer"
+          },
+          "LessOrEqualThan_2": {
+            "type": "integer"
+          },
+          "GreaterOrEqualThan_3": {
+            "type": "integer"
+          },
+          "LessThan_4": {
+            "type": "integer"
+          },
+          "GreaterThan_5": {
+            "type": "integer"
+          }
+        }
+      },
+      "PrintableWeightType": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.Scales.V2.PrintableWeightType",
+        "required": [ "Gross", "Net", "Tare" ],
+        "properties": {
+          "Gross": {
+            "type": "string"
+          },
+          "Net": {
+            "type": "string"
+          },
+          "Tare": {
+            "type": "string"
+          }
+        }
+      },
+      "RateControlMode": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.Scales.V2.RateControlMode",
+        "const": {
+          "Gravimetric_0": 0,
+          "Volumetric_1": 1
+        },
+        "properties": {
+          "Gravimetric_0": {
+            "type": "integer"
+          },
+          "Volumetric_1": {
+            "type": "integer"
+          }
+        }
+      },
+      "RecipeReportElementType": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.Scales.V2.RecipeReportElementType",
+        "required": [ "ReportMessage", "Timestamp" ],
+        "properties": {
+          "ReportMessage": {
+            "type": "string"
+          },
+          "Timestamp": {
+            "type": "string",
+            "format": "time"
+          }
+        }
+      },
+      "RecipeTargetValueType": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.Scales.V2.RecipeTargetValueType",
+        "required": [ "TargetValueId", "TargetValueName" ],
+        "properties": {
+          "TargetValueId": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 4294967295
+          },
+          "TargetValueNodeId": {
+            "type": "string"
+          },
+          "TargetValueName": {
+            "type": "string"
+          }
+        }
+      },
+      "RecipeThresholdType": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.Scales.V2.RecipeThresholdType",
+        "required": [ "ThresholdId", "ThresholdName" ],
+        "properties": {
+          "ThresholdId": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 4294967295
+          },
+          "ThresholdNodeId": {
+            "type": "string"
+          },
+          "ThresholdName": {
+            "type": "string"
+          }
+        }
+      },
+      "TareMode": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.Scales.V2.TareMode",
+        "const": {
+          "None_0": 0,
+          "MeasuredTare_1": 1,
+          "PresetTare_2": 2,
+          "ProportionalTare_3": 3
+        },
+        "properties": {
+          "None_0": {
+            "type": "integer"
+          },
+          "MeasuredTare_1": {
+            "type": "integer"
+          },
+          "PresetTare_2": {
+            "type": "integer"
+          },
+          "ProportionalTare_3": {
+            "type": "integer"
+          }
+        }
+      },
+      "ToleranceState": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.Scales.V2.ToleranceState",
+        "const": {
+          "In_0": 0,
+          "Under_1": 1,
+          "Over_2": 2,
+          "UnderOrOver_3": 3
+        },
+        "properties": {
+          "In_0": {
+            "type": "integer"
+          },
+          "Under_1": {
+            "type": "integer"
+          },
+          "Over_2": {
+            "type": "integer"
+          },
+          "UnderOrOver_3": {
+            "type": "integer"
+          }
+        }
+      },
+      "WeightType": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.Scales.V2.WeightType",
+        "required": [ "Gross", "Net", "Tare" ],
+        "properties": {
+          "Gross": {
+            "type": "number",
+            "minimum": -1.80e+308,
+            "maximum": 1.80e+308
+          },
+          "Net": {
+            "type": "number",
+            "minimum": -1.80e+308,
+            "maximum": 1.80e+308
+          },
+          "Tare": {
+            "type": "number",
+            "minimum": -1.80e+308,
+            "maximum": 1.80e+308
+          }
+        }
+      }
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
   }
 ]

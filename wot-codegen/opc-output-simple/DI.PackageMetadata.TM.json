@@ -1,0 +1,703 @@
+[
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dov": "http://azure.com/DigitalOperations/vocab#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "DI_PackageMetadata_DataTypes",
+    "links": [
+    ],
+    "schemaDefinitions": {
+      "Assignment": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.DI.PackageMetadata.Assignment",
+        "required": [ "Subpackage", "Targets" ],
+        "properties": {
+          "Subpackage": {
+            "type": "string"
+          },
+          "InstallationOrder": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 4294967295
+          },
+          "Targets": {
+            "type": "array",
+            "items": {
+              "title": "PackageTarget",
+              "type": "object",
+              "dov:typeRef": "org.opcfoundation.UA.DI.PackageMetadata.PackageTarget",
+              "properties": {
+                "TargetType": {
+                  "type": "string"
+                },
+                "TargetNode": {
+                  "type": "string"
+                },
+                "ProductInstanceUri": {
+                  "type": "string"
+                },
+                "AssetId": {
+                  "type": "string"
+                },
+                "ManufacturerUri": {
+                  "type": "string"
+                },
+                "ProductCode": {
+                  "type": "string"
+                },
+                "SerialNumber": {
+                  "type": "string"
+                },
+                "FxPath": {
+                  "type": "array",
+                  "items": {
+                    "title": "FxPathElement",
+                    "type": "object",
+                    "dov:typeRef": "org.opcfoundation.UA.DI.PackageMetadata.FxPathElement",
+                    "required": [ "AssetConnectorType" ],
+                    "properties": {
+                      "AssetConnectorType": {
+                        "type": "string"
+                      },
+                      "ConnectorId": {
+                        "type": "integer",
+                        "minimum": 0,
+                        "maximum": 65535
+                      },
+                      "ConnectorName": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                },
+                "FxScope": {
+                  "type": "array",
+                  "items": {
+                    "title": "FxPathElement",
+                    "type": "object",
+                    "dov:typeRef": "org.opcfoundation.UA.DI.PackageMetadata.FxPathElement",
+                    "required": [ "AssetConnectorType" ],
+                    "properties": {
+                      "AssetConnectorType": {
+                        "type": "string"
+                      },
+                      "ConnectorId": {
+                        "type": "integer",
+                        "minimum": 0,
+                        "maximum": 65535
+                      },
+                      "ConnectorName": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                },
+                "BrowsePath": {
+                  "type": "array",
+                  "items": {
+                    "title": "RelativePathElement",
+                    "type": "object",
+                    "dov:typeRef": "org.opcfoundation.UA.RelativePathElement",
+                    "required": [ "ReferenceTypeId", "IsInverse", "IncludeSubtypes", "TargetName" ],
+                    "properties": {
+                      "ReferenceTypeId": {
+                        "type": "string"
+                      },
+                      "IsInverse": {
+                        "type": "boolean"
+                      },
+                      "IncludeSubtypes": {
+                        "type": "boolean"
+                      },
+                      "TargetName": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                },
+                "TargetServer": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      },
+      "ComparisonOperation": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.DI.PackageMetadata.ComparisonOperation",
+        "const": {
+          "EqualTo": 0,
+          "GreaterThan": 1,
+          "GreaterEqual": 2,
+          "LessThen": 3,
+          "LessEqual": 4,
+          "RegularExpression": 5,
+          "OneOf": 6,
+          "Exist": 7
+        },
+        "properties": {
+          "EqualTo": {
+            "description": "Value[0] = Variable",
+            "type": "integer"
+          },
+          "GreaterThan": {
+            "description": "Value[0] > Variable",
+            "type": "integer"
+          },
+          "GreaterEqual": {
+            "description": "Value[0] >= Variable",
+            "type": "integer"
+          },
+          "LessThen": {
+            "description": "Value[0] < Variable",
+            "type": "integer"
+          },
+          "LessEqual": {
+            "description": "Value[0] <= Variable",
+            "type": "integer"
+          },
+          "RegularExpression": {
+            "description": "Value[0] contains a regular expression which must match the value of the Variable",
+            "type": "integer"
+          },
+          "OneOf": {
+            "description": "Value[0] contains a regular expression which must match the value of the Variable",
+            "type": "integer"
+          },
+          "Exist": {
+            "description": "The Node that is described by the Variable must exist. The Values array shall be empty",
+            "type": "integer"
+          }
+        }
+      },
+      "CompatibilityOption": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.DI.PackageMetadata.CompatibilityOption",
+        "required": [ "CompatibilityRequirements" ],
+        "properties": {
+          "CompatibilityRequirements": {
+            "type": "array",
+            "items": {
+              "title": "CompatibilityRequirement",
+              "type": "object",
+              "dov:typeRef": "org.opcfoundation.UA.DI.PackageMetadata.CompatibilityRequirement",
+              "required": [ "Variable", "Values", "Operation" ],
+              "properties": {
+                "Variable": {
+                  "type": "string"
+                },
+                "Values": {
+                  "type": "array",
+                  "items": {
+                    "description": "Stand-in for an unspecified data type.",
+                    "type": "string"
+                  }
+                },
+                "Operation": {
+                  "title": "ComparisonOperation",
+                  "dov:typeRef": "org.opcfoundation.UA.DI.PackageMetadata.ComparisonOperation",
+                  "type": "integer",
+                  "minimum": -2147483648,
+                  "maximum": 2147483647
+                }
+              }
+            }
+          }
+        }
+      },
+      "CompatibilityRequirement": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.DI.PackageMetadata.CompatibilityRequirement",
+        "required": [ "Variable", "Values", "Operation" ],
+        "properties": {
+          "Variable": {
+            "type": "string"
+          },
+          "Values": {
+            "type": "array",
+            "items": {
+              "description": "Stand-in for an unspecified data type.",
+              "type": "string"
+            }
+          },
+          "Operation": {
+            "title": "ComparisonOperation",
+            "dov:typeRef": "org.opcfoundation.UA.DI.PackageMetadata.ComparisonOperation",
+            "type": "integer",
+            "minimum": -2147483648,
+            "maximum": 2147483647
+          }
+        }
+      },
+      "FileDescriptor": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.DI.PackageMetadata.FileDescriptor",
+        "required": [ "FileType", "FileName" ],
+        "properties": {
+          "FileType": {
+            "title": "FileType",
+            "dov:typeRef": "org.opcfoundation.UA.DI.PackageMetadata.FileType",
+            "type": "integer",
+            "minimum": -2147483648,
+            "maximum": 2147483647
+          },
+          "FileName": {
+            "type": "string"
+          },
+          "MimeType": {
+            "type": "string"
+          },
+          "Language": {
+            "type": "string"
+          }
+        }
+      },
+      "FileType": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.DI.PackageMetadata.FileType",
+        "const": {
+          "DeploymentItem": 0,
+          "ReleaseNotes": 1,
+          "LicenseInfo": 2,
+          "PreInstallNote": 3
+        },
+        "properties": {
+          "DeploymentItem": {
+            "description": "This file shall be deployed to the device. At most one file can be marked as DeploymentItem. If the complete Software Package is deployed to the device the individual files are not described explicitly.",
+            "type": "integer"
+          },
+          "ReleaseNotes": {
+            "description": "E.g. link for user to open the document.",
+            "type": "integer"
+          },
+          "LicenseInfo": {
+            "description": "E.g. link for user to open the document.",
+            "type": "integer"
+          },
+          "PreInstallNote": {
+            "description": "Text that shall be shown to the user at least once before installation.",
+            "type": "integer"
+          }
+        }
+      },
+      "FxPathElement": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.DI.PackageMetadata.FxPathElement",
+        "required": [ "AssetConnectorType" ],
+        "properties": {
+          "AssetConnectorType": {
+            "type": "string"
+          },
+          "ConnectorId": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 65535
+          },
+          "ConnectorName": {
+            "type": "string"
+          }
+        }
+      },
+      "PackageMetadata": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.DI.PackageMetadata.PackageMetadata",
+        "required": [ "Name", "ManufacturerUri", "Manufacturer", "PackageRevision", "PackageType" ],
+        "properties": {
+          "Name": {
+            "type": "string"
+          },
+          "Description": {
+            "type": "string"
+          },
+          "ManufacturerUri": {
+            "type": "string"
+          },
+          "Manufacturer": {
+            "type": "string"
+          },
+          "PackageRevision": {
+            "type": "string"
+          },
+          "PackageType": {
+            "title": "PackageType",
+            "dov:typeRef": "org.opcfoundation.UA.DI.PackageMetadata.PackageType",
+            "type": "integer",
+            "minimum": -2147483648,
+            "maximum": 2147483647
+          },
+          "SoftwareSubClass": {
+            "type": "string"
+          },
+          "DeployCompletePackage": {
+            "type": "boolean"
+          },
+          "SoftwareRevision": {
+            "type": "string"
+          },
+          "ReleaseDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "TargetManufacturerUri": {
+            "type": "string"
+          },
+          "TargetManufacturer": {
+            "type": "string"
+          },
+          "UpdateTargets": {
+            "type": "array",
+            "items": {
+              "title": "UpdateTarget",
+              "type": "object",
+              "dov:typeRef": "org.opcfoundation.UA.DI.PackageMetadata.UpdateTarget",
+              "required": [ "ProductCode", "Model" ],
+              "properties": {
+                "ProductCode": {
+                  "type": "string"
+                },
+                "Model": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "Files": {
+            "type": "array",
+            "items": {
+              "title": "FileDescriptor",
+              "type": "object",
+              "dov:typeRef": "org.opcfoundation.UA.DI.PackageMetadata.FileDescriptor",
+              "required": [ "FileType", "FileName" ],
+              "properties": {
+                "FileType": {
+                  "title": "FileType",
+                  "dov:typeRef": "org.opcfoundation.UA.DI.PackageMetadata.FileType",
+                  "type": "integer",
+                  "minimum": -2147483648,
+                  "maximum": 2147483647
+                },
+                "FileName": {
+                  "type": "string"
+                },
+                "MimeType": {
+                  "type": "string"
+                },
+                "Language": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "Compatibilities": {
+            "type": "array",
+            "items": {
+              "title": "CompatibilityOption",
+              "type": "object",
+              "dov:typeRef": "org.opcfoundation.UA.DI.PackageMetadata.CompatibilityOption",
+              "required": [ "CompatibilityRequirements" ],
+              "properties": {
+                "CompatibilityRequirements": {
+                  "type": "array",
+                  "items": {
+                    "title": "CompatibilityRequirement",
+                    "type": "object",
+                    "dov:typeRef": "org.opcfoundation.UA.DI.PackageMetadata.CompatibilityRequirement",
+                    "required": [ "Variable", "Values", "Operation" ],
+                    "properties": {
+                      "Variable": {
+                        "type": "string"
+                      },
+                      "Values": {
+                        "type": "array",
+                        "items": {
+                          "description": "Stand-in for an unspecified data type.",
+                          "type": "string"
+                        }
+                      },
+                      "Operation": {
+                        "title": "ComparisonOperation",
+                        "dov:typeRef": "org.opcfoundation.UA.DI.PackageMetadata.ComparisonOperation",
+                        "type": "integer",
+                        "minimum": -2147483648,
+                        "maximum": 2147483647
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "Assignments": {
+            "type": "array",
+            "items": {
+              "title": "Assignment",
+              "type": "object",
+              "dov:typeRef": "org.opcfoundation.UA.DI.PackageMetadata.Assignment",
+              "required": [ "Subpackage", "Targets" ],
+              "properties": {
+                "Subpackage": {
+                  "type": "string"
+                },
+                "InstallationOrder": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 4294967295
+                },
+                "Targets": {
+                  "type": "array",
+                  "items": {
+                    "title": "PackageTarget",
+                    "type": "object",
+                    "dov:typeRef": "org.opcfoundation.UA.DI.PackageMetadata.PackageTarget",
+                    "properties": {
+                      "TargetType": {
+                        "type": "string"
+                      },
+                      "TargetNode": {
+                        "type": "string"
+                      },
+                      "ProductInstanceUri": {
+                        "type": "string"
+                      },
+                      "AssetId": {
+                        "type": "string"
+                      },
+                      "ManufacturerUri": {
+                        "type": "string"
+                      },
+                      "ProductCode": {
+                        "type": "string"
+                      },
+                      "SerialNumber": {
+                        "type": "string"
+                      },
+                      "FxPath": {
+                        "type": "array",
+                        "items": {
+                          "title": "FxPathElement",
+                          "type": "object",
+                          "dov:typeRef": "org.opcfoundation.UA.DI.PackageMetadata.FxPathElement",
+                          "required": [ "AssetConnectorType" ],
+                          "properties": {
+                            "AssetConnectorType": {
+                              "type": "string"
+                            },
+                            "ConnectorId": {
+                              "type": "integer",
+                              "minimum": 0,
+                              "maximum": 65535
+                            },
+                            "ConnectorName": {
+                              "type": "string"
+                            }
+                          }
+                        }
+                      },
+                      "FxScope": {
+                        "type": "array",
+                        "items": {
+                          "title": "FxPathElement",
+                          "type": "object",
+                          "dov:typeRef": "org.opcfoundation.UA.DI.PackageMetadata.FxPathElement",
+                          "required": [ "AssetConnectorType" ],
+                          "properties": {
+                            "AssetConnectorType": {
+                              "type": "string"
+                            },
+                            "ConnectorId": {
+                              "type": "integer",
+                              "minimum": 0,
+                              "maximum": 65535
+                            },
+                            "ConnectorName": {
+                              "type": "string"
+                            }
+                          }
+                        }
+                      },
+                      "BrowsePath": {
+                        "type": "array",
+                        "items": {
+                          "title": "RelativePathElement",
+                          "type": "object",
+                          "dov:typeRef": "org.opcfoundation.UA.RelativePathElement",
+                          "required": [ "ReferenceTypeId", "IsInverse", "IncludeSubtypes", "TargetName" ],
+                          "properties": {
+                            "ReferenceTypeId": {
+                              "type": "string"
+                            },
+                            "IsInverse": {
+                              "type": "boolean"
+                            },
+                            "IncludeSubtypes": {
+                              "type": "boolean"
+                            },
+                            "TargetName": {
+                              "type": "string"
+                            }
+                          }
+                        }
+                      },
+                      "TargetServer": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "PackageTarget": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.DI.PackageMetadata.PackageTarget",
+        "properties": {
+          "TargetType": {
+            "type": "string"
+          },
+          "TargetNode": {
+            "type": "string"
+          },
+          "ProductInstanceUri": {
+            "type": "string"
+          },
+          "AssetId": {
+            "type": "string"
+          },
+          "ManufacturerUri": {
+            "type": "string"
+          },
+          "ProductCode": {
+            "type": "string"
+          },
+          "SerialNumber": {
+            "type": "string"
+          },
+          "FxPath": {
+            "type": "array",
+            "items": {
+              "title": "FxPathElement",
+              "type": "object",
+              "dov:typeRef": "org.opcfoundation.UA.DI.PackageMetadata.FxPathElement",
+              "required": [ "AssetConnectorType" ],
+              "properties": {
+                "AssetConnectorType": {
+                  "type": "string"
+                },
+                "ConnectorId": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 65535
+                },
+                "ConnectorName": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "FxScope": {
+            "type": "array",
+            "items": {
+              "title": "FxPathElement",
+              "type": "object",
+              "dov:typeRef": "org.opcfoundation.UA.DI.PackageMetadata.FxPathElement",
+              "required": [ "AssetConnectorType" ],
+              "properties": {
+                "AssetConnectorType": {
+                  "type": "string"
+                },
+                "ConnectorId": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 65535
+                },
+                "ConnectorName": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "BrowsePath": {
+            "type": "array",
+            "items": {
+              "title": "RelativePathElement",
+              "type": "object",
+              "dov:typeRef": "org.opcfoundation.UA.RelativePathElement",
+              "required": [ "ReferenceTypeId", "IsInverse", "IncludeSubtypes", "TargetName" ],
+              "properties": {
+                "ReferenceTypeId": {
+                  "type": "string"
+                },
+                "IsInverse": {
+                  "type": "boolean"
+                },
+                "IncludeSubtypes": {
+                  "type": "boolean"
+                },
+                "TargetName": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "TargetServer": {
+            "type": "string"
+          }
+        }
+      },
+      "PackageType": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.DI.PackageMetadata.PackageType",
+        "const": {
+          "Firmware": 0,
+          "Application": 1,
+          "Configuration": 2,
+          "Solution": 3
+        },
+        "properties": {
+          "Firmware": {
+            "description": "The Software Package contains the firmware of a physical device.",
+            "type": "integer"
+          },
+          "Application": {
+            "description": "The Software Package contains an executable software.",
+            "type": "integer"
+          },
+          "Configuration": {
+            "description": "The Software Package contains the configuration of a device or application.",
+            "type": "integer"
+          },
+          "Solution": {
+            "description": "The Software Package contains a solution with several software package.",
+            "type": "integer"
+          }
+        }
+      },
+      "UpdateTarget": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.DI.PackageMetadata.UpdateTarget",
+        "required": [ "ProductCode", "Model" ],
+        "properties": {
+          "ProductCode": {
+            "type": "string"
+          },
+          "Model": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
+  }
+]

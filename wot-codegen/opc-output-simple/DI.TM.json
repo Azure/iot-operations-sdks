@@ -3835,5 +3835,235 @@
         ]
       }
     }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dov": "http://azure.com/DigitalOperations/vocab#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "DI_DataTypes",
+    "links": [
+    ],
+    "schemaDefinitions": {
+      "DeviceHealthEnumeration": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.DI.DeviceHealthEnumeration",
+        "const": {
+          "NORMAL": 0,
+          "FAILURE": 1,
+          "CHECK_FUNCTION": 2,
+          "OFF_SPEC": 3,
+          "MAINTENANCE_REQUIRED": 4
+        },
+        "properties": {
+          "NORMAL": {
+            "description": "This device functions normally.",
+            "type": "integer"
+          },
+          "FAILURE": {
+            "description": "Malfunction of the device or any of its peripherals.",
+            "type": "integer"
+          },
+          "CHECK_FUNCTION": {
+            "description": "Functional checks are currently performed.",
+            "type": "integer"
+          },
+          "OFF_SPEC": {
+            "description": "The device is currently working outside of its specified range or that internal diagnoses indicate deviations from measured or set values.",
+            "type": "integer"
+          },
+          "MAINTENANCE_REQUIRED": {
+            "description": "This element is working, but a maintenance operation is required.",
+            "type": "integer"
+          }
+        }
+      },
+      "FetchResultDataType": {
+        "type": "string"
+      },
+      "LocationIndicationType": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.DI.LocationIndicationType",
+        "const": {
+          "Visual": 0,
+          "Audible": 1
+        },
+        "properties": {
+          "Visual": {
+            "description": "Location indication through optical signals, such as blinking LEDs, if supported by the device.",
+            "type": "integer"
+          },
+          "Audible": {
+            "description": "Location indication through auditory signals, such as sounds or beeps, if supported by the device.",
+            "type": "integer"
+          }
+        }
+      },
+      "ParameterResultDataType": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.DI.ParameterResultDataType",
+        "required": [ "NodePath", "StatusCode", "Diagnostics" ],
+        "properties": {
+          "NodePath": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "StatusCode": {
+            "type": "string"
+          },
+          "Diagnostics": {
+            "type": "string"
+          }
+        }
+      },
+      "SoftwareClass": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.DI.SoftwareClass",
+        "const": {
+          "Firmware": 0,
+          "Application": 1,
+          "Configuration": 2,
+          "Solution": 3
+        },
+        "properties": {
+          "Firmware": {
+            "description": "The software update is used for the firmware of a physical device.",
+            "type": "integer"
+          },
+          "Application": {
+            "description": "The software update is used for an executable software.",
+            "type": "integer"
+          },
+          "Configuration": {
+            "description": "The software update is used for the configuration of a device or application.",
+            "type": "integer"
+          },
+          "Solution": {
+            "description": "The software update is used to install a solution with several software package to several components.",
+            "type": "integer"
+          }
+        }
+      },
+      "SoftwareVersionFileType": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.DI.SoftwareVersionFileType",
+        "const": {
+          "Current": 0,
+          "Pending": 1,
+          "Fallback": 2
+        },
+        "properties": {
+          "Current": {
+            "description": "The currently used version of the software identified by the CurrentVersion Object.",
+            "type": "integer"
+          },
+          "Pending": {
+            "description": "The pending version of the software that could be installed identified by the PendingVersion Object.",
+            "type": "integer"
+          },
+          "Fallback": {
+            "description": "The fallback version of the software identified by the FallbackVersion Object.",
+            "type": "integer"
+          }
+        }
+      },
+      "TransferResultDataDataType": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.DI.TransferResultDataDataType",
+        "required": [ "SequenceNumber", "EndOfResults", "ParameterDefs" ],
+        "properties": {
+          "SequenceNumber": {
+            "type": "integer",
+            "minimum": -2147483648,
+            "maximum": 2147483647
+          },
+          "EndOfResults": {
+            "type": "boolean"
+          },
+          "ParameterDefs": {
+            "type": "array",
+            "items": {
+              "title": "ParameterResultDataType",
+              "type": "object",
+              "dov:typeRef": "org.opcfoundation.UA.DI.ParameterResultDataType",
+              "required": [ "NodePath", "StatusCode", "Diagnostics" ],
+              "properties": {
+                "NodePath": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "StatusCode": {
+                  "type": "string"
+                },
+                "Diagnostics": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      },
+      "TransferResultErrorDataType": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.DI.TransferResultErrorDataType",
+        "required": [ "Status", "Diagnostics" ],
+        "properties": {
+          "Status": {
+            "type": "integer",
+            "minimum": -2147483648,
+            "maximum": 2147483647
+          },
+          "Diagnostics": {
+            "type": "string"
+          }
+        }
+      },
+      "UpdateBehavior": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.DI.UpdateBehavior",
+        "const": {
+          "KeepsParameters": 0,
+          "WillDisconnect": 1,
+          "RequiresPowerCycle": 2,
+          "WillReboot": 3,
+          "NeedsPreparation": 4
+        },
+        "properties": {
+          "KeepsParameters": {
+            "description": "If KeepsParameters is not set, the device will lose its configuration during update. The Client should do a backup of the parameters before the update and restore them afterwards.",
+            "type": "integer"
+          },
+          "WillDisconnect": {
+            "description": "If WillDisconnect is set, the OPC UA Server will restart during installation. This can be the case if the update is about the firmware of the device that hosts the OPC UA Server.",
+            "type": "integer"
+          },
+          "RequiresPowerCycle": {
+            "description": "If RequiresPowerCycle is set, the devices require a manual power off / power on for installation.",
+            "type": "integer"
+          },
+          "WillReboot": {
+            "description": "If WillReboot is set, the device will reboot during the update, inclusive of embedded infrastructure elements like an integrated switch. An update Client should take this into account since the devices behind an integrated switch are not reachable for that time.",
+            "type": "integer"
+          },
+          "NeedsPreparation": {
+            "description": "If NeedsPreparation is not set, the Client can install the update without maintaining the PrepareForUpdateStateMachine. This can be used to support an installation without stopping the software.",
+            "type": "integer"
+          }
+        }
+      }
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
   }
 ]

@@ -2781,5 +2781,455 @@
         ]
       }
     }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dov": "http://azure.com/DigitalOperations/vocab#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "PNENC_DataTypes",
+    "links": [
+    ],
+    "schemaDefinitions": {
+      "EncoderAlarmChannelControlEnumeration": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.PNENC.EncoderAlarmChannelControlEnumeration",
+        "const": {
+          "ALARM_CHANNEL_DISABLED": 0,
+          "ALARM_CHANNEL_ENABLED": 1
+        },
+        "properties": {
+          "ALARM_CHANNEL_DISABLED": {
+            "description": "No Profile specific diagnosis (default)",
+            "type": "integer"
+          },
+          "ALARM_CHANNEL_ENABLED": {
+            "description": "Profile specific diagnosis is switched-on",
+            "type": "integer"
+          }
+        }
+      },
+      "EncoderAxisTypeEnumeration": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.PNENC.EncoderAxisTypeEnumeration",
+        "const": {
+          "ROTARY": 0,
+          "LINEAR": 1
+        },
+        "properties": {
+          "ROTARY": {
+            "description": "Rotating Axis",
+            "type": "integer"
+          },
+          "LINEAR": {
+            "description": "Linear Axis",
+            "type": "integer"
+          }
+        }
+      },
+      "EncoderChannelStateEnumeration": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.PNENC.EncoderChannelStateEnumeration",
+        "const": {
+          "NORMAL_OPERATION": 0,
+          "ERROR_ACKNOWLEDGEMENT": 1,
+          "ERROR": 2,
+          "REFERENCE_VALUE_Gx_XIST2": 3,
+          "WAIT_FOR_REFERENCE_MARKS": 4,
+          "SET_SHIFT_HOME_POSITION": 5,
+          "WAIT_FOR_MEASURED_VALUE": 6,
+          "MEASURED_VALUE_IN_XIST2": 7,
+          "PARKING": 8,
+          "PARKING_ERROR": 9,
+          "PARKING_ERROR_ACK": 10
+        },
+        "properties": {
+          "NORMAL_OPERATION": {
+            "description": "The position feedback interface operates normally",
+            "type": "integer"
+          },
+          "ERROR_ACKNOWLEDGEMENT": {
+            "description": "Error acknowledgement is being processed",
+            "type": "integer"
+          },
+          "ERROR": {
+            "description": "There is an error present",
+            "type": "integer"
+          },
+          "REFERENCE_VALUE_Gx_XIST2": {
+            "description": "The reference value is loaded in Gx_XIST2",
+            "type": "integer"
+          },
+          "WAIT_FOR_REFERENCE_MARKS": {
+            "description": "The reference mark is expected",
+            "type": "integer"
+          },
+          "SET_SHIFT_HOME_POSITION": {
+            "description": "Gx_XIST1 and Gx_XIST2 are set or shifted by a predefined preset value",
+            "type": "integer"
+          },
+          "WAIT_FOR_MEASURED_VALUE": {
+            "description": "Measurement task active, waiting for measurement values",
+            "type": "integer"
+          },
+          "MEASURED_VALUE_IN_XIST2": {
+            "description": "The requested measured value is loaded into Gx_XIST2",
+            "type": "integer"
+          },
+          "PARKING": {
+            "description": "The position feedback interface is inactive and does not deliver a valid Gx_XIST1 value",
+            "type": "integer"
+          },
+          "PARKING_ERROR": {
+            "description": "There is an error present and Gx_XIST1 is signaled invalid",
+            "type": "integer"
+          },
+          "PARKING_ERROR_ACK": {
+            "description": "Error acknowledgement is being processed and Gx_XIST1 is signaled invalid",
+            "type": "integer"
+          }
+        }
+      },
+      "EncoderCodeSequenceEnumeration": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.PNENC.EncoderCodeSequenceEnumeration",
+        "const": {
+          "INCREASING_CLOCKWISE": 0,
+          "INCREASING_COUNTERCLOCKWISE": 1
+        },
+        "properties": {
+          "INCREASING_CLOCKWISE": {
+            "description": "Increasing position values with clockwise rotation (viewed from shaft side)",
+            "type": "integer"
+          },
+          "INCREASING_COUNTERCLOCKWISE": {
+            "description": "Increasing position values with counterclockwise rotation (viewed from shaft side)",
+            "type": "integer"
+          }
+        }
+      },
+      "EncoderConfigParameterResultEnumeration": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.PNENC.EncoderConfigParameterResultEnumeration",
+        "const": {
+          "INVALID": 0,
+          "NOT_SUPPORTED": 1,
+          "READ_ONLY": 2
+        },
+        "properties": {
+          "INVALID": {
+            "description": "The value is not accepted as configuration value",
+            "type": "integer"
+          },
+          "NOT_SUPPORTED": {
+            "description": "The configuration value is not supported by the Server",
+            "type": "integer"
+          },
+          "READ_ONLY": {
+            "description": "The configuration value is not writable",
+            "type": "integer"
+          }
+        }
+      },
+      "EncoderConfigTypeEnumeration": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.PNENC.EncoderConfigTypeEnumeration",
+        "const": {
+          "STATIC": 0,
+          "DYNAMIC": 1
+        },
+        "properties": {
+          "STATIC": {
+            "description": "Static configuration type",
+            "type": "integer"
+          },
+          "DYNAMIC": {
+            "description": "Dynamic configuration type",
+            "type": "integer"
+          }
+        }
+      },
+      "EncoderDiagnosisReasonEnumeration": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.PNENC.EncoderDiagnosisReasonEnumeration",
+        "const": {
+          "ALL_DISAPPEARS": 0,
+          "APPEARS": 1,
+          "DISAPPEARS": 2,
+          "DISAPPEARS_OTHER_REMAIN": 3
+        },
+        "properties": {
+          "ALL_DISAPPEARS": {
+            "description": "No diagnosis condition of any severity is persisting",
+            "type": "integer"
+          },
+          "APPEARS": {
+            "description": "The diagnosis condition indicated arises and/or persists",
+            "type": "integer"
+          },
+          "DISAPPEARS": {
+            "description": "The diagnosis condition indicated does not longer persist. No diagnosis condition of the same severity is persisting for the affected channel",
+            "type": "integer"
+          },
+          "DISAPPEARS_OTHER_REMAIN": {
+            "description": "The diagnosis condition indicated does not longer persist. Other diagnosis conditions of the same severity are persisting",
+            "type": "integer"
+          }
+        }
+      },
+      "EncoderPresetControlEnumeration": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.PNENC.EncoderPresetControlEnumeration",
+        "const": {
+          "ENABLE_PRESET_CONTROL": 0,
+          "DISABLE_PRESET_CONTROL": 1
+        },
+        "properties": {
+          "ENABLE_PRESET_CONTROL": {
+            "description": "G1_XIST1 is affected by a Set-/Shift home position function command",
+            "type": "integer"
+          },
+          "DISABLE_PRESET_CONTROL": {
+            "description": "Set-/Shift home position function does not affect G1_XIST1",
+            "type": "integer"
+          }
+        }
+      },
+      "EncoderSensorAbsoluteTypeEnumeration": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.PNENC.EncoderSensorAbsoluteTypeEnumeration",
+        "const": {
+          "SINGLETURN": 0,
+          "MULTITURN": 1
+        },
+        "properties": {
+          "SINGLETURN": {
+            "description": "Singleturn sensor absolute type",
+            "type": "integer"
+          },
+          "MULTITURN": {
+            "description": "Multiturn sensor absolute type",
+            "type": "integer"
+          }
+        }
+      },
+      "EncoderSignalTypeEnumeration": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.PNENC.EncoderSignalTypeEnumeration",
+        "const": {
+          "OTHER": 0,
+          "BISS_C": 1,
+          "ENDAT2_1": 2,
+          "ENDAT2_2": 3,
+          "HIPERFACE": 4,
+          "HIPERFACE_DSL": 5,
+          "SSI_BINARY": 6,
+          "SSI_GRAY_CODE": 7,
+          "SINCOS_1VSS": 8,
+          "SCS_OPEN_LINK": 9,
+          "DRIVECLIQ": 10,
+          "BISS_LINE": 11,
+          "FANUC_37BIT_SERIAL_COMM": 12,
+          "MITSUBISHI_40BIT_SERIAL_COMM": 13,
+          "OMRON_PANASONIC_48BIT_SERIAL_COMM": 14,
+          "YASKAWA_36BIT_SERIAL_COMM": 15,
+          "RS422_5V_TTL": 16,
+          "RS422_5__30V": 17,
+          "SINCOS_1VPP": 18,
+          "RESOLVER": 19,
+          "HTL_PUSH_PULL": 20,
+          "RS485": 21,
+          "RS485_SINCOS": 22,
+          "RS485_HTL": 23,
+          "RS485_TTL": 24
+        },
+        "properties": {
+          "OTHER": {
+            "description": "Other encoder protocol",
+            "type": "integer"
+          },
+          "BISS_C": {
+            "description": "BiSS interface continuous mode",
+            "type": "integer"
+          },
+          "ENDAT2_1": {
+            "description": "EnDat (Encoder Data), operating mode 2.1",
+            "type": "integer"
+          },
+          "ENDAT2_2": {
+            "description": "EnDat (Encoder Data), operating mode 2.2",
+            "type": "integer"
+          },
+          "HIPERFACE": {
+            "description": "Hiperface",
+            "type": "integer"
+          },
+          "HIPERFACE_DSL": {
+            "description": "Hiperface DSL (Digital Servo Link)",
+            "type": "integer"
+          },
+          "SSI_BINARY": {
+            "description": "Binary synchronous serial output (SSI)",
+            "type": "integer"
+          },
+          "SSI_GRAY_CODE": {
+            "description": "Gray code synchronous serial output (SSI)",
+            "type": "integer"
+          },
+          "SINCOS_1VSS": {
+            "description": "SinCos, 1 Vss output level",
+            "type": "integer"
+          },
+          "SCS_OPEN_LINK": {
+            "description": "Single cable solution (SCS open link)",
+            "type": "integer"
+          },
+          "DRIVECLIQ": {
+            "description": "DRIVE-CLiQ",
+            "type": "integer"
+          },
+          "BISS_LINE": {
+            "description": "BiSS Line",
+            "type": "integer"
+          },
+          "FANUC_37BIT_SERIAL_COMM": {
+            "description": "Fanuc 37-bit serial interface",
+            "type": "integer"
+          },
+          "MITSUBISHI_40BIT_SERIAL_COMM": {
+            "description": "Mitsubishi 40-bit serial interface",
+            "type": "integer"
+          },
+          "OMRON_PANASONIC_48BIT_SERIAL_COMM": {
+            "description": "OMRON/Panasonic 48-bit serial interface",
+            "type": "integer"
+          },
+          "YASKAWA_36BIT_SERIAL_COMM": {
+            "description": "Yaskawa 36-bit serial interface",
+            "type": "integer"
+          },
+          "RS422_5V_TTL": {
+            "description": "RS422 (TTL - Transistor Transistor Logic), 5 V signal level",
+            "type": "integer"
+          },
+          "RS422_5__30V": {
+            "description": "RS422 signal level depend on entry level 5 V to 30 V",
+            "type": "integer"
+          },
+          "SINCOS_1VPP": {
+            "description": "SinCos, 1 Vss output level",
+            "type": "integer"
+          },
+          "RESOLVER": {
+            "description": "Resolver signal",
+            "type": "integer"
+          },
+          "HTL_PUSH_PULL": {
+            "description": "High Threshold Logic (HTL), typically voltage ranges from 5 to 30 VDC",
+            "type": "integer"
+          },
+          "RS485": {
+            "description": "RS-485, signal is transmitted over a Sig+ line and a Sig- line",
+            "type": "integer"
+          },
+          "RS485_SINCOS": {
+            "description": "RS-485, Sin-/Cos-Signal",
+            "type": "integer"
+          },
+          "RS485_HTL": {
+            "description": "RS-485, High Threshold Logic (HTL) signal",
+            "type": "integer"
+          },
+          "RS485_TTL": {
+            "description": "RS-485, Transistor Transistor Logic (TTL) signal",
+            "type": "integer"
+          }
+        }
+      },
+      "EventTypeEnumeration": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.PNENC.EventTypeEnumeration",
+        "const": {
+          "FAULT": 0,
+          "WARNING": 1,
+          "UNSPECIFIED": 255
+        },
+        "properties": {
+          "FAULT": {
+            "description": "The log entry indicates a malfunction of the encoder, e.g. position fault",
+            "type": "integer"
+          },
+          "WARNING": {
+            "description": "The log entry is a warning, e.g. for battery status",
+            "type": "integer"
+          },
+          "UNSPECIFIED": {
+            "description": "No information about the type of the event is given.  The intended purpose for the definition is usage by the GetFilteredLogbookEntries Method to specify “don’t care” for the EventType parameter. Must not be used for log entries and encoder diagnosis events as EncoderDiagnosisEventType and LogbookEventType",
+            "type": "integer"
+          }
+        }
+      },
+      "LogEntryDataType": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.PNENC.LogEntryDataType",
+        "required": [ "FaultSituationNumber", "EventNumber", "EventType", "EventCode", "EventText", "EventComing", "EventGoing", "EventAcknowledged" ],
+        "properties": {
+          "FaultSituationNumber": {
+            "description": "Identification of fault situation. 0 means current fault situation",
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 255
+          },
+          "EventNumber": {
+            "description": "Unique number of log entry, analogous to Fault message counter",
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 4294967295
+          },
+          "EventType": {
+            "title": "EventTypeEnumeration",
+            "description": "Characterization of the event (fault, warning, etc.). Must never have the value “UNSPECIFIED”",
+            "dov:typeRef": "org.opcfoundation.UA.PNENC.EventTypeEnumeration",
+            "type": "integer",
+            "minimum": -2147483648,
+            "maximum": 2147483647
+          },
+          "EventCode": {
+            "description": "Fault-code identifying a fault or warning",
+            "type": "integer",
+            "minimum": -2147483648,
+            "maximum": 2147483647
+          },
+          "EventText": {
+            "description": "Brief description of the fault or warning",
+            "type": "string"
+          },
+          "EventComing": {
+            "description": "Time when the event appears",
+            "type": "string",
+            "format": "time"
+          },
+          "EventGoing": {
+            "description": "Time when the event disappears",
+            "type": "string",
+            "format": "time"
+          },
+          "EventAcknowledged": {
+            "description": "Time when the event is acknowledged",
+            "type": "string",
+            "format": "time"
+          }
+        }
+      }
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
   }
 ]

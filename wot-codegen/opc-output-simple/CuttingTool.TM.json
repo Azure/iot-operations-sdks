@@ -146,5 +146,41 @@
     },
     "events": {
     }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dov": "http://azure.com/DigitalOperations/vocab#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "CuttingTool_DataTypes",
+    "links": [
+    ],
+    "schemaDefinitions": {
+      "FileFormatDataType": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.CuttingTool.FileFormatDataType",
+        "required": [ "Name", "FileExtension", "Version" ],
+        "properties": {
+          "Name": {
+            "type": "string"
+          },
+          "FileExtension": {
+            "type": "string"
+          },
+          "Version": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
   }
 ]

@@ -1802,5 +1802,187 @@
     },
     "events": {
     }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dov": "http://azure.com/DigitalOperations/vocab#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "IA_DataTypes",
+    "links": [
+    ],
+    "schemaDefinitions": {
+      "LevelDisplayMode": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.IA.LevelDisplayMode",
+        "const": {
+          "Dimmed": 0,
+          "Blinking": 1,
+          "Other": 2
+        },
+        "description": "Contains the values used to indicate how a percentual value is displayed if the stacklight unit works in Levelmeter mode.",
+        "properties": {
+          "Dimmed": {
+            "description": "Uses dimming to display fractions.",
+            "type": "integer"
+          },
+          "Blinking": {
+            "description": "Uses blinking to display fractions.",
+            "type": "integer"
+          },
+          "Other": {
+            "description": "Display fractions in a way not defined in this version of the specification.",
+            "type": "integer"
+          }
+        }
+      },
+      "RGBWDataType": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.IA.RGBWDataType",
+        "required": [ "Red", "Green", "Blue" ],
+        "properties": {
+          "Red": {
+            "description": "Defines the intensity of the colour red",
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 255
+          },
+          "Green": {
+            "description": "Defines the intensity of the colour green",
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 255
+          },
+          "Blue": {
+            "description": "Defines the intensity of the colour blue",
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 255
+          },
+          "White": {
+            "description": "Defines the intensity of an additional white component. Shall be not provided when using RGB.",
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 255
+          }
+        }
+      },
+      "SignalColor": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.IA.SignalColor",
+        "const": {
+          "Off": 0,
+          "Red": 1,
+          "Green": 2,
+          "Blue": 3,
+          "Yellow": 4,
+          "Purple": 5,
+          "Cyan": 6,
+          "White": 7
+        },
+        "description": "Holds the possible colour values for stacklight lamps.",
+        "properties": {
+          "Off": {
+            "description": "Element is disabled.",
+            "type": "integer"
+          },
+          "Red": {
+            "description": "This value indicates a red lamp colour.",
+            "type": "integer"
+          },
+          "Green": {
+            "description": "This value indicates a green lamp colour.",
+            "type": "integer"
+          },
+          "Blue": {
+            "description": "This value indicates a blue lamp colour.",
+            "type": "integer"
+          },
+          "Yellow": {
+            "description": "This value indicates a yellow lamp colour (R+G).",
+            "type": "integer"
+          },
+          "Purple": {
+            "description": "This value indicates a purple lamp colour (R+B).",
+            "type": "integer"
+          },
+          "Cyan": {
+            "description": "This value indicates a cyan lamp colour (G+B).",
+            "type": "integer"
+          },
+          "White": {
+            "description": "This value indicates a white lamp colour (R+G+B).",
+            "type": "integer"
+          }
+        }
+      },
+      "SignalModeLight": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.IA.SignalModeLight",
+        "const": {
+          "Continuous": 0,
+          "Blinking": 1,
+          "Flashing": 2,
+          "Other": 3
+        },
+        "description": "Contains the values used to indicate in what way a lamp behaves when switched on.",
+        "properties": {
+          "Continuous": {
+            "description": "This value indicates a continuous light.",
+            "type": "integer"
+          },
+          "Blinking": {
+            "description": "This value indicates a blinking light (blinking in regular intervals with equally long on and off times).",
+            "type": "integer"
+          },
+          "Flashing": {
+            "description": "This value indicates a flashing light (blinking in intervals with longer off times than on times, per interval multiple on times are possible).",
+            "type": "integer"
+          },
+          "Other": {
+            "description": "The light is handled in a way not defined in this version of the specification.",
+            "type": "integer"
+          }
+        }
+      },
+      "StacklightOperationMode": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.IA.StacklightOperationMode",
+        "const": {
+          "Segmented": 0,
+          "Levelmeter": 1,
+          "Running_Light": 2,
+          "Other": 3
+        },
+        "description": "Contains the values used to indicate how a stacklight (as a whole unit) is used.",
+        "properties": {
+          "Segmented": {
+            "description": "Stacklight is used as stack of individual lights",
+            "type": "integer"
+          },
+          "Levelmeter": {
+            "description": "Stacklight is used as level meter",
+            "type": "integer"
+          },
+          "Running_Light": {
+            "description": "The whole stack acts as a running light",
+            "type": "integer"
+          },
+          "Other": {
+            "description": "Stacklight is used in a way not defined in this version of the specification",
+            "type": "integer"
+          }
+        }
+      }
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
   }
 ]

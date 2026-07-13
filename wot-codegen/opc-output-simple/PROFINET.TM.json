@@ -5057,5 +5057,695 @@
         ]
       }
     }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dov": "http://azure.com/DigitalOperations/vocab#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "PROFINET_DataTypes",
+    "links": [
+    ],
+    "schemaDefinitions": {
+      "IMTagSelectorEnumeration": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.PROFINET.IMTagSelectorEnumeration",
+        "const": {
+          "FUNCTION": 0,
+          "LOCATION": 1,
+          "BOTH": 2
+        },
+        "properties": {
+          "FUNCTION": {
+            "type": "integer"
+          },
+          "LOCATION": {
+            "type": "integer"
+          },
+          "BOTH": {
+            "type": "integer"
+          }
+        }
+      },
+      "PnARStateEnumeration": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.PROFINET.PnARStateEnumeration",
+        "const": {
+          "CONNECTED": 0,
+          "UNCONNECTED": 1,
+          "UNCONNECTED_ERR_DEVICE_NOT_FOUND": 2,
+          "UNCONNECTED_ERR_DUPLICATE_IP": 3,
+          "UNCONNECTED_ERR_DUPLICATE_NOS": 4
+        },
+        "properties": {
+          "CONNECTED": {
+            "description": "The AR connection to the device is established",
+            "type": "integer"
+          },
+          "UNCONNECTED": {
+            "description": "The AR connection to the device is not established",
+            "type": "integer"
+          },
+          "UNCONNECTED_ERR_DEVICE_NOT_FOUND": {
+            "description": "The AR connection to the device is not established because the device is not available in the network",
+            "type": "integer"
+          },
+          "UNCONNECTED_ERR_DUPLICATE_IP": {
+            "description": "The AR connection to the device is not established because the IP address of the device exists multiple times",
+            "type": "integer"
+          },
+          "UNCONNECTED_ERR_DUPLICATE_NOS": {
+            "description": "The AR connection to the device is not established because the Name of Station of the device exists multiple times",
+            "type": "integer"
+          }
+        }
+      },
+      "PnARTypeEnumeration": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.PROFINET.PnARTypeEnumeration",
+        "const": {
+          "IOCARSingle": 0,
+          "IOSAR": 6,
+          "IOCARSingleUsingRT_CLASS_3": 16,
+          "IOCARSR": 32
+        },
+        "properties": {
+          "IOCARSingle": {
+            "type": "integer"
+          },
+          "IOSAR": {
+            "description": "The supervisor AR is a special form of the IOCARSingle allowing takeover of the ownership of a submodule",
+            "type": "integer"
+          },
+          "IOCARSingleUsingRT_CLASS_3": {
+            "description": "This is a special form of the IOCARSingle indicating RT_CLASS_3 communication",
+            "type": "integer"
+          },
+          "IOCARSR": {
+            "description": "The SR AR is a special form of the IOCARSingle indicating system redundancy or dynamic reconfiguration usage",
+            "type": "integer"
+          }
+        }
+      },
+      "PnAssetChangeEnumeration": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.PROFINET.PnAssetChangeEnumeration",
+        "const": {
+          "INSERTED": 0,
+          "REMOVED": 1,
+          "CHANGED": 2
+        },
+        "properties": {
+          "INSERTED": {
+            "description": "Asset has been added",
+            "type": "integer"
+          },
+          "REMOVED": {
+            "description": "Asset has been removed",
+            "type": "integer"
+          },
+          "CHANGED": {
+            "description": "Asset has been changed",
+            "type": "integer"
+          }
+        }
+      },
+      "PnAssetTypeEnumeration": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.PROFINET.PnAssetTypeEnumeration",
+        "const": {
+          "DEVICE": 0,
+          "MODULE": 1,
+          "SUBMODULE": 2,
+          "ASSET": 3
+        },
+        "properties": {
+          "DEVICE": {
+            "description": "Device",
+            "type": "integer"
+          },
+          "MODULE": {
+            "description": "Real Module",
+            "type": "integer"
+          },
+          "SUBMODULE": {
+            "description": "Real Submodule",
+            "type": "integer"
+          },
+          "ASSET": {
+            "description": "Asset",
+            "type": "integer"
+          }
+        }
+      },
+      "PnChannelAccumulativeEnumeration": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.PROFINET.PnChannelAccumulativeEnumeration",
+        "const": {
+          "SINGLE": 0,
+          "ACCUMULATIVE": 256
+        },
+        "properties": {
+          "SINGLE": {
+            "description": "Single channel   Diagnosis only for the reported channel  ",
+            "type": "integer"
+          },
+          "ACCUMULATIVE": {
+            "description": "Multiple channel   Accumulative diagnosis from more than one channel  ",
+            "type": "integer"
+          }
+        }
+      },
+      "PnChannelDirectionEnumeration": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.PROFINET.PnChannelDirectionEnumeration",
+        "const": {
+          "MANUFACTURER_SPECIFIC": 0,
+          "INPUT_CHANNEL": 8192,
+          "OUTPUT_CHANNEL": 16384,
+          "BIDIRECTIONAL_CHANNEL": 24576
+        },
+        "properties": {
+          "MANUFACTURER_SPECIFIC": {
+            "description": "Manufacturer specific",
+            "type": "integer"
+          },
+          "INPUT_CHANNEL": {
+            "description": "Input",
+            "type": "integer"
+          },
+          "OUTPUT_CHANNEL": {
+            "description": "Output",
+            "type": "integer"
+          },
+          "BIDIRECTIONAL_CHANNEL": {
+            "description": "Input/Output",
+            "type": "integer"
+          }
+        }
+      },
+      "PnChannelMaintenanceEnumeration": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.PROFINET.PnChannelMaintenanceEnumeration",
+        "const": {
+          "FAULT": 0,
+          "MAINTENANCE_REQUIRED": 512,
+          "MAINTENANCE_DEMANDED": 1024,
+          "USE_QUALIFIED_CHANNEL_QUALIFIER": 1536
+        },
+        "properties": {
+          "FAULT": {
+            "description": "Fault",
+            "type": "integer"
+          },
+          "MAINTENANCE_REQUIRED": {
+            "description": "Maintenance required",
+            "type": "integer"
+          },
+          "MAINTENANCE_DEMANDED": {
+            "description": "Maintenance demanded",
+            "type": "integer"
+          },
+          "USE_QUALIFIED_CHANNEL_QUALIFIER": {
+            "description": "Use QualifiedChannelQualifier variable",
+            "type": "integer"
+          }
+        }
+      },
+      "PnChannelSpecifierEnumeration": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.PROFINET.PnChannelSpecifierEnumeration",
+        "const": {
+          "ALL_DISAPPEARS": 0,
+          "APPEARS": 2048,
+          "DISAPPEARS": 4096,
+          "DISAPPEARS_OTHER_REMAIN": 6144
+        },
+        "properties": {
+          "ALL_DISAPPEARS": {
+            "description": "The Diagnosis ASE contains no longer any entries (of any severity) for this channel",
+            "type": "integer"
+          },
+          "APPEARS": {
+            "description": "An event appears and/or exists further  The Diagnosis ASE contains this and possible other entries for this channel.  ",
+            "type": "integer"
+          },
+          "DISAPPEARS": {
+            "description": "An event disappears and/or exists no longer  The Diagnosis ASE contains no longer any entries of the same severity for this channel  ",
+            "type": "integer"
+          },
+          "DISAPPEARS_OTHER_REMAIN": {
+            "description": "An event disappears  The Diagnosis ASE still contains other entries of the same severity for this channel  ",
+            "type": "integer"
+          }
+        }
+      },
+      "PnChannelTypeEnumeration": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.PROFINET.PnChannelTypeEnumeration",
+        "const": {
+          "UNSPECIFIC": 0,
+          "S1BIT": 1,
+          "S2BIT": 2,
+          "S4BIT": 3,
+          "S8BIT": 4,
+          "S16BIT": 5,
+          "S32BIT": 6,
+          "S64BIT": 7
+        },
+        "properties": {
+          "UNSPECIFIC": {
+            "description": "Shall be used if the field ChannelNumber contains the value 0x8000 (submodule)  Furthermore, it shall be used if none of the below defined types are appropriate.  ",
+            "type": "integer"
+          },
+          "S1BIT": {
+            "description": "The data length of this channel is 1 Bit.",
+            "type": "integer"
+          },
+          "S2BIT": {
+            "description": "The data length of this channel is 2 Bit.",
+            "type": "integer"
+          },
+          "S4BIT": {
+            "description": "The data length of this channel is 4 Bit.",
+            "type": "integer"
+          },
+          "S8BIT": {
+            "description": "The data length of this channel is 8 Bit.",
+            "type": "integer"
+          },
+          "S16BIT": {
+            "description": "The data length of this channel is 16 Bit.",
+            "type": "integer"
+          },
+          "S32BIT": {
+            "description": "The data length of this channel is 32 Bit.",
+            "type": "integer"
+          },
+          "S64BIT": {
+            "description": "The data length of this channel is 64 Bit.",
+            "type": "integer"
+          }
+        }
+      },
+      "PnDeviceDiagnosisDataType": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.PROFINET.PnDeviceDiagnosisDataType",
+        "required": [ "API", "Slot", "Subslot", "ChannelNumber", "Type", "Accumulative", "Maintenance", "Specifier", "Direction", "UserStructureIdentifier", "ChannelErrorType", "ExtChannelErrorType", "ExtChannelAddValue", "QualifiedChannelQualifier", "ManufacturerData", "Message", "HelpText" ],
+        "properties": {
+          "API": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 4294967295
+          },
+          "Slot": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 65535
+          },
+          "Subslot": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 65535
+          },
+          "ChannelNumber": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 65535
+          },
+          "Type": {
+            "title": "PnChannelTypeEnumeration",
+            "dov:typeRef": "org.opcfoundation.UA.PROFINET.PnChannelTypeEnumeration",
+            "type": "integer",
+            "minimum": -2147483648,
+            "maximum": 2147483647
+          },
+          "Accumulative": {
+            "title": "PnChannelAccumulativeEnumeration",
+            "dov:typeRef": "org.opcfoundation.UA.PROFINET.PnChannelAccumulativeEnumeration",
+            "type": "integer",
+            "minimum": -2147483648,
+            "maximum": 2147483647
+          },
+          "Maintenance": {
+            "title": "PnChannelMaintenanceEnumeration",
+            "dov:typeRef": "org.opcfoundation.UA.PROFINET.PnChannelMaintenanceEnumeration",
+            "type": "integer",
+            "minimum": -2147483648,
+            "maximum": 2147483647
+          },
+          "Specifier": {
+            "title": "PnChannelSpecifierEnumeration",
+            "dov:typeRef": "org.opcfoundation.UA.PROFINET.PnChannelSpecifierEnumeration",
+            "type": "integer",
+            "minimum": -2147483648,
+            "maximum": 2147483647
+          },
+          "Direction": {
+            "title": "PnChannelDirectionEnumeration",
+            "dov:typeRef": "org.opcfoundation.UA.PROFINET.PnChannelDirectionEnumeration",
+            "type": "integer",
+            "minimum": -2147483648,
+            "maximum": 2147483647
+          },
+          "UserStructureIdentifier": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 65535
+          },
+          "ChannelErrorType": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 65535
+          },
+          "ExtChannelErrorType": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 65535
+          },
+          "ExtChannelAddValue": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 4294967295
+          },
+          "QualifiedChannelQualifier": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 4294967295
+          },
+          "ManufacturerData": {
+            "description": "Manufacturer specific diagnosis data",
+            "type": "string",
+            "contentEncoding": "base64"
+          },
+          "Message": {
+            "description": "Diagnosis message read from the GSDML",
+            "type": "string"
+          },
+          "HelpText": {
+            "description": "Help text read from the GSDML",
+            "type": "string"
+          }
+        }
+      },
+      "PnDeviceRoleOptionSet": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.PROFINET.PnDeviceRoleOptionSet",
+        "const": {
+          "IO_DEVICE": 0,
+          "IO_CONTROLLER": 1,
+          "IO_MULTIDEVICE": 2,
+          "IO_SUPERVISOR": 3,
+          "IO_CIM": 4
+        },
+        "properties": {
+          "IO_DEVICE": {
+            "description": "The device contains an IO device interface.",
+            "type": "integer"
+          },
+          "IO_CONTROLLER": {
+            "description": "The device contains an IO controller interface.",
+            "type": "integer"
+          },
+          "IO_MULTIDEVICE": {
+            "description": "The device contains multiple IO device interfaces.",
+            "type": "integer"
+          },
+          "IO_SUPERVISOR": {
+            "description": "The device contains an IO supervisor interface.",
+            "type": "integer"
+          },
+          "IO_CIM": {
+            "description": "The device contains an CIM device interface.",
+            "type": "integer"
+          }
+        }
+      },
+      "PnDeviceStateEnumeration": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.PROFINET.PnDeviceStateEnumeration",
+        "const": {
+          "OFFLINE": 0,
+          "OFFLINE_DOCKING": 1,
+          "ONLINE": 2,
+          "ONLINE_DOCKING": 3
+        },
+        "properties": {
+          "OFFLINE": {
+            "description": "The device is not online, or no information is available. The device is offline if no ARs other than possible Device Access AR’s exist.",
+            "type": "integer"
+          },
+          "OFFLINE_DOCKING": {
+            "description": "The device is a docking device and currently not online.",
+            "type": "integer"
+          },
+          "ONLINE": {
+            "description": "The device is online. This is the case if at least one AR other than possible Device Access AR’s exists.",
+            "type": "integer"
+          },
+          "ONLINE_DOCKING": {
+            "description": "The device is a docking device and currently online.",
+            "type": "integer"
+          }
+        }
+      },
+      "PnIM5DataType": {
+        "description": "Contains the fields of the APDU element I&M5 | I&M5Data",
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.PROFINET.PnIM5DataType",
+        "required": [ "Annotation", "OrderId", "VendorId", "SerialNumber", "HardwareRevision", "SoftwareRevision" ],
+        "properties": {
+          "Annotation": {
+            "description": "I&M5Data | IM_Annotation",
+            "type": "string"
+          },
+          "OrderId": {
+            "description": "I&M5Data | IM_OrderID",
+            "type": "string"
+          },
+          "VendorId": {
+            "description": "I&M5Data | VendorID",
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 65535
+          },
+          "SerialNumber": {
+            "description": "I&M5Data | IM_Serial_Number",
+            "type": "string"
+          },
+          "HardwareRevision": {
+            "description": "I&M5Data | IM_Hardware_Revision",
+            "type": "string"
+          },
+          "SoftwareRevision": {
+            "description": "I&M5Data | IM_Software_Revision",
+            "type": "string"
+          }
+        }
+      },
+      "PnLinkStateEnumeration": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.PROFINET.PnLinkStateEnumeration",
+        "const": {
+          "UP": 1,
+          "DOWN": 2,
+          "TESTING": 3,
+          "UNKNOWN": 4,
+          "DORMANT": 5,
+          "NOT_PRESENT": 6,
+          "LOWER_LAYER_DOWN": 7
+        },
+        "properties": {
+          "UP": {
+            "description": "Ready to pass packets",
+            "type": "integer"
+          },
+          "DOWN": {
+            "description": "No packets are passed",
+            "type": "integer"
+          },
+          "TESTING": {
+            "description": "In some test mode",
+            "type": "integer"
+          },
+          "UNKNOWN": {
+            "description": "Status cannot be determined",
+            "type": "integer"
+          },
+          "DORMANT": {
+            "description": "In pending state waiting  for some external event",
+            "type": "integer"
+          },
+          "NOT_PRESENT": {
+            "description": "Port not present",
+            "type": "integer"
+          },
+          "LOWER_LAYER_DOWN": {
+            "description": "Down due to lower layer",
+            "type": "integer"
+          }
+        }
+      },
+      "PnModuleStateEnumeration": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.PROFINET.PnModuleStateEnumeration",
+        "const": {
+          "NO_MODULE": 0,
+          "WRONG_MODULE": 1,
+          "PROPER_MODULE": 2,
+          "SUBSTITUTE": 3,
+          "OK": 4
+        },
+        "properties": {
+          "NO_MODULE": {
+            "description": "For example module not plugged",
+            "type": "integer"
+          },
+          "WRONG_MODULE": {
+            "description": "For example ModuleIdentNumber wrong",
+            "type": "integer"
+          },
+          "PROPER_MODULE": {
+            "description": "Module is okay but at least one submodule is locked, wrong or missing",
+            "type": "integer"
+          },
+          "SUBSTITUTE": {
+            "description": "Module is not the same as requested – but the IO device was able to adapt by its own knowledge",
+            "type": "integer"
+          },
+          "OK": {
+            "description": "Default state",
+            "type": "integer"
+          }
+        }
+      },
+      "PnPortStateEnumeration": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.PROFINET.PnPortStateEnumeration",
+        "const": {
+          "UNKNOWN": 0,
+          "DISABLED_DISCARDING": 1,
+          "BLOCKING": 2,
+          "LISTENING": 3,
+          "LEARNING": 4,
+          "FORWARDING": 5,
+          "BROKEN": 6
+        },
+        "properties": {
+          "UNKNOWN": {
+            "description": "Status cannot be determined",
+            "type": "integer"
+          },
+          "DISABLED_DISCARDING": {
+            "description": "The port is administratively disabled and discarding frames",
+            "type": "integer"
+          },
+          "BLOCKING": {
+            "description": "The port blocks incoming frames",
+            "type": "integer"
+          },
+          "LISTENING": {
+            "description": "The port is listening to and sending BPDUs (Bridge Protocol Data Units).",
+            "type": "integer"
+          },
+          "LEARNING": {
+            "type": "integer"
+          },
+          "FORWARDING": {
+            "type": "integer"
+          },
+          "BROKEN": {
+            "type": "integer"
+          }
+        }
+      },
+      "PnSubmoduleARInfoEnumeration": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.PROFINET.PnSubmoduleARInfoEnumeration",
+        "const": {
+          "OWN": 0,
+          "APPLICATION_READY_PENDING": 128,
+          "SUPERORDINATED_LOCKED": 256,
+          "LOCKED_BY_IO_CONTROLLER": 384,
+          "LOCKED_BY_IO_SUPERVISOR": 512
+        },
+        "properties": {
+          "OWN": {
+            "description": "This AR is owner of the submodule",
+            "type": "integer"
+          },
+          "APPLICATION_READY_PENDING": {
+            "description": "This AR is owner of the submodule but it is blocked. For example parameter checking pending",
+            "type": "integer"
+          },
+          "SUPERORDINATED_LOCKED": {
+            "description": "This AR is not owner of the submodule. It is blocked by superordinated means",
+            "type": "integer"
+          },
+          "LOCKED_BY_IO_CONTROLLER": {
+            "description": "This AR is not owner of the submodule. It is owned by another IOAR",
+            "type": "integer"
+          },
+          "LOCKED_BY_IO_SUPERVISOR": {
+            "description": "This AR is not owner of the submodule. It is owned by another IOSAR",
+            "type": "integer"
+          }
+        }
+      },
+      "PnSubmoduleAddInfoEnumeration": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.PROFINET.PnSubmoduleAddInfoEnumeration",
+        "const": {
+          "NO_ADD_INFO": 0,
+          "TAKEOVER_NOT_ALLOWED": 1
+        },
+        "properties": {
+          "NO_ADD_INFO": {
+            "type": "integer"
+          },
+          "TAKEOVER_NOT_ALLOWED": {
+            "description": "This Submodule is not available for takeover by IOSAR.",
+            "type": "integer"
+          }
+        }
+      },
+      "PnSubmoduleIdentInfoEnumeration": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.PROFINET.PnSubmoduleIdentInfoEnumeration",
+        "const": {
+          "OK": 0,
+          "SUBSTITUTE": 2048,
+          "WRONG": 4096,
+          "NO_SUBMODULE": 6144
+        },
+        "properties": {
+          "OK": {
+            "description": "OK",
+            "type": "integer"
+          },
+          "SUBSTITUTE": {
+            "description": "Substitute (SU)",
+            "type": "integer"
+          },
+          "WRONG": {
+            "description": "Wrong (WR)",
+            "type": "integer"
+          },
+          "NO_SUBMODULE": {
+            "description": "NoSubmodule (NO)",
+            "type": "integer"
+          }
+        }
+      }
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
   }
 ]

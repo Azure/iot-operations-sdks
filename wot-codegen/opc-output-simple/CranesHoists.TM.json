@@ -163,5 +163,172 @@
     },
     "events": {
     }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dov": "http://azure.com/DigitalOperations/vocab#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "CranesHoists_DataTypes",
+    "links": [
+    ],
+    "schemaDefinitions": {
+      "CraneMotionDeviceCategoryEnum": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.CranesHoists.CraneMotionDeviceCategoryEnum",
+        "const": {
+          "HOIST": 0,
+          "TROLLEY_TRAVERSE": 1,
+          "BRIDGE_OR_GANTRY_TRAVEL": 2,
+          "LOAD_LIFTING_ATTACHMENT": 3,
+          "ROTATING_OR_SLEWING": 4,
+          "LUFFING": 5,
+          "POWER_SUPPLY_MACHINERY": 6,
+          "OTHER": 7
+        },
+        "properties": {
+          "HOIST": {
+            "description": "Hoisting machinery",
+            "type": "integer"
+          },
+          "TROLLEY_TRAVERSE": {
+            "description": "Trolley traverse or cross travel machinery",
+            "type": "integer"
+          },
+          "BRIDGE_OR_GANTRY_TRAVEL": {
+            "description": "Bridge or gantry travel, long travel machinery",
+            "type": "integer"
+          },
+          "LOAD_LIFTING_ATTACHMENT": {
+            "description": "Load lifting attachment",
+            "type": "integer"
+          },
+          "ROTATING_OR_SLEWING": {
+            "description": "Rotating or slewing machinery",
+            "type": "integer"
+          },
+          "LUFFING": {
+            "description": "Luffing machinery",
+            "type": "integer"
+          },
+          "POWER_SUPPLY_MACHINERY": {
+            "description": "Power supply or power delivery",
+            "type": "integer"
+          },
+          "OTHER": {
+            "description": "Other",
+            "type": "integer"
+          }
+        }
+      },
+      "CraneOperationalModeEnumeration": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.CranesHoists.CraneOperationalModeEnumeration",
+        "const": {
+          "OTHER": 0,
+          "MANUAL": 1,
+          "SEMIAUTOMATIC": 2,
+          "FULLAUTOMATIC": 3,
+          "BYPASS_ON": 4,
+          "MAINTENANCE": 5
+        },
+        "properties": {
+          "OTHER": {
+            "description": "Use if vendor specific",
+            "type": "integer"
+          },
+          "MANUAL": {
+            "description": "Crane is operated manually by a human operator",
+            "type": "integer"
+          },
+          "SEMIAUTOMATIC": {
+            "description": "Some or all of crane motions are automated, but a human operator is required in the loop.",
+            "type": "integer"
+          },
+          "FULLAUTOMATIC": {
+            "description": "All of the crane motions are automated. No human intervention is required.",
+            "type": "integer"
+          },
+          "BYPASS_ON": {
+            "description": "A function, such as an assistive feature, is bypassed on the crane, e. g. to continue productive work in case a non-critical function suffers a fault.",
+            "type": "integer"
+          },
+          "MAINTENANCE": {
+            "description": "Crane is in maintenance mode, typically operating at reduced speed and possibly with some protective functions disabled so they will not hinder or prohibit service activities.",
+            "type": "integer"
+          }
+        }
+      },
+      "ExternalControlRequestEnumeration": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.CranesHoists.ExternalControlRequestEnumeration",
+        "const": {
+          "NOT_REQUESTED": 0,
+          "REQUESTED_AND_CONTROL_ACTIVE": 1,
+          "REQUESTED_AND_CONTROL_INACTIVE": 2,
+          "REQUESTED_AND_CONTROL_BYPASSED": 3
+        },
+        "properties": {
+          "NOT_REQUESTED": {
+            "description": "No control request inputs have been received from any client",
+            "type": "integer"
+          },
+          "REQUESTED_AND_CONTROL_ACTIVE": {
+            "description": "Control request input has been received from a client and the request is being applied to the control",
+            "type": "integer"
+          },
+          "REQUESTED_AND_CONTROL_INACTIVE": {
+            "description": "Control request input has been received from a client but the request is not currently being applied to the control",
+            "type": "integer"
+          },
+          "REQUESTED_AND_CONTROL_BYPASSED": {
+            "description": "Control request input has been received from a client but the request is not currently being applied to the control because it has been bypassed in the control system",
+            "type": "integer"
+          }
+        }
+      },
+      "ProtectiveFunctionEnumeration": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.CranesHoists.ProtectiveFunctionEnumeration",
+        "const": {
+          "OTHER": 0,
+          "FORCE_LIMITER": 1,
+          "OVERSPEED_CONTROL": 2,
+          "MOTION_LIMITER": 3,
+          "ANTICOLLISION": 4
+        },
+        "properties": {
+          "OTHER": {
+            "description": "Use if vendor specific",
+            "type": "integer"
+          },
+          "FORCE_LIMITER": {
+            "description": "Limiting the transmitted force",
+            "type": "integer"
+          },
+          "OVERSPEED_CONTROL": {
+            "description": "Limiting the speed during operation",
+            "type": "integer"
+          },
+          "MOTION_LIMITER": {
+            "description": "Limiting by stopping motion",
+            "type": "integer"
+          },
+          "ANTICOLLISION": {
+            "description": "Device with the ability to bring the moving crane or trolley(s) to a stop before a collision occurs",
+            "type": "integer"
+          }
+        }
+      }
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
   }
 ]

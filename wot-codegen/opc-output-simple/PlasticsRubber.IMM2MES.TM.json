@@ -1478,5 +1478,190 @@
         ]
       }
     }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dov": "http://azure.com/DigitalOperations/vocab#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "PlasticsRubber_IMM2MES_DataTypes",
+    "links": [
+    ],
+    "schemaDefinitions": {
+      "IMMMessageClassificationEnumeration": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.PlasticsRubber.IMM2MES.IMMMessageClassificationEnumeration",
+        "const": {
+          "OTHER": 0,
+          "IMM_INJECTION_UNIT": 100,
+          "IMM_CLAMPING_UNIT": 101,
+          "IMM_HARDWARE": 102,
+          "IMM_COMPRESSED_AIR_CONTROL": 103,
+          "IMM_MACHINE_MONITORING": 104,
+          "IMM_MOULD": 105,
+          "IMM_EJECTOR": 106,
+          "IMM_CORE_PULL": 107,
+          "IMM_TABLE": 108,
+          "IMM_INJECTION_PROGRAM": 109,
+          "IMM_HYDRAULIC_TEMPERATURE_CONTROL": 110,
+          "IMM_CYLINDER_TEMPERATURE_CONTROL": 111,
+          "IMM_MOULD_TEMPERATURE_CONTROL": 112,
+          "IMM_HOT_RUNNER": 113,
+          "IMM_INTERFACES": 114,
+          "IMM_MEASURING_SYSTEM": 115,
+          "IMM_ROBOTIC_SYSTEM_INTERFACE": 116,
+          "IMM_SPECIAL_PURPOSE_SIGNALS": 117,
+          "IMM_REAL_TIME_ETHERNET_SYSTEM": 118,
+          "IMM_MACHINE_CONTROLLER": 119,
+          "IMM_SOFTWARE_MONITORING": 120,
+          "PERIPHERAL_EXTERNAL_DEVICE_INTERFACE": 200,
+          "PERIPHERAL_TEMPERATURE_CONTROL_UNIT": 201,
+          "PERIPHERAL_ROBOTICS_SYSTEM": 202,
+          "PERIPHERAL_LSR": 203,
+          "PERIPHERAL_STRIPPER_UNIT": 204,
+          "PERIPHERAL_DRYER": 205,
+          "PERIPHERAL_CONVEYOR_BELT": 206,
+          "PERIPHERAL_SORTER_UNIT": 207,
+          "PERIPHERAL_COLOURING_UNIT": 208,
+          "PERIPHERAL_FEEDING": 209,
+          "PERIPHERAL_EXTERNAL_ALARMS": 210,
+          "PERIPHERAL_VACUUM_CONTROL": 211,
+          "PERIPHERAL_PRINTER_INTERFACE": 212,
+          "OPERATION_QUALITY_MONITORING": 300,
+          "OPERATION_MANUAL_OPERATION": 301,
+          "OPERATION_EMERGENCY_STOP": 302,
+          "OPERATION_JOB_STATUS": 303
+        },
+        "description": "This Enumeration specifies the values to be used in the Classification property in the MessageConditionType and related logbook events of OPC 40083",
+        "properties": {
+          "OTHER": {
+            "type": "integer"
+          },
+          "IMM_INJECTION_UNIT": {
+            "type": "integer"
+          },
+          "IMM_CLAMPING_UNIT": {
+            "type": "integer"
+          },
+          "IMM_HARDWARE": {
+            "type": "integer"
+          },
+          "IMM_COMPRESSED_AIR_CONTROL": {
+            "type": "integer"
+          },
+          "IMM_MACHINE_MONITORING": {
+            "type": "integer"
+          },
+          "IMM_MOULD": {
+            "type": "integer"
+          },
+          "IMM_EJECTOR": {
+            "type": "integer"
+          },
+          "IMM_CORE_PULL": {
+            "type": "integer"
+          },
+          "IMM_TABLE": {
+            "type": "integer"
+          },
+          "IMM_INJECTION_PROGRAM": {
+            "type": "integer"
+          },
+          "IMM_HYDRAULIC_TEMPERATURE_CONTROL": {
+            "type": "integer"
+          },
+          "IMM_CYLINDER_TEMPERATURE_CONTROL": {
+            "type": "integer"
+          },
+          "IMM_MOULD_TEMPERATURE_CONTROL": {
+            "type": "integer"
+          },
+          "IMM_HOT_RUNNER": {
+            "type": "integer"
+          },
+          "IMM_INTERFACES": {
+            "type": "integer"
+          },
+          "IMM_MEASURING_SYSTEM": {
+            "type": "integer"
+          },
+          "IMM_ROBOTIC_SYSTEM_INTERFACE": {
+            "type": "integer"
+          },
+          "IMM_SPECIAL_PURPOSE_SIGNALS": {
+            "type": "integer"
+          },
+          "IMM_REAL_TIME_ETHERNET_SYSTEM": {
+            "type": "integer"
+          },
+          "IMM_MACHINE_CONTROLLER": {
+            "type": "integer"
+          },
+          "IMM_SOFTWARE_MONITORING": {
+            "type": "integer"
+          },
+          "PERIPHERAL_EXTERNAL_DEVICE_INTERFACE": {
+            "type": "integer"
+          },
+          "PERIPHERAL_TEMPERATURE_CONTROL_UNIT": {
+            "type": "integer"
+          },
+          "PERIPHERAL_ROBOTICS_SYSTEM": {
+            "type": "integer"
+          },
+          "PERIPHERAL_LSR": {
+            "type": "integer"
+          },
+          "PERIPHERAL_STRIPPER_UNIT": {
+            "type": "integer"
+          },
+          "PERIPHERAL_DRYER": {
+            "type": "integer"
+          },
+          "PERIPHERAL_CONVEYOR_BELT": {
+            "type": "integer"
+          },
+          "PERIPHERAL_SORTER_UNIT": {
+            "type": "integer"
+          },
+          "PERIPHERAL_COLOURING_UNIT": {
+            "type": "integer"
+          },
+          "PERIPHERAL_FEEDING": {
+            "type": "integer"
+          },
+          "PERIPHERAL_EXTERNAL_ALARMS": {
+            "type": "integer"
+          },
+          "PERIPHERAL_VACUUM_CONTROL": {
+            "type": "integer"
+          },
+          "PERIPHERAL_PRINTER_INTERFACE": {
+            "type": "integer"
+          },
+          "OPERATION_QUALITY_MONITORING": {
+            "type": "integer"
+          },
+          "OPERATION_MANUAL_OPERATION": {
+            "type": "integer"
+          },
+          "OPERATION_EMERGENCY_STOP": {
+            "type": "integer"
+          },
+          "OPERATION_JOB_STATUS": {
+            "type": "integer"
+          }
+        }
+      }
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
   }
 ]

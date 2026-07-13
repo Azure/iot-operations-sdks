@@ -3599,5 +3599,941 @@
     },
     "events": {
     }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dov": "http://azure.com/DigitalOperations/vocab#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "WireHarness_DataTypes",
+    "links": [
+    ],
+    "schemaDefinitions": {
+      "CrimpInputDataType": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.WireHarness.CrimpInputDataType",
+        "required": [ "ToolType", "ProcessDescription", "Id", "ReferencedElement", "VerifyCrimpHeight", "VerifyCrimpWidth", "VerifyInsulationCrimpHeight", "VerifyInsulationCrimpWidth", "VerifyPullOutForce", "CrimpForceMonitoring" ],
+        "properties": {
+          "ToolType": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "ProcessDescription": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "Id": {
+            "type": "string"
+          },
+          "ReferencedElement": {
+            "title": "WireMountingIdDataType",
+            "type": "object",
+            "dov:typeRef": "org.opcfoundation.UA.WireHarness.VEC.WireMountingIdDataType",
+            "required": [ "id" ],
+            "properties": {
+              "id": {
+                "type": "string"
+              }
+            }
+          },
+          "VerifyCrimpHeight": {
+            "type": "array",
+            "items": {
+              "type": "boolean"
+            }
+          },
+          "VerifyCrimpWidth": {
+            "type": "array",
+            "items": {
+              "type": "boolean"
+            }
+          },
+          "VerifyInsulationCrimpHeight": {
+            "type": "array",
+            "items": {
+              "type": "boolean"
+            }
+          },
+          "VerifyInsulationCrimpWidth": {
+            "type": "array",
+            "items": {
+              "type": "boolean"
+            }
+          },
+          "VerifyPullOutForce": {
+            "type": "array",
+            "items": {
+              "type": "boolean"
+            }
+          },
+          "CrimpForceMonitoring": {
+            "type": "array",
+            "items": {
+              "type": "boolean"
+            }
+          }
+        }
+      },
+      "CrimpOutputDataType": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.WireHarness.CrimpOutputDataType",
+        "required": [ "ToolInstance", "ActualCrimpHeight", "ActualCrimpWidth", "ActualInsulationCrimpHeight", "ActualCrimpForceCurve", "ActualCrimpPullOutForce" ],
+        "properties": {
+          "ToolInstance": {
+            "type": "string"
+          },
+          "ActualCrimpHeight": {
+            "type": "array",
+            "items": {
+              "title": "NumericalValue",
+              "type": "object",
+              "dov:typeRef": "org.opcfoundation.UA.WireHarness.VEC.NumericalValue",
+              "required": [ "UnitComponent", "ValueComponent", "Tolerance" ],
+              "properties": {
+                "UnitComponent": {
+                  "title": "EUInformation",
+                  "description": "References the unit of the value.",
+                  "type": "object",
+                  "dov:typeRef": "org.opcfoundation.UA.EUInformation",
+                  "required": [ "NamespaceUri", "UnitId", "DisplayName", "Description" ],
+                  "properties": {
+                    "NamespaceUri": {
+                      "type": "string"
+                    },
+                    "UnitId": {
+                      "type": "integer",
+                      "minimum": -2147483648,
+                      "maximum": 2147483647
+                    },
+                    "DisplayName": {
+                      "type": "string"
+                    },
+                    "Description": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "ValueComponent": {
+                  "description": "<p>Specifies the value of the numerical value.</p>",
+                  "type": "number",
+                  "minimum": -1.80e+308,
+                  "maximum": 1.80e+308
+                },
+                "Tolerance": {
+                  "description": "<p>Specifies the tolerance for the dimension.</p>",
+                  "type": "array",
+                  "items": {
+                    "title": "Tolerance",
+                    "type": "object",
+                    "dov:typeRef": "org.opcfoundation.UA.WireHarness.VEC.Tolerance",
+                    "required": [ "id", "LowerBoundary", "UpperBoundary" ],
+                    "properties": {
+                      "id": {
+                        "type": "string"
+                      },
+                      "LowerBoundary": {
+                        "description": "<p>Specifies the lower boundary for the tolerance.</p>",
+                        "type": "number",
+                        "minimum": -1.80e+308,
+                        "maximum": 1.80e+308
+                      },
+                      "UpperBoundary": {
+                        "description": "<p>Specifies the upper boundary for the tolerance.</p>",
+                        "type": "number",
+                        "minimum": -1.80e+308,
+                        "maximum": 1.80e+308
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "ActualCrimpWidth": {
+            "type": "array",
+            "items": {
+              "title": "NumericalValue",
+              "type": "object",
+              "dov:typeRef": "org.opcfoundation.UA.WireHarness.VEC.NumericalValue",
+              "required": [ "UnitComponent", "ValueComponent", "Tolerance" ],
+              "properties": {
+                "UnitComponent": {
+                  "title": "EUInformation",
+                  "description": "References the unit of the value.",
+                  "type": "object",
+                  "dov:typeRef": "org.opcfoundation.UA.EUInformation",
+                  "required": [ "NamespaceUri", "UnitId", "DisplayName", "Description" ],
+                  "properties": {
+                    "NamespaceUri": {
+                      "type": "string"
+                    },
+                    "UnitId": {
+                      "type": "integer",
+                      "minimum": -2147483648,
+                      "maximum": 2147483647
+                    },
+                    "DisplayName": {
+                      "type": "string"
+                    },
+                    "Description": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "ValueComponent": {
+                  "description": "<p>Specifies the value of the numerical value.</p>",
+                  "type": "number",
+                  "minimum": -1.80e+308,
+                  "maximum": 1.80e+308
+                },
+                "Tolerance": {
+                  "description": "<p>Specifies the tolerance for the dimension.</p>",
+                  "type": "array",
+                  "items": {
+                    "title": "Tolerance",
+                    "type": "object",
+                    "dov:typeRef": "org.opcfoundation.UA.WireHarness.VEC.Tolerance",
+                    "required": [ "id", "LowerBoundary", "UpperBoundary" ],
+                    "properties": {
+                      "id": {
+                        "type": "string"
+                      },
+                      "LowerBoundary": {
+                        "description": "<p>Specifies the lower boundary for the tolerance.</p>",
+                        "type": "number",
+                        "minimum": -1.80e+308,
+                        "maximum": 1.80e+308
+                      },
+                      "UpperBoundary": {
+                        "description": "<p>Specifies the upper boundary for the tolerance.</p>",
+                        "type": "number",
+                        "minimum": -1.80e+308,
+                        "maximum": 1.80e+308
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "ActualInsulationCrimpHeight": {
+            "type": "array",
+            "items": {
+              "title": "NumericalValue",
+              "type": "object",
+              "dov:typeRef": "org.opcfoundation.UA.WireHarness.VEC.NumericalValue",
+              "required": [ "UnitComponent", "ValueComponent", "Tolerance" ],
+              "properties": {
+                "UnitComponent": {
+                  "title": "EUInformation",
+                  "description": "References the unit of the value.",
+                  "type": "object",
+                  "dov:typeRef": "org.opcfoundation.UA.EUInformation",
+                  "required": [ "NamespaceUri", "UnitId", "DisplayName", "Description" ],
+                  "properties": {
+                    "NamespaceUri": {
+                      "type": "string"
+                    },
+                    "UnitId": {
+                      "type": "integer",
+                      "minimum": -2147483648,
+                      "maximum": 2147483647
+                    },
+                    "DisplayName": {
+                      "type": "string"
+                    },
+                    "Description": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "ValueComponent": {
+                  "description": "<p>Specifies the value of the numerical value.</p>",
+                  "type": "number",
+                  "minimum": -1.80e+308,
+                  "maximum": 1.80e+308
+                },
+                "Tolerance": {
+                  "description": "<p>Specifies the tolerance for the dimension.</p>",
+                  "type": "array",
+                  "items": {
+                    "title": "Tolerance",
+                    "type": "object",
+                    "dov:typeRef": "org.opcfoundation.UA.WireHarness.VEC.Tolerance",
+                    "required": [ "id", "LowerBoundary", "UpperBoundary" ],
+                    "properties": {
+                      "id": {
+                        "type": "string"
+                      },
+                      "LowerBoundary": {
+                        "description": "<p>Specifies the lower boundary for the tolerance.</p>",
+                        "type": "number",
+                        "minimum": -1.80e+308,
+                        "maximum": 1.80e+308
+                      },
+                      "UpperBoundary": {
+                        "description": "<p>Specifies the upper boundary for the tolerance.</p>",
+                        "type": "number",
+                        "minimum": -1.80e+308,
+                        "maximum": 1.80e+308
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "ActualCrimpForceCurve": {
+            "type": "array",
+            "items": {
+              "title": "ForceCurveDataType",
+              "type": "object",
+              "dov:typeRef": "org.opcfoundation.UA.WireHarness.ForceCurveDataType",
+              "required": [ "Points", "EngineeringUnitsX", "EngineeringUnitsValue" ],
+              "properties": {
+                "Points": {
+                  "type": "array",
+                  "items": {
+                    "title": "ForceCurvePointDataType",
+                    "type": "object",
+                    "dov:typeRef": "org.opcfoundation.UA.WireHarness.ForceCurvePointDataType",
+                    "required": [ "X", "Value" ],
+                    "properties": {
+                      "X": {
+                        "description": "Position on the X axis of this value",
+                        "type": "array",
+                        "items": {
+                          "type": "integer",
+                          "minimum": 0,
+                          "maximum": 4294967295
+                        }
+                      },
+                      "Value": {
+                        "description": "The value itself",
+                        "type": "array",
+                        "items": {
+                          "type": "integer",
+                          "minimum": 0,
+                          "maximum": 4294967295
+                        }
+                      }
+                    }
+                  }
+                },
+                "EngineeringUnitsX": {
+                  "title": "EUInformation",
+                  "type": "object",
+                  "dov:typeRef": "org.opcfoundation.UA.EUInformation",
+                  "required": [ "NamespaceUri", "UnitId", "DisplayName", "Description" ],
+                  "properties": {
+                    "NamespaceUri": {
+                      "type": "string"
+                    },
+                    "UnitId": {
+                      "type": "integer",
+                      "minimum": -2147483648,
+                      "maximum": 2147483647
+                    },
+                    "DisplayName": {
+                      "type": "string"
+                    },
+                    "Description": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "EngineeringUnitsValue": {
+                  "title": "EUInformation",
+                  "type": "object",
+                  "dov:typeRef": "org.opcfoundation.UA.EUInformation",
+                  "required": [ "NamespaceUri", "UnitId", "DisplayName", "Description" ],
+                  "properties": {
+                    "NamespaceUri": {
+                      "type": "string"
+                    },
+                    "UnitId": {
+                      "type": "integer",
+                      "minimum": -2147483648,
+                      "maximum": 2147483647
+                    },
+                    "DisplayName": {
+                      "type": "string"
+                    },
+                    "Description": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "ActualCrimpPullOutForce": {
+            "type": "array",
+            "items": {
+              "title": "NumericalValue",
+              "type": "object",
+              "dov:typeRef": "org.opcfoundation.UA.WireHarness.VEC.NumericalValue",
+              "required": [ "UnitComponent", "ValueComponent", "Tolerance" ],
+              "properties": {
+                "UnitComponent": {
+                  "title": "EUInformation",
+                  "description": "References the unit of the value.",
+                  "type": "object",
+                  "dov:typeRef": "org.opcfoundation.UA.EUInformation",
+                  "required": [ "NamespaceUri", "UnitId", "DisplayName", "Description" ],
+                  "properties": {
+                    "NamespaceUri": {
+                      "type": "string"
+                    },
+                    "UnitId": {
+                      "type": "integer",
+                      "minimum": -2147483648,
+                      "maximum": 2147483647
+                    },
+                    "DisplayName": {
+                      "type": "string"
+                    },
+                    "Description": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "ValueComponent": {
+                  "description": "<p>Specifies the value of the numerical value.</p>",
+                  "type": "number",
+                  "minimum": -1.80e+308,
+                  "maximum": 1.80e+308
+                },
+                "Tolerance": {
+                  "description": "<p>Specifies the tolerance for the dimension.</p>",
+                  "type": "array",
+                  "items": {
+                    "title": "Tolerance",
+                    "type": "object",
+                    "dov:typeRef": "org.opcfoundation.UA.WireHarness.VEC.Tolerance",
+                    "required": [ "id", "LowerBoundary", "UpperBoundary" ],
+                    "properties": {
+                      "id": {
+                        "type": "string"
+                      },
+                      "LowerBoundary": {
+                        "description": "<p>Specifies the lower boundary for the tolerance.</p>",
+                        "type": "number",
+                        "minimum": -1.80e+308,
+                        "maximum": 1.80e+308
+                      },
+                      "UpperBoundary": {
+                        "description": "<p>Specifies the upper boundary for the tolerance.</p>",
+                        "type": "number",
+                        "minimum": -1.80e+308,
+                        "maximum": 1.80e+308
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "CutInputDataType": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.WireHarness.CutInputDataType",
+        "required": [ "ToolType", "ProcessDescription", "Id", "ReferencedElement", "VerifyWireLength" ],
+        "properties": {
+          "ToolType": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "ProcessDescription": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "Id": {
+            "type": "string"
+          },
+          "ReferencedElement": {
+            "title": "WireElementReferenceIdDataType",
+            "type": "object",
+            "dov:typeRef": "org.opcfoundation.UA.WireHarness.VEC.WireElementReferenceIdDataType",
+            "required": [ "id" ],
+            "properties": {
+              "id": {
+                "type": "string"
+              }
+            }
+          },
+          "VerifyWireLength": {
+            "type": "array",
+            "items": {
+              "type": "boolean"
+            }
+          }
+        }
+      },
+      "CutOutputDataType": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.WireHarness.CutOutputDataType",
+        "required": [ "ToolInstance", "ActualLength" ],
+        "properties": {
+          "ToolInstance": {
+            "type": "string"
+          },
+          "ActualLength": {
+            "type": "array",
+            "items": {
+              "title": "NumericalValue",
+              "type": "object",
+              "dov:typeRef": "org.opcfoundation.UA.WireHarness.VEC.NumericalValue",
+              "required": [ "UnitComponent", "ValueComponent", "Tolerance" ],
+              "properties": {
+                "UnitComponent": {
+                  "title": "EUInformation",
+                  "description": "References the unit of the value.",
+                  "type": "object",
+                  "dov:typeRef": "org.opcfoundation.UA.EUInformation",
+                  "required": [ "NamespaceUri", "UnitId", "DisplayName", "Description" ],
+                  "properties": {
+                    "NamespaceUri": {
+                      "type": "string"
+                    },
+                    "UnitId": {
+                      "type": "integer",
+                      "minimum": -2147483648,
+                      "maximum": 2147483647
+                    },
+                    "DisplayName": {
+                      "type": "string"
+                    },
+                    "Description": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "ValueComponent": {
+                  "description": "<p>Specifies the value of the numerical value.</p>",
+                  "type": "number",
+                  "minimum": -1.80e+308,
+                  "maximum": 1.80e+308
+                },
+                "Tolerance": {
+                  "description": "<p>Specifies the tolerance for the dimension.</p>",
+                  "type": "array",
+                  "items": {
+                    "title": "Tolerance",
+                    "type": "object",
+                    "dov:typeRef": "org.opcfoundation.UA.WireHarness.VEC.Tolerance",
+                    "required": [ "id", "LowerBoundary", "UpperBoundary" ],
+                    "properties": {
+                      "id": {
+                        "type": "string"
+                      },
+                      "LowerBoundary": {
+                        "description": "<p>Specifies the lower boundary for the tolerance.</p>",
+                        "type": "number",
+                        "minimum": -1.80e+308,
+                        "maximum": 1.80e+308
+                      },
+                      "UpperBoundary": {
+                        "description": "<p>Specifies the upper boundary for the tolerance.</p>",
+                        "type": "number",
+                        "minimum": -1.80e+308,
+                        "maximum": 1.80e+308
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "ForceCurveDataType": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.WireHarness.ForceCurveDataType",
+        "required": [ "Points", "EngineeringUnitsX", "EngineeringUnitsValue" ],
+        "properties": {
+          "Points": {
+            "type": "array",
+            "items": {
+              "title": "ForceCurvePointDataType",
+              "type": "object",
+              "dov:typeRef": "org.opcfoundation.UA.WireHarness.ForceCurvePointDataType",
+              "required": [ "X", "Value" ],
+              "properties": {
+                "X": {
+                  "description": "Position on the X axis of this value",
+                  "type": "array",
+                  "items": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 4294967295
+                  }
+                },
+                "Value": {
+                  "description": "The value itself",
+                  "type": "array",
+                  "items": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 4294967295
+                  }
+                }
+              }
+            }
+          },
+          "EngineeringUnitsX": {
+            "title": "EUInformation",
+            "type": "object",
+            "dov:typeRef": "org.opcfoundation.UA.EUInformation",
+            "required": [ "NamespaceUri", "UnitId", "DisplayName", "Description" ],
+            "properties": {
+              "NamespaceUri": {
+                "type": "string"
+              },
+              "UnitId": {
+                "type": "integer",
+                "minimum": -2147483648,
+                "maximum": 2147483647
+              },
+              "DisplayName": {
+                "type": "string"
+              },
+              "Description": {
+                "type": "string"
+              }
+            }
+          },
+          "EngineeringUnitsValue": {
+            "title": "EUInformation",
+            "type": "object",
+            "dov:typeRef": "org.opcfoundation.UA.EUInformation",
+            "required": [ "NamespaceUri", "UnitId", "DisplayName", "Description" ],
+            "properties": {
+              "NamespaceUri": {
+                "type": "string"
+              },
+              "UnitId": {
+                "type": "integer",
+                "minimum": -2147483648,
+                "maximum": 2147483647
+              },
+              "DisplayName": {
+                "type": "string"
+              },
+              "Description": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      },
+      "ForceCurvePointDataType": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.WireHarness.ForceCurvePointDataType",
+        "required": [ "X", "Value" ],
+        "properties": {
+          "X": {
+            "description": "Position on the X axis of this value",
+            "type": "array",
+            "items": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 4294967295
+            }
+          },
+          "Value": {
+            "description": "The value itself",
+            "type": "array",
+            "items": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 4294967295
+            }
+          }
+        }
+      },
+      "ProcessInputDataType": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.WireHarness.ProcessInputDataType",
+        "required": [ "ToolType", "ProcessDescription", "Id" ],
+        "properties": {
+          "ToolType": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "ProcessDescription": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "Id": {
+            "type": "string"
+          }
+        }
+      },
+      "ProcessOutputDataType": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.WireHarness.ProcessOutputDataType",
+        "required": [ "ToolInstance" ],
+        "properties": {
+          "ToolInstance": {
+            "type": "string"
+          }
+        }
+      },
+      "SealInputDataType": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.WireHarness.SealInputDataType",
+        "required": [ "ToolType", "ProcessDescription", "Id", "ReferencedElement", "MonitorSealPosition" ],
+        "properties": {
+          "ToolType": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "ProcessDescription": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "Id": {
+            "type": "string"
+          },
+          "ReferencedElement": {
+            "title": "WireMountingIdDataType",
+            "type": "object",
+            "dov:typeRef": "org.opcfoundation.UA.WireHarness.VEC.WireMountingIdDataType",
+            "required": [ "id" ],
+            "properties": {
+              "id": {
+                "type": "string"
+              }
+            }
+          },
+          "MonitorSealPosition": {
+            "type": "array",
+            "items": {
+              "type": "boolean"
+            }
+          }
+        }
+      },
+      "SealOutputDataType": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.WireHarness.SealOutputDataType",
+        "required": [ "ToolInstance", "ActualPosition" ],
+        "properties": {
+          "ToolInstance": {
+            "type": "string"
+          },
+          "ActualPosition": {
+            "type": "array",
+            "items": {
+              "title": "NumericalValue",
+              "type": "object",
+              "dov:typeRef": "org.opcfoundation.UA.WireHarness.VEC.NumericalValue",
+              "required": [ "UnitComponent", "ValueComponent", "Tolerance" ],
+              "properties": {
+                "UnitComponent": {
+                  "title": "EUInformation",
+                  "description": "References the unit of the value.",
+                  "type": "object",
+                  "dov:typeRef": "org.opcfoundation.UA.EUInformation",
+                  "required": [ "NamespaceUri", "UnitId", "DisplayName", "Description" ],
+                  "properties": {
+                    "NamespaceUri": {
+                      "type": "string"
+                    },
+                    "UnitId": {
+                      "type": "integer",
+                      "minimum": -2147483648,
+                      "maximum": 2147483647
+                    },
+                    "DisplayName": {
+                      "type": "string"
+                    },
+                    "Description": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "ValueComponent": {
+                  "description": "<p>Specifies the value of the numerical value.</p>",
+                  "type": "number",
+                  "minimum": -1.80e+308,
+                  "maximum": 1.80e+308
+                },
+                "Tolerance": {
+                  "description": "<p>Specifies the tolerance for the dimension.</p>",
+                  "type": "array",
+                  "items": {
+                    "title": "Tolerance",
+                    "type": "object",
+                    "dov:typeRef": "org.opcfoundation.UA.WireHarness.VEC.Tolerance",
+                    "required": [ "id", "LowerBoundary", "UpperBoundary" ],
+                    "properties": {
+                      "id": {
+                        "type": "string"
+                      },
+                      "LowerBoundary": {
+                        "description": "<p>Specifies the lower boundary for the tolerance.</p>",
+                        "type": "number",
+                        "minimum": -1.80e+308,
+                        "maximum": 1.80e+308
+                      },
+                      "UpperBoundary": {
+                        "description": "<p>Specifies the upper boundary for the tolerance.</p>",
+                        "type": "number",
+                        "minimum": -1.80e+308,
+                        "maximum": 1.80e+308
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "StripInputDataType": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.WireHarness.StripInputDataType",
+        "required": [ "ToolType", "ProcessDescription", "Id", "ReferencedElement", "StrippingLengthMonitoring" ],
+        "properties": {
+          "ToolType": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "ProcessDescription": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "Id": {
+            "type": "string"
+          },
+          "ReferencedElement": {
+            "title": "WireEndIdDataType",
+            "type": "object",
+            "dov:typeRef": "org.opcfoundation.UA.WireHarness.VEC.WireEndIdDataType",
+            "required": [ "id" ],
+            "properties": {
+              "id": {
+                "type": "string"
+              }
+            }
+          },
+          "StrippingLengthMonitoring": {
+            "type": "array",
+            "items": {
+              "type": "boolean"
+            }
+          }
+        }
+      },
+      "StripOutputDataType": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.WireHarness.StripOutputDataType",
+        "required": [ "ToolInstance", "ActualStrippingLength" ],
+        "properties": {
+          "ToolInstance": {
+            "type": "string"
+          },
+          "ActualStrippingLength": {
+            "type": "array",
+            "items": {
+              "title": "NumericalValue",
+              "type": "object",
+              "dov:typeRef": "org.opcfoundation.UA.WireHarness.VEC.NumericalValue",
+              "required": [ "UnitComponent", "ValueComponent", "Tolerance" ],
+              "properties": {
+                "UnitComponent": {
+                  "title": "EUInformation",
+                  "description": "References the unit of the value.",
+                  "type": "object",
+                  "dov:typeRef": "org.opcfoundation.UA.EUInformation",
+                  "required": [ "NamespaceUri", "UnitId", "DisplayName", "Description" ],
+                  "properties": {
+                    "NamespaceUri": {
+                      "type": "string"
+                    },
+                    "UnitId": {
+                      "type": "integer",
+                      "minimum": -2147483648,
+                      "maximum": 2147483647
+                    },
+                    "DisplayName": {
+                      "type": "string"
+                    },
+                    "Description": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "ValueComponent": {
+                  "description": "<p>Specifies the value of the numerical value.</p>",
+                  "type": "number",
+                  "minimum": -1.80e+308,
+                  "maximum": 1.80e+308
+                },
+                "Tolerance": {
+                  "description": "<p>Specifies the tolerance for the dimension.</p>",
+                  "type": "array",
+                  "items": {
+                    "title": "Tolerance",
+                    "type": "object",
+                    "dov:typeRef": "org.opcfoundation.UA.WireHarness.VEC.Tolerance",
+                    "required": [ "id", "LowerBoundary", "UpperBoundary" ],
+                    "properties": {
+                      "id": {
+                        "type": "string"
+                      },
+                      "LowerBoundary": {
+                        "description": "<p>Specifies the lower boundary for the tolerance.</p>",
+                        "type": "number",
+                        "minimum": -1.80e+308,
+                        "maximum": 1.80e+308
+                      },
+                      "UpperBoundary": {
+                        "description": "<p>Specifies the upper boundary for the tolerance.</p>",
+                        "type": "number",
+                        "minimum": -1.80e+308,
+                        "maximum": 1.80e+308
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
   }
 ]

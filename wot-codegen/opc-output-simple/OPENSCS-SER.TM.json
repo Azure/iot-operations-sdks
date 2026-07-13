@@ -18,6 +18,74 @@
       }
     ],
     "schemaDefinitions": {
+      "OPENSCSSerialNumberStateEnum": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.OPENSCS-SER.OPENSCSSerialNumberStateEnum",
+        "const": {
+          "Unassigned0": 0,
+          "Unallocated1": 1,
+          "Allocated2": 2,
+          "SNInvalid3": 3,
+          "Encoded4": 4,
+          "LabelSampled5": 5,
+          "LabelScrapped6": 6,
+          "Commissioned7": 7,
+          "Sampled8": 8,
+          "Inactive9": 9,
+          "Destroyed10": 10,
+          "Released11": 11
+        },
+        "properties": {
+          "Unassigned0": {
+            "description": "The Serial Number has not been assigned to production or a packaging run.",
+            "type": "integer"
+          },
+          "Unallocated1": {
+            "description": "As Serial Number has been assigned to production or a packaging run, but it has not yet been allocated for use a specific production run of a product or aggregation.",
+            "type": "integer"
+          },
+          "Allocated2": {
+            "description": "The Serial Number has been assigned to a specific product or aggregation production run. ",
+            "type": "integer"
+          },
+          "SNInvalid3": {
+            "description": "The Serial Number is no longer viable, and the related serial number is no longer defined. ",
+            "type": "integer"
+          },
+          "Encoded4": {
+            "description": "The Serial Number has been written to a barcode or RFID tag, but not yet commissioned.",
+            "type": "integer"
+          },
+          "LabelSampled5": {
+            "description": "The printed label has been retained and is not associated with a physical product or aggregation.",
+            "type": "integer"
+          },
+          "LabelScrapped6": {
+            "description": "A label was encoded with a Serial Number, but was made unusable before being applied to a product or aggregation.",
+            "type": "integer"
+          },
+          "Commissioned7": {
+            "description": "The Serial Number has been associated with a physical product or aggregation, but has not yet left the responsibility of production",
+            "type": "integer"
+          },
+          "Sampled8": {
+            "description": "The product or aggregation is to be used as a sample for testing or other use, not to be made active.",
+            "type": "integer"
+          },
+          "Inactive9": {
+            "description": "The product or aggregation is no longer active, but may not have been destroyed.",
+            "type": "integer"
+          },
+          "Destroyed10": {
+            "description": "The product or aggregation was has been fully rendered non-usable.",
+            "type": "integer"
+          },
+          "Released11": {
+            "description": "The Serial Number has been associated with a physical product or aggregation, and has left the responsibility of production.",
+            "type": "integer"
+          }
+        }
+      },
       "OPENSCSReturnEnum": {
         "type": "object",
         "dov:typeRef": "org.opcfoundation.UA.OPENSCS-SER.OPENSCSReturnEnum",
@@ -149,8 +217,35 @@
                     "description": "Identifies the Serial Number Collection that was added to, or removed from, the parent element.",
                     "type": "object",
                     "dov:typeRef": "org.opcfoundation.UA.OPENSCS-SER.OPENSCSLabelCollectionDataType",
-                    "required": [ "LabelCollection" ],
+                    "required": [ "ID", "Description", "State", "AssociatedPoolID", "SerialNumbers", "LabelCollection" ],
                     "properties": {
+                      "ID": {
+                        "description": "An identification of the Collection. It usually refers to a specific packaging level of a specific product.",
+                        "type": "string"
+                      },
+                      "Description": {
+                        "description": "Additional information and description about the Collection.",
+                        "type": "string"
+                      },
+                      "State": {
+                        "title": "OPENSCSSerialNumberStateEnum",
+                        "description": "State of the Serial Numbers in the Collection. ",
+                        "dov:typeRef": "org.opcfoundation.UA.OPENSCS-SER.OPENSCSSerialNumberStateEnum",
+                        "type": "integer",
+                        "minimum": -2147483648,
+                        "maximum": 2147483647
+                      },
+                      "AssociatedPoolID": {
+                        "description": "An identification of the Serial Number Pool from which the Serial Numbers were obtained. ",
+                        "type": "string"
+                      },
+                      "SerialNumbers": {
+                        "description": "Array of Serial Numbers in the collection.",
+                        "type": "array",
+                        "items": {
+                          "type": "string"
+                        }
+                      },
                       "LabelCollection": {
                         "description": "The collections of labels with serial numbers.",
                         "type": "array",
@@ -317,8 +412,35 @@
                     "description": "Identifies the Serial Number Collection that was added to, or removed from, the parent element.",
                     "type": "object",
                     "dov:typeRef": "org.opcfoundation.UA.OPENSCS-SER.OPENSCSLabelCollectionDataType",
-                    "required": [ "LabelCollection" ],
+                    "required": [ "ID", "Description", "State", "AssociatedPoolID", "SerialNumbers", "LabelCollection" ],
                     "properties": {
+                      "ID": {
+                        "description": "An identification of the Collection. It usually refers to a specific packaging level of a specific product.",
+                        "type": "string"
+                      },
+                      "Description": {
+                        "description": "Additional information and description about the Collection.",
+                        "type": "string"
+                      },
+                      "State": {
+                        "title": "OPENSCSSerialNumberStateEnum",
+                        "description": "State of the Serial Numbers in the Collection. ",
+                        "dov:typeRef": "org.opcfoundation.UA.OPENSCS-SER.OPENSCSSerialNumberStateEnum",
+                        "type": "integer",
+                        "minimum": -2147483648,
+                        "maximum": 2147483647
+                      },
+                      "AssociatedPoolID": {
+                        "description": "An identification of the Serial Number Pool from which the Serial Numbers were obtained. ",
+                        "type": "string"
+                      },
+                      "SerialNumbers": {
+                        "description": "Array of Serial Numbers in the collection.",
+                        "type": "array",
+                        "items": {
+                          "type": "string"
+                        }
+                      },
                       "LabelCollection": {
                         "description": "The collections of labels with serial numbers.",
                         "type": "array",
@@ -475,74 +597,6 @@
       }
     ],
     "schemaDefinitions": {
-      "OPENSCSReturnEnum": {
-        "type": "object",
-        "dov:typeRef": "org.opcfoundation.UA.OPENSCS-SER.OPENSCSReturnEnum",
-        "const": {
-          "Undefined0": 0,
-          "NoError1": 1,
-          "InvalidSerialNumberCollection2": 2,
-          "InsufficientSerialNumbers3": 3,
-          "InvalidSerialNumbersFormat4": 4,
-          "InvalidRequestToken5": 5,
-          "InvalidSelectionCriteria6": 6,
-          "UnableToAcceptSerialNumberEvents7": 7,
-          "UnableToAcceptLabelEvents8": 8,
-          "UnableToAcceptSIDEvents9": 9,
-          "UnknownAggregationSID10": 10,
-          "InsufficientPrivilegeToExecute11": 11
-        },
-        "properties": {
-          "Undefined0": {
-            "description": "Undefined value, should never be seen.",
-            "type": "integer"
-          },
-          "NoError1": {
-            "description": "There were no errors in processing the method.  ",
-            "type": "integer"
-          },
-          "InvalidSerialNumberCollection2": {
-            "description": "The Serial Number Collection ID does not match a Serial Number Collection managed by the server.",
-            "type": "integer"
-          },
-          "InsufficientSerialNumbers3": {
-            "description": "Fewer Serial Numbers are available from the pool, then are requested.",
-            "type": "integer"
-          },
-          "InvalidSerialNumbersFormat4": {
-            "description": "The serial number format is not known or defined in the server",
-            "type": "integer"
-          },
-          "InvalidRequestToken5": {
-            "description": "The Request Token has a value not understood by the server.",
-            "type": "integer"
-          },
-          "InvalidSelectionCriteria6": {
-            "description": "The Selection Criteria is not known or defined in the server.",
-            "type": "integer"
-          },
-          "UnableToAcceptSerialNumberEvents7": {
-            "description": "The server cannot accept Serial Number events.",
-            "type": "integer"
-          },
-          "UnableToAcceptLabelEvents8": {
-            "description": "The server cannot accept Label events.",
-            "type": "integer"
-          },
-          "UnableToAcceptSIDEvents9": {
-            "description": "The server cannot accept SID events.",
-            "type": "integer"
-          },
-          "UnknownAggregationSID10": {
-            "description": "The SID of the aggregation for packing or unpacking is unknown.",
-            "type": "integer"
-          },
-          "InsufficientPrivilegeToExecute11": {
-            "description": " The server has determined that the client does not have sufficient privilege for the method to execute.",
-            "type": "integer"
-          }
-        }
-      },
       "OPENSCSSerialNumberStateEnum": {
         "type": "object",
         "dov:typeRef": "org.opcfoundation.UA.OPENSCS-SER.OPENSCSSerialNumberStateEnum",
@@ -610,6 +664,74 @@
             "type": "integer"
           }
         }
+      },
+      "OPENSCSReturnEnum": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.OPENSCS-SER.OPENSCSReturnEnum",
+        "const": {
+          "Undefined0": 0,
+          "NoError1": 1,
+          "InvalidSerialNumberCollection2": 2,
+          "InsufficientSerialNumbers3": 3,
+          "InvalidSerialNumbersFormat4": 4,
+          "InvalidRequestToken5": 5,
+          "InvalidSelectionCriteria6": 6,
+          "UnableToAcceptSerialNumberEvents7": 7,
+          "UnableToAcceptLabelEvents8": 8,
+          "UnableToAcceptSIDEvents9": 9,
+          "UnknownAggregationSID10": 10,
+          "InsufficientPrivilegeToExecute11": 11
+        },
+        "properties": {
+          "Undefined0": {
+            "description": "Undefined value, should never be seen.",
+            "type": "integer"
+          },
+          "NoError1": {
+            "description": "There were no errors in processing the method.  ",
+            "type": "integer"
+          },
+          "InvalidSerialNumberCollection2": {
+            "description": "The Serial Number Collection ID does not match a Serial Number Collection managed by the server.",
+            "type": "integer"
+          },
+          "InsufficientSerialNumbers3": {
+            "description": "Fewer Serial Numbers are available from the pool, then are requested.",
+            "type": "integer"
+          },
+          "InvalidSerialNumbersFormat4": {
+            "description": "The serial number format is not known or defined in the server",
+            "type": "integer"
+          },
+          "InvalidRequestToken5": {
+            "description": "The Request Token has a value not understood by the server.",
+            "type": "integer"
+          },
+          "InvalidSelectionCriteria6": {
+            "description": "The Selection Criteria is not known or defined in the server.",
+            "type": "integer"
+          },
+          "UnableToAcceptSerialNumberEvents7": {
+            "description": "The server cannot accept Serial Number events.",
+            "type": "integer"
+          },
+          "UnableToAcceptLabelEvents8": {
+            "description": "The server cannot accept Label events.",
+            "type": "integer"
+          },
+          "UnableToAcceptSIDEvents9": {
+            "description": "The server cannot accept SID events.",
+            "type": "integer"
+          },
+          "UnknownAggregationSID10": {
+            "description": "The SID of the aggregation for packing or unpacking is unknown.",
+            "type": "integer"
+          },
+          "InsufficientPrivilegeToExecute11": {
+            "description": " The server has determined that the client does not have sufficient privilege for the method to execute.",
+            "type": "integer"
+          }
+        }
       }
     },
     "forms": [
@@ -649,8 +771,35 @@
               "description": "Identifies the Label Collection with Serial Numbers and optional label properties.",
               "type": "object",
               "dov:typeRef": "org.opcfoundation.UA.OPENSCS-SER.OPENSCSLabelCollectionDataType",
-              "required": [ "LabelCollection" ],
+              "required": [ "ID", "Description", "State", "AssociatedPoolID", "SerialNumbers", "LabelCollection" ],
               "properties": {
+                "ID": {
+                  "description": "An identification of the Collection. It usually refers to a specific packaging level of a specific product.",
+                  "type": "string"
+                },
+                "Description": {
+                  "description": "Additional information and description about the Collection.",
+                  "type": "string"
+                },
+                "State": {
+                  "title": "OPENSCSSerialNumberStateEnum",
+                  "description": "State of the Serial Numbers in the Collection. ",
+                  "dov:typeRef": "org.opcfoundation.UA.OPENSCS-SER.OPENSCSSerialNumberStateEnum",
+                  "type": "integer",
+                  "minimum": -2147483648,
+                  "maximum": 2147483647
+                },
+                "AssociatedPoolID": {
+                  "description": "An identification of the Serial Number Pool from which the Serial Numbers were obtained. ",
+                  "type": "string"
+                },
+                "SerialNumbers": {
+                  "description": "Array of Serial Numbers in the collection.",
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
                 "LabelCollection": {
                   "description": "The collections of labels with serial numbers.",
                   "type": "array",
@@ -771,8 +920,35 @@
               "description": "Identifies the Label Collection with Serial Numbers and optional label properties.",
               "type": "object",
               "dov:typeRef": "org.opcfoundation.UA.OPENSCS-SER.OPENSCSLabelCollectionDataType",
-              "required": [ "LabelCollection" ],
+              "required": [ "ID", "Description", "State", "AssociatedPoolID", "SerialNumbers", "LabelCollection" ],
               "properties": {
+                "ID": {
+                  "description": "An identification of the Collection. It usually refers to a specific packaging level of a specific product.",
+                  "type": "string"
+                },
+                "Description": {
+                  "description": "Additional information and description about the Collection.",
+                  "type": "string"
+                },
+                "State": {
+                  "title": "OPENSCSSerialNumberStateEnum",
+                  "description": "State of the Serial Numbers in the Collection. ",
+                  "dov:typeRef": "org.opcfoundation.UA.OPENSCS-SER.OPENSCSSerialNumberStateEnum",
+                  "type": "integer",
+                  "minimum": -2147483648,
+                  "maximum": 2147483647
+                },
+                "AssociatedPoolID": {
+                  "description": "An identification of the Serial Number Pool from which the Serial Numbers were obtained. ",
+                  "type": "string"
+                },
+                "SerialNumbers": {
+                  "description": "Array of Serial Numbers in the collection.",
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
                 "LabelCollection": {
                   "description": "The collections of labels with serial numbers.",
                   "type": "array",
@@ -893,8 +1069,35 @@
               "description": "Identifies the Label Collection with Serial Numbers and optional label properties.",
               "type": "object",
               "dov:typeRef": "org.opcfoundation.UA.OPENSCS-SER.OPENSCSLabelCollectionDataType",
-              "required": [ "LabelCollection" ],
+              "required": [ "ID", "Description", "State", "AssociatedPoolID", "SerialNumbers", "LabelCollection" ],
               "properties": {
+                "ID": {
+                  "description": "An identification of the Collection. It usually refers to a specific packaging level of a specific product.",
+                  "type": "string"
+                },
+                "Description": {
+                  "description": "Additional information and description about the Collection.",
+                  "type": "string"
+                },
+                "State": {
+                  "title": "OPENSCSSerialNumberStateEnum",
+                  "description": "State of the Serial Numbers in the Collection. ",
+                  "dov:typeRef": "org.opcfoundation.UA.OPENSCS-SER.OPENSCSSerialNumberStateEnum",
+                  "type": "integer",
+                  "minimum": -2147483648,
+                  "maximum": 2147483647
+                },
+                "AssociatedPoolID": {
+                  "description": "An identification of the Serial Number Pool from which the Serial Numbers were obtained. ",
+                  "type": "string"
+                },
+                "SerialNumbers": {
+                  "description": "Array of Serial Numbers in the collection.",
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
                 "LabelCollection": {
                   "description": "The collections of labels with serial numbers.",
                   "type": "array",
@@ -1015,8 +1218,35 @@
               "description": "Identifies the Label Collection with Serial Numbers and optional label properties.",
               "type": "object",
               "dov:typeRef": "org.opcfoundation.UA.OPENSCS-SER.OPENSCSLabelCollectionDataType",
-              "required": [ "LabelCollection" ],
+              "required": [ "ID", "Description", "State", "AssociatedPoolID", "SerialNumbers", "LabelCollection" ],
               "properties": {
+                "ID": {
+                  "description": "An identification of the Collection. It usually refers to a specific packaging level of a specific product.",
+                  "type": "string"
+                },
+                "Description": {
+                  "description": "Additional information and description about the Collection.",
+                  "type": "string"
+                },
+                "State": {
+                  "title": "OPENSCSSerialNumberStateEnum",
+                  "description": "State of the Serial Numbers in the Collection. ",
+                  "dov:typeRef": "org.opcfoundation.UA.OPENSCS-SER.OPENSCSSerialNumberStateEnum",
+                  "type": "integer",
+                  "minimum": -2147483648,
+                  "maximum": 2147483647
+                },
+                "AssociatedPoolID": {
+                  "description": "An identification of the Serial Number Pool from which the Serial Numbers were obtained. ",
+                  "type": "string"
+                },
+                "SerialNumbers": {
+                  "description": "Array of Serial Numbers in the collection.",
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
                 "LabelCollection": {
                   "description": "The collections of labels with serial numbers.",
                   "type": "array",
@@ -1137,8 +1367,35 @@
               "description": "Identifies the Label Collection with Serial Numbers and optional label properties.",
               "type": "object",
               "dov:typeRef": "org.opcfoundation.UA.OPENSCS-SER.OPENSCSLabelCollectionDataType",
-              "required": [ "LabelCollection" ],
+              "required": [ "ID", "Description", "State", "AssociatedPoolID", "SerialNumbers", "LabelCollection" ],
               "properties": {
+                "ID": {
+                  "description": "An identification of the Collection. It usually refers to a specific packaging level of a specific product.",
+                  "type": "string"
+                },
+                "Description": {
+                  "description": "Additional information and description about the Collection.",
+                  "type": "string"
+                },
+                "State": {
+                  "title": "OPENSCSSerialNumberStateEnum",
+                  "description": "State of the Serial Numbers in the Collection. ",
+                  "dov:typeRef": "org.opcfoundation.UA.OPENSCS-SER.OPENSCSSerialNumberStateEnum",
+                  "type": "integer",
+                  "minimum": -2147483648,
+                  "maximum": 2147483647
+                },
+                "AssociatedPoolID": {
+                  "description": "An identification of the Serial Number Pool from which the Serial Numbers were obtained. ",
+                  "type": "string"
+                },
+                "SerialNumbers": {
+                  "description": "Array of Serial Numbers in the collection.",
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
                 "LabelCollection": {
                   "description": "The collections of labels with serial numbers.",
                   "type": "array",
@@ -1259,8 +1516,35 @@
               "description": "Identifies the Label Collection with Serial Numbers and optional label properties.",
               "type": "object",
               "dov:typeRef": "org.opcfoundation.UA.OPENSCS-SER.OPENSCSLabelCollectionDataType",
-              "required": [ "LabelCollection" ],
+              "required": [ "ID", "Description", "State", "AssociatedPoolID", "SerialNumbers", "LabelCollection" ],
               "properties": {
+                "ID": {
+                  "description": "An identification of the Collection. It usually refers to a specific packaging level of a specific product.",
+                  "type": "string"
+                },
+                "Description": {
+                  "description": "Additional information and description about the Collection.",
+                  "type": "string"
+                },
+                "State": {
+                  "title": "OPENSCSSerialNumberStateEnum",
+                  "description": "State of the Serial Numbers in the Collection. ",
+                  "dov:typeRef": "org.opcfoundation.UA.OPENSCS-SER.OPENSCSSerialNumberStateEnum",
+                  "type": "integer",
+                  "minimum": -2147483648,
+                  "maximum": 2147483647
+                },
+                "AssociatedPoolID": {
+                  "description": "An identification of the Serial Number Pool from which the Serial Numbers were obtained. ",
+                  "type": "string"
+                },
+                "SerialNumbers": {
+                  "description": "Array of Serial Numbers in the collection.",
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
                 "LabelCollection": {
                   "description": "The collections of labels with serial numbers.",
                   "type": "array",
@@ -1381,8 +1665,35 @@
               "description": "Identifies the Label Collection with Serial Numbers and optional label properties.",
               "type": "object",
               "dov:typeRef": "org.opcfoundation.UA.OPENSCS-SER.OPENSCSLabelCollectionDataType",
-              "required": [ "LabelCollection" ],
+              "required": [ "ID", "Description", "State", "AssociatedPoolID", "SerialNumbers", "LabelCollection" ],
               "properties": {
+                "ID": {
+                  "description": "An identification of the Collection. It usually refers to a specific packaging level of a specific product.",
+                  "type": "string"
+                },
+                "Description": {
+                  "description": "Additional information and description about the Collection.",
+                  "type": "string"
+                },
+                "State": {
+                  "title": "OPENSCSSerialNumberStateEnum",
+                  "description": "State of the Serial Numbers in the Collection. ",
+                  "dov:typeRef": "org.opcfoundation.UA.OPENSCS-SER.OPENSCSSerialNumberStateEnum",
+                  "type": "integer",
+                  "minimum": -2147483648,
+                  "maximum": 2147483647
+                },
+                "AssociatedPoolID": {
+                  "description": "An identification of the Serial Number Pool from which the Serial Numbers were obtained. ",
+                  "type": "string"
+                },
+                "SerialNumbers": {
+                  "description": "Array of Serial Numbers in the collection.",
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
                 "LabelCollection": {
                   "description": "The collections of labels with serial numbers.",
                   "type": "array",
@@ -1503,8 +1814,35 @@
               "description": "Identifies the Label Collection with Serial Numbers and optional label properties.",
               "type": "object",
               "dov:typeRef": "org.opcfoundation.UA.OPENSCS-SER.OPENSCSLabelCollectionDataType",
-              "required": [ "LabelCollection" ],
+              "required": [ "ID", "Description", "State", "AssociatedPoolID", "SerialNumbers", "LabelCollection" ],
               "properties": {
+                "ID": {
+                  "description": "An identification of the Collection. It usually refers to a specific packaging level of a specific product.",
+                  "type": "string"
+                },
+                "Description": {
+                  "description": "Additional information and description about the Collection.",
+                  "type": "string"
+                },
+                "State": {
+                  "title": "OPENSCSSerialNumberStateEnum",
+                  "description": "State of the Serial Numbers in the Collection. ",
+                  "dov:typeRef": "org.opcfoundation.UA.OPENSCS-SER.OPENSCSSerialNumberStateEnum",
+                  "type": "integer",
+                  "minimum": -2147483648,
+                  "maximum": 2147483647
+                },
+                "AssociatedPoolID": {
+                  "description": "An identification of the Serial Number Pool from which the Serial Numbers were obtained. ",
+                  "type": "string"
+                },
+                "SerialNumbers": {
+                  "description": "Array of Serial Numbers in the collection.",
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
                 "LabelCollection": {
                   "description": "The collections of labels with serial numbers.",
                   "type": "array",
@@ -1625,8 +1963,35 @@
               "description": "Identifies the Label Collection with Serial Numbers and optional label properties.",
               "type": "object",
               "dov:typeRef": "org.opcfoundation.UA.OPENSCS-SER.OPENSCSLabelCollectionDataType",
-              "required": [ "LabelCollection" ],
+              "required": [ "ID", "Description", "State", "AssociatedPoolID", "SerialNumbers", "LabelCollection" ],
               "properties": {
+                "ID": {
+                  "description": "An identification of the Collection. It usually refers to a specific packaging level of a specific product.",
+                  "type": "string"
+                },
+                "Description": {
+                  "description": "Additional information and description about the Collection.",
+                  "type": "string"
+                },
+                "State": {
+                  "title": "OPENSCSSerialNumberStateEnum",
+                  "description": "State of the Serial Numbers in the Collection. ",
+                  "dov:typeRef": "org.opcfoundation.UA.OPENSCS-SER.OPENSCSSerialNumberStateEnum",
+                  "type": "integer",
+                  "minimum": -2147483648,
+                  "maximum": 2147483647
+                },
+                "AssociatedPoolID": {
+                  "description": "An identification of the Serial Number Pool from which the Serial Numbers were obtained. ",
+                  "type": "string"
+                },
+                "SerialNumbers": {
+                  "description": "Array of Serial Numbers in the collection.",
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
                 "LabelCollection": {
                   "description": "The collections of labels with serial numbers.",
                   "type": "array",
@@ -3091,6 +3456,713 @@
           }
         ]
       }
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dov": "http://azure.com/DigitalOperations/vocab#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "OPENSCS_SER_DataTypes",
+    "links": [
+    ],
+    "schemaDefinitions": {
+      "JobOrderCommandEnum": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.OPENSCS-SER.JobOrderCommandEnum",
+        "const": {
+          "Undefined_0": 0,
+          "Store_1": 1,
+          "StoreAndStart_2": 2,
+          "Start_3": 3,
+          "Update_4": 4,
+          "Stop_5": 5,
+          "Cancel_6": 6,
+          "Clear_7": 7
+        },
+        "description": "Describes the possible job order commands.  ",
+        "properties": {
+          "Undefined_0": {
+            "description": "Undefined value, should never be seen.",
+            "type": "integer"
+          },
+          "Store_1": {
+            "description": "Command to store the job order in local storage, but not to start the order.",
+            "type": "integer"
+          },
+          "StoreAndStart_2": {
+            "description": "Command to store the job order and start it as soon as the Job Order receiver is ready to start.",
+            "type": "integer"
+          },
+          "Start_3": {
+            "description": "Command to start a stored job order as soon as the receiver is ready to start. Only the Job Orders ID is used to identify the stored job order, all other information is not used.  No changes are made to the stored order. If multiple Job Orders have been commanded to Start, then the priority and timing values in the Job Orders shall be used to determine the order of execution of the orders.",
+            "type": "integer"
+          },
+          "Update_4": {
+            "description": "Command to update a stored Job Order that has not yet been started, with the new order information.  All previously stored information is replaced.",
+            "type": "integer"
+          },
+          "Stop_5": {
+            "description": "Command to stop a started job order, report on any work done on the order, and remove the stored information. Only the Job Orders ID is used to identify the job order, all other information is not used.",
+            "type": "integer"
+          },
+          "Cancel_6": {
+            "description": "Cancel an un-started job order and remove the stored information. Only the Job Orders ID is used to identify the job order, all other information is not used.",
+            "type": "integer"
+          },
+          "Clear_7": {
+            "description": "Command to allow the Information Receiver to clear any maintained information on the Job Order (usually sent after a receipt of a Job Response with a status of Finished.) Only the Job Orders ID is used to identify the job order, all other information is not used.",
+            "type": "integer"
+          }
+        }
+      },
+      "JobOrderStateEnum": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.OPENSCS-SER.JobOrderStateEnum",
+        "const": {
+          "Undefined_0": 0,
+          "Waiting_1": 1,
+          "Ready_2": 2,
+          "Loaded_3": 3,
+          "Running_4": 4,
+          "Completed_5": 5,
+          "Aborted_6": 6,
+          "Held_7": 7,
+          "Suspended_8": 8,
+          "Closed_9": 9
+        },
+        "description": "Describes the possible serial number statesjob order states.  ",
+        "properties": {
+          "Undefined_0": {
+            "description": "defined value, should never be seen.",
+            "type": "integer"
+          },
+          "Waiting_1": {
+            "description": "The necessary pre-conditions have not been met and the order is not ready to run.",
+            "type": "integer"
+          },
+          "Ready_2": {
+            "description": "The necessary pre-conditions have been met and the order is ready to run, awaiting a Start command.",
+            "type": "integer"
+          },
+          "Loaded_3": {
+            "description": "In situations where only one job may be in active memory and is able to be run, then the job is loaded in active memory, the  necessary pre-conditions have been met, and the order is ready to run, awaiting a Start command.",
+            "type": "integer"
+          },
+          "Running_4": {
+            "description": "The order is executing.",
+            "type": "integer"
+          },
+          "Completed_5": {
+            "description": "The order has been completed and are no longer in execution.",
+            "type": "integer"
+          },
+          "Aborted_6": {
+            "description": "The order was aborted.",
+            "type": "integer"
+          },
+          "Held_7": {
+            "description": "The order has been temporarily stopped due to a constraint of some form.",
+            "type": "integer"
+          },
+          "Suspended_8": {
+            "description": "The order has been temporarily stopped due to a deliberate decision within the execution system.",
+            "type": "integer"
+          },
+          "Closed_9": {
+            "description": "The order has been completed and fully reconciled. No further changes, or restatement of actuals is expected.",
+            "type": "integer"
+          }
+        }
+      },
+      "OPENSCSAggregationDataType": {
+        "description": "Iidentifies a parent element and a collection of packed elements. This is used in the aggregation packing and unpacking methods.",
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.OPENSCS-SER.OPENSCSAggregationDataType",
+        "required": [ "ParentElement", "ParentElementCollection" ],
+        "properties": {
+          "ParentElement": {
+            "title": "OPENSCSLabelDataType",
+            "description": "Defines a single serial number and label, which may be associated with an SID, and collection of properties in the form of OPENSCSKeyValueDataType. ",
+            "type": "object",
+            "dov:typeRef": "org.opcfoundation.UA.OPENSCS-SER.OPENSCSLabelDataType",
+            "required": [ "ID", "LabelProperties" ],
+            "properties": {
+              "ID": {
+                "description": "The serial number of the label in the SID or EPC format. ",
+                "type": "string"
+              },
+              "LabelProperties": {
+                "description": "An optional array of additional properties in the form of Key/Value pairs",
+                "type": "array",
+                "items": {
+                  "title": "OPENSCSKeyValueDataType",
+                  "type": "object",
+                  "dov:typeRef": "org.opcfoundation.UA.OPENSCS-SER.OPENSCSKeyValueDataType",
+                  "required": [ "Key", "Value" ],
+                  "properties": {
+                    "Key": {
+                      "description": "A string defining the key for the pair",
+                      "type": "string"
+                    },
+                    "Value": {
+                      "description": "A variant for the value of the pair structure",
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "ParentElementCollection": {
+            "title": "OPENSCSLabelCollectionDataType",
+            "description": "Identifies the Serial Number Collection that was added to, or removed from, the parent element.",
+            "type": "object",
+            "dov:typeRef": "org.opcfoundation.UA.OPENSCS-SER.OPENSCSLabelCollectionDataType",
+            "required": [ "ID", "Description", "State", "AssociatedPoolID", "SerialNumbers", "LabelCollection" ],
+            "properties": {
+              "ID": {
+                "description": "An identification of the Collection. It usually refers to a specific packaging level of a specific product.",
+                "type": "string"
+              },
+              "Description": {
+                "description": "Additional information and description about the Collection.",
+                "type": "string"
+              },
+              "State": {
+                "title": "OPENSCSSerialNumberStateEnum",
+                "description": "State of the Serial Numbers in the Collection. ",
+                "dov:typeRef": "org.opcfoundation.UA.OPENSCS-SER.OPENSCSSerialNumberStateEnum",
+                "type": "integer",
+                "minimum": -2147483648,
+                "maximum": 2147483647
+              },
+              "AssociatedPoolID": {
+                "description": "An identification of the Serial Number Pool from which the Serial Numbers were obtained. ",
+                "type": "string"
+              },
+              "SerialNumbers": {
+                "description": "Array of Serial Numbers in the collection.",
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "LabelCollection": {
+                "description": "The collections of labels with serial numbers.",
+                "type": "array",
+                "items": {
+                  "title": "OPENSCSLabelDataType",
+                  "description": "Defines a single serial number and label, which may be associated with an SID, and collection of properties in the form of OPENSCSKeyValueDataType. ",
+                  "type": "object",
+                  "dov:typeRef": "org.opcfoundation.UA.OPENSCS-SER.OPENSCSLabelDataType",
+                  "required": [ "ID", "LabelProperties" ],
+                  "properties": {
+                    "ID": {
+                      "description": "The serial number of the label in the SID or EPC format. ",
+                      "type": "string"
+                    },
+                    "LabelProperties": {
+                      "description": "An optional array of additional properties in the form of Key/Value pairs",
+                      "type": "array",
+                      "items": {
+                        "title": "OPENSCSKeyValueDataType",
+                        "type": "object",
+                        "dov:typeRef": "org.opcfoundation.UA.OPENSCS-SER.OPENSCSKeyValueDataType",
+                        "required": [ "Key", "Value" ],
+                        "properties": {
+                          "Key": {
+                            "description": "A string defining the key for the pair",
+                            "type": "string"
+                          },
+                          "Value": {
+                            "description": "A variant for the value of the pair structure",
+                            "type": "string"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              },
+              "LabelCollectionProperties": {
+                "description": "An optional array of additional properties in the form of Key/Value pairs which are valid for the whole collection.",
+                "type": "array",
+                "items": {
+                  "title": "OPENSCSKeyValueDataType",
+                  "type": "object",
+                  "dov:typeRef": "org.opcfoundation.UA.OPENSCS-SER.OPENSCSKeyValueDataType",
+                  "required": [ "Key", "Value" ],
+                  "properties": {
+                    "Key": {
+                      "description": "A string defining the key for the pair",
+                      "type": "string"
+                    },
+                    "Value": {
+                      "description": "A variant for the value of the pair structure",
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "OPENSCSCollectionDataType": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.OPENSCS-SER.OPENSCSCollectionDataType",
+        "required": [ "ID", "Description", "State", "AssociatedPoolID", "SerialNumbers" ],
+        "properties": {
+          "ID": {
+            "description": "An identification of the Collection. It usually refers to a specific packaging level of a specific product.",
+            "type": "string"
+          },
+          "Description": {
+            "description": "Additional information and description about the Collection.",
+            "type": "string"
+          },
+          "State": {
+            "title": "OPENSCSSerialNumberStateEnum",
+            "description": "State of the Serial Numbers in the Collection. ",
+            "dov:typeRef": "org.opcfoundation.UA.OPENSCS-SER.OPENSCSSerialNumberStateEnum",
+            "type": "integer",
+            "minimum": -2147483648,
+            "maximum": 2147483647
+          },
+          "AssociatedPoolID": {
+            "description": "An identification of the Serial Number Pool from which the Serial Numbers were obtained. ",
+            "type": "string"
+          },
+          "SerialNumbers": {
+            "description": "Array of Serial Numbers in the collection.",
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "OPENSCSEventStreamArgumentDataType": {
+        "description": "Defines the generateOptions argument for an EPCISStream GenerateFileForWrite method. It defines the serial number format information for object events and for aggregation events, and event context information. ",
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.OPENSCS-SER.OPENSCSEventStreamArgumentDataType",
+        "required": [ "SNFormat", "ParentSNFormat", "PackedElementSNFormat", "EventContext" ],
+        "properties": {
+          "SNFormat": {
+            "description": "The format for of serial numbers in object events, can be a null string if there are no object events in the transferred events.",
+            "type": "string"
+          },
+          "ParentSNFormat": {
+            "description": "The format for of parent serial numbers in aggregation events, can be a null string if there are no aggregation events in the transferred events.",
+            "type": "string"
+          },
+          "PackedElementSNFormat": {
+            "description": "The format for of packed element serial numbers in aggregation events, can be a null string if there are no aggregation events in the transferred events.",
+            "type": "string"
+          },
+          "EventContext": {
+            "description": "Zero or more key value pairs that define additional context information for the event, such as order number or lot number.",
+            "type": "array",
+            "items": {
+              "title": "OPENSCSKeyValueDataType",
+              "type": "object",
+              "dov:typeRef": "org.opcfoundation.UA.OPENSCS-SER.OPENSCSKeyValueDataType",
+              "required": [ "Key", "Value" ],
+              "properties": {
+                "Key": {
+                  "description": "A string defining the key for the pair",
+                  "type": "string"
+                },
+                "Value": {
+                  "description": "A variant for the value of the pair structure",
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      },
+      "OPENSCSKeyValueDataType": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.OPENSCS-SER.OPENSCSKeyValueDataType",
+        "required": [ "Key", "Value" ],
+        "properties": {
+          "Key": {
+            "description": "A string defining the key for the pair",
+            "type": "string"
+          },
+          "Value": {
+            "description": "A variant for the value of the pair structure",
+            "type": "string"
+          }
+        }
+      },
+      "OPENSCSLabelCollectionDataType": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.OPENSCS-SER.OPENSCSLabelCollectionDataType",
+        "required": [ "ID", "Description", "State", "AssociatedPoolID", "SerialNumbers", "LabelCollection" ],
+        "properties": {
+          "ID": {
+            "description": "An identification of the Collection. It usually refers to a specific packaging level of a specific product.",
+            "type": "string"
+          },
+          "Description": {
+            "description": "Additional information and description about the Collection.",
+            "type": "string"
+          },
+          "State": {
+            "title": "OPENSCSSerialNumberStateEnum",
+            "description": "State of the Serial Numbers in the Collection. ",
+            "dov:typeRef": "org.opcfoundation.UA.OPENSCS-SER.OPENSCSSerialNumberStateEnum",
+            "type": "integer",
+            "minimum": -2147483648,
+            "maximum": 2147483647
+          },
+          "AssociatedPoolID": {
+            "description": "An identification of the Serial Number Pool from which the Serial Numbers were obtained. ",
+            "type": "string"
+          },
+          "SerialNumbers": {
+            "description": "Array of Serial Numbers in the collection.",
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "LabelCollection": {
+            "description": "The collections of labels with serial numbers.",
+            "type": "array",
+            "items": {
+              "title": "OPENSCSLabelDataType",
+              "description": "Defines a single serial number and label, which may be associated with an SID, and collection of properties in the form of OPENSCSKeyValueDataType. ",
+              "type": "object",
+              "dov:typeRef": "org.opcfoundation.UA.OPENSCS-SER.OPENSCSLabelDataType",
+              "required": [ "ID", "LabelProperties" ],
+              "properties": {
+                "ID": {
+                  "description": "The serial number of the label in the SID or EPC format. ",
+                  "type": "string"
+                },
+                "LabelProperties": {
+                  "description": "An optional array of additional properties in the form of Key/Value pairs",
+                  "type": "array",
+                  "items": {
+                    "title": "OPENSCSKeyValueDataType",
+                    "type": "object",
+                    "dov:typeRef": "org.opcfoundation.UA.OPENSCS-SER.OPENSCSKeyValueDataType",
+                    "required": [ "Key", "Value" ],
+                    "properties": {
+                      "Key": {
+                        "description": "A string defining the key for the pair",
+                        "type": "string"
+                      },
+                      "Value": {
+                        "description": "A variant for the value of the pair structure",
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "LabelCollectionProperties": {
+            "description": "An optional array of additional properties in the form of Key/Value pairs which are valid for the whole collection.",
+            "type": "array",
+            "items": {
+              "title": "OPENSCSKeyValueDataType",
+              "type": "object",
+              "dov:typeRef": "org.opcfoundation.UA.OPENSCS-SER.OPENSCSKeyValueDataType",
+              "required": [ "Key", "Value" ],
+              "properties": {
+                "Key": {
+                  "description": "A string defining the key for the pair",
+                  "type": "string"
+                },
+                "Value": {
+                  "description": "A variant for the value of the pair structure",
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      },
+      "OPENSCSLabelDataType": {
+        "description": "Defines a single serial number and label, which may be associated with an SID, and collection of properties in the form of OPENSCSKeyValueDataType. ",
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.OPENSCS-SER.OPENSCSLabelDataType",
+        "required": [ "ID", "LabelProperties" ],
+        "properties": {
+          "ID": {
+            "description": "The serial number of the label in the SID or EPC format. ",
+            "type": "string"
+          },
+          "LabelProperties": {
+            "description": "An optional array of additional properties in the form of Key/Value pairs",
+            "type": "array",
+            "items": {
+              "title": "OPENSCSKeyValueDataType",
+              "type": "object",
+              "dov:typeRef": "org.opcfoundation.UA.OPENSCS-SER.OPENSCSKeyValueDataType",
+              "required": [ "Key", "Value" ],
+              "properties": {
+                "Key": {
+                  "description": "A string defining the key for the pair",
+                  "type": "string"
+                },
+                "Value": {
+                  "description": "A variant for the value of the pair structure",
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      },
+      "OPENSCSLabelPropertyDataType": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.OPENSCS-SER.OPENSCSLabelPropertyDataType",
+        "required": [ "PropertyID", "PropertyDescription", "PropertyValue" ],
+        "properties": {
+          "PropertyID": {
+            "description": "The identification of a property associated with a label.",
+            "type": "string"
+          },
+          "PropertyDescription": {
+            "description": "An optional description of the property associated with the label",
+            "type": "string"
+          },
+          "PropertyValue": {
+            "description": "A value for the property, if defined this may be considered a default property value.",
+            "type": "string"
+          }
+        }
+      },
+      "OPENSCSReturnEnum": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.OPENSCS-SER.OPENSCSReturnEnum",
+        "const": {
+          "Undefined0": 0,
+          "NoError1": 1,
+          "InvalidSerialNumberCollection2": 2,
+          "InsufficientSerialNumbers3": 3,
+          "InvalidSerialNumbersFormat4": 4,
+          "InvalidRequestToken5": 5,
+          "InvalidSelectionCriteria6": 6,
+          "UnableToAcceptSerialNumberEvents7": 7,
+          "UnableToAcceptLabelEvents8": 8,
+          "UnableToAcceptSIDEvents9": 9,
+          "UnknownAggregationSID10": 10,
+          "InsufficientPrivilegeToExecute11": 11
+        },
+        "properties": {
+          "Undefined0": {
+            "description": "Undefined value, should never be seen.",
+            "type": "integer"
+          },
+          "NoError1": {
+            "description": "There were no errors in processing the method.  ",
+            "type": "integer"
+          },
+          "InvalidSerialNumberCollection2": {
+            "description": "The Serial Number Collection ID does not match a Serial Number Collection managed by the server.",
+            "type": "integer"
+          },
+          "InsufficientSerialNumbers3": {
+            "description": "Fewer Serial Numbers are available from the pool, then are requested.",
+            "type": "integer"
+          },
+          "InvalidSerialNumbersFormat4": {
+            "description": "The serial number format is not known or defined in the server",
+            "type": "integer"
+          },
+          "InvalidRequestToken5": {
+            "description": "The Request Token has a value not understood by the server.",
+            "type": "integer"
+          },
+          "InvalidSelectionCriteria6": {
+            "description": "The Selection Criteria is not known or defined in the server.",
+            "type": "integer"
+          },
+          "UnableToAcceptSerialNumberEvents7": {
+            "description": "The server cannot accept Serial Number events.",
+            "type": "integer"
+          },
+          "UnableToAcceptLabelEvents8": {
+            "description": "The server cannot accept Label events.",
+            "type": "integer"
+          },
+          "UnableToAcceptSIDEvents9": {
+            "description": "The server cannot accept SID events.",
+            "type": "integer"
+          },
+          "UnknownAggregationSID10": {
+            "description": "The SID of the aggregation for packing or unpacking is unknown.",
+            "type": "integer"
+          },
+          "InsufficientPrivilegeToExecute11": {
+            "description": " The server has determined that the client does not have sufficient privilege for the method to execute.",
+            "type": "integer"
+          }
+        }
+      },
+      "OPENSCSSIDClassPropertyDataType": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.OPENSCS-SER.OPENSCSSIDClassPropertyDataType",
+        "required": [ "PropertyID", "PropertyDescription", "PropertyValue", "LabelProperty" ],
+        "properties": {
+          "PropertyID": {
+            "description": "An identification of the SID Class Property.",
+            "type": "string"
+          },
+          "PropertyDescription": {
+            "description": "Additional information and description about the SID Class Property.",
+            "type": "string"
+          },
+          "PropertyValue": {
+            "description": "Defines value for the specific SID Class Property. The format is not defined in this specification and must be negotiated between Information Providers and Information Requesters during design or change management of a system.",
+            "type": "string"
+          },
+          "LabelProperty": {
+            "description": "An array of property elements, each of which may have associated label property definitions.",
+            "type": "array",
+            "items": {
+              "title": "OPENSCSLabelPropertyDataType",
+              "type": "object",
+              "dov:typeRef": "org.opcfoundation.UA.OPENSCS-SER.OPENSCSLabelPropertyDataType",
+              "required": [ "PropertyID", "PropertyDescription", "PropertyValue" ],
+              "properties": {
+                "PropertyID": {
+                  "description": "The identification of a property associated with a label.",
+                  "type": "string"
+                },
+                "PropertyDescription": {
+                  "description": "An optional description of the property associated with the label",
+                  "type": "string"
+                },
+                "PropertyValue": {
+                  "description": "A value for the property, if defined this may be considered a default property value.",
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      },
+      "OPENSCSSNCollectionDataType": {
+        "title": "OPENSCSCollectionDataType",
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.OPENSCS-SER.OPENSCSCollectionDataType",
+        "required": [ "ID", "Description", "State", "AssociatedPoolID", "SerialNumbers" ],
+        "properties": {
+          "ID": {
+            "description": "An identification of the Collection. It usually refers to a specific packaging level of a specific product.",
+            "type": "string"
+          },
+          "Description": {
+            "description": "Additional information and description about the Collection.",
+            "type": "string"
+          },
+          "State": {
+            "title": "OPENSCSSerialNumberStateEnum",
+            "description": "State of the Serial Numbers in the Collection. ",
+            "dov:typeRef": "org.opcfoundation.UA.OPENSCS-SER.OPENSCSSerialNumberStateEnum",
+            "type": "integer",
+            "minimum": -2147483648,
+            "maximum": 2147483647
+          },
+          "AssociatedPoolID": {
+            "description": "An identification of the Serial Number Pool from which the Serial Numbers were obtained. ",
+            "type": "string"
+          },
+          "SerialNumbers": {
+            "description": "Array of Serial Numbers in the collection.",
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "OPENSCSSerialNumberStateEnum": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.OPENSCS-SER.OPENSCSSerialNumberStateEnum",
+        "const": {
+          "Unassigned0": 0,
+          "Unallocated1": 1,
+          "Allocated2": 2,
+          "SNInvalid3": 3,
+          "Encoded4": 4,
+          "LabelSampled5": 5,
+          "LabelScrapped6": 6,
+          "Commissioned7": 7,
+          "Sampled8": 8,
+          "Inactive9": 9,
+          "Destroyed10": 10,
+          "Released11": 11
+        },
+        "properties": {
+          "Unassigned0": {
+            "description": "The Serial Number has not been assigned to production or a packaging run.",
+            "type": "integer"
+          },
+          "Unallocated1": {
+            "description": "As Serial Number has been assigned to production or a packaging run, but it has not yet been allocated for use a specific production run of a product or aggregation.",
+            "type": "integer"
+          },
+          "Allocated2": {
+            "description": "The Serial Number has been assigned to a specific product or aggregation production run. ",
+            "type": "integer"
+          },
+          "SNInvalid3": {
+            "description": "The Serial Number is no longer viable, and the related serial number is no longer defined. ",
+            "type": "integer"
+          },
+          "Encoded4": {
+            "description": "The Serial Number has been written to a barcode or RFID tag, but not yet commissioned.",
+            "type": "integer"
+          },
+          "LabelSampled5": {
+            "description": "The printed label has been retained and is not associated with a physical product or aggregation.",
+            "type": "integer"
+          },
+          "LabelScrapped6": {
+            "description": "A label was encoded with a Serial Number, but was made unusable before being applied to a product or aggregation.",
+            "type": "integer"
+          },
+          "Commissioned7": {
+            "description": "The Serial Number has been associated with a physical product or aggregation, but has not yet left the responsibility of production",
+            "type": "integer"
+          },
+          "Sampled8": {
+            "description": "The product or aggregation is to be used as a sample for testing or other use, not to be made active.",
+            "type": "integer"
+          },
+          "Inactive9": {
+            "description": "The product or aggregation is no longer active, but may not have been destroyed.",
+            "type": "integer"
+          },
+          "Destroyed10": {
+            "description": "The product or aggregation was has been fully rendered non-usable.",
+            "type": "integer"
+          },
+          "Released11": {
+            "description": "The Serial Number has been associated with a physical product or aggregation, and has left the responsibility of production.",
+            "type": "integer"
+          }
+        }
+      }
+    },
+    "actions": {
+    },
+    "properties": {
     },
     "events": {
     }

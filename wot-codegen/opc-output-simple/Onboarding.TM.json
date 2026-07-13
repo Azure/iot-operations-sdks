@@ -665,5 +665,258 @@
     },
     "events": {
     }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dov": "http://azure.com/DigitalOperations/vocab#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "Onboarding_DataTypes",
+    "links": [
+    ],
+    "schemaDefinitions": {
+      "BaseTicketType": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.Onboarding.BaseTicketType",
+        "required": [ "ManufacturerName", "ModelName", "ModelVersion", "HardwareRevision", "SoftwareRevision", "SerialNumber", "ManufactureDate", "Authorities" ],
+        "properties": {
+          "ManufacturerName": {
+            "type": "string"
+          },
+          "ModelName": {
+            "type": "string"
+          },
+          "ModelVersion": {
+            "type": "string"
+          },
+          "HardwareRevision": {
+            "type": "string"
+          },
+          "SoftwareRevision": {
+            "type": "string"
+          },
+          "SerialNumber": {
+            "type": "string"
+          },
+          "ManufactureDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "Authorities": {
+            "type": "array",
+            "items": {
+              "title": "CertificateAuthorityType",
+              "type": "object",
+              "dov:typeRef": "org.opcfoundation.UA.Onboarding.CertificateAuthorityType",
+              "required": [ "AuthorityCertificate", "IssuerCertificates" ],
+              "properties": {
+                "AuthorityCertificate": {
+                  "type": "string",
+                  "contentEncoding": "base64"
+                },
+                "IssuerCertificates": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "contentEncoding": "base64"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "CertificateAuthorityType": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.Onboarding.CertificateAuthorityType",
+        "required": [ "AuthorityCertificate", "IssuerCertificates" ],
+        "properties": {
+          "AuthorityCertificate": {
+            "type": "string",
+            "contentEncoding": "base64"
+          },
+          "IssuerCertificates": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "contentEncoding": "base64"
+            }
+          }
+        }
+      },
+      "CompositeIdentityTicketType": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.Onboarding.CompositeIdentityTicketType",
+        "required": [ "ManufacturerName", "ModelName", "ModelVersion", "HardwareRevision", "SoftwareRevision", "SerialNumber", "ManufactureDate", "Authorities", "CompositeInstanceUri", "Devices", "Composites" ],
+        "properties": {
+          "ManufacturerName": {
+            "type": "string"
+          },
+          "ModelName": {
+            "type": "string"
+          },
+          "ModelVersion": {
+            "type": "string"
+          },
+          "HardwareRevision": {
+            "type": "string"
+          },
+          "SoftwareRevision": {
+            "type": "string"
+          },
+          "SerialNumber": {
+            "type": "string"
+          },
+          "ManufactureDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "Authorities": {
+            "type": "array",
+            "items": {
+              "title": "CertificateAuthorityType",
+              "type": "object",
+              "dov:typeRef": "org.opcfoundation.UA.Onboarding.CertificateAuthorityType",
+              "required": [ "AuthorityCertificate", "IssuerCertificates" ],
+              "properties": {
+                "AuthorityCertificate": {
+                  "type": "string",
+                  "contentEncoding": "base64"
+                },
+                "IssuerCertificates": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "contentEncoding": "base64"
+                  }
+                }
+              }
+            }
+          },
+          "CompositeInstanceUri": {
+            "type": "string"
+          },
+          "Devices": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "Composites": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "DeviceIdentityTicketType": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.Onboarding.DeviceIdentityTicketType",
+        "required": [ "ManufacturerName", "ModelName", "ModelVersion", "HardwareRevision", "SoftwareRevision", "SerialNumber", "ManufactureDate", "Authorities", "ProductInstanceUri" ],
+        "properties": {
+          "ManufacturerName": {
+            "type": "string"
+          },
+          "ModelName": {
+            "type": "string"
+          },
+          "ModelVersion": {
+            "type": "string"
+          },
+          "HardwareRevision": {
+            "type": "string"
+          },
+          "SoftwareRevision": {
+            "type": "string"
+          },
+          "SerialNumber": {
+            "type": "string"
+          },
+          "ManufactureDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "Authorities": {
+            "type": "array",
+            "items": {
+              "title": "CertificateAuthorityType",
+              "type": "object",
+              "dov:typeRef": "org.opcfoundation.UA.Onboarding.CertificateAuthorityType",
+              "required": [ "AuthorityCertificate", "IssuerCertificates" ],
+              "properties": {
+                "AuthorityCertificate": {
+                  "type": "string",
+                  "contentEncoding": "base64"
+                },
+                "IssuerCertificates": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "contentEncoding": "base64"
+                  }
+                }
+              }
+            }
+          },
+          "ProductInstanceUri": {
+            "type": "string"
+          }
+        }
+      },
+      "ManagerDescription": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.Onboarding.ManagerDescription",
+        "required": [ "Name", "IsRequired", "PurposeUri", "ProtocolUri", "EndpointUrls" ],
+        "properties": {
+          "Name": {
+            "type": "string"
+          },
+          "IsRequired": {
+            "type": "boolean"
+          },
+          "PurposeUri": {
+            "type": "string"
+          },
+          "ProtocolUri": {
+            "type": "string"
+          },
+          "EndpointUrls": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "TicketListType": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.Onboarding.TicketListType",
+        "required": [ "Devices", "Composites" ],
+        "properties": {
+          "Devices": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "Composites": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
   }
 ]

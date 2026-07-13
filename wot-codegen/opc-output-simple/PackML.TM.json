@@ -3056,5 +3056,467 @@
         ]
       }
     }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dov": "http://azure.com/DigitalOperations/vocab#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "PackML_DataTypes",
+    "links": [
+    ],
+    "schemaDefinitions": {
+      "PackMLAlarmDataType": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.PackML.PackMLAlarmDataType",
+        "required": [ "ID", "Value", "Message", "Category", "DateTime", "AckDateTime", "Trigger" ],
+        "properties": {
+          "ID": {
+            "description": "A unique number assigned to each type of alarm, stop or warning.",
+            "type": "integer",
+            "minimum": -2147483648,
+            "maximum": 2147483647
+          },
+          "Value": {
+            "description": "An alarm, stop or warning message number associated to the ID to allow for user specific detail or to break down the Alarm.ID to greater detail",
+            "type": "integer",
+            "minimum": -2147483648,
+            "maximum": 2147483647
+          },
+          "Message": {
+            "description": "The actual text of the alarm, stop or warning for those machines capable of providing string information",
+            "type": "string"
+          },
+          "Category": {
+            "description": "A user defined value which indicates what type of alarm, stop or warning has occurred. E.g. electrical, mechanical, process limit, …",
+            "type": "integer",
+            "minimum": -2147483648,
+            "maximum": 2147483647
+          },
+          "DateTime": {
+            "description": "The date and time that the alarm, stop or warning occurred, in ISO 8601 format (year, month, day, hour, minute, second, msec), as an array of 32 bit integers. Any unused date time elements should be set to zero",
+            "type": "string",
+            "format": "time"
+          },
+          "AckDateTime": {
+            "description": "The date and time that the alarm, stop or warning has been acknowledged, in ISO 8601 format (year, month, day, hour, minute, second, msec), as an array of 32 bit integers. Any unused date time elements should be set to zero",
+            "type": "string",
+            "format": "time"
+          },
+          "Trigger": {
+            "description": "This variable is true when the alarm is active",
+            "type": "boolean"
+          }
+        }
+      },
+      "PackMLCountDataType": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.PackML.PackMLCountDataType",
+        "required": [ "ID", "Name", "Unit", "Count", "AccCount" ],
+        "properties": {
+          "ID": {
+            "description": "A user defined value that represents the consumed (processed or defective) material. Typically this is an SKU number or a user material master number.",
+            "type": "integer",
+            "minimum": -2147483648,
+            "maximum": 2147483647
+          },
+          "Name": {
+            "description": "A string description of the material.",
+            "type": "string"
+          },
+          "Unit": {
+            "title": "EUInformation",
+            "description": "OPC UA engineering unit information for the count.",
+            "type": "object",
+            "dov:typeRef": "org.opcfoundation.UA.EUInformation",
+            "required": [ "NamespaceUri", "UnitId", "DisplayName", "Description" ],
+            "properties": {
+              "NamespaceUri": {
+                "type": "string"
+              },
+              "UnitId": {
+                "type": "integer",
+                "minimum": -2147483648,
+                "maximum": 2147483647
+              },
+              "DisplayName": {
+                "type": "string"
+              },
+              "Description": {
+                "type": "string"
+              }
+            }
+          },
+          "Count": {
+            "description": "The amount of consumed (processed or defective) material on the current production job.",
+            "type": "integer",
+            "minimum": -2147483648,
+            "maximum": 2147483647
+          },
+          "AccCount": {
+            "description": "The cumulative count value of the material produced (or consumed). This counter gives the user a non-resetting counter that may be used for OEE calculations",
+            "type": "integer",
+            "minimum": -2147483648,
+            "maximum": 2147483647
+          }
+        }
+      },
+      "PackMLDescriptorDataType": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.PackML.PackMLDescriptorDataType",
+        "required": [ "ID", "Name", "Unit", "Value" ],
+        "properties": {
+          "ID": {
+            "description": "A unique number assigned to the parameter",
+            "type": "integer",
+            "minimum": -2147483648,
+            "maximum": 2147483647
+          },
+          "Name": {
+            "description": "The name of the parameter",
+            "type": "string"
+          },
+          "Unit": {
+            "title": "EUInformation",
+            "description": "OPC UA engineering unit information",
+            "type": "object",
+            "dov:typeRef": "org.opcfoundation.UA.EUInformation",
+            "required": [ "NamespaceUri", "UnitId", "DisplayName", "Description" ],
+            "properties": {
+              "NamespaceUri": {
+                "type": "string"
+              },
+              "UnitId": {
+                "type": "integer",
+                "minimum": -2147483648,
+                "maximum": 2147483647
+              },
+              "DisplayName": {
+                "type": "string"
+              },
+              "Description": {
+                "type": "string"
+              }
+            }
+          },
+          "Value": {
+            "description": "This is the numeric value of the parameter",
+            "type": "number",
+            "minimum": -3.40e+38,
+            "maximum": 3.40e+38
+          }
+        }
+      },
+      "PackMLIngredientsDataType": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.PackML.PackMLIngredientsDataType",
+        "required": [ "IngredientID", "Parameter" ],
+        "properties": {
+          "IngredientID": {
+            "description": "A unique number assigned to the ingredient.",
+            "type": "integer",
+            "minimum": -2147483648,
+            "maximum": 2147483647
+          },
+          "Parameter": {
+            "description": "The array of Parameters that correspond to the ingredient",
+            "type": "array",
+            "items": {
+              "title": "PackMLDescriptorDataType",
+              "type": "object",
+              "dov:typeRef": "org.opcfoundation.UA.PackML.PackMLDescriptorDataType",
+              "required": [ "ID", "Name", "Unit", "Value" ],
+              "properties": {
+                "ID": {
+                  "description": "A unique number assigned to the parameter",
+                  "type": "integer",
+                  "minimum": -2147483648,
+                  "maximum": 2147483647
+                },
+                "Name": {
+                  "description": "The name of the parameter",
+                  "type": "string"
+                },
+                "Unit": {
+                  "title": "EUInformation",
+                  "description": "OPC UA engineering unit information",
+                  "type": "object",
+                  "dov:typeRef": "org.opcfoundation.UA.EUInformation",
+                  "required": [ "NamespaceUri", "UnitId", "DisplayName", "Description" ],
+                  "properties": {
+                    "NamespaceUri": {
+                      "type": "string"
+                    },
+                    "UnitId": {
+                      "type": "integer",
+                      "minimum": -2147483648,
+                      "maximum": 2147483647
+                    },
+                    "DisplayName": {
+                      "type": "string"
+                    },
+                    "Description": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "Value": {
+                  "description": "This is the numeric value of the parameter",
+                  "type": "number",
+                  "minimum": -3.40e+38,
+                  "maximum": 3.40e+38
+                }
+              }
+            }
+          }
+        }
+      },
+      "PackMLProductDataType": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.PackML.PackMLProductDataType",
+        "required": [ "ProductID", "ProcessVariables", "Ingredients" ],
+        "properties": {
+          "ProductID": {
+            "description": "A unique number assigned to the product.",
+            "type": "integer",
+            "minimum": -2147483648,
+            "maximum": 2147483647
+          },
+          "ProcessVariables": {
+            "description": "The array of Process variables associated with this product",
+            "type": "array",
+            "items": {
+              "title": "PackMLDescriptorDataType",
+              "type": "object",
+              "dov:typeRef": "org.opcfoundation.UA.PackML.PackMLDescriptorDataType",
+              "required": [ "ID", "Name", "Unit", "Value" ],
+              "properties": {
+                "ID": {
+                  "description": "A unique number assigned to the parameter",
+                  "type": "integer",
+                  "minimum": -2147483648,
+                  "maximum": 2147483647
+                },
+                "Name": {
+                  "description": "The name of the parameter",
+                  "type": "string"
+                },
+                "Unit": {
+                  "title": "EUInformation",
+                  "description": "OPC UA engineering unit information",
+                  "type": "object",
+                  "dov:typeRef": "org.opcfoundation.UA.EUInformation",
+                  "required": [ "NamespaceUri", "UnitId", "DisplayName", "Description" ],
+                  "properties": {
+                    "NamespaceUri": {
+                      "type": "string"
+                    },
+                    "UnitId": {
+                      "type": "integer",
+                      "minimum": -2147483648,
+                      "maximum": 2147483647
+                    },
+                    "DisplayName": {
+                      "type": "string"
+                    },
+                    "Description": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "Value": {
+                  "description": "This is the numeric value of the parameter",
+                  "type": "number",
+                  "minimum": -3.40e+38,
+                  "maximum": 3.40e+38
+                }
+              }
+            }
+          },
+          "Ingredients": {
+            "description": "The array of ingredients associated with this product.",
+            "type": "array",
+            "items": {
+              "title": "PackMLIngredientsDataType",
+              "type": "object",
+              "dov:typeRef": "org.opcfoundation.UA.PackML.PackMLIngredientsDataType",
+              "required": [ "IngredientID", "Parameter" ],
+              "properties": {
+                "IngredientID": {
+                  "description": "A unique number assigned to the ingredient.",
+                  "type": "integer",
+                  "minimum": -2147483648,
+                  "maximum": 2147483647
+                },
+                "Parameter": {
+                  "description": "The array of Parameters that correspond to the ingredient",
+                  "type": "array",
+                  "items": {
+                    "title": "PackMLDescriptorDataType",
+                    "type": "object",
+                    "dov:typeRef": "org.opcfoundation.UA.PackML.PackMLDescriptorDataType",
+                    "required": [ "ID", "Name", "Unit", "Value" ],
+                    "properties": {
+                      "ID": {
+                        "description": "A unique number assigned to the parameter",
+                        "type": "integer",
+                        "minimum": -2147483648,
+                        "maximum": 2147483647
+                      },
+                      "Name": {
+                        "description": "The name of the parameter",
+                        "type": "string"
+                      },
+                      "Unit": {
+                        "title": "EUInformation",
+                        "description": "OPC UA engineering unit information",
+                        "type": "object",
+                        "dov:typeRef": "org.opcfoundation.UA.EUInformation",
+                        "required": [ "NamespaceUri", "UnitId", "DisplayName", "Description" ],
+                        "properties": {
+                          "NamespaceUri": {
+                            "type": "string"
+                          },
+                          "UnitId": {
+                            "type": "integer",
+                            "minimum": -2147483648,
+                            "maximum": 2147483647
+                          },
+                          "DisplayName": {
+                            "type": "string"
+                          },
+                          "Description": {
+                            "type": "string"
+                          }
+                        }
+                      },
+                      "Value": {
+                        "description": "This is the numeric value of the parameter",
+                        "type": "number",
+                        "minimum": -3.40e+38,
+                        "maximum": 3.40e+38
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "PackMLRemoteInterfaceDataType": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.PackML.PackMLRemoteInterfaceDataType",
+        "required": [ "Number", "ControlCmdNumber", "CmdValue", "Parameter" ],
+        "properties": {
+          "Number": {
+            "description": "This is the unique number for the downstream/upstream unit machine using a common tag structure as the unit machine.",
+            "type": "integer",
+            "minimum": -2147483648,
+            "maximum": 2147483647
+          },
+          "ControlCmdNumber": {
+            "description": "A user defined command number associated with coded value from a remote unit. This number is a coded value sent from one node on the network to another.",
+            "type": "integer",
+            "minimum": -2147483648,
+            "maximum": 2147483647
+          },
+          "CmdValue": {
+            "description": "This is the command value associated with the ControlCmdNumber above.",
+            "type": "integer",
+            "minimum": -2147483648,
+            "maximum": 2147483647
+          },
+          "Parameter": {
+            "description": "The parameter tags associated to commanded remote interface are typically used for command parameters that are given to the unit machine from remote machines.",
+            "type": "array",
+            "items": {
+              "title": "PackMLDescriptorDataType",
+              "type": "object",
+              "dov:typeRef": "org.opcfoundation.UA.PackML.PackMLDescriptorDataType",
+              "required": [ "ID", "Name", "Unit", "Value" ],
+              "properties": {
+                "ID": {
+                  "description": "A unique number assigned to the parameter",
+                  "type": "integer",
+                  "minimum": -2147483648,
+                  "maximum": 2147483647
+                },
+                "Name": {
+                  "description": "The name of the parameter",
+                  "type": "string"
+                },
+                "Unit": {
+                  "title": "EUInformation",
+                  "description": "OPC UA engineering unit information",
+                  "type": "object",
+                  "dov:typeRef": "org.opcfoundation.UA.EUInformation",
+                  "required": [ "NamespaceUri", "UnitId", "DisplayName", "Description" ],
+                  "properties": {
+                    "NamespaceUri": {
+                      "type": "string"
+                    },
+                    "UnitId": {
+                      "type": "integer",
+                      "minimum": -2147483648,
+                      "maximum": 2147483647
+                    },
+                    "DisplayName": {
+                      "type": "string"
+                    },
+                    "Description": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "Value": {
+                  "description": "This is the numeric value of the parameter",
+                  "type": "number",
+                  "minimum": -3.40e+38,
+                  "maximum": 3.40e+38
+                }
+              }
+            }
+          }
+        }
+      },
+      "ProductionMaintenanceModeEnum": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.PackML.ProductionMaintenanceModeEnum",
+        "const": {
+          "Invalid": 0,
+          "Produce": 1,
+          "Maintenance": 2,
+          "Manual": 3
+        },
+        "properties": {
+          "Invalid": {
+            "description": "This is an invalid mode",
+            "type": "integer"
+          },
+          "Produce": {
+            "description": "Machine is in production mode",
+            "type": "integer"
+          },
+          "Maintenance": {
+            "description": "Machine is in maintenance mode",
+            "type": "integer"
+          },
+          "Manual": {
+            "description": "Machine is in manual mode",
+            "type": "integer"
+          }
+        }
+      }
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
   }
 ]

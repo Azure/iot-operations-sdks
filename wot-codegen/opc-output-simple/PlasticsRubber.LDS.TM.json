@@ -1659,8 +1659,22 @@
           "description": "Iinformation about an active error in a device including the SoureNodes and a Classification",
           "type": "object",
           "dov:typeRef": "org.opcfoundation.UA.PlasticsRubber.GeneralTypes.ClassifiedActiveErrorDataType",
-          "required": [ "SourceNodes", "Classification" ],
+          "required": [ "Id", "Severity", "Message", "SourceNodes", "Classification" ],
           "properties": {
+            "Id": {
+              "description": "Unique identifier defined by manufacturer",
+              "type": "string"
+            },
+            "Severity": {
+              "description": "Severity as defined in the BaseEventType (1 = low – 1000 = high)",
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 65535
+            },
+            "Message": {
+              "description": "Message giving information about the error",
+              "type": "string"
+            },
             "SourceNodes": {
               "description": "NodeIds of the Nodes which cause the error",
               "type": "array",
@@ -2099,8 +2113,22 @@
             "description": "Iinformation about an active error in a device including the SoureNodes and a Classification",
             "type": "object",
             "dov:typeRef": "org.opcfoundation.UA.PlasticsRubber.GeneralTypes.ClassifiedActiveErrorDataType",
-            "required": [ "SourceNodes", "Classification" ],
+            "required": [ "Id", "Severity", "Message", "SourceNodes", "Classification" ],
             "properties": {
+              "Id": {
+                "description": "Unique identifier defined by manufacturer",
+                "type": "string"
+              },
+              "Severity": {
+                "description": "Severity as defined in the BaseEventType (1 = low – 1000 = high)",
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 65535
+              },
+              "Message": {
+                "description": "Message giving information about the error",
+                "type": "string"
+              },
               "SourceNodes": {
                 "description": "NodeIds of the Nodes which cause the error",
                 "type": "array",
@@ -2405,6 +2433,152 @@
           }
         ]
       }
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dov": "http://azure.com/DigitalOperations/vocab#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "PlasticsRubber_LDS_DataTypes",
+    "links": [
+    ],
+    "schemaDefinitions": {
+      "AdditiveStatusEnumeration": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.PlasticsRubber.LDS.AdditiveStatusEnumeration",
+        "const": {
+          "GOOD": 0,
+          "WARNING": 1,
+          "ADVANCE_WARNING_ADDITIVE_CHANGE": 2,
+          "ERROR_EMPTY": 3,
+          "ERROR": 4
+        },
+        "description": "Actual status of the additive provides a minimal error handling for devices without event support.",
+        "properties": {
+          "GOOD": {
+            "description": "Component has no error or warning.",
+            "type": "integer"
+          },
+          "WARNING": {
+            "description": "The component has an undefined warning, but no need to stop the production.",
+            "type": "integer"
+          },
+          "ADVANCE_WARNING_ADDITIVE_CHANGE": {
+            "description": "Warning, additive change is imminent. No need to stop the process.",
+            "type": "integer"
+          },
+          "ERROR_EMPTY": {
+            "description": "Error, the additive is empty. Production needs to be stopped.",
+            "type": "integer"
+          },
+          "ERROR": {
+            "description": "The additive has an error and process needs to be stopped.",
+            "type": "integer"
+          }
+        }
+      },
+      "ComponentStatusEnumeration": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.PlasticsRubber.LDS.ComponentStatusEnumeration",
+        "const": {
+          "GOOD": 0,
+          "WARNING": 1,
+          "WARNING_PRESSURE_TOO_HIGH": 2,
+          "WARNING_PRESSURE_TOO_LOW": 3,
+          "ADVANCE_WARNING_DRUM_CHANGE": 4,
+          "ERROR_DRUM_EMPTY": 5,
+          "ERROR": 6
+        },
+        "description": "Actual status of the component provides a minimal error handling for devices without event support.",
+        "properties": {
+          "GOOD": {
+            "description": "Component has no error or warning.",
+            "type": "integer"
+          },
+          "WARNING": {
+            "description": "The component has an undefined warning, but no need to stop the production.",
+            "type": "integer"
+          },
+          "WARNING_PRESSURE_TOO_HIGH": {
+            "description": "Pressure is too high. No need to stop the process but influence to the part quality.",
+            "type": "integer"
+          },
+          "WARNING_PRESSURE_TOO_LOW": {
+            "description": "Pressure is too low. No need to stop the process but influence to the part quality.",
+            "type": "integer"
+          },
+          "ADVANCE_WARNING_DRUM_CHANGE": {
+            "description": "Warning, barrel change is imminent. No need to stop the process.",
+            "type": "integer"
+          },
+          "ERROR_DRUM_EMPTY": {
+            "description": "Drum of the component is empty. Production needs to be stopped.",
+            "type": "integer"
+          },
+          "ERROR": {
+            "description": "The component has an error and process needs to be stopped.",
+            "type": "integer"
+          }
+        }
+      },
+      "MaterialBalanceSystemTypeEnumeration": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.PlasticsRubber.LDS.MaterialBalanceSystemTypeEnumeration",
+        "const": {
+          "NOT_AVAILABLE": 0,
+          "ALWAYS_ACTIVE": 1,
+          "SELECTABLE": 2
+        },
+        "properties": {
+          "NOT_AVAILABLE": {
+            "type": "integer"
+          },
+          "ALWAYS_ACTIVE": {
+            "type": "integer"
+          },
+          "SELECTABLE": {
+            "type": "integer"
+          }
+        }
+      },
+      "PurgeStatusEnumeration": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.PlasticsRubber.LDS.PurgeStatusEnumeration",
+        "const": {
+          "OFF": 0,
+          "COMPONENT_A": 1,
+          "COMPONENT_B": 2,
+          "COMPONENT_A_AND_B": 3,
+          "COMPONENT_A_AND_B_CYCLIC": 4
+        },
+        "properties": {
+          "OFF": {
+            "type": "integer"
+          },
+          "COMPONENT_A": {
+            "type": "integer"
+          },
+          "COMPONENT_B": {
+            "type": "integer"
+          },
+          "COMPONENT_A_AND_B": {
+            "type": "integer"
+          },
+          "COMPONENT_A_AND_B_CYCLIC": {
+            "type": "integer"
+          }
+        }
+      }
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
     }
   }
 ]

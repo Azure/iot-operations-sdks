@@ -10908,5 +10908,1037 @@
     },
     "events": {
     }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dov": "http://azure.com/DigitalOperations/vocab#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "CommercialKitchenEquipment_DataTypes",
+    "links": [
+    ],
+    "schemaDefinitions": {
+      "BeverageSMLEnumeration": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.CommercialKitchenEquipment.BeverageSMLEnumeration",
+        "const": {
+          "Inactive": 0,
+          "Small": 1,
+          "Large": 2,
+          "ExtraLarge": 3
+        },
+        "properties": {
+          "Inactive": {
+            "type": "integer"
+          },
+          "Small": {
+            "type": "integer"
+          },
+          "Large": {
+            "type": "integer"
+          },
+          "ExtraLarge": {
+            "type": "integer"
+          }
+        }
+      },
+      "ChamberModeEnumeration": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.CommercialKitchenEquipment.ChamberModeEnumeration",
+        "const": {
+          "NoSpecialMode": 0,
+          "Off": 1,
+          "Autostart": 2,
+          "Standby": 3,
+          "PreHeat": 4,
+          "CoolDown": 5,
+          "Working": 6,
+          "Cleaning": 7,
+          "EnergySave": 8,
+          "ServiceMode": 9,
+          "QuickCool": 10,
+          "FlashFreeze": 11,
+          "ProofingInterruption": 12,
+          "ProofingDelay": 13,
+          "Proofing": 14,
+          "Setting": 15,
+          "Defrost": 16,
+          "Baking": 17,
+          "Steaming": 18
+        },
+        "properties": {
+          "NoSpecialMode": {
+            "type": "integer"
+          },
+          "Off": {
+            "type": "integer"
+          },
+          "Autostart": {
+            "type": "integer"
+          },
+          "Standby": {
+            "type": "integer"
+          },
+          "PreHeat": {
+            "type": "integer"
+          },
+          "CoolDown": {
+            "type": "integer"
+          },
+          "Working": {
+            "type": "integer"
+          },
+          "Cleaning": {
+            "type": "integer"
+          },
+          "EnergySave": {
+            "type": "integer"
+          },
+          "ServiceMode": {
+            "type": "integer"
+          },
+          "QuickCool": {
+            "type": "integer"
+          },
+          "FlashFreeze": {
+            "type": "integer"
+          },
+          "ProofingInterruption": {
+            "type": "integer"
+          },
+          "ProofingDelay": {
+            "type": "integer"
+          },
+          "Proofing": {
+            "type": "integer"
+          },
+          "Setting": {
+            "type": "integer"
+          },
+          "Defrost": {
+            "type": "integer"
+          },
+          "Baking": {
+            "type": "integer"
+          },
+          "Steaming": {
+            "type": "integer"
+          }
+        }
+      },
+      "CoffeeMachineModeEnumeration": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.CommercialKitchenEquipment.CoffeeMachineModeEnumeration",
+        "const": {
+          "Off": 0,
+          "Standby": 1,
+          "Error": 2,
+          "Cleaning": 3
+        },
+        "properties": {
+          "Off": {
+            "type": "integer"
+          },
+          "Standby": {
+            "type": "integer"
+          },
+          "Error": {
+            "type": "integer"
+          },
+          "Cleaning": {
+            "type": "integer"
+          }
+        }
+      },
+      "CombiSteamerModeEnumeration": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.CommercialKitchenEquipment.CombiSteamerModeEnumeration",
+        "const": {
+          "Off": 0,
+          "On": 1,
+          "Preheat": 2,
+          "StandBy": 3,
+          "Steaming": 4,
+          "CombiSteaming": 5,
+          "HotAir": 6,
+          "Perfection": 7,
+          "Cleaning": 8,
+          "PresetStart": 9,
+          "Error": 10
+        },
+        "properties": {
+          "Off": {
+            "type": "integer"
+          },
+          "On": {
+            "type": "integer"
+          },
+          "Preheat": {
+            "type": "integer"
+          },
+          "StandBy": {
+            "type": "integer"
+          },
+          "Steaming": {
+            "type": "integer"
+          },
+          "CombiSteaming": {
+            "type": "integer"
+          },
+          "HotAir": {
+            "type": "integer"
+          },
+          "Perfection": {
+            "type": "integer"
+          },
+          "Cleaning": {
+            "type": "integer"
+          },
+          "PresetStart": {
+            "type": "integer"
+          },
+          "Error": {
+            "type": "integer"
+          }
+        }
+      },
+      "CookingKettleModeEnumeration": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.CommercialKitchenEquipment.CookingKettleModeEnumeration",
+        "const": {
+          "Off": 0,
+          "Preheat": 1,
+          "SoftCook": 2,
+          "Cook": 3,
+          "CookSlow": 4,
+          "KeepWarming": 5,
+          "Stiring": 6,
+          "PresetStart": 7,
+          "Error": 8
+        },
+        "properties": {
+          "Off": {
+            "type": "integer"
+          },
+          "Preheat": {
+            "type": "integer"
+          },
+          "SoftCook": {
+            "type": "integer"
+          },
+          "Cook": {
+            "type": "integer"
+          },
+          "CookSlow": {
+            "type": "integer"
+          },
+          "KeepWarming": {
+            "type": "integer"
+          },
+          "Stiring": {
+            "type": "integer"
+          },
+          "PresetStart": {
+            "type": "integer"
+          },
+          "Error": {
+            "type": "integer"
+          }
+        }
+      },
+      "CurrentStateEnumeration": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.CommercialKitchenEquipment.CurrentStateEnumeration",
+        "const": {
+          "Off": 0,
+          "Standby": 1,
+          "Power": 2,
+          "PotDetection": 3
+        },
+        "properties": {
+          "Off": {
+            "type": "integer"
+          },
+          "Standby": {
+            "type": "integer"
+          },
+          "Power": {
+            "type": "integer"
+          },
+          "PotDetection": {
+            "type": "integer"
+          }
+        }
+      },
+      "EnergySourceEnumeration": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.CommercialKitchenEquipment.EnergySourceEnumeration",
+        "const": {
+          "Electric": 0,
+          "Gas": 1,
+          "Steam": 2
+        },
+        "properties": {
+          "Electric": {
+            "type": "integer"
+          },
+          "Gas": {
+            "type": "integer"
+          },
+          "Steam": {
+            "type": "integer"
+          }
+        }
+      },
+      "FryerModeEnumeration": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.CommercialKitchenEquipment.FryerModeEnumeration",
+        "const": {
+          "Off": 0,
+          "Preheat": 1,
+          "Melting": 2,
+          "Frying": 3,
+          "StandBy": 4,
+          "Filtering": 5,
+          "Error": 6
+        },
+        "properties": {
+          "Off": {
+            "type": "integer"
+          },
+          "Preheat": {
+            "type": "integer"
+          },
+          "Melting": {
+            "type": "integer"
+          },
+          "Frying": {
+            "type": "integer"
+          },
+          "StandBy": {
+            "type": "integer"
+          },
+          "Filtering": {
+            "type": "integer"
+          },
+          "Error": {
+            "type": "integer"
+          }
+        }
+      },
+      "FryingPanModeEnumeration": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.CommercialKitchenEquipment.FryingPanModeEnumeration",
+        "const": {
+          "Off": 0,
+          "Preheat": 1,
+          "SoftCook": 2,
+          "Cook": 3,
+          "CookSlow": 4,
+          "Frying": 5,
+          "PressureCooking": 6,
+          "KeepWarming": 7,
+          "PresetStart": 8,
+          "Error": 9
+        },
+        "properties": {
+          "Off": {
+            "type": "integer"
+          },
+          "Preheat": {
+            "type": "integer"
+          },
+          "SoftCook": {
+            "type": "integer"
+          },
+          "Cook": {
+            "type": "integer"
+          },
+          "CookSlow": {
+            "type": "integer"
+          },
+          "Frying": {
+            "type": "integer"
+          },
+          "PressureCooking": {
+            "type": "integer"
+          },
+          "KeepWarming": {
+            "type": "integer"
+          },
+          "PresetStart": {
+            "type": "integer"
+          },
+          "Error": {
+            "type": "integer"
+          }
+        }
+      },
+      "GrillingZoneStateEnumeration": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.CommercialKitchenEquipment.GrillingZoneStateEnumeration",
+        "const": {
+          "Off": 0,
+          "Standby": 1,
+          "Idle": 2,
+          "Grilling": 3
+        },
+        "properties": {
+          "Off": {
+            "type": "integer"
+          },
+          "Standby": {
+            "type": "integer"
+          },
+          "Idle": {
+            "type": "integer"
+          },
+          "Grilling": {
+            "type": "integer"
+          }
+        }
+      },
+      "HygieneModeEnumeration": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.CommercialKitchenEquipment.HygieneModeEnumeration",
+        "const": {
+          "HygieneOperationOFF": 0,
+          "HygieneA0": 1,
+          "HygieneHUE": 2,
+          "HygieneMU": 3,
+          "HygieneThermolable": 4,
+          "HygieneA0_TD": 5
+        },
+        "properties": {
+          "HygieneOperationOFF": {
+            "type": "integer"
+          },
+          "HygieneA0": {
+            "type": "integer"
+          },
+          "HygieneHUE": {
+            "type": "integer"
+          },
+          "HygieneMU": {
+            "type": "integer"
+          },
+          "HygieneThermolable": {
+            "type": "integer"
+          },
+          "HygieneA0_TD": {
+            "type": "integer"
+          }
+        }
+      },
+      "MultiFunctionPanModeEnumeration": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.CommercialKitchenEquipment.MultiFunctionPanModeEnumeration",
+        "const": {
+          "Off": 0,
+          "On": 1,
+          "Preheat": 2,
+          "StandBy": 3,
+          "PressureCooking": 4,
+          "SoftCooking": 5,
+          "Cooking": 6,
+          "Grilling": 7,
+          "Frying": 8,
+          "Regenerate": 9,
+          "DeltaTcooking": 10,
+          "ZoneGrilling": 11,
+          "ZoneCooking": 12,
+          "Cleaning": 13,
+          "PresetStart": 14,
+          "Error": 15
+        },
+        "properties": {
+          "Off": {
+            "type": "integer"
+          },
+          "On": {
+            "type": "integer"
+          },
+          "Preheat": {
+            "type": "integer"
+          },
+          "StandBy": {
+            "type": "integer"
+          },
+          "PressureCooking": {
+            "type": "integer"
+          },
+          "SoftCooking": {
+            "type": "integer"
+          },
+          "Cooking": {
+            "type": "integer"
+          },
+          "Grilling": {
+            "type": "integer"
+          },
+          "Frying": {
+            "type": "integer"
+          },
+          "Regenerate": {
+            "type": "integer"
+          },
+          "DeltaTcooking": {
+            "type": "integer"
+          },
+          "ZoneGrilling": {
+            "type": "integer"
+          },
+          "ZoneCooking": {
+            "type": "integer"
+          },
+          "Cleaning": {
+            "type": "integer"
+          },
+          "PresetStart": {
+            "type": "integer"
+          },
+          "Error": {
+            "type": "integer"
+          }
+        }
+      },
+      "OperatingModeEnumeration": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.CommercialKitchenEquipment.OperatingModeEnumeration",
+        "const": {
+          "Preheat": 0,
+          "CoolDown": 1,
+          "Process": 2,
+          "PowerSaving": 3,
+          "Standby": 4,
+          "Service": 5,
+          "Cleaning": 6,
+          "Off": 7,
+          "Error": 8
+        },
+        "properties": {
+          "Preheat": {
+            "type": "integer"
+          },
+          "CoolDown": {
+            "type": "integer"
+          },
+          "Process": {
+            "type": "integer"
+          },
+          "PowerSaving": {
+            "type": "integer"
+          },
+          "Standby": {
+            "type": "integer"
+          },
+          "Service": {
+            "type": "integer"
+          },
+          "Cleaning": {
+            "type": "integer"
+          },
+          "Off": {
+            "type": "integer"
+          },
+          "Error": {
+            "type": "integer"
+          }
+        }
+      },
+      "OperationModeEnumeration": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.CommercialKitchenEquipment.OperationModeEnumeration",
+        "const": {
+          "Init": 0,
+          "MachineOff": 1,
+          "Filling": 2,
+          "FillingHeating": 3,
+          "Heating": 4,
+          "EnableOperation": 5,
+          "ReadyForOperation": 6,
+          "Operation": 7,
+          "Cycle_pause": 8,
+          "NotDefined1": 9,
+          "SelfCleaning": 10,
+          "NotDefined2": 11,
+          "RemoteControl": 12,
+          "ControllingOutputs": 13,
+          "NotDefined3": 14,
+          "Error": 15
+        },
+        "properties": {
+          "Init": {
+            "type": "integer"
+          },
+          "MachineOff": {
+            "type": "integer"
+          },
+          "Filling": {
+            "type": "integer"
+          },
+          "FillingHeating": {
+            "type": "integer"
+          },
+          "Heating": {
+            "type": "integer"
+          },
+          "EnableOperation": {
+            "type": "integer"
+          },
+          "ReadyForOperation": {
+            "type": "integer"
+          },
+          "Operation": {
+            "type": "integer"
+          },
+          "Cycle_pause": {
+            "type": "integer"
+          },
+          "NotDefined1": {
+            "type": "integer"
+          },
+          "SelfCleaning": {
+            "type": "integer"
+          },
+          "NotDefined2": {
+            "type": "integer"
+          },
+          "RemoteControl": {
+            "type": "integer"
+          },
+          "ControllingOutputs": {
+            "type": "integer"
+          },
+          "NotDefined3": {
+            "type": "integer"
+          },
+          "Error": {
+            "type": "integer"
+          }
+        }
+      },
+      "PastaCookerModeEnumeration": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.CommercialKitchenEquipment.PastaCookerModeEnumeration",
+        "const": {
+          "Off": 0,
+          "Preheat": 1,
+          "SoftCook": 2,
+          "Cook": 3,
+          "CookSlow": 4,
+          "KeepWarming": 5,
+          "PresetStart": 6,
+          "Error": 7
+        },
+        "properties": {
+          "Off": {
+            "type": "integer"
+          },
+          "Preheat": {
+            "type": "integer"
+          },
+          "SoftCook": {
+            "type": "integer"
+          },
+          "Cook": {
+            "type": "integer"
+          },
+          "CookSlow": {
+            "type": "integer"
+          },
+          "KeepWarming": {
+            "type": "integer"
+          },
+          "PresetStart": {
+            "type": "integer"
+          },
+          "Error": {
+            "type": "integer"
+          }
+        }
+      },
+      "PlatenPositionStateEnumeration": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.CommercialKitchenEquipment.PlatenPositionStateEnumeration",
+        "const": {
+          "Home": 0,
+          "Cooking": 1,
+          "Idle": 2,
+          "Open": 3
+        },
+        "properties": {
+          "Home": {
+            "type": "integer"
+          },
+          "Cooking": {
+            "type": "integer"
+          },
+          "Idle": {
+            "type": "integer"
+          },
+          "Open": {
+            "type": "integer"
+          }
+        }
+      },
+      "PressureCookingKettleModeEnumeration": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.CommercialKitchenEquipment.PressureCookingKettleModeEnumeration",
+        "const": {
+          "Off": 0,
+          "Preheat": 1,
+          "SoftCook": 2,
+          "Cook": 3,
+          "CookSlow": 4,
+          "Pressure": 5,
+          "KeepWarming": 6,
+          "PresetStart": 7,
+          "Error": 8
+        },
+        "properties": {
+          "Off": {
+            "type": "integer"
+          },
+          "Preheat": {
+            "type": "integer"
+          },
+          "SoftCook": {
+            "type": "integer"
+          },
+          "Cook": {
+            "type": "integer"
+          },
+          "CookSlow": {
+            "type": "integer"
+          },
+          "Pressure": {
+            "type": "integer"
+          },
+          "KeepWarming": {
+            "type": "integer"
+          },
+          "PresetStart": {
+            "type": "integer"
+          },
+          "Error": {
+            "type": "integer"
+          }
+        }
+      },
+      "ProgramModeEnumeration": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.CommercialKitchenEquipment.ProgramModeEnumeration",
+        "const": {
+          "OperationOFF": 0,
+          "PreWash": 1,
+          "Cleaning1": 2,
+          "WashTimeIncreased": 3,
+          "Cleaning2": 4,
+          "DrainingPause": 5,
+          "Draining": 6,
+          "FinalRinse": 7,
+          "WaitingTime": 8,
+          "HeatRecovery": 9
+        },
+        "properties": {
+          "OperationOFF": {
+            "type": "integer"
+          },
+          "PreWash": {
+            "type": "integer"
+          },
+          "Cleaning1": {
+            "type": "integer"
+          },
+          "WashTimeIncreased": {
+            "type": "integer"
+          },
+          "Cleaning2": {
+            "type": "integer"
+          },
+          "DrainingPause": {
+            "type": "integer"
+          },
+          "Draining": {
+            "type": "integer"
+          },
+          "FinalRinse": {
+            "type": "integer"
+          },
+          "WaitingTime": {
+            "type": "integer"
+          },
+          "HeatRecovery": {
+            "type": "integer"
+          }
+        }
+      },
+      "SignalModeEnumeration": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.CommercialKitchenEquipment.SignalModeEnumeration",
+        "const": {
+          "SignalOff": 0,
+          "SignalOn": 1,
+          "SignalAck": 2
+        },
+        "properties": {
+          "SignalOff": {
+            "type": "integer"
+          },
+          "SignalOn": {
+            "type": "integer"
+          },
+          "SignalAck": {
+            "type": "integer"
+          }
+        }
+      },
+      "SpecialCookingModeEnumeration": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.CommercialKitchenEquipment.SpecialCookingModeEnumeration",
+        "const": {
+          "NoSpecialMode": 0,
+          "Baking": 1,
+          "SousVide": 2,
+          "RestStage": 3,
+          "Humidification": 4,
+          "PerfectHold": 5,
+          "InfoStep": 6,
+          "Smoking": 7,
+          "LowTemp_Cooking": 8,
+          "DeltaTSteaming": 9
+        },
+        "properties": {
+          "NoSpecialMode": {
+            "type": "integer"
+          },
+          "Baking": {
+            "type": "integer"
+          },
+          "SousVide": {
+            "type": "integer"
+          },
+          "RestStage": {
+            "type": "integer"
+          },
+          "Humidification": {
+            "type": "integer"
+          },
+          "PerfectHold": {
+            "type": "integer"
+          },
+          "InfoStep": {
+            "type": "integer"
+          },
+          "Smoking": {
+            "type": "integer"
+          },
+          "LowTemp_Cooking": {
+            "type": "integer"
+          },
+          "DeltaTSteaming": {
+            "type": "integer"
+          }
+        }
+      },
+      "SpecialFunctionModeEnumeration": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.CommercialKitchenEquipment.SpecialFunctionModeEnumeration",
+        "const": {
+          "LidUpDown": 0,
+          "PanTilt": 1,
+          "WaterSupply": 2,
+          "DrainOnOff": 3
+        },
+        "properties": {
+          "LidUpDown": {
+            "type": "integer"
+          },
+          "PanTilt": {
+            "type": "integer"
+          },
+          "WaterSupply": {
+            "type": "integer"
+          },
+          "DrainOnOff": {
+            "type": "integer"
+          }
+        }
+      },
+      "StatusEnumeration": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.CommercialKitchenEquipment.StatusEnumeration",
+        "const": {
+          "INIT": 0,
+          "WATER_PURGE": 1,
+          "PRE_CHILL": 2,
+          "FREEZE": 3,
+          "HARVEST": 4,
+          "BIN_FULL": 5,
+          "CLEAN": 6,
+          "OFF": 7,
+          "SLEEP_MODE": 8,
+          "STANDBY": 9,
+          "SAFE_MODE": 10,
+          "WATER_OUTAGE": 11,
+          "HPCO_DELAY_ACTIVE": 12,
+          "CURTAIN_OPEN": 13,
+          "PRODUCTION_TEST": 14,
+          "SAFE_MODE_PRECHILL": 15,
+          "SAFE_MODE_FREEZE": 16,
+          "SAFE_MODE_HARVEST": 17,
+          "SAFE_MODE_FULL_BIN": 18
+        },
+        "properties": {
+          "INIT": {
+            "type": "integer"
+          },
+          "WATER_PURGE": {
+            "type": "integer"
+          },
+          "PRE_CHILL": {
+            "type": "integer"
+          },
+          "FREEZE": {
+            "type": "integer"
+          },
+          "HARVEST": {
+            "type": "integer"
+          },
+          "BIN_FULL": {
+            "type": "integer"
+          },
+          "CLEAN": {
+            "type": "integer"
+          },
+          "OFF": {
+            "type": "integer"
+          },
+          "SLEEP_MODE": {
+            "type": "integer"
+          },
+          "STANDBY": {
+            "type": "integer"
+          },
+          "SAFE_MODE": {
+            "type": "integer"
+          },
+          "WATER_OUTAGE": {
+            "type": "integer"
+          },
+          "HPCO_DELAY_ACTIVE": {
+            "type": "integer"
+          },
+          "CURTAIN_OPEN": {
+            "type": "integer"
+          },
+          "PRODUCTION_TEST": {
+            "type": "integer"
+          },
+          "SAFE_MODE_PRECHILL": {
+            "type": "integer"
+          },
+          "SAFE_MODE_FREEZE": {
+            "type": "integer"
+          },
+          "SAFE_MODE_HARVEST": {
+            "type": "integer"
+          },
+          "SAFE_MODE_FULL_BIN": {
+            "type": "integer"
+          }
+        }
+      },
+      "TrayModeEnumeration": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.CommercialKitchenEquipment.TrayModeEnumeration",
+        "const": {
+          "Off": 0,
+          "PreHeat": 1,
+          "PreCool": 2,
+          "HoldWarm": 3,
+          "HoldCool": 4,
+          "Regenerating": 5
+        },
+        "properties": {
+          "Off": {
+            "type": "integer"
+          },
+          "PreHeat": {
+            "type": "integer"
+          },
+          "PreCool": {
+            "type": "integer"
+          },
+          "HoldWarm": {
+            "type": "integer"
+          },
+          "HoldCool": {
+            "type": "integer"
+          },
+          "Regenerating": {
+            "type": "integer"
+          }
+        }
+      },
+      "TrayTypeEnumeration": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.CommercialKitchenEquipment.TrayTypeEnumeration",
+        "const": {
+          "Generic": 0,
+          "HeaterPlate": 1,
+          "CoolingPlate": 2,
+          "CombiPlate": 3,
+          "BainMarie": 4,
+          "HeaterCabinet": 5,
+          "CoolingCabinet": 6,
+          "HeatBridge": 7,
+          "CombiCabinet": 8,
+          "RegenCabinet": 9
+        },
+        "properties": {
+          "Generic": {
+            "type": "integer"
+          },
+          "HeaterPlate": {
+            "type": "integer"
+          },
+          "CoolingPlate": {
+            "type": "integer"
+          },
+          "CombiPlate": {
+            "type": "integer"
+          },
+          "BainMarie": {
+            "type": "integer"
+          },
+          "HeaterCabinet": {
+            "type": "integer"
+          },
+          "CoolingCabinet": {
+            "type": "integer"
+          },
+          "HeatBridge": {
+            "type": "integer"
+          },
+          "CombiCabinet": {
+            "type": "integer"
+          },
+          "RegenCabinet": {
+            "type": "integer"
+          }
+        }
+      }
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
   }
 ]

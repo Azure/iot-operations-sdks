@@ -475,5 +475,53 @@
         ]
       }
     }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dov": "http://azure.com/DigitalOperations/vocab#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "PlasticsRubber_Extrusion_Filter_DataTypes",
+    "links": [
+    ],
+    "schemaDefinitions": {
+      "FilterPackageStatusEnumeration": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.PlasticsRubber.Extrusion.Filter.FilterPackageStatusEnumeration",
+        "const": {
+          "NOT_ACTIVE": 0,
+          "ACTIVE": 1,
+          "CHANGE_REQUIRED": 2,
+          "IN_CHANGE_POSITION": 3,
+          "BACKFLUSH_ACTIVE": 4
+        },
+        "properties": {
+          "NOT_ACTIVE": {
+            "type": "integer"
+          },
+          "ACTIVE": {
+            "type": "integer"
+          },
+          "CHANGE_REQUIRED": {
+            "type": "integer"
+          },
+          "IN_CHANGE_POSITION": {
+            "type": "integer"
+          },
+          "BACKFLUSH_ACTIVE": {
+            "type": "integer"
+          }
+        }
+      }
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
   }
 ]

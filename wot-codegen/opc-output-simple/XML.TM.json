@@ -1,0 +1,102 @@
+[
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dov": "http://azure.com/DigitalOperations/vocab#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "XML_DataTypes",
+    "links": [
+    ],
+    "schemaDefinitions": {
+      "XmlDate": {
+        "type": "string"
+      },
+      "XmlDayTimeDuration": {
+        "type": "string"
+      },
+      "XmlEntity": {
+        "type": "string"
+      },
+      "XmlGDay": {
+        "type": "string"
+      },
+      "XmlGMonth": {
+        "type": "string"
+      },
+      "XmlGMonthDay": {
+        "type": "string"
+      },
+      "XmlGYear": {
+        "type": "string"
+      },
+      "XmlGYearMonth": {
+        "type": "string"
+      },
+      "XmlHexBinary": {
+        "type": "string",
+        "contentEncoding": "base64"
+      },
+      "XmlId": {
+        "type": "string"
+      },
+      "XmlIdRef": {
+        "type": "string"
+      },
+      "XmlInteger": {
+        "type": "integer",
+        "minimum": -9223372036854775808,
+        "maximum": 9223372036854775807
+      },
+      "XmlName": {
+        "type": "string"
+      },
+      "XmlNcName": {
+        "type": "string"
+      },
+      "XmlNegativeInteger": {
+        "type": "integer",
+        "minimum": -9223372036854775808,
+        "maximum": 9223372036854775807
+      },
+      "XmlNmToken": {
+        "type": "string"
+      },
+      "XmlNonNegativeInteger": {
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 18446744073709551615
+      },
+      "XmlNonPositiveInteger": {
+        "type": "integer",
+        "minimum": -9223372036854775808,
+        "maximum": 9223372036854775807
+      },
+      "XmlPositiveInteger": {
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 18446744073709551615
+      },
+      "XmlQName": {
+        "type": "string"
+      },
+      "XmlTime": {
+        "type": "string"
+      },
+      "XmlToken": {
+        "type": "string"
+      },
+      "XmlYearMonthDuration": {
+        "type": "string"
+      }
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
+  }
+]

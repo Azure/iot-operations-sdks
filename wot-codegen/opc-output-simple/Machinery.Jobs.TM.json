@@ -69,5 +69,494 @@
     },
     "events": {
     }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dov": "http://azure.com/DigitalOperations/vocab#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "Machinery_Jobs_DataTypes",
+    "links": [
+    ],
+    "schemaDefinitions": {
+      "BOMComponentInformationDataType": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.Machinery.Jobs.BOMComponentInformationDataType",
+        "required": [ "Identification", "Quantity", "EngineeringUnits" ],
+        "properties": {
+          "Identification": {
+            "title": "OutputInformationDataType",
+            "description": "Identification of the output.",
+            "type": "object",
+            "dov:typeRef": "org.opcfoundation.UA.Machinery.Jobs.OutputInformationDataType",
+            "required": [ "ItemNumber", "OutputInfo" ],
+            "properties": {
+              "ItemNumber": {
+                "description": "ItemNumber defines an Identifier to identify the Type of the item (Material Identifier).",
+                "type": "string"
+              },
+              "OutputInfo": {
+                "title": "OutputInfoType",
+                "description": "Bitmask indicating which of the optional fields are used for identification. If none is selected, only ItemNumber is used. Each selected optional field shall provide a value.",
+                "dov:typeRef": "org.opcfoundation.UA.Machinery.Jobs.OutputInfoType",
+                "type": "integer",
+                "minimum": -2147483648,
+                "maximum": 2147483647
+              },
+              "OrderNumber": {
+                "description": "OrderNumber defines an Identifier to identify the order. Shall be provided if defined in OutputInfo.",
+                "type": "string"
+              },
+              "LotNumber": {
+                "description": "LotNumber defines an Identifier to identify the production-group of the item (Lot Identifier). Shall be provided if defined in OutputInfo.",
+                "type": "string"
+              },
+              "SerialNumber": {
+                "description": "SerialNumber defines an Identifier to identify the one entity of the item (Product Identifier). Shall be provided if defined in OutputInfo.",
+                "type": "string"
+              }
+            }
+          },
+          "Quantity": {
+            "description": "Quantity defines the amount of material. This quantity can be specified in different ways, e.g. weight or number.",
+            "type": "number",
+            "minimum": -1.80e+308,
+            "maximum": 1.80e+308
+          },
+          "EngineeringUnits": {
+            "title": "EUInformation",
+            "description": "The engineering unit of the quantity.",
+            "type": "object",
+            "dov:typeRef": "org.opcfoundation.UA.EUInformation",
+            "required": [ "NamespaceUri", "UnitId", "DisplayName", "Description" ],
+            "properties": {
+              "NamespaceUri": {
+                "type": "string"
+              },
+              "UnitId": {
+                "type": "integer",
+                "minimum": -2147483648,
+                "maximum": 2147483647
+              },
+              "DisplayName": {
+                "type": "string"
+              },
+              "Description": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      },
+      "BOMInformationDataType": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.Machinery.Jobs.BOMInformationDataType",
+        "required": [ "Identification", "ComponentInformation" ],
+        "properties": {
+          "Identification": {
+            "title": "OutputInformationDataType",
+            "description": "Identification of the output.",
+            "type": "object",
+            "dov:typeRef": "org.opcfoundation.UA.Machinery.Jobs.OutputInformationDataType",
+            "required": [ "ItemNumber", "OutputInfo" ],
+            "properties": {
+              "ItemNumber": {
+                "description": "ItemNumber defines an Identifier to identify the Type of the item (Material Identifier).",
+                "type": "string"
+              },
+              "OutputInfo": {
+                "title": "OutputInfoType",
+                "description": "Bitmask indicating which of the optional fields are used for identification. If none is selected, only ItemNumber is used. Each selected optional field shall provide a value.",
+                "dov:typeRef": "org.opcfoundation.UA.Machinery.Jobs.OutputInfoType",
+                "type": "integer",
+                "minimum": -2147483648,
+                "maximum": 2147483647
+              },
+              "OrderNumber": {
+                "description": "OrderNumber defines an Identifier to identify the order. Shall be provided if defined in OutputInfo.",
+                "type": "string"
+              },
+              "LotNumber": {
+                "description": "LotNumber defines an Identifier to identify the production-group of the item (Lot Identifier). Shall be provided if defined in OutputInfo.",
+                "type": "string"
+              },
+              "SerialNumber": {
+                "description": "SerialNumber defines an Identifier to identify the one entity of the item (Product Identifier). Shall be provided if defined in OutputInfo.",
+                "type": "string"
+              }
+            }
+          },
+          "ComponentInformation": {
+            "description": "Contains information about components.",
+            "type": "array",
+            "items": {
+              "title": "BOMComponentInformationDataType",
+              "type": "object",
+              "dov:typeRef": "org.opcfoundation.UA.Machinery.Jobs.BOMComponentInformationDataType",
+              "required": [ "Identification", "Quantity", "EngineeringUnits" ],
+              "properties": {
+                "Identification": {
+                  "title": "OutputInformationDataType",
+                  "description": "Identification of the output.",
+                  "type": "object",
+                  "dov:typeRef": "org.opcfoundation.UA.Machinery.Jobs.OutputInformationDataType",
+                  "required": [ "ItemNumber", "OutputInfo" ],
+                  "properties": {
+                    "ItemNumber": {
+                      "description": "ItemNumber defines an Identifier to identify the Type of the item (Material Identifier).",
+                      "type": "string"
+                    },
+                    "OutputInfo": {
+                      "title": "OutputInfoType",
+                      "description": "Bitmask indicating which of the optional fields are used for identification. If none is selected, only ItemNumber is used. Each selected optional field shall provide a value.",
+                      "dov:typeRef": "org.opcfoundation.UA.Machinery.Jobs.OutputInfoType",
+                      "type": "integer",
+                      "minimum": -2147483648,
+                      "maximum": 2147483647
+                    },
+                    "OrderNumber": {
+                      "description": "OrderNumber defines an Identifier to identify the order. Shall be provided if defined in OutputInfo.",
+                      "type": "string"
+                    },
+                    "LotNumber": {
+                      "description": "LotNumber defines an Identifier to identify the production-group of the item (Lot Identifier). Shall be provided if defined in OutputInfo.",
+                      "type": "string"
+                    },
+                    "SerialNumber": {
+                      "description": "SerialNumber defines an Identifier to identify the one entity of the item (Product Identifier). Shall be provided if defined in OutputInfo.",
+                      "type": "string"
+                    }
+                  }
+                },
+                "Quantity": {
+                  "description": "Quantity defines the amount of material. This quantity can be specified in different ways, e.g. weight or number.",
+                  "type": "number",
+                  "minimum": -1.80e+308,
+                  "maximum": 1.80e+308
+                },
+                "EngineeringUnits": {
+                  "title": "EUInformation",
+                  "description": "The engineering unit of the quantity.",
+                  "type": "object",
+                  "dov:typeRef": "org.opcfoundation.UA.EUInformation",
+                  "required": [ "NamespaceUri", "UnitId", "DisplayName", "Description" ],
+                  "properties": {
+                    "NamespaceUri": {
+                      "type": "string"
+                    },
+                    "UnitId": {
+                      "type": "integer",
+                      "minimum": -2147483648,
+                      "maximum": 2147483647
+                    },
+                    "DisplayName": {
+                      "type": "string"
+                    },
+                    "Description": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "JobExecutionMode": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.Machinery.Jobs.JobExecutionMode",
+        "const": {
+          "SimulationMode": 0,
+          "TestMode": 1,
+          "ProductionMode": 2
+        },
+        "properties": {
+          "SimulationMode": {
+            "description": "Machine running in simulation mode with no workpiece involved.",
+            "type": "integer"
+          },
+          "TestMode": {
+            "description": "Machine running in test mode with a workpiece involved.",
+            "type": "integer"
+          },
+          "ProductionMode": {
+            "description": "Machine running in production mode.",
+            "type": "integer"
+          }
+        }
+      },
+      "JobResult": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.Machinery.Jobs.JobResult",
+        "const": {
+          "Unknown": 0,
+          "Successful": 1,
+          "Unsuccessful": 2
+        },
+        "properties": {
+          "Unknown": {
+            "description": "Unknown state. Used when result is not known, e.g. because job order is still running.",
+            "type": "integer"
+          },
+          "Successful": {
+            "description": "Job order was executed successful",
+            "type": "integer"
+          },
+          "Unsuccessful": {
+            "description": "Job order was not executed successful.",
+            "type": "integer"
+          }
+        }
+      },
+      "OutputInfoType": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.Machinery.Jobs.OutputInfoType",
+        "const": {
+          "OrderNumber": 0,
+          "LotNumber": 1,
+          "SerialNumber": 2
+        },
+        "properties": {
+          "OrderNumber": {
+            "description": "Identifier identifies the order (order identifier).",
+            "type": "integer"
+          },
+          "LotNumber": {
+            "description": "Identifier identifies the production group of the item (lot identifier).",
+            "type": "integer"
+          },
+          "SerialNumber": {
+            "description": "Identifier identifies the one entity of the item (product identifier).",
+            "type": "integer"
+          }
+        }
+      },
+      "OutputInformationDataType": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.Machinery.Jobs.OutputInformationDataType",
+        "required": [ "ItemNumber", "OutputInfo" ],
+        "properties": {
+          "ItemNumber": {
+            "description": "ItemNumber defines an Identifier to identify the Type of the item (Material Identifier).",
+            "type": "string"
+          },
+          "OutputInfo": {
+            "title": "OutputInfoType",
+            "description": "Bitmask indicating which of the optional fields are used for identification. If none is selected, only ItemNumber is used. Each selected optional field shall provide a value.",
+            "dov:typeRef": "org.opcfoundation.UA.Machinery.Jobs.OutputInfoType",
+            "type": "integer",
+            "minimum": -2147483648,
+            "maximum": 2147483647
+          },
+          "OrderNumber": {
+            "description": "OrderNumber defines an Identifier to identify the order. Shall be provided if defined in OutputInfo.",
+            "type": "string"
+          },
+          "LotNumber": {
+            "description": "LotNumber defines an Identifier to identify the production-group of the item (Lot Identifier). Shall be provided if defined in OutputInfo.",
+            "type": "string"
+          },
+          "SerialNumber": {
+            "description": "SerialNumber defines an Identifier to identify the one entity of the item (Product Identifier). Shall be provided if defined in OutputInfo.",
+            "type": "string"
+          }
+        }
+      },
+      "OutputPerformanceInfoDataType": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.Machinery.Jobs.OutputPerformanceInfoDataType",
+        "required": [ "Identification", "Parameters" ],
+        "properties": {
+          "Identification": {
+            "title": "OutputInformationDataType",
+            "description": "Identification of the output.",
+            "type": "object",
+            "dov:typeRef": "org.opcfoundation.UA.Machinery.Jobs.OutputInformationDataType",
+            "required": [ "ItemNumber", "OutputInfo" ],
+            "properties": {
+              "ItemNumber": {
+                "description": "ItemNumber defines an Identifier to identify the Type of the item (Material Identifier).",
+                "type": "string"
+              },
+              "OutputInfo": {
+                "title": "OutputInfoType",
+                "description": "Bitmask indicating which of the optional fields are used for identification. If none is selected, only ItemNumber is used. Each selected optional field shall provide a value.",
+                "dov:typeRef": "org.opcfoundation.UA.Machinery.Jobs.OutputInfoType",
+                "type": "integer",
+                "minimum": -2147483648,
+                "maximum": 2147483647
+              },
+              "OrderNumber": {
+                "description": "OrderNumber defines an Identifier to identify the order. Shall be provided if defined in OutputInfo.",
+                "type": "string"
+              },
+              "LotNumber": {
+                "description": "LotNumber defines an Identifier to identify the production-group of the item (Lot Identifier). Shall be provided if defined in OutputInfo.",
+                "type": "string"
+              },
+              "SerialNumber": {
+                "description": "SerialNumber defines an Identifier to identify the one entity of the item (Product Identifier). Shall be provided if defined in OutputInfo.",
+                "type": "string"
+              }
+            }
+          },
+          "StartTime": {
+            "description": "Output of first item from order.",
+            "type": "string",
+            "format": "date-time"
+          },
+          "EndTime": {
+            "description": "Output of last item from order.",
+            "type": "string",
+            "format": "date-time"
+          },
+          "Parameters": {
+            "description": "Parameters specific to the performance like pressure or temperature.",
+            "type": "array",
+            "items": {
+              "title": "ISA95ParameterDataType",
+              "description": "A subtype of OPC UA Structure that defines three linked data items: the ID, which is a unique identifier for a property, the value, which is the data that is identified, and an optional description of the parameter.",
+              "type": "object",
+              "dov:typeRef": "org.opcfoundation.UA.ISA95-JOBCONTROL_V2.ISA95ParameterDataType",
+              "required": [ "ID", "Value" ],
+              "properties": {
+                "ID": {
+                  "description": "A unique identifier for a parameter",
+                  "type": "string"
+                },
+                "Value": {
+                  "description": "Value of the parameter.",
+                  "type": "string"
+                },
+                "Description": {
+                  "description": "An optional description of the parameter. The array allows to provide descriptions in different languages when writing. When accessing, the server shall only provide one entry in the array.",
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "EngineeringUnits": {
+                  "title": "EUInformation",
+                  "description": "The Unit Of Measure of the value",
+                  "type": "object",
+                  "dov:typeRef": "org.opcfoundation.UA.EUInformation",
+                  "required": [ "NamespaceUri", "UnitId", "DisplayName", "Description" ],
+                  "properties": {
+                    "NamespaceUri": {
+                      "type": "string"
+                    },
+                    "UnitId": {
+                      "type": "integer",
+                      "minimum": -2147483648,
+                      "maximum": 2147483647
+                    },
+                    "DisplayName": {
+                      "type": "string"
+                    },
+                    "Description": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "Subparameters": {
+                  "type": "array",
+                  "items": {
+                    "title": "ISA95ParameterDataType",
+                    "description": "A subtype of OPC UA Structure that defines three linked data items: the ID, which is a unique identifier for a property, the value, which is the data that is identified, and an optional description of the parameter.",
+                    "type": "object",
+                    "dov:typeRef": "org.opcfoundation.UA.ISA95-JOBCONTROL_V2.ISA95ParameterDataType",
+                    "required": [ "ID", "Value" ],
+                    "properties": {
+                      "ID": {
+                        "description": "A unique identifier for a parameter",
+                        "type": "string"
+                      },
+                      "Value": {
+                        "description": "Value of the parameter.",
+                        "type": "string"
+                      },
+                      "Description": {
+                        "description": "An optional description of the parameter. The array allows to provide descriptions in different languages when writing. When accessing, the server shall only provide one entry in the array.",
+                        "type": "array",
+                        "items": {
+                          "type": "string"
+                        }
+                      },
+                      "EngineeringUnits": {
+                        "title": "EUInformation",
+                        "description": "The Unit Of Measure of the value",
+                        "type": "object",
+                        "dov:typeRef": "org.opcfoundation.UA.EUInformation",
+                        "required": [ "NamespaceUri", "UnitId", "DisplayName", "Description" ],
+                        "properties": {
+                          "NamespaceUri": {
+                            "type": "string"
+                          },
+                          "UnitId": {
+                            "type": "integer",
+                            "minimum": -2147483648,
+                            "maximum": 2147483647
+                          },
+                          "DisplayName": {
+                            "type": "string"
+                          },
+                          "Description": {
+                            "type": "string"
+                          }
+                        }
+                      },
+                      "Subparameters": {
+                        "type": "array",
+                        "items": {
+                          "description": "Stand-in for the infinite remainder of this data structure, which is recursively defined.",
+                          "type": "string"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "ProcessIrregularity": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.Machinery.Jobs.ProcessIrregularity",
+        "const": {
+          "CapabilityUnavailable": 0,
+          "Detected": 1,
+          "NotDetected": 2,
+          "NotYetDetermined": 3
+        },
+        "properties": {
+          "CapabilityUnavailable": {
+            "description": "The machine is not able to give a statement about process irregularities.",
+            "type": "integer"
+          },
+          "Detected": {
+            "description": "A process irregularity has been detected.",
+            "type": "integer"
+          },
+          "NotDetected": {
+            "description": "There was no process irregularity detected.",
+            "type": "integer"
+          },
+          "NotYetDetermined": {
+            "description": "A statement about the process irregularity is to be expected.",
+            "type": "integer"
+          }
+        }
+      }
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
   }
 ]

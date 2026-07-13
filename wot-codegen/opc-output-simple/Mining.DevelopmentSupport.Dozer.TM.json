@@ -43,5 +43,89 @@
     },
     "events": {
     }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dov": "http://azure.com/DigitalOperations/vocab#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "Mining_DevelopmentSupport_Dozer_DataTypes",
+    "links": [
+    ],
+    "schemaDefinitions": {
+      "DozerJobMissionEnum": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.Mining.DevelopmentSupport.Dozer.DozerJobMissionEnum",
+        "const": {
+          "CleanupOperations": 0,
+          "RippingOperations": 1,
+          "TopsoilRemoval": 2,
+          "OverburdenRemoval": 3,
+          "ConstructionOfRoads": 4,
+          "ConstructionOfBerms": 5,
+          "BenchPreparation": 6,
+          "BlastCleanup": 7,
+          "DozerPushIntoVoids": 8,
+          "DozerPushIntoTraps": 9,
+          "Stockpiles": 10
+        },
+        "description": "",
+        "properties": {
+          "CleanupOperations": {
+            "description": "Enum value representing the clean-up operation of the dozer",
+            "type": "integer"
+          },
+          "RippingOperations": {
+            "description": "Enum value representing the soil ripping operation of the dozer",
+            "type": "integer"
+          },
+          "TopsoilRemoval": {
+            "description": "Enum value representing the topsoil removal operation of the dozer",
+            "type": "integer"
+          },
+          "OverburdenRemoval": {
+            "description": "Enum value representing the overburden removal operation of the dozer",
+            "type": "integer"
+          },
+          "ConstructionOfRoads": {
+            "description": "Enum value representing the road construction operation of the dozer",
+            "type": "integer"
+          },
+          "ConstructionOfBerms": {
+            "description": "Enum value representing the berm construction operation of the dozer",
+            "type": "integer"
+          },
+          "BenchPreparation": {
+            "description": "Enum value representing the bench preparation operation of the dozer",
+            "type": "integer"
+          },
+          "BlastCleanup": {
+            "description": "Enum value representing the clean-up operation of the dozer after a blast",
+            "type": "integer"
+          },
+          "DozerPushIntoVoids": {
+            "description": "Enum value representing the push-into-voids operation of the dozer",
+            "type": "integer"
+          },
+          "DozerPushIntoTraps": {
+            "description": "Enum value representing the push-into-traps operation of the dozer",
+            "type": "integer"
+          },
+          "Stockpiles": {
+            "description": "Enum value representing the create stockpiles operation of the dozer",
+            "type": "integer"
+          }
+        }
+      }
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
   }
 ]

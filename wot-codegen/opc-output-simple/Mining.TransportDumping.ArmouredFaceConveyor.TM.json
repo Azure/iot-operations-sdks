@@ -37,5 +37,73 @@
     },
     "events": {
     }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dov": "http://azure.com/DigitalOperations/vocab#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "Mining_TransportDumping_ArmouredFaceConveyor_DataTypes",
+    "links": [
+    ],
+    "schemaDefinitions": {
+      "AFCNormalRunningDirectionEnum": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.Mining.TransportDumping.ArmouredFaceConveyor.AFCNormalRunningDirectionEnum",
+        "const": {
+          "LEFT": 0,
+          "RIGHT": 1
+        },
+        "description": "Enum describing the direction of the conveyor chain movement during normal operation",
+        "properties": {
+          "LEFT": {
+            "description": "Enum value indicating a normal AFC direction to the left",
+            "type": "integer"
+          },
+          "RIGHT": {
+            "description": "Enum value indicating a normal AFC direction to the right",
+            "type": "integer"
+          }
+        }
+      },
+      "AFCStateEnum": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.Mining.TransportDumping.ArmouredFaceConveyor.AFCStateEnum",
+        "const": {
+          "UNDEFINED": 0,
+          "STOPPED": 1,
+          "RUNNING": 2,
+          "REVERSE": 3
+        },
+        "description": "Enum describing the current operation state of the chain conveyor",
+        "properties": {
+          "UNDEFINED": {
+            "description": "Enum value indicating an undefined AFC state",
+            "type": "integer"
+          },
+          "STOPPED": {
+            "description": "Enum value indicating a stopped AFC state",
+            "type": "integer"
+          },
+          "RUNNING": {
+            "description": "Enum value indicating a running AFC state",
+            "type": "integer"
+          },
+          "REVERSE": {
+            "description": "Enum value indicating a reversed AFC state",
+            "type": "integer"
+          }
+        }
+      }
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
   }
 ]

@@ -601,5 +601,167 @@
     },
     "events": {
     }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dov": "http://azure.com/DigitalOperations/vocab#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "AdditiveManufacturing_DataTypes",
+    "links": [
+    ],
+    "schemaDefinitions": {
+      "FeedstockFunction": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.AdditiveManufacturing.FeedstockFunction",
+        "const": {
+          "Undefined": 0,
+          "Main": 1,
+          "Ancillary": 2,
+          "Consumable": 3
+        },
+        "description": "This enumeration indicates the function of a specific feedstock.",
+        "properties": {
+          "Undefined": {
+            "description": "The function of the feedstock is unknown.",
+            "type": "integer"
+          },
+          "Main": {
+            "description": "The feedstock is used for production and is part of the finished part.",
+            "type": "integer"
+          },
+          "Ancillary": {
+            "description": "The feedstock is used for production but removed before the part is finished.",
+            "type": "integer"
+          },
+          "Consumable": {
+            "description": "The feedstock is consumed during the production e.g., process gas.",
+            "type": "integer"
+          }
+        }
+      },
+      "RunInfoDataType": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.AdditiveManufacturing.RunInfoDataType",
+        "required": [ "Identifier", "State" ],
+        "properties": {
+          "CurrentLayer": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 4294967295
+          },
+          "Identifier": {
+            "type": "string"
+          },
+          "State": {
+            "title": "ISA95StateDataType",
+            "description": "Defines the information needed to schedule and execute a job.",
+            "type": "object",
+            "dov:typeRef": "org.opcfoundation.UA.ISA95-JOBCONTROL_V2.ISA95StateDataType",
+            "required": [ "BrowsePath", "StateText", "StateNumber" ],
+            "properties": {
+              "BrowsePath": {
+                "title": "RelativePath",
+                "description": "The browse path of substates. Shall be null when the top-level state is represented.",
+                "type": "object",
+                "dov:typeRef": "org.opcfoundation.UA.RelativePath",
+                "required": [ "Elements" ],
+                "properties": {
+                  "Elements": {
+                    "type": "array",
+                    "items": {
+                      "title": "RelativePathElement",
+                      "type": "object",
+                      "dov:typeRef": "org.opcfoundation.UA.RelativePathElement",
+                      "required": [ "ReferenceTypeId", "IsInverse", "IncludeSubtypes", "TargetName" ],
+                      "properties": {
+                        "ReferenceTypeId": {
+                          "type": "string"
+                        },
+                        "IsInverse": {
+                          "type": "boolean"
+                        },
+                        "IncludeSubtypes": {
+                          "type": "boolean"
+                        },
+                        "TargetName": {
+                          "type": "string"
+                        }
+                      }
+                    }
+                  }
+                }
+              },
+              "StateText": {
+                "description": "The state represented as human readable text. Shall represent the same text as the CurrentState Variable of a StateMachine would.",
+                "type": "string"
+              },
+              "StateNumber": {
+                "description": "The state represented as number. Shall represent the same number as the Number subvariable of the CurrentState Variable of a StateMachine would.",
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 4294967295
+              }
+            }
+          },
+          "RemainingTime": {
+            "type": "string",
+            "pattern": "^P(?!$)(?:(?:(?:(?:\\d+Y)|(?:\\d+\\.\\d+Y$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?)|(?:(?:(?:\\d+W)|(?:\\d+\\.\\d+W$))?))(?:(?:\\d+D)|(?:\\d+\\.\\d+D$))?(?:T(?!$)(?:(?:\\d+H)|(?:\\d+\\.\\d+H$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?(?:\\d+(?:\\.\\d+)?S)?)?$"
+          }
+        }
+      },
+      "SensorCategory": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.AdditiveManufacturing.SensorCategory",
+        "const": {
+          "MachineHealth": 0,
+          "MaintenanceTracking": 1,
+          "ProcessMonitoring": 2
+        },
+        "description": "This enumeration indicates the severity of a specific sensor.",
+        "properties": {
+          "MachineHealth": {
+            "description": "The sensor is mainly relevant to indicate the current AM machine’s health.",
+            "type": "integer"
+          },
+          "MaintenanceTracking": {
+            "description": "The sensor is mainly relevant to track serviceable components.",
+            "type": "integer"
+          },
+          "ProcessMonitoring": {
+            "description": "The sensor is mainly relevant to monitor the production operability.",
+            "type": "integer"
+          }
+        }
+      },
+      "SensorSeverity": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.AdditiveManufacturing.SensorSeverity",
+        "const": {
+          "Info": 0,
+          "Critical": 1
+        },
+        "description": "This enumeration indicates the severity of a specific sensor.",
+        "properties": {
+          "Info": {
+            "description": "This sensor’s current value is not critical for the overall production.",
+            "type": "integer"
+          },
+          "Critical": {
+            "description": "This sensor’s current value is critical for the overall production.",
+            "type": "integer"
+          }
+        }
+      }
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
   }
 ]

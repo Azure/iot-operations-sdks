@@ -1061,5 +1061,258 @@
         ]
       }
     }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dov": "http://azure.com/DigitalOperations/vocab#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "PNGSDGM_DataTypes",
+    "links": [
+    ],
+    "schemaDefinitions": {
+      "GsdGenChannelAccumulativeEnumeration": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.PNGSDGM.GsdGenChannelAccumulativeEnumeration",
+        "const": {
+          "SINGLE": 0,
+          "ACCUMULATIVE": 256
+        },
+        "properties": {
+          "SINGLE": {
+            "description": "Single channel. Diagnosis only for the reported channel",
+            "type": "integer"
+          },
+          "ACCUMULATIVE": {
+            "description": "Multiple channels. Accumulative diagnosis from more than one channel",
+            "type": "integer"
+          }
+        }
+      },
+      "GsdGenChannelDirectionEnumeration": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.PNGSDGM.GsdGenChannelDirectionEnumeration",
+        "const": {
+          "MANUFACTURER_SPECIFIC": 0,
+          "INPUT_CHANNEL": 8192,
+          "OUTPUT_CHANNEL": 16384,
+          "BIDIRECTIONAL_CHANNEL": 24576
+        },
+        "properties": {
+          "MANUFACTURER_SPECIFIC": {
+            "description": "Manufacturer specific",
+            "type": "integer"
+          },
+          "INPUT_CHANNEL": {
+            "description": "Input",
+            "type": "integer"
+          },
+          "OUTPUT_CHANNEL": {
+            "description": "Output",
+            "type": "integer"
+          },
+          "BIDIRECTIONAL_CHANNEL": {
+            "description": "Input/Output",
+            "type": "integer"
+          }
+        }
+      },
+      "GsdGenChannelMaintenanceEnumeration": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.PNGSDGM.GsdGenChannelMaintenanceEnumeration",
+        "const": {
+          "FAULT": 0,
+          "MAINTENANCE_REQUIRED": 512,
+          "MAINTENANCE_DEMANDED": 1024,
+          "USE_QUALIFIED_CHANNEL_QUALIFIER": 1536
+        },
+        "properties": {
+          "FAULT": {
+            "description": "Fault",
+            "type": "integer"
+          },
+          "MAINTENANCE_REQUIRED": {
+            "description": "Maintenance required",
+            "type": "integer"
+          },
+          "MAINTENANCE_DEMANDED": {
+            "description": "Maintenance demanded",
+            "type": "integer"
+          },
+          "USE_QUALIFIED_CHANNEL_QUALIFIER": {
+            "description": "Use QualifiedChannelQualifier variable",
+            "type": "integer"
+          }
+        }
+      },
+      "GsdGenChannelSpecifierEnumeration": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.PNGSDGM.GsdGenChannelSpecifierEnumeration",
+        "const": {
+          "ALL_DISAPPEARS": 0,
+          "APPEARS": 2048,
+          "DISAPPEARS": 4096,
+          "DISAPPEARS_OTHER_REMAIN": 6144
+        },
+        "properties": {
+          "ALL_DISAPPEARS": {
+            "description": "The Diagnosis ASE contains no longer any entries (of any severity) for this channel",
+            "type": "integer"
+          },
+          "APPEARS": {
+            "description": "An event appears and/or exists further. The Diagnosis ASE contains this and possible other entries for this channel",
+            "type": "integer"
+          },
+          "DISAPPEARS": {
+            "description": "An event disappears and/or exists no longer. The Diagnosis ASE contains no longer any entries of the same severity for this channel",
+            "type": "integer"
+          },
+          "DISAPPEARS_OTHER_REMAIN": {
+            "description": "An event disappears. The Diagnosis ASE still contains other entries of the same severity for this channel",
+            "type": "integer"
+          }
+        }
+      },
+      "GsdGenIoCommunicationStatusEnumeration": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.PNGSDGM.GsdGenIoCommunicationStatusEnumeration",
+        "const": {
+          "INDATA": 0,
+          "OFFLINE": 1
+        },
+        "properties": {
+          "INDATA": {
+            "description": "The Submodule is part of an active AR and exchanging IO Data with a Controller",
+            "type": "integer"
+          },
+          "OFFLINE": {
+            "description": "The Submodule is not part of an active AR but may allow reading data values",
+            "type": "integer"
+          }
+        }
+      },
+      "GsdGenIoConfigurationStatusEnumeration": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.PNGSDGM.GsdGenIoConfigurationStatusEnumeration",
+        "const": {
+          "OK": 0,
+          "SUBSTITUTE": 1,
+          "WRONG": 2,
+          "UNKNOWN": 3
+        },
+        "properties": {
+          "OK": {
+            "description": "Proper Submodule which works as configured",
+            "type": "integer"
+          },
+          "SUBSTITUTE": {
+            "description": "Substitute Submodule which works",
+            "type": "integer"
+          },
+          "WRONG": {
+            "description": "Wrong Submodule which does not work",
+            "type": "integer"
+          },
+          "UNKNOWN": {
+            "description": "Unknown Submodule which is plugged at Subslot not found in expected configuration",
+            "type": "integer"
+          }
+        }
+      },
+      "GsdGenIoConsistencyEnumeration": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.PNGSDGM.GsdGenIoConsistencyEnumeration",
+        "const": {
+          "ITEM_CONSISTENCY": 0,
+          "ALL_ITEMS_CONSISTENCY": 1
+        },
+        "properties": {
+          "ITEM_CONSISTENCY": {
+            "description": "Each data type is handled consistently.",
+            "type": "integer"
+          },
+          "ALL_ITEMS_CONSISTENCY": {
+            "description": "The Submodule requires consistency over the whole Input/Output Data.",
+            "type": "integer"
+          }
+        }
+      },
+      "GsdGenIoQualityFormatEnumeration": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.PNGSDGM.GsdGenIoQualityFormatEnumeration",
+        "const": {
+          "QUALIFIER": 0,
+          "EMBEDDED_STATUS": 1,
+          "STATUS": 2
+        },
+        "properties": {
+          "QUALIFIER": {
+            "description": "Bit length is 1.",
+            "type": "integer"
+          },
+          "EMBEDDED_STATUS": {
+            "description": "Bit length is 2.",
+            "type": "integer"
+          },
+          "STATUS": {
+            "description": "Bit length is 8.",
+            "type": "integer"
+          }
+        }
+      },
+      "GsdGenIoTimeDataType": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.PNGSDGM.GsdGenIoTimeDataType",
+        "required": [ "NumberOfMilliseconds", "NumberOfDays" ],
+        "properties": {
+          "NumberOfMilliseconds": {
+            "description": "Used for TimeOfDay: Number of milliseconds since midnight. Used for TimeDifference: Number of milliseconds.",
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 4294967295
+          },
+          "NumberOfDays": {
+            "description": "Used for TimeOfDay: Number of days since 1984-01-01 T 00:00 Z. Used for TimeDifference: Number of days. ",
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 65535
+          }
+        }
+      },
+      "GsdGenIoTimeStampDataType": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.PNGSDGM.GsdGenIoTimeStampDataType",
+        "required": [ "Status", "Seconds", "Nanoseconds" ],
+        "properties": {
+          "Status": {
+            "description": "Time source",
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 65535
+          },
+          "Seconds": {
+            "description": "Number of seconds",
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 18446744073709551615
+          },
+          "Nanoseconds": {
+            "description": "Number of nanoseconds",
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 4294967295
+          }
+        }
+      }
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
   }
 ]

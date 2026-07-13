@@ -6244,5 +6244,945 @@
     },
     "events": {
     }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dov": "http://azure.com/DigitalOperations/vocab#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "CAS_DataTypes",
+    "links": [
+    ],
+    "schemaDefinitions": {
+      "AirnetHealthStateEnum": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.CAS.AirnetHealthStateEnum",
+        "const": {
+          "OK": 0,
+          "Warning": 1,
+          "Error": 2,
+          "Critical": 3
+        },
+        "properties": {
+          "OK": {
+            "description": "All requirements can be fulfilled.",
+            "type": "integer"
+          },
+          "Warning": {
+            "description": "Check required, possibly there is a problem that leads to an Error.",
+            "type": "integer"
+          },
+          "Error": {
+            "description": "Immediate action needed to avoid Critical.",
+            "type": "integer"
+          },
+          "Critical": {
+            "description": "At least one requirement cannot be fulfilled.",
+            "type": "integer"
+          }
+        }
+      },
+      "AirnetIntegratedStateEnum": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.CAS.AirnetIntegratedStateEnum",
+        "const": {
+          "FullyIntegrated": 0,
+          "PartiallyIntegrated": 1,
+          "FullyIsolated": 2
+        },
+        "properties": {
+          "FullyIntegrated": {
+            "description": "The MCS controls all compressors of this airnet.",
+            "type": "integer"
+          },
+          "PartiallyIntegrated": {
+            "description": "At least one compressor of this airnet is not controlled by the MCS.",
+            "type": "integer"
+          },
+          "FullyIsolated": {
+            "description": "The MCS does not control any compressor of this airnet.",
+            "type": "integer"
+          }
+        }
+      },
+      "AirnetOperatingStateEnum": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.CAS.AirnetOperatingStateEnum",
+        "const": {
+          "Other": 0,
+          "Stopped": 1,
+          "Starting": 2,
+          "Stopping": 3,
+          "Operational": 4
+        },
+        "properties": {
+          "Other": {
+            "description": "The airnet is in a state not specified by this enumeration.",
+            "type": "integer"
+          },
+          "Stopped": {
+            "description": "The requirements shall not be fulfilled.",
+            "type": "integer"
+          },
+          "Starting": {
+            "description": "Transition phase to end in Operational state.",
+            "type": "integer"
+          },
+          "Stopping": {
+            "description": "Transition phase to end in Stopped state.",
+            "type": "integer"
+          },
+          "Operational": {
+            "description": "The requirements should be fulfilled.",
+            "type": "integer"
+          }
+        }
+      },
+      "CompressorOperatingStateEnum": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.CAS.CompressorOperatingStateEnum",
+        "const": {
+          "Other": 0,
+          "Stopped": 1,
+          "Starting": 2,
+          "Stopping": 3,
+          "Unloaded": 4,
+          "Loading": 5,
+          "Unloading": 6,
+          "Loaded": 7
+        },
+        "properties": {
+          "Other": {
+            "description": "The compressor is in a state not specified by this enumeration.",
+            "type": "integer"
+          },
+          "Stopped": {
+            "description": "The motor is not running.",
+            "type": "integer"
+          },
+          "Starting": {
+            "description": "Transition phase to end in Unloaded state.",
+            "type": "integer"
+          },
+          "Stopping": {
+            "description": "Transition phase to end in Stopped state.",
+            "type": "integer"
+          },
+          "Unloaded": {
+            "description": "The motor is running but the compressor does not deliver compressed air to the airnet.",
+            "type": "integer"
+          },
+          "Loading": {
+            "description": "Transition phase to end in Loaded state.",
+            "type": "integer"
+          },
+          "Unloading": {
+            "description": "Transition phase to end in Unloaded state.",
+            "type": "integer"
+          },
+          "Loaded": {
+            "description": "The compressor does deliver compressed air to the airnet.",
+            "type": "integer"
+          }
+        }
+      },
+      "CompressorTypeEnum": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.CAS.CompressorTypeEnum",
+        "const": {
+          "Other": 0,
+          "AxialTurboCompressor": 1,
+          "BellowsCompressor": 2,
+          "DiaphragmCompressor": 3,
+          "LiquidRingCompressor": 4,
+          "PistonCompressor": 5,
+          "RadialTurboCompressor": 6,
+          "RootsCompressor": 7,
+          "ScrewCompressor": 8,
+          "ScrollCompressor": 9,
+          "SideChannelCompressor": 10,
+          "StraightLobeCompressor": 11,
+          "VaneCompressor": 12
+        },
+        "description": "possible compressor types",
+        "properties": {
+          "Other": {
+            "description": "Not specified in this enumeration",
+            "type": "integer"
+          },
+          "AxialTurboCompressor": {
+            "description": "Axial Turbo compressor",
+            "type": "integer"
+          },
+          "BellowsCompressor": {
+            "description": "Bellows compressor",
+            "type": "integer"
+          },
+          "DiaphragmCompressor": {
+            "description": "Diaphragm compressor",
+            "type": "integer"
+          },
+          "LiquidRingCompressor": {
+            "description": "Liquid ring compressor",
+            "type": "integer"
+          },
+          "PistonCompressor": {
+            "description": "Piston compressor",
+            "type": "integer"
+          },
+          "RadialTurboCompressor": {
+            "description": "Radial Turbo compressor",
+            "type": "integer"
+          },
+          "RootsCompressor": {
+            "description": "Roots compressor",
+            "type": "integer"
+          },
+          "ScrewCompressor": {
+            "description": "Screw compressor",
+            "type": "integer"
+          },
+          "ScrollCompressor": {
+            "description": "Scroll compressor",
+            "type": "integer"
+          },
+          "SideChannelCompressor": {
+            "description": "Side channel compressor",
+            "type": "integer"
+          },
+          "StraightLobeCompressor": {
+            "description": "Straight lobe compressor",
+            "type": "integer"
+          },
+          "VaneCompressor": {
+            "description": "Vane compressor",
+            "type": "integer"
+          }
+        }
+      },
+      "ConverterTypeEnum": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.CAS.ConverterTypeEnum",
+        "const": {
+          "Other": 0,
+          "CatalyticHCConverter": 1
+        },
+        "description": "possible converter types",
+        "properties": {
+          "Other": {
+            "description": "Not specified in this enumeration",
+            "type": "integer"
+          },
+          "CatalyticHCConverter": {
+            "description": "Catalytic hydrocarbons converter",
+            "type": "integer"
+          }
+        }
+      },
+      "DisplacementTypeEnum": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.CAS.DisplacementTypeEnum",
+        "const": {
+          "PositiveDisplacement": 0,
+          "DynamicDisplacement": 1
+        },
+        "description": "possible displacement types for a compressor",
+        "properties": {
+          "PositiveDisplacement": {
+            "description": "Positive displacement compressor",
+            "type": "integer"
+          },
+          "DynamicDisplacement": {
+            "description": "Dynamic displacement compressor",
+            "type": "integer"
+          }
+        }
+      },
+      "DrainTypeEnum": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.CAS.DrainTypeEnum",
+        "const": {
+          "Other": 0,
+          "CapacitiveDrain": 1,
+          "LevelControlledDrain": 2,
+          "TimedDrain": 3
+        },
+        "description": "possible condensate drain types",
+        "properties": {
+          "Other": {
+            "description": "Not specified in this enumeration",
+            "type": "integer"
+          },
+          "CapacitiveDrain": {
+            "description": "Capacitive drain",
+            "type": "integer"
+          },
+          "LevelControlledDrain": {
+            "description": "Level controlled drain",
+            "type": "integer"
+          },
+          "TimedDrain": {
+            "description": "Timed drain",
+            "type": "integer"
+          }
+        }
+      },
+      "DryerOperatingStateEnum": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.CAS.DryerOperatingStateEnum",
+        "const": {
+          "Other": 0,
+          "Stopped": 1,
+          "Running": 2,
+          "RefrigerantCompressorStopped": 3,
+          "RefrigerantCompressorRunning": 4,
+          "PurgeValveClosed": 5,
+          "PurgeValveOpen": 6,
+          "ParallelModeOfBothVessels": 7,
+          "Depressurizing": 8,
+          "Desorbing": 9,
+          "Cooling": 10,
+          "Pressurizing": 11,
+          "RegeneratedVesselInStand_by": 12
+        },
+        "properties": {
+          "Other": {
+            "description": "The dryer is in a state not specified by this enumeration.",
+            "type": "integer"
+          },
+          "Stopped": {
+            "description": "The dryer is stopped. This state is applicable to all adsorption dryers.",
+            "type": "integer"
+          },
+          "Running": {
+            "description": "The dryer is running. This state is applicable to all dryers.",
+            "type": "integer"
+          },
+          "RefrigerantCompressorStopped": {
+            "description": "The compressor of the refrigerant circuit is standing still, and the refrigerant dryer is operating using the stored cold. This state is applicable to refrigerant dryers.",
+            "type": "integer"
+          },
+          "RefrigerantCompressorRunning": {
+            "description": "The compressor of the refrigerant circuit is running and compressing refrigerant, creating cold. This state is applicable to refrigerant dryers.",
+            "type": "integer"
+          },
+          "PurgeValveClosed": {
+            "description": "Purge valve is closed, and no purge air is consumed, no purge of the humidity from membranes dryer. This state is applicable to membrane dryers.",
+            "type": "integer"
+          },
+          "PurgeValveOpen": {
+            "description": "Purge air can flow to purge the humidity out of the membrane dryer. This state is applicable to membrane dryers.",
+            "type": "integer"
+          },
+          "ParallelModeOfBothVessels": {
+            "description": "Both vessels of the adsorption dryer are used in parallel for adsorption. This state is applicable to all adsorption dryers.",
+            "type": "integer"
+          },
+          "Depressurizing": {
+            "description": "One vessel of the adsorption dryer is depressurized for regeneration. This state is applicable to heatless and heated adsorption dryers, not HOC.",
+            "type": "integer"
+          },
+          "Desorbing": {
+            "description": "One vessel of the adsorption dryer is in desorption phase, using purge or ambient air, heated or not heated. This state is applicable to all adsorption dryers.",
+            "type": "integer"
+          },
+          "Cooling": {
+            "description": "One vessel of the adsorption dryer is being cooled after being heated in the previous desorption phase. This state is applicable to heated adsorption dryers and HOC.",
+            "type": "integer"
+          },
+          "Pressurizing": {
+            "description": "The depressurized vessel is pressurized again. This state is applicable to heatless and heated adsorption dryers, not HOC.",
+            "type": "integer"
+          },
+          "RegeneratedVesselInStand_by": {
+            "description": "The regenerated vessel is in standby and ready for adsorption phase. This state is applicable to all adsorption dryers.",
+            "type": "integer"
+          }
+        }
+      },
+      "DryerTypeEnum": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.CAS.DryerTypeEnum",
+        "const": {
+          "Other": 0,
+          "AbsorptionDryer": 1,
+          "AdsorptionDryer": 2,
+          "MembraneDryer": 3,
+          "RefrigerationDryer": 4
+        },
+        "description": "possible dryer types",
+        "properties": {
+          "Other": {
+            "description": "Not specified in this enumeration",
+            "type": "integer"
+          },
+          "AbsorptionDryer": {
+            "description": "Absorption dryer",
+            "type": "integer"
+          },
+          "AdsorptionDryer": {
+            "description": "Adsorption dryer",
+            "type": "integer"
+          },
+          "MembraneDryer": {
+            "description": "Membrane dryer",
+            "type": "integer"
+          },
+          "RefrigerationDryer": {
+            "description": "Refrigeration dryer",
+            "type": "integer"
+          }
+        }
+      },
+      "FilterClassDataType": {
+        "description": "information about the used filter class according to ISO 8573-1 of a filter",
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.CAS.FilterClassDataType",
+        "required": [ "A", "B", "C" ],
+        "properties": {
+          "A": {
+            "title": "FilterClassEnum",
+            "description": "Class for particles",
+            "dov:typeRef": "org.opcfoundation.UA.CAS.FilterClassEnum",
+            "type": "integer",
+            "minimum": -2147483648,
+            "maximum": 2147483647
+          },
+          "B": {
+            "title": "FilterClassEnum",
+            "description": "Class for water and humidity",
+            "dov:typeRef": "org.opcfoundation.UA.CAS.FilterClassEnum",
+            "type": "integer",
+            "minimum": -2147483648,
+            "maximum": 2147483647
+          },
+          "C": {
+            "title": "FilterClassEnum",
+            "description": "Class for oil",
+            "dov:typeRef": "org.opcfoundation.UA.CAS.FilterClassEnum",
+            "type": "integer",
+            "minimum": -2147483648,
+            "maximum": 2147483647
+          }
+        }
+      },
+      "FilterClassEnum": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.CAS.FilterClassEnum",
+        "const": {
+          "S0": 0,
+          "S1": 1,
+          "S2": 2,
+          "S3": 3,
+          "S4": 4,
+          "S5": 5,
+          "S6": 6,
+          "S7": 7,
+          "S8": 8,
+          "S9": 9,
+          "X": 10
+        },
+        "description": "possible filter classes according to ISO 8573-1",
+        "properties": {
+          "S0": {
+            "description": "As specified by the equipment user or supplier and more stringent than class 1.",
+            "type": "integer"
+          },
+          "S1": {
+            "description": "Particles: By Particle Size: 0.1 µm < d ≤ 0.5 µm: ≤ 20,000; 0.5 µ m< d ≤ 1.0 µm: ≤ 400; 1.0 µm < d ≤ 5.0 µm: ≤ 10;  Water: Vapor Pressure Dewpoint: ≤ -70 °C, ≤ -94 °F;  Oil: Liquid, Aerosol, & Vapor: ≤ 0.01 mg/m3;",
+            "type": "integer"
+          },
+          "S2": {
+            "description": "Particles: By Particle Size: 0.1 µm < d ≤ 0.5 µm: ≤ 400,000; 0.5 µ m< d ≤ 1.0 µm: ≤ 6,000; 1.0 µm < d ≤ 5.0 µm: ≤ 100;  Water: Vapor Pressure Dewpoint: ≤ -40 °C, ≤ -40 °F;  Oil: Liquid, Aerosol, & Vapor: ≤ 0.1 mg/m3;",
+            "type": "integer"
+          },
+          "S3": {
+            "description": "Particles: By Particle Size: 0.5 µ m< d ≤ 1.0 µm: ≤ 90,000; 1.0 µm < d ≤ 5.0 µm: ≤ 1,000;  Water: Vapor Pressure Dewpoint: ≤ -20 °C, ≤ -4 °F;  Oil: Liquid, Aerosol, & Vapor: ≤ 1 mg/m3;",
+            "type": "integer"
+          },
+          "S4": {
+            "description": "Particles: By Particle Size: 1.0 µm < d ≤ 5.0 µm: ≤ 10,000;  Water: Vapor Pressure Dewpoint: ≤ +3 °C, ≤ +37 °F;  Oil: Liquid, Aerosol, & Vapor: ≤ 5 mg/m3;",
+            "type": "integer"
+          },
+          "S5": {
+            "description": "Particles: By Particle Size: 1.0 µm < d ≤ 5.0 µm: ≤ 100,000;  Water: Vapor Pressure Dewpoint: ≤ +7 °C, ≤ +45 °F;",
+            "type": "integer"
+          },
+          "S6": {
+            "description": "Particles: By Mass: 0 – ≤ 5 mg/m3;  Water: Vapor Pressure Dewpoint: ≤ +10 °C, ≤ +50 °F;",
+            "type": "integer"
+          },
+          "S7": {
+            "description": "Particles: By Mass: 5 – ≤ 10 mg/m3;  Water: Liquid: ≤ 0.5 g/m3;",
+            "type": "integer"
+          },
+          "S8": {
+            "description": "Water: Liquid: ≤ 5 g/m3;",
+            "type": "integer"
+          },
+          "S9": {
+            "description": "Water: Liquid: ≤ 10 g/m3;",
+            "type": "integer"
+          },
+          "X": {
+            "description": "Particles: By Mass: > 10 mg/m3;  Water: Liquid: > 10 g/m3;  Oil: Liquid, Aerosol, & Vapor: > 5 mg/m3;",
+            "type": "integer"
+          }
+        }
+      },
+      "FilterTypeEnum": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.CAS.FilterTypeEnum",
+        "const": {
+          "Other": 0,
+          "ActivatedCarbonFilter": 1,
+          "AdsorptionFilter": 2,
+          "CoalescingFilter": 3,
+          "ParticulateFilter": 4,
+          "FabricFilter": 5,
+          "SterileFilter": 6
+        },
+        "description": "possible filter types",
+        "properties": {
+          "Other": {
+            "description": "Not specified in this enumeration",
+            "type": "integer"
+          },
+          "ActivatedCarbonFilter": {
+            "description": "Activated carbon filter",
+            "type": "integer"
+          },
+          "AdsorptionFilter": {
+            "description": "Adsorption filter",
+            "type": "integer"
+          },
+          "CoalescingFilter": {
+            "description": "Coalescing filter",
+            "type": "integer"
+          },
+          "ParticulateFilter": {
+            "description": "Particulate filter",
+            "type": "integer"
+          },
+          "FabricFilter": {
+            "description": "Fabric filter",
+            "type": "integer"
+          },
+          "SterileFilter": {
+            "description": "Sterile filter",
+            "type": "integer"
+          }
+        }
+      },
+      "FluidTypeEnum": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.CAS.FluidTypeEnum",
+        "const": {
+          "Air": 0,
+          "Condensate": 1,
+          "Oil": 2,
+          "Water": 3
+        },
+        "description": "possible process fluid types",
+        "properties": {
+          "Air": {
+            "description": "Air used as fluid",
+            "type": "integer"
+          },
+          "Condensate": {
+            "description": "Condensate used as fluid",
+            "type": "integer"
+          },
+          "Oil": {
+            "description": "Oil used as fluid",
+            "type": "integer"
+          },
+          "Water": {
+            "description": "Water used as fluid",
+            "type": "integer"
+          }
+        }
+      },
+      "HealthStateEnum": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.CAS.HealthStateEnum",
+        "const": {
+          "OK": 0,
+          "Warning": 1,
+          "Error": 2,
+          "Critical": 3
+        },
+        "properties": {
+          "OK": {
+            "description": "The main function can be fulfilled.",
+            "type": "integer"
+          },
+          "Warning": {
+            "description": "Check required, possibly there is a problem that leads to an Error.",
+            "type": "integer"
+          },
+          "Error": {
+            "description": "Immediate action needed to avoid Critical.",
+            "type": "integer"
+          },
+          "Critical": {
+            "description": "The main function cannot be fulfilled.",
+            "type": "integer"
+          }
+        }
+      },
+      "IntegratedStateEnum": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.CAS.IntegratedStateEnum",
+        "const": {
+          "FullyIntegrated": 0,
+          "PartiallyIntegrated": 1,
+          "FullyIsolated": 2
+        },
+        "properties": {
+          "FullyIntegrated": {
+            "description": "Compressed air generation or treatment is fully controlled by the MCS.",
+            "type": "integer"
+          },
+          "PartiallyIntegrated": {
+            "description": "Compressed air generation or treatment is partially controlled by the MCS.",
+            "type": "integer"
+          },
+          "FullyIsolated": {
+            "description": "Compressed air generation or treatment is not controlled by the MCS.",
+            "type": "integer"
+          }
+        }
+      },
+      "IpVersionEnum": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.CAS.IpVersionEnum",
+        "const": {
+          "IPv4": 0,
+          "IPv6": 1
+        },
+        "properties": {
+          "IPv4": {
+            "description": "IP address is in IPv4 format",
+            "type": "integer"
+          },
+          "IPv6": {
+            "description": "IP address is in IPv6 format",
+            "type": "integer"
+          }
+        }
+      },
+      "LubricationTypeEnum": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.CAS.LubricationTypeEnum",
+        "const": {
+          "NoLubrication": 0,
+          "OilLubricated": 1,
+          "WaterLubricated": 2
+        },
+        "description": "possible lubrication types for the compression process of a compressor",
+        "properties": {
+          "NoLubrication": {
+            "description": "No lubrication",
+            "type": "integer"
+          },
+          "OilLubricated": {
+            "description": "Oil lubricated",
+            "type": "integer"
+          },
+          "WaterLubricated": {
+            "description": "Water lubricated",
+            "type": "integer"
+          }
+        }
+      },
+      "OperatingStateEnum": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.CAS.OperatingStateEnum",
+        "const": {
+          "Other": 0,
+          "Stopped": 1,
+          "Starting": 2,
+          "Stopping": 3,
+          "Operational": 4
+        },
+        "properties": {
+          "Other": {
+            "description": "The component is in a state not specified by this enumeration.",
+            "type": "integer"
+          },
+          "Stopped": {
+            "description": "The main function shall not be fulfilled.",
+            "type": "integer"
+          },
+          "Starting": {
+            "description": "Transition phase to end in Operational state.",
+            "type": "integer"
+          },
+          "Stopping": {
+            "description": "Transition phase to end in Stopped state.",
+            "type": "integer"
+          },
+          "Operational": {
+            "description": "The main function should be fulfilled.",
+            "type": "integer"
+          }
+        }
+      },
+      "ReceiverTypeEnum": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.CAS.ReceiverTypeEnum",
+        "const": {
+          "Other": 0,
+          "DryReceiver": 1,
+          "WetReceiver": 2
+        },
+        "description": "possible receiver types",
+        "properties": {
+          "Other": {
+            "description": "Not specified in this enumeration",
+            "type": "integer"
+          },
+          "DryReceiver": {
+            "description": "Dry Receiver",
+            "type": "integer"
+          },
+          "WetReceiver": {
+            "description": "Wet Receiver",
+            "type": "integer"
+          }
+        }
+      },
+      "SensorTechnologyOptionSet": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.CAS.SensorTechnologyOptionSet",
+        "const": {
+          "CapacitiveSensor": 0,
+          "ElectronTube": 1,
+          "InductiveSensor": 2,
+          "IonizationSensor": 3,
+          "Magnetometer": 4,
+          "OpticalSensor": 5,
+          "PiezoelectricSensor": 6,
+          "ResistiveSensor": 7,
+          "ResonantSensor": 8,
+          "TemperatureSensor": 9,
+          "ThermalSensor": 10,
+          "UltrasoundSensor": 11
+        },
+        "description": "flags for the used sensor technologies for a sensor",
+        "properties": {
+          "CapacitiveSensor": {
+            "description": "Capacitive sensor capabilities",
+            "type": "integer"
+          },
+          "ElectronTube": {
+            "description": "Electron tube capabilities",
+            "type": "integer"
+          },
+          "InductiveSensor": {
+            "description": "Inductive sensor capabilities",
+            "type": "integer"
+          },
+          "IonizationSensor": {
+            "description": "Ionization sensor capabilities",
+            "type": "integer"
+          },
+          "Magnetometer": {
+            "description": "Magnetometer capabilities",
+            "type": "integer"
+          },
+          "OpticalSensor": {
+            "description": "Optical sensor capabilities",
+            "type": "integer"
+          },
+          "PiezoelectricSensor": {
+            "description": "Piezoelectric sensor capabilities",
+            "type": "integer"
+          },
+          "ResistiveSensor": {
+            "description": "Resistive sensor capabilities",
+            "type": "integer"
+          },
+          "ResonantSensor": {
+            "description": "Resonant sensor capabilities",
+            "type": "integer"
+          },
+          "TemperatureSensor": {
+            "description": "Temperature sensor capabilities",
+            "type": "integer"
+          },
+          "ThermalSensor": {
+            "description": "Thermal sensor capabilities",
+            "type": "integer"
+          },
+          "UltrasoundSensor": {
+            "description": "Ultrasound sensor capabilities",
+            "type": "integer"
+          }
+        }
+      },
+      "SensorTypeEnum": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.CAS.SensorTypeEnum",
+        "const": {
+          "Other": 0,
+          "Ammeter": 1,
+          "DewPointSensor": 2,
+          "FlowRateSensor": 3,
+          "FlowSpeedSensor": 4,
+          "HumiditySensor": 5,
+          "OilConcentrationSensor": 6,
+          "ParticleCounter": 7,
+          "PressureSensor": 8,
+          "TemperatureSensor": 9,
+          "Voltmeter": 10,
+          "VolumeSensor": 11,
+          "Wattmeter": 12
+        },
+        "description": "possible sensor types",
+        "properties": {
+          "Other": {
+            "description": "Not specified in this enumeration",
+            "type": "integer"
+          },
+          "Ammeter": {
+            "description": "Ammeter",
+            "type": "integer"
+          },
+          "DewPointSensor": {
+            "description": "Dew point sensor",
+            "type": "integer"
+          },
+          "FlowRateSensor": {
+            "description": "Flow rate sensor",
+            "type": "integer"
+          },
+          "FlowSpeedSensor": {
+            "description": "Flow speed sensor",
+            "type": "integer"
+          },
+          "HumiditySensor": {
+            "description": "Humidity sensor",
+            "type": "integer"
+          },
+          "OilConcentrationSensor": {
+            "description": "Oil concentration sensor",
+            "type": "integer"
+          },
+          "ParticleCounter": {
+            "description": "Particle counter",
+            "type": "integer"
+          },
+          "PressureSensor": {
+            "description": "Pressure sensor",
+            "type": "integer"
+          },
+          "TemperatureSensor": {
+            "description": "Temperature sensor",
+            "type": "integer"
+          },
+          "Voltmeter": {
+            "description": "Voltmeter",
+            "type": "integer"
+          },
+          "VolumeSensor": {
+            "description": "Volume sensor",
+            "type": "integer"
+          },
+          "Wattmeter": {
+            "description": "Wattmeter",
+            "type": "integer"
+          }
+        }
+      },
+      "SeparatorTypeEnum": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.CAS.SeparatorTypeEnum",
+        "const": {
+          "Other": 0,
+          "CentrifugalOilyWaterSeparator": 1,
+          "EmulsionSplittingSeparator": 2,
+          "FlotationSeparator": 3,
+          "GravityPlateSeparator": 4,
+          "HydrocycloneOilyWaterSeparator": 5
+        },
+        "description": "possible condensate separator types",
+        "properties": {
+          "Other": {
+            "description": "Not specified in this enumeration",
+            "type": "integer"
+          },
+          "CentrifugalOilyWaterSeparator": {
+            "description": "Centrifugal oily water separator",
+            "type": "integer"
+          },
+          "EmulsionSplittingSeparator": {
+            "description": "Emulsion splitting separator",
+            "type": "integer"
+          },
+          "FlotationSeparator": {
+            "description": "Flotation separator",
+            "type": "integer"
+          },
+          "GravityPlateSeparator": {
+            "description": "Gravity plate separator",
+            "type": "integer"
+          },
+          "HydrocycloneOilyWaterSeparator": {
+            "description": "Hydrocyclone oily water separator",
+            "type": "integer"
+          }
+        }
+      },
+      "ValveTypeEnum": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.CAS.ValveTypeEnum",
+        "const": {
+          "Other": 0,
+          "CheckValve": 1,
+          "ContinuousValve": 2,
+          "FlowControlValve": 3,
+          "PressureValve": 4,
+          "SwitchingValve": 5
+        },
+        "description": "possible valve types",
+        "properties": {
+          "Other": {
+            "description": "Not specified in this enumeration",
+            "type": "integer"
+          },
+          "CheckValve": {
+            "description": "Check valve",
+            "type": "integer"
+          },
+          "ContinuousValve": {
+            "description": "Continuous valve",
+            "type": "integer"
+          },
+          "FlowControlValve": {
+            "description": "Flow control valve",
+            "type": "integer"
+          },
+          "PressureValve": {
+            "description": "Pressure valve",
+            "type": "integer"
+          },
+          "SwitchingValve": {
+            "description": "Switching valve",
+            "type": "integer"
+          }
+        }
+      }
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
   }
 ]

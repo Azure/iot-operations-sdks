@@ -399,5 +399,41 @@
     },
     "events": {
     }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dov": "http://azure.com/DigitalOperations/vocab#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "IOLink_DataTypes",
+    "links": [
+    ],
+    "schemaDefinitions": {
+      "EncodingEnum": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.IOLink.EncodingEnum",
+        "const": {
+          "ASCII_0": 0,
+          "UTF8_1": 1
+        },
+        "properties": {
+          "ASCII_0": {
+            "type": "integer"
+          },
+          "UTF8_1": {
+            "type": "integer"
+          }
+        }
+      }
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
   }
 ]

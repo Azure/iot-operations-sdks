@@ -82,5 +82,76 @@
     },
     "events": {
     }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dov": "http://azure.com/DigitalOperations/vocab#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "Mining_Extraction_ShearerLoader_DataTypes",
+    "links": [
+    ],
+    "schemaDefinitions": {
+      "ShearerDirectionEnum": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.Mining.Extraction.ShearerLoader.ShearerDirectionEnum",
+        "const": {
+          "STOP": 0,
+          "LEFT": 1,
+          "RIGHT": 2
+        },
+        "properties": {
+          "STOP": {
+            "description": "Enum value representing the stopped driving direction of a longwall shearer",
+            "type": "integer"
+          },
+          "LEFT": {
+            "description": "Enum value representing the left driving direction of a longwall shearer",
+            "type": "integer"
+          },
+          "RIGHT": {
+            "description": "Enum value representing the right driving direction of a longwall shearer",
+            "type": "integer"
+          }
+        }
+      },
+      "ShearerDrumMountingPositionEnum": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.Mining.Extraction.ShearerLoader.ShearerDrumMountingPositionEnum",
+        "const": {
+          "MountingPositionLeft": 0,
+          "MountingPositionRight": 1,
+          "MountingPositionLeftLumpBreaker": 2,
+          "MountingPositionRightLumpBreaker": 3
+        },
+        "properties": {
+          "MountingPositionLeft": {
+            "description": "Enum value indicating the left mounting position of a longwall drum",
+            "type": "integer"
+          },
+          "MountingPositionRight": {
+            "description": "Enum value indicating the right mounting position of a longwall drum",
+            "type": "integer"
+          },
+          "MountingPositionLeftLumpBreaker": {
+            "description": "Enum value indicating the left mounting position of a longwall lump breaker drum",
+            "type": "integer"
+          },
+          "MountingPositionRightLumpBreaker": {
+            "description": "Enum value indicating the right mounting position of a longwall lump breaker drum",
+            "type": "integer"
+          }
+        }
+      }
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
   }
 ]

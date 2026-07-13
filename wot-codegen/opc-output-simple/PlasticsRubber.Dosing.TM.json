@@ -1821,5 +1821,147 @@
         ]
       }
     }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dov": "http://azure.com/DigitalOperations/vocab#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "PlasticsRubber_Dosing_DataTypes",
+    "links": [
+    ],
+    "schemaDefinitions": {
+      "ActivateRemoteControl": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.PlasticsRubber.Dosing.ActivateRemoteControl",
+        "const": {
+          "OFF": 0,
+          "SEPARATE_INTERFACE": 1,
+          "OPC_UA": 2
+        },
+        "properties": {
+          "OFF": {
+            "description": "Remote control switched off (local/HMI control)",
+            "type": "integer"
+          },
+          "SEPARATE_INTERFACE": {
+            "description": "Using a separate interface from the production machine for remote controlling this dosing device",
+            "type": "integer"
+          },
+          "OPC_UA": {
+            "description": "Using this OPC UA connection for remote controlling this dosing device",
+            "type": "integer"
+          }
+        }
+      },
+      "ComponentStateEnumeration": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.PlasticsRubber.Dosing.ComponentStateEnumeration",
+        "const": {
+          "Off": 0,
+          "Ready": 1,
+          "Dosing": 2,
+          "Calibration": 3,
+          "Error": 4,
+          "Cleaning": 5,
+          "Purging": 6,
+          "Priming": 7
+        },
+        "properties": {
+          "Off": {
+            "description": "The component has been switched off",
+            "type": "integer"
+          },
+          "Ready": {
+            "description": "The component is waiting for a start dosing signal",
+            "type": "integer"
+          },
+          "Dosing": {
+            "description": "The component is actively feeding material",
+            "type": "integer"
+          },
+          "Calibration": {
+            "description": "Component is in calibration mode and can typically not be used for dosing or filling",
+            "type": "integer"
+          },
+          "Error": {
+            "description": "The component has an active error",
+            "type": "integer"
+          },
+          "Cleaning": {
+            "description": "The component is in cleaning mode e.g. hopper draining",
+            "type": "integer"
+          },
+          "Purging": {
+            "description": "The component is in purging mode",
+            "type": "integer"
+          },
+          "Priming": {
+            "description": "The component is in priming mode",
+            "type": "integer"
+          }
+        }
+      },
+      "DosingModeEnumeration": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.PlasticsRubber.Dosing.DosingModeEnumeration",
+        "const": {
+          "ONLY_CONVEYING": 0,
+          "VOLUMETRIC": 1,
+          "GRAVIMETRIC": 2,
+          "OTHER": 3
+        },
+        "properties": {
+          "ONLY_CONVEYING": {
+            "description": "The throughput is not controlled. The feeder only transports the material (e.g. by screw, conveyor belt) or the material is only falling through a feed opening.",
+            "type": "integer"
+          },
+          "VOLUMETRIC": {
+            "description": "The throughput is controlled by a volumetric dosing system.",
+            "type": "integer"
+          },
+          "GRAVIMETRIC": {
+            "description": "The throughput is controlled by a gravimetric dosing system.",
+            "type": "integer"
+          },
+          "OTHER": {
+            "description": "Throughput is controlled, but in another mode than these above.",
+            "type": "integer"
+          }
+        }
+      },
+      "RemoteControlActivated": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.PlasticsRubber.Dosing.RemoteControlActivated",
+        "const": {
+          "OFF": 0,
+          "SEPARATE_INTERFACE": 1,
+          "OPC_UA": 2
+        },
+        "properties": {
+          "OFF": {
+            "description": "Remote control switched off (local/HMI control)",
+            "type": "integer"
+          },
+          "SEPARATE_INTERFACE": {
+            "description": "Using a separate interface from the production machine for remote controlling this dosing device",
+            "type": "integer"
+          },
+          "OPC_UA": {
+            "description": "Using this OPC UA connection for remote controlling this dosing device",
+            "type": "integer"
+          }
+        }
+      }
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
   }
 ]

@@ -4103,5 +4103,157 @@
     },
     "events": {
     }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dov": "http://azure.com/DigitalOperations/vocab#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "Robotics_DataTypes",
+    "links": [
+    ],
+    "schemaDefinitions": {
+      "AxisMotionProfileEnumeration": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.Robotics.AxisMotionProfileEnumeration",
+        "const": {
+          "OTHER": 0,
+          "ROTARY": 1,
+          "ROTARY_ENDLESS": 2,
+          "LINEAR": 3,
+          "LINEAR_ENDLESS": 4
+        },
+        "properties": {
+          "OTHER": {
+            "description": "Any motion-profile which is not defined by the AxisMotionProfileEnumeration.",
+            "type": "integer"
+          },
+          "ROTARY": {
+            "description": "Rotary motion is a rotation along a circular path with defined limits. Motion movement is not going always in the same direction. Control unit is mainly degree.",
+            "type": "integer"
+          },
+          "ROTARY_ENDLESS": {
+            "description": "Rotary motion is a rotation along a circular path with no limits. Motion movement is going endless in the same direction. Control unit is mainly degree.",
+            "type": "integer"
+          },
+          "LINEAR": {
+            "description": "Linear motion is a one dimensional motion along a straight line with defined limits. Motion movement is not going always in the same direction. Control unit is mainly mm.",
+            "type": "integer"
+          },
+          "LINEAR_ENDLESS": {
+            "description": "Linear motion is a one dimensional motion along a straight line with no limits. Motion movement is going endless in the same direction. Control unit is mainly mm.",
+            "type": "integer"
+          }
+        }
+      },
+      "ExecutionModeEnumeration": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.Robotics.ExecutionModeEnumeration",
+        "const": {
+          "CYCLE": 0,
+          "CONTINUOUS": 1,
+          "STEP": 2
+        },
+        "properties": {
+          "CYCLE": {
+            "description": "Single execution of a task program according to ISO 8373.",
+            "type": "integer"
+          },
+          "CONTINUOUS": {
+            "description": "Task program is executed continuously and starts again automatically.",
+            "type": "integer"
+          },
+          "STEP": {
+            "description": "Task program is executed in steps.",
+            "type": "integer"
+          }
+        }
+      },
+      "MotionDeviceCategoryEnumeration": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.Robotics.MotionDeviceCategoryEnumeration",
+        "const": {
+          "OTHER": 0,
+          "ARTICULATED_ROBOT": 1,
+          "SCARA_ROBOT": 2,
+          "CARTESIAN_ROBOT": 3,
+          "SPHERICAL_ROBOT": 4,
+          "PARALLEL_ROBOT": 5,
+          "CYLINDRICAL_ROBOT": 6
+        },
+        "properties": {
+          "OTHER": {
+            "description": "Any MotionDevice which is not defined by the MotionDeviceCategoryEnumeration.",
+            "type": "integer"
+          },
+          "ARTICULATED_ROBOT": {
+            "description": "This robot design features rotary joints and can range from simple two joint structures to 10 or more joints. The arm is connected to the base with a twisting joint. The links in the arm are connected by rotary joints.",
+            "type": "integer"
+          },
+          "SCARA_ROBOT": {
+            "description": "The robot has two parallel rotary joints that ensure compliance in a specified plane.",
+            "type": "integer"
+          },
+          "CARTESIAN_ROBOT": {
+            "description": "Cartesian robots have three linear joints that use the Cartesian coordinate system (X, Y, and Z). They also may have an attached wrist to allow for rotational movement. The three prismatic joints provide linear movement along the axis.",
+            "type": "integer"
+          },
+          "SPHERICAL_ROBOT": {
+            "description": "The arm is connected to the base with a twisting joint and a combination of two rotary joints and one linear joint. The axes form a polar coordinate system and create a spherical shaped work envelope.",
+            "type": "integer"
+          },
+          "PARALLEL_ROBOT": {
+            "description": "These spider like robots are built from jointed parallelograms connected to a common base. The parallelograms move a single EOAT in a dome-shaped work area.",
+            "type": "integer"
+          },
+          "CYLINDRICAL_ROBOT": {
+            "description": "The robot has at least one rotary joint at the base and at least one prismatic joint to connect the links. The rotary joint uses a rotational motion along the joint axis, while the prismatic joint moves in a linear motion. Cylindrical robots operate within a cylindrical-shaped work envelope.",
+            "type": "integer"
+          }
+        }
+      },
+      "OperationalModeEnumeration": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.Robotics.OperationalModeEnumeration",
+        "const": {
+          "OTHER": 0,
+          "MANUAL_REDUCED_SPEED": 1,
+          "MANUAL_HIGH_SPEED": 2,
+          "AUTOMATIC": 3,
+          "AUTOMATIC_EXTERNAL": 4
+        },
+        "properties": {
+          "OTHER": {
+            "description": "Other for when there is a system-boot (unknown) or a failure of the safety, there is no valid operational mode.",
+            "type": "integer"
+          },
+          "MANUAL_REDUCED_SPEED": {
+            "description": "'Manual reduced speed' - name according to ISO 10218-1:2011.",
+            "type": "integer"
+          },
+          "MANUAL_HIGH_SPEED": {
+            "description": "'Manual high speed' - name according to ISO 10218-1:2011.",
+            "type": "integer"
+          },
+          "AUTOMATIC": {
+            "description": "'Automatic' - name according to ISO 10218-1:2011.",
+            "type": "integer"
+          },
+          "AUTOMATIC_EXTERNAL": {
+            "description": "'Automatic external' - Same as 'Automatic' but with external control, e.g. by a PLC.",
+            "type": "integer"
+          }
+        }
+      }
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
   }
 ]

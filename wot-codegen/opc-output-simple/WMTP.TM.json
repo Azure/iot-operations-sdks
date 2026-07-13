@@ -2275,5 +2275,143 @@
     },
     "events": {
     }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dov": "http://azure.com/DigitalOperations/vocab#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "WMTP_DataTypes",
+    "links": [
+    ],
+    "schemaDefinitions": {
+      "WMTPOutputDataType": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.WMTP.WMTPOutputDataType",
+        "required": [ "EngineeringUnits", "ActualValue", "TypeOfMeasurement", "TypeOfSample", "InstrumentRange", "EURange", "ValuePrecision", "Definition", "SignalTag", "RelativeUncertainty", "AbsoluteUncertainty", "Timestamp", "Index", "MeasurementPeriod", "InternalUpdateInterval" ],
+        "properties": {
+          "EngineeringUnits": {
+            "title": "EUInformation",
+            "type": "object",
+            "dov:typeRef": "org.opcfoundation.UA.EUInformation",
+            "required": [ "NamespaceUri", "UnitId", "DisplayName", "Description" ],
+            "properties": {
+              "NamespaceUri": {
+                "type": "string"
+              },
+              "UnitId": {
+                "type": "integer",
+                "minimum": -2147483648,
+                "maximum": 2147483647
+              },
+              "DisplayName": {
+                "type": "string"
+              },
+              "Description": {
+                "type": "string"
+              }
+            }
+          },
+          "ActualValue": {
+            "type": "number",
+            "minimum": -1.80e+308,
+            "maximum": 1.80e+308
+          },
+          "TypeOfMeasurement": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 4294967295
+          },
+          "TypeOfSample": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 4294967295
+          },
+          "InstrumentRange": {
+            "title": "Range",
+            "type": "object",
+            "dov:typeRef": "org.opcfoundation.UA.Range",
+            "required": [ "Low", "High" ],
+            "properties": {
+              "Low": {
+                "type": "number",
+                "minimum": -1.80e+308,
+                "maximum": 1.80e+308
+              },
+              "High": {
+                "type": "number",
+                "minimum": -1.80e+308,
+                "maximum": 1.80e+308
+              }
+            }
+          },
+          "EURange": {
+            "title": "Range",
+            "type": "object",
+            "dov:typeRef": "org.opcfoundation.UA.Range",
+            "required": [ "Low", "High" ],
+            "properties": {
+              "Low": {
+                "type": "number",
+                "minimum": -1.80e+308,
+                "maximum": 1.80e+308
+              },
+              "High": {
+                "type": "number",
+                "minimum": -1.80e+308,
+                "maximum": 1.80e+308
+              }
+            }
+          },
+          "ValuePrecision": {
+            "type": "number",
+            "minimum": -1.80e+308,
+            "maximum": 1.80e+308
+          },
+          "Definition": {
+            "type": "string"
+          },
+          "SignalTag": {
+            "type": "string"
+          },
+          "RelativeUncertainty": {
+            "type": "number",
+            "minimum": -1.80e+308,
+            "maximum": 1.80e+308
+          },
+          "AbsoluteUncertainty": {
+            "type": "number",
+            "minimum": -1.80e+308,
+            "maximum": 1.80e+308
+          },
+          "Timestamp": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "Index": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 4294967295
+          },
+          "MeasurementPeriod": {
+            "type": "string",
+            "pattern": "^P(?!$)(?:(?:(?:(?:\\d+Y)|(?:\\d+\\.\\d+Y$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?)|(?:(?:(?:\\d+W)|(?:\\d+\\.\\d+W$))?))(?:(?:\\d+D)|(?:\\d+\\.\\d+D$))?(?:T(?!$)(?:(?:\\d+H)|(?:\\d+\\.\\d+H$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?(?:\\d+(?:\\.\\d+)?S)?)?$"
+          },
+          "InternalUpdateInterval": {
+            "type": "string",
+            "pattern": "^P(?!$)(?:(?:(?:(?:\\d+Y)|(?:\\d+\\.\\d+Y$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?)|(?:(?:(?:\\d+W)|(?:\\d+\\.\\d+W$))?))(?:(?:\\d+D)|(?:\\d+\\.\\d+D$))?(?:T(?!$)(?:(?:\\d+H)|(?:\\d+\\.\\d+H$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?(?:\\d+(?:\\.\\d+)?S)?)?$"
+          }
+        }
+      }
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
   }
 ]
