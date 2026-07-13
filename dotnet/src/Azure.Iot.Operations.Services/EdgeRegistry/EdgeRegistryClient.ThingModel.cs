@@ -61,6 +61,7 @@ public sealed partial class EdgeRegistryClient : IThingModelClient
             AllGroups = allGroups,
             ResourceType = Generated.Constants.ThingModelResourceType,
             ResourceId = thingModelId,
+            DocumentHash = documentHash,
             Label = label is null ? null : Converter.ToGenerated(label),
         };
 
