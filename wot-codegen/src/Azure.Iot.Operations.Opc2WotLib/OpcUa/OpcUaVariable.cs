@@ -77,7 +77,7 @@ namespace Azure.Iot.Operations.Opc2WotLib
             }
         }
 
-        private static Dictionary<string, OpcUaObjectField> GetArgumentsFromXmlNode(OpcUaModelInfo modelInfo, Dictionary<string, OpcUaNamespaceInfo> nsUriToNsInfoMap, XmlNode xmlNode)
+        private Dictionary<string, OpcUaObjectField> GetArgumentsFromXmlNode(OpcUaModelInfo modelInfo, Dictionary<string, OpcUaNamespaceInfo> nsUriToNsInfoMap, XmlNode xmlNode)
         {
             Dictionary<string, OpcUaObjectField> arguments = new Dictionary<string, OpcUaObjectField>();
 
@@ -96,7 +96,7 @@ namespace Azure.Iot.Operations.Opc2WotLib
                     OpcUaNodeId? dataType = dataTypeString != null ? UaUtil.ParseTypeString(dataTypeString, modelInfo, nsUriToNsInfoMap) : null;
                     int valueRank = int.Parse(argNode.SelectSingleNode("child::uax:ValueRank", OpcUaGraph.NamespaceManager)?.InnerText ?? "0");
                     string? description = argNode.SelectSingleNode("child::uax:Description/child::uax:Text", OpcUaGraph.NamespaceManager)?.InnerText.CleanText();
-                    arguments[argName] = new OpcUaObjectField(dataType, null, valueRank, false, description);
+                    arguments[argName] = new OpcUaObjectField(this, dataType, null, valueRank, false, description);
                 }
             }
 

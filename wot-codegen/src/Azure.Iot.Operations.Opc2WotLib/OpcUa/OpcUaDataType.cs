@@ -4,6 +4,7 @@
 namespace Azure.Iot.Operations.Opc2WotLib
 {
     using System.Collections.Generic;
+    using System.Linq;
     using System.Xml;
 
     public abstract class OpcUaDataType : OpcUaNode
@@ -11,7 +12,14 @@ namespace Azure.Iot.Operations.Opc2WotLib
         protected OpcUaDataType(OpcUaModelInfo modelInfo, Dictionary<string, OpcUaNamespaceInfo> nsUriToNsInfoMap, XmlNode dataTypeNode)
             : base(modelInfo, nsUriToNsInfoMap, dataTypeNode)
         {
+            References = UaUtil.GetReferencesFromXmlNode(modelInfo, nsUriToNsInfoMap, dataTypeNode);
+            BaseTypes = References
+                .Where(reference => !reference.IsForward && reference.ReferenceType.IsSubtypeReference)
+                .Select(reference => reference.Target)
+                .ToList();
         }
+
+        public List<OpcUaNodeId> BaseTypes { get; }
 
         public static bool TryCreate(OpcUaModelInfo modelInfo, Dictionary<string, OpcUaNamespaceInfo> nsUriToNsInfoMap, XmlNode dataTypeNode, out OpcUaDataType? dataType)
         {

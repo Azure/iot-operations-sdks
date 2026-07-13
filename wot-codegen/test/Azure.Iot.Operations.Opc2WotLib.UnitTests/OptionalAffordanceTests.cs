@@ -116,6 +116,7 @@ namespace Azure.Iot.Operations.Opc2WotLib.UnitTests
             graph.AddNodeset(Nodeset);
 
             WotThingCollection collection = new WotThingCollection(
+                graph,
                 graph.GetOpcUaModelInfo(ModelUri),
                 new LinkRelRuleEngine(),
                 integrate: false,
@@ -131,4 +132,3 @@ namespace Azure.Iot.Operations.Opc2WotLib.UnitTests
         }
     }
 }
-

@@ -17,7 +17,7 @@ namespace Azure.Iot.Operations.Opc2WotLib
     /// Class to produce the template output
     /// </summary>
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.TextTemplating", "18.0.0.0")]
-    public partial class WotThingModel : WotThingModelBase
+    public partial class WotDataTypeModel : WotDataTypeModelBase
     {
         /// <summary>
         /// Create the template output
@@ -26,147 +26,24 @@ namespace Azure.Iot.Operations.Opc2WotLib
         {
  // Copyright (c) Microsoft Corporation. 
  // Licensed under the MIT License 
-            this.Write("{\r\n  \"@context\": [\r\n    \"https://www.w3.org/2022/wot/td/v1.1\",\r\n    {\r\n");
- if (this.areUnitsInUse) { 
-            this.Write("      \"qudt\": \"http://qudt.org/schema/qudt/\",\r\n");
- } 
-            this.Write("      \"dov\": \"http://azure.com/DigitalOperations/vocab#\"\r\n    }\r\n  ],\r\n  \"@type\":" +
-                    " \"tm:ThingModel\",\r\n  \"title\": \"");
+            this.Write("{\r\n  \"@context\": [\r\n    \"https://www.w3.org/2022/wot/td/v1.1\",\r\n    {\r\n      \"dov\":" +
+                    " \"http://azure.com/DigitalOperations/vocab#\"\r\n    }\r\n  ],\r\n  \"@type\": \"tm:Thin" +
+                    "gModel\",\r\n  \"title\": \"");
             this.Write(this.ToStringHelper.ToStringWithCulture(this.thingName));
-            this.Write("\",\r\n  \"dov:typeRef\": \"");
-            this.Write(this.ToStringHelper.ToStringWithCulture(this.typeRef));
-            this.Write("\",\r\n");
- if (this.isEvent) { 
-            this.Write("  \"dov:isEvent\": true,\r\n");
- } 
- if (this.isComposite) { 
-            this.Write("  \"dov:isComposite\": true,\r\n");
- } 
-            this.Write("  \"links\": [\r\n");
- int ix1 = 1; foreach (string baseModelRef in this.baseModelRefs) { 
-            this.Write("    {\r\n      \"rel\": \"tm:extends\",\r\n      \"href\": \"");
-            this.Write(this.ToStringHelper.ToStringWithCulture(baseModelRef));
-            this.Write("\",\r\n      \"type\": \"application/tm+json\"\r\n    }");
-            this.Write(this.ToStringHelper.ToStringWithCulture(ix1 < this.baseModelRefs.Count + this.linkInfos.Count ? "," : ""));
-            this.Write("\r\n");
- ix1++; } 
- foreach (LinkInfo linkInfo in this.linkInfos) { 
-            this.Write("    {\r\n      \"rel\": \"");
-            this.Write(this.ToStringHelper.ToStringWithCulture(linkInfo.Rel));
-            this.Write("\",\r\n      \"dov:refName\": \"");
-            this.Write(this.ToStringHelper.ToStringWithCulture(linkInfo.RefName));
-            this.Write("\",\r\n");
- if (linkInfo.RefType != null) { 
-            this.Write("      \"dov:refType\": \"");
-            this.Write(this.ToStringHelper.ToStringWithCulture(linkInfo.RefType));
-            this.Write("\",\r\n");
- } 
-            this.Write("      \"href\": \"");
-            this.Write(this.ToStringHelper.ToStringWithCulture(linkInfo.Href));
-            this.Write("\",\r\n      \"type\": \"application/tm+json\"\r\n    }");
-            this.Write(this.ToStringHelper.ToStringWithCulture(ix1 < this.baseModelRefs.Count + this.linkInfos.Count ? "," : ""));
-            this.Write("\r\n");
- ix1++; } 
-            this.Write("  ],\r\n  \"schemaDefinitions\": {\r\n");
- ix1 = 1; foreach (OpcUaDataTypeEnum dataTypeEnum in this.dataTypeEnums) { 
+            this.Write("\",\r\n  \"links\": [\r\n  ],\r\n  \"schemaDefinitions\": {\r\n");
+ int ix1 = 1; foreach (KeyValuePair<string, WotDataSchema> schemaDefinition in this.schemaDefinitions) { 
             this.Write("    \"");
-            this.Write(this.ToStringHelper.ToStringWithCulture(dataTypeEnum.EffectiveName));
+            this.Write(this.ToStringHelper.ToStringWithCulture(schemaDefinition.Key));
             this.Write("\": {\r\n");
- this.PushIndent("      ");
-            this.Write(this.ToStringHelper.ToStringWithCulture(new WotDataSchemaEnum(dataTypeEnum).TransformText()));
+ this.PushIndent("      "); 
+            this.Write(this.ToStringHelper.ToStringWithCulture(schemaDefinition.Value.TransformText()));
             this.Write("\r\n");
- this.PopIndent();
+ this.PopIndent(); 
             this.Write("    }");
-            this.Write(this.ToStringHelper.ToStringWithCulture(ix1 < this.dataTypeEnums.Count ? "," : ""));
+            this.Write(this.ToStringHelper.ToStringWithCulture(ix1 < this.schemaDefinitions.Count ? "," : ""));
             this.Write("\r\n");
  ix1++; } 
-            this.Write("  },\r\n");
- if (this.properties.Any() || this.events.Any()) { 
-            this.Write("  \"forms\": [\r\n");
- if (this.events.Any()) { 
-            this.Write("    {\r\n      \"contentType\": \"application/json\",\r\n      \"dov:topic\": \"opcua/");
-            this.Write(this.ToStringHelper.ToStringWithCulture(this.specName));
-            this.Write("/");
-            this.Write(this.ToStringHelper.ToStringWithCulture(this.thingName));
-            this.Write("/events/{senderId}\",\r\n");
- if (this.inheritVars && this.baseModelRefs.Any()) { 
-            this.Write("      \"dov:includeInherited\": true,\r\n");
- } 
-            this.Write("      \"op\": \"subscribeallevents\"\r\n    }");
-            this.Write(this.ToStringHelper.ToStringWithCulture(this.properties.Any() ? "," : ""));
-            this.Write("\r\n");
- } 
- if (this.properties.Any()) { 
- if (this.properties.Any(p => !p.ReadOnly)) { 
-            this.Write("    {\r\n      \"contentType\": \"application/json\",\r\n      \"dov:topic\": \"opcua/");
-            this.Write(this.ToStringHelper.ToStringWithCulture(this.specName));
-            this.Write("/");
-            this.Write(this.ToStringHelper.ToStringWithCulture(this.thingName));
-            this.Write("/properties/write\",\r\n");
- if (this.inheritVars && this.baseModelRefs.Any()) { 
-            this.Write("      \"dov:includeInherited\": true,\r\n");
- } 
-            this.Write("      \"op\": \"writemultipleproperties\"\r\n    },\r\n");
- } 
-            this.Write("    {\r\n      \"contentType\": \"application/json\",\r\n      \"dov:topic\": \"opcua/");
-            this.Write(this.ToStringHelper.ToStringWithCulture(this.specName));
-            this.Write("/");
-            this.Write(this.ToStringHelper.ToStringWithCulture(this.thingName));
-            this.Write("/properties/read\",\r\n");
- if (this.inheritVars && this.baseModelRefs.Any()) { 
-            this.Write("      \"dov:includeInherited\": true,\r\n");
- } 
-            this.Write("      \"op\": \"readallproperties\"\r\n    }\r\n");
- } 
-            this.Write("  ],\r\n");
- } 
- if (this.optionalActionNames.Any() || this.optionalPropertyNames.Any() || this.optionalEventNames.Any()) { 
-            this.Write("  \"tm:optional\": [\r\n");
- ix1 = 1; foreach (string actionName in this.optionalActionNames) { 
-            this.Write("    \"/actions/");
-            this.Write(this.ToStringHelper.ToStringWithCulture(actionName));
-            this.Write("\"");
-            this.Write(this.ToStringHelper.ToStringWithCulture(ix1 < this.optionalActionNames.Count + this.optionalPropertyNames.Count + this.optionalEventNames.Count ? "," : ""));
-            this.Write("\r\n");
- ix1++; } 
- foreach (string propertyName in this.optionalPropertyNames) { 
-            this.Write("    \"/properties/");
-            this.Write(this.ToStringHelper.ToStringWithCulture(propertyName));
-            this.Write("\"");
-            this.Write(this.ToStringHelper.ToStringWithCulture(ix1 < this.optionalActionNames.Count + this.optionalPropertyNames.Count + this.optionalEventNames.Count ? "," : ""));
-            this.Write("\r\n");
- ix1++; } 
- foreach (string eventName in this.optionalEventNames) { 
-            this.Write("    \"/events/");
-            this.Write(this.ToStringHelper.ToStringWithCulture(eventName));
-            this.Write("\"");
-            this.Write(this.ToStringHelper.ToStringWithCulture(ix1 < this.optionalActionNames.Count + this.optionalPropertyNames.Count + this.optionalEventNames.Count ? "," : ""));
-            this.Write("\r\n");
- ix1++; } 
-            this.Write("  ],\r\n");
- } 
-            this.Write("  \"actions\": {\r\n");
- this.PushIndent("    "); 
- ix1 = 1; foreach (WotAction action in this.actions) { 
-            this.Write(this.ToStringHelper.ToStringWithCulture(action.TransformText()));
-            this.Write(this.ToStringHelper.ToStringWithCulture(ix1 < this.actions.Count ? "," : ""));
-            this.Write("\r\n");
- ix1++; } this.PopIndent(); 
-            this.Write("  },\r\n  \"properties\": {\r\n");
- this.PushIndent("    "); 
- ix1 = 1; foreach (WotProperty property in this.properties) { 
-            this.Write(this.ToStringHelper.ToStringWithCulture(property.TransformText()));
-            this.Write(this.ToStringHelper.ToStringWithCulture(ix1 < this.properties.Count ? "," : ""));
-            this.Write("\r\n");
- ix1++; } this.PopIndent(); 
-            this.Write("  },\r\n  \"events\": {\r\n");
- this.PushIndent("    "); 
- ix1 = 1; foreach (WotEvent evt in this.events) { 
-            this.Write(this.ToStringHelper.ToStringWithCulture(evt.TransformText()));
-            this.Write(this.ToStringHelper.ToStringWithCulture(ix1 < this.events.Count ? "," : ""));
-            this.Write("\r\n");
- ix1++; } this.PopIndent(); 
-            this.Write("  }\r\n}");
+            this.Write("  },\r\n  \"actions\": {\r\n  },\r\n  \"properties\": {\r\n  },\r\n  \"events\": {\r\n  }\r\n}");
             return this.GenerationEnvironment.ToString();
         }
     }
@@ -175,7 +52,7 @@ namespace Azure.Iot.Operations.Opc2WotLib
     /// Base class for this transformation
     /// </summary>
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.TextTemplating", "18.0.0.0")]
-    public class WotThingModelBase
+    public class WotDataTypeModelBase
     {
         #region Fields
         private global::System.Text.StringBuilder generationEnvironmentField;

@@ -1,0 +1,25 @@
+<#@ template language="C#" inherits="WotDataSchema" linePragmas="false" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ import namespace="System.Linq" #>
+<# // Copyright (c) Microsoft Corporation. #>
+<# // Licensed under the MIT License #>
+"type": "object",
+"dov:typeRef": "<#=this.typeRef#>",
+"const": {
+<# int ix1 = 1; foreach (KeyValuePair<string, OpcUaEnumValue> enumValue in this.enumValues) { #>
+  "<#=enumValue.Value.SymbolicName ?? enumValue.Key#>": <#=enumValue.Value.Value#><#=ix1 < this.enumValues.Count ? "," : ""#>
+<# ix1++; } #>
+},
+<# if (this.description != null) { #>
+"description": "<#=this.description#>",
+<# } #>
+"properties": {
+<# ix1 = 1; foreach (KeyValuePair<string, OpcUaEnumValue> enumValue in this.enumValues) { #>
+  "<#=enumValue.Value.SymbolicName ?? enumValue.Key#>": {
+<# if (enumValue.Value.Description != null) { #>
+    "description": "<#=enumValue.Value.Description#>",
+<# } #>
+    "type": "integer"
+  }<#=ix1 < this.enumValues.Count ? "," : ""#>
+<# ix1++; } #>
+}

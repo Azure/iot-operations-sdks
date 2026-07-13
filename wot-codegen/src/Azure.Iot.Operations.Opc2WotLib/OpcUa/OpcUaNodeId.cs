@@ -31,6 +31,8 @@ namespace Azure.Iot.Operations.Opc2WotLib
 
         public bool IsSubtypeReference { get => NsIndex == 0 && NodeIndex == HasSubtypeNodeIndex; }
 
+        public bool IsBuiltInDataType { get => NsIndex == 0 && NodeIndex is >= 1 and <= 25; }
+
         public bool IsModellingRuleReference { get => NsIndex == 0 && NodeIndex == HasModellingRuleNodeIndex; }
 
         public bool IsPropertyReference { get => NsIndex == 0 && NodeIndex == HasPropertyNodeIndex; }
