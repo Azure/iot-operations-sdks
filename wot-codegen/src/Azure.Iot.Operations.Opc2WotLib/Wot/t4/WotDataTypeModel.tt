@@ -1,0 +1,32 @@
+<#@ template language="C#" linePragmas="false" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ import namespace="System.Linq" #>
+<# // Copyright (c) Microsoft Corporation. #>
+<# // Licensed under the MIT License #>
+{
+  "@context": [
+    "https://www.w3.org/2022/wot/td/v1.1",
+    {
+      "dov": "http://azure.com/DigitalOperations/vocab#"
+    }
+  ],
+  "@type": "tm:ThingModel",
+  "title": "<#=this.thingName#>",
+  "links": [
+  ],
+  "schemaDefinitions": {
+<# int ix1 = 1; foreach (KeyValuePair<string, WotDataSchema> schemaDefinition in this.schemaDefinitions) { #>
+    "<#=schemaDefinition.Key#>": {
+<# this.PushIndent("      "); #>
+<#=schemaDefinition.Value.TransformText()#>
+<# this.PopIndent(); #>
+    }<#=ix1 < this.schemaDefinitions.Count ? "," : ""#>
+<# ix1++; } #>
+  },
+  "actions": {
+  },
+  "properties": {
+  },
+  "events": {
+  }
+}

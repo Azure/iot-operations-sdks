@@ -100,7 +100,7 @@ namespace Azure.Iot.Operations.Opc2Wot
             foreach (FileInfo inputFile in inputFiles)
             {
                 statusReceiver?.Invoke($"Processing file: {inputFile.FullName}", false);
-                string modelText = inputFile.OpenText().ReadToEnd();
+                string modelText = File.ReadAllText(inputFile.FullName);
                 opcUaGraph.AddNodeset(modelText);
             }
 
@@ -120,7 +120,7 @@ namespace Azure.Iot.Operations.Opc2Wot
             {
                 errorLog.ClearRegistrations();
 
-                WotThingCollection thingCollection = new WotThingCollection(opcUaGraph.GetOpcUaModelInfo(modelUri), linkRelRuleEngine, options.Integrate, options.InheritVars, options.IncludeTDs);
+                WotThingCollection thingCollection = new WotThingCollection(opcUaGraph, opcUaGraph.GetOpcUaModelInfo(modelUri), linkRelRuleEngine, options.Integrate, options.InheritVars, options.IncludeTDs);
 
                 string thingText = thingCollection.TransformText();
 
@@ -138,8 +138,12 @@ namespace Azure.Iot.Operations.Opc2Wot
                 {
                     thingTypes.Add("Thing Models");
                 }
+                if (thingCollection.DataTypeModels.Any())
+                {
+                    thingTypes.Add("DataType Models");
+                }
 
-                if (thingCollection.ThingDescriptions.Any() || thingCollection.ThingModels.Any())
+                if (thingCollection.ThingDescriptions.Any() || thingCollection.ThingModels.Any() || thingCollection.DataTypeModels.Any())
                 {
                     statusReceiver?.Invoke($"Writing {string.Join(" and ", thingTypes)} for '{modelUri}' to '{outFileName}'", false);
                     File.WriteAllText(outFilePath, thingText);

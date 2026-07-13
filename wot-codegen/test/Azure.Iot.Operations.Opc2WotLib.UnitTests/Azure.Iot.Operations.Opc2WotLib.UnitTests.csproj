@@ -23,6 +23,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\src\Azure.Iot.Operations.CodeGeneration\Azure.Iot.Operations.CodeGeneration.csproj" />
+    <ProjectReference Include="..\..\src\Azure.Iot.Operations.Opc2Wot\Azure.Iot.Operations.Opc2Wot.csproj" />
     <ProjectReference Include="..\..\src\Azure.Iot.Operations.Opc2WotLib\Azure.Iot.Operations.Opc2WotLib.csproj" />
   </ItemGroup>
 
