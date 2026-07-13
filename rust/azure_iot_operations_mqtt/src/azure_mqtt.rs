@@ -23,13 +23,12 @@ pub(crate) mod mqtt_proto;
 #[cfg(feature = "test-utils")]
 pub mod mqtt_proto;
 
-mod opensslext;
-
 // High-level modules
 pub mod client;
 pub mod error;
 pub mod packet;
 pub mod topic;
+pub mod transport;
 
 // NOTE: Any dispatching or connection management would be supplementary components.
 // I am in favor of providing them, but they are built on top of these core components and would be optional.

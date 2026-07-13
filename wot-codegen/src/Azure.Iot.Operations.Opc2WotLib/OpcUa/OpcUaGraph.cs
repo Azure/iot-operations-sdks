@@ -49,6 +49,14 @@ namespace Azure.Iot.Operations.Opc2WotLib
             }
         }
 
+        public List<OpcUaModelInfo> GetRequiredModelClosure(OpcUaModelInfo rootModel)
+        {
+            List<OpcUaModelInfo> models = new();
+            HashSet<string> processedModelUris = new(StringComparer.Ordinal);
+            CollateRequiredModels(rootModel, models, processedModelUris);
+            return models;
+        }
+
         public string GetThingModel(string modelUri)
         {
             if (ModelUriToModelMap.TryGetValue(modelUri, out OpcUaModelInfo? modelInfo))
@@ -82,7 +90,14 @@ namespace Azure.Iot.Operations.Opc2WotLib
             XmlNode? aliasesNode = xmlDoc.DocumentElement.SelectSingleNode("/opc:UANodeSet/opc:Aliases", NamespaceManager);
             ArgumentNullException.ThrowIfNull(aliasesNode, nameof(aliasesNode));
 
-            OpcUaModelInfo modelInfo = new OpcUaModelInfo(modelUri, namespaceUrisNode?.ChildNodes, aliasesNode.ChildNodes);
+            IEnumerable<string> requiredModelUris = modelNode.ChildNodes
+                .Cast<XmlNode>()
+                .Where(node => node.Name == "RequiredModel")
+                .Select(node => node.Attributes?["ModelUri"]?.Value)
+                .Where(uri => uri != null)
+                .Cast<string>();
+
+            OpcUaModelInfo modelInfo = new OpcUaModelInfo(modelUri, requiredModelUris, namespaceUrisNode?.ChildNodes, aliasesNode.ChildNodes);
             ModelUriToModelMap[modelUri] = modelInfo;
 
             Dictionary<string, OpcUaNode> effectiveNameToNodeMap = new();
@@ -95,6 +110,10 @@ namespace Azure.Iot.Operations.Opc2WotLib
                 {
                     case "UADataType":
                         opcUaNode = OpcUaDataType.TryCreate(modelInfo, NsUriToNsInfoMap, node, out OpcUaDataType? dataType) ? dataType : null;
+                        if (dataType != null && !dataType.IsDeprecated)
+                        {
+                            modelInfo.NodeIdToDataTypeMap[dataType.NodeId] = dataType;
+                        }
                         break;
                     case "UAObject":
                         OpcUaObject opcUaObject = new OpcUaObject(modelInfo, NsUriToNsInfoMap, node);
@@ -157,6 +176,24 @@ namespace Azure.Iot.Operations.Opc2WotLib
             }
 
             effectiveNameToNodeMap[newObjectType.EffectiveName] = newObjectType;
+        }
+
+        private void CollateRequiredModels(OpcUaModelInfo modelInfo, List<OpcUaModelInfo> models, HashSet<string> processedModelUris)
+        {
+            if (!processedModelUris.Add(modelInfo.ModelUri))
+            {
+                return;
+            }
+
+            models.Add(modelInfo);
+
+            foreach (string requiredModelUri in modelInfo.RequiredModelUris)
+            {
+                if (ModelUriToModelMap.TryGetValue(requiredModelUri, out OpcUaModelInfo? requiredModel))
+                {
+                    CollateRequiredModels(requiredModel, models, processedModelUris);
+                }
+            }
         }
     }
 }

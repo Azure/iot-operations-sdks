@@ -71,38 +71,12 @@ namespace Azure.Iot.Operations.Opc2WotLib
  ix1 = 1; foreach (OpcUaDataTypeEnum dataTypeEnum in this.dataTypeEnums) { 
             this.Write("    \"");
             this.Write(this.ToStringHelper.ToStringWithCulture(dataTypeEnum.EffectiveName));
-            this.Write("\": {\r\n      \"type\": \"object\",\r\n      \"dov:typeRef\": \"");
-            this.Write(this.ToStringHelper.ToStringWithCulture(dataTypeEnum.GetTypeRef()));
-            this.Write("\",\r\n      \"const\": {\r\n");
- int ix2 = 1; foreach (KeyValuePair<string, OpcUaEnumValue> enumValue in dataTypeEnum.EnumValues) { 
-            this.Write("        \"");
-            this.Write(this.ToStringHelper.ToStringWithCulture(enumValue.Value.SymbolicName ?? enumValue.Key));
-            this.Write("\": ");
-            this.Write(this.ToStringHelper.ToStringWithCulture(enumValue.Value.Value));
-            this.Write(this.ToStringHelper.ToStringWithCulture(ix2 < dataTypeEnum.EnumValues.Count ? "," : ""));
-            this.Write("\r\n");
- ix2++; } 
-            this.Write("      },\r\n");
- if (dataTypeEnum.Description != null) { 
-            this.Write("      \"description\": \"");
-            this.Write(this.ToStringHelper.ToStringWithCulture(dataTypeEnum.Description));
-            this.Write("\",\r\n");
- } 
-            this.Write("      \"properties\": {\r\n");
- ix2 = 1; foreach (KeyValuePair<string, OpcUaEnumValue> enumValue in dataTypeEnum.EnumValues) { 
-            this.Write("        \"");
-            this.Write(this.ToStringHelper.ToStringWithCulture(enumValue.Value.SymbolicName ?? enumValue.Key));
             this.Write("\": {\r\n");
- if (enumValue.Value.Description != null) { 
-            this.Write("          \"description\": \"");
-            this.Write(this.ToStringHelper.ToStringWithCulture(enumValue.Value.Description));
-            this.Write("\",\r\n");
- } 
-            this.Write("          \"type\": \"integer\"\r\n        }");
-            this.Write(this.ToStringHelper.ToStringWithCulture(ix2 < dataTypeEnum.EnumValues.Count ? "," : ""));
+ this.PushIndent("      ");
+            this.Write(this.ToStringHelper.ToStringWithCulture(new WotDataSchemaEnum(dataTypeEnum).TransformText()));
             this.Write("\r\n");
- ix2++; } 
-            this.Write("      }\r\n    }");
+ this.PopIndent();
+            this.Write("    }");
             this.Write(this.ToStringHelper.ToStringWithCulture(ix1 < this.dataTypeEnums.Count ? "," : ""));
             this.Write("\r\n");
  ix1++; } 

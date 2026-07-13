@@ -1,9 +1,11 @@
-* @avishekpant @jrdouceur @timtay-microsoft @olivakar @maximsemenov80 @cartertinney @vaavva @RLeclair @clecompt-msft
+* @avishekpant @varunpuranik @timtay-microsoft @olivakar @maximsemenov80 @cartertinney @vaavva @RLeclair @clecompt-msft @marcschier
 
 /doc/dev/adr @avishekpant @varunpuranik
 
-/dotnet  @timtay-microsoft @olivakar @maximsemenov80 @avishekpant
+/dotnet  @timtay-microsoft @olivakar @maximsemenov80 @avishekpant @varunpuranik
 
-/rust   @cartertinney @vaavva @RLeclair @avishekpant
+/rust   @cartertinney @vaavva @RLeclair @avishekpant @varunpuranik
 
-/go @clecompt-msft @avishekpant
+/go @clecompt-msft @avishekpant @varunpuranik
+
+/wot-codegen @marcschier @koepalex @avishekpant @varunpuranik

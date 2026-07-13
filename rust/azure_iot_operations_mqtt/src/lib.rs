@@ -16,6 +16,12 @@ pub mod token;
 
 mod azure_mqtt_adapter;
 
+// These modules are currently unused, but will be in the future.
+#[allow(dead_code, clippy::type_complexity)]
+mod ktls;
+#[allow(dead_code, clippy::type_complexity)]
+mod opensslext;
+
 #[cfg(feature = "test-utils")]
 pub mod test_utils;
 

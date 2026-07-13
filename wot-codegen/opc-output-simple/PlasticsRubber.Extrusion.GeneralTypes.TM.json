@@ -124,6 +124,10 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/Strand",
+      "/properties/Target"
+    ],
     "actions": {
     },
     "properties": {
@@ -365,6 +369,11 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/IsClosed",
+      "/properties/StockingGuideIsPresent",
+      "/events/IsClosed"
+    ],
     "actions": {
     },
     "properties": {
@@ -481,6 +490,14 @@
         "dov:topic": "opcua/PlasticsRubber.Extrusion.GeneralTypes/PlasticsRubber_Extrusion_GeneralTypes_ExtrusionTemperatureZoneType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/ControllerOutput",
+      "/properties/NominalCoolingPower",
+      "/properties/NominalHeatingPower",
+      "/events/ControllerOutput",
+      "/events/NominalCoolingPower",
+      "/events/NominalHeatingPower"
     ],
     "actions": {
     },
@@ -794,6 +811,10 @@
         "dov:topic": "opcua/PlasticsRubber.Extrusion.GeneralTypes/PlasticsRubber_Extrusion_GeneralTypes_RollType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/MasterRollId",
+      "/properties/Name"
     ],
     "actions": {
     },

@@ -1030,6 +1030,20 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/JoiningSystemEventContent",
+      "/properties/JoiningSystemEventContent_AssociatedEntities",
+      "/properties/JoiningSystemEventContent_EventCode",
+      "/properties/JoiningSystemEventContent_EventText",
+      "/properties/JoiningSystemEventContent_JoiningTechnology",
+      "/properties/JoiningSystemEventContent_ReportedValues",
+      "/events/JoiningSystemEventContent",
+      "/events/JoiningSystemEventContent_AssociatedEntities",
+      "/events/JoiningSystemEventContent_EventCode",
+      "/events/JoiningSystemEventContent_EventText",
+      "/events/JoiningSystemEventContent_JoiningTechnology",
+      "/events/JoiningSystemEventContent_ReportedValues"
+    ],
     "actions": {
     },
     "properties": {
@@ -1440,6 +1454,20 @@
         "dov:topic": "opcua/IJT.Base/IJT_Base_JoiningSystemEventType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/JoiningSystemEventContent",
+      "/properties/JoiningSystemEventContent_AssociatedEntities",
+      "/properties/JoiningSystemEventContent_EventCode",
+      "/properties/JoiningSystemEventContent_EventText",
+      "/properties/JoiningSystemEventContent_JoiningTechnology",
+      "/properties/JoiningSystemEventContent_ReportedValues",
+      "/events/JoiningSystemEventContent",
+      "/events/JoiningSystemEventContent_AssociatedEntities",
+      "/events/JoiningSystemEventContent_EventCode",
+      "/events/JoiningSystemEventContent_EventText",
+      "/events/JoiningSystemEventContent_JoiningTechnology",
+      "/events/JoiningSystemEventContent_ReportedValues"
     ],
     "actions": {
     },
@@ -2262,6 +2290,11 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/Description",
+      "/properties/JoiningTechnology",
+      "/properties/SupplierCode"
+    ],
     "actions": {
     },
     "properties": {
@@ -2331,6 +2364,18 @@
         "type": "application/tm+json"
       },
       {
+        "rel": "dov:capability",
+        "dov:refName": "Identification",
+        "href": "./Machinery.TM.json#title=Machinery_MachineryItemIdentificationType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:reference",
+        "dov:refName": "LifetimeCounters",
+        "href": "./Machinery.TM.json#title=Machinery_MachineryLifetimeCounterType",
+        "type": "application/tm+json"
+      },
+      {
         "rel": "dov:component",
         "dov:refName": "MachineryBuildingBlocks",
         "href": "./OpcUaCore.TM.json#title=OpcUaCore_FolderType",
@@ -2340,6 +2385,24 @@
         "rel": "dov:capability",
         "dov:refName": "Maintenance",
         "href": "./DI.TM.json#title=DI_FunctionalGroupType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:reference",
+        "dov:refName": "Monitoring",
+        "href": "./Machinery.TM.json#title=Machinery_MonitoringType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:reference",
+        "dov:refName": "Notifications",
+        "href": "./Machinery.TM.json#title=Machinery_NotificationsType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:capability",
+        "dov:refName": "OperationCounters",
+        "href": "./Machinery.TM.json#title=Machinery_MachineryOperationCounterType",
         "type": "application/tm+json"
       },
       {
@@ -2793,6 +2856,18 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/DefaultInstanceBrowseName",
+      "/properties/Description",
+      "/properties/IntegratorName",
+      "/properties/JoiningTechnology",
+      "/properties/Location",
+      "/properties/Manufacturer",
+      "/properties/ManufacturerUri",
+      "/properties/Model",
+      "/properties/ProductInstanceUri",
+      "/properties/SystemId"
+    ],
     "actions": {
     },
     "properties": {
@@ -2997,6 +3072,26 @@
         "dov:topic": "opcua/IJT.Base/IJT_Base_JoiningProcessManagementType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/actions/AbortJoiningProcess",
+      "/actions/DecrementJoiningProcessCounter",
+      "/actions/DeleteJoiningProcess",
+      "/actions/DeselectJoiningProcess",
+      "/actions/GetJoiningProcess",
+      "/actions/GetJoiningProcessList",
+      "/actions/GetJoiningProcessRevisionList",
+      "/actions/GetSelectedJoiningProgram",
+      "/actions/IncrementJoiningProcessCounter",
+      "/actions/ResetJoiningProcess",
+      "/actions/SelectJoiningProcess",
+      "/actions/SendJoiningProcess",
+      "/actions/SetJoiningProcessCounter",
+      "/actions/SetJoiningProcessMapping",
+      "/actions/SetJoiningProcessSize",
+      "/actions/StartJoiningProcess",
+      "/actions/StartSelectedJoining",
+      "/properties/DefaultInstanceBrowseName"
     ],
     "actions": {
       "AbortJoiningProcess": {
@@ -4455,6 +4550,25 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/actions/DisconnectAsset",
+      "/actions/EnableAsset",
+      "/actions/ExecuteOperation",
+      "/actions/GetErrorInformation",
+      "/actions/GetFeedbackFileList",
+      "/actions/GetIdentifiers",
+      "/actions/GetIOSignals",
+      "/actions/RebootAsset",
+      "/actions/ResetIdentifiers",
+      "/actions/SendFeedback",
+      "/actions/SendIdentifiers",
+      "/actions/SendTextIdentifiers",
+      "/actions/SetCalibration",
+      "/actions/SetIOSignals",
+      "/actions/SetOfflineTimer",
+      "/actions/SetTime",
+      "/properties/DefaultInstanceBrowseName"
+    ],
     "actions": {
       "DisconnectAsset": {
         "dov:namespace": "http://opcfoundation.org/UA/IJT/Base/",
@@ -5430,9 +5544,33 @@
         "type": "application/tm+json"
       },
       {
+        "rel": "dov:capability",
+        "dov:refName": "Identification",
+        "href": "#title=IJT_Base_JoiningSystemIdentificationType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:reference",
+        "dov:refName": "JoiningProcessManagement",
+        "href": "#title=IJT_Base_JoiningProcessManagementType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:reference",
+        "dov:refName": "JointManagement",
+        "href": "#title=IJT_Base_JointManagementType",
+        "type": "application/tm+json"
+      },
+      {
         "rel": "dov:component",
         "dov:refName": "MachineryBuildingBlocks",
         "href": "./OpcUaCore.TM.json#title=OpcUaCore_FolderType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:reference",
+        "dov:refName": "ResultManagement",
+        "href": "#title=IJT_Base_JoiningSystemResultManagementType",
         "type": "application/tm+json"
       }
     ],
@@ -5470,6 +5608,23 @@
         "dov:topic": "opcua/IJT.Base/IJT_Base_JointManagementType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/actions/DeleteJoint",
+      "/actions/DeleteJointComponent",
+      "/actions/DeleteJointDesign",
+      "/actions/GetJoint",
+      "/actions/GetJointComponent",
+      "/actions/GetJointComponentList",
+      "/actions/GetJointDesign",
+      "/actions/GetJointDesignList",
+      "/actions/GetJointList",
+      "/actions/GetJointRevisionList",
+      "/actions/SelectJoint",
+      "/actions/SendJoint",
+      "/actions/SendJointComponent",
+      "/actions/SendJointDesign",
+      "/properties/DefaultInstanceBrowseName"
     ],
     "actions": {
       "DeleteJoint": {
@@ -6831,6 +6986,10 @@
     ],
     "schemaDefinitions": {
     },
+    "tm:optional": [
+      "/actions/RequestResults",
+      "/actions/RequestUnacknowledgedResults"
+    ],
     "actions": {
       "RequestResults": {
         "dov:namespace": "http://opcfoundation.org/UA/IJT/Base/",

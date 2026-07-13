@@ -2121,6 +2121,11 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/DefectEU",
+      "/properties/DefectPicture",
+      "/properties/DefectValue"
+    ],
     "actions": {
     },
     "properties": {
@@ -2268,6 +2273,9 @@
         "dov:topic": "opcua/TMC.v2/TMC_v2_DowntimeLogType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/RootCauses"
     ],
     "actions": {
     },
@@ -5389,6 +5397,10 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/Sublots",
+      "/events/Sublots"
+    ],
     "actions": {
       "EndSubCarrierLoading": {
         "dov:namespace": "http://opcfoundation.org/UA/TMC/v2/",
@@ -6778,6 +6790,10 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/AggregateItem",
+      "/events/AggregateItem"
+    ],
     "actions": {
       "ResetAggregates": {
         "dov:namespace": "http://opcfoundation.org/UA/TMC/v2/",
@@ -7079,6 +7095,11 @@
         "dov:topic": "opcua/TMC.v2/TMC_v2_ControlModuleConfigurationType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/ConfigurationItem",
+      "/properties/DeviceLifeSpan",
+      "/events/ConfigurationItem"
     ],
     "actions": {
     },
@@ -7414,6 +7435,11 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/actions/AcknowledgeAlarms",
+      "/actions/SendCommand",
+      "/actions/SetControlMode"
+    ],
     "actions": {
       "AcknowledgeAlarms": {
         "dov:namespace": "http://opcfoundation.org/UA/TMC/v2/",
@@ -7730,6 +7756,10 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/actions/Abort",
+      "/actions/Clear"
+    ],
     "actions": {
       "Abort": {
         "dov:namespace": "http://opcfoundation.org/UA/PackML/",
@@ -7960,6 +7990,10 @@
         "dov:topic": "opcua/TMC.v2/TMC_v2_TMCMachineStateMachineType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/actions/Reset",
+      "/actions/Stop"
     ],
     "actions": {
       "Reset": {
@@ -8345,6 +8379,47 @@
         "dov:topic": "opcua/TMC.v2/TMC_v2_TMCExecuteStateMachineType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/actions/Hold",
+      "/actions/Reset",
+      "/actions/Start",
+      "/actions/Suspend",
+      "/actions/ToComplete",
+      "/actions/Unhold",
+      "/actions/Unsuspend",
+      "/properties/CompleteToResettingGuard",
+      "/properties/CompletingToCompleteGuard",
+      "/properties/ExecuteToCompletingGuard",
+      "/properties/ExecuteToHoldingGuard",
+      "/properties/ExecuteToSuspendingGuard",
+      "/properties/HeldToUnholdingGuard",
+      "/properties/HoldingToHeldGuard",
+      "/properties/StartingToHoldingGuard",
+      "/properties/SuspendedToHoldingGuard",
+      "/properties/SuspendedToUnsuspendingGuard",
+      "/properties/SuspendingToHoldingGuard",
+      "/properties/SuspendingToSuspendedGuard",
+      "/properties/UnholdingToExecuteGuard",
+      "/properties/UnholdingToHoldingGuard",
+      "/properties/UnsuspendingToExecuteGuard",
+      "/properties/UnsuspendingToHoldingGuard",
+      "/events/CompleteToResettingGuard",
+      "/events/CompletingToCompleteGuard",
+      "/events/ExecuteToCompletingGuard",
+      "/events/ExecuteToHoldingGuard",
+      "/events/ExecuteToSuspendingGuard",
+      "/events/HeldToUnholdingGuard",
+      "/events/HoldingToHeldGuard",
+      "/events/StartingToHoldingGuard",
+      "/events/SuspendedToHoldingGuard",
+      "/events/SuspendedToUnsuspendingGuard",
+      "/events/SuspendingToHoldingGuard",
+      "/events/SuspendingToSuspendedGuard",
+      "/events/UnholdingToExecuteGuard",
+      "/events/UnholdingToHoldingGuard",
+      "/events/UnsuspendingToExecuteGuard",
+      "/events/UnsuspendingToHoldingGuard"
     ],
     "actions": {
       "Hold": {
@@ -9015,6 +9090,10 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/SetupItem",
+      "/events/SetupItem"
+    ],
     "actions": {
     },
     "properties": {
@@ -9265,6 +9344,10 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/Direction",
+      "/events/Direction"
+    ],
     "actions": {
     },
     "properties": {
@@ -9347,6 +9430,10 @@
         "dov:topic": "opcua/TMC.v2/TMC_v2_ValveSetupType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/PositionSetPoint",
+      "/events/PositionSetPoint"
     ],
     "actions": {
     },
@@ -9432,6 +9519,9 @@
         "dov:topic": "opcua/TMC.v2/TMC_v2_DefectReasonType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/actions/SetDetectionMode"
     ],
     "actions": {
       "SetDetectionMode": {
@@ -9886,6 +9976,10 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/ConfigurationItem",
+      "/events/ConfigurationItem"
+    ],
     "actions": {
     },
     "properties": {
@@ -10187,6 +10281,11 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/actions/AcknowledgeAlarms",
+      "/actions/SendCommand",
+      "/actions/SetControlMode"
+    ],
     "actions": {
       "AcknowledgeAlarms": {
         "dov:namespace": "http://opcfoundation.org/UA/TMC/v2/",
@@ -10455,6 +10554,10 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/SetupItem",
+      "/events/SetupItem"
+    ],
     "actions": {
     },
     "properties": {
@@ -10550,6 +10653,10 @@
         "dov:topic": "opcua/TMC.v2/TMC_v2_MachineModuleConfigurationType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/actions/GetDataSetList",
+      "/properties/DataSetList"
     ],
     "actions": {
       "GetDataSetList": {
@@ -13673,6 +13780,16 @@
         "dov:topic": "opcua/TMC.v2/TMC_v2_MachineModuleProductionType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/actions/AbortProductionOrder",
+      "/actions/AssignProductionOrder",
+      "/actions/ClearProductionOrder",
+      "/actions/StartAssignedProductionOrder",
+      "/actions/UnassignProductionOrder",
+      "/properties/AssignedProductionOrders",
+      "/properties/AutoComplete",
+      "/properties/AutoStart"
     ],
     "actions": {
       "AbortProductionOrder": {
@@ -17188,6 +17305,12 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/actions/LoadDataSet",
+      "/actions/LoadMaterialList",
+      "/actions/ValidateDataSet",
+      "/actions/ValidateMaterialList"
+    ],
     "actions": {
       "LoadDataSet": {
         "dov:namespace": "http://opcfoundation.org/UA/TMC/v2/",
@@ -19594,6 +19717,9 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/State"
+    ],
     "actions": {
     },
     "properties": {
@@ -20692,6 +20818,12 @@
         "dov:topic": "opcua/TMC.v2/TMC_v2_SensorFunctionType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/actions/LoadReferenceFeatures",
+      "/actions/SetDetectionMode",
+      "/properties/SensorValue",
+      "/events/SensorValue"
     ],
     "actions": {
       "LoadReferenceFeatures": {
@@ -22139,6 +22271,9 @@
         "dov:topic": "opcua/TMC.v2/TMC_v2_DefectDetectionSensorType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/actions/SetDetectionMode"
     ],
     "actions": {
       "SetDetectionMode": {
@@ -25450,6 +25585,9 @@
         "dov:topic": "opcua/TMC.v2/TMC_v2_MaterialRejectionPointType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/actions/SetRejectionMode"
     ],
     "actions": {
       "SetRejectionMode": {
@@ -30059,6 +30197,39 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/actions/GetGroupMemberships",
+      "/actions/PlaceInService",
+      "/actions/PlaceInService2",
+      "/actions/RemoveFromService",
+      "/actions/RemoveFromService2",
+      "/actions/Reset",
+      "/actions/Reset2",
+      "/actions/Silence",
+      "/actions/Suppress",
+      "/actions/Suppress2",
+      "/actions/Unsuppress",
+      "/actions/Unsuppress2",
+      "/properties/AudibleEnabled",
+      "/properties/AudibleSound",
+      "/properties/FirstInGroupFlag",
+      "/properties/LatchedState",
+      "/properties/MaxTimeShelved",
+      "/properties/OffDelay",
+      "/properties/OnDelay",
+      "/properties/OutOfServiceState",
+      "/properties/ReAlarmRepeatCount",
+      "/properties/ReAlarmTime",
+      "/properties/SilenceState",
+      "/properties/SuppressedState",
+      "/events/AudibleSound",
+      "/events/FirstInGroupFlag",
+      "/events/LatchedState",
+      "/events/OutOfServiceState",
+      "/events/ReAlarmRepeatCount",
+      "/events/SilenceState",
+      "/events/SuppressedState"
+    ],
     "actions": {
       "GetGroupMemberships": {
         "output": {
@@ -30563,6 +30734,11 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/actions/Confirm",
+      "/properties/ConfirmedState",
+      "/events/ConfirmedState"
+    ],
     "actions": {
       "Acknowledge": {
         "input": {
@@ -30720,6 +30896,13 @@
         "dov:topic": "opcua/OpcUaCore/OpcUaCore_ConditionType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/actions/ConditionRefresh",
+      "/actions/ConditionRefresh2",
+      "/properties/ConditionSubClassId",
+      "/properties/ConditionSubClassName",
+      "/properties/SupportsFilteredRetain"
     ],
     "actions": {
       "AddComment": {
@@ -31048,6 +31231,13 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/ConditionClassId",
+      "/properties/ConditionClassName",
+      "/properties/ConditionSubClassId",
+      "/properties/ConditionSubClassName",
+      "/properties/LocalTime"
+    ],
     "actions": {
     },
     "properties": {
@@ -31323,6 +31513,11 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/actions/OneShotShelve2",
+      "/actions/TimedShelve2",
+      "/actions/Unshelve2"
+    ],
     "actions": {
       "OneShotShelve": {
         "forms": [
@@ -31472,6 +31667,14 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/AvailableStates",
+      "/properties/AvailableTransitions",
+      "/properties/LastTransition",
+      "/events/AvailableStates",
+      "/events/AvailableTransitions",
+      "/events/LastTransition"
+    ],
     "actions": {
     },
     "properties": {
@@ -31614,6 +31817,10 @@
         "dov:topic": "opcua/OpcUaCore/OpcUaCore_StateMachineType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/LastTransition",
+      "/events/LastTransition"
     ],
     "actions": {
     },
@@ -32005,6 +32212,16 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/HighHighState",
+      "/properties/HighState",
+      "/properties/LowLowState",
+      "/properties/LowState",
+      "/events/HighHighState",
+      "/events/HighState",
+      "/events/LowLowState",
+      "/events/LowState"
+    ],
     "actions": {
     },
     "properties": {
@@ -32153,6 +32370,24 @@
         "dov:topic": "opcua/OpcUaCore/OpcUaCore_LimitAlarmType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/BaseHighHighLimit",
+      "/properties/BaseHighLimit",
+      "/properties/BaseLowLimit",
+      "/properties/BaseLowLowLimit",
+      "/properties/HighDeadband",
+      "/properties/HighHighDeadband",
+      "/properties/HighHighLimit",
+      "/properties/HighLimit",
+      "/properties/LowDeadband",
+      "/properties/LowLimit",
+      "/properties/LowLowDeadband",
+      "/properties/LowLowLimit",
+      "/properties/SeverityHigh",
+      "/properties/SeverityHighHigh",
+      "/properties/SeverityLow",
+      "/properties/SeverityLowLow"
     ],
     "actions": {
     },
@@ -32442,6 +32677,10 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/actions/Abort",
+      "/actions/Clear"
+    ],
     "actions": {
       "Abort": {
         "dov:namespace": "http://opcfoundation.org/UA/PackML/",
@@ -32611,6 +32850,10 @@
         "dov:topic": "opcua/PackML/PackML_PackMLMachineStateMachineType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/actions/Reset",
+      "/actions/Stop"
     ],
     "actions": {
       "Reset": {
@@ -32914,6 +33157,15 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/actions/Hold",
+      "/actions/Reset",
+      "/actions/Start",
+      "/actions/Suspend",
+      "/actions/ToComplete",
+      "/actions/Unhold",
+      "/actions/Unsuspend"
+    ],
     "actions": {
       "Hold": {
         "dov:namespace": "http://opcfoundation.org/UA/PackML/",
@@ -33207,6 +33459,14 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/DeviceClass",
+      "/properties/DeviceHealth",
+      "/properties/ManufacturerUri",
+      "/properties/ProductCode",
+      "/properties/ProductInstanceUri",
+      "/events/DeviceHealth"
+    ],
     "actions": {
     },
     "properties": {
@@ -33418,6 +33678,22 @@
         "dov:topic": "opcua/DI/DI_ComponentType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/AssetId",
+      "/properties/ComponentName",
+      "/properties/DeviceClass",
+      "/properties/DeviceManual",
+      "/properties/DeviceRevision",
+      "/properties/HardwareRevision",
+      "/properties/Manufacturer",
+      "/properties/ManufacturerUri",
+      "/properties/Model",
+      "/properties/ProductCode",
+      "/properties/ProductInstanceUri",
+      "/properties/RevisionCounter",
+      "/properties/SerialNumber",
+      "/properties/SoftwareRevision"
     ],
     "actions": {
     },
@@ -33689,6 +33965,10 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/UIElement",
+      "/events/UIElement"
+    ],
     "actions": {
     },
     "properties": {
@@ -33748,6 +34028,9 @@
         "dov:topic": "opcua/DI/DI_LockingServicesType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/DefaultInstanceBrowseName"
     ],
     "actions": {
       "BreakLock": {

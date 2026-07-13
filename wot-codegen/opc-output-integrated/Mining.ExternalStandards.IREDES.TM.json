@@ -53,6 +53,15 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/AckFlag",
+      "/properties/DefaultInstanceBrowseName",
+      "/properties/DispFlag",
+      "/properties/DispText",
+      "/events/AckFlag",
+      "/events/DispFlag",
+      "/events/DispText"
+    ],
     "actions": {
     },
     "properties": {
@@ -216,6 +225,17 @@
         "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_EquipmentInfoType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/DefaultInstanceBrowseName",
+      "/properties/EqpInfo",
+      "/properties/EqpModel",
+      "/properties/EqpName",
+      "/properties/EqpSerNo",
+      "/properties/EqpSysVer",
+      "/events/EqpInfo",
+      "/events/EqpName",
+      "/events/EqpSysVer"
     ],
     "actions": {
     },
@@ -414,6 +434,18 @@
         "rel": "tm:extends",
         "href": "#title=OpcUaCore_BaseObjectType",
         "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:reference",
+        "dov:refName": "EquipmentInfo",
+        "href": "#title=Mining_ExternalStandards_IREDES_EquipmentInfoType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:reference",
+        "dov:refName": "ProjectInfo",
+        "href": "#title=Mining_ExternalStandards_IREDES_ProjectInfoType",
+        "type": "application/tm+json"
       }
     ],
     "schemaDefinitions": {
@@ -429,6 +461,9 @@
         "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_GenHeadType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/DefaultInstanceBrowseName"
     ],
     "actions": {
     },
@@ -517,6 +552,138 @@
       }
     ],
     "@type": "tm:ThingModel",
+    "title": "Mining_ExternalStandards_IREDES_ProjectInfoType",
+    "dov:typeRef": "org.opcfoundation.UA.ProjectInfoType",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_ProjectInfoType/events/{senderId}",
+        "op": "subscribeallevents"
+      },
+      {
+        "contentType": "application/json",
+        "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_ProjectInfoType/properties/write",
+        "op": "writemultipleproperties"
+      },
+      {
+        "contentType": "application/json",
+        "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_ProjectInfoType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "tm:optional": [
+      "/properties/Comment",
+      "/properties/DefaultInstanceBrowseName",
+      "/properties/Signature",
+      "/events/Comment",
+      "/events/Signature"
+    ],
+    "actions": {
+    },
+    "properties": {
+      "Comment": {
+        "dov:namespace": "http://opcfoundation.org/UA/Mining/ExternalStandards/IREDES",
+        "description": "Comments concerning the project can be added here.",
+        "type": "string",
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_ProjectInfoType/property/Comment/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_ProjectInfoType/property/Comment/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "DefaultInstanceBrowseName": {
+        "dov:namespace": "http://opcfoundation.org/UA/Mining/ExternalStandards/IREDES",
+        "description": "The default BrowseName for instances of this type.",
+        "type": "string",
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_ProjectInfoType/property/DefaultInstanceBrowseName/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_ProjectInfoType/property/DefaultInstanceBrowseName/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "Signature": {
+        "dov:namespace": "http://opcfoundation.org/UA/Mining/ExternalStandards/IREDES",
+        "description": "Project signature.",
+        "type": "string",
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_ProjectInfoType/property/Signature/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_ProjectInfoType/property/Signature/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+      "Comment": {
+        "dov:namespace": "http://opcfoundation.org/UA/Mining/ExternalStandards/IREDES",
+        "data": {
+          "description": "Comments concerning the project can be added here.",
+          "type": "string"
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_ProjectInfoType/event/Comment/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "Signature": {
+        "dov:namespace": "http://opcfoundation.org/UA/Mining/ExternalStandards/IREDES",
+        "data": {
+          "description": "Project signature.",
+          "type": "string"
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_ProjectInfoType/event/Signature/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dov": "http://azure.com/DigitalOperations/vocab#"
+      }
+    ],
+    "@type": "tm:ThingModel",
     "title": "Mining_ExternalStandards_IREDES_GenTrailerType",
     "dov:typeRef": "org.opcfoundation.UA.Mining.ExternalStandards.IREDES.GenTrailerType",
     "links": [
@@ -539,6 +706,9 @@
         "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_GenTrailerType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/DefaultInstanceBrowseName"
     ],
     "actions": {
     },
@@ -610,12 +780,24 @@
       }
     ],
     "@type": "tm:ThingModel",
-    "title": "Mining_ExternalStandards_IREDES_IREDESType",
+    "title": "Mining_ExternalStandards_IREDES_IREDESType_1",
     "dov:typeRef": "org.opcfoundation.UA.Mining.ExternalStandards.IREDES.IREDESType",
     "links": [
       {
         "rel": "tm:extends",
         "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:capability",
+        "dov:refName": "GenHead",
+        "href": "#title=Mining_ExternalStandards_IREDES_GenHeadType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:reference",
+        "dov:refName": "SiteHead",
+        "href": "#title=Mining_ExternalStandards_IREDES_SiteHeadType",
         "type": "application/tm+json"
       }
     ],
@@ -624,14 +806,17 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_IREDESType/properties/write",
+        "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_IREDESType_1/properties/write",
         "op": "writemultipleproperties"
       },
       {
         "contentType": "application/json",
-        "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_IREDESType/properties/read",
+        "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_IREDESType_1/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/DefaultInstanceBrowseName"
     ],
     "actions": {
     },
@@ -643,12 +828,12 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_IREDESType/property/DefaultInstanceBrowseName/write",
+            "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_IREDESType_1/property/DefaultInstanceBrowseName/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_IREDESType/property/DefaultInstanceBrowseName/read",
+            "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_IREDESType_1/property/DefaultInstanceBrowseName/read",
             "op": "readproperty"
           }
         ]
@@ -661,12 +846,12 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_IREDESType/property/IRDownwCompat/write",
+            "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_IREDESType_1/property/IRDownwCompat/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_IREDESType/property/IRDownwCompat/read",
+            "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_IREDESType_1/property/IRDownwCompat/read",
             "op": "readproperty"
           }
         ]
@@ -679,18 +864,186 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_IREDESType/property/IRVersion/write",
+            "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_IREDESType_1/property/IRVersion/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_IREDESType/property/IRVersion/read",
+            "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_IREDESType_1/property/IRVersion/read",
             "op": "readproperty"
           }
         ]
       }
     },
     "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dov": "http://azure.com/DigitalOperations/vocab#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "Mining_ExternalStandards_IREDES_SiteHeadType",
+    "dov:typeRef": "org.opcfoundation.UA.Mining.ExternalStandards.IREDES.SiteHeadType",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:capability",
+        "dov:refName": "DisplayToOperator",
+        "href": "#title=Mining_ExternalStandards_IREDES_DisplayToOperatorType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:capability",
+        "dov:refName": "SiteOption",
+        "href": "#title=Mining_ExternalStandards_IREDES_IROptionType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_SiteHeadType/properties/write",
+        "op": "writemultipleproperties"
+      },
+      {
+        "contentType": "application/json",
+        "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_SiteHeadType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "tm:optional": [
+      "/properties/DefaultInstanceBrowseName"
+    ],
+    "actions": {
+    },
+    "properties": {
+      "DefaultInstanceBrowseName": {
+        "description": "The default BrowseName for instances of this type.",
+        "type": "string",
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_SiteHeadType/property/DefaultInstanceBrowseName/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_SiteHeadType/property/DefaultInstanceBrowseName/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dov": "http://azure.com/DigitalOperations/vocab#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "Mining_ExternalStandards_IREDES_IROptionType",
+    "dov:typeRef": "org.opcfoundation.UA.Mining.ExternalStandards.IREDES.IROptionType",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_IROptionType/events/{senderId}",
+        "op": "subscribeallevents"
+      },
+      {
+        "contentType": "application/json",
+        "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_IROptionType/properties/write",
+        "op": "writemultipleproperties"
+      },
+      {
+        "contentType": "application/json",
+        "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_IROptionType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "tm:optional": [
+      "/properties/DefaultInstanceBrowseName",
+      "/properties/OptionSchema",
+      "/events/OptionSchema"
+    ],
+    "actions": {
+    },
+    "properties": {
+      "DefaultInstanceBrowseName": {
+        "dov:namespace": "http://opcfoundation.org/UA/Mining/ExternalStandards/IREDES",
+        "description": "The default BrowseName for instances of this type.",
+        "type": "string",
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_IROptionType/property/DefaultInstanceBrowseName/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_IROptionType/property/DefaultInstanceBrowseName/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "OptionSchema": {
+        "dov:namespace": "http://opcfoundation.org/UA/Mining/ExternalStandards/IREDES",
+        "description": "URI for the schema that will extend the IREDES standard. This schema won’t be processed.",
+        "type": "string",
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_IROptionType/property/OptionSchema/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_IROptionType/property/OptionSchema/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+      "OptionSchema": {
+        "dov:namespace": "http://opcfoundation.org/UA/Mining/ExternalStandards/IREDES",
+        "data": {
+          "description": "URI for the schema that will extend the IREDES standard. This schema won’t be processed.",
+          "type": "string"
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_IROptionType/event/OptionSchema/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      }
     }
   },
   {
@@ -709,6 +1062,24 @@
         "rel": "tm:extends",
         "href": "#title=OpcUaCore_BaseObjectType",
         "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:capability",
+        "dov:refName": "IRLTMMon",
+        "href": "#title=Mining_ExternalStandards_IREDES_IRLTMMonType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:capability",
+        "dov:refName": "IRLTPlan",
+        "href": "#title=Mining_ExternalStandards_IREDES_IRLTPlanType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:capability",
+        "dov:refName": "IRLTPPerf",
+        "href": "#title=Mining_ExternalStandards_IREDES_IRLTPPerfType",
+        "type": "application/tm+json"
       }
     ],
     "schemaDefinitions": {
@@ -724,6 +1095,9 @@
         "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_IRLHDTruckType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/DefaultInstanceBrowseName"
     ],
     "actions": {
     },
@@ -765,6 +1139,18 @@
         "rel": "tm:extends",
         "href": "#title=OpcUaCore_BaseObjectType",
         "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:capability",
+        "dov:refName": "GenTrailer",
+        "href": "#title=Mining_ExternalStandards_IREDES_GenTrailerType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:capability",
+        "dov:refName": "IREDES",
+        "href": "#title=Mining_ExternalStandards_IREDES_IREDESType_1",
+        "type": "application/tm+json"
       }
     ],
     "schemaDefinitions": {
@@ -780,6 +1166,9 @@
         "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_IRLTMMonType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/DefaultInstanceBrowseName"
     ],
     "actions": {
     },
@@ -856,6 +1245,18 @@
         "rel": "tm:extends",
         "href": "#title=OpcUaCore_BaseObjectType",
         "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:capability",
+        "dov:refName": "GenTrailer",
+        "href": "#title=Mining_ExternalStandards_IREDES_GenTrailerType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:capability",
+        "dov:refName": "IRplanGen",
+        "href": "#title=Mining_ExternalStandards_IREDES_IRplanGenType",
+        "type": "application/tm+json"
       }
     ],
     "schemaDefinitions": {
@@ -871,6 +1272,9 @@
         "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_IRLTPlanType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/DefaultInstanceBrowseName"
     ],
     "actions": {
     },
@@ -941,196 +1345,18 @@
       }
     ],
     "@type": "tm:ThingModel",
-    "title": "Mining_ExternalStandards_IREDES_IRLTPPerfType",
-    "dov:typeRef": "org.opcfoundation.UA.Mining.ExternalStandards.IREDES.IRLTPPerfType",
-    "links": [
-      {
-        "rel": "tm:extends",
-        "href": "#title=OpcUaCore_BaseObjectType",
-        "type": "application/tm+json"
-      }
-    ],
-    "schemaDefinitions": {
-    },
-    "forms": [
-      {
-        "contentType": "application/json",
-        "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_IRLTPPerfType/properties/write",
-        "op": "writemultipleproperties"
-      },
-      {
-        "contentType": "application/json",
-        "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_IRLTPPerfType/properties/read",
-        "op": "readallproperties"
-      }
-    ],
-    "actions": {
-    },
-    "properties": {
-      "DefaultInstanceBrowseName": {
-        "description": "The default BrowseName for instances of this type.",
-        "type": "string",
-        "readOnly": false,
-        "forms": [
-          {
-            "contentType": "application/json",
-            "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_IRLTPPerfType/property/DefaultInstanceBrowseName/write",
-            "op": "writeproperty"
-          },
-          {
-            "contentType": "application/json",
-            "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_IRLTPPerfType/property/DefaultInstanceBrowseName/read",
-            "op": "readproperty"
-          }
-        ]
-      },
-      "LTPPerfDownwCompat": {
-        "dov:namespace": "http://opcfoundation.org/UA/Mining/ExternalStandards/IREDES",
-        "description": "2.0.",
-        "type": "string",
-        "readOnly": false,
-        "forms": [
-          {
-            "contentType": "application/json",
-            "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_IRLTPPerfType/property/LTPPerfDownwCompat/write",
-            "op": "writeproperty"
-          },
-          {
-            "contentType": "application/json",
-            "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_IRLTPPerfType/property/LTPPerfDownwCompat/read",
-            "op": "readproperty"
-          }
-        ]
-      },
-      "LTPPerfVersion": {
-        "dov:namespace": "http://opcfoundation.org/UA/Mining/ExternalStandards/IREDES",
-        "description": "2.0.",
-        "type": "string",
-        "readOnly": false,
-        "forms": [
-          {
-            "contentType": "application/json",
-            "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_IRLTPPerfType/property/LTPPerfVersion/write",
-            "op": "writeproperty"
-          },
-          {
-            "contentType": "application/json",
-            "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_IRLTPPerfType/property/LTPPerfVersion/read",
-            "op": "readproperty"
-          }
-        ]
-      }
-    },
-    "events": {
-    }
-  },
-  {
-    "@context": [
-      "https://www.w3.org/2022/wot/td/v1.1",
-      {
-        "dov": "http://azure.com/DigitalOperations/vocab#"
-      }
-    ],
-    "@type": "tm:ThingModel",
-    "title": "Mining_ExternalStandards_IREDES_IROptionType",
-    "dov:typeRef": "org.opcfoundation.UA.Mining.ExternalStandards.IREDES.IROptionType",
-    "links": [
-      {
-        "rel": "tm:extends",
-        "href": "#title=OpcUaCore_BaseObjectType",
-        "type": "application/tm+json"
-      }
-    ],
-    "schemaDefinitions": {
-    },
-    "forms": [
-      {
-        "contentType": "application/json",
-        "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_IROptionType/events/{senderId}",
-        "op": "subscribeallevents"
-      },
-      {
-        "contentType": "application/json",
-        "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_IROptionType/properties/write",
-        "op": "writemultipleproperties"
-      },
-      {
-        "contentType": "application/json",
-        "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_IROptionType/properties/read",
-        "op": "readallproperties"
-      }
-    ],
-    "actions": {
-    },
-    "properties": {
-      "DefaultInstanceBrowseName": {
-        "dov:namespace": "http://opcfoundation.org/UA/Mining/ExternalStandards/IREDES",
-        "description": "The default BrowseName for instances of this type.",
-        "type": "string",
-        "readOnly": false,
-        "forms": [
-          {
-            "contentType": "application/json",
-            "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_IROptionType/property/DefaultInstanceBrowseName/write",
-            "op": "writeproperty"
-          },
-          {
-            "contentType": "application/json",
-            "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_IROptionType/property/DefaultInstanceBrowseName/read",
-            "op": "readproperty"
-          }
-        ]
-      },
-      "OptionSchema": {
-        "dov:namespace": "http://opcfoundation.org/UA/Mining/ExternalStandards/IREDES",
-        "description": "URI for the schema that will extend the IREDES standard. This schema won’t be processed.",
-        "type": "string",
-        "readOnly": false,
-        "forms": [
-          {
-            "contentType": "application/json",
-            "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_IROptionType/property/OptionSchema/write",
-            "op": "writeproperty"
-          },
-          {
-            "contentType": "application/json",
-            "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_IROptionType/property/OptionSchema/read",
-            "op": "readproperty"
-          }
-        ]
-      }
-    },
-    "events": {
-      "OptionSchema": {
-        "dov:namespace": "http://opcfoundation.org/UA/Mining/ExternalStandards/IREDES",
-        "data": {
-          "description": "URI for the schema that will extend the IREDES standard. This schema won’t be processed.",
-          "type": "string"
-        },
-        "forms": [
-          {
-            "contentType": "application/json",
-            "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_IROptionType/event/OptionSchema/{senderId}",
-            "op": "subscribeevent"
-          }
-        ]
-      }
-    }
-  },
-  {
-    "@context": [
-      "https://www.w3.org/2022/wot/td/v1.1",
-      {
-        "dov": "http://azure.com/DigitalOperations/vocab#"
-      }
-    ],
-    "@type": "tm:ThingModel",
     "title": "Mining_ExternalStandards_IREDES_IRplanGenType",
     "dov:typeRef": "org.opcfoundation.UA.Mining.ExternalStandards.IREDES.IRplanGenType",
     "links": [
       {
         "rel": "tm:extends",
         "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:capability",
+        "dov:refName": "IREDES",
+        "href": "#title=Mining_ExternalStandards_IREDES_IREDESType_1",
         "type": "application/tm+json"
       }
     ],
@@ -1152,6 +1378,15 @@
         "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_IRplanGenType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/Comment",
+      "/properties/DefaultInstanceBrowseName",
+      "/properties/Project",
+      "/properties/WorkOrder",
+      "/events/Comment",
+      "/events/Project",
+      "/events/WorkOrder"
     ],
     "actions": {
     },
@@ -1324,12 +1559,24 @@
       }
     ],
     "@type": "tm:ThingModel",
-    "title": "Mining_ExternalStandards_IREDES_IRpPerfGenType",
-    "dov:typeRef": "org.opcfoundation.UA.Mining.ExternalStandards.IREDES.IRpPerfGenType",
+    "title": "Mining_ExternalStandards_IREDES_IRLTPPerfType",
+    "dov:typeRef": "org.opcfoundation.UA.Mining.ExternalStandards.IREDES.IRLTPPerfType",
     "links": [
       {
         "rel": "tm:extends",
         "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:capability",
+        "dov:refName": "IRpPerfGen",
+        "href": "#title=Mining_ExternalStandards_IREDES_IRpPerfGenType_2",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:capability",
+        "dov:refName": "LTPPLoadRep",
+        "href": "#title=Mining_ExternalStandards_IREDES_LTPPLoadRepType_2",
         "type": "application/tm+json"
       }
     ],
@@ -1338,19 +1585,130 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_IRpPerfGenType/events/{senderId}",
-        "op": "subscribeallevents"
-      },
-      {
-        "contentType": "application/json",
-        "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_IRpPerfGenType/properties/write",
+        "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_IRLTPPerfType/properties/write",
         "op": "writemultipleproperties"
       },
       {
         "contentType": "application/json",
-        "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_IRpPerfGenType/properties/read",
+        "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_IRLTPPerfType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/DefaultInstanceBrowseName"
+    ],
+    "actions": {
+    },
+    "properties": {
+      "DefaultInstanceBrowseName": {
+        "description": "The default BrowseName for instances of this type.",
+        "type": "string",
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_IRLTPPerfType/property/DefaultInstanceBrowseName/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_IRLTPPerfType/property/DefaultInstanceBrowseName/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "LTPPerfDownwCompat": {
+        "dov:namespace": "http://opcfoundation.org/UA/Mining/ExternalStandards/IREDES",
+        "description": "2.0.",
+        "type": "string",
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_IRLTPPerfType/property/LTPPerfDownwCompat/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_IRLTPPerfType/property/LTPPerfDownwCompat/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "LTPPerfVersion": {
+        "dov:namespace": "http://opcfoundation.org/UA/Mining/ExternalStandards/IREDES",
+        "description": "2.0.",
+        "type": "string",
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_IRLTPPerfType/property/LTPPerfVersion/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_IRLTPPerfType/property/LTPPerfVersion/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dov": "http://azure.com/DigitalOperations/vocab#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "Mining_ExternalStandards_IREDES_IRpPerfGenType_2",
+    "dov:typeRef": "org.opcfoundation.UA.Mining.ExternalStandards.IREDES.IRpPerfGenType",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:capability",
+        "dov:refName": "IREDES",
+        "href": "#title=Mining_ExternalStandards_IREDES_IREDESType_1",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:reference",
+        "dov:refName": "OpPerfLog",
+        "href": "#title=Mining_ExternalStandards_IREDES_OpPerfLogType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_IRpPerfGenType_2/events/{senderId}",
+        "op": "subscribeallevents"
+      },
+      {
+        "contentType": "application/json",
+        "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_IRpPerfGenType_2/properties/write",
+        "op": "writemultipleproperties"
+      },
+      {
+        "contentType": "application/json",
+        "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_IRpPerfGenType_2/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "tm:optional": [
+      "/properties/Comment",
+      "/properties/DefaultInstanceBrowseName",
+      "/events/Comment"
     ],
     "actions": {
     },
@@ -1363,12 +1721,12 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_IRpPerfGenType/property/Comment/write",
+            "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_IRpPerfGenType_2/property/Comment/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_IRpPerfGenType/property/Comment/read",
+            "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_IRpPerfGenType_2/property/Comment/read",
             "op": "readproperty"
           }
         ]
@@ -1380,12 +1738,12 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_IRpPerfGenType/property/DefaultInstanceBrowseName/write",
+            "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_IRpPerfGenType_2/property/DefaultInstanceBrowseName/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_IRpPerfGenType/property/DefaultInstanceBrowseName/read",
+            "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_IRpPerfGenType_2/property/DefaultInstanceBrowseName/read",
             "op": "readproperty"
           }
         ]
@@ -1399,12 +1757,12 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_IRpPerfGenType/property/EndLogTine/write",
+            "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_IRpPerfGenType_2/property/EndLogTine/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_IRpPerfGenType/property/EndLogTine/read",
+            "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_IRpPerfGenType_2/property/EndLogTine/read",
             "op": "readproperty"
           }
         ]
@@ -1417,12 +1775,12 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_IRpPerfGenType/property/ReportId/write",
+            "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_IRpPerfGenType_2/property/ReportId/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_IRpPerfGenType/property/ReportId/read",
+            "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_IRpPerfGenType_2/property/ReportId/read",
             "op": "readproperty"
           }
         ]
@@ -1436,12 +1794,12 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_IRpPerfGenType/property/StartLogTime/write",
+            "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_IRpPerfGenType_2/property/StartLogTime/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_IRpPerfGenType/property/StartLogTime/read",
+            "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_IRpPerfGenType_2/property/StartLogTime/read",
             "op": "readproperty"
           }
         ]
@@ -1457,7 +1815,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_IRpPerfGenType/event/Comment/{senderId}",
+            "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_IRpPerfGenType_2/event/Comment/{senderId}",
             "op": "subscribeevent"
           }
         ]
@@ -1472,8 +1830,8 @@
       }
     ],
     "@type": "tm:ThingModel",
-    "title": "Mining_ExternalStandards_IREDES_IRreplyType",
-    "dov:typeRef": "org.opcfoundation.UA.Mining.ExternalStandards.IREDES.IRreplyType",
+    "title": "Mining_ExternalStandards_IREDES_OpPerfLogType",
+    "dov:typeRef": "org.opcfoundation.UA.Mining.ExternalStandards.IREDES.OpPerfLogType",
     "links": [
       {
         "rel": "tm:extends",
@@ -1486,137 +1844,26 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_IRreplyType/events/{senderId}",
+        "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_OpPerfLogType/events/{senderId}",
         "op": "subscribeallevents"
       },
       {
         "contentType": "application/json",
-        "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_IRreplyType/properties/write",
+        "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_OpPerfLogType/properties/write",
         "op": "writemultipleproperties"
       },
       {
         "contentType": "application/json",
-        "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_IRreplyType/properties/read",
+        "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_OpPerfLogType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/DefaultInstanceBrowseName"
     ],
     "actions": {
     },
     "properties": {
-      "Comment": {
-        "dov:namespace": "http://opcfoundation.org/UA/Mining/ExternalStandards/IREDES",
-        "type": "array",
-        "items": {
-          "type": "string"
-        },
-        "readOnly": false,
-        "forms": [
-          {
-            "contentType": "application/json",
-            "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_IRreplyType/property/Comment/write",
-            "op": "writeproperty"
-          },
-          {
-            "contentType": "application/json",
-            "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_IRreplyType/property/Comment/read",
-            "op": "readproperty"
-          }
-        ]
-      },
-      "DefaultInstanceBrowseName": {
-        "type": "string",
-        "readOnly": false,
-        "forms": [
-          {
-            "contentType": "application/json",
-            "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_IRreplyType/property/DefaultInstanceBrowseName/write",
-            "op": "writeproperty"
-          },
-          {
-            "contentType": "application/json",
-            "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_IRreplyType/property/DefaultInstanceBrowseName/read",
-            "op": "readproperty"
-          }
-        ]
-      }
-    },
-    "events": {
-      "Comment": {
-        "dov:namespace": "http://opcfoundation.org/UA/Mining/ExternalStandards/IREDES",
-        "data": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          }
-        },
-        "forms": [
-          {
-            "contentType": "application/json",
-            "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_IRreplyType/event/Comment/{senderId}",
-            "op": "subscribeevent"
-          }
-        ]
-      }
-    }
-  },
-  {
-    "@context": [
-      "https://www.w3.org/2022/wot/td/v1.1",
-      {
-        "dov": "http://azure.com/DigitalOperations/vocab#"
-      }
-    ],
-    "@type": "tm:ThingModel",
-    "title": "Mining_ExternalStandards_IREDES_IRStatusGenType",
-    "dov:typeRef": "org.opcfoundation.UA.Mining.ExternalStandards.IREDES.IRStatusGenType",
-    "dov:isComposite": true,
-    "links": [
-      {
-        "rel": "tm:extends",
-        "href": "#title=OpcUaCore_BaseObjectType",
-        "type": "application/tm+json"
-      }
-    ],
-    "schemaDefinitions": {
-    },
-    "forms": [
-      {
-        "contentType": "application/json",
-        "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_IRStatusGenType/events/{senderId}",
-        "op": "subscribeallevents"
-      },
-      {
-        "contentType": "application/json",
-        "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_IRStatusGenType/properties/write",
-        "op": "writemultipleproperties"
-      },
-      {
-        "contentType": "application/json",
-        "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_IRStatusGenType/properties/read",
-        "op": "readallproperties"
-      }
-    ],
-    "actions": {
-    },
-    "properties": {
-      "Comment": {
-        "dov:namespace": "http://opcfoundation.org/UA/Mining/ExternalStandards/IREDES",
-        "description": "Project information concerning this log.",
-        "type": "string",
-        "readOnly": false,
-        "forms": [
-          {
-            "contentType": "application/json",
-            "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_IRStatusGenType/property/Comment/write",
-            "op": "writeproperty"
-          },
-          {
-            "contentType": "application/json",
-            "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_IRStatusGenType/property/Comment/read",
-            "op": "readproperty"
-          }
-        ]
-      },
       "DefaultInstanceBrowseName": {
         "description": "The default BrowseName for instances of this type.",
         "type": "string",
@@ -1624,832 +1871,448 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_IRStatusGenType/property/DefaultInstanceBrowseName/write",
+            "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_OpPerfLogType/property/DefaultInstanceBrowseName/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_IRStatusGenType/property/DefaultInstanceBrowseName/read",
+            "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_OpPerfLogType/property/DefaultInstanceBrowseName/read",
             "op": "readproperty"
           }
         ]
       },
-      "EndLogTime": {
+      "Mworking": {
         "dov:namespace": "http://opcfoundation.org/UA/Mining/ExternalStandards/IREDES",
-        "description": "End of the reporting period. Date and time when the last entry to this xml-set was made.",
-        "type": "string",
-        "format": "date-time",
-        "readOnly": false,
-        "forms": [
-          {
-            "contentType": "application/json",
-            "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_IRStatusGenType/property/EndLogTime/write",
-            "op": "writeproperty"
-          },
-          {
-            "contentType": "application/json",
-            "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_IRStatusGenType/property/EndLogTime/read",
-            "op": "readproperty"
-          }
-        ]
-      },
-      "OperatorId": {
-        "dov:namespace": "http://opcfoundation.org/UA/Mining/ExternalStandards/IREDES",
-        "description": "Identify the operator of the machine for reference.",
-        "type": "string",
-        "readOnly": false,
-        "forms": [
-          {
-            "contentType": "application/json",
-            "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_IRStatusGenType/property/OperatorId/write",
-            "op": "writeproperty"
-          },
-          {
-            "contentType": "application/json",
-            "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_IRStatusGenType/property/OperatorId/read",
-            "op": "readproperty"
-          }
-        ]
-      },
-      "ReportId": {
-        "dov:namespace": "http://opcfoundation.org/UA/Mining/ExternalStandards/IREDES",
-        "description": "Report ID code, to uniquely identify this log report.",
-        "type": "string",
-        "readOnly": false,
-        "forms": [
-          {
-            "contentType": "application/json",
-            "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_IRStatusGenType/property/ReportId/write",
-            "op": "writeproperty"
-          },
-          {
-            "contentType": "application/json",
-            "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_IRStatusGenType/property/ReportId/read",
-            "op": "readproperty"
-          }
-        ]
-      },
-      "StartLogTime": {
-        "dov:namespace": "http://opcfoundation.org/UA/Mining/ExternalStandards/IREDES",
-        "description": "Start of the reporting period. Date and time when the first entry to this xml-set was made.",
-        "type": "string",
-        "format": "date-time",
-        "readOnly": false,
-        "forms": [
-          {
-            "contentType": "application/json",
-            "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_IRStatusGenType/property/StartLogTime/write",
-            "op": "writeproperty"
-          },
-          {
-            "contentType": "application/json",
-            "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_IRStatusGenType/property/StartLogTime/read",
-            "op": "readproperty"
-          }
-        ]
-      }
-    },
-    "events": {
-      "Comment": {
-        "dov:namespace": "http://opcfoundation.org/UA/Mining/ExternalStandards/IREDES",
-        "data": {
-          "description": "Project information concerning this log.",
-          "type": "string"
-        },
-        "forms": [
-          {
-            "contentType": "application/json",
-            "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_IRStatusGenType/event/Comment/{senderId}",
-            "op": "subscribeevent"
-          }
-        ]
-      },
-      "OperatorId": {
-        "dov:namespace": "http://opcfoundation.org/UA/Mining/ExternalStandards/IREDES",
-        "data": {
-          "description": "Identify the operator of the machine for reference.",
-          "type": "string"
-        },
-        "forms": [
-          {
-            "contentType": "application/json",
-            "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_IRStatusGenType/event/OperatorId/{senderId}",
-            "op": "subscribeevent"
-          }
-        ]
-      }
-    }
-  },
-  {
-    "@context": [
-      "https://www.w3.org/2022/wot/td/v1.1",
-      {
-        "dov": "http://azure.com/DigitalOperations/vocab#"
-      }
-    ],
-    "@type": "tm:ThingModel",
-    "title": "Mining_ExternalStandards_IREDES_IRWorkOrderGenType",
-    "dov:typeRef": "org.opcfoundation.UA.Mining.ExternalStandards.IREDES.IRWorkOrderGenType",
-    "dov:isComposite": true,
-    "links": [
-      {
-        "rel": "tm:extends",
-        "href": "#title=OpcUaCore_BaseObjectType",
-        "type": "application/tm+json"
-      }
-    ],
-    "schemaDefinitions": {
-    },
-    "forms": [
-      {
-        "contentType": "application/json",
-        "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_IRWorkOrderGenType/events/{senderId}",
-        "op": "subscribeallevents"
-      },
-      {
-        "contentType": "application/json",
-        "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_IRWorkOrderGenType/properties/write",
-        "op": "writemultipleproperties"
-      },
-      {
-        "contentType": "application/json",
-        "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_IRWorkOrderGenType/properties/read",
-        "op": "readallproperties"
-      }
-    ],
-    "actions": {
-    },
-    "properties": {
-      "AssignmentTime": {
-        "dov:namespace": "http://opcfoundation.org/UA/Mining/ExternalStandards/IREDES",
-        "title": "JobAssignmentTimeDataType",
-        "description": "Time the execution of the job is expected to take.",
-        "type": "object",
-        "dov:typeRef": "org.opcfoundation.UA.Mining.ExternalStandards.IREDES.JobAssignmentTimeDataType",
-        "properties": {
-          "ExpectedFinishTime": {
-            "description": "Time Machine is expected to finish the job.",
-            "type": "string",
-            "format": "date-time"
-          },
-          "ExpectedDuration": {
-            "description": "Time the job is going to take to finish.",
-            "type": "string",
-            "pattern": "^P(?!$)(?:(?:(?:(?:\\d+Y)|(?:\\d+\\.\\d+Y$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?)|(?:(?:(?:\\d+W)|(?:\\d+\\.\\d+W$))?))(?:(?:\\d+D)|(?:\\d+\\.\\d+D$))?(?:T(?!$)(?:(?:\\d+H)|(?:\\d+\\.\\d+H$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?(?:\\d+(?:\\.\\d+)?S)?)?$"
-          }
-        },
-        "readOnly": false,
-        "forms": [
-          {
-            "contentType": "application/json",
-            "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_IRWorkOrderGenType/property/AssignmentTime/write",
-            "op": "writeproperty"
-          },
-          {
-            "contentType": "application/json",
-            "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_IRWorkOrderGenType/property/AssignmentTime/read",
-            "op": "readproperty"
-          }
-        ]
-      },
-      "Comment": {
-        "dov:namespace": "http://opcfoundation.org/UA/Mining/ExternalStandards/IREDES",
-        "type": "array",
-        "items": {
-          "type": "string"
-        },
-        "readOnly": false,
-        "forms": [
-          {
-            "contentType": "application/json",
-            "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_IRWorkOrderGenType/property/Comment/write",
-            "op": "writeproperty"
-          },
-          {
-            "contentType": "application/json",
-            "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_IRWorkOrderGenType/property/Comment/read",
-            "op": "readproperty"
-          }
-        ]
-      },
-      "DefaultInstanceBrowseName": {
-        "type": "string",
-        "readOnly": false,
-        "forms": [
-          {
-            "contentType": "application/json",
-            "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_IRWorkOrderGenType/property/DefaultInstanceBrowseName/write",
-            "op": "writeproperty"
-          },
-          {
-            "contentType": "application/json",
-            "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_IRWorkOrderGenType/property/DefaultInstanceBrowseName/read",
-            "op": "readproperty"
-          }
-        ]
-      },
-      "Issuer": {
-        "dov:namespace": "http://opcfoundation.org/UA/Mining/ExternalStandards/IREDES",
-        "description": "ID of the person or institute who issued this work order.",
-        "type": "string",
-        "readOnly": false,
-        "forms": [
-          {
-            "contentType": "application/json",
-            "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_IRWorkOrderGenType/property/Issuer/write",
-            "op": "writeproperty"
-          },
-          {
-            "contentType": "application/json",
-            "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_IRWorkOrderGenType/property/Issuer/read",
-            "op": "readproperty"
-          }
-        ]
-      },
-      "MachineId": {
-        "dov:namespace": "http://opcfoundation.org/UA/Mining/ExternalStandards/IREDES",
-        "description": "Machine assigned to the work.",
-        "type": "array",
-        "items": {
-          "type": "string"
-        },
-        "readOnly": false,
-        "forms": [
-          {
-            "contentType": "application/json",
-            "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_IRWorkOrderGenType/property/MachineId/write",
-            "op": "writeproperty"
-          },
-          {
-            "contentType": "application/json",
-            "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_IRWorkOrderGenType/property/MachineId/read",
-            "op": "readproperty"
-          }
-        ]
-      },
-      "OperatorId": {
-        "dov:namespace": "http://opcfoundation.org/UA/Mining/ExternalStandards/IREDES",
-        "description": "Operators assigned to the work.",
-        "type": "array",
-        "items": {
-          "type": "string"
-        },
-        "readOnly": false,
-        "forms": [
-          {
-            "contentType": "application/json",
-            "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_IRWorkOrderGenType/property/OperatorId/write",
-            "op": "writeproperty"
-          },
-          {
-            "contentType": "application/json",
-            "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_IRWorkOrderGenType/property/OperatorId/read",
-            "op": "readproperty"
-          }
-        ]
-      },
-      "PriorityLevel": {
-        "dov:namespace": "http://opcfoundation.org/UA/Mining/ExternalStandards/IREDES",
-        "description": "Priority of the workorder. Level from 1 to 10 as 10 representing top priority.",
-        "type": "integer",
-        "minimum": 0,
-        "maximum": 4294967295,
-        "readOnly": false,
-        "forms": [
-          {
-            "contentType": "application/json",
-            "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_IRWorkOrderGenType/property/PriorityLevel/write",
-            "op": "writeproperty"
-          },
-          {
-            "contentType": "application/json",
-            "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_IRWorkOrderGenType/property/PriorityLevel/read",
-            "op": "readproperty"
-          }
-        ]
-      },
-      "SafetyAdvice": {
-        "dov:namespace": "http://opcfoundation.org/UA/Mining/ExternalStandards/IREDES",
-        "description": "Work order shall be carried out. Schema should be defined separately within the IRoptionType.",
-        "type": "array",
-        "items": {
-          "type": "string"
-        },
-        "readOnly": false,
-        "forms": [
-          {
-            "contentType": "application/json",
-            "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_IRWorkOrderGenType/property/SafetyAdvice/write",
-            "op": "writeproperty"
-          },
-          {
-            "contentType": "application/json",
-            "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_IRWorkOrderGenType/property/SafetyAdvice/read",
-            "op": "readproperty"
-          }
-        ]
-      },
-      "SpecialCondition": {
-        "dov:namespace": "http://opcfoundation.org/UA/Mining/ExternalStandards/IREDES",
-        "description": "E.g. electricity will be switched off in some region in mine during operation.",
-        "type": "array",
-        "items": {
-          "type": "string"
-        },
-        "readOnly": false,
-        "forms": [
-          {
-            "contentType": "application/json",
-            "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_IRWorkOrderGenType/property/SpecialCondition/write",
-            "op": "writeproperty"
-          },
-          {
-            "contentType": "application/json",
-            "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_IRWorkOrderGenType/property/SpecialCondition/read",
-            "op": "readproperty"
-          }
-        ]
-      },
-      "SpecialTask": {
-        "dov:namespace": "http://opcfoundation.org/UA/Mining/ExternalStandards/IREDES",
-        "description": "Tasks that are not or hard to describe in workorder.",
-        "type": "array",
-        "items": {
-          "type": "string"
-        },
-        "readOnly": false,
-        "forms": [
-          {
-            "contentType": "application/json",
-            "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_IRWorkOrderGenType/property/SpecialTask/write",
-            "op": "writeproperty"
-          },
-          {
-            "contentType": "application/json",
-            "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_IRWorkOrderGenType/property/SpecialTask/read",
-            "op": "readproperty"
-          }
-        ]
-      },
-      "WorkOrderId": {
-        "dov:namespace": "http://opcfoundation.org/UA/Mining/ExternalStandards/IREDES",
-        "description": "Identification of this work order. This ID has nothing to do with the, for example, work plan ID.",
-        "type": "string",
-        "readOnly": false,
-        "forms": [
-          {
-            "contentType": "application/json",
-            "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_IRWorkOrderGenType/property/WorkOrderId/write",
-            "op": "writeproperty"
-          },
-          {
-            "contentType": "application/json",
-            "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_IRWorkOrderGenType/property/WorkOrderId/read",
-            "op": "readproperty"
-          }
-        ]
-      },
-      "WorkOrderType": {
-        "dov:namespace": "http://opcfoundation.org/UA/Mining/ExternalStandards/IREDES",
-        "type": "string",
-        "readOnly": false,
-        "forms": [
-          {
-            "contentType": "application/json",
-            "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_IRWorkOrderGenType/property/WorkOrderType/write",
-            "op": "writeproperty"
-          },
-          {
-            "contentType": "application/json",
-            "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_IRWorkOrderGenType/property/WorkOrderType/read",
-            "op": "readproperty"
-          }
-        ]
-      }
-    },
-    "events": {
-      "AssignmentTime": {
-        "dov:namespace": "http://opcfoundation.org/UA/Mining/ExternalStandards/IREDES",
-        "data": {
-          "title": "JobAssignmentTimeDataType",
-          "description": "Time the execution of the job is expected to take.",
-          "type": "object",
-          "dov:typeRef": "org.opcfoundation.UA.Mining.ExternalStandards.IREDES.JobAssignmentTimeDataType",
-          "properties": {
-            "ExpectedFinishTime": {
-              "description": "Time Machine is expected to finish the job.",
-              "type": "string",
-              "format": "date-time"
-            },
-            "ExpectedDuration": {
-              "description": "Time the job is going to take to finish.",
-              "type": "string",
-              "pattern": "^P(?!$)(?:(?:(?:(?:\\d+Y)|(?:\\d+\\.\\d+Y$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?)|(?:(?:(?:\\d+W)|(?:\\d+\\.\\d+W$))?))(?:(?:\\d+D)|(?:\\d+\\.\\d+D$))?(?:T(?!$)(?:(?:\\d+H)|(?:\\d+\\.\\d+H$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?(?:\\d+(?:\\.\\d+)?S)?)?$"
-            }
-          }
-        },
-        "forms": [
-          {
-            "contentType": "application/json",
-            "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_IRWorkOrderGenType/event/AssignmentTime/{senderId}",
-            "op": "subscribeevent"
-          }
-        ]
-      },
-      "Comment": {
-        "dov:namespace": "http://opcfoundation.org/UA/Mining/ExternalStandards/IREDES",
-        "data": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          }
-        },
-        "forms": [
-          {
-            "contentType": "application/json",
-            "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_IRWorkOrderGenType/event/Comment/{senderId}",
-            "op": "subscribeevent"
-          }
-        ]
-      },
-      "MachineId": {
-        "dov:namespace": "http://opcfoundation.org/UA/Mining/ExternalStandards/IREDES",
-        "data": {
-          "description": "Machine assigned to the work.",
-          "type": "array",
-          "items": {
-            "type": "string"
-          }
-        },
-        "forms": [
-          {
-            "contentType": "application/json",
-            "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_IRWorkOrderGenType/event/MachineId/{senderId}",
-            "op": "subscribeevent"
-          }
-        ]
-      },
-      "OperatorId": {
-        "dov:namespace": "http://opcfoundation.org/UA/Mining/ExternalStandards/IREDES",
-        "data": {
-          "description": "Operators assigned to the work.",
-          "type": "array",
-          "items": {
-            "type": "string"
-          }
-        },
-        "forms": [
-          {
-            "contentType": "application/json",
-            "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_IRWorkOrderGenType/event/OperatorId/{senderId}",
-            "op": "subscribeevent"
-          }
-        ]
-      },
-      "PriorityLevel": {
-        "dov:namespace": "http://opcfoundation.org/UA/Mining/ExternalStandards/IREDES",
-        "data": {
-          "description": "Priority of the workorder. Level from 1 to 10 as 10 representing top priority.",
-          "type": "integer",
-          "minimum": 0,
-          "maximum": 4294967295
-        },
-        "forms": [
-          {
-            "contentType": "application/json",
-            "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_IRWorkOrderGenType/event/PriorityLevel/{senderId}",
-            "op": "subscribeevent"
-          }
-        ]
-      },
-      "SafetyAdvice": {
-        "dov:namespace": "http://opcfoundation.org/UA/Mining/ExternalStandards/IREDES",
-        "data": {
-          "description": "Work order shall be carried out. Schema should be defined separately within the IRoptionType.",
-          "type": "array",
-          "items": {
-            "type": "string"
-          }
-        },
-        "forms": [
-          {
-            "contentType": "application/json",
-            "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_IRWorkOrderGenType/event/SafetyAdvice/{senderId}",
-            "op": "subscribeevent"
-          }
-        ]
-      },
-      "SpecialCondition": {
-        "dov:namespace": "http://opcfoundation.org/UA/Mining/ExternalStandards/IREDES",
-        "data": {
-          "description": "E.g. electricity will be switched off in some region in mine during operation.",
-          "type": "array",
-          "items": {
-            "type": "string"
-          }
-        },
-        "forms": [
-          {
-            "contentType": "application/json",
-            "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_IRWorkOrderGenType/event/SpecialCondition/{senderId}",
-            "op": "subscribeevent"
-          }
-        ]
-      },
-      "SpecialTask": {
-        "dov:namespace": "http://opcfoundation.org/UA/Mining/ExternalStandards/IREDES",
-        "data": {
-          "description": "Tasks that are not or hard to describe in workorder.",
-          "type": "array",
-          "items": {
-            "type": "string"
-          }
-        },
-        "forms": [
-          {
-            "contentType": "application/json",
-            "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_IRWorkOrderGenType/event/SpecialTask/{senderId}",
-            "op": "subscribeevent"
-          }
-        ]
-      },
-      "WorkOrderType": {
-        "dov:namespace": "http://opcfoundation.org/UA/Mining/ExternalStandards/IREDES",
-        "data": {
-          "type": "string"
-        },
-        "forms": [
-          {
-            "contentType": "application/json",
-            "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_IRWorkOrderGenType/event/WorkOrderType/{senderId}",
-            "op": "subscribeevent"
-          }
-        ]
-      }
-    }
-  },
-  {
-    "@context": [
-      "https://www.w3.org/2022/wot/td/v1.1",
-      {
-        "dov": "http://azure.com/DigitalOperations/vocab#"
-      }
-    ],
-    "@type": "tm:ThingModel",
-    "title": "Mining_ExternalStandards_IREDES_IRWorkOrderReplyGenType",
-    "dov:typeRef": "org.opcfoundation.UA.Mining.ExternalStandards.IREDES.IRWorkOrderReplyGenType",
-    "links": [
-      {
-        "rel": "tm:extends",
-        "href": "#title=OpcUaCore_BaseObjectType",
-        "type": "application/tm+json"
-      }
-    ],
-    "schemaDefinitions": {
-      "Answer": {
-        "type": "object",
-        "dov:typeRef": "org.opcfoundation.UA.Mining.ExternalStandards.IREDES.Answer",
-        "const": {
-          "Accepted": 0,
-          "Delayed": 1,
-          "AcceptedWithCondition": 2,
-          "Denied": 3
-        },
-        "properties": {
-          "Accepted": {
-            "description": "Order is accepted.",
-            "type": "integer"
-          },
-          "Delayed": {
-            "description": "Order can only be executed with delay.",
-            "type": "integer"
-          },
-          "AcceptedWithCondition": {
-            "description": "Order is accepted under a condition.",
-            "type": "integer"
-          },
-          "Denied": {
-            "description": "Orders denied.",
-            "type": "integer"
-          }
-        }
-      }
-    },
-    "forms": [
-      {
-        "contentType": "application/json",
-        "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_IRWorkOrderReplyGenType/events/{senderId}",
-        "op": "subscribeallevents"
-      },
-      {
-        "contentType": "application/json",
-        "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_IRWorkOrderReplyGenType/properties/write",
-        "op": "writemultipleproperties"
-      },
-      {
-        "contentType": "application/json",
-        "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_IRWorkOrderReplyGenType/properties/read",
-        "op": "readallproperties"
-      }
-    ],
-    "actions": {
-    },
-    "properties": {
-      "Answer": {
-        "dov:namespace": "http://opcfoundation.org/UA/Mining/ExternalStandards/IREDES",
-        "title": "Answer",
-        "description": "See Answer enumeration.",
-        "dov:typeRef": "org.opcfoundation.UA.Mining.ExternalStandards.IREDES.Answer",
-        "type": "integer",
-        "minimum": -2147483648,
-        "maximum": 2147483647,
-        "readOnly": false,
-        "forms": [
-          {
-            "contentType": "application/json",
-            "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_IRWorkOrderReplyGenType/property/Answer/write",
-            "op": "writeproperty"
-          },
-          {
-            "contentType": "application/json",
-            "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_IRWorkOrderReplyGenType/property/Answer/read",
-            "op": "readproperty"
-          }
-        ]
-      },
-      "Condition": {
-        "dov:namespace": "http://opcfoundation.org/UA/Mining/ExternalStandards/IREDES",
-        "description": "Only for 'AcceptedWithCondition' option. Free text field for condition such as 'need consumable', etc.",
-        "type": "string",
-        "readOnly": false,
-        "forms": [
-          {
-            "contentType": "application/json",
-            "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_IRWorkOrderReplyGenType/property/Condition/write",
-            "op": "writeproperty"
-          },
-          {
-            "contentType": "application/json",
-            "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_IRWorkOrderReplyGenType/property/Condition/read",
-            "op": "readproperty"
-          }
-        ]
-      },
-      "DefaultInstanceBrowseName": {
-        "dov:namespace": "http://opcfoundation.org/UA/Mining/ExternalStandards/IREDES",
-        "type": "string",
-        "readOnly": false,
-        "forms": [
-          {
-            "contentType": "application/json",
-            "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_IRWorkOrderReplyGenType/property/DefaultInstanceBrowseName/write",
-            "op": "writeproperty"
-          },
-          {
-            "contentType": "application/json",
-            "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_IRWorkOrderReplyGenType/property/DefaultInstanceBrowseName/read",
-            "op": "readproperty"
-          }
-        ]
-      },
-      "Duration": {
-        "dov:namespace": "http://opcfoundation.org/UA/Mining/ExternalStandards/IREDES",
-        "description": "For delayed option only.",
+        "description": "Machine working.",
         "type": "string",
         "pattern": "^P(?!$)(?:(?:(?:(?:\\d+Y)|(?:\\d+\\.\\d+Y$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?)|(?:(?:(?:\\d+W)|(?:\\d+\\.\\d+W$))?))(?:(?:\\d+D)|(?:\\d+\\.\\d+D$))?(?:T(?!$)(?:(?:\\d+H)|(?:\\d+\\.\\d+H$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?(?:\\d+(?:\\.\\d+)?S)?)?$",
         "readOnly": false,
         "forms": [
           {
             "contentType": "application/json",
-            "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_IRWorkOrderReplyGenType/property/Duration/write",
+            "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_OpPerfLogType/property/Mworking/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_IRWorkOrderReplyGenType/property/Duration/read",
+            "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_OpPerfLogType/property/Mworking/read",
             "op": "readproperty"
           }
         ]
       },
-      "Extra": {
+      "TurnedOff": {
         "dov:namespace": "http://opcfoundation.org/UA/Mining/ExternalStandards/IREDES",
-        "type": "array",
-        "items": {
-          "type": "string"
-        },
+        "description": "Machine intentionally put in “OFF” state. This state is only counted if the machine is intentionally deactivated by an operator. Observe that a “switch off” while the machine is in “Wait Repair” mode will be counted as “wait repair” until the machine is switched on again.",
+        "type": "string",
+        "pattern": "^P(?!$)(?:(?:(?:(?:\\d+Y)|(?:\\d+\\.\\d+Y$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?)|(?:(?:(?:\\d+W)|(?:\\d+\\.\\d+W$))?))(?:(?:\\d+D)|(?:\\d+\\.\\d+D$))?(?:T(?!$)(?:(?:\\d+H)|(?:\\d+\\.\\d+H$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?(?:\\d+(?:\\.\\d+)?S)?)?$",
         "readOnly": false,
         "forms": [
           {
             "contentType": "application/json",
-            "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_IRWorkOrderReplyGenType/property/Extra/write",
+            "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_OpPerfLogType/property/TurnedOff/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_IRWorkOrderReplyGenType/property/Extra/read",
+            "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_OpPerfLogType/property/TurnedOff/read",
             "op": "readproperty"
           }
         ]
       },
-      "Reason": {
+      "WaitOperator": {
         "dov:namespace": "http://opcfoundation.org/UA/Mining/ExternalStandards/IREDES",
-        "description": "Place to clarify reasons for delaying or denying the work order.",
-        "type": "array",
-        "items": {
-          "type": "string"
-        },
+        "description": "Time the machine waits for operator assistance during the reporting period. See “IREDES Drill Rig profile description” document.",
+        "type": "string",
+        "pattern": "^P(?!$)(?:(?:(?:(?:\\d+Y)|(?:\\d+\\.\\d+Y$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?)|(?:(?:(?:\\d+W)|(?:\\d+\\.\\d+W$))?))(?:(?:\\d+D)|(?:\\d+\\.\\d+D$))?(?:T(?!$)(?:(?:\\d+H)|(?:\\d+\\.\\d+H$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?(?:\\d+(?:\\.\\d+)?S)?)?$",
         "readOnly": false,
         "forms": [
           {
             "contentType": "application/json",
-            "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_IRWorkOrderReplyGenType/property/Reason/write",
+            "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_OpPerfLogType/property/WaitOperator/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_IRWorkOrderReplyGenType/property/Reason/read",
+            "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_OpPerfLogType/property/WaitOperator/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "WaitProcess": {
+        "dov:namespace": "http://opcfoundation.org/UA/Mining/ExternalStandards/IREDES",
+        "description": "Machine waiting for other partners in the process or for process reasons not caused by the machine itself. This may be an (autonomous) machine waiting for access to a shared tramming zone or waiting for access to a dump shaft, a truck to become available etc. See “IREDES Drill Rig profile description” document.",
+        "type": "string",
+        "pattern": "^P(?!$)(?:(?:(?:(?:\\d+Y)|(?:\\d+\\.\\d+Y$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?)|(?:(?:(?:\\d+W)|(?:\\d+\\.\\d+W$))?))(?:(?:\\d+D)|(?:\\d+\\.\\d+D$))?(?:T(?!$)(?:(?:\\d+H)|(?:\\d+\\.\\d+H$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?(?:\\d+(?:\\.\\d+)?S)?)?$",
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_OpPerfLogType/property/WaitProcess/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_OpPerfLogType/property/WaitProcess/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "WaitRepair": {
+        "dov:namespace": "http://opcfoundation.org/UA/Mining/ExternalStandards/IREDES",
+        "description": "Waiting time for repair until the repair is finished and the machine manually is switched on again. See “IREDES Drill Rig profile description” document.",
+        "type": "string",
+        "pattern": "^P(?!$)(?:(?:(?:(?:\\d+Y)|(?:\\d+\\.\\d+Y$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?)|(?:(?:(?:\\d+W)|(?:\\d+\\.\\d+W$))?))(?:(?:\\d+D)|(?:\\d+\\.\\d+D$))?(?:T(?!$)(?:(?:\\d+H)|(?:\\d+\\.\\d+H$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?(?:\\d+(?:\\.\\d+)?S)?)?$",
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_OpPerfLogType/property/WaitRepair/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_OpPerfLogType/property/WaitRepair/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "WaitSamples": {
+        "dov:namespace": "http://opcfoundation.org/UA/Mining/ExternalStandards/IREDES",
+        "description": "Waiting time for external supplies like electric power, network connection for remote control (if not in local operation mode), water, material etc. See “IREDES Drill Rig profile description” document.",
+        "type": "string",
+        "pattern": "^P(?!$)(?:(?:(?:(?:\\d+Y)|(?:\\d+\\.\\d+Y$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?)|(?:(?:(?:\\d+W)|(?:\\d+\\.\\d+W$))?))(?:(?:\\d+D)|(?:\\d+\\.\\d+D$))?(?:T(?!$)(?:(?:\\d+H)|(?:\\d+\\.\\d+H$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?(?:\\d+(?:\\.\\d+)?S)?)?$",
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_OpPerfLogType/property/WaitSamples/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_OpPerfLogType/property/WaitSamples/read",
             "op": "readproperty"
           }
         ]
       }
     },
     "events": {
-      "Answer": {
+      "Mworking": {
         "dov:namespace": "http://opcfoundation.org/UA/Mining/ExternalStandards/IREDES",
         "data": {
-          "title": "Answer",
-          "description": "See Answer enumeration.",
-          "dov:typeRef": "org.opcfoundation.UA.Mining.ExternalStandards.IREDES.Answer",
-          "type": "integer",
-          "minimum": -2147483648,
-          "maximum": 2147483647
-        },
-        "forms": [
-          {
-            "contentType": "application/json",
-            "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_IRWorkOrderReplyGenType/event/Answer/{senderId}",
-            "op": "subscribeevent"
-          }
-        ]
-      },
-      "Condition": {
-        "dov:namespace": "http://opcfoundation.org/UA/Mining/ExternalStandards/IREDES",
-        "data": {
-          "description": "Only for 'AcceptedWithCondition' option. Free text field for condition such as 'need consumable', etc.",
-          "type": "string"
-        },
-        "forms": [
-          {
-            "contentType": "application/json",
-            "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_IRWorkOrderReplyGenType/event/Condition/{senderId}",
-            "op": "subscribeevent"
-          }
-        ]
-      },
-      "Duration": {
-        "dov:namespace": "http://opcfoundation.org/UA/Mining/ExternalStandards/IREDES",
-        "data": {
-          "description": "For delayed option only.",
+          "description": "Machine working.",
           "type": "string",
           "pattern": "^P(?!$)(?:(?:(?:(?:\\d+Y)|(?:\\d+\\.\\d+Y$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?)|(?:(?:(?:\\d+W)|(?:\\d+\\.\\d+W$))?))(?:(?:\\d+D)|(?:\\d+\\.\\d+D$))?(?:T(?!$)(?:(?:\\d+H)|(?:\\d+\\.\\d+H$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?(?:\\d+(?:\\.\\d+)?S)?)?$"
         },
         "forms": [
           {
             "contentType": "application/json",
-            "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_IRWorkOrderReplyGenType/event/Duration/{senderId}",
+            "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_OpPerfLogType/event/Mworking/{senderId}",
             "op": "subscribeevent"
           }
         ]
       },
-      "Extra": {
+      "TurnedOff": {
         "dov:namespace": "http://opcfoundation.org/UA/Mining/ExternalStandards/IREDES",
         "data": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          }
+          "description": "Machine intentionally put in “OFF” state. This state is only counted if the machine is intentionally deactivated by an operator. Observe that a “switch off” while the machine is in “Wait Repair” mode will be counted as “wait repair” until the machine is switched on again.",
+          "type": "string",
+          "pattern": "^P(?!$)(?:(?:(?:(?:\\d+Y)|(?:\\d+\\.\\d+Y$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?)|(?:(?:(?:\\d+W)|(?:\\d+\\.\\d+W$))?))(?:(?:\\d+D)|(?:\\d+\\.\\d+D$))?(?:T(?!$)(?:(?:\\d+H)|(?:\\d+\\.\\d+H$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?(?:\\d+(?:\\.\\d+)?S)?)?$"
         },
         "forms": [
           {
             "contentType": "application/json",
-            "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_IRWorkOrderReplyGenType/event/Extra/{senderId}",
+            "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_OpPerfLogType/event/TurnedOff/{senderId}",
             "op": "subscribeevent"
           }
         ]
       },
-      "Reason": {
+      "WaitOperator": {
         "dov:namespace": "http://opcfoundation.org/UA/Mining/ExternalStandards/IREDES",
         "data": {
-          "description": "Place to clarify reasons for delaying or denying the work order.",
-          "type": "array",
-          "items": {
-            "type": "string"
-          }
+          "description": "Time the machine waits for operator assistance during the reporting period. See “IREDES Drill Rig profile description” document.",
+          "type": "string",
+          "pattern": "^P(?!$)(?:(?:(?:(?:\\d+Y)|(?:\\d+\\.\\d+Y$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?)|(?:(?:(?:\\d+W)|(?:\\d+\\.\\d+W$))?))(?:(?:\\d+D)|(?:\\d+\\.\\d+D$))?(?:T(?!$)(?:(?:\\d+H)|(?:\\d+\\.\\d+H$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?(?:\\d+(?:\\.\\d+)?S)?)?$"
         },
         "forms": [
           {
             "contentType": "application/json",
-            "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_IRWorkOrderReplyGenType/event/Reason/{senderId}",
+            "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_OpPerfLogType/event/WaitOperator/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "WaitProcess": {
+        "dov:namespace": "http://opcfoundation.org/UA/Mining/ExternalStandards/IREDES",
+        "data": {
+          "description": "Machine waiting for other partners in the process or for process reasons not caused by the machine itself. This may be an (autonomous) machine waiting for access to a shared tramming zone or waiting for access to a dump shaft, a truck to become available etc. See “IREDES Drill Rig profile description” document.",
+          "type": "string",
+          "pattern": "^P(?!$)(?:(?:(?:(?:\\d+Y)|(?:\\d+\\.\\d+Y$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?)|(?:(?:(?:\\d+W)|(?:\\d+\\.\\d+W$))?))(?:(?:\\d+D)|(?:\\d+\\.\\d+D$))?(?:T(?!$)(?:(?:\\d+H)|(?:\\d+\\.\\d+H$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?(?:\\d+(?:\\.\\d+)?S)?)?$"
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_OpPerfLogType/event/WaitProcess/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "WaitRepair": {
+        "dov:namespace": "http://opcfoundation.org/UA/Mining/ExternalStandards/IREDES",
+        "data": {
+          "description": "Waiting time for repair until the repair is finished and the machine manually is switched on again. See “IREDES Drill Rig profile description” document.",
+          "type": "string",
+          "pattern": "^P(?!$)(?:(?:(?:(?:\\d+Y)|(?:\\d+\\.\\d+Y$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?)|(?:(?:(?:\\d+W)|(?:\\d+\\.\\d+W$))?))(?:(?:\\d+D)|(?:\\d+\\.\\d+D$))?(?:T(?!$)(?:(?:\\d+H)|(?:\\d+\\.\\d+H$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?(?:\\d+(?:\\.\\d+)?S)?)?$"
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_OpPerfLogType/event/WaitRepair/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "WaitSamples": {
+        "dov:namespace": "http://opcfoundation.org/UA/Mining/ExternalStandards/IREDES",
+        "data": {
+          "description": "Waiting time for external supplies like electric power, network connection for remote control (if not in local operation mode), water, material etc. See “IREDES Drill Rig profile description” document.",
+          "type": "string",
+          "pattern": "^P(?!$)(?:(?:(?:(?:\\d+Y)|(?:\\d+\\.\\d+Y$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?)|(?:(?:(?:\\d+W)|(?:\\d+\\.\\d+W$))?))(?:(?:\\d+D)|(?:\\d+\\.\\d+D$))?(?:T(?!$)(?:(?:\\d+H)|(?:\\d+\\.\\d+H$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?(?:\\d+(?:\\.\\d+)?S)?)?$"
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_OpPerfLogType/event/WaitSamples/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dov": "http://azure.com/DigitalOperations/vocab#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "Mining_ExternalStandards_IREDES_LTPPLoadRepType_2",
+    "dov:typeRef": "org.opcfoundation.UA.Mining.ExternalStandards.IREDES.LTPPLoadRepType",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:reference",
+        "dov:refName": "LTPPaccPts",
+        "href": "#title=Mining_ExternalStandards_IREDES_LTPPaccPtsType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:reference",
+        "dov:refName": "LTPPMission",
+        "href": "#title=Mining_ExternalStandards_IREDES_LTPPMissionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:reference",
+        "dov:refName": "LTPPwaitProc",
+        "href": "#title=Mining_ExternalStandards_IREDES_LTPPwaitProcType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_LTPPLoadRepType_2/events/{senderId}",
+        "op": "subscribeallevents"
+      },
+      {
+        "contentType": "application/json",
+        "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_LTPPLoadRepType_2/properties/write",
+        "op": "writemultipleproperties"
+      },
+      {
+        "contentType": "application/json",
+        "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_LTPPLoadRepType_2/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "tm:optional": [
+      "/properties/DefaultInstanceBrowseName",
+      "/properties/LTPPdistTot",
+      "/properties/LTPPwrkDist",
+      "/events/LTPPdistTot",
+      "/events/LTPPwrkDist"
+    ],
+    "actions": {
+    },
+    "properties": {
+      "DefaultInstanceBrowseName": {
+        "dov:namespace": "http://opcfoundation.org/UA/Mining/ExternalStandards/IREDES",
+        "description": "The default BrowseName for instances of this type.",
+        "type": "string",
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_LTPPLoadRepType_2/property/DefaultInstanceBrowseName/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_LTPPLoadRepType_2/property/DefaultInstanceBrowseName/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "LTPPCyclTot": {
+        "dov:namespace": "http://opcfoundation.org/UA/Mining/ExternalStandards/IREDES",
+        "description": "Total number of working cycles (rounds) completed during the reporting period.",
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 18446744073709551615,
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_LTPPLoadRepType_2/property/LTPPCyclTot/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_LTPPLoadRepType_2/property/LTPPCyclTot/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "LTPPdistTot": {
+        "dov:namespace": "http://opcfoundation.org/UA/Mining/ExternalStandards/IREDES",
+        "description": "Overall distance travelled in during the reporting period. This includes also non-performance related tramming e.g. to workshop. Minimum accuracy required by the standard: 0.1 km.",
+        "type": "number",
+        "minimum": -3.40e+38,
+        "maximum": 3.40e+38,
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_LTPPLoadRepType_2/property/LTPPdistTot/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_LTPPLoadRepType_2/property/LTPPdistTot/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "LTPPloadTot": {
+        "dov:namespace": "http://opcfoundation.org/UA/Mining/ExternalStandards/IREDES",
+        "description": "Total load carried under all completed working cycles during reporting period. Minimum accuracy required by the standard: 0.01.",
+        "type": "number",
+        "minimum": -3.40e+38,
+        "maximum": 3.40e+38,
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_LTPPLoadRepType_2/property/LTPPloadTot/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_LTPPLoadRepType_2/property/LTPPloadTot/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "LTPPwrkDist": {
+        "dov:namespace": "http://opcfoundation.org/UA/Mining/ExternalStandards/IREDES",
+        "description": "Total distance travelled in a working mode (as reported by MWorking) during the reporting period.",
+        "type": "number",
+        "minimum": -3.40e+38,
+        "maximum": 3.40e+38,
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_LTPPLoadRepType_2/property/LTPPwrkDist/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_LTPPLoadRepType_2/property/LTPPwrkDist/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+      "LTPPCyclTot": {
+        "dov:namespace": "http://opcfoundation.org/UA/Mining/ExternalStandards/IREDES",
+        "data": {
+          "description": "Total number of working cycles (rounds) completed during the reporting period.",
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 18446744073709551615
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_LTPPLoadRepType_2/event/LTPPCyclTot/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "LTPPdistTot": {
+        "dov:namespace": "http://opcfoundation.org/UA/Mining/ExternalStandards/IREDES",
+        "data": {
+          "description": "Overall distance travelled in during the reporting period. This includes also non-performance related tramming e.g. to workshop. Minimum accuracy required by the standard: 0.1 km.",
+          "type": "number",
+          "minimum": -3.40e+38,
+          "maximum": 3.40e+38
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_LTPPLoadRepType_2/event/LTPPdistTot/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "LTPPloadTot": {
+        "dov:namespace": "http://opcfoundation.org/UA/Mining/ExternalStandards/IREDES",
+        "data": {
+          "description": "Total load carried under all completed working cycles during reporting period. Minimum accuracy required by the standard: 0.01.",
+          "type": "number",
+          "minimum": -3.40e+38,
+          "maximum": 3.40e+38
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_LTPPLoadRepType_2/event/LTPPloadTot/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "LTPPwrkDist": {
+        "dov:namespace": "http://opcfoundation.org/UA/Mining/ExternalStandards/IREDES",
+        "data": {
+          "description": "Total distance travelled in a working mode (as reported by MWorking) during the reporting period.",
+          "type": "number",
+          "minimum": -3.40e+38,
+          "maximum": 3.40e+38
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_LTPPLoadRepType_2/event/LTPPwrkDist/{senderId}",
             "op": "subscribeevent"
           }
         ]
@@ -2471,6 +2334,12 @@
         "rel": "tm:extends",
         "href": "#title=OpcUaCore_BaseObjectType",
         "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:reference",
+        "dov:refName": "LTPPTimeRep",
+        "href": "#title=Mining_ExternalStandards_IREDES_LTPPTimeRepType",
+        "type": "application/tm+json"
       }
     ],
     "schemaDefinitions": {
@@ -2491,6 +2360,15 @@
         "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_LTPPaccPtsType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/DefaultInstanceBrowseName",
+      "/properties/LTPPLdrawPtID",
+      "/properties/LTPPLdumpPtID",
+      "/properties/LTPPLopObserv",
+      "/events/LTPPLdrawPtID",
+      "/events/LTPPLdumpPtID",
+      "/events/LTPPLopObserv"
     ],
     "actions": {
     },
@@ -2764,8 +2642,8 @@
       }
     ],
     "@type": "tm:ThingModel",
-    "title": "Mining_ExternalStandards_IREDES_LTPPLoadRepType",
-    "dov:typeRef": "org.opcfoundation.UA.Mining.ExternalStandards.IREDES.LTPPLoadRepType",
+    "title": "Mining_ExternalStandards_IREDES_LTPPTimeRepType",
+    "dov:typeRef": "org.opcfoundation.UA.Mining.ExternalStandards.IREDES.LTPPTimeRepType",
     "links": [
       {
         "rel": "tm:extends",
@@ -2778,19 +2656,17 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_LTPPLoadRepType/events/{senderId}",
-        "op": "subscribeallevents"
-      },
-      {
-        "contentType": "application/json",
-        "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_LTPPLoadRepType/properties/write",
+        "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_LTPPTimeRepType/properties/write",
         "op": "writemultipleproperties"
       },
       {
         "contentType": "application/json",
-        "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_LTPPLoadRepType/properties/read",
+        "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_LTPPTimeRepType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/DefaultInstanceBrowseName"
     ],
     "actions": {
     },
@@ -2803,162 +2679,56 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_LTPPLoadRepType/property/DefaultInstanceBrowseName/write",
+            "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_LTPPTimeRepType/property/DefaultInstanceBrowseName/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_LTPPLoadRepType/property/DefaultInstanceBrowseName/read",
+            "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_LTPPTimeRepType/property/DefaultInstanceBrowseName/read",
             "op": "readproperty"
           }
         ]
       },
-      "LTPPCyclTot": {
+      "LTPPEndTime": {
         "dov:namespace": "http://opcfoundation.org/UA/Mining/ExternalStandards/IREDES",
-        "description": "Total number of working cycles (rounds) completed during the reporting period.",
-        "type": "integer",
-        "minimum": 0,
-        "maximum": 18446744073709551615,
+        "description": "Mission end time.",
+        "type": "string",
+        "format": "time",
         "readOnly": false,
         "forms": [
           {
             "contentType": "application/json",
-            "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_LTPPLoadRepType/property/LTPPCyclTot/write",
+            "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_LTPPTimeRepType/property/LTPPEndTime/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_LTPPLoadRepType/property/LTPPCyclTot/read",
+            "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_LTPPTimeRepType/property/LTPPEndTime/read",
             "op": "readproperty"
           }
         ]
       },
-      "LTPPdistTot": {
+      "LTPPStartTime": {
         "dov:namespace": "http://opcfoundation.org/UA/Mining/ExternalStandards/IREDES",
-        "description": "Overall distance travelled in during the reporting period. This includes also non-performance related tramming e.g. to workshop. Minimum accuracy required by the standard: 0.1 km.",
-        "type": "number",
-        "minimum": -3.40e+38,
-        "maximum": 3.40e+38,
+        "description": "Mission start time.",
+        "type": "string",
+        "format": "time",
         "readOnly": false,
         "forms": [
           {
             "contentType": "application/json",
-            "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_LTPPLoadRepType/property/LTPPdistTot/write",
+            "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_LTPPTimeRepType/property/LTPPStartTime/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_LTPPLoadRepType/property/LTPPdistTot/read",
-            "op": "readproperty"
-          }
-        ]
-      },
-      "LTPPloadTot": {
-        "dov:namespace": "http://opcfoundation.org/UA/Mining/ExternalStandards/IREDES",
-        "description": "Total load carried under all completed working cycles during reporting period. Minimum accuracy required by the standard: 0.01.",
-        "type": "number",
-        "minimum": -3.40e+38,
-        "maximum": 3.40e+38,
-        "readOnly": false,
-        "forms": [
-          {
-            "contentType": "application/json",
-            "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_LTPPLoadRepType/property/LTPPloadTot/write",
-            "op": "writeproperty"
-          },
-          {
-            "contentType": "application/json",
-            "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_LTPPLoadRepType/property/LTPPloadTot/read",
-            "op": "readproperty"
-          }
-        ]
-      },
-      "LTPPwrkDist": {
-        "dov:namespace": "http://opcfoundation.org/UA/Mining/ExternalStandards/IREDES",
-        "description": "Total distance travelled in a working mode (as reported by MWorking) during the reporting period.",
-        "type": "number",
-        "minimum": -3.40e+38,
-        "maximum": 3.40e+38,
-        "readOnly": false,
-        "forms": [
-          {
-            "contentType": "application/json",
-            "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_LTPPLoadRepType/property/LTPPwrkDist/write",
-            "op": "writeproperty"
-          },
-          {
-            "contentType": "application/json",
-            "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_LTPPLoadRepType/property/LTPPwrkDist/read",
+            "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_LTPPTimeRepType/property/LTPPStartTime/read",
             "op": "readproperty"
           }
         ]
       }
     },
     "events": {
-      "LTPPCyclTot": {
-        "dov:namespace": "http://opcfoundation.org/UA/Mining/ExternalStandards/IREDES",
-        "data": {
-          "description": "Total number of working cycles (rounds) completed during the reporting period.",
-          "type": "integer",
-          "minimum": 0,
-          "maximum": 18446744073709551615
-        },
-        "forms": [
-          {
-            "contentType": "application/json",
-            "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_LTPPLoadRepType/event/LTPPCyclTot/{senderId}",
-            "op": "subscribeevent"
-          }
-        ]
-      },
-      "LTPPdistTot": {
-        "dov:namespace": "http://opcfoundation.org/UA/Mining/ExternalStandards/IREDES",
-        "data": {
-          "description": "Overall distance travelled in during the reporting period. This includes also non-performance related tramming e.g. to workshop. Minimum accuracy required by the standard: 0.1 km.",
-          "type": "number",
-          "minimum": -3.40e+38,
-          "maximum": 3.40e+38
-        },
-        "forms": [
-          {
-            "contentType": "application/json",
-            "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_LTPPLoadRepType/event/LTPPdistTot/{senderId}",
-            "op": "subscribeevent"
-          }
-        ]
-      },
-      "LTPPloadTot": {
-        "dov:namespace": "http://opcfoundation.org/UA/Mining/ExternalStandards/IREDES",
-        "data": {
-          "description": "Total load carried under all completed working cycles during reporting period. Minimum accuracy required by the standard: 0.01.",
-          "type": "number",
-          "minimum": -3.40e+38,
-          "maximum": 3.40e+38
-        },
-        "forms": [
-          {
-            "contentType": "application/json",
-            "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_LTPPLoadRepType/event/LTPPloadTot/{senderId}",
-            "op": "subscribeevent"
-          }
-        ]
-      },
-      "LTPPwrkDist": {
-        "dov:namespace": "http://opcfoundation.org/UA/Mining/ExternalStandards/IREDES",
-        "data": {
-          "description": "Total distance travelled in a working mode (as reported by MWorking) during the reporting period.",
-          "type": "number",
-          "minimum": -3.40e+38,
-          "maximum": 3.40e+38
-        },
-        "forms": [
-          {
-            "contentType": "application/json",
-            "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_LTPPLoadRepType/event/LTPPwrkDist/{senderId}",
-            "op": "subscribeevent"
-          }
-        ]
-      }
     }
   },
   {
@@ -3100,6 +2870,27 @@
         "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_LTPPMissionType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/DefaultInstanceBrowseName",
+      "/properties/LTPPMarea",
+      "/properties/LTPPMopID",
+      "/properties/LTPPMptFromID",
+      "/properties/LTPPMptFromType",
+      "/properties/LTPPMptToID",
+      "/properties/LTPPMptToType",
+      "/properties/LTPPMtimeAct",
+      "/properties/LTPPMwaitgen",
+      "/properties/LTPPMwaitPoint",
+      "/events/LTPPMarea",
+      "/events/LTPPMopID",
+      "/events/LTPPMptFromID",
+      "/events/LTPPMptFromType",
+      "/events/LTPPMptToID",
+      "/events/LTPPMptToType",
+      "/events/LTPPMtimeAct",
+      "/events/LTPPMwaitgen",
+      "/events/LTPPMwaitPoint"
     ],
     "actions": {
     },
@@ -3712,100 +3503,6 @@
       }
     ],
     "@type": "tm:ThingModel",
-    "title": "Mining_ExternalStandards_IREDES_LTPPTimeRepType",
-    "dov:typeRef": "org.opcfoundation.UA.Mining.ExternalStandards.IREDES.LTPPTimeRepType",
-    "links": [
-      {
-        "rel": "tm:extends",
-        "href": "#title=OpcUaCore_BaseObjectType",
-        "type": "application/tm+json"
-      }
-    ],
-    "schemaDefinitions": {
-    },
-    "forms": [
-      {
-        "contentType": "application/json",
-        "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_LTPPTimeRepType/properties/write",
-        "op": "writemultipleproperties"
-      },
-      {
-        "contentType": "application/json",
-        "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_LTPPTimeRepType/properties/read",
-        "op": "readallproperties"
-      }
-    ],
-    "actions": {
-    },
-    "properties": {
-      "DefaultInstanceBrowseName": {
-        "dov:namespace": "http://opcfoundation.org/UA/Mining/ExternalStandards/IREDES",
-        "description": "The default BrowseName for instances of this type.",
-        "type": "string",
-        "readOnly": false,
-        "forms": [
-          {
-            "contentType": "application/json",
-            "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_LTPPTimeRepType/property/DefaultInstanceBrowseName/write",
-            "op": "writeproperty"
-          },
-          {
-            "contentType": "application/json",
-            "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_LTPPTimeRepType/property/DefaultInstanceBrowseName/read",
-            "op": "readproperty"
-          }
-        ]
-      },
-      "LTPPEndTime": {
-        "dov:namespace": "http://opcfoundation.org/UA/Mining/ExternalStandards/IREDES",
-        "description": "Mission end time.",
-        "type": "string",
-        "format": "time",
-        "readOnly": false,
-        "forms": [
-          {
-            "contentType": "application/json",
-            "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_LTPPTimeRepType/property/LTPPEndTime/write",
-            "op": "writeproperty"
-          },
-          {
-            "contentType": "application/json",
-            "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_LTPPTimeRepType/property/LTPPEndTime/read",
-            "op": "readproperty"
-          }
-        ]
-      },
-      "LTPPStartTime": {
-        "dov:namespace": "http://opcfoundation.org/UA/Mining/ExternalStandards/IREDES",
-        "description": "Mission start time.",
-        "type": "string",
-        "format": "time",
-        "readOnly": false,
-        "forms": [
-          {
-            "contentType": "application/json",
-            "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_LTPPTimeRepType/property/LTPPStartTime/write",
-            "op": "writeproperty"
-          },
-          {
-            "contentType": "application/json",
-            "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_LTPPTimeRepType/property/LTPPStartTime/read",
-            "op": "readproperty"
-          }
-        ]
-      }
-    },
-    "events": {
-    }
-  },
-  {
-    "@context": [
-      "https://www.w3.org/2022/wot/td/v1.1",
-      {
-        "dov": "http://azure.com/DigitalOperations/vocab#"
-      }
-    ],
-    "@type": "tm:ThingModel",
     "title": "Mining_ExternalStandards_IREDES_LTPPwaitProcType",
     "dov:typeRef": "org.opcfoundation.UA.Mining.ExternalStandards.IREDES.LTPPwaitProcType",
     "links": [
@@ -3833,6 +3530,21 @@
         "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_LTPPwaitProcType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/BlastDelay",
+      "/properties/CantDump",
+      "/properties/DefaultInstanceBrowseName",
+      "/properties/MineUtils",
+      "/properties/NoRock",
+      "/properties/RoadMaint",
+      "/properties/Traffic",
+      "/events/BlastDelay",
+      "/events/CantDump",
+      "/events/MineUtils",
+      "/events/NoRock",
+      "/events/RoadMaint",
+      "/events/Traffic"
     ],
     "actions": {
     },
@@ -4071,12 +3783,18 @@
       }
     ],
     "@type": "tm:ThingModel",
-    "title": "Mining_ExternalStandards_IREDES_OpPerfLogType",
-    "dov:typeRef": "org.opcfoundation.UA.Mining.ExternalStandards.IREDES.OpPerfLogType",
+    "title": "Mining_ExternalStandards_IREDES_IRreplyType",
+    "dov:typeRef": "org.opcfoundation.UA.Mining.ExternalStandards.IREDES.IRreplyType",
     "links": [
       {
         "rel": "tm:extends",
         "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:capability",
+        "dov:refName": "Reply",
+        "href": "#title=Mining_ExternalStandards_IREDES_IRWorkOrderReplyGenType",
         "type": "application/tm+json"
       }
     ],
@@ -4085,242 +3803,78 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_OpPerfLogType/events/{senderId}",
+        "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_IRreplyType/events/{senderId}",
         "op": "subscribeallevents"
       },
       {
         "contentType": "application/json",
-        "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_OpPerfLogType/properties/write",
+        "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_IRreplyType/properties/write",
         "op": "writemultipleproperties"
       },
       {
         "contentType": "application/json",
-        "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_OpPerfLogType/properties/read",
+        "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_IRreplyType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/Comment",
+      "/properties/DefaultInstanceBrowseName",
+      "/events/Comment"
     ],
     "actions": {
     },
     "properties": {
+      "Comment": {
+        "dov:namespace": "http://opcfoundation.org/UA/Mining/ExternalStandards/IREDES",
+        "type": "array",
+        "items": {
+          "type": "string"
+        },
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_IRreplyType/property/Comment/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_IRreplyType/property/Comment/read",
+            "op": "readproperty"
+          }
+        ]
+      },
       "DefaultInstanceBrowseName": {
-        "description": "The default BrowseName for instances of this type.",
         "type": "string",
         "readOnly": false,
         "forms": [
           {
             "contentType": "application/json",
-            "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_OpPerfLogType/property/DefaultInstanceBrowseName/write",
+            "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_IRreplyType/property/DefaultInstanceBrowseName/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_OpPerfLogType/property/DefaultInstanceBrowseName/read",
-            "op": "readproperty"
-          }
-        ]
-      },
-      "Mworking": {
-        "dov:namespace": "http://opcfoundation.org/UA/Mining/ExternalStandards/IREDES",
-        "description": "Machine working.",
-        "type": "string",
-        "pattern": "^P(?!$)(?:(?:(?:(?:\\d+Y)|(?:\\d+\\.\\d+Y$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?)|(?:(?:(?:\\d+W)|(?:\\d+\\.\\d+W$))?))(?:(?:\\d+D)|(?:\\d+\\.\\d+D$))?(?:T(?!$)(?:(?:\\d+H)|(?:\\d+\\.\\d+H$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?(?:\\d+(?:\\.\\d+)?S)?)?$",
-        "readOnly": false,
-        "forms": [
-          {
-            "contentType": "application/json",
-            "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_OpPerfLogType/property/Mworking/write",
-            "op": "writeproperty"
-          },
-          {
-            "contentType": "application/json",
-            "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_OpPerfLogType/property/Mworking/read",
-            "op": "readproperty"
-          }
-        ]
-      },
-      "TurnedOff": {
-        "dov:namespace": "http://opcfoundation.org/UA/Mining/ExternalStandards/IREDES",
-        "description": "Machine intentionally put in “OFF” state. This state is only counted if the machine is intentionally deactivated by an operator. Observe that a “switch off” while the machine is in “Wait Repair” mode will be counted as “wait repair” until the machine is switched on again.",
-        "type": "string",
-        "pattern": "^P(?!$)(?:(?:(?:(?:\\d+Y)|(?:\\d+\\.\\d+Y$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?)|(?:(?:(?:\\d+W)|(?:\\d+\\.\\d+W$))?))(?:(?:\\d+D)|(?:\\d+\\.\\d+D$))?(?:T(?!$)(?:(?:\\d+H)|(?:\\d+\\.\\d+H$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?(?:\\d+(?:\\.\\d+)?S)?)?$",
-        "readOnly": false,
-        "forms": [
-          {
-            "contentType": "application/json",
-            "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_OpPerfLogType/property/TurnedOff/write",
-            "op": "writeproperty"
-          },
-          {
-            "contentType": "application/json",
-            "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_OpPerfLogType/property/TurnedOff/read",
-            "op": "readproperty"
-          }
-        ]
-      },
-      "WaitOperator": {
-        "dov:namespace": "http://opcfoundation.org/UA/Mining/ExternalStandards/IREDES",
-        "description": "Time the machine waits for operator assistance during the reporting period. See “IREDES Drill Rig profile description” document.",
-        "type": "string",
-        "pattern": "^P(?!$)(?:(?:(?:(?:\\d+Y)|(?:\\d+\\.\\d+Y$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?)|(?:(?:(?:\\d+W)|(?:\\d+\\.\\d+W$))?))(?:(?:\\d+D)|(?:\\d+\\.\\d+D$))?(?:T(?!$)(?:(?:\\d+H)|(?:\\d+\\.\\d+H$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?(?:\\d+(?:\\.\\d+)?S)?)?$",
-        "readOnly": false,
-        "forms": [
-          {
-            "contentType": "application/json",
-            "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_OpPerfLogType/property/WaitOperator/write",
-            "op": "writeproperty"
-          },
-          {
-            "contentType": "application/json",
-            "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_OpPerfLogType/property/WaitOperator/read",
-            "op": "readproperty"
-          }
-        ]
-      },
-      "WaitProcess": {
-        "dov:namespace": "http://opcfoundation.org/UA/Mining/ExternalStandards/IREDES",
-        "description": "Machine waiting for other partners in the process or for process reasons not caused by the machine itself. This may be an (autonomous) machine waiting for access to a shared tramming zone or waiting for access to a dump shaft, a truck to become available etc. See “IREDES Drill Rig profile description” document.",
-        "type": "string",
-        "pattern": "^P(?!$)(?:(?:(?:(?:\\d+Y)|(?:\\d+\\.\\d+Y$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?)|(?:(?:(?:\\d+W)|(?:\\d+\\.\\d+W$))?))(?:(?:\\d+D)|(?:\\d+\\.\\d+D$))?(?:T(?!$)(?:(?:\\d+H)|(?:\\d+\\.\\d+H$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?(?:\\d+(?:\\.\\d+)?S)?)?$",
-        "readOnly": false,
-        "forms": [
-          {
-            "contentType": "application/json",
-            "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_OpPerfLogType/property/WaitProcess/write",
-            "op": "writeproperty"
-          },
-          {
-            "contentType": "application/json",
-            "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_OpPerfLogType/property/WaitProcess/read",
-            "op": "readproperty"
-          }
-        ]
-      },
-      "WaitRepair": {
-        "dov:namespace": "http://opcfoundation.org/UA/Mining/ExternalStandards/IREDES",
-        "description": "Waiting time for repair until the repair is finished and the machine manually is switched on again. See “IREDES Drill Rig profile description” document.",
-        "type": "string",
-        "pattern": "^P(?!$)(?:(?:(?:(?:\\d+Y)|(?:\\d+\\.\\d+Y$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?)|(?:(?:(?:\\d+W)|(?:\\d+\\.\\d+W$))?))(?:(?:\\d+D)|(?:\\d+\\.\\d+D$))?(?:T(?!$)(?:(?:\\d+H)|(?:\\d+\\.\\d+H$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?(?:\\d+(?:\\.\\d+)?S)?)?$",
-        "readOnly": false,
-        "forms": [
-          {
-            "contentType": "application/json",
-            "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_OpPerfLogType/property/WaitRepair/write",
-            "op": "writeproperty"
-          },
-          {
-            "contentType": "application/json",
-            "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_OpPerfLogType/property/WaitRepair/read",
-            "op": "readproperty"
-          }
-        ]
-      },
-      "WaitSamples": {
-        "dov:namespace": "http://opcfoundation.org/UA/Mining/ExternalStandards/IREDES",
-        "description": "Waiting time for external supplies like electric power, network connection for remote control (if not in local operation mode), water, material etc. See “IREDES Drill Rig profile description” document.",
-        "type": "string",
-        "pattern": "^P(?!$)(?:(?:(?:(?:\\d+Y)|(?:\\d+\\.\\d+Y$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?)|(?:(?:(?:\\d+W)|(?:\\d+\\.\\d+W$))?))(?:(?:\\d+D)|(?:\\d+\\.\\d+D$))?(?:T(?!$)(?:(?:\\d+H)|(?:\\d+\\.\\d+H$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?(?:\\d+(?:\\.\\d+)?S)?)?$",
-        "readOnly": false,
-        "forms": [
-          {
-            "contentType": "application/json",
-            "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_OpPerfLogType/property/WaitSamples/write",
-            "op": "writeproperty"
-          },
-          {
-            "contentType": "application/json",
-            "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_OpPerfLogType/property/WaitSamples/read",
+            "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_IRreplyType/property/DefaultInstanceBrowseName/read",
             "op": "readproperty"
           }
         ]
       }
     },
     "events": {
-      "Mworking": {
+      "Comment": {
         "dov:namespace": "http://opcfoundation.org/UA/Mining/ExternalStandards/IREDES",
         "data": {
-          "description": "Machine working.",
-          "type": "string",
-          "pattern": "^P(?!$)(?:(?:(?:(?:\\d+Y)|(?:\\d+\\.\\d+Y$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?)|(?:(?:(?:\\d+W)|(?:\\d+\\.\\d+W$))?))(?:(?:\\d+D)|(?:\\d+\\.\\d+D$))?(?:T(?!$)(?:(?:\\d+H)|(?:\\d+\\.\\d+H$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?(?:\\d+(?:\\.\\d+)?S)?)?$"
-        },
-        "forms": [
-          {
-            "contentType": "application/json",
-            "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_OpPerfLogType/event/Mworking/{senderId}",
-            "op": "subscribeevent"
+          "type": "array",
+          "items": {
+            "type": "string"
           }
-        ]
-      },
-      "TurnedOff": {
-        "dov:namespace": "http://opcfoundation.org/UA/Mining/ExternalStandards/IREDES",
-        "data": {
-          "description": "Machine intentionally put in “OFF” state. This state is only counted if the machine is intentionally deactivated by an operator. Observe that a “switch off” while the machine is in “Wait Repair” mode will be counted as “wait repair” until the machine is switched on again.",
-          "type": "string",
-          "pattern": "^P(?!$)(?:(?:(?:(?:\\d+Y)|(?:\\d+\\.\\d+Y$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?)|(?:(?:(?:\\d+W)|(?:\\d+\\.\\d+W$))?))(?:(?:\\d+D)|(?:\\d+\\.\\d+D$))?(?:T(?!$)(?:(?:\\d+H)|(?:\\d+\\.\\d+H$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?(?:\\d+(?:\\.\\d+)?S)?)?$"
         },
         "forms": [
           {
             "contentType": "application/json",
-            "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_OpPerfLogType/event/TurnedOff/{senderId}",
-            "op": "subscribeevent"
-          }
-        ]
-      },
-      "WaitOperator": {
-        "dov:namespace": "http://opcfoundation.org/UA/Mining/ExternalStandards/IREDES",
-        "data": {
-          "description": "Time the machine waits for operator assistance during the reporting period. See “IREDES Drill Rig profile description” document.",
-          "type": "string",
-          "pattern": "^P(?!$)(?:(?:(?:(?:\\d+Y)|(?:\\d+\\.\\d+Y$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?)|(?:(?:(?:\\d+W)|(?:\\d+\\.\\d+W$))?))(?:(?:\\d+D)|(?:\\d+\\.\\d+D$))?(?:T(?!$)(?:(?:\\d+H)|(?:\\d+\\.\\d+H$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?(?:\\d+(?:\\.\\d+)?S)?)?$"
-        },
-        "forms": [
-          {
-            "contentType": "application/json",
-            "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_OpPerfLogType/event/WaitOperator/{senderId}",
-            "op": "subscribeevent"
-          }
-        ]
-      },
-      "WaitProcess": {
-        "dov:namespace": "http://opcfoundation.org/UA/Mining/ExternalStandards/IREDES",
-        "data": {
-          "description": "Machine waiting for other partners in the process or for process reasons not caused by the machine itself. This may be an (autonomous) machine waiting for access to a shared tramming zone or waiting for access to a dump shaft, a truck to become available etc. See “IREDES Drill Rig profile description” document.",
-          "type": "string",
-          "pattern": "^P(?!$)(?:(?:(?:(?:\\d+Y)|(?:\\d+\\.\\d+Y$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?)|(?:(?:(?:\\d+W)|(?:\\d+\\.\\d+W$))?))(?:(?:\\d+D)|(?:\\d+\\.\\d+D$))?(?:T(?!$)(?:(?:\\d+H)|(?:\\d+\\.\\d+H$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?(?:\\d+(?:\\.\\d+)?S)?)?$"
-        },
-        "forms": [
-          {
-            "contentType": "application/json",
-            "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_OpPerfLogType/event/WaitProcess/{senderId}",
-            "op": "subscribeevent"
-          }
-        ]
-      },
-      "WaitRepair": {
-        "dov:namespace": "http://opcfoundation.org/UA/Mining/ExternalStandards/IREDES",
-        "data": {
-          "description": "Waiting time for repair until the repair is finished and the machine manually is switched on again. See “IREDES Drill Rig profile description” document.",
-          "type": "string",
-          "pattern": "^P(?!$)(?:(?:(?:(?:\\d+Y)|(?:\\d+\\.\\d+Y$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?)|(?:(?:(?:\\d+W)|(?:\\d+\\.\\d+W$))?))(?:(?:\\d+D)|(?:\\d+\\.\\d+D$))?(?:T(?!$)(?:(?:\\d+H)|(?:\\d+\\.\\d+H$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?(?:\\d+(?:\\.\\d+)?S)?)?$"
-        },
-        "forms": [
-          {
-            "contentType": "application/json",
-            "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_OpPerfLogType/event/WaitRepair/{senderId}",
-            "op": "subscribeevent"
-          }
-        ]
-      },
-      "WaitSamples": {
-        "dov:namespace": "http://opcfoundation.org/UA/Mining/ExternalStandards/IREDES",
-        "data": {
-          "description": "Waiting time for external supplies like electric power, network connection for remote control (if not in local operation mode), water, material etc. See “IREDES Drill Rig profile description” document.",
-          "type": "string",
-          "pattern": "^P(?!$)(?:(?:(?:(?:\\d+Y)|(?:\\d+\\.\\d+Y$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?)|(?:(?:(?:\\d+W)|(?:\\d+\\.\\d+W$))?))(?:(?:\\d+D)|(?:\\d+\\.\\d+D$))?(?:T(?!$)(?:(?:\\d+H)|(?:\\d+\\.\\d+H$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?(?:\\d+(?:\\.\\d+)?S)?)?$"
-        },
-        "forms": [
-          {
-            "contentType": "application/json",
-            "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_OpPerfLogType/event/WaitSamples/{senderId}",
+            "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_IRreplyType/event/Comment/{senderId}",
             "op": "subscribeevent"
           }
         ]
@@ -4335,8 +3889,8 @@
       }
     ],
     "@type": "tm:ThingModel",
-    "title": "Mining_ExternalStandards_IREDES_ProjectInfoType",
-    "dov:typeRef": "org.opcfoundation.UA.ProjectInfoType",
+    "title": "Mining_ExternalStandards_IREDES_IRWorkOrderReplyGenType",
+    "dov:typeRef": "org.opcfoundation.UA.Mining.ExternalStandards.IREDES.IRWorkOrderReplyGenType",
     "links": [
       {
         "rel": "tm:extends",
@@ -4345,107 +3899,261 @@
       }
     ],
     "schemaDefinitions": {
+      "Answer": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.Mining.ExternalStandards.IREDES.Answer",
+        "const": {
+          "Accepted": 0,
+          "Delayed": 1,
+          "AcceptedWithCondition": 2,
+          "Denied": 3
+        },
+        "properties": {
+          "Accepted": {
+            "description": "Order is accepted.",
+            "type": "integer"
+          },
+          "Delayed": {
+            "description": "Order can only be executed with delay.",
+            "type": "integer"
+          },
+          "AcceptedWithCondition": {
+            "description": "Order is accepted under a condition.",
+            "type": "integer"
+          },
+          "Denied": {
+            "description": "Orders denied.",
+            "type": "integer"
+          }
+        }
+      }
     },
     "forms": [
       {
         "contentType": "application/json",
-        "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_ProjectInfoType/events/{senderId}",
+        "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_IRWorkOrderReplyGenType/events/{senderId}",
         "op": "subscribeallevents"
       },
       {
         "contentType": "application/json",
-        "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_ProjectInfoType/properties/write",
+        "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_IRWorkOrderReplyGenType/properties/write",
         "op": "writemultipleproperties"
       },
       {
         "contentType": "application/json",
-        "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_ProjectInfoType/properties/read",
+        "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_IRWorkOrderReplyGenType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/Condition",
+      "/properties/DefaultInstanceBrowseName",
+      "/properties/Duration",
+      "/properties/Extra",
+      "/properties/Reason",
+      "/events/Condition",
+      "/events/Duration",
+      "/events/Extra",
+      "/events/Reason"
     ],
     "actions": {
     },
     "properties": {
-      "Comment": {
+      "Answer": {
         "dov:namespace": "http://opcfoundation.org/UA/Mining/ExternalStandards/IREDES",
-        "description": "Comments concerning the project can be added here.",
+        "title": "Answer",
+        "description": "See Answer enumeration.",
+        "dov:typeRef": "org.opcfoundation.UA.Mining.ExternalStandards.IREDES.Answer",
+        "type": "integer",
+        "minimum": -2147483648,
+        "maximum": 2147483647,
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_IRWorkOrderReplyGenType/property/Answer/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_IRWorkOrderReplyGenType/property/Answer/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "Condition": {
+        "dov:namespace": "http://opcfoundation.org/UA/Mining/ExternalStandards/IREDES",
+        "description": "Only for 'AcceptedWithCondition' option. Free text field for condition such as 'need consumable', etc.",
         "type": "string",
         "readOnly": false,
         "forms": [
           {
             "contentType": "application/json",
-            "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_ProjectInfoType/property/Comment/write",
+            "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_IRWorkOrderReplyGenType/property/Condition/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_ProjectInfoType/property/Comment/read",
+            "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_IRWorkOrderReplyGenType/property/Condition/read",
             "op": "readproperty"
           }
         ]
       },
       "DefaultInstanceBrowseName": {
         "dov:namespace": "http://opcfoundation.org/UA/Mining/ExternalStandards/IREDES",
-        "description": "The default BrowseName for instances of this type.",
         "type": "string",
         "readOnly": false,
         "forms": [
           {
             "contentType": "application/json",
-            "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_ProjectInfoType/property/DefaultInstanceBrowseName/write",
+            "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_IRWorkOrderReplyGenType/property/DefaultInstanceBrowseName/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_ProjectInfoType/property/DefaultInstanceBrowseName/read",
+            "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_IRWorkOrderReplyGenType/property/DefaultInstanceBrowseName/read",
             "op": "readproperty"
           }
         ]
       },
-      "Signature": {
+      "Duration": {
         "dov:namespace": "http://opcfoundation.org/UA/Mining/ExternalStandards/IREDES",
-        "description": "Project signature.",
+        "description": "For delayed option only.",
         "type": "string",
+        "pattern": "^P(?!$)(?:(?:(?:(?:\\d+Y)|(?:\\d+\\.\\d+Y$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?)|(?:(?:(?:\\d+W)|(?:\\d+\\.\\d+W$))?))(?:(?:\\d+D)|(?:\\d+\\.\\d+D$))?(?:T(?!$)(?:(?:\\d+H)|(?:\\d+\\.\\d+H$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?(?:\\d+(?:\\.\\d+)?S)?)?$",
         "readOnly": false,
         "forms": [
           {
             "contentType": "application/json",
-            "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_ProjectInfoType/property/Signature/write",
+            "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_IRWorkOrderReplyGenType/property/Duration/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_ProjectInfoType/property/Signature/read",
+            "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_IRWorkOrderReplyGenType/property/Duration/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "Extra": {
+        "dov:namespace": "http://opcfoundation.org/UA/Mining/ExternalStandards/IREDES",
+        "type": "array",
+        "items": {
+          "type": "string"
+        },
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_IRWorkOrderReplyGenType/property/Extra/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_IRWorkOrderReplyGenType/property/Extra/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "Reason": {
+        "dov:namespace": "http://opcfoundation.org/UA/Mining/ExternalStandards/IREDES",
+        "description": "Place to clarify reasons for delaying or denying the work order.",
+        "type": "array",
+        "items": {
+          "type": "string"
+        },
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_IRWorkOrderReplyGenType/property/Reason/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_IRWorkOrderReplyGenType/property/Reason/read",
             "op": "readproperty"
           }
         ]
       }
     },
     "events": {
-      "Comment": {
+      "Answer": {
         "dov:namespace": "http://opcfoundation.org/UA/Mining/ExternalStandards/IREDES",
         "data": {
-          "description": "Comments concerning the project can be added here.",
-          "type": "string"
+          "title": "Answer",
+          "description": "See Answer enumeration.",
+          "dov:typeRef": "org.opcfoundation.UA.Mining.ExternalStandards.IREDES.Answer",
+          "type": "integer",
+          "minimum": -2147483648,
+          "maximum": 2147483647
         },
         "forms": [
           {
             "contentType": "application/json",
-            "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_ProjectInfoType/event/Comment/{senderId}",
+            "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_IRWorkOrderReplyGenType/event/Answer/{senderId}",
             "op": "subscribeevent"
           }
         ]
       },
-      "Signature": {
+      "Condition": {
         "dov:namespace": "http://opcfoundation.org/UA/Mining/ExternalStandards/IREDES",
         "data": {
-          "description": "Project signature.",
+          "description": "Only for 'AcceptedWithCondition' option. Free text field for condition such as 'need consumable', etc.",
           "type": "string"
         },
         "forms": [
           {
             "contentType": "application/json",
-            "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_ProjectInfoType/event/Signature/{senderId}",
+            "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_IRWorkOrderReplyGenType/event/Condition/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "Duration": {
+        "dov:namespace": "http://opcfoundation.org/UA/Mining/ExternalStandards/IREDES",
+        "data": {
+          "description": "For delayed option only.",
+          "type": "string",
+          "pattern": "^P(?!$)(?:(?:(?:(?:\\d+Y)|(?:\\d+\\.\\d+Y$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?)|(?:(?:(?:\\d+W)|(?:\\d+\\.\\d+W$))?))(?:(?:\\d+D)|(?:\\d+\\.\\d+D$))?(?:T(?!$)(?:(?:\\d+H)|(?:\\d+\\.\\d+H$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?(?:\\d+(?:\\.\\d+)?S)?)?$"
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_IRWorkOrderReplyGenType/event/Duration/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "Extra": {
+        "dov:namespace": "http://opcfoundation.org/UA/Mining/ExternalStandards/IREDES",
+        "data": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_IRWorkOrderReplyGenType/event/Extra/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "Reason": {
+        "dov:namespace": "http://opcfoundation.org/UA/Mining/ExternalStandards/IREDES",
+        "data": {
+          "description": "Place to clarify reasons for delaying or denying the work order.",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_IRWorkOrderReplyGenType/event/Reason/{senderId}",
             "op": "subscribeevent"
           }
         ]
@@ -4460,12 +4168,19 @@
       }
     ],
     "@type": "tm:ThingModel",
-    "title": "Mining_ExternalStandards_IREDES_SiteHeadType",
-    "dov:typeRef": "org.opcfoundation.UA.Mining.ExternalStandards.IREDES.SiteHeadType",
+    "title": "Mining_ExternalStandards_IREDES_IRStatusGenType",
+    "dov:typeRef": "org.opcfoundation.UA.Mining.ExternalStandards.IREDES.IRStatusGenType",
+    "dov:isComposite": true,
     "links": [
       {
         "rel": "tm:extends",
         "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:capability",
+        "dov:refName": "IREDES",
+        "href": "#title=Mining_ExternalStandards_IREDES_IREDESType_1",
         "type": "application/tm+json"
       }
     ],
@@ -4474,18 +4189,48 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_SiteHeadType/properties/write",
+        "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_IRStatusGenType/events/{senderId}",
+        "op": "subscribeallevents"
+      },
+      {
+        "contentType": "application/json",
+        "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_IRStatusGenType/properties/write",
         "op": "writemultipleproperties"
       },
       {
         "contentType": "application/json",
-        "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_SiteHeadType/properties/read",
+        "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_IRStatusGenType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/Comment",
+      "/properties/DefaultInstanceBrowseName",
+      "/properties/OperatorId",
+      "/events/Comment",
+      "/events/OperatorId"
     ],
     "actions": {
     },
     "properties": {
+      "Comment": {
+        "dov:namespace": "http://opcfoundation.org/UA/Mining/ExternalStandards/IREDES",
+        "description": "Project information concerning this log.",
+        "type": "string",
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_IRStatusGenType/property/Comment/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_IRStatusGenType/property/Comment/read",
+            "op": "readproperty"
+          }
+        ]
+      },
       "DefaultInstanceBrowseName": {
         "description": "The default BrowseName for instances of this type.",
         "type": "string",
@@ -4493,18 +4238,657 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_SiteHeadType/property/DefaultInstanceBrowseName/write",
+            "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_IRStatusGenType/property/DefaultInstanceBrowseName/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_SiteHeadType/property/DefaultInstanceBrowseName/read",
+            "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_IRStatusGenType/property/DefaultInstanceBrowseName/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "EndLogTime": {
+        "dov:namespace": "http://opcfoundation.org/UA/Mining/ExternalStandards/IREDES",
+        "description": "End of the reporting period. Date and time when the last entry to this xml-set was made.",
+        "type": "string",
+        "format": "date-time",
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_IRStatusGenType/property/EndLogTime/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_IRStatusGenType/property/EndLogTime/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "OperatorId": {
+        "dov:namespace": "http://opcfoundation.org/UA/Mining/ExternalStandards/IREDES",
+        "description": "Identify the operator of the machine for reference.",
+        "type": "string",
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_IRStatusGenType/property/OperatorId/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_IRStatusGenType/property/OperatorId/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "ReportId": {
+        "dov:namespace": "http://opcfoundation.org/UA/Mining/ExternalStandards/IREDES",
+        "description": "Report ID code, to uniquely identify this log report.",
+        "type": "string",
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_IRStatusGenType/property/ReportId/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_IRStatusGenType/property/ReportId/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "StartLogTime": {
+        "dov:namespace": "http://opcfoundation.org/UA/Mining/ExternalStandards/IREDES",
+        "description": "Start of the reporting period. Date and time when the first entry to this xml-set was made.",
+        "type": "string",
+        "format": "date-time",
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_IRStatusGenType/property/StartLogTime/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_IRStatusGenType/property/StartLogTime/read",
             "op": "readproperty"
           }
         ]
       }
     },
     "events": {
+      "Comment": {
+        "dov:namespace": "http://opcfoundation.org/UA/Mining/ExternalStandards/IREDES",
+        "data": {
+          "description": "Project information concerning this log.",
+          "type": "string"
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_IRStatusGenType/event/Comment/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "OperatorId": {
+        "dov:namespace": "http://opcfoundation.org/UA/Mining/ExternalStandards/IREDES",
+        "data": {
+          "description": "Identify the operator of the machine for reference.",
+          "type": "string"
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_IRStatusGenType/event/OperatorId/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dov": "http://azure.com/DigitalOperations/vocab#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "Mining_ExternalStandards_IREDES_IRWorkOrderGenType",
+    "dov:typeRef": "org.opcfoundation.UA.Mining.ExternalStandards.IREDES.IRWorkOrderGenType",
+    "dov:isComposite": true,
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:capability",
+        "dov:refName": "IREDESType",
+        "href": "#title=Mining_ExternalStandards_IREDES_IREDESType_1",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:reference",
+        "dov:refName": "Reply1",
+        "href": "#title=Mining_ExternalStandards_IREDES_IRreplyType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:reference",
+        "dov:refName": "Reply10",
+        "href": "#title=Mining_ExternalStandards_IREDES_IRreplyType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:reference",
+        "dov:refName": "Reply2",
+        "href": "#title=Mining_ExternalStandards_IREDES_IRreplyType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:reference",
+        "dov:refName": "Reply3",
+        "href": "#title=Mining_ExternalStandards_IREDES_IRreplyType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:reference",
+        "dov:refName": "Reply4",
+        "href": "#title=Mining_ExternalStandards_IREDES_IRreplyType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:reference",
+        "dov:refName": "Reply5",
+        "href": "#title=Mining_ExternalStandards_IREDES_IRreplyType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:reference",
+        "dov:refName": "Reply6",
+        "href": "#title=Mining_ExternalStandards_IREDES_IRreplyType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:reference",
+        "dov:refName": "Reply7",
+        "href": "#title=Mining_ExternalStandards_IREDES_IRreplyType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:reference",
+        "dov:refName": "Reply8",
+        "href": "#title=Mining_ExternalStandards_IREDES_IRreplyType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:reference",
+        "dov:refName": "Reply9",
+        "href": "#title=Mining_ExternalStandards_IREDES_IRreplyType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:capability",
+        "dov:refName": "WorkOrderContent",
+        "href": "#title=Mining_ExternalStandards_IREDES_IROptionType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_IRWorkOrderGenType/events/{senderId}",
+        "op": "subscribeallevents"
+      },
+      {
+        "contentType": "application/json",
+        "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_IRWorkOrderGenType/properties/write",
+        "op": "writemultipleproperties"
+      },
+      {
+        "contentType": "application/json",
+        "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_IRWorkOrderGenType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "tm:optional": [
+      "/properties/Comment",
+      "/properties/DefaultInstanceBrowseName",
+      "/properties/MachineId",
+      "/properties/OperatorId",
+      "/properties/SafetyAdvice",
+      "/properties/SpecialCondition",
+      "/properties/SpecialTask",
+      "/properties/WorkOrderType",
+      "/events/Comment",
+      "/events/MachineId",
+      "/events/OperatorId",
+      "/events/SafetyAdvice",
+      "/events/SpecialCondition",
+      "/events/SpecialTask",
+      "/events/WorkOrderType"
+    ],
+    "actions": {
+    },
+    "properties": {
+      "AssignmentTime": {
+        "dov:namespace": "http://opcfoundation.org/UA/Mining/ExternalStandards/IREDES",
+        "title": "JobAssignmentTimeDataType",
+        "description": "Time the execution of the job is expected to take.",
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.Mining.ExternalStandards.IREDES.JobAssignmentTimeDataType",
+        "properties": {
+          "ExpectedFinishTime": {
+            "description": "Time Machine is expected to finish the job.",
+            "type": "string",
+            "format": "date-time"
+          },
+          "ExpectedDuration": {
+            "description": "Time the job is going to take to finish.",
+            "type": "string",
+            "pattern": "^P(?!$)(?:(?:(?:(?:\\d+Y)|(?:\\d+\\.\\d+Y$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?)|(?:(?:(?:\\d+W)|(?:\\d+\\.\\d+W$))?))(?:(?:\\d+D)|(?:\\d+\\.\\d+D$))?(?:T(?!$)(?:(?:\\d+H)|(?:\\d+\\.\\d+H$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?(?:\\d+(?:\\.\\d+)?S)?)?$"
+          }
+        },
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_IRWorkOrderGenType/property/AssignmentTime/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_IRWorkOrderGenType/property/AssignmentTime/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "Comment": {
+        "dov:namespace": "http://opcfoundation.org/UA/Mining/ExternalStandards/IREDES",
+        "type": "array",
+        "items": {
+          "type": "string"
+        },
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_IRWorkOrderGenType/property/Comment/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_IRWorkOrderGenType/property/Comment/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "DefaultInstanceBrowseName": {
+        "type": "string",
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_IRWorkOrderGenType/property/DefaultInstanceBrowseName/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_IRWorkOrderGenType/property/DefaultInstanceBrowseName/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "Issuer": {
+        "dov:namespace": "http://opcfoundation.org/UA/Mining/ExternalStandards/IREDES",
+        "description": "ID of the person or institute who issued this work order.",
+        "type": "string",
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_IRWorkOrderGenType/property/Issuer/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_IRWorkOrderGenType/property/Issuer/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "MachineId": {
+        "dov:namespace": "http://opcfoundation.org/UA/Mining/ExternalStandards/IREDES",
+        "description": "Machine assigned to the work.",
+        "type": "array",
+        "items": {
+          "type": "string"
+        },
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_IRWorkOrderGenType/property/MachineId/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_IRWorkOrderGenType/property/MachineId/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "OperatorId": {
+        "dov:namespace": "http://opcfoundation.org/UA/Mining/ExternalStandards/IREDES",
+        "description": "Operators assigned to the work.",
+        "type": "array",
+        "items": {
+          "type": "string"
+        },
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_IRWorkOrderGenType/property/OperatorId/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_IRWorkOrderGenType/property/OperatorId/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "PriorityLevel": {
+        "dov:namespace": "http://opcfoundation.org/UA/Mining/ExternalStandards/IREDES",
+        "description": "Priority of the workorder. Level from 1 to 10 as 10 representing top priority.",
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 4294967295,
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_IRWorkOrderGenType/property/PriorityLevel/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_IRWorkOrderGenType/property/PriorityLevel/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "SafetyAdvice": {
+        "dov:namespace": "http://opcfoundation.org/UA/Mining/ExternalStandards/IREDES",
+        "description": "Work order shall be carried out. Schema should be defined separately within the IRoptionType.",
+        "type": "array",
+        "items": {
+          "type": "string"
+        },
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_IRWorkOrderGenType/property/SafetyAdvice/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_IRWorkOrderGenType/property/SafetyAdvice/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "SpecialCondition": {
+        "dov:namespace": "http://opcfoundation.org/UA/Mining/ExternalStandards/IREDES",
+        "description": "E.g. electricity will be switched off in some region in mine during operation.",
+        "type": "array",
+        "items": {
+          "type": "string"
+        },
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_IRWorkOrderGenType/property/SpecialCondition/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_IRWorkOrderGenType/property/SpecialCondition/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "SpecialTask": {
+        "dov:namespace": "http://opcfoundation.org/UA/Mining/ExternalStandards/IREDES",
+        "description": "Tasks that are not or hard to describe in workorder.",
+        "type": "array",
+        "items": {
+          "type": "string"
+        },
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_IRWorkOrderGenType/property/SpecialTask/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_IRWorkOrderGenType/property/SpecialTask/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "WorkOrderId": {
+        "dov:namespace": "http://opcfoundation.org/UA/Mining/ExternalStandards/IREDES",
+        "description": "Identification of this work order. This ID has nothing to do with the, for example, work plan ID.",
+        "type": "string",
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_IRWorkOrderGenType/property/WorkOrderId/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_IRWorkOrderGenType/property/WorkOrderId/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "WorkOrderType": {
+        "dov:namespace": "http://opcfoundation.org/UA/Mining/ExternalStandards/IREDES",
+        "type": "string",
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_IRWorkOrderGenType/property/WorkOrderType/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_IRWorkOrderGenType/property/WorkOrderType/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+      "AssignmentTime": {
+        "dov:namespace": "http://opcfoundation.org/UA/Mining/ExternalStandards/IREDES",
+        "data": {
+          "title": "JobAssignmentTimeDataType",
+          "description": "Time the execution of the job is expected to take.",
+          "type": "object",
+          "dov:typeRef": "org.opcfoundation.UA.Mining.ExternalStandards.IREDES.JobAssignmentTimeDataType",
+          "properties": {
+            "ExpectedFinishTime": {
+              "description": "Time Machine is expected to finish the job.",
+              "type": "string",
+              "format": "date-time"
+            },
+            "ExpectedDuration": {
+              "description": "Time the job is going to take to finish.",
+              "type": "string",
+              "pattern": "^P(?!$)(?:(?:(?:(?:\\d+Y)|(?:\\d+\\.\\d+Y$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?)|(?:(?:(?:\\d+W)|(?:\\d+\\.\\d+W$))?))(?:(?:\\d+D)|(?:\\d+\\.\\d+D$))?(?:T(?!$)(?:(?:\\d+H)|(?:\\d+\\.\\d+H$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?(?:\\d+(?:\\.\\d+)?S)?)?$"
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_IRWorkOrderGenType/event/AssignmentTime/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "Comment": {
+        "dov:namespace": "http://opcfoundation.org/UA/Mining/ExternalStandards/IREDES",
+        "data": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_IRWorkOrderGenType/event/Comment/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "MachineId": {
+        "dov:namespace": "http://opcfoundation.org/UA/Mining/ExternalStandards/IREDES",
+        "data": {
+          "description": "Machine assigned to the work.",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_IRWorkOrderGenType/event/MachineId/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "OperatorId": {
+        "dov:namespace": "http://opcfoundation.org/UA/Mining/ExternalStandards/IREDES",
+        "data": {
+          "description": "Operators assigned to the work.",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_IRWorkOrderGenType/event/OperatorId/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "PriorityLevel": {
+        "dov:namespace": "http://opcfoundation.org/UA/Mining/ExternalStandards/IREDES",
+        "data": {
+          "description": "Priority of the workorder. Level from 1 to 10 as 10 representing top priority.",
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 4294967295
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_IRWorkOrderGenType/event/PriorityLevel/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "SafetyAdvice": {
+        "dov:namespace": "http://opcfoundation.org/UA/Mining/ExternalStandards/IREDES",
+        "data": {
+          "description": "Work order shall be carried out. Schema should be defined separately within the IRoptionType.",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_IRWorkOrderGenType/event/SafetyAdvice/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "SpecialCondition": {
+        "dov:namespace": "http://opcfoundation.org/UA/Mining/ExternalStandards/IREDES",
+        "data": {
+          "description": "E.g. electricity will be switched off in some region in mine during operation.",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_IRWorkOrderGenType/event/SpecialCondition/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "SpecialTask": {
+        "dov:namespace": "http://opcfoundation.org/UA/Mining/ExternalStandards/IREDES",
+        "data": {
+          "description": "Tasks that are not or hard to describe in workorder.",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_IRWorkOrderGenType/event/SpecialTask/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "WorkOrderType": {
+        "dov:namespace": "http://opcfoundation.org/UA/Mining/ExternalStandards/IREDES",
+        "data": {
+          "type": "string"
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/Mining.ExternalStandards.IREDES/Mining_ExternalStandards_IREDES_IRWorkOrderGenType/event/WorkOrderType/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      }
     }
   },
   {

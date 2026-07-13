@@ -624,6 +624,18 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/actions/LabelsEncodingEvent",
+      "/actions/LabelsInspectingEvent",
+      "/actions/LabelsSamplingEvent",
+      "/actions/LabelsScrappingEvent",
+      "/actions/SIDCommissioningEvent",
+      "/actions/SIDDecommissioningEvent",
+      "/actions/SIDDestroyingEvent",
+      "/actions/SIDInspectingEvent",
+      "/actions/SIDShippingEvent",
+      "/actions/SNInvalidatingEvent"
+    ],
     "actions": {
       "LabelsEncodingEvent": {
         "dov:namespace": "http://opcfoundation.org/UA/OPENSCS-SER/",
@@ -2937,6 +2949,11 @@
         "dov:topic": "opcua/OPENSCS-SER/OPENSCS_SER_OPENSCSSIDClassObjectType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/IntendedUse",
+      "/properties/SIDClassDescription",
+      "/properties/SIDClassProperty"
     ],
     "actions": {
     },

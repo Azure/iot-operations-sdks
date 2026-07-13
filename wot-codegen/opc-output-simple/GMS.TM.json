@@ -93,6 +93,9 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/ProgramName"
+    ],
     "actions": {
     },
     "properties": {
@@ -174,6 +177,10 @@
         "dov:topic": "opcua/GMS/GMS_MultiSensorType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/Alignment",
+      "/properties/Axes"
     ],
     "actions": {
     },
@@ -304,6 +311,18 @@
         "dov:topic": "opcua/GMS/GMS_SensorType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/AbsoluteProbe",
+      "/properties/Alignment",
+      "/properties/Axes",
+      "/properties/Capabilities",
+      "/properties/EngineeringUnit",
+      "/properties/IsQualifiedStatus",
+      "/properties/MeasuringRange",
+      "/properties/Resolution",
+      "/properties/WorkingRange",
+      "/events/Capabilities"
     ],
     "actions": {
     },
@@ -619,6 +638,21 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/CharacteristicIdentifier",
+      "/properties/CharacteristicsClass",
+      "/properties/Formula",
+      "/properties/IsValid",
+      "/properties/LowerToleranceLimit",
+      "/properties/Nominal",
+      "/properties/ResultEvaluation",
+      "/properties/ResultValue",
+      "/properties/UpperToleranceLimit",
+      "/events/LowerToleranceLimit",
+      "/events/Nominal",
+      "/events/ResultValue",
+      "/events/UpperToleranceLimit"
+    ],
     "actions": {
     },
     "properties": {
@@ -889,6 +923,18 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/CorrectionValueAbsolute",
+      "/properties/CorrectionValueRelative",
+      "/properties/Description",
+      "/properties/LowerControlLimit",
+      "/properties/ProgramName",
+      "/properties/UpperControlLimit",
+      "/events/CorrectionValueAbsolute",
+      "/events/CorrectionValueRelative",
+      "/events/LowerControlLimit",
+      "/events/UpperControlLimit"
+    ],
     "actions": {
     },
     "properties": {
@@ -1136,6 +1182,10 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/IsInLoadingPosition",
+      "/events/IsInLoadingPosition"
+    ],
     "actions": {
     },
     "properties": {
@@ -1235,6 +1285,9 @@
         "dov:topic": "opcua/GMS/GMS_ToolMonitoringType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/ActiveTool"
     ],
     "actions": {
     },
@@ -1338,6 +1391,10 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/SubDeviceClass",
+      "/properties/Workspace"
+    ],
     "actions": {
     },
     "properties": {
@@ -1395,6 +1452,12 @@
         "rel": "dov:capability",
         "dov:refName": "Equipment",
         "href": "#title=GMS_GMSEquipmentType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:capability",
+        "dov:refName": "Identification",
+        "href": "#title=GMS_GMSIdentificationType",
         "type": "application/tm+json"
       },
       {
@@ -1533,6 +1596,12 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/BatchIdentifier",
+      "/properties/Duration",
+      "/properties/MeasurementReason",
+      "/properties/RemainingTime"
+    ],
     "actions": {
     },
     "properties": {
@@ -1650,6 +1719,21 @@
         "dov:topic": "opcua/GMS/GMS_GMSPartType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/NestIdentifier",
+      "/properties/Operator",
+      "/properties/PartAmendmentStatus",
+      "/properties/PartCarrierIdentifier",
+      "/properties/PartDescription",
+      "/properties/ProcessingMachineIdentifier",
+      "/properties/ProcessParameter",
+      "/properties/ProductionNumber",
+      "/events/NestIdentifier",
+      "/events/Operator",
+      "/events/PartCarrierIdentifier",
+      "/events/ProcessingMachineIdentifier",
+      "/events/ProcessParameter"
     ],
     "actions": {
     },
@@ -1896,6 +1980,11 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/CalibrationCertificate",
+      "/properties/CalibrationInterval",
+      "/properties/CalibrationPreptime"
+    ],
     "actions": {
     },
     "properties": {
@@ -2041,6 +2130,12 @@
         "rel": "tm:extends",
         "href": "./OpcUaCore.TM.json#title=OpcUaCore_BaseObjectType",
         "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:capability",
+        "dov:refName": "Identification",
+        "href": "./Machinery.TM.json#title=Machinery_MachineryItemIdentificationType",
+        "type": "application/tm+json"
       }
     ],
     "schemaDefinitions": {
@@ -2115,6 +2210,12 @@
         "rel": "tm:extends",
         "href": "./OpcUaCore.TM.json#title=OpcUaCore_BaseObjectType",
         "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:capability",
+        "dov:refName": "Identification",
+        "href": "./Machinery.TM.json#title=Machinery_MachineryItemIdentificationType",
+        "type": "application/tm+json"
       }
     ],
     "schemaDefinitions": {
@@ -2169,6 +2270,12 @@
       {
         "rel": "tm:extends",
         "href": "./OpcUaCore.TM.json#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:capability",
+        "dov:refName": "Identification",
+        "href": "./Machinery.TM.json#title=Machinery_MachineryItemIdentificationType",
         "type": "application/tm+json"
       }
     ],

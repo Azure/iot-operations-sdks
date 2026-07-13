@@ -96,6 +96,20 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/CausePath",
+      "/properties/ErrorCode",
+      "/properties/ErrorString",
+      "/properties/ExternalConfigurationId",
+      "/properties/ExternalRecipeId",
+      "/properties/InternalConfigurationId",
+      "/properties/InternalRecipeId",
+      "/properties/JobId",
+      "/properties/MeasId",
+      "/properties/PartId",
+      "/properties/ProductId",
+      "/properties/ResultId"
+    ],
     "actions": {
     },
     "properties": {
@@ -890,6 +904,10 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/ExternalId",
+      "/properties/ProductId"
+    ],
     "actions": {
     },
     "properties": {
@@ -1044,6 +1062,16 @@
         "dov:topic": "opcua/MachineVision/MachineVision_ResultReadyEventType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/ExternalConfigurationId",
+      "/properties/ExternalRecipeId",
+      "/properties/IsSimulated",
+      "/properties/MeasId",
+      "/properties/PartId",
+      "/properties/ProcessingTimes",
+      "/properties/ProductId",
+      "/properties/ResultContent"
     ],
     "actions": {
     },
@@ -1613,6 +1641,18 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/CausePath",
+      "/properties/ExternalConfigurationId",
+      "/properties/ExternalRecipeId",
+      "/properties/InternalConfigurationId",
+      "/properties/InternalRecipeId",
+      "/properties/JobId",
+      "/properties/MeasId",
+      "/properties/PartId",
+      "/properties/ProductId",
+      "/properties/ResultId"
+    ],
     "actions": {
     },
     "properties": {
@@ -2125,6 +2165,11 @@
         "dov:topic": "opcua/MachineVision/MachineVision_ConfigurationManagementType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/actions/AddConfiguration",
+      "/actions/ReleaseConfigurationHandle",
+      "/actions/RemoveConfiguration"
     ],
     "actions": {
       "ActivateConfiguration": {
@@ -2872,6 +2917,10 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/Configuration",
+      "/events/Configuration"
+    ],
     "actions": {
     },
     "properties": {
@@ -3095,6 +3144,10 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/Product",
+      "/events/Product"
+    ],
     "actions": {
     },
     "properties": {
@@ -3245,6 +3298,10 @@
         "dov:topic": "opcua/MachineVision/MachineVision_ResultFolderType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/ResultVariable",
+      "/events/ResultVariable"
     ],
     "actions": {
     },
@@ -4241,6 +4298,14 @@
         }
       }
     },
+    "tm:optional": [
+      "/actions/AddRecipe",
+      "/actions/PrepareProduct",
+      "/actions/ReleaseRecipeHandle",
+      "/actions/RemoveRecipe",
+      "/actions/UnlinkProduct",
+      "/actions/UnprepareProduct"
+    ],
     "actions": {
       "AddRecipe": {
         "dov:namespace": "http://opcfoundation.org/UA/MachineVision",
@@ -5087,6 +5152,12 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/actions/LinkProduct",
+      "/actions/UnlinkProduct",
+      "/properties/ExternalId",
+      "/properties/LinkedProducts"
+    ],
     "actions": {
       "LinkProduct": {
         "dov:namespace": "http://opcfoundation.org/UA/MachineVision",
@@ -5419,6 +5490,9 @@
     ],
     "schemaDefinitions": {
     },
+    "tm:optional": [
+      "/actions/ReleaseResultHandle"
+    ],
     "actions": {
       "GetResultById": {
         "dov:namespace": "http://opcfoundation.org/UA/MachineVision",
@@ -6862,6 +6936,9 @@
     ],
     "schemaDefinitions": {
     },
+    "tm:optional": [
+      "/actions/SimulationMode"
+    ],
     "actions": {
       "Abort": {
         "dov:namespace": "http://opcfoundation.org/UA/MachineVision",
@@ -7412,6 +7489,10 @@
     ],
     "schemaDefinitions": {
     },
+    "tm:optional": [
+      "/actions/ConfirmAll",
+      "/actions/SelectModeAutomatic"
+    ],
     "actions": {
       "ConfirmAll": {
         "dov:namespace": "http://opcfoundation.org/UA/MachineVision",
@@ -8177,6 +8258,12 @@
         "dov:topic": "opcua/MachineVision/MachineVision_VisionSystemType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/DiagnosticLevel",
+      "/properties/SystemState",
+      "/events/DiagnosticLevel",
+      "/events/SystemState"
     ],
     "actions": {
     },

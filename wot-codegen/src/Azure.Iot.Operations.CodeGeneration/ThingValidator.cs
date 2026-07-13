@@ -133,22 +133,32 @@ namespace Azure.Iot.Operations.CodeGeneration
                 hasError = true;
             }
 
-            CheckSchemaDefinitionsCoverage(thing.SchemaDefinitions, thing.Actions, thing.Properties);
+            // Schema-catalog Thing Models (no affordances) intentionally carry reusable schema
+            // definitions that need not be referenced, so the coverage heuristic does not apply.
+            bool hasAffordances = (thing.Actions?.Entries?.Count ?? 0) > 0
+                || (thing.Properties?.Entries?.Count ?? 0) > 0;
+            if (hasAffordances)
+            {
+                CheckSchemaDefinitionsCoverage(thing.SchemaDefinitions, thing.Actions, thing.Properties);
+            }
 
             return !hasError;
         }
 
         public void ValidateThingCollection(IEnumerable<TDThing> things, string? side)
         {
-            int actionCount = things.Sum(t => t.Actions?.Entries?.Count ?? 0);
-            int propertyCount = things.Sum(t => t.Properties?.Entries?.Count ?? 0);
-            int eventCount = things.Sum(t => t.Events?.Entries?.Count ?? 0);
+            List<TDThing> thingList = things.ToList();
+            int actionCount = thingList.Sum(t => t.Actions?.Entries?.Count ?? 0);
+            int propertyCount = thingList.Sum(t => t.Properties?.Entries?.Count ?? 0);
+            int eventCount = thingList.Sum(t => t.Events?.Entries?.Count ?? 0);
+            bool containsOnlySchemaCatalogs = thingList.Count > 0
+                && thingList.All(t => (t.SchemaDefinitions?.Entries?.Count ?? 0) > 0);
 
             string sidePrefix = side != null ? $"{side} " : string.Empty;
 
-            if (actionCount + propertyCount + eventCount == 0)
+            if (actionCount + propertyCount + eventCount == 0 && !containsOnlySchemaCatalogs)
             {
-                switch (things.Count())
+                switch (thingList.Count)
                 {
                     case 0:
                         errorReporter.ReportWarning($"{sidePrefix}Thing collection is empty.", -1);

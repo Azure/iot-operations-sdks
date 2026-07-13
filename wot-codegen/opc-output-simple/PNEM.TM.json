@@ -36,6 +36,9 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/DcCurrent_EngineeringUnits"
+    ],
     "actions": {
     },
     "properties": {
@@ -129,6 +132,9 @@
         "dov:topic": "opcua/PNEM/PNEM_IEnergyProfileE0Type/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/AcCurrent_EngineeringUnits"
     ],
     "actions": {
     },
@@ -260,6 +266,9 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/AcActivePowerTotal_EngineeringUnits"
+    ],
     "actions": {
     },
     "properties": {
@@ -353,6 +362,11 @@
         "dov:topic": "opcua/PNEM/PNEM_IEnergyProfileE2Type/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/AcActiveEnergyTotalExportLp_EngineeringUnits",
+      "/properties/AcActiveEnergyTotalImportLp_EngineeringUnits",
+      "/properties/AcActivePowerTotal_EngineeringUnits"
     ],
     "actions": {
     },
@@ -547,6 +561,15 @@
         "dov:topic": "opcua/PNEM/PNEM_IEnergyProfileE3Type/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/AcActiveEnergyTotalExportHp_EngineeringUnits",
+      "/properties/AcActiveEnergyTotalImportHp_EngineeringUnits",
+      "/properties/AcActivePower_EngineeringUnits",
+      "/properties/AcCurrent_EngineeringUnits",
+      "/properties/AcReactivePower_EngineeringUnits",
+      "/properties/AcVoltagePe_EngineeringUnits",
+      "/properties/AcVoltagePp_EngineeringUnits"
     ],
     "actions": {
     },
@@ -1434,6 +1457,9 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/actions/ResetEnergyCounter"
+    ],
     "actions": {
       "ResetEnergyCounter": {
         "dov:namespace": "http://opcfoundation.org/UA/PNEM/",
@@ -1554,6 +1580,10 @@
         "dov:topic": "opcua/PNEM/PNEM_EnergySavingModeStatusType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/CurrentTransitionData",
+      "/events/CurrentTransitionData"
     ],
     "actions": {
     },
@@ -1752,6 +1782,9 @@
         "dov:topic": "opcua/PNEM/PNEM_EnergySavingModeType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/ID"
     ],
     "actions": {
     },
@@ -2058,6 +2091,11 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/actions/EndPause",
+      "/actions/StartPause",
+      "/actions/SwitchToEnergySavingMode"
+    ],
     "actions": {
       "EndPause": {
         "dov:namespace": "http://opcfoundation.org/UA/PNEM/",
@@ -2334,6 +2372,11 @@
         "dov:topic": "opcua/PNEM/PNEM_PeServiceAccessPointType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/PeClass",
+      "/properties/PeSubclass",
+      "/properties/PeVersion"
     ],
     "actions": {
     },

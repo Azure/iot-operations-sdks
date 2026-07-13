@@ -25,6 +25,9 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/ActiveTime"
+    ],
     "actions": {
     },
     "properties": {
@@ -119,6 +122,12 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/CutGap",
+      "/properties/PelletizerClosed",
+      "/properties/WaterFlowActive",
+      "/events/CutGap"
+    ],
     "actions": {
     },
     "properties": {
@@ -204,6 +213,9 @@
         "dov:topic": "opcua/PlasticsRubber.Extrusion.Pelletizer/PlasticsRubber_Extrusion_Pelletizer_KnifePackageType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/ActiveTime"
     ],
     "actions": {
     },

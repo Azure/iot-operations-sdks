@@ -12,14 +12,15 @@ use azure_iot_operations_mqtt::{
     token::AckToken,
 };
 use azure_iot_operations_protocol::{
-    application::ApplicationContext, common::hybrid_logical_clock::HybridLogicalClock, rpc_command,
-    telemetry,
+    application::ApplicationContext,
+    common::dispatcher::{DispatchError, DispatchErrorKind, Dispatcher, Receiver},
+    common::hybrid_logical_clock::HybridLogicalClock,
+    rpc_command, telemetry,
 };
 use data_encoding::HEXUPPER;
 use derive_builder::Builder;
 use tokio::{sync::Notify, task};
 
-use crate::common::dispatcher::{DispatchError, DispatchErrorKind, Dispatcher, Receiver};
 use crate::state_store::{
     self, Error, ErrorKind, FENCING_TOKEN_USER_PROPERTY, PERSIST_USER_PROPERTY, SetOptions,
 };
