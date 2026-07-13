@@ -12,7 +12,7 @@ use uuid::Uuid;
 use super::super::common_types::{b64::Bytes, date_only::Date, decimal::Decimal, time_only::Time};
 use super::label::Label;
 
-/// Request payload for listing xRegistry Versions, optionally filtered by Group type, Group, Resource type, Resource, and/or label.
+/// Request payload for listing xRegistry Versions, optionally filtered by Group type, Group, Resource type, Resource, document hash, and/or label.
 #[derive(Serialize, Deserialize, Debug, Clone, Builder)]
 pub struct ListVersionsRequestPayload {
     /// Group type. If not specified, Versions are listed across all Group types; in that case groupId must be specified explicitly or allGroups must be true, because the default Group only exists within a specific Group type.
@@ -42,6 +42,12 @@ pub struct ListVersionsRequestPayload {
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]
     pub resource_id: Option<String>,
+
+    /// If specified, only Versions with a document with this hash are listed.
+    #[serde(rename = "documentHash")]
+    #[serde(skip_serializing_if = "Option::is_none")]
+    #[builder(default = "None")]
+    pub document_hash: Option<String>,
 
     /// If specified, only Versions with this label are listed.
     #[serde(skip_serializing_if = "Option::is_none")]

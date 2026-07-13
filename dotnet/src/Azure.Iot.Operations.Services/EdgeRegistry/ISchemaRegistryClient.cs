@@ -47,11 +47,12 @@ public interface ISchemaRegistryClient
     /// <summary>Lists the XIDs of Schema Versions matching the query, optionally filtered by Schema id and/or a single label.</summary>
     /// <param name="groups">The Groups to search; see <see cref="GroupSelector"/> for the available scopes.</param>
     /// <param name="schemaId">When set, restricts the results to this Schema.</param>
+    /// <param name="documentHash">When set, restricts the results to entities whose document has this hash.</param>
     /// <param name="label">When set, restricts the results to entities carrying this label.</param>
     /// <param name="timeout">The command timeout; when <see langword="null"/>, the client's default timeout is used.</param>
     /// <param name="cancellationToken">A token to cancel the operation.</param>
     /// <returns>A task whose result is the XIDs of the matching Schema Versions.</returns>
-    Task<IReadOnlyList<Models.SchemaVersionXid>> ListSchemaVersionsAsync(GroupSelector groups, string? schemaId = null, Models.Label? label = null, TimeSpan? timeout = null, CancellationToken cancellationToken = default);
+    Task<IReadOnlyList<Models.SchemaVersionXid>> ListSchemaVersionsAsync(GroupSelector groups, string? schemaId = null, string? documentHash = null, Models.Label? label = null, TimeSpan? timeout = null, CancellationToken cancellationToken = default);
 
     /// <summary>Deletes a specific Schema Version.</summary>
     /// <param name="groupId">The Schema Group. Use <see cref="GroupId.CloudDefault"/> for the cloud-default Group (the configured namespace).</param>

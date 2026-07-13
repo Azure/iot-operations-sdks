@@ -48,7 +48,7 @@ public sealed partial class EdgeRegistryClient : IThingModelClient
     }
 
     /// <inheritdoc/>
-    public async Task<IReadOnlyList<Models.ThingModelVersionXid>> ListThingModelVersionsAsync(GroupSelector groups, string? thingModelId = null, Models.Label? label = null, TimeSpan? timeout = null, CancellationToken cancellationToken = default)
+    public async Task<IReadOnlyList<Models.ThingModelVersionXid>> ListThingModelVersionsAsync(GroupSelector groups, string? thingModelId = null, string? documentHash = null, Models.Label? label = null, TimeSpan? timeout = null, CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();
         ObjectDisposedException.ThrowIf(_disposed, this);
@@ -61,6 +61,7 @@ public sealed partial class EdgeRegistryClient : IThingModelClient
             AllGroups = allGroups,
             ResourceType = Generated.Constants.ThingModelResourceType,
             ResourceId = thingModelId,
+            DocumentHash = documentHash,
             Label = label is null ? null : Converter.ToGenerated(label),
         };
 

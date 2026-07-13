@@ -8,6 +8,7 @@ using Azure.Iot.Operations.Mqtt.Session;
 using Azure.Iot.Operations.Protocol;
 using Azure.Iot.Operations.Protocol.RPC;
 using Azure.Iot.Operations.Services.EdgeRegistry.Host.Generated;
+using Azure.Iot.Operations.Services.EdgeRegistry.Host.Generated.Common;
 using static Azure.Iot.Operations.Services.EdgeRegistry.Host.ExtensionStub;
 
 /// <summary>
@@ -19,7 +20,7 @@ internal sealed class EdgeRegistrySchemaExtensionService : EdgeRegistrySchemaExt
     private const string ResourceType = "schemas";
     private const string SchemaIdToken = "ex:schemaId";
 
-    private readonly ExtensionVersionStore<CreateSchemaVersionAttributes> _store = new(a => a.Labels);
+    private readonly ExtensionVersionStore<CreateSchemaVersionAttributes> _store = new(a => a.Labels, a => a.Document);
 
     public EdgeRegistrySchemaExtensionService(ApplicationContext applicationContext, MqttSessionClient mqttClient)
         : base(applicationContext, mqttClient)
@@ -53,7 +54,7 @@ internal sealed class EdgeRegistrySchemaExtensionService : EdgeRegistrySchemaExt
     {
         string? groupId = request.AllGroups ? null : (request.GroupId ?? DefaultGroupId);
         List<SchemaVersionXid> versions = _store
-            .ListVersions(groupId, request.AllGroups, request.ResourceId, request.Label)
+            .ListVersions(groupId, request.AllGroups, request.ResourceId, request.DocumentHash, request.Label)
             .Select(t => new SchemaVersionXid
             {
                 GroupType = GroupType,
@@ -66,13 +67,13 @@ internal sealed class EdgeRegistrySchemaExtensionService : EdgeRegistrySchemaExt
         return Task.FromResult(Ok(new SchemaVersionXidList { Versions = versions }));
     }
 
-    public override Task<ExtendedResponse<DeleteSchemaVersionOutputArguments>> DeleteSchemaVersionAsync(DeleteSchemaVersionInputArguments request, CommandRequestMetadata requestMetadata, CancellationToken cancellationToken)
+    public override Task<ExtendedResponse<EmptyJson>> DeleteSchemaVersionAsync(DeleteSchemaVersionInputArguments request, CommandRequestMetadata requestMetadata, CancellationToken cancellationToken)
     {
         string schemaId = TopicToken(requestMetadata, SchemaIdToken);
         ulong versionId = ulong.Parse(TopicToken(requestMetadata, VersionIdToken), CultureInfo.InvariantCulture);
         string groupId = request.GroupId ?? DefaultGroupId;
-        _store.DeleteVersion(groupId, schemaId, versionId);
-        return Task.FromResult(Ok(new DeleteSchemaVersionOutputArguments { DummyOutput = true }));
+        _store.DeleteVersion(groupId, schemaId, versionId, request.Options.ExpectedEpoch);
+        return Task.FromResult(Ok(new EmptyJson()));
     }
 
     private static SchemaVersion ToEntity(string groupId, string schemaId, ExtensionVersionStore<CreateSchemaVersionAttributes>.StoredVersion version)

@@ -8,6 +8,7 @@ using Azure.Iot.Operations.Mqtt.Session;
 using Azure.Iot.Operations.Protocol;
 using Azure.Iot.Operations.Protocol.RPC;
 using Azure.Iot.Operations.Services.EdgeRegistry.Host.Generated;
+using Azure.Iot.Operations.Services.EdgeRegistry.Host.Generated.Common;
 using static Azure.Iot.Operations.Services.EdgeRegistry.Host.ExtensionStub;
 
 /// <summary>
@@ -19,7 +20,7 @@ internal sealed class EdgeRegistryThingModelExtensionService : EdgeRegistryThing
     private const string ResourceType = "thingmodels";
     private const string ThingModelIdToken = "ex:thingModelId";
 
-    private readonly ExtensionVersionStore<CreateThingModelVersionAttributes> _store = new(a => a.Labels);
+    private readonly ExtensionVersionStore<CreateThingModelVersionAttributes> _store = new(a => a.Labels, a => a.Document);
 
     public EdgeRegistryThingModelExtensionService(ApplicationContext applicationContext, MqttSessionClient mqttClient)
         : base(applicationContext, mqttClient)
@@ -53,7 +54,7 @@ internal sealed class EdgeRegistryThingModelExtensionService : EdgeRegistryThing
     {
         string? groupId = request.AllGroups ? null : (request.GroupId ?? DefaultGroupId);
         List<ThingModelVersionXid> versions = _store
-            .ListVersions(groupId, request.AllGroups, request.ResourceId, request.Label)
+            .ListVersions(groupId, request.AllGroups, request.ResourceId, request.DocumentHash, request.Label)
             .Select(t => new ThingModelVersionXid
             {
                 GroupType = GroupType,
@@ -66,13 +67,13 @@ internal sealed class EdgeRegistryThingModelExtensionService : EdgeRegistryThing
         return Task.FromResult(Ok(new ThingModelVersionXidList { Versions = versions }));
     }
 
-    public override Task<ExtendedResponse<DeleteThingModelVersionOutputArguments>> DeleteThingModelVersionAsync(DeleteThingModelVersionInputArguments request, CommandRequestMetadata requestMetadata, CancellationToken cancellationToken)
+    public override Task<ExtendedResponse<EmptyJson>> DeleteThingModelVersionAsync(DeleteThingModelVersionInputArguments request, CommandRequestMetadata requestMetadata, CancellationToken cancellationToken)
     {
         string thingModelId = TopicToken(requestMetadata, ThingModelIdToken);
         ulong versionId = ulong.Parse(TopicToken(requestMetadata, VersionIdToken), CultureInfo.InvariantCulture);
         string groupId = request.GroupId ?? DefaultGroupId;
-        _store.DeleteVersion(groupId, thingModelId, versionId);
-        return Task.FromResult(Ok(new DeleteThingModelVersionOutputArguments { DummyOutput = true }));
+        _store.DeleteVersion(groupId, thingModelId, versionId, request.Options.ExpectedEpoch);
+        return Task.FromResult(Ok(new EmptyJson()));
     }
 
     private static ThingModelVersion ToEntity(string groupId, string thingModelId, ExtensionVersionStore<CreateThingModelVersionAttributes>.StoredVersion version)

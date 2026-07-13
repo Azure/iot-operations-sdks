@@ -10,18 +10,17 @@ using Azure.Iot.Operations.Services.EdgeRegistry.Host.Generated.Common;
 namespace Azure.Iot.Operations.Services.EdgeRegistry.Host.Generated
 {
     /// <summary>
-    /// TODO: Dummy output to allow Rust to compile
+    /// Options that control the behavior of a delete operation.
     /// </summary>
     [System.CodeDom.Compiler.GeneratedCode("Azure.Iot.Operations.ProtocolCompilerLib", "1.0.0.0")]
-    public partial class DeleteResourceOutputArguments
+    public partial class DeleteOptions
     {
         /// <summary>
-        /// TODO: Temporary Output
+        /// If specified, the request fails when the current epoch doesn't match.
         /// </summary>
-        [JsonPropertyName("dummyOutput")]
-        [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-        [JsonRequired]
-        public bool DummyOutput { get; set; } = default!;
+        [JsonPropertyName("expectedEpoch")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+        public ulong? ExpectedEpoch { get; set; } = default;
 
     }
 }
