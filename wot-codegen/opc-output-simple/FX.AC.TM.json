@@ -37,6 +37,10 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/DescriptorIdentifier",
+      "/properties/DescriptorVersion"
+    ],
     "actions": {
     },
     "properties": {
@@ -134,6 +138,10 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/Id",
+      "/properties/Name"
+    ],
     "actions": {
     },
     "properties": {
@@ -219,6 +227,11 @@
         "dov:topic": "opcua/FX.AC/FX_AC_ClampBlockType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/BlockSize",
+      "/properties/Kind",
+      "/events/Kind"
     ],
     "actions": {
     },
@@ -333,6 +346,10 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/Kind",
+      "/events/Kind"
+    ],
     "actions": {
     },
     "properties": {
@@ -423,6 +440,9 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/LogicalId"
+    ],
     "actions": {
     },
     "properties": {
@@ -504,6 +524,10 @@
         "dov:topic": "opcua/FX.AC/FX_AC_SocketType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/Kind",
+      "/events/Kind"
     ],
     "actions": {
     },
@@ -831,6 +855,9 @@
         "dov:topic": "opcua/FX.AC/FX_AC_AutomationComponentType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/ConformanceName"
     ],
     "actions": {
       "CloseConnections": {
@@ -1674,6 +1701,13 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/actions/VerifyAsset",
+      "/properties/BuildAssetNumber",
+      "/properties/MajorAssetVersion",
+      "/properties/MinorAssetVersion",
+      "/properties/SubBuildAssetNumber"
+    ],
     "actions": {
       "VerifyAsset": {
         "dov:namespace": "http://opcfoundation.org/UA/FX/AC/",
@@ -1980,6 +2014,15 @@
         "dov:topic": "opcua/FX.AC/FX_AC_IFunctionalEntityType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/actions/Verify",
+      "/properties/ApplicationIdentifier",
+      "/properties/AuthorAssignedIdentifier",
+      "/properties/AuthorAssignedVersion",
+      "/properties/AuthorUri",
+      "/properties/OperationalHealth",
+      "/events/OperationalHealth"
     ],
     "actions": {
       "Verify": {
@@ -2294,6 +2337,14 @@
         "dov:topic": "opcua/FX.AC/FX_AC_ConnectionEndpointType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/ConnectionManagerApplicationUri",
+      "/properties/InputVariables",
+      "/properties/OutputVariables",
+      "/events/ConnectionManagerApplicationUri",
+      "/events/InputVariables",
+      "/events/OutputVariables"
     ],
     "actions": {
     },
@@ -2745,6 +2796,11 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/actions/EstablishControl",
+      "/actions/ReassignControl",
+      "/actions/ReleaseControl"
+    ],
     "actions": {
       "EstablishControl": {
         "dov:namespace": "http://opcfoundation.org/UA/FX/AC/",
@@ -2930,6 +2986,10 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/CommHealth",
+      "/events/CommHealth"
+    ],
     "actions": {
     },
     "properties": {
@@ -3048,6 +3108,11 @@
     ],
     "schemaDefinitions": {
     },
+    "tm:optional": [
+      "/actions/ClearStoredVariables",
+      "/actions/ListStoredVariables",
+      "/actions/SetStoredVariables"
+    ],
     "actions": {
       "ClearStoredVariables": {
         "dov:namespace": "http://opcfoundation.org/UA/FX/AC/",
@@ -3214,6 +3279,9 @@
         "dov:topic": "opcua/FX.AC/FX_AC_ControlItemFolderType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/MaxInactiveLockTime"
     ],
     "actions": {
     },
@@ -3483,6 +3551,15 @@
         "dov:topic": "opcua/FX.AC/FX_AC_FunctionalEntityType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/actions/Verify",
+      "/properties/ApplicationIdentifier",
+      "/properties/AuthorAssignedIdentifier",
+      "/properties/AuthorAssignedVersion",
+      "/properties/AuthorUri",
+      "/properties/OperationalHealth",
+      "/events/OperationalHealth"
     ],
     "actions": {
       "Verify": {
@@ -3755,6 +3832,12 @@
         "dov:refName": "Diagnostics",
         "href": "./DI.TM.json#title=DI_FunctionalGroupType",
         "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:reference",
+        "dov:refName": "SoftwareUpdate",
+        "href": "./DI.TM.json#title=DI_SoftwareUpdateType",
+        "type": "application/tm+json"
       }
     ],
     "schemaDefinitions": {
@@ -3859,6 +3942,29 @@
         "dov:topic": "opcua/FX.AC/FX_AC_FxAssetType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/actions/VerifyAsset",
+      "/properties/AssetId",
+      "/properties/BuildAssetNumber",
+      "/properties/ComponentName",
+      "/properties/DeviceClass",
+      "/properties/DeviceHealth",
+      "/properties/DeviceManual",
+      "/properties/DeviceRevision",
+      "/properties/HardwareRevision",
+      "/properties/MajorAssetVersion",
+      "/properties/Manufacturer",
+      "/properties/ManufacturerUri",
+      "/properties/MinorAssetVersion",
+      "/properties/Model",
+      "/properties/ProductCode",
+      "/properties/ProductInstanceUri",
+      "/properties/RevisionCounter",
+      "/properties/SerialNumber",
+      "/properties/SoftwareRevision",
+      "/properties/SubBuildAssetNumber",
+      "/events/DeviceHealth"
     ],
     "actions": {
       "VerifyAsset": {

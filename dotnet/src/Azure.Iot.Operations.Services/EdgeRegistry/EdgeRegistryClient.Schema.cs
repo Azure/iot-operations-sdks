@@ -48,7 +48,7 @@ public sealed partial class EdgeRegistryClient : ISchemaRegistryClient
     }
 
     /// <inheritdoc/>
-    public async Task<IReadOnlyList<Models.SchemaVersionXid>> ListSchemaVersionsAsync(GroupSelector groups, string? schemaId = null, Models.Label? label = null, TimeSpan? timeout = null, CancellationToken cancellationToken = default)
+    public async Task<IReadOnlyList<Models.SchemaVersionXid>> ListSchemaVersionsAsync(GroupSelector groups, string? schemaId = null, string? documentHash = null, Models.Label? label = null, TimeSpan? timeout = null, CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();
         ObjectDisposedException.ThrowIf(_disposed, this);
@@ -61,6 +61,7 @@ public sealed partial class EdgeRegistryClient : ISchemaRegistryClient
             AllGroups = allGroups,
             ResourceType = Generated.Constants.SchemaResourceType,
             ResourceId = schemaId,
+            DocumentHash = documentHash,
             Label = label is null ? null : Converter.ToGenerated(label),
         };
 

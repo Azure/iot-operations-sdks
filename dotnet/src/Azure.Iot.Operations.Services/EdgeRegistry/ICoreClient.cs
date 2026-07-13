@@ -150,11 +150,12 @@ public interface ICoreClient : IAsyncDisposable
     /// <param name="groups">The Groups to search; see <see cref="GroupQuery"/> for the available scopes.</param>
     /// <param name="resourceType">When set, restricts the results to this Resource type.</param>
     /// <param name="resourceId">When set, restricts the results to this Resource.</param>
+    /// <param name="documentHash">When set, restricts the results to entities whose document has this hash.</param>
     /// <param name="label">When set, restricts the results to entities carrying this label.</param>
     /// <param name="timeout">The command timeout; when <see langword="null"/>, the client's default timeout is used.</param>
     /// <param name="cancellationToken">A token to cancel the operation.</param>
     /// <returns>A task whose result is the XIDs of the matching Versions.</returns>
-    Task<IReadOnlyList<Models.VersionXId>> ListVersionsAsync(GroupQuery groups, string? resourceType = null, string? resourceId = null, Models.Label? label = null, TimeSpan? timeout = null, CancellationToken cancellationToken = default);
+    Task<IReadOnlyList<Models.VersionXId>> ListVersionsAsync(GroupQuery groups, string? resourceType = null, string? resourceId = null, string? documentHash = null, Models.Label? label = null, TimeSpan? timeout = null, CancellationToken cancellationToken = default);
 
     /// <summary>Deletes a specific Version of a Resource.</summary>
     /// <param name="groupType">The Group type (the xRegistry Group collection name).</param>

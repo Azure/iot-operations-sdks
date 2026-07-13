@@ -167,6 +167,12 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/CenterOfMass",
+      "/properties/Inertia",
+      "/events/CenterOfMass",
+      "/events/Inertia"
+    ],
     "actions": {
     },
     "properties": {
@@ -1237,6 +1243,14 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/actions/Start",
+      "/actions/Stop",
+      "/properties/ConfiguredDefaultStopMode",
+      "/properties/PossibleStopModes",
+      "/events/ConfiguredDefaultStopMode",
+      "/events/PossibleStopModes"
+    ],
     "actions": {
       "Start": {
         "dov:namespace": "http://opcfoundation.org/UA/Robotics/",
@@ -1563,6 +1577,16 @@
         "dov:topic": "opcua/Robotics/Robotics_SystemOperationStateMachineType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/actions/GetReady",
+      "/actions/StandDown",
+      "/actions/Start",
+      "/actions/Stop",
+      "/properties/ConfiguredDefaultStopMode",
+      "/properties/PossibleStopModes",
+      "/events/ConfiguredDefaultStopMode",
+      "/events/PossibleStopModes"
     ],
     "actions": {
       "GetReady": {
@@ -1930,6 +1954,19 @@
         "dov:topic": "opcua/Robotics/Robotics_TaskControlStateMachineType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/actions/LoadByName",
+      "/actions/LoadByNodeId",
+      "/actions/Start",
+      "/actions/Stop",
+      "/actions/UnloadByName",
+      "/actions/UnloadByNodeId",
+      "/actions/UnloadProgram",
+      "/properties/ConfiguredDefaultStopMode",
+      "/properties/PossibleStopModes",
+      "/events/ConfiguredDefaultStopMode",
+      "/events/PossibleStopModes"
     ],
     "actions": {
       "LoadByName": {
@@ -2373,6 +2410,9 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/actions/ResetToProgramStart"
+    ],
     "actions": {
       "ResetToProgramStart": {
         "dov:namespace": "http://opcfoundation.org/UA/Robotics/",
@@ -2503,6 +2543,9 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/DefaultInstanceBrowseName"
+    ],
     "actions": {
     },
     "properties": {
@@ -2562,6 +2605,10 @@
         "dov:topic": "opcua/Robotics/Robotics_TaskControlOperationType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/DefaultInstanceBrowseName",
+      "/properties/MotionDevicesUnderControl"
     ],
     "actions": {
     },
@@ -2631,6 +2678,10 @@
         "dov:topic": "opcua/Robotics/Robotics_TaskModuleType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/IsReferenced",
+      "/properties/Version"
     ],
     "actions": {
     },
@@ -2716,6 +2767,9 @@
         "dov:topic": "opcua/Robotics/Robotics_AuxiliaryComponentType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/AssetId"
     ],
     "actions": {
     },
@@ -2827,6 +2881,9 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/AssetId"
+    ],
     "actions": {
     },
     "properties": {
@@ -2924,6 +2981,12 @@
         "type": "application/tm+json"
       },
       {
+        "rel": "dov:reference",
+        "dov:refName": "SystemOperation",
+        "href": "#title=Robotics_SystemOperationType",
+        "type": "application/tm+json"
+      },
+      {
         "rel": "dov:component",
         "dov:refName": "TaskControls",
         "href": "./OpcUaCore.TM.json#title=OpcUaCore_FolderType",
@@ -2938,6 +3001,11 @@
         "dov:topic": "opcua/Robotics/Robotics_ControllerType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/AssetId",
+      "/properties/ComponentName",
+      "/properties/DeviceManual"
     ],
     "actions": {
     },
@@ -3057,6 +3125,9 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/AssetId"
+    ],
     "actions": {
     },
     "properties": {
@@ -3119,6 +3190,11 @@
         "dov:topic": "opcua/Robotics/Robotics_GearType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/AssetId",
+      "/properties/Pitch",
+      "/events/Pitch"
     ],
     "actions": {
     },
@@ -3380,6 +3456,9 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/ComponentName"
+    ],
     "actions": {
     },
     "properties": {
@@ -3502,6 +3581,13 @@
         "dov:topic": "opcua/Robotics/Robotics_MotionDeviceType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/AssetId",
+      "/properties/ComponentName",
+      "/properties/DeviceManual",
+      "/properties/TaskControlReference",
+      "/events/TaskControlReference"
     ],
     "actions": {
     },
@@ -3675,6 +3761,9 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/AssetId"
+    ],
     "actions": {
     },
     "properties": {
@@ -3794,6 +3883,9 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/ComponentName"
+    ],
     "actions": {
     },
     "properties": {
@@ -3857,6 +3949,9 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/ComponentName"
+    ],
     "actions": {
     },
     "properties": {
@@ -3903,6 +3998,12 @@
         "rel": "dov:component",
         "dov:refName": "ParameterSet",
         "href": "./OpcUaCore.TM.json#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:reference",
+        "dov:refName": "TaskControlOperation",
+        "href": "#title=Robotics_TaskControlOperationType",
         "type": "application/tm+json"
       },
       {
@@ -3966,6 +4067,9 @@
         "dov:topic": "opcua/Robotics/Robotics_UserType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/Name"
     ],
     "actions": {
     },

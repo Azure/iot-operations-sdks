@@ -36,6 +36,12 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/AuxParameters",
+      "/properties/HelpSource",
+      "/properties/VendorNotificationId",
+      "/events/VendorNotificationId"
+    ],
     "actions": {
     },
     "properties": {
@@ -210,6 +216,12 @@
         "dov:topic": "opcua/Scales.V2/Scales_V2_ScaleEventType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/AuxParameters",
+      "/properties/HelpSource",
+      "/properties/VendorNotificationId",
+      "/events/VendorNotificationId"
     ],
     "actions": {
     },
@@ -524,6 +536,21 @@
         "dov:topic": "opcua/Scales.V2/Scales_V2_AutomaticFillingProductType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/FeedRateMeasuringInterval",
+      "/properties/FillingTime",
+      "/properties/FineFeedWeight",
+      "/properties/JogFeed",
+      "/properties/MinimumDeltaPerFeedRateMeasuringInterval",
+      "/properties/SettlingTime",
+      "/properties/TareId",
+      "/events/FeedRateMeasuringInterval",
+      "/events/FillingTime",
+      "/events/FineFeedWeight",
+      "/events/JogFeed",
+      "/events/MinimumDeltaPerFeedRateMeasuringInterval",
+      "/events/SettlingTime"
     ],
     "actions": {
     },
@@ -860,6 +887,16 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/BatchId",
+      "/properties/BatchName",
+      "/properties/JobId",
+      "/properties/JobName",
+      "/properties/PresetTare",
+      "/properties/ProductMode",
+      "/events/PresetTare",
+      "/events/ProductMode"
+    ],
     "actions": {
     },
     "properties": {
@@ -1100,6 +1137,10 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/ResetCondition",
+      "/properties/StartTime"
+    ],
     "actions": {
     },
     "properties": {
@@ -1174,6 +1215,18 @@
         "dov:topic": "opcua/Scales.V2/Scales_V2_WeighingItemType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/ItemId",
+      "/properties/MeasuredHeight",
+      "/properties/MeasuredLength",
+      "/properties/MeasuredVolume",
+      "/properties/MeasuredWidth",
+      "/properties/ZoneName",
+      "/events/MeasuredHeight",
+      "/events/MeasuredLength",
+      "/events/MeasuredVolume",
+      "/events/MeasuredWidth"
     ],
     "actions": {
     },
@@ -1515,6 +1568,15 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/actions/AddProduct",
+      "/actions/DeselectProduct",
+      "/actions/RemoveProduct",
+      "/actions/SelectProduct",
+      "/actions/SwitchProduct",
+      "/properties/CurrentProducts",
+      "/events/CurrentProducts"
+    ],
     "actions": {
       "AddProduct": {
         "dov:namespace": "http://opcfoundation.org/UA/Scales/V2/",
@@ -1723,6 +1785,18 @@
         "dov:topic": "opcua/Scales.V2/Scales_V2_CatchweigherProductType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/actions/AddZone",
+      "/actions/RemoveZone",
+      "/properties/PresetHeight",
+      "/properties/PresetLength",
+      "/properties/PresetWidth",
+      "/properties/TargetThroughput",
+      "/events/PresetHeight",
+      "/events/PresetLength",
+      "/events/PresetWidth",
+      "/events/TargetThroughput"
     ],
     "actions": {
       "AddZone": {
@@ -2128,6 +2202,10 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/UnitPrice",
+      "/events/UnitPrice"
+    ],
     "actions": {
     },
     "properties": {
@@ -2202,6 +2280,10 @@
         "dov:topic": "opcua/Scales.V2/Scales_V2_PriceItemType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/ItemPrice",
+      "/events/ItemPrice"
     ],
     "actions": {
     },
@@ -2283,6 +2365,12 @@
         "dov:topic": "opcua/Scales.V2/Scales_V2_CheckweigherProductType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/LowerToleranceLimit1",
+      "/properties/LowerToleranceLimit2",
+      "/events/LowerToleranceLimit1",
+      "/events/LowerToleranceLimit2"
     ],
     "actions": {
     },
@@ -2588,6 +2676,14 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/MaterialDensity",
+      "/properties/TargetFlowRate",
+      "/properties/TargetWeight",
+      "/events/MaterialDensity",
+      "/events/TargetFlowRate",
+      "/events/TargetWeight"
+    ],
     "actions": {
     },
     "properties": {
@@ -2726,6 +2822,36 @@
         "dov:topic": "opcua/Scales.V2/Scales_V2_PieceCountingProductType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/actions/SetTargetItemCount",
+      "/actions/SetTargetPieceCount",
+      "/properties/CurrentItemCount",
+      "/properties/FeedRateMeasuringInterval",
+      "/properties/FillingTime",
+      "/properties/FineFeedCount",
+      "/properties/InFlightCount",
+      "/properties/JogFeed",
+      "/properties/MinimumDeltaPerFeedRateMeasuringInterval",
+      "/properties/SettlingTime",
+      "/properties/TareId",
+      "/properties/TargetItemCount",
+      "/properties/TargetPieceCount",
+      "/properties/TotalizedItemCount",
+      "/properties/TotalizedWeight",
+      "/events/CurrentItemCount",
+      "/events/FeedRateMeasuringInterval",
+      "/events/FillingTime",
+      "/events/FineFeedCount",
+      "/events/InFlightCount",
+      "/events/JogFeed",
+      "/events/MinimumDeltaPerFeedRateMeasuringInterval",
+      "/events/SettlingTime",
+      "/events/TareId",
+      "/events/TargetItemCount",
+      "/events/TargetPieceCount",
+      "/events/TotalizedItemCount",
+      "/events/TotalizedWeight"
     ],
     "actions": {
       "SetTargetItemCount": {
@@ -3541,6 +3667,11 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/ContainerId",
+      "/properties/UnitPrice",
+      "/events/UnitPrice"
+    ],
     "actions": {
     },
     "properties": {
@@ -3630,6 +3761,10 @@
         "dov:topic": "opcua/Scales.V2/Scales_V2_TotalizingHopperProductType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/VolumeTargetValue",
+      "/events/VolumeTargetValue"
     ],
     "actions": {
     },
@@ -3745,6 +3880,25 @@
         "dov:topic": "opcua/Scales.V2/Scales_V2_VehicleProductType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/actions/GetVehicleInformation",
+      "/properties/CarrierDisplayName",
+      "/properties/CarrierId",
+      "/properties/Customer",
+      "/properties/Destination",
+      "/properties/DriverDisplayName",
+      "/properties/DriverId",
+      "/properties/InboundScale",
+      "/properties/InboundWeight",
+      "/properties/OutboundScale",
+      "/properties/ScaleOperatorId",
+      "/properties/Supplier",
+      "/properties/Tare",
+      "/properties/TareExpirationDate",
+      "/properties/TotalWeight",
+      "/properties/TotalWeightResetDate",
+      "/events/InboundWeight"
     ],
     "actions": {
       "GetVehicleInformation": {
@@ -4323,6 +4477,9 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/TargetValueNodeId"
+    ],
     "actions": {
     },
     "properties": {
@@ -4432,6 +4589,12 @@
         "dov:topic": "opcua/Scales.V2/Scales_V2_ConditionSleepType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/ThresholdValueNodeId",
+      "/properties/Timeout",
+      "/events/ThresholdValueNodeId",
+      "/events/Timeout"
     ],
     "actions": {
     },
@@ -4930,6 +5093,10 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/InstructionId",
+      "/events/InstructionId"
+    ],
     "actions": {
     },
     "properties": {
@@ -5142,6 +5309,10 @@
     ],
     "schemaDefinitions": {
     },
+    "tm:optional": [
+      "/actions/AddRecipe",
+      "/actions/RemoveRecipe"
+    ],
     "actions": {
       "AddRecipe": {
         "dov:namespace": "http://opcfoundation.org/UA/Scales/V2/",
@@ -5246,6 +5417,10 @@
         "dov:topic": "opcua/Scales.V2/Scales_V2_RecipeType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/actions/AddRecipeElement",
+      "/actions/RemoveRecipeElement"
     ],
     "actions": {
       "AddRecipeElement": {
@@ -5424,9 +5599,27 @@
         "type": "application/tm+json"
       },
       {
+        "rel": "dov:capability",
+        "dov:refName": "Identification",
+        "href": "#title=Machinery_MachineryItemIdentificationType",
+        "type": "application/tm+json"
+      },
+      {
         "rel": "dov:component",
         "dov:refName": "MachineryBuildingBlocks",
         "href": "#title=OpcUaCore_FolderType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:capability",
+        "dov:refName": "MachineryItemState",
+        "href": "#title=Machinery_MachineryItemState_StateMachineType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:capability",
+        "dov:refName": "MachineryOperationMode",
+        "href": "#title=Machinery_MachineryOperationModeStateMachineType",
         "type": "application/tm+json"
       }
     ],
@@ -5443,6 +5636,18 @@
         "dov:topic": "opcua/Scales.V2/Scales_V2_FeederModuleType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/actions/SetFeederSpeed",
+      "/properties/FeederLoad",
+      "/properties/FeederRunning",
+      "/properties/FeederSpeed",
+      "/properties/MaximumFeederSpeed",
+      "/properties/MinimalFeederSpeed",
+      "/events/FeederLoad",
+      "/events/FeederSpeed",
+      "/events/MaximumFeederSpeed",
+      "/events/MinimalFeederSpeed"
     ],
     "actions": {
       "SetFeederSpeed": {
@@ -5634,9 +5839,27 @@
         "type": "application/tm+json"
       },
       {
+        "rel": "dov:capability",
+        "dov:refName": "Identification",
+        "href": "#title=Machinery_MachineryItemIdentificationType",
+        "type": "application/tm+json"
+      },
+      {
         "rel": "dov:component",
         "dov:refName": "MachineryBuildingBlocks",
         "href": "#title=OpcUaCore_FolderType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:capability",
+        "dov:refName": "MachineryItemState",
+        "href": "#title=Machinery_MachineryItemState_StateMachineType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:capability",
+        "dov:refName": "MachineryOperationMode",
+        "href": "#title=Machinery_MachineryOperationModeStateMachineType",
         "type": "application/tm+json"
       }
     ],
@@ -5653,6 +5876,18 @@
         "dov:topic": "opcua/Scales.V2/Scales_V2_PrinterModuleType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/LabelLength",
+      "/properties/LabelStock",
+      "/properties/LabelTypeId",
+      "/properties/LabelWidth",
+      "/properties/PrintMediaStock",
+      "/events/LabelLength",
+      "/events/LabelStock",
+      "/events/LabelTypeId",
+      "/events/LabelWidth",
+      "/events/PrintMediaStock"
     ],
     "actions": {
     },
@@ -5819,9 +6054,27 @@
         "type": "application/tm+json"
       },
       {
+        "rel": "dov:capability",
+        "dov:refName": "Identification",
+        "href": "#title=Machinery_MachineIdentificationType",
+        "type": "application/tm+json"
+      },
+      {
         "rel": "dov:component",
         "dov:refName": "MachineryBuildingBlocks",
         "href": "#title=OpcUaCore_FolderType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:capability",
+        "dov:refName": "MachineryItemState",
+        "href": "#title=Machinery_MachineryItemState_StateMachineType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:capability",
+        "dov:refName": "MachineryOperationMode",
+        "href": "#title=Machinery_MachineryOperationModeStateMachineType",
         "type": "application/tm+json"
       },
       {
@@ -5867,6 +6120,22 @@
         "dov:topic": "opcua/Scales.V2/Scales_V2_ScaleDeviceType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/actions/ClearTare",
+      "/actions/RegisterWeight",
+      "/actions/SetPresetTare",
+      "/actions/SetTare",
+      "/actions/SetZero",
+      "/properties/AllowedEngineeringUnits",
+      "/properties/MaterialClass",
+      "/properties/MinimalWeight",
+      "/properties/Policy",
+      "/properties/ProcessStateId",
+      "/properties/ProcessStateMessage",
+      "/properties/RegisteredWeight",
+      "/events/MinimalWeight",
+      "/events/RegisteredWeight"
     ],
     "actions": {
       "ClearTare": {
@@ -6490,6 +6759,11 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/Deviation",
+      "/properties/ToleranceState",
+      "/events/Deviation"
+    ],
     "actions": {
     },
     "properties": {
@@ -6660,6 +6934,10 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/TU1Percent",
+      "/events/TU1Percent"
+    ],
     "actions": {
     },
     "properties": {
@@ -6769,6 +7047,22 @@
         "dov:topic": "opcua/Scales.V2/Scales_V2_ContinuousScaleType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/ControlMagnitude",
+      "/properties/Load",
+      "/properties/MaxFlowRate",
+      "/properties/MinFlowRate",
+      "/properties/RateControlMode",
+      "/properties/Speed",
+      "/properties/TargetFlowRate",
+      "/events/ControlMagnitude",
+      "/events/Load",
+      "/events/MaxFlowRate",
+      "/events/MinFlowRate",
+      "/events/RateControlMode",
+      "/events/Speed",
+      "/events/TargetFlowRate"
     ],
     "actions": {
     },
@@ -7062,6 +7356,9 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/actions/ResetTotalizer"
+    ],
     "actions": {
       "ResetTotalizer": {
         "dov:namespace": "http://opcfoundation.org/UA/Scales/V2/",
@@ -7143,6 +7440,10 @@
         "dov:topic": "opcua/Scales.V2/Scales_V2_LossInWeightScaleType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/BinWeight",
+      "/events/BinWeight"
     ],
     "actions": {
       "DischargeStart": {
@@ -7367,6 +7668,11 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/actions/StartReference",
+      "/properties/ReferenceOptimisationRange",
+      "/events/ReferenceOptimisationRange"
+    ],
     "actions": {
       "SetNumberOfReferencePieces": {
         "dov:namespace": "http://opcfoundation.org/UA/Scales/V2/",
@@ -7582,6 +7888,17 @@
         "dov:topic": "opcua/Scales.V2/Scales_V2_RecipeScaleType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/actions/AbortRecipe",
+      "/actions/ContinueRecipe",
+      "/actions/SkipCurrentRecipeElement",
+      "/actions/StartRecipe",
+      "/actions/StopRecipe",
+      "/properties/SupportedTargetValues",
+      "/properties/SupportedThresholdValues",
+      "/events/SupportedTargetValues",
+      "/events/SupportedThresholdValues"
     ],
     "actions": {
       "AbortRecipe": {
@@ -7900,6 +8217,13 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/LevelMax",
+      "/properties/LevelMin",
+      "/properties/Limits",
+      "/events/LevelMax",
+      "/events/LevelMin"
+    ],
     "actions": {
     },
     "properties": {
@@ -8081,6 +8405,21 @@
         "dov:topic": "opcua/Scales.V2/Scales_V2_LaboratoryScaleType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/actions/CloseDraftShields",
+      "/actions/OpenDraftShields",
+      "/actions/StartCalibration",
+      "/actions/StartIonisator",
+      "/actions/StartLeveling",
+      "/actions/StopIonisator",
+      "/properties/CalibrationNeeded",
+      "/properties/CalibrationRunning",
+      "/properties/DraftShieldLeftClosed",
+      "/properties/DraftShieldRightClosed",
+      "/properties/DraftShieldTopClosed",
+      "/properties/IonisatorRunning",
+      "/properties/LevelingRunning"
     ],
     "actions": {
       "CloseDraftShields": {
@@ -8393,6 +8732,11 @@
     ],
     "schemaDefinitions": {
     },
+    "tm:optional": [
+      "/actions/InboundWeighing",
+      "/actions/OnePassWeighing",
+      "/actions/OutboundWeighing"
+    ],
     "actions": {
       "InboundWeighing": {
         "dov:namespace": "http://opcfoundation.org/UA/Scales/V2/",
@@ -8478,9 +8822,27 @@
         "type": "application/tm+json"
       },
       {
+        "rel": "dov:capability",
+        "dov:refName": "Identification",
+        "href": "#title=Machinery_MachineIdentificationType",
+        "type": "application/tm+json"
+      },
+      {
         "rel": "dov:component",
         "dov:refName": "MachineryBuildingBlocks",
         "href": "#title=OpcUaCore_FolderType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:capability",
+        "dov:refName": "MachineryItemState",
+        "href": "#title=Machinery_MachineryItemState_StateMachineType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:capability",
+        "dov:refName": "MachineryOperationMode",
+        "href": "#title=Machinery_MachineryOperationModeStateMachineType",
         "type": "application/tm+json"
       },
       {
@@ -8521,6 +8883,11 @@
         "dov:topic": "opcua/Scales.V2/Scales_V2_ScaleSystemType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/actions/ResetGlobalStatistics",
+      "/properties/Policy",
+      "/properties/ProcessStateId"
     ],
     "actions": {
       "ResetGlobalStatistics": {
@@ -8634,6 +9001,39 @@
         "dov:topic": "opcua/OpcUaCore/OpcUaCore_AlarmConditionType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/actions/GetGroupMemberships",
+      "/actions/PlaceInService",
+      "/actions/PlaceInService2",
+      "/actions/RemoveFromService",
+      "/actions/RemoveFromService2",
+      "/actions/Reset",
+      "/actions/Reset2",
+      "/actions/Silence",
+      "/actions/Suppress",
+      "/actions/Suppress2",
+      "/actions/Unsuppress",
+      "/actions/Unsuppress2",
+      "/properties/AudibleEnabled",
+      "/properties/AudibleSound",
+      "/properties/FirstInGroupFlag",
+      "/properties/LatchedState",
+      "/properties/MaxTimeShelved",
+      "/properties/OffDelay",
+      "/properties/OnDelay",
+      "/properties/OutOfServiceState",
+      "/properties/ReAlarmRepeatCount",
+      "/properties/ReAlarmTime",
+      "/properties/SilenceState",
+      "/properties/SuppressedState",
+      "/events/AudibleSound",
+      "/events/FirstInGroupFlag",
+      "/events/LatchedState",
+      "/events/OutOfServiceState",
+      "/events/ReAlarmRepeatCount",
+      "/events/SilenceState",
+      "/events/SuppressedState"
     ],
     "actions": {
       "GetGroupMemberships": {
@@ -9139,6 +9539,11 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/actions/Confirm",
+      "/properties/ConfirmedState",
+      "/events/ConfirmedState"
+    ],
     "actions": {
       "Acknowledge": {
         "input": {
@@ -9296,6 +9701,13 @@
         "dov:topic": "opcua/OpcUaCore/OpcUaCore_ConditionType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/actions/ConditionRefresh",
+      "/actions/ConditionRefresh2",
+      "/properties/ConditionSubClassId",
+      "/properties/ConditionSubClassName",
+      "/properties/SupportsFilteredRetain"
     ],
     "actions": {
       "AddComment": {
@@ -9624,6 +10036,13 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/ConditionClassId",
+      "/properties/ConditionClassName",
+      "/properties/ConditionSubClassId",
+      "/properties/ConditionSubClassName",
+      "/properties/LocalTime"
+    ],
     "actions": {
     },
     "properties": {
@@ -9899,6 +10318,11 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/actions/OneShotShelve2",
+      "/actions/TimedShelve2",
+      "/actions/Unshelve2"
+    ],
     "actions": {
       "OneShotShelve": {
         "forms": [
@@ -10048,6 +10472,14 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/AvailableStates",
+      "/properties/AvailableTransitions",
+      "/properties/LastTransition",
+      "/events/AvailableStates",
+      "/events/AvailableTransitions",
+      "/events/LastTransition"
+    ],
     "actions": {
     },
     "properties": {
@@ -10190,6 +10622,10 @@
         "dov:topic": "opcua/OpcUaCore/OpcUaCore_StateMachineType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/LastTransition",
+      "/events/LastTransition"
     ],
     "actions": {
     },
@@ -10413,6 +10849,11 @@
         "dov:topic": "opcua/OpcUaCore/OpcUaCore_FileType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/LastModifiedTime",
+      "/properties/MaxByteStringLength",
+      "/properties/MimeType"
     ],
     "actions": {
       "Close": {
@@ -10706,6 +11147,9 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/DefaultInstanceBrowseName"
+    ],
     "actions": {
       "BreakLock": {
         "dov:namespace": "http://opcfoundation.org/UA/DI/",
@@ -10896,6 +11340,22 @@
         "dov:topic": "opcua/DI/DI_ComponentType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/AssetId",
+      "/properties/ComponentName",
+      "/properties/DeviceClass",
+      "/properties/DeviceManual",
+      "/properties/DeviceRevision",
+      "/properties/HardwareRevision",
+      "/properties/Manufacturer",
+      "/properties/ManufacturerUri",
+      "/properties/Model",
+      "/properties/ProductCode",
+      "/properties/ProductInstanceUri",
+      "/properties/RevisionCounter",
+      "/properties/SerialNumber",
+      "/properties/SoftwareRevision"
     ],
     "actions": {
     },
@@ -11167,6 +11627,10 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/UIElement",
+      "/events/UIElement"
+    ],
     "actions": {
     },
     "properties": {
@@ -11248,6 +11712,715 @@
       }
     ],
     "@type": "tm:ThingModel",
+    "title": "Machinery_MachineryItemIdentificationType",
+    "dov:typeRef": "org.opcfoundation.UA.Machinery.MachineryItemIdentificationType",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=DI_FunctionalGroupType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dov:topic": "opcua/Machinery/Machinery_MachineryItemIdentificationType/properties/write",
+        "op": "writemultipleproperties"
+      },
+      {
+        "contentType": "application/json",
+        "dov:topic": "opcua/Machinery/Machinery_MachineryItemIdentificationType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "tm:optional": [
+      "/properties/AssetId",
+      "/properties/ComponentName",
+      "/properties/DefaultInstanceBrowseName",
+      "/properties/DeviceClass",
+      "/properties/HardwareRevision",
+      "/properties/InitialOperationDate",
+      "/properties/ManufacturerUri",
+      "/properties/Model",
+      "/properties/MonthOfConstruction",
+      "/properties/ProductCode",
+      "/properties/ProductInstanceUri",
+      "/properties/SoftwareRevision",
+      "/properties/YearOfConstruction"
+    ],
+    "actions": {
+    },
+    "properties": {
+      "AssetId": {
+        "dov:namespace": "http://opcfoundation.org/UA/DI/",
+        "description": "To be used by end users to store a unique identification in the context of their overall application. Servers shall support at least 40 Unicode characters for the clients writing this value, this means clients can expect to be able to write strings with a length of 40 Unicode characters into that field.",
+        "type": "string",
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/Machinery/Machinery_MachineryItemIdentificationType/property/AssetId/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/Machinery/Machinery_MachineryItemIdentificationType/property/AssetId/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "ComponentName": {
+        "dov:namespace": "http://opcfoundation.org/UA/DI/",
+        "description": "To be used by end users to store a human-readable localized text for the MachineryItem. The minimum number of locales supported for this property shall be two. Servers shall support at least 40 Unicode characters for the clients writing the text part of each locale, this means clients can expect to be able to write texts with a length of 40 Unicode characters into that field.",
+        "type": "string",
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/Machinery/Machinery_MachineryItemIdentificationType/property/ComponentName/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/Machinery/Machinery_MachineryItemIdentificationType/property/ComponentName/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "DefaultInstanceBrowseName": {
+        "description": "The default BrowseName for instances of the type.",
+        "type": "string",
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/Machinery/Machinery_MachineryItemIdentificationType/property/DefaultInstanceBrowseName/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/Machinery/Machinery_MachineryItemIdentificationType/property/DefaultInstanceBrowseName/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "DeviceClass": {
+        "dov:namespace": "http://opcfoundation.org/UA/DI/",
+        "description": "Indicates in which domain or for what purpose the MachineryItem is used.",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/Machinery/Machinery_MachineryItemIdentificationType/property/DeviceClass/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "HardwareRevision": {
+        "dov:namespace": "http://opcfoundation.org/UA/DI/",
+        "description": "A string representation of the revision level of the hardware of a MachineryItem. Hardware is physical equipment, as opposed to programs, procedures, rules and associated documentation. Many machines will not provide such information due to the modular and configurable nature of the machine.",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/Machinery/Machinery_MachineryItemIdentificationType/property/HardwareRevision/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "InitialOperationDate": {
+        "dov:namespace": "http://opcfoundation.org/UA/Machinery/",
+        "description": "The date, when the MachineryItem was switched on the first time after it has left the manufacturer plant.",
+        "type": "string",
+        "format": "date-time",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/Machinery/Machinery_MachineryItemIdentificationType/property/InitialOperationDate/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "Manufacturer": {
+        "dov:namespace": "http://opcfoundation.org/UA/DI/",
+        "description": "A human-readable, localized name of the manufacturer of the MachineryItem.",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/Machinery/Machinery_MachineryItemIdentificationType/property/Manufacturer/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "ManufacturerUri": {
+        "dov:namespace": "http://opcfoundation.org/UA/DI/",
+        "description": "A globally unique identifier of the manufacturer of the MachineryItem.",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/Machinery/Machinery_MachineryItemIdentificationType/property/ManufacturerUri/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "Model": {
+        "dov:namespace": "http://opcfoundation.org/UA/DI/",
+        "description": "A human-readable, localized name of the model of the MachineryItem.",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/Machinery/Machinery_MachineryItemIdentificationType/property/Model/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "MonthOfConstruction": {
+        "dov:namespace": "http://opcfoundation.org/UA/Machinery/",
+        "description": "The month in which the manufacturing process of the MachineryItem has been completed. It shall be a number between 1 and 12, representing the month from January to December.",
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 255,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/Machinery/Machinery_MachineryItemIdentificationType/property/MonthOfConstruction/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "ProductCode": {
+        "dov:namespace": "http://opcfoundation.org/UA/DI/",
+        "description": "A machine-readable string of the model of the MachineryItem, that might include options like the hardware configuration of the model. This information might be provided by the ERP system of the vendor. For example, it can be used as order information.",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/Machinery/Machinery_MachineryItemIdentificationType/property/ProductCode/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "ProductInstanceUri": {
+        "dov:namespace": "http://opcfoundation.org/UA/DI/",
+        "description": "A globally unique resource identifier provided by the manufacturer of the MachineryItem.",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/Machinery/Machinery_MachineryItemIdentificationType/property/ProductInstanceUri/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "SerialNumber": {
+        "dov:namespace": "http://opcfoundation.org/UA/DI/",
+        "description": "A string containing a unique production number of the manufacturer of the MachineryItem. The global uniqueness of the serial number is only given in the context of the manufacturer, and potentially the model. The value shall not change during the life-cycle of the MachineryItem.",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/Machinery/Machinery_MachineryItemIdentificationType/property/SerialNumber/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "SoftwareRevision": {
+        "dov:namespace": "http://opcfoundation.org/UA/DI/",
+        "description": "A string representation of the revision level of a MachineryItem. In most cases, MachineryItems consist of several software components. In that case, information about the software components might be provided as additional information in the address space, including individual revision information. In that case, this property is either not provided or provides an overall software revision level. The value might change during the life-cycle of a MachineryItem.",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/Machinery/Machinery_MachineryItemIdentificationType/property/SoftwareRevision/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "YearOfConstruction": {
+        "dov:namespace": "http://opcfoundation.org/UA/Machinery/",
+        "description": "The year (Gregorian calendar) in which the manufacturing process of the MachineryItem has been completed. It shall be a four-digit number and never change during the life-cycle of a MachineryItem.",
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 65535,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/Machinery/Machinery_MachineryItemIdentificationType/property/YearOfConstruction/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dov": "http://azure.com/DigitalOperations/vocab#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "Machinery_MachineryItemState_StateMachineType",
+    "dov:typeRef": "org.opcfoundation.UA.Machinery.MachineryItemState_StateMachineType",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_FiniteStateMachineType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:reference",
+        "dov:refName": "Executing",
+        "href": "#title=OpcUaCore_StateType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:reference",
+        "dov:refName": "FromExecutingToExecuting",
+        "href": "#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:reference",
+        "dov:refName": "FromExecutingToNotAvailable",
+        "href": "#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:reference",
+        "dov:refName": "FromExecutingToNotExecuting",
+        "href": "#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:reference",
+        "dov:refName": "FromExecutingToOutOfService",
+        "href": "#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:reference",
+        "dov:refName": "FromNotAvailableToExecuting",
+        "href": "#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:reference",
+        "dov:refName": "FromNotAvailableToNotAvailable",
+        "href": "#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:reference",
+        "dov:refName": "FromNotAvailableToNotExecuting",
+        "href": "#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:reference",
+        "dov:refName": "FromNotAvailableToOutOfService",
+        "href": "#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:reference",
+        "dov:refName": "FromNotExecutingToExecuting",
+        "href": "#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:reference",
+        "dov:refName": "FromNotExecutingToNotAvailable",
+        "href": "#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:reference",
+        "dov:refName": "FromNotExecutingToNotExecuting",
+        "href": "#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:reference",
+        "dov:refName": "FromNotExecutingToOutOfService",
+        "href": "#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:reference",
+        "dov:refName": "FromOutOfServiceToExecuting",
+        "href": "#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:reference",
+        "dov:refName": "FromOutOfServiceToNotAvailable",
+        "href": "#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:reference",
+        "dov:refName": "FromOutOfServiceToNotExecuting",
+        "href": "#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:reference",
+        "dov:refName": "FromOutOfServiceToOutOfService",
+        "href": "#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:reference",
+        "dov:refName": "NotAvailable",
+        "href": "#title=OpcUaCore_StateType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:reference",
+        "dov:refName": "NotExecuting",
+        "href": "#title=OpcUaCore_StateType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:reference",
+        "dov:refName": "OutOfService",
+        "href": "#title=OpcUaCore_StateType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dov:topic": "opcua/Machinery/Machinery_MachineryItemState_StateMachineType/properties/write",
+        "op": "writemultipleproperties"
+      },
+      {
+        "contentType": "application/json",
+        "dov:topic": "opcua/Machinery/Machinery_MachineryItemState_StateMachineType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "tm:optional": [
+      "/properties/DefaultInstanceBrowseName"
+    ],
+    "actions": {
+    },
+    "properties": {
+      "DefaultInstanceBrowseName": {
+        "description": "The default BrowseName for instances of the type",
+        "type": "string",
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/Machinery/Machinery_MachineryItemState_StateMachineType/property/DefaultInstanceBrowseName/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/Machinery/Machinery_MachineryItemState_StateMachineType/property/DefaultInstanceBrowseName/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dov": "http://azure.com/DigitalOperations/vocab#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "Machinery_MachineryOperationModeStateMachineType",
+    "dov:typeRef": "org.opcfoundation.UA.Machinery.MachineryOperationModeStateMachineType",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_FiniteStateMachineType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:reference",
+        "dov:refName": "FromMaintenanceToMaintenance",
+        "href": "#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:reference",
+        "dov:refName": "FromMaintenanceToNone",
+        "href": "#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:reference",
+        "dov:refName": "FromMaintenanceToProcessing",
+        "href": "#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:reference",
+        "dov:refName": "FromMaintenanceToSetup",
+        "href": "#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:reference",
+        "dov:refName": "FromNoneToMaintenance",
+        "href": "#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:reference",
+        "dov:refName": "FromNoneToNone",
+        "href": "#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:reference",
+        "dov:refName": "FromNoneToProcessing",
+        "href": "#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:reference",
+        "dov:refName": "FromNoneToSetup",
+        "href": "#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:reference",
+        "dov:refName": "FromProcessingToMaintenance",
+        "href": "#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:reference",
+        "dov:refName": "FromProcessingToNone",
+        "href": "#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:reference",
+        "dov:refName": "FromProcessingToProcessing",
+        "href": "#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:reference",
+        "dov:refName": "FromProcessingToSetup",
+        "href": "#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:reference",
+        "dov:refName": "FromSetupToMaintenance",
+        "href": "#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:reference",
+        "dov:refName": "FromSetupToNone",
+        "href": "#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:reference",
+        "dov:refName": "FromSetupToProcessing",
+        "href": "#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:reference",
+        "dov:refName": "FromSetupToSetup",
+        "href": "#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:reference",
+        "dov:refName": "Maintenance",
+        "href": "#title=OpcUaCore_StateType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:reference",
+        "dov:refName": "None",
+        "href": "#title=OpcUaCore_StateType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:reference",
+        "dov:refName": "Processing",
+        "href": "#title=OpcUaCore_StateType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:reference",
+        "dov:refName": "Setup",
+        "href": "#title=OpcUaCore_StateType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dov:topic": "opcua/Machinery/Machinery_MachineryOperationModeStateMachineType/properties/write",
+        "op": "writemultipleproperties"
+      },
+      {
+        "contentType": "application/json",
+        "dov:topic": "opcua/Machinery/Machinery_MachineryOperationModeStateMachineType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "tm:optional": [
+      "/properties/DefaultInstanceBrowseName"
+    ],
+    "actions": {
+    },
+    "properties": {
+      "DefaultInstanceBrowseName": {
+        "description": "The default BrowseName for instances of the type",
+        "type": "string",
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/Machinery/Machinery_MachineryOperationModeStateMachineType/property/DefaultInstanceBrowseName/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/Machinery/Machinery_MachineryOperationModeStateMachineType/property/DefaultInstanceBrowseName/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dov": "http://azure.com/DigitalOperations/vocab#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "Machinery_MachineIdentificationType",
+    "dov:typeRef": "org.opcfoundation.UA.Machinery.MachineIdentificationType",
+    "dov:isComposite": true,
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=Machinery_MachineryItemIdentificationType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dov:topic": "opcua/Machinery/Machinery_MachineIdentificationType/properties/write",
+        "op": "writemultipleproperties"
+      },
+      {
+        "contentType": "application/json",
+        "dov:topic": "opcua/Machinery/Machinery_MachineIdentificationType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "tm:optional": [
+      "/properties/DefaultInstanceBrowseName",
+      "/properties/Location"
+    ],
+    "actions": {
+    },
+    "properties": {
+      "DefaultInstanceBrowseName": {
+        "description": "The default BrowseName for instances of the type.",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/Machinery/Machinery_MachineIdentificationType/property/DefaultInstanceBrowseName/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "Location": {
+        "dov:namespace": "http://opcfoundation.org/UA/Machinery/",
+        "description": "To be used by end users to store the location of the machine in a scheme specific to the end user. Servers shall support at least 60 Unicode characters for the clients writing this value, this means clients can expect to be able to write strings with a length of 60 Unicode characters into that field.",
+        "type": "string",
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/Machinery/Machinery_MachineIdentificationType/property/Location/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/Machinery/Machinery_MachineIdentificationType/property/Location/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "ProductInstanceUri": {
+        "dov:namespace": "http://opcfoundation.org/UA/DI/",
+        "description": "A globally unique resource identifier provided by the manufacturer of the machine",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/Machinery/Machinery_MachineIdentificationType/property/ProductInstanceUri/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dov": "http://azure.com/DigitalOperations/vocab#"
+      }
+    ],
+    "@type": "tm:ThingModel",
     "title": "PackML_PackMLBaseStateMachineType",
     "dov:typeRef": "org.opcfoundation.UA.PackML.PackMLBaseStateMachineType",
     "links": [
@@ -11312,6 +12485,10 @@
         "dov:topic": "opcua/PackML/PackML_PackMLBaseStateMachineType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/actions/Abort",
+      "/actions/Clear"
     ],
     "actions": {
       "Abort": {
@@ -11482,6 +12659,10 @@
         "dov:topic": "opcua/PackML/PackML_PackMLMachineStateMachineType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/actions/Reset",
+      "/actions/Stop"
     ],
     "actions": {
       "Reset": {
@@ -11784,6 +12965,15 @@
         "dov:topic": "opcua/PackML/PackML_PackMLExecuteStateMachineType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/actions/Hold",
+      "/actions/Reset",
+      "/actions/Start",
+      "/actions/Suspend",
+      "/actions/ToComplete",
+      "/actions/Unhold",
+      "/actions/Unsuspend"
     ],
     "actions": {
       "Hold": {

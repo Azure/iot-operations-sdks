@@ -9,23 +9,33 @@ namespace Azure.Iot.Operations.Opc2WotLib
 
     public partial class WotThingCollection : ITemplateTransform
     {
-        public WotThingCollection(OpcUaModelInfo modelInfo, LinkRelRuleEngine linkRelRuleEngine, bool integrate, bool inheritVars, bool includeTDs)
+        public WotThingCollection(OpcUaGraph opcUaGraph, OpcUaModelInfo modelInfo, LinkRelRuleEngine linkRelRuleEngine, bool integrate, bool inheritVars, bool includeTDs)
         {
             string specName = SpecMapper.GetSpecNameFromUri(modelInfo.ModelUri);
             this.ThingDescriptions = includeTDs ? modelInfo.NodeIdToObjectMap.Values.Where(o => !modelInfo.ReferencedObjectNodeIds.Contains(o.NodeId)).Select(o => new WotThingDescription(specName, o)).ToList() : new();
 
             if (integrate)
             {
-                this.ThingModels = ModelInfoCloser.ComputeClosure(modelInfo).SelectMany(kvp => kvp.Value.Values.Select(ot => new WotThingModel(SpecMapper.GetSpecNameFromUri(kvp.Key), ot, linkRelRuleEngine, isIntegrated: true, inheritVars: inheritVars))).ToList();
+                Dictionary<string, Dictionary<OpcUaNodeId, OpcUaObjectType>> closure = ModelInfoCloser.ComputeClosure(modelInfo);
+                this.ThingModels = closure.SelectMany(kvp => kvp.Value.Values.Select(ot => new WotThingModel(SpecMapper.GetSpecNameFromUri(kvp.Key), ot, linkRelRuleEngine, isIntegrated: true, inheritVars: inheritVars))).ToList();
+                this.DataTypeModels = opcUaGraph.GetRequiredModelClosure(modelInfo)
+                    .Select(requiredModel => new WotDataTypeModel(SpecMapper.GetSpecNameFromUri(requiredModel.ModelUri), requiredModel.NodeIdToDataTypeMap.Values))
+                    .Where(dtm => dtm.HasSchemaDefinitions)
+                    .ToList();
             }
             else
             {
                 this.ThingModels = modelInfo.NodeIdToObjectTypeMap.Values.Select(ot => new WotThingModel(specName, ot, linkRelRuleEngine, isIntegrated: false, inheritVars: inheritVars)).ToList();
+                this.DataTypeModels = new List<WotDataTypeModel> { new WotDataTypeModel(specName, modelInfo.NodeIdToDataTypeMap.Values) }
+                    .Where(dtm => dtm.HasSchemaDefinitions)
+                    .ToList();
             }
         }
 
         public List<WotThingDescription> ThingDescriptions { get; }
 
         public List<WotThingModel> ThingModels { get; }
+
+        public List<WotDataTypeModel> DataTypeModels { get; }
     }
 }

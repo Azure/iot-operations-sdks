@@ -30,6 +30,12 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/Description",
+      "/properties/PreviousValue",
+      "/events/Description",
+      "/events/PreviousValue"
+    ],
     "actions": {
     },
     "properties": {
@@ -167,6 +173,18 @@
         "dov:topic": "opcua/LaserSystems/LaserSystems_ConditionDataMonitoringType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/Description",
+      "/properties/LowerErrorLevel",
+      "/properties/LowerWarningLevel",
+      "/properties/UpperErrorLevel",
+      "/properties/UpperWarningLevel",
+      "/events/Description",
+      "/events/LowerErrorLevel",
+      "/events/LowerWarningLevel",
+      "/events/UpperErrorLevel",
+      "/events/UpperWarningLevel"
     ],
     "actions": {
     },
@@ -368,6 +386,10 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/Description",
+      "/events/Description"
+    ],
     "actions": {
     },
     "properties": {
@@ -467,6 +489,9 @@
         "dov:topic": "opcua/LaserSystems/LaserSystems_LaserSystemOperationCounterType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/DefaultInstanceBrowseName"
     ],
     "actions": {
     },
@@ -630,8 +655,26 @@
       },
       {
         "rel": "dov:capability",
+        "dov:refName": "MachineryItemState",
+        "href": "./Machinery.TM.json#title=Machinery_MachineryItemState_StateMachineType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:capability",
+        "dov:refName": "MachineryOperationMode",
+        "href": "./Machinery.TM.json#title=Machinery_MachineryOperationModeStateMachineType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:capability",
         "dov:refName": "MachineToolsLaserStatus",
         "href": "./MachineTool.TM.json#title=MachineTool_LaserMonitoringType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:capability",
+        "dov:refName": "OperationCounters",
+        "href": "#title=LaserSystems_LaserSystemOperationCounterType",
         "type": "application/tm+json"
       }
     ],
@@ -659,6 +702,12 @@
       {
         "rel": "tm:extends",
         "href": "./OpcUaCore.TM.json#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:capability",
+        "dov:refName": "Identification",
+        "href": "./Machinery.TM.json#title=Machinery_MachineryComponentIdentificationType",
         "type": "application/tm+json"
       },
       {
@@ -726,6 +775,9 @@
         "dov:topic": "opcua/LaserSystems/LaserSystems_LaserSystemMaintenancePrognosisType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/Code"
     ],
     "actions": {
     },
@@ -803,6 +855,9 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/Code"
+    ],
     "actions": {
     },
     "properties": {
@@ -877,6 +932,13 @@
         "dov:topic": "opcua/LaserSystems/LaserSystems_RecipeSettingsAndOverviewType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/CreationDate",
+      "/properties/Description",
+      "/properties/RecipeName",
+      "/properties/RecipeRevision",
+      "/events/Description"
     ],
     "actions": {
     },
@@ -1476,6 +1538,9 @@
         "dov:topic": "opcua/LaserSystems/LaserSystems_LaserSystemState_StateMachineType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/DefaultInstanceBrowseName"
     ],
     "actions": {
     },

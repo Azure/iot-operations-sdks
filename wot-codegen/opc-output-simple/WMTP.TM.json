@@ -41,6 +41,18 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/AbsoluteUncertainty",
+      "/properties/Index",
+      "/properties/InternalUpdateInterval",
+      "/properties/MeasurementPeriod",
+      "/properties/RelativeUncertainty",
+      "/properties/Status",
+      "/properties/Timestamp",
+      "/events/AbsoluteUncertainty",
+      "/events/RelativeUncertainty",
+      "/events/Status"
+    ],
     "actions": {
       "SetDeltaCondition": {
         "dov:namespace": "http://opcfoundation.org/UA/WMTP/",
@@ -432,6 +444,12 @@
         "type": "application/tm+json"
       },
       {
+        "rel": "dov:reference",
+        "dov:refName": "LifetimeCounters",
+        "href": "./Machinery.TM.json#title=Machinery_MachineryLifetimeCounterType",
+        "type": "application/tm+json"
+      },
+      {
         "rel": "dov:component",
         "dov:refName": "MachineryBuildingBlocks",
         "href": "./OpcUaCore.TM.json#title=OpcUaCore_FolderType",
@@ -441,6 +459,12 @@
         "rel": "dov:component",
         "dov:refName": "Measurements",
         "href": "./OpcUaCore.TM.json#title=OpcUaCore_FolderType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:capability",
+        "dov:refName": "OperationCounters",
+        "href": "./Machinery.TM.json#title=Machinery_MachineryOperationCounterType",
         "type": "application/tm+json"
       },
       {
@@ -484,6 +508,16 @@
     ],
     "schemaDefinitions": {
     },
+    "tm:optional": [
+      "/actions/CombinedReportFirstValue",
+      "/actions/CombinedReportIndex",
+      "/actions/CombinedReportLastValue",
+      "/actions/CombinedReportTime",
+      "/actions/DeleteAllStoredRecords",
+      "/actions/DeleteStoredRecordsIndex",
+      "/actions/DeleteStoredRecordsTime",
+      "/actions/ReportNumberOfStoredRecordsTime"
+    ],
     "actions": {
       "AbortOperation": {
         "dov:namespace": "http://opcfoundation.org/UA/WMTP/",
@@ -1372,6 +1406,16 @@
     ],
     "schemaDefinitions": {
     },
+    "tm:optional": [
+      "/actions/CombinedReportFirstValue",
+      "/actions/CombinedReportIndex",
+      "/actions/CombinedReportLastValue",
+      "/actions/CombinedReportTime",
+      "/actions/DeleteAllStoredRecords",
+      "/actions/DeleteStoredRecordsIndex",
+      "/actions/DeleteStoredRecordsTime",
+      "/actions/ReportNumberOfStoredRecordsTime"
+    ],
     "actions": {
       "AbortOperation": {
         "dov:namespace": "http://opcfoundation.org/UA/WMTP/",

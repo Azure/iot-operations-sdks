@@ -49,7 +49,7 @@ public sealed partial class EdgeRegistryClient : IThingDescriptionClient
     }
 
     /// <inheritdoc/>
-    public async Task<IReadOnlyList<Models.ThingDescriptionVersionXid>> ListThingDescriptionVersionsAsync(GroupSelector groups, string? thingDescriptionId = null, Models.Label? label = null, TimeSpan? timeout = null, CancellationToken cancellationToken = default)
+    public async Task<IReadOnlyList<Models.ThingDescriptionVersionXid>> ListThingDescriptionVersionsAsync(GroupSelector groups, string? thingDescriptionId = null, string? documentHash = null, Models.Label? label = null, TimeSpan? timeout = null, CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();
         ObjectDisposedException.ThrowIf(_disposed, this);
@@ -62,6 +62,7 @@ public sealed partial class EdgeRegistryClient : IThingDescriptionClient
             AllGroups = allGroups,
             ResourceType = Generated.Constants.ThingDescriptionResourceType,
             ResourceId = thingDescriptionId,
+            DocumentHash = documentHash,
             Label = label is null ? null : Converter.ToGenerated(label),
         };
 

@@ -1,0 +1,58 @@
+name: CI-WoT-Codegen
+
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - '.github/workflows/ci-wot-codegen.yml'
+      - 'wot-codegen/**'
+  push:
+    branches:
+      - main
+  schedule:
+    - cron: '0 11 * * *'  # Nightly (04:00 PT)
+
+# only allow one run / branch at a time
+concurrency:
+  group: ${{ github.workflow }}-${{ github.head_ref || github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+  actions: read
+  checks: write
+
+jobs:
+  build-and-test:
+    name: CI-wot-codegen
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Setup .NET 10
+        uses: actions/setup-dotnet@v5
+        with:
+          dotnet-version: 10.0.x
+
+      - name: dotnet info
+        run: dotnet --info
+
+      - name: Build (Debug)
+        run: dotnet build -c Debug wot-codegen/codegen.sln
+
+      - name: Test
+        run: dotnet test -c Debug wot-codegen/codegen.sln --no-build --logger "trx;LogFileName=test-results.trx"
+
+      - uses: dorny/test-reporter@v3
+        id: test-reporter
+        if: always()
+        with:
+          name: wot-codegen test report
+          path: 'wot-codegen/**/test-results.trx'
+          reporter: dotnet-trx
+
+      - name: Annotate Test Report
+        if: always()
+        run: echo Test Report ${{ steps.test-reporter.outputs.url_html }} >> $GITHUB_STEP_SUMMARY

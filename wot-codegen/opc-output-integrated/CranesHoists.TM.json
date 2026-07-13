@@ -190,6 +190,22 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/AssetId",
+      "/properties/ComponentName",
+      "/properties/DeviceClass",
+      "/properties/DeviceManual",
+      "/properties/DeviceRevision",
+      "/properties/HardwareRevision",
+      "/properties/Manufacturer",
+      "/properties/ManufacturerUri",
+      "/properties/Model",
+      "/properties/ProductCode",
+      "/properties/ProductInstanceUri",
+      "/properties/RevisionCounter",
+      "/properties/SerialNumber",
+      "/properties/SoftwareRevision"
+    ],
     "actions": {
     },
     "properties": {
@@ -460,6 +476,10 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/UIElement",
+      "/events/UIElement"
+    ],
     "actions": {
     },
     "properties": {
@@ -519,6 +539,9 @@
         "dov:topic": "opcua/DI/DI_LockingServicesType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/DefaultInstanceBrowseName"
     ],
     "actions": {
       "BreakLock": {
@@ -810,6 +833,9 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/AssetId"
+    ],
     "actions": {
     },
     "properties": {
@@ -898,6 +924,9 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/ComponentName"
+    ],
     "actions": {
     },
     "properties": {
@@ -947,6 +976,11 @@
         "dov:topic": "opcua/Robotics/Robotics_GearType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/AssetId",
+      "/properties/Pitch",
+      "/events/Pitch"
     ],
     "actions": {
     },
@@ -1202,6 +1236,9 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/AssetId"
+    ],
     "actions": {
     },
     "properties": {
@@ -1299,6 +1336,12 @@
         "dov:topic": "opcua/Robotics/Robotics_LoadType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/CenterOfMass",
+      "/properties/Inertia",
+      "/events/CenterOfMass",
+      "/events/Inertia"
     ],
     "actions": {
     },
@@ -2037,6 +2080,13 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/AssetId",
+      "/properties/ComponentName",
+      "/properties/DeviceManual",
+      "/properties/TaskControlReference",
+      "/events/TaskControlReference"
+    ],
     "actions": {
     },
     "properties": {
@@ -2214,6 +2264,9 @@
         "dov:topic": "opcua/Robotics/Robotics_MotionDeviceSystemType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/ComponentName"
     ],
     "actions": {
     },

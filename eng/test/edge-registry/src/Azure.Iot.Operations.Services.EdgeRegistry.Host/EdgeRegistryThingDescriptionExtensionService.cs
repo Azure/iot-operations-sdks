@@ -8,6 +8,7 @@ using Azure.Iot.Operations.Mqtt.Session;
 using Azure.Iot.Operations.Protocol;
 using Azure.Iot.Operations.Protocol.RPC;
 using Azure.Iot.Operations.Services.EdgeRegistry.Host.Generated;
+using Azure.Iot.Operations.Services.EdgeRegistry.Host.Generated.Common;
 using static Azure.Iot.Operations.Services.EdgeRegistry.Host.ExtensionStub;
 
 /// <summary>
@@ -19,7 +20,7 @@ internal sealed class EdgeRegistryThingDescriptionExtensionService : EdgeRegistr
     private const string ResourceType = "thingdescriptions";
     private const string ThingDescriptionIdToken = "ex:thingDescriptionId";
 
-    private readonly ExtensionVersionStore<CreateThingDescriptionVersionAttributes> _store = new(a => a.Labels);
+    private readonly ExtensionVersionStore<CreateThingDescriptionVersionAttributes> _store = new(a => a.Labels, a => a.Document);
 
     public EdgeRegistryThingDescriptionExtensionService(ApplicationContext applicationContext, MqttSessionClient mqttClient)
         : base(applicationContext, mqttClient)
@@ -53,7 +54,7 @@ internal sealed class EdgeRegistryThingDescriptionExtensionService : EdgeRegistr
     {
         string? groupId = request.AllGroups ? null : (request.GroupId ?? DefaultGroupId);
         List<ThingDescriptionVersionXid> versions = _store
-            .ListVersions(groupId, request.AllGroups, request.ResourceId, request.Label)
+            .ListVersions(groupId, request.AllGroups, request.ResourceId, request.DocumentHash, request.Label)
             .Select(t => new ThingDescriptionVersionXid
             {
                 GroupType = GroupType,
@@ -66,13 +67,13 @@ internal sealed class EdgeRegistryThingDescriptionExtensionService : EdgeRegistr
         return Task.FromResult(Ok(new ThingDescriptionVersionXidList { Versions = versions }));
     }
 
-    public override Task<ExtendedResponse<DeleteThingDescriptionVersionOutputArguments>> DeleteThingDescriptionVersionAsync(DeleteThingDescriptionVersionInputArguments request, CommandRequestMetadata requestMetadata, CancellationToken cancellationToken)
+    public override Task<ExtendedResponse<EmptyJson>> DeleteThingDescriptionVersionAsync(DeleteThingDescriptionVersionInputArguments request, CommandRequestMetadata requestMetadata, CancellationToken cancellationToken)
     {
         string thingDescriptionId = TopicToken(requestMetadata, ThingDescriptionIdToken);
         ulong versionId = ulong.Parse(TopicToken(requestMetadata, VersionIdToken), CultureInfo.InvariantCulture);
         string groupId = request.GroupId ?? DefaultGroupId;
-        _store.DeleteVersion(groupId, thingDescriptionId, versionId);
-        return Task.FromResult(Ok(new DeleteThingDescriptionVersionOutputArguments { DummyOutput = true }));
+        _store.DeleteVersion(groupId, thingDescriptionId, versionId, request.Options.ExpectedEpoch);
+        return Task.FromResult(Ok(new EmptyJson()));
     }
 
     private static ThingDescriptionVersion ToEntity(string groupId, string thingDescriptionId, ExtensionVersionStore<CreateThingDescriptionVersionAttributes>.StoredVersion version)

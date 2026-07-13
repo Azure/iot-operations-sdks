@@ -132,7 +132,7 @@ namespace Azure.Iot.Operations.Services.EdgeRegistry.Host.Generated
 
             public abstract Task<ExtendedResponse<ListGroupsOutputArguments>> ListGroupsAsync(CommandRequestMetadata requestMetadata, CancellationToken cancellationToken);
 
-            public abstract Task<ExtendedResponse<DeleteGroupOutputArguments>> DeleteGroupAsync(DeleteGroupInputArguments request, CommandRequestMetadata requestMetadata, CancellationToken cancellationToken);
+            public abstract Task<ExtendedResponse<EmptyJson>> DeleteGroupAsync(DeleteGroupInputArguments request, CommandRequestMetadata requestMetadata, CancellationToken cancellationToken);
 
             public abstract Task<ExtendedResponse<CreateResourceOutputArguments>> CreateResourceAsync(CreateResourceInputArguments request, CommandRequestMetadata requestMetadata, CancellationToken cancellationToken);
 
@@ -140,7 +140,7 @@ namespace Azure.Iot.Operations.Services.EdgeRegistry.Host.Generated
 
             public abstract Task<ExtendedResponse<ListResourcesOutputArguments>> ListResourcesAsync(ListResourcesInputArguments request, CommandRequestMetadata requestMetadata, CancellationToken cancellationToken);
 
-            public abstract Task<ExtendedResponse<DeleteResourceOutputArguments>> DeleteResourceAsync(DeleteResourceInputArguments request, CommandRequestMetadata requestMetadata, CancellationToken cancellationToken);
+            public abstract Task<ExtendedResponse<EmptyJson>> DeleteResourceAsync(DeleteResourceInputArguments request, CommandRequestMetadata requestMetadata, CancellationToken cancellationToken);
 
             public abstract Task<ExtendedResponse<CreateVersionOutputArguments>> CreateVersionAsync(CreateVersionInputArguments request, CommandRequestMetadata requestMetadata, CancellationToken cancellationToken);
 
@@ -148,7 +148,7 @@ namespace Azure.Iot.Operations.Services.EdgeRegistry.Host.Generated
 
             public abstract Task<ExtendedResponse<ListVersionsOutputArguments>> ListVersionsAsync(ListVersionsInputArguments request, CommandRequestMetadata requestMetadata, CancellationToken cancellationToken);
 
-            public abstract Task<ExtendedResponse<DeleteVersionOutputArguments>> DeleteVersionAsync(DeleteVersionInputArguments request, CommandRequestMetadata requestMetadata, CancellationToken cancellationToken);
+            public abstract Task<ExtendedResponse<EmptyJson>> DeleteVersionAsync(DeleteVersionInputArguments request, CommandRequestMetadata requestMetadata, CancellationToken cancellationToken);
 
             /// <summary>
             /// Begin accepting command invocations for all command executors.
@@ -265,13 +265,12 @@ namespace Azure.Iot.Operations.Services.EdgeRegistry.Host.Generated
             {
                 try
                 {
-                    ExtendedResponse<DeleteGroupOutputArguments> extended = await this.DeleteGroupAsync(req.Request!, req.RequestMetadata!, cancellationToken);
+                    ExtendedResponse<EmptyJson> extended = await this.DeleteGroupAsync(req.Request!, req.RequestMetadata!, cancellationToken);
 
                     return new ExtendedResponse<DeleteGroupResponseSchema>
                     {
                         Response = new DeleteGroupResponseSchema
                         {
-                            DummyOutput = extended.Response.DummyOutput,
                         },
                         ResponseMetadata = extended.ResponseMetadata,
                     };
@@ -353,13 +352,12 @@ namespace Azure.Iot.Operations.Services.EdgeRegistry.Host.Generated
             {
                 try
                 {
-                    ExtendedResponse<DeleteResourceOutputArguments> extended = await this.DeleteResourceAsync(req.Request!, req.RequestMetadata!, cancellationToken);
+                    ExtendedResponse<EmptyJson> extended = await this.DeleteResourceAsync(req.Request!, req.RequestMetadata!, cancellationToken);
 
                     return new ExtendedResponse<DeleteResourceResponseSchema>
                     {
                         Response = new DeleteResourceResponseSchema
                         {
-                            DummyOutput = extended.Response.DummyOutput,
                         },
                         ResponseMetadata = extended.ResponseMetadata,
                     };
@@ -441,13 +439,12 @@ namespace Azure.Iot.Operations.Services.EdgeRegistry.Host.Generated
             {
                 try
                 {
-                    ExtendedResponse<DeleteVersionOutputArguments> extended = await this.DeleteVersionAsync(req.Request!, req.RequestMetadata!, cancellationToken);
+                    ExtendedResponse<EmptyJson> extended = await this.DeleteVersionAsync(req.Request!, req.RequestMetadata!, cancellationToken);
 
                     return new ExtendedResponse<DeleteVersionResponseSchema>
                     {
                         Response = new DeleteVersionResponseSchema
                         {
-                            DummyOutput = extended.Response.DummyOutput,
                         },
                         ResponseMetadata = extended.ResponseMetadata,
                     };

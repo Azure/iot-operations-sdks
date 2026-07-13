@@ -30,6 +30,9 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/Location"
+    ],
     "actions": {
     },
     "properties": {
@@ -90,6 +93,11 @@
         "dov:topic": "opcua/Machinery/Machinery_IMachineryEquipmentType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/Description",
+      "/properties/EquipmentLife",
+      "/events/EquipmentLife"
     ],
     "actions": {
     },
@@ -186,6 +194,11 @@
         "dov:topic": "opcua/Machinery/Machinery_IMachineryItemVendorNameplateType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/InitialOperationDate",
+      "/properties/MonthOfConstruction",
+      "/properties/YearOfConstruction"
     ],
     "actions": {
     },
@@ -340,6 +353,21 @@
         "dov:topic": "opcua/Machinery/Machinery_MachineryItemIdentificationType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/AssetId",
+      "/properties/ComponentName",
+      "/properties/DefaultInstanceBrowseName",
+      "/properties/DeviceClass",
+      "/properties/HardwareRevision",
+      "/properties/InitialOperationDate",
+      "/properties/ManufacturerUri",
+      "/properties/Model",
+      "/properties/MonthOfConstruction",
+      "/properties/ProductCode",
+      "/properties/ProductInstanceUri",
+      "/properties/SoftwareRevision",
+      "/properties/YearOfConstruction"
     ],
     "actions": {
     },
@@ -594,6 +622,10 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/DefaultInstanceBrowseName",
+      "/properties/Location"
+    ],
     "actions": {
     },
     "properties": {
@@ -676,6 +708,10 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/DefaultInstanceBrowseName",
+      "/properties/DeviceRevision"
+    ],
     "actions": {
     },
     "properties": {
@@ -744,6 +780,12 @@
         "dov:topic": "opcua/Machinery/Machinery_MachineryOperationCounterType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/DefaultInstanceBrowseName",
+      "/properties/OperationCycleCounter",
+      "/properties/OperationDuration",
+      "/properties/PowerOnDuration"
     ],
     "actions": {
     },
@@ -864,6 +906,9 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/DefaultInstanceBrowseName"
+    ],
     "actions": {
     },
     "properties": {
@@ -924,6 +969,9 @@
         "dov:topic": "opcua/Machinery/Machinery_MachineryLifetimeCounterType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/DefaultInstanceBrowseName"
     ],
     "actions": {
     },
@@ -1032,6 +1080,9 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/DefaultInstanceBrowseName"
+    ],
     "actions": {
     },
     "properties": {
@@ -1082,6 +1133,9 @@
         "dov:topic": "opcua/Machinery/Machinery_NotificationsType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/DefaultInstanceBrowseName"
     ],
     "actions": {
     },
@@ -1144,6 +1198,9 @@
         "dov:topic": "opcua/Machinery/Machinery_MachineComponentsType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/DefaultInstanceBrowseName"
     ],
     "actions": {
     },
@@ -1320,6 +1377,9 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/DefaultInstanceBrowseName"
+    ],
     "actions": {
     },
     "properties": {
@@ -1495,6 +1555,9 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/DefaultInstanceBrowseName"
+    ],
     "actions": {
     },
     "properties": {
@@ -1544,6 +1607,10 @@
         "dov:topic": "opcua/DI/DI_ITagNameplateType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/AssetId",
+      "/properties/ComponentName"
     ],
     "actions": {
     },
@@ -1601,6 +1668,22 @@
         "dov:topic": "opcua/DI/DI_IVendorNameplateType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/DeviceClass",
+      "/properties/DeviceManual",
+      "/properties/DeviceRevision",
+      "/properties/HardwareRevision",
+      "/properties/Manufacturer",
+      "/properties/ManufacturerUri",
+      "/properties/Model",
+      "/properties/PatchIdentifiers",
+      "/properties/ProductCode",
+      "/properties/ProductInstanceUri",
+      "/properties/RevisionCounter",
+      "/properties/SerialNumber",
+      "/properties/SoftwareReleaseDate",
+      "/properties/SoftwareRevision"
     ],
     "actions": {
     },
@@ -1820,6 +1903,10 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/UIElement",
+      "/events/UIElement"
+    ],
     "actions": {
     },
     "properties": {
@@ -1957,6 +2044,14 @@
         "dov:topic": "opcua/OpcUaCore/OpcUaCore_FiniteStateMachineType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/AvailableStates",
+      "/properties/AvailableTransitions",
+      "/properties/LastTransition",
+      "/events/AvailableStates",
+      "/events/AvailableTransitions",
+      "/events/LastTransition"
     ],
     "actions": {
     },
@@ -2100,6 +2195,10 @@
         "dov:topic": "opcua/OpcUaCore/OpcUaCore_StateMachineType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/LastTransition",
+      "/events/LastTransition"
     ],
     "actions": {
     },

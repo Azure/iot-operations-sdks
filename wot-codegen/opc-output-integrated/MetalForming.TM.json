@@ -250,6 +250,10 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/PartId",
+      "/events/PartId"
+    ],
     "actions": {
     },
     "properties": {
@@ -730,6 +734,13 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/ConditionClassId",
+      "/properties/ConditionClassName",
+      "/properties/ConditionSubClassId",
+      "/properties/ConditionSubClassName",
+      "/properties/LocalTime"
+    ],
     "actions": {
     },
     "properties": {
@@ -931,6 +942,9 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/BaseSetpointNode"
+    ],
     "actions": {
     },
     "properties": {
@@ -1054,6 +1068,24 @@
         "dov:topic": "opcua/OpcUaCore/OpcUaCore_LimitAlarmType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/BaseHighHighLimit",
+      "/properties/BaseHighLimit",
+      "/properties/BaseLowLimit",
+      "/properties/BaseLowLowLimit",
+      "/properties/HighDeadband",
+      "/properties/HighHighDeadband",
+      "/properties/HighHighLimit",
+      "/properties/HighLimit",
+      "/properties/LowDeadband",
+      "/properties/LowLimit",
+      "/properties/LowLowDeadband",
+      "/properties/LowLowLimit",
+      "/properties/SeverityHigh",
+      "/properties/SeverityHighHigh",
+      "/properties/SeverityLow",
+      "/properties/SeverityLowLow"
     ],
     "actions": {
     },
@@ -1313,6 +1345,39 @@
         "dov:topic": "opcua/OpcUaCore/OpcUaCore_AlarmConditionType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/actions/GetGroupMemberships",
+      "/actions/PlaceInService",
+      "/actions/PlaceInService2",
+      "/actions/RemoveFromService",
+      "/actions/RemoveFromService2",
+      "/actions/Reset",
+      "/actions/Reset2",
+      "/actions/Silence",
+      "/actions/Suppress",
+      "/actions/Suppress2",
+      "/actions/Unsuppress",
+      "/actions/Unsuppress2",
+      "/properties/AudibleEnabled",
+      "/properties/AudibleSound",
+      "/properties/FirstInGroupFlag",
+      "/properties/LatchedState",
+      "/properties/MaxTimeShelved",
+      "/properties/OffDelay",
+      "/properties/OnDelay",
+      "/properties/OutOfServiceState",
+      "/properties/ReAlarmRepeatCount",
+      "/properties/ReAlarmTime",
+      "/properties/SilenceState",
+      "/properties/SuppressedState",
+      "/events/AudibleSound",
+      "/events/FirstInGroupFlag",
+      "/events/LatchedState",
+      "/events/OutOfServiceState",
+      "/events/ReAlarmRepeatCount",
+      "/events/SilenceState",
+      "/events/SuppressedState"
     ],
     "actions": {
       "GetGroupMemberships": {
@@ -1818,6 +1883,11 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/actions/Confirm",
+      "/properties/ConfirmedState",
+      "/events/ConfirmedState"
+    ],
     "actions": {
       "Acknowledge": {
         "input": {
@@ -1975,6 +2045,13 @@
         "dov:topic": "opcua/OpcUaCore/OpcUaCore_ConditionType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/actions/ConditionRefresh",
+      "/actions/ConditionRefresh2",
+      "/properties/ConditionSubClassId",
+      "/properties/ConditionSubClassName",
+      "/properties/SupportsFilteredRetain"
     ],
     "actions": {
       "AddComment": {
@@ -2357,6 +2434,11 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/actions/OneShotShelve2",
+      "/actions/TimedShelve2",
+      "/actions/Unshelve2"
+    ],
     "actions": {
       "OneShotShelve": {
         "forms": [
@@ -2506,6 +2588,14 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/AvailableStates",
+      "/properties/AvailableTransitions",
+      "/properties/LastTransition",
+      "/events/AvailableStates",
+      "/events/AvailableTransitions",
+      "/events/LastTransition"
+    ],
     "actions": {
     },
     "properties": {
@@ -2648,6 +2738,10 @@
         "dov:topic": "opcua/OpcUaCore/OpcUaCore_StateMachineType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/LastTransition",
+      "/events/LastTransition"
     ],
     "actions": {
     },
@@ -2969,6 +3063,26 @@
         "dov:topic": "opcua/Machinery.ProcessValues/Machinery_ProcessValues_ProcessValueType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/actions/ZeroPointAdjustment",
+      "/properties/AlarmSuppression",
+      "/properties/AnalogSignal_HighHighLimit",
+      "/properties/AnalogSignal_HighLimit",
+      "/properties/AnalogSignal_LowLimit",
+      "/properties/AnalogSignal_LowLowLimit",
+      "/properties/AnalogSignal_PercentageValue",
+      "/properties/ProcessValueSetpoint",
+      "/properties/Status",
+      "/properties/AnalogSignal_PercentageValue_EngineeringUnits",
+      "/events/AlarmSuppression",
+      "/events/AnalogSignal_HighHighLimit",
+      "/events/AnalogSignal_HighLimit",
+      "/events/AnalogSignal_LowLimit",
+      "/events/AnalogSignal_LowLowLimit",
+      "/events/AnalogSignal_PercentageValue",
+      "/events/ProcessValueSetpoint",
+      "/events/Status"
     ],
     "actions": {
       "ZeroPointAdjustment": {
@@ -3364,6 +3478,9 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/actions/ZeroPointAdjustment"
+    ],
     "actions": {
       "ZeroPointAdjustment": {
         "dov:namespace": "http://opcfoundation.org/UA/PADIM/",
@@ -3498,6 +3615,10 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/Identifier",
+      "/properties/Name"
+    ],
     "actions": {
     },
     "properties": {
@@ -3621,6 +3742,14 @@
         "dov:topic": "opcua/MachineTool/MachineTool_ToolType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/ControlIdentifier2",
+      "/properties/LastUsage",
+      "/properties/PlannedForOperating",
+      "/events/ControlIdentifier2",
+      "/events/LastUsage",
+      "/events/PlannedForOperating"
     ],
     "actions": {
     },
@@ -4018,6 +4147,9 @@
         "dov:topic": "opcua/Machinery/Machinery_MachineryItemState_StateMachineType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/DefaultInstanceBrowseName"
     ],
     "actions": {
     },
