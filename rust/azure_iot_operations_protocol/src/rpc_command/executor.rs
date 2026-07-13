@@ -95,10 +95,9 @@ where
     pub invoker_id: Option<String>,
     /// Resolved static and dynamic topic tokens from the incoming request's topic.
     pub topic_tokens: HashMap<String, String>,
-    // Internal fields
-    command_name: String,
-    response_tx: oneshot::Sender<Response<TResp>>,
-    publish_completion_rx: oneshot::Receiver<Result<(), AIOProtocolError>>,
+    // Internal handle used to respond to the invoker. Kept private so that all response logic
+    // lives on `Responder` and `Request` simply delegates to it.
+    responder: Responder<TResp>,
 }
 
 impl<TReq, TResp> Request<TReq, TResp>
@@ -107,6 +106,125 @@ where
     TResp: PayloadSerialize,
 {
     /// Consumes the command request and reports the response to the executor. An attempt is made to
+    /// send the response to the invoker.
+    ///
+    /// Returns Ok(()) on success, otherwise returns [`AIOProtocolError`].
+    ///
+    /// # Arguments
+    /// * `response` - The [`Response`] to send.
+    ///
+    /// # Errors
+    ///
+    /// [`AIOProtocolError`] of kind [`Timeout`](crate::common::aio_protocol_error::AIOProtocolErrorKind::Timeout) if the command request
+    /// has expired.
+    ///
+    /// [`AIOProtocolError`] of kind [`ClientError`](crate::common::aio_protocol_error::AIOProtocolErrorKind::ClientError) if the response
+    /// acknowledgement returns an error.
+    ///
+    /// [`AIOProtocolError`] of kind [`Cancellation`](crate::common::aio_protocol_error::AIOProtocolErrorKind::Cancellation) if the
+    /// executor is dropped.
+    ///
+    /// [`AIOProtocolError`] of kind [`InternalLogicError`](crate::common::aio_protocol_error::AIOProtocolErrorKind::InternalLogicError)
+    /// if the response publish completion fails. This should not happen.
+    pub async fn complete(self, response: Response<TResp>) -> Result<(), AIOProtocolError> {
+        self.responder.complete(response).await
+    }
+
+    /// Splits the command request into its owned data ([`RequestParts`]) and a [`Responder`] used
+    /// to respond to the invoker.
+    ///
+    /// This allows the request payload (or any other field) to be moved out and retained while
+    /// still being able to respond to the invoker later via the returned [`Responder`], avoiding
+    /// the need to clone the payload.
+    ///
+    /// Note that, just like the [`Request`], dropping the returned [`Responder`] without calling
+    /// [`Responder::complete`] will cause the executor to send an error response to the invoker.
+    ///
+    /// # Example
+    /// ```ignore
+    /// let (parts, responder) = request.into_parts();
+    /// // The payload can now be moved out and stored without cloning.
+    /// let payload = parts.payload;
+    /// // ... later ...
+    /// responder.complete(response).await?;
+    /// ```
+    #[must_use]
+    pub fn into_parts(self) -> (RequestParts<TReq>, Responder<TResp>) {
+        let Request {
+            payload,
+            content_type,
+            format_indicator,
+            custom_user_data,
+            timestamp,
+            invoker_id,
+            topic_tokens,
+            responder,
+        } = self;
+
+        (
+            RequestParts {
+                payload,
+                content_type,
+                format_indicator,
+                custom_user_data,
+                timestamp,
+                invoker_id,
+                topic_tokens,
+            },
+            responder,
+        )
+    }
+
+    /// Check if the command response is no longer expected.
+    ///
+    /// Returns true if the response is no longer expected, otherwise returns false.
+    #[must_use]
+    pub fn is_cancelled(&self) -> bool {
+        self.responder.is_cancelled()
+    }
+}
+
+/// Owned data extracted from a [`Request`] via [`Request::into_parts`].
+///
+/// Contains all of the public data of the command request but no ability to respond to the
+/// invoker. Responding is done via the corresponding [`Responder`]. Dropping a [`RequestParts`]
+/// has no effect on the command response.
+pub struct RequestParts<TReq> {
+    /// Payload of the command request.
+    pub payload: TReq,
+    /// Content Type of the command request.
+    pub content_type: Option<String>,
+    /// Format Indicator of the command request.
+    pub format_indicator: FormatIndicator,
+    /// Custom user data set as custom MQTT User Properties on the request message.
+    pub custom_user_data: Vec<(String, String)>,
+    /// Timestamp of the command request.
+    pub timestamp: Option<HybridLogicalClock>,
+    /// If present, contains the client ID of the invoker of the command.
+    pub invoker_id: Option<String>,
+    /// Resolved static and dynamic topic tokens from the incoming request's topic.
+    pub topic_tokens: HashMap<String, String>,
+}
+
+/// Handle used to respond to a [`Request`] after its data has been extracted via
+/// [`Request::into_parts`].
+///
+/// If dropped without calling [`Responder::complete`], the executor will send an error response
+/// to the invoker (identical to dropping the [`Request`]).
+pub struct Responder<TResp>
+where
+    TResp: PayloadSerialize,
+{
+    command_name: String,
+    response_tx: oneshot::Sender<Response<TResp>>,
+    publish_completion_rx: oneshot::Receiver<Result<(), AIOProtocolError>>,
+}
+
+impl<TResp> Responder<TResp>
+where
+    TResp: PayloadSerialize,
+{
+    /// Consumes the responder and reports the response to the executor. An attempt is made to
     /// send the response to the invoker.
     ///
     /// Returns Ok(()) on success, otherwise returns [`AIOProtocolError`].
@@ -154,6 +272,7 @@ where
     /// Check if the command response is no longer expected.
     ///
     /// Returns true if the response is no longer expected, otherwise returns false.
+    #[must_use]
     pub fn is_cancelled(&self) -> bool {
         self.response_tx.is_closed()
     }
@@ -175,6 +294,22 @@ pub fn cloud_event_from_request<TReq: PayloadSerialize, TResp: PayloadSerialize>
     request: &Request<TReq, TResp>,
 ) -> Result<RequestCloudEvent, RequestCloudEventParseError> {
     RequestCloudEvent::try_from((&request.custom_user_data, request.content_type.as_deref()))
+}
+
+/// Parse a [`RequestCloudEvent`] from a [`RequestParts`].
+/// Note that this will return an error if the [`RequestParts`] does not contain the required fields for a [`RequestCloudEvent`].
+///
+/// # Errors
+/// [`RequestCloudEventParseError`] if
+/// - the [`RequestParts`] does not contain the required fields for a [`RequestCloudEvent`].
+/// - any of the field values are not valid for a [`RequestCloudEvent`].
+pub fn cloud_event_from_request_parts<TReq>(
+    request_parts: &RequestParts<TReq>,
+) -> Result<RequestCloudEvent, RequestCloudEventParseError> {
+    RequestCloudEvent::try_from((
+        &request_parts.custom_user_data,
+        request_parts.content_type.as_deref(),
+    ))
 }
 
 /// Command Executor Response struct.
@@ -1216,9 +1351,11 @@ where
                             timestamp,
                             invoker_id,
                             topic_tokens,
-                            command_name: self.command_name.clone(),
-                            response_tx,
-                            publish_completion_rx,
+                            responder: Responder {
+                                command_name: self.command_name.clone(),
+                                response_tx,
+                                publish_completion_rx,
+                            },
                         };
 
                         // Check the command has not expired, if it has, we do not respond to the invoker.
@@ -1881,6 +2018,56 @@ mod tests {
         ])
     }
 
+    /// Builds a [`Request`] with the given payload for testing
+    #[allow(clippy::type_complexity)]
+    fn build_test_request(
+        payload: MockPayload,
+    ) -> (
+        Request<MockPayload, MockPayload>,
+        oneshot::Receiver<Response<MockPayload>>,
+        oneshot::Sender<Result<(), AIOProtocolError>>,
+    ) {
+        let (response_tx, response_rx) = oneshot::channel();
+        let (publish_completion_tx, publish_completion_rx) = oneshot::channel();
+
+        let request = Request {
+            payload,
+            content_type: Some("application/json".to_string()),
+            format_indicator: FormatIndicator::Utf8EncodedCharacterData,
+            custom_user_data: vec![("key".to_string(), "value".to_string())],
+            timestamp: None,
+            invoker_id: Some("test_invoker_id".to_string()),
+            topic_tokens: HashMap::from([("commandName".to_string(), "test".to_string())]),
+            responder: Responder {
+                command_name: "test_command_name".to_string(),
+                response_tx,
+                publish_completion_rx,
+            },
+        };
+
+        (request, response_rx, publish_completion_tx)
+    }
+
+    fn build_test_response() -> Response<MockPayload> {
+        let mut mock_response_payload = MockPayload::new();
+        mock_response_payload
+            .expect_serialize()
+            .returning(|| {
+                Ok(SerializedPayload {
+                    payload: Vec::new(),
+                    content_type: "application/json".to_string(),
+                    format_indicator: FormatIndicator::Utf8EncodedCharacterData,
+                })
+            })
+            .times(1);
+
+        ResponseBuilder::default()
+            .payload(mock_response_payload)
+            .unwrap()
+            .build()
+            .unwrap()
+    }
+
     #[tokio::test]
     async fn test_new_defaults() {
         let session = create_session();
@@ -2527,6 +2714,129 @@ mod tests {
 
         let range = 1..=u32::MAX; // note, range is memory efficient
         assert!(range.contains(&response_message_expiry_interval.unwrap()));
+    }
+
+    #[tokio::test]
+    async fn test_into_parts_splits_fields() {
+        // The request payload should be moved into the parts unchanged. We tag it via a distinct
+        // serialized content type so we can assert it wasn't cloned/replaced.
+        let mut request_payload = MockPayload::new();
+        request_payload
+            .expect_serialize()
+            .returning(|| {
+                Ok(SerializedPayload {
+                    payload: Vec::new(),
+                    content_type: "request-payload-marker".to_string(),
+                    format_indicator: FormatIndicator::Utf8EncodedCharacterData,
+                })
+            })
+            .times(1);
+
+        let (request, _response_rx, _publish_completion_tx) = build_test_request(request_payload);
+
+        let (parts, responder) = request.into_parts();
+
+        assert_eq!(parts.content_type, Some("application/json".to_string()));
+        assert_eq!(
+            parts.format_indicator,
+            FormatIndicator::Utf8EncodedCharacterData
+        );
+        assert_eq!(
+            parts.custom_user_data,
+            vec![("key".to_string(), "value".to_string())]
+        );
+        assert_eq!(parts.invoker_id, Some("test_invoker_id".to_string()));
+        assert_eq!(
+            parts.topic_tokens.get("commandName"),
+            Some(&"test".to_string())
+        );
+        // The payload was moved (not cloned) into the parts.
+        assert_eq!(
+            parts.payload.serialize().unwrap().content_type,
+            "request-payload-marker"
+        );
+        // The responder still expects a response.
+        assert!(!responder.is_cancelled());
+    }
+
+    #[tokio::test]
+    async fn test_into_parts_responder_completes() {
+        let (request, response_rx, publish_completion_tx) = build_test_request(MockPayload::new());
+        let (_parts, responder) = request.into_parts();
+        let response = build_test_response();
+
+        let complete_handle = tokio::spawn(async move { responder.complete(response).await });
+
+        // The executor side receives the response...
+        let _received = response_rx.await.expect("response should be received");
+        // ...and signals successful publish completion.
+        publish_completion_tx.send(Ok(())).unwrap();
+
+        assert!(complete_handle.await.unwrap().is_ok());
+    }
+
+    #[tokio::test]
+    async fn test_into_parts_responder_is_cancelled() {
+        let (request, response_rx, _publish_completion_tx) = build_test_request(MockPayload::new());
+        let (_parts, responder) = request.into_parts();
+
+        assert!(!responder.is_cancelled());
+        // When the executor stops expecting a response, the responder reports cancellation.
+        drop(response_rx);
+        assert!(responder.is_cancelled());
+    }
+
+    #[tokio::test]
+    async fn test_into_parts_dropping_responder_sends_no_response() {
+        let (request, response_rx, _publish_completion_tx) = build_test_request(MockPayload::new());
+        let (parts, responder) = request.into_parts();
+
+        // Dropping the parts is inert; dropping the responder without completing behaves like
+        // dropping the request: the executor receives no response.
+        drop(parts);
+        drop(responder);
+
+        assert!(response_rx.await.is_err());
+    }
+
+    #[test]
+    fn test_cloud_event_from_request_parts_missing_fields() {
+        let parts: RequestParts<MockPayload> = RequestParts {
+            payload: MockPayload::new(),
+            content_type: Some("application/json".to_string()),
+            format_indicator: FormatIndicator::Utf8EncodedCharacterData,
+            custom_user_data: Vec::new(),
+            timestamp: None,
+            invoker_id: None,
+            topic_tokens: HashMap::new(),
+        };
+
+        assert!(cloud_event_from_request_parts(&parts).is_err());
+    }
+
+    #[test]
+    fn test_cloud_event_from_request_parts_success() {
+        let parts: RequestParts<MockPayload> = RequestParts {
+            payload: MockPayload::new(),
+            content_type: Some("application/json".to_string()),
+            format_indicator: FormatIndicator::Utf8EncodedCharacterData,
+            custom_user_data: vec![
+                ("id".to_string(), "test-id".to_string()),
+                ("source".to_string(), "test-source".to_string()),
+                ("specversion".to_string(), "1.0".to_string()),
+                ("type".to_string(), "test-type".to_string()),
+            ],
+            timestamp: None,
+            invoker_id: None,
+            topic_tokens: HashMap::new(),
+        };
+
+        let cloud_event =
+            cloud_event_from_request_parts(&parts).expect("valid fields should parse");
+        assert_eq!(cloud_event.id, "test-id");
+        assert_eq!(cloud_event.source, "test-source");
+        assert_eq!(cloud_event.spec_version, "1.0");
+        assert_eq!(cloud_event.event_type, "test-type");
     }
 }
 
