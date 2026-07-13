@@ -28,6 +28,6 @@ require (
 	github.com/mattn/go-runewidth v0.0.21 // indirect
 	github.com/pmezard/go-difflib v1.0.0 // indirect
 	github.com/princjef/mageutil v1.0.0 // indirect
-	golang.org/x/crypto v0.49.0 // indirect
-	golang.org/x/sys v0.42.0 // indirect
+	golang.org/x/crypto v0.52.0 // indirect
+	golang.org/x/sys v0.45.0 // indirect
 )
