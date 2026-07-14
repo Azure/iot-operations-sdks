@@ -12,14 +12,14 @@ import (
 	"github.com/stretchr/testify/require"
 )
 
-type Handlers struct{ counter int32 }
+type Handlers struct{ counter atomic.Int32 }
 
 func (h *Handlers) ReadCounter(
 	context.Context,
 	*protocol.CommandRequest[any],
 ) (*protocol.CommandResponse[counter.ReadCounterResponsePayload], error) {
 	response := counter.ReadCounterResponsePayload{
-		CounterResponse: atomic.LoadInt32(&h.counter),
+		CounterResponse: h.counter.Load(),
 	}
 	return protocol.Respond(response)
 }
@@ -29,10 +29,7 @@ func (h *Handlers) Increment(
 	req *protocol.CommandRequest[counter.IncrementRequestPayload],
 ) (*protocol.CommandResponse[counter.IncrementResponsePayload], error) {
 	response := counter.IncrementResponsePayload{
-		CounterResponse: atomic.AddInt32(
-			&h.counter,
-			req.Payload.IncrementValue,
-		),
+		CounterResponse: h.counter.Add(req.Payload.IncrementValue),
 	}
 	return protocol.Respond(response)
 }
@@ -41,7 +38,7 @@ func (h *Handlers) Reset(
 	context.Context,
 	*protocol.CommandRequest[any],
 ) (*protocol.CommandResponse[any], error) {
-	atomic.StoreInt32(&h.counter, 0)
+	h.counter.Store(0)
 	return protocol.Respond[any](nil)
 }
 
