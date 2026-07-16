@@ -322,6 +322,19 @@ After sending its cancellation, the executor should listen on the request topic 
 
 Any received MQTT messages pertaining to a command that was already canceled should still be acknowledged. They should not be given to the user, though.
 
+### Error handling and stream termination
+
+Like vanilla RPC, every stream response carries a `__stat` status. A response stream therefore has two ways to end:
+
+- **Gracefully** — the standalone `isLast` message described above (no payload, no user properties, a success status).
+- **With an error** — a response whose `__stat` is an error code (`4xx`/`5xx`).
+
+Successful stream items use a `2xx` status (`200`, or `204` for an empty item) and do **not** terminate the stream. A response with an **error status (`4xx`/`5xx`) is self-terminating**: the executor sends nothing further, so the receiver surfaces it as the terminal error and ends the response stream. An error response does **not** also need the `isLast` flag — its status is sufficient, and the executor may be unable to send a separate `isLast` (for example, after a crash). This rule already covers the `timeout` and `Canceled` (`499`) codes described above, and extends to executor exceptions (`500`) and request/protocol validation errors (`4xx`). Note that the trigger is specifically an *error* status: a non-error non-200 such as `204 No Content` is a normal empty item, not a terminator.
+
+The `__apErr` (`IsApplicationError`) property classifies an error as either a framework/protocol error (`__apErr = false`: timeout, canceled, bad request, internal error) or an application-level error (`__apErr = true`) that the command logic chose to return. **Either way the error status terminates the stream** — there is no per-message error status that leaves the stream running.
+
+If an application needs to report a per-item outcome while the stream keeps going (for example, a batch in which individual items may fail), it must encode that in its response payload (`TResp`), not in the protocol status. This is consistent with the non-requirement that all responses in a stream share one payload shape: a mid-stream "failed item" is just a normal response whose payload represents the failure.
+
 ### Disconnection scenario considerations
 
 - Invoker side disconnects unexpectedly while sending requests
