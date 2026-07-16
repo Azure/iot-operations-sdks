@@ -21,7 +21,7 @@ Users have expressed a desire to allow more than one request and/or more than on
 
 ## Non-requirements
 
- - Different payload shapes per command response 
+ - Different payload shapes per command response/request
  - The API of the receiving side of a stream will provide the user the streamed requests/responses in their **intended** order rather than their **received** order
    - If the stream's Nth message is lost due to message expiry (or other circumstances), our API should still notify the user when the N+1th stream message is received 
    - This may be added as a feature later if requested by customers
@@ -103,13 +103,13 @@ With this design, commands that use streaming are defined at codegen time. Codeg
 
 To convey streaming context in a request/response stream, we will put this information in the "__stream" MQTT user property with a value that looks like:
 
-```<index>:<isLast>:<cancelRequest>:<rpc timeout milliseconds>```
+```<index>:<isLast>:<cancelRequest>:<stream timeout milliseconds>```
 
 with data types
 
 ```<uint>:<boolean>:<boolean>:<uint>```
 
-where the field ```:<rpc timeout milliseconds>``` is only present in request stream messages and may be omitted if the RPC has no timeout.
+where the field ```:<stream timeout milliseconds>``` is only present in request stream messages and may be omitted if the stream has no timeout.
 
 **Table 1. `__stream` fields, in the order they appear in the value.**
 
@@ -118,7 +118,7 @@ where the field ```:<rpc timeout milliseconds>``` is only present in request str
 | `index` | uint | every stream message | Position of this message within the stream | `cancelRequest = true` |
 | `isLast` | bool | every stream message | `true` on the standalone final message that closes the stream (no payload, no user properties) | `cancelRequest = true` |
 | `cancelRequest` | bool | every stream message | `true` marks a cancellation request for the stream | — (always meaningful) |
-| `rpc timeout ms` | uint | **request** stream messages only | RPC-level timeout countdown value in milliseconds | Omitted entirely when the RPC has no timeout; never present on response messages |
+| `stream timeout ms` | uint | **request** stream messages only | Stream-level timeout countdown value in milliseconds | Omitted entirely when the stream has no timeout; never present on response messages |
 
 For example:
 
@@ -128,7 +128,7 @@ For example:
 
 ```0:true:false:1000```: The first and final message in a request stream where the RPC should timeout beyond 1 second
 
-```0:true:true:0```: This request stream has been canceled. Note that the values for ```index```, ```isLast```, and ```<rpc timeout milliseconds>``` are ignored here.
+```0:true:true:0```: This request stream has been canceled. Note that the values for ```index```, ```isLast```, and ```<stream timeout milliseconds>``` are ignored here.
 
 ```0:true:true```: This response stream has been canceled. Note that the values for ```index``` and ```isLast``` are ignored here.
 
@@ -194,11 +194,11 @@ We need to provide timeout support for our streaming APIs to avoid scenarios suc
 
 #### Decision
 
-We will allow configuration on the invoker's side of a timeout for the RPC as a whole and a timeout of each message in the request and/or response stream.
+We will allow configuration on the invoker's side of a timeout for the stream as a whole and a timeout of each message in the request and/or response stream.
 
-##### RPC level timeout
+##### Stream level timeout
 
-To enable this, each message in the request stream will include a value in the ```<rpc timeout milliseconds>``` portion of the ```__stream``` user property. This header should be sent in all request stream messages in case the first N request messages are lost due to timeout or otherwise.
+To enable this, each message in the request stream will include a value in the ```<stream timeout milliseconds>``` portion of the ```__stream``` user property. This header should be sent in all request stream messages in case the first N request messages are lost due to timeout or otherwise.
 
 The invoker side will start a countdown from this value after receiving the first PUBACK that ends with throwing a timeout exception to the user if the final stream response has not been received yet. The invoker should not send any further messages beyond this timeout.
 
@@ -206,13 +206,13 @@ The executor side will start a countdown from this value after receiving the fir
 
 Any request stream or response stream messages that are received by the executor/invoker after they have ended the timeout countdown should be acknowledged but otherwise ignored. This will require both parties to track correlationIds for timed out streams for a period of time beyond the expected end of the RPC so that any post-timeout messages are not treated as initiating a new stream.
 
-If the request stream omits the timeout value in the ```__stream``` user property, the invoker and executor should treat the RPC as not having a timeout.
+If the request stream omits the timeout value in the ```__stream``` user property, the invoker and executor should treat the stream as not having a timeout.
 
 This design does make the invoker start the countdown sooner than the executor, but the time difference is negligible in most circumstances.
 
 ##### Message level timeout
 
-We will allow users to set the message expiry interval of each message in a request/response stream. By default, each message expiry interval is set equal to the RPC level timeout value. When the RPC has no timeout there is no such default, so the user must supply a per-message message expiry interval explicitly.
+We will allow users to set the message expiry interval of each message in a request/response stream. By default, each message expiry interval is set equal to the stream-level timeout value. When the stream has no timeout there is no such default, so the user must supply a per-message message expiry interval explicitly.
 
 Both the invoker and executor stream messages _must_ include a message expiry interval, and it must be a positive, finite value: a message with no (or zero) expiry is rejected, as in vanilla RPC, since an unbounded expiry would make the de-dup cache grow without bound. The receiving end will use this value as the de-dup cache length for each cached message. Vanilla RPC has the same requirement as explained [here](../../reference/command-timeouts.md#input-values).
 
@@ -224,14 +224,14 @@ Both the invoker and executor stream messages _must_ include a message expiry in
 - Specify the number of milliseconds allowed between the executor receiving the final command request and delivering the final command response.
   - This is the approach that gRPC takes, but... 
     - It doesn't account for scenarios where the invoker/executor dies unexpectedly (since gRPC relies on a direct connection between invoker and executor)
-- Use the message expiry interval of the first received message in a stream to indicate the RPC level timeout
+- Use the message expiry interval of the first received message in a stream to indicate the stream-level timeout
   - Misuses the message expiry interval's purpose and could lead to broker storing messages for extended periods of time unintentionally
 
 ### Cancellation support
 
 To avoid scenarios where long-running streaming requests/responses are no longer wanted, we will want to support cancelling streaming RPC calls. 
 
-Since sending a cancellation request may fail (message expiry on broker side), the SDK API design should allow for the user to repeatedly call "cancel". The cancel operation completes when any one of the following occurs: the other party responds (with the "canceled" status, or a normal terminal response if the exchange had already completed), the stream exchange times out, or the caller's own cancellation token fires. Because the RPC-level timeout is optional, the caller's cancellation token is the guaranteed bound for streams that have no timeout. 
+Since sending a cancellation request may fail (message expiry on broker side), the SDK API design should allow for the user to repeatedly call "cancel". The cancel operation completes when any one of the following occurs: the other party responds (with the "canceled" status, or a normal terminal response if the exchange had already completed), the stream exchange times out, or the caller's own cancellation token fires. Because the stream-level timeout is optional, the caller's cancellation token is the guaranteed bound for streams that have no timeout. 
 
 Additionally, cancellation requests may include user properties. This allows users to provide additional context on why the cancellation is happening.
 
