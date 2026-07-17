@@ -18,7 +18,7 @@ import (
 )
 
 type Handlers struct {
-	counterValue    int32
+	counterValue    atomic.Int32
 	telemetrySender *counter.TelemetrySender
 }
 
@@ -76,7 +76,7 @@ func (h *Handlers) ReadCounter(
 	)
 
 	return protocol.Respond(counter.ReadCounterResponsePayload{
-		CounterResponse: atomic.LoadInt32(&h.counterValue),
+		CounterResponse: h.counterValue.Load(),
 	})
 }
 
@@ -95,7 +95,7 @@ func (h *Handlers) Increment(
 		slog.String("client", req.ClientID),
 	)
 
-	value := atomic.AddInt32(&h.counterValue, req.Payload.IncrementValue)
+	value := h.counterValue.Add(req.Payload.IncrementValue)
 	telemetry := counter.TelemetryCollection{
 		CounterValue: &value,
 	}
@@ -105,7 +105,7 @@ func (h *Handlers) Increment(
 	}
 
 	return protocol.Respond(counter.IncrementResponsePayload{
-		CounterResponse: atomic.AddInt32(&h.counterValue, 1),
+		CounterResponse: h.counterValue.Add(1),
 	})
 }
 
@@ -124,7 +124,7 @@ func (h *Handlers) Reset(
 		slog.String("client", req.ClientID),
 	)
 
-	atomic.StoreInt32(&h.counterValue, 0)
+	h.counterValue.Store(0)
 	return protocol.Respond[any](nil)
 }
 
