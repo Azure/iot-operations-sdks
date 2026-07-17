@@ -2,53 +2,53 @@
 
 gen=../../../src/Azure.Iot.Operations.ProtocolCompiler/bin/Debug/net9.0/Azure.Iot.Operations.ProtocolCompiler
 
-[[ -d ./CommandVariantsSample ]] && rm -r ./CommandVariantsSample
+[ -d ./CommandVariantsSample ] && rm -r ./CommandVariantsSample
 $gen --defaultImpl --modelFile ../dtdl/CommandVariants.json --outDir ./CommandVariantsSample --lang csharp --sdkPath ../../../../dotnet/src/Azure.Iot.Operations.Protocol
 
-[[ -d ./CommandComplexSchemasSample ]] && rm -r ./CommandComplexSchemasSample
+[ -d ./CommandComplexSchemasSample ] && rm -r ./CommandComplexSchemasSample
 $gen --modelFile ../dtdl/CommandComplexSchemas.json --outDir ./CommandComplexSchemasSample --lang csharp --sdkPath ../../../../dotnet/src/Azure.Iot.Operations.Protocol
 
-[[ -d ./CommandRawSample ]] && rm -r ./CommandRawSample
+[ -d ./CommandRawSample ] && rm -r ./CommandRawSample
 $gen --modelFile ../dtdl/CommandRaw.json --outDir ./CommandRawSample --lang csharp --sdkPath ../../../../dotnet/src/Azure.Iot.Operations.Protocol
 
-[[ -d ./PropertySeparateSample ]] && rm -r ./PropertySeparateSample
+[ -d ./PropertySeparateSample ] && rm -r ./PropertySeparateSample
 $gen --modelFile ../dtdl/PropertySeparate.json --outDir ./PropertySeparateSample --lang csharp --sdkPath ../../../../dotnet/src/Azure.Iot.Operations.Protocol
 
-[[ -d ./PropertyTogetherSample ]] && rm -r ./PropertyTogetherSample
+[ -d ./PropertyTogetherSample ] && rm -r ./PropertyTogetherSample
 $gen --modelFile ../dtdl/PropertyTogether.json --outDir ./PropertyTogetherSample --lang csharp --sdkPath ../../../../dotnet/src/Azure.Iot.Operations.Protocol
 
-[[ -d ./TelemetryAndCommandSample ]] && rm -r ./TelemetryAndCommandSample
+[ -d ./TelemetryAndCommandSample ] && rm -r ./TelemetryAndCommandSample
 $gen --modelFile ../dtdl/TelemetryAndCommand.json --outDir ./TelemetryAndCommandSample --lang csharp --sdkPath ../../../../dotnet/src/Azure.Iot.Operations.Protocol
 
-[[ -d ./TelemetryAndCommandSampleFromSchema ]] && rm -r ./TelemetryAndCommandSampleFromSchema
+[ -d ./TelemetryAndCommandSampleFromSchema ] && rm -r ./TelemetryAndCommandSampleFromSchema
 $gen --namespace TelemetryAndCommand --workingDir ../TelemetryAndCommandSample/obj/Akri --outDir ./TelemetryAndCommandSampleFromSchema --lang csharp --sdkPath ../../../../dotnet/src/Azure.Iot.Operations.Protocol
 
-[[ -d ./TelemetryAndCommandSampleClientOnly ]] && rm -r ./TelemetryAndCommandSampleClientOnly
+[ -d ./TelemetryAndCommandSampleClientOnly ] && rm -r ./TelemetryAndCommandSampleClientOnly
 $gen --modelFile ../dtdl/TelemetryAndCommand.json --outDir ./TelemetryAndCommandSampleClientOnly --lang csharp --sdkPath ../../../../dotnet/src/Azure.Iot.Operations.Protocol --clientOnly
 
-[[ -d ./TelemetryAndCommandSampleServerOnly ]] && rm -r ./TelemetryAndCommandSampleServerOnly
+[ -d ./TelemetryAndCommandSampleServerOnly ] && rm -r ./TelemetryAndCommandSampleServerOnly
 $gen --modelFile ../dtdl/TelemetryAndCommand.json --outDir ./TelemetryAndCommandSampleServerOnly --lang csharp --sdkPath ../../../../dotnet/src/Azure.Iot.Operations.Protocol --serverOnly
 
-[[ -d ./TelemetryComplexSchemasSample ]] && rm -r ./TelemetryComplexSchemasSample
+[ -d ./TelemetryComplexSchemasSample ] && rm -r ./TelemetryComplexSchemasSample
 $gen --modelFile ../dtdl/TelemetryComplexSchemas.json --outDir ./TelemetryComplexSchemasSample --lang csharp --sdkPath ../../../../dotnet/src/Azure.Iot.Operations.Protocol
 
-[[ -d ./TelemetryPrimitiveSchemasSample ]] && rm -r ./TelemetryPrimitiveSchemasSample
+[ -d ./TelemetryPrimitiveSchemasSample ] && rm -r ./TelemetryPrimitiveSchemasSample
 $gen --modelFile ../dtdl/TelemetryPrimitiveSchemas.json --outDir ./TelemetryPrimitiveSchemasSample --resolver ../dtdl/resolver.json --lang csharp --sdkPath ../../../../dotnet/src/Azure.Iot.Operations.Protocol
 
-[[ -d ./TelemetryRecursiveSchemasSample ]] && rm -r ./TelemetryRecursiveSchemasSample
+[ -d ./TelemetryRecursiveSchemasSample ] && rm -r ./TelemetryRecursiveSchemasSample
 $gen --modelFile ../dtdl/TelemetryRecursiveSchemas.json --outDir ./TelemetryRecursiveSchemasSample --lang csharp --sdkPath ../../../../dotnet/src/Azure.Iot.Operations.Protocol
 
-[[ -d ./TelemetryRawSingleSample ]] && rm -r ./TelemetryRawSingleSample
+[ -d ./TelemetryRawSingleSample ] && rm -r ./TelemetryRawSingleSample
 $gen --modelFile ../dtdl/TelemetryRawSingle.json --outDir ./TelemetryRawSingleSample --lang csharp --sdkPath ../../../../dotnet/src/Azure.Iot.Operations.Protocol
 
-[[ -d ./TelemetryRawSeparateSample ]] && rm -r ./TelemetryRawSeparateSample
+[ -d ./TelemetryRawSeparateSample ] && rm -r ./TelemetryRawSeparateSample
 $gen --modelFile ../dtdl/TelemetryRawSeparate.json --outDir ./TelemetryRawSeparateSample --lang csharp --sdkPath ../../../../dotnet/src/Azure.Iot.Operations.Protocol
 
-[[ -d ./SharedComplexSchemasSample ]] && rm -r ./SharedComplexSchemasSample
+[ -d ./SharedComplexSchemasSample ] && rm -r ./SharedComplexSchemasSample
 $gen --modelFile ../dtdl/CommandComplexSchemas.json --outDir ./SharedComplexSchemasSample --lang csharp --sdkPath ../../../../dotnet/src/Azure.Iot.Operations.Protocol --shared dtmi:sharedSchemas
 $gen --modelFile ../dtdl/TelemetryComplexSchemas.json --outDir ./SharedComplexSchemasSample --lang csharp --sdkPath ../../../../dotnet/src/Azure.Iot.Operations.Protocol --shared dtmi:sharedSchemas
 
-[[ -d ./ComplexTypeSchemaSample ]] && rm -r ./ComplexTypeSchemaSample
+[ -d ./ComplexTypeSchemaSample ] && rm -r ./ComplexTypeSchemaSample
 mkdir ./ComplexTypeSchemaSample
 mkdir ./ComplexTypeSchemaSample/obj
 mkdir ./ComplexTypeSchemaSample/obj/Akri

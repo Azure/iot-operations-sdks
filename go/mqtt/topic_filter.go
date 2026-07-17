@@ -11,12 +11,12 @@ func IsTopicFilterMatch(topicFilter, topicName string) bool {
 	// Handle shared subscriptions.
 	if tf, ok := strings.CutPrefix(topicFilter, sharedPrefix); ok {
 		// Find the index of the second slash.
-		idx := strings.Index(tf, "/")
-		if idx == -1 {
+		_, after, ok := strings.Cut(tf, "/")
+		if !ok {
 			// Invalid shared subscription format.
 			return false
 		}
-		topicFilter = tf[idx+1:]
+		topicFilter = after
 	}
 
 	filters := strings.Split(topicFilter, "/")
