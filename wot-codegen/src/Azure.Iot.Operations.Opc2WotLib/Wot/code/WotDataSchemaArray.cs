@@ -8,9 +8,10 @@ namespace Azure.Iot.Operations.Opc2WotLib
     public partial class WotDataSchemaArray : WotDataSchema
     {
         private string? description;
+        private string? typeRef;
         private WotDataSchema itemDataSchema;
 
-        public WotDataSchemaArray(OpcUaNodeId? dataTypeNodeId, string? description, int valueRank, OpcUaNode sourceNode, IEnumerable<OpcUaNodeId> ancestors)
+        public WotDataSchemaArray(OpcUaNodeId? dataTypeNodeId, string? description, int valueRank, OpcUaNode sourceNode, IEnumerable<OpcUaNodeId> ancestors, OpcUaNode? typeRefNode = null)
         {
             if (valueRank <= 0)
             {
@@ -18,6 +19,7 @@ namespace Azure.Iot.Operations.Opc2WotLib
             }
 
             this.description = description;
+            this.typeRef = typeRefNode?.GetTypeRef();
             itemDataSchema = WotDataSchema.Create(dataTypeNodeId, valueRank - 1, sourceNode, null, ancestors);
         }
     }

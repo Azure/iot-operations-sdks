@@ -21,6 +21,8 @@ namespace Azure.Iot.Operations.CodeGeneration
         private static readonly Regex EnumValueRegex = new(@"^[A-Za-z][A-Za-z0-9_]*$", RegexOptions.Compiled);
 
         private ErrorReporter errorReporter;
+        private MapTracker<TDDataSchema>? currentSchemaDefinitions;
+        private bool currentThingIsDescription;
 
         public ThingValidator(ErrorReporter errorReporter)
         {
@@ -42,6 +44,9 @@ namespace Azure.Iot.Operations.CodeGeneration
             {
                 hasError = true;
             }
+
+            this.currentSchemaDefinitions = thing.SchemaDefinitions;
+            this.currentThingIsDescription = isDescription;
 
             if (!TryValidateTitle(thing.Title))
             {
@@ -136,10 +141,11 @@ namespace Azure.Iot.Operations.CodeGeneration
             // Schema-catalog Thing Models (no affordances) intentionally carry reusable schema
             // definitions that need not be referenced, so the coverage heuristic does not apply.
             bool hasAffordances = (thing.Actions?.Entries?.Count ?? 0) > 0
-                || (thing.Properties?.Entries?.Count ?? 0) > 0;
+                || (thing.Properties?.Entries?.Count ?? 0) > 0
+                || (thing.Events?.Entries?.Count ?? 0) > 0;
             if (hasAffordances)
             {
-                CheckSchemaDefinitionsCoverage(thing.SchemaDefinitions, thing.Actions, thing.Properties);
+                CheckSchemaDefinitionsCoverage(thing.SchemaDefinitions, thing.Actions, thing.Properties, thing.Events);
             }
 
             return !hasError;
@@ -196,7 +202,7 @@ namespace Azure.Iot.Operations.CodeGeneration
             return !hasError;
         }
 
-        private void CheckSchemaDefinitionsCoverage(MapTracker<TDDataSchema>? schemaDefinitions, MapTracker<TDAction>? actions, MapTracker<TDProperty>? properties)
+        private void CheckSchemaDefinitionsCoverage(MapTracker<TDDataSchema>? schemaDefinitions, MapTracker<TDAction>? actions, MapTracker<TDProperty>? properties, MapTracker<TDEvent>? events)
         {
             if (schemaDefinitions?.Entries == null)
             {
@@ -209,13 +215,16 @@ namespace Azure.Iot.Operations.CodeGeneration
             {
                 foreach (ValueTracker<TDAction> action in actions.Entries.Values)
                 {
+                    MarkSchemaDefinitionsAsReferenced(unreferencedSchemaKeys, action.Value.Input, schemaDefinitions.Entries);
+                    MarkSchemaDefinitionsAsReferenced(unreferencedSchemaKeys, action.Value.Output, schemaDefinitions.Entries);
+
                     foreach (ValueTracker<TDForm> form in action.Value.Forms?.Elements ?? new())
                     {
                         foreach (ValueTracker<TDSchemaReference> schemaReference in form.Value.AdditionalResponses?.Elements ?? new())
                         {
                             if (schemaReference.Value.Schema?.Value != null)
                             {
-                                unreferencedSchemaKeys.Remove(schemaReference.Value.Schema.Value.Value);
+                                MarkNamedSchemaDefinitionAsReferenced(unreferencedSchemaKeys, schemaReference.Value.Schema.Value.Value, schemaDefinitions.Entries);
                             }
                         }
 
@@ -223,13 +232,13 @@ namespace Azure.Iot.Operations.CodeGeneration
                         {
                             if (schemaReference.Value.Schema?.Value != null)
                             {
-                                unreferencedSchemaKeys.Remove(schemaReference.Value.Schema.Value.Value);
+                                MarkNamedSchemaDefinitionAsReferenced(unreferencedSchemaKeys, schemaReference.Value.Schema.Value.Value, schemaDefinitions.Entries);
                             }
                         }
 
                         if (form.Value.HeaderCode?.Value != null)
                         {
-                            unreferencedSchemaKeys.Remove(form.Value.HeaderCode.Value.Value);
+                            MarkNamedSchemaDefinitionAsReferenced(unreferencedSchemaKeys, form.Value.HeaderCode.Value.Value, schemaDefinitions.Entries);
                         }
                     }
                 }
@@ -239,23 +248,76 @@ namespace Azure.Iot.Operations.CodeGeneration
             {
                 foreach (ValueTracker<TDProperty> property in properties.Entries.Values)
                 {
+                    MarkSchemaDefinitionsAsReferenced(
+                        unreferencedSchemaKeys,
+                        new ValueTracker<TDDataSchema> { PropertyName = property.PropertyName, Value = property.Value, TokenIndex = property.TokenIndex },
+                        schemaDefinitions.Entries);
+
                     foreach (ValueTracker<TDForm> form in property.Value.Forms?.Elements ?? new())
                     {
                         foreach (ValueTracker<TDSchemaReference> schemaReference in form.Value.AdditionalResponses?.Elements ?? new())
                         {
                             if (schemaReference.Value.Schema?.Value != null)
                             {
-                                unreferencedSchemaKeys.Remove(schemaReference.Value.Schema.Value.Value);
+                                MarkNamedSchemaDefinitionAsReferenced(unreferencedSchemaKeys, schemaReference.Value.Schema.Value.Value, schemaDefinitions.Entries);
                             }
                         }
                     }
                 }
             }
 
+            if (events?.Entries != null)
+            {
+                foreach (ValueTracker<TDEvent> evt in events.Entries.Values)
+                {
+                    MarkSchemaDefinitionsAsReferenced(unreferencedSchemaKeys, evt.Value.Data, schemaDefinitions.Entries);
+                }
+            }
+
             foreach (string unreferencedSchemaKey in unreferencedSchemaKeys)
             {
-                errorReporter.ReportWarning($"'{TDThing.SchemaDefinitionsName}' key '{unreferencedSchemaKey}' has a value that is neither a constant declaration nor a type that is referenced by any action or property; definition will be ignored.", schemaDefinitions.Entries[unreferencedSchemaKey].TokenIndex);
+                errorReporter.ReportWarning($"'{TDThing.SchemaDefinitionsName}' key '{unreferencedSchemaKey}' has a value that is neither a constant declaration nor a type that is referenced by any action, property, or event; definition will be ignored.", schemaDefinitions.Entries[unreferencedSchemaKey].TokenIndex);
             }
+        }
+
+        private static void MarkNamedSchemaDefinitionAsReferenced(
+            HashSet<string> unreferencedSchemaKeys,
+            string schemaKey,
+            Dictionary<string, ValueTracker<TDDataSchema>> schemaDefinitions)
+        {
+            unreferencedSchemaKeys.Remove(schemaKey);
+            if (schemaDefinitions.TryGetValue(schemaKey, out ValueTracker<TDDataSchema>? schema))
+            {
+                MarkSchemaDefinitionsAsReferenced(unreferencedSchemaKeys, schema, schemaDefinitions, new HashSet<string> { schemaKey });
+            }
+        }
+
+        private static void MarkSchemaDefinitionsAsReferenced(HashSet<string> unreferencedSchemaKeys, ValueTracker<TDDataSchema>? dataSchema, Dictionary<string, ValueTracker<TDDataSchema>> schemaDefinitions, HashSet<string>? visitedSchemaKeys = null)
+        {
+            if (dataSchema?.Value == null)
+            {
+                return;
+            }
+
+            if (dataSchema.Value.LocalRef?.Value != null &&
+                TDDataSchema.TryGetLocalRefSchemaKey(dataSchema.Value.LocalRef.Value.Value, out string? schemaKey, out _))
+            {
+                unreferencedSchemaKeys.Remove(schemaKey);
+
+                visitedSchemaKeys ??= new HashSet<string>();
+                if (visitedSchemaKeys.Add(schemaKey) && schemaDefinitions.TryGetValue(schemaKey, out ValueTracker<TDDataSchema>? referencedSchema))
+                {
+                    MarkSchemaDefinitionsAsReferenced(unreferencedSchemaKeys, referencedSchema, schemaDefinitions, visitedSchemaKeys);
+                }
+            }
+
+            foreach (ValueTracker<TDDataSchema> property in dataSchema.Value.Properties?.Entries?.Values ?? Enumerable.Empty<ValueTracker<TDDataSchema>>())
+            {
+                MarkSchemaDefinitionsAsReferenced(unreferencedSchemaKeys, property, schemaDefinitions, visitedSchemaKeys);
+            }
+
+            MarkSchemaDefinitionsAsReferenced(unreferencedSchemaKeys, dataSchema.Value.Items, schemaDefinitions, visitedSchemaKeys);
+            MarkSchemaDefinitionsAsReferenced(unreferencedSchemaKeys, dataSchema.Value.AdditionalProperties, schemaDefinitions, visitedSchemaKeys);
         }
 
         private bool TryValidateRootForms(ArrayTracker<TDForm>? forms, MapTracker<TDDataSchema>? schemaDefinitions, HashSet<SerializationFormat> serializationFormats, bool dovContextPresent, bool protContextPresent, long contextTokenIndex, bool isDescription)
@@ -1353,16 +1415,30 @@ namespace Azure.Iot.Operations.CodeGeneration
         private bool TryValidateActionDataSchema<T>(ValueTracker<T> dataSchema, string propertyName, ValueTracker<StringHolder>? contentType, bool dovContextPresent, bool protContextPresent, bool platContextPresent, long contextTokenIndex)
             where T : TDDataSchema, IDeserializable<T>
         {
-            bool isStructuredObject = dataSchema.Value.Type?.Value.Value == TDValues.TypeObject && dataSchema.Value.Properties != null;
             bool isNull = dataSchema.Value.Type?.Value.Value == TDValues.TypeNull;
-            bool isReference = dataSchema.Value.Ref != null;
-            if (!isStructuredObject && !isNull && !isReference)
+            bool isValid = TryValidateDataSchema(dataSchema, null, dovContextPresent, protContextPresent, platContextPresent, contextTokenIndex, DataSchemaKind.Action, contentType);
+            if (!isValid)
+            {
+                return false;
+            }
+
+            bool isStructuredObject = dataSchema.Value.Type?.Value.Value == TDValues.TypeObject && dataSchema.Value.Properties != null;
+            bool isExternalReference = dataSchema.Value.Ref != null;
+            bool isLocalReferenceToStructuredObject = false;
+            if (dataSchema.Value.LocalRef?.Value != null &&
+                TryResolveLocalReference(dataSchema.Value.LocalRef, out _, out ValueTracker<TDDataSchema>? referencedSchema) &&
+                referencedSchema != null)
+            {
+                isLocalReferenceToStructuredObject = referencedSchema.Value.Type?.Value.Value == TDValues.TypeObject && referencedSchema.Value.Properties != null;
+            }
+
+            if (!isStructuredObject && !isNull && !isExternalReference && !isLocalReferenceToStructuredObject)
             {
                 errorReporter.ReportError(ErrorCondition.TypeMismatch, $"'{TDThing.ActionsName}' element '{propertyName}' property must have a schema of (or a reference to) a structured object type, or no schema at all via a '{TDDataSchema.TypeName}' value of '{TDValues.TypeNull}'.", dataSchema.TokenIndex);
                 return false;
             }
 
-            return TryValidateDataSchema(dataSchema, null, dovContextPresent, protContextPresent, platContextPresent, contextTokenIndex, DataSchemaKind.Action, contentType);
+            return true;
         }
 
         private bool TryValidateProperties(MapTracker<TDProperty>? properties, MapTracker<TDDataSchema>? schemaDefinitions, ArrayTracker<TDAffordanceGroup>? propertyGroups, HashSet<SerializationFormat> serializationFormats, bool dovContextPresent, bool protContextPresent, bool platContextPresent, bool qudtContextPresent, long contextTokenIndex, bool isDescription)
@@ -1769,6 +1845,13 @@ namespace Azure.Iot.Operations.CodeGeneration
         private bool CanDataSchemaSupportUnits<T>(ValueTracker<T>? dataSchema)
             where T : TDDataSchema, IDeserializable<T>
         {
+            if (dataSchema?.Value.LocalRef?.Value != null)
+            {
+                return TryResolveLocalReference(dataSchema.Value.LocalRef, out _, out ValueTracker<TDDataSchema>? referencedSchema) &&
+                    referencedSchema != null &&
+                    CanDataSchemaSupportUnits(referencedSchema);
+            }
+
             if (dataSchema?.Value.Type == null)
             {
                 return false;
@@ -2124,10 +2207,27 @@ namespace Azure.Iot.Operations.CodeGeneration
                     errorReporter.ReportError(ErrorCondition.ItemNotFound, $"Form '{TDForm.HeaderCodeName}' property refers to non-existent key '{form.Value.HeaderCode.Value.Value}' in '{TDThing.SchemaDefinitionsName}' property.", form.Value.HeaderCode.TokenIndex, schemaDefinitions.TokenIndex);
                     hasError = true;
                 }
-                else if (dataSchema.Value.Type?.Value.Value != TDValues.TypeString || dataSchema.Value.Enum == null)
+                else
                 {
-                    errorReporter.ReportError(ErrorCondition.TypeMismatch, $"Form '{TDForm.HeaderCodeName}' property refers to '{TDThing.SchemaDefinitionsName}' key '{form.Value.HeaderCode.Value.Value}', but this is not a string enum.", form.Value.HeaderCode.TokenIndex, dataSchema.TokenIndex);
-                    hasError = true;
+                    ValueTracker<TDDataSchema> effectiveSchema = dataSchema;
+                    if (dataSchema.Value.LocalRef?.Value != null)
+                    {
+                        if (!TryResolveLocalReference(dataSchema.Value.LocalRef, out _, out ValueTracker<TDDataSchema>? resolvedSchema) ||
+                            resolvedSchema == null)
+                        {
+                            hasError = true;
+                        }
+                        else
+                        {
+                            effectiveSchema = resolvedSchema;
+                        }
+                    }
+
+                    if (!hasError && (effectiveSchema.Value.Type?.Value.Value != TDValues.TypeString || effectiveSchema.Value.Enum == null))
+                    {
+                        errorReporter.ReportError(ErrorCondition.TypeMismatch, $"Form '{TDForm.HeaderCodeName}' property refers to '{TDThing.SchemaDefinitionsName}' key '{form.Value.HeaderCode.Value.Value}', but this is not a string enum.", form.Value.HeaderCode.TokenIndex, effectiveSchema.TokenIndex);
+                        hasError = true;
+                    }
                 }
             }
 
@@ -2461,15 +2561,32 @@ namespace Azure.Iot.Operations.CodeGeneration
                 errorReporter.ReportError(ErrorCondition.ItemNotFound, $"'{parentPropName}' element '{TDSchemaReference.SchemaName}' property refers to non-existent key '{schemaReference.Value.Schema.Value.Value}' in '{TDThing.SchemaDefinitionsName}' property.", schemaReference.Value.Schema.TokenIndex, schemaDefinitions.TokenIndex);
                 hasError = true;
             }
-            else if (dataSchema.Value.Type?.Value.Value != TDValues.TypeObject)
+            else
             {
-                errorReporter.ReportError(ErrorCondition.TypeMismatch, $"'{parentPropName}' element '{TDSchemaReference.SchemaName}' property refers to '{TDThing.SchemaDefinitionsName}' key '{schemaReference.Value.Schema.Value.Value}', but this is not a structured object definition.", schemaReference.Value.Schema.TokenIndex, dataSchema.TokenIndex);
-                hasError = true;
-            }
-            else if (dataSchema.Value.Properties == null)
-            {
-                errorReporter.ReportError(ErrorCondition.TypeMismatch, $"'{parentPropName}' element '{TDSchemaReference.SchemaName}' property refers to '{TDThing.SchemaDefinitionsName}' key '{schemaReference.Value.Schema.Value.Value}', but this defines a map, whereas a structured object is required.", schemaReference.Value.Schema.TokenIndex, dataSchema.TokenIndex);
-                hasError = true;
+                ValueTracker<TDDataSchema> effectiveSchema = dataSchema;
+                if (dataSchema.Value.LocalRef?.Value != null)
+                {
+                    if (!TryResolveLocalReference(dataSchema.Value.LocalRef, out _, out ValueTracker<TDDataSchema>? resolvedSchema) ||
+                        resolvedSchema == null)
+                    {
+                        hasError = true;
+                    }
+                    else
+                    {
+                        effectiveSchema = resolvedSchema;
+                    }
+                }
+
+                if (!hasError && effectiveSchema.Value.Type?.Value.Value != TDValues.TypeObject)
+                {
+                    errorReporter.ReportError(ErrorCondition.TypeMismatch, $"'{parentPropName}' element '{TDSchemaReference.SchemaName}' property refers to '{TDThing.SchemaDefinitionsName}' key '{schemaReference.Value.Schema.Value.Value}', but this is not a structured object definition.", schemaReference.Value.Schema.TokenIndex, effectiveSchema.TokenIndex);
+                    hasError = true;
+                }
+                else if (!hasError && effectiveSchema.Value.Properties == null)
+                {
+                    errorReporter.ReportError(ErrorCondition.TypeMismatch, $"'{parentPropName}' element '{TDSchemaReference.SchemaName}' property refers to '{TDThing.SchemaDefinitionsName}' key '{schemaReference.Value.Schema.Value.Value}', but this defines a map, whereas a structured object is required.", schemaReference.Value.Schema.TokenIndex, effectiveSchema.TokenIndex);
+                    hasError = true;
+                }
             }
 
             foreach (KeyValuePair<string, long> propertyName in schemaReference.Value.PropertyNames)
@@ -2500,15 +2617,28 @@ namespace Azure.Iot.Operations.CodeGeneration
                 return false;
             }
 
-            if (dataSchema.Value.Ref == null && dataSchema.Value.Type == null)
+            if (this.currentThingIsDescription && dataSchema.Value.LocalRef != null)
             {
-                errorReporter.ReportError(ErrorCondition.PropertyMissing, $"Data schema must have either '{TDDataSchema.RefName}' or '{TDDataSchema.TypeName}' property.", dataSchema.TokenIndex);
+                errorReporter.ReportError(ErrorCondition.PropertyUnsupported, $"The '{TDDataSchema.LocalRefName}' property is permitted only in a Thing Model.", dataSchema.Value.LocalRef.TokenIndex);
                 return false;
             }
 
-            if (dataSchema.Value.Ref != null && dataSchema.Value.Type != null)
+            int determinantCount =
+                (dataSchema.Value.Ref != null ? 1 : 0) +
+                (dataSchema.Value.LocalRef != null ? 1 : 0) +
+                (dataSchema.Value.Type != null ? 1 : 0);
+
+            if (determinantCount == 0)
             {
-                errorReporter.ReportError(ErrorCondition.ValuesInconsistent, $"Data schema cannot have both '{TDDataSchema.RefName}' and '{TDDataSchema.TypeName}' properties.", dataSchema.Value.Ref.TokenIndex, dataSchema.Value.Type.TokenIndex);
+                errorReporter.ReportError(ErrorCondition.PropertyMissing, $"Data schema must have one of '{TDDataSchema.RefName}', '{TDDataSchema.LocalRefName}', or '{TDDataSchema.TypeName}' property.", dataSchema.TokenIndex);
+                return false;
+            }
+
+            if (determinantCount > 1)
+            {
+                long firstTokenIndex = dataSchema.Value.Ref?.TokenIndex ?? dataSchema.Value.LocalRef?.TokenIndex ?? dataSchema.Value.Type?.TokenIndex ?? dataSchema.TokenIndex;
+                long secondTokenIndex = dataSchema.Value.Type?.TokenIndex ?? dataSchema.Value.LocalRef?.TokenIndex ?? dataSchema.Value.Ref?.TokenIndex ?? dataSchema.TokenIndex;
+                errorReporter.ReportError(ErrorCondition.ValuesInconsistent, $"Data schema cannot specify more than one of '{TDDataSchema.RefName}', '{TDDataSchema.LocalRefName}', or '{TDDataSchema.TypeName}'.", firstTokenIndex, secondTokenIndex);
                 return false;
             }
 
@@ -2539,6 +2669,17 @@ namespace Azure.Iot.Operations.CodeGeneration
                 {
                     return TryValidateReferenceDataSchema(dataSchema, propertyApprover, dovContextPresent, protContextPresent, contextTokenIndex);
                 }
+            }
+
+            if (dataSchema.Value.LocalRef != null)
+            {
+                if (contentTypeIsRawOrCustom)
+                {
+                    errorReporter.ReportError(ErrorCondition.ValuesInconsistent, $"Data schema with '{TDDataSchema.LocalRefName}' property is not permitted in an affordance with a form that specifies '{TDForm.ContentTypeName}' of '{contentType!.Value.Value}'.", dataSchema.Value.LocalRef.TokenIndex, contentType!.TokenIndex);
+                    return false;
+                }
+
+                return TryValidateLocalReferenceDataSchema(dataSchema, propertyApprover);
             }
 
             if (contentTypeIsRawOrCustom && dataSchema.Value.Type!.Value.Value != TDValues.TypeNull)
@@ -2623,6 +2764,157 @@ namespace Azure.Iot.Operations.CodeGeneration
             }
 
             return !hasError;
+        }
+
+        private bool TryValidateLocalReferenceDataSchema<T>(ValueTracker<T> dataSchema, Func<string, bool>? propertyApprover)
+             where T : TDDataSchema, IDeserializable<T>
+        {
+            bool hasError = false;
+
+            string localRefValue = dataSchema.Value.LocalRef!.Value.Value;
+            long tokenIndex = dataSchema.Value.LocalRef.TokenIndex;
+
+            if (string.IsNullOrWhiteSpace(localRefValue))
+            {
+                errorReporter.ReportError(ErrorCondition.PropertyEmpty, $"Data schema '{TDDataSchema.LocalRefName}' property has empty value.", tokenIndex);
+                hasError = true;
+            }
+            else if (!TryResolveLocalReference(dataSchema.Value.LocalRef, out _, out _))
+            {
+                hasError = true;
+            }
+
+            HashSet<string> supportedProperties = new()
+            {
+                TDDataSchema.LocalRefName,
+                TDDataSchema.TitleName,
+                TDDataSchema.DescriptionName,
+                TDDataSchema.TypeRefName,
+                TDDataSchema.TypeRefLegacyName,
+            };
+            if (!TryValidateResidualProperties(dataSchema.Value.PropertyNames, supportedProperties, propertyApprover, "a schema via a local reference", tokenIndex))
+            {
+                hasError = true;
+            }
+
+            return !hasError;
+        }
+
+        private bool TryResolveLocalReference(ValueTracker<StringHolder> localRef, out string? schemaKey, out ValueTracker<TDDataSchema>? referencedSchema)
+        {
+            schemaKey = null;
+            referencedSchema = null;
+
+            string localRefValue = localRef.Value.Value;
+            if (!TDDataSchema.TryGetLocalRefSchemaKey(localRefValue, out schemaKey, out string? error))
+            {
+                errorReporter.ReportError(ErrorCondition.PropertyInvalid, error!, localRef.TokenIndex);
+                return false;
+            }
+
+            if (this.currentSchemaDefinitions?.Entries == null)
+            {
+                errorReporter.ReportError(ErrorCondition.ItemNotFound, $"Data schema '{TDDataSchema.LocalRefName}' property must refer to key in '{TDThing.SchemaDefinitionsName}' property, but Thing Model has no '{TDThing.SchemaDefinitionsName}' property.", localRef.TokenIndex);
+                return false;
+            }
+
+            if (!this.currentSchemaDefinitions.Entries.TryGetValue(schemaKey, out referencedSchema))
+            {
+                errorReporter.ReportError(ErrorCondition.ItemNotFound, $"Data schema '{TDDataSchema.LocalRefName}' property refers to non-existent key '{schemaKey}' in '{TDThing.SchemaDefinitionsName}' property.", localRef.TokenIndex, this.currentSchemaDefinitions.TokenIndex);
+                return false;
+            }
+
+            List<string> referenceChain = new() { schemaKey };
+            while (referencedSchema.Value.LocalRef?.Value != null)
+            {
+                ValueTracker<StringHolder> nestedLocalRef = referencedSchema.Value.LocalRef;
+                if (!TDDataSchema.TryGetLocalRefSchemaKey(nestedLocalRef.Value.Value, out string? nestedSchemaKey, out string? nestedError))
+                {
+                    errorReporter.ReportError(ErrorCondition.PropertyInvalid, nestedError!, nestedLocalRef.TokenIndex);
+                    referencedSchema = null;
+                    return false;
+                }
+
+                if (referenceChain.Contains(nestedSchemaKey))
+                {
+                    errorReporter.ReportError(ErrorCondition.Interminable, $"Interminable loop in '{TDDataSchema.LocalRefName}' references: {string.Join(" -> ", referenceChain.Append(nestedSchemaKey))}.", localRef.TokenIndex, nestedLocalRef.TokenIndex);
+                    referencedSchema = null;
+                    return false;
+                }
+
+                if (!this.currentSchemaDefinitions.Entries.TryGetValue(nestedSchemaKey, out referencedSchema))
+                {
+                    errorReporter.ReportError(ErrorCondition.ItemNotFound, $"Data schema '{TDDataSchema.LocalRefName}' property refers to non-existent key '{nestedSchemaKey}' in '{TDThing.SchemaDefinitionsName}' property.", nestedLocalRef.TokenIndex, this.currentSchemaDefinitions.TokenIndex);
+                    return false;
+                }
+
+                referenceChain.Add(nestedSchemaKey);
+            }
+
+            if (!TryDetectLocalReferenceCycle(referencedSchema, localRef.TokenIndex, referenceChain))
+            {
+                referencedSchema = null;
+                return false;
+            }
+
+            return true;
+        }
+
+        private bool TryDetectLocalReferenceCycle(ValueTracker<TDDataSchema> dataSchema, long tokenIndex, List<string> referenceChain)
+        {
+            if (dataSchema.Value.LocalRef?.Value != null)
+            {
+                if (!TryFollowLocalReference(dataSchema.Value.LocalRef, tokenIndex, referenceChain))
+                {
+                    return false;
+                }
+            }
+
+            foreach (ValueTracker<TDDataSchema> property in dataSchema.Value.Properties?.Entries?.Values ?? Enumerable.Empty<ValueTracker<TDDataSchema>>())
+            {
+                if (!TryDetectLocalReferenceCycle(property, tokenIndex, referenceChain))
+                {
+                    return false;
+                }
+            }
+
+            if (dataSchema.Value.Items != null && !TryDetectLocalReferenceCycle(dataSchema.Value.Items, tokenIndex, referenceChain))
+            {
+                return false;
+            }
+
+            if (dataSchema.Value.AdditionalProperties != null && !TryDetectLocalReferenceCycle(dataSchema.Value.AdditionalProperties, tokenIndex, referenceChain))
+            {
+                return false;
+            }
+
+            return true;
+        }
+
+        private bool TryFollowLocalReference(ValueTracker<StringHolder> localRef, long tokenIndex, List<string> referenceChain)
+        {
+            string localRefValue = localRef.Value.Value;
+            if (string.IsNullOrWhiteSpace(localRefValue) ||
+                !TDDataSchema.TryGetLocalRefSchemaKey(localRefValue, out string? schemaKey, out _))
+            {
+                return true;
+            }
+
+            if (referenceChain.Contains(schemaKey))
+            {
+                errorReporter.ReportError(ErrorCondition.Interminable, $"Interminable loop in '{TDDataSchema.LocalRefName}' references: {string.Join(" -> ", referenceChain.Append(schemaKey))}.", tokenIndex, localRef.TokenIndex);
+                return false;
+            }
+
+            if (!(this.currentSchemaDefinitions?.Entries?.TryGetValue(schemaKey, out ValueTracker<TDDataSchema>? referencedSchema) ?? false))
+            {
+                return true;
+            }
+
+            referenceChain.Add(schemaKey);
+            bool isValid = TryDetectLocalReferenceCycle(referencedSchema, tokenIndex, referenceChain);
+            referenceChain.RemoveAt(referenceChain.Count - 1);
+            return isValid;
         }
 
         private bool TryValidateStringConst<T>(ValueTracker<T> dataSchema, ValueTracker<ObjectHolder> constProperty, ValueTracker<ObjectHolder> constValue)

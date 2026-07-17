@@ -9,6 +9,7 @@ namespace Azure.Iot.Operations.Opc2WotLib
     public class OpcUaNodeId : IEquatable<OpcUaNodeId>
     {
         private const int HasModellingRuleNodeIndex = 37;
+        private const int HasTypeDefinitionNodeIndex = 40;
         private const int HasSubtypeNodeIndex = 45;
         private const int HasPropertyNodeIndex = 46;
         private const int HasComponentNodeIndex = 47;
@@ -34,6 +35,8 @@ namespace Azure.Iot.Operations.Opc2WotLib
         public bool IsBuiltInDataType { get => NsIndex == 0 && NodeIndex is >= 1 and <= 25; }
 
         public bool IsModellingRuleReference { get => NsIndex == 0 && NodeIndex == HasModellingRuleNodeIndex; }
+
+        public bool IsTypeDefinitionReference { get => NsIndex == 0 && NodeIndex == HasTypeDefinitionNodeIndex; }
 
         public bool IsPropertyReference { get => NsIndex == 0 && NodeIndex == HasPropertyNodeIndex; }
 

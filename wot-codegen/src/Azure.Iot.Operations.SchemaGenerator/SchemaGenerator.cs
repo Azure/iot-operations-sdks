@@ -27,9 +27,10 @@ namespace Azure.Iot.Operations.SchemaGenerator
                 ActionSchemaGenerator.GenerateActionSchemas(resolvingThing, projectName, schemaSpecs, referencedSchemas);
                 EventSchemaGenerator.GenerateEventSchemas(resolvingThing, projectName, schemaSpecs, referencedSchemas);
 
-                Dictionary<string, SchemaSpec> closedSchemaSpecs = ComputeClosedSchemaSpecs(parsedThing.ErrorReporter, parsedThing.Thing, parsedThing.SchemaNamer, schemaSpecs, referencedSchemas);
+                LocalSchemaResolver localSchemaResolver = new(parsedThing.ErrorReporter, parsedThing.Thing.SchemaDefinitions?.Entries);
+                Dictionary<string, SchemaSpec> closedSchemaSpecs = ComputeClosedSchemaSpecs(parsedThing.ErrorReporter, parsedThing.Thing, parsedThing.SchemaNamer, localSchemaResolver, schemaSpecs, referencedSchemas);
 
-                SchemaTransformFactory transformFactory = new(parsedThing.SchemaNamer, workingDir);
+                SchemaTransformFactory transformFactory = new(parsedThing.SchemaNamer, workingDir, localSchemaResolver);
 
                 foreach (KeyValuePair<string, SchemaSpec> schemaSpec in closedSchemaSpecs)
                 {
@@ -56,7 +57,7 @@ namespace Azure.Iot.Operations.SchemaGenerator
             return generatedSchemas;
         }
 
-        private static Dictionary<string, SchemaSpec> ComputeClosedSchemaSpecs(ErrorReporter errorReporter, TDThing thing, SchemaNamer schemaNamer, Dictionary<string, List<SchemaSpec>> schemaSpecs, Dictionary<string, HashSet<SerializationFormat>> referencedSchemas)
+        private static Dictionary<string, SchemaSpec> ComputeClosedSchemaSpecs(ErrorReporter errorReporter, TDThing thing, SchemaNamer schemaNamer, LocalSchemaResolver localSchemaResolver, Dictionary<string, List<SchemaSpec>> schemaSpecs, Dictionary<string, HashSet<SerializationFormat>> referencedSchemas)
         {
             Dictionary<string, SchemaSpec> closedSchemaSpecs = new();
 
@@ -66,7 +67,7 @@ namespace Azure.Iot.Operations.SchemaGenerator
                 {
                     if (thing.SchemaDefinitions?.Entries?.TryGetValue(referencedSchema.Key, out ValueTracker<TDDataSchema>? dataSchema) ?? false)
                     {
-                        ComputeClosureOfDataSchema(errorReporter, schemaNamer, thing.Title!.Value.Value, referencedSchema.Key, dataSchema, format, closedSchemaSpecs);
+                        ComputeClosureOfDataSchema(errorReporter, schemaNamer, localSchemaResolver, thing.Title!.Value.Value, referencedSchema.Key, dataSchema, format, closedSchemaSpecs, preserveBackupNameForLocalRef: true, referenceChain: [referencedSchema.Key]);
                     }
                 }
             }
@@ -75,14 +76,14 @@ namespace Azure.Iot.Operations.SchemaGenerator
             {
                 foreach (SchemaSpec spec in schemaSpec.Value)
                 {
-                    ComputeClosureOfSchemaSpec(errorReporter, schemaNamer, thing.Title!.Value.Value, schemaSpec.Key, spec, closedSchemaSpecs);
+                    ComputeClosureOfSchemaSpec(errorReporter, schemaNamer, localSchemaResolver, thing.Title!.Value.Value, schemaSpec.Key, spec, closedSchemaSpecs);
                 }
             }
 
             return closedSchemaSpecs;
         }
 
-        private static void ComputeClosureOfSchemaSpec(ErrorReporter errorReporter, SchemaNamer schemaNamer, string thingName, string schemaName, SchemaSpec schemaSpec, Dictionary<string, SchemaSpec> closedSchemaSpecs)
+        private static void ComputeClosureOfSchemaSpec(ErrorReporter errorReporter, SchemaNamer schemaNamer, LocalSchemaResolver localSchemaResolver, string thingName, string schemaName, SchemaSpec schemaSpec, Dictionary<string, SchemaSpec> closedSchemaSpecs)
         {
             if (IsLocalDuplicate(errorReporter, schemaName, schemaSpec, closedSchemaSpecs))
             {
@@ -96,21 +97,29 @@ namespace Azure.Iot.Operations.SchemaGenerator
             {
                 foreach (KeyValuePair<string, FieldSpec> field in objectSpec.Fields.Where(f => !f.Value.Inherited))
                 {
-                    ComputeClosureOfDataSchema(errorReporter, schemaNamer, thingName, field.Value.BackupSchemaName, field.Value.Schema, schemaSpec.Format, closedSchemaSpecs);
+                    ComputeClosureOfDataSchema(errorReporter, schemaNamer, localSchemaResolver, thingName, field.Value.BackupSchemaName, field.Value.Schema, schemaSpec.Format, closedSchemaSpecs);
                 }
             }
         }
 
-        private static void ComputeClosureOfDataSchema(ErrorReporter errorReporter, SchemaNamer schemaNamer, string thingName, string backupName, ValueTracker<TDDataSchema> dataSchema, SerializationFormat format, Dictionary<string, SchemaSpec> closedSchemaSpecs)
+        private static void ComputeClosureOfDataSchema(ErrorReporter errorReporter, SchemaNamer schemaNamer, LocalSchemaResolver localSchemaResolver, string thingName, string backupName, ValueTracker<TDDataSchema> dataSchema, SerializationFormat format, Dictionary<string, SchemaSpec> closedSchemaSpecs, bool preserveBackupNameForLocalRef = false, IReadOnlyCollection<string>? referenceChain = null)
         {
-            if (IsProxy(dataSchema.Value))
+            if (!localSchemaResolver.TryResolve(dataSchema, referenceChain, out ValueTracker<TDDataSchema>? resolvedSchema, out string? directSchemaKey, out List<string> resolvedReferenceChain))
             {
                 return;
             }
 
-            string schemaName = schemaNamer.ApplyBackupSchemaName(dataSchema.Value.Title?.Value.Value, backupName);
+            ValueTracker<TDDataSchema> activeSchema = resolvedSchema!;
+            string effectiveBackupName = directSchemaKey != null && !preserveBackupNameForLocalRef ? directSchemaKey : backupName;
 
-            if (SchemaSpec.TryCreateFromDataSchema(errorReporter, schemaNamer, dataSchema, format, backupName, out SchemaSpec? schemaSpec))
+            if (IsProxy(activeSchema.Value))
+            {
+                return;
+            }
+
+            string schemaName = schemaNamer.ApplyBackupSchemaName(activeSchema.Value.Title?.Value.Value, effectiveBackupName);
+
+            if (SchemaSpec.TryCreateFromDataSchema(errorReporter, schemaNamer, activeSchema, format, effectiveBackupName, out SchemaSpec? schemaSpec))
             {
                 if (IsLocalDuplicate(errorReporter, schemaName, schemaSpec, closedSchemaSpecs))
                 {
@@ -121,20 +130,20 @@ namespace Azure.Iot.Operations.SchemaGenerator
                 errorReporter.RegisterNameInThing(schemaName, thingName, schemaSpec.TokenIndex);
             }
 
-            if (dataSchema.Value.Properties?.Entries != null)
+            if (activeSchema.Value.Properties?.Entries != null)
             {
-                foreach (KeyValuePair<string, ValueTracker<TDDataSchema>> property in dataSchema.Value.Properties.Entries)
+                foreach (KeyValuePair<string, ValueTracker<TDDataSchema>> property in activeSchema.Value.Properties.Entries)
                 {
-                    ComputeClosureOfDataSchema(errorReporter, schemaNamer, thingName, schemaNamer.GetBackupSchemaName(schemaName, property.Key), property.Value, format, closedSchemaSpecs);
+                    ComputeClosureOfDataSchema(errorReporter, schemaNamer, localSchemaResolver, thingName, schemaNamer.GetBackupSchemaName(schemaName, property.Key), property.Value, format, closedSchemaSpecs, referenceChain: resolvedReferenceChain);
                 }
             }
-            else if (dataSchema.Value.Items?.Value != null)
+            else if (activeSchema.Value.Items?.Value != null)
             {
-                ComputeClosureOfDataSchema(errorReporter, schemaNamer, thingName, backupName, dataSchema.Value.Items, format, closedSchemaSpecs);
+                ComputeClosureOfDataSchema(errorReporter, schemaNamer, localSchemaResolver, thingName, effectiveBackupName, activeSchema.Value.Items, format, closedSchemaSpecs, referenceChain: resolvedReferenceChain);
             }
-            else if (dataSchema.Value.AdditionalProperties?.Value != null)
+            else if (activeSchema.Value.AdditionalProperties?.Value != null)
             {
-                ComputeClosureOfDataSchema(errorReporter, schemaNamer, thingName, backupName, dataSchema.Value.AdditionalProperties, format, closedSchemaSpecs);
+                ComputeClosureOfDataSchema(errorReporter, schemaNamer, localSchemaResolver, thingName, effectiveBackupName, activeSchema.Value.AdditionalProperties, format, closedSchemaSpecs, referenceChain: resolvedReferenceChain);
             }
         }
 

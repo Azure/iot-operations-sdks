@@ -41,9 +41,15 @@ namespace Azure.Iot.Operations.EnvoyGenerator
                 {
                     HashSet<string> typesToSerialize = formattedTypesToSerialize[actionForm.Format];
 
-                    string? inputSchemaType = action.Input != null ? schemaNamer.GetActionInSchema(action.Input?.Value, actionKvp.Key) : null;
-                    string? outArgsType = action.Output != null ? schemaNamer.GetActionOutSchema(action.Output?.Value, actionKvp.Key) : null;
-                    string? outputRespName = action.Output?.Value?.Ref != null ? schemaNamer.GetActionRespOutputField(actionKvp.Key, schemaNamer.GetActionOutSchema(null, actionKvp.Key)) : null;
+                    string? inputSchemaType = action.Input != null
+                        ? schemaNamer.GetActionInSchema(action.Input.Value.LocalRef != null ? null : action.Input.Value, actionKvp.Key)
+                        : null;
+                    string? outArgsType = action.Output != null
+                        ? schemaNamer.GetActionOutSchema(action.Output.Value.LocalRef != null ? null : action.Output.Value, actionKvp.Key)
+                        : null;
+                    string? outputRespName = action.Output?.Value?.Ref != null || action.Output?.Value?.LocalRef != null
+                        ? schemaNamer.GetActionRespOutputField(actionKvp.Key, schemaNamer.GetActionOutSchema(null, actionKvp.Key))
+                        : null;
                     string? outputSchemaType = actionForm.ErrorRespSchema != null ? schemaNamer.GetActionRespSchema(actionKvp.Key) : outArgsType;
                     string? errRespName = actionForm.ErrorRespName != null ? schemaNamer.GetActionRespErrorField(actionKvp.Key, actionForm.ErrorRespName) : null;
                     string? errSchemaName = schemaNamer.ChooseTitleOrName(actionForm.ErrorRespSchema?.Value.Title?.Value?.Value, actionForm.ErrorRespName);
