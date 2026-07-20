@@ -76,7 +76,7 @@ namespace Azure.Iot.Operations.CodeGeneration
                 return null;
             }
 
-            HashSet<string> referenceChain = new();
+            List<string> referenceChain = new();
             if (schemaName != null)
             {
                 referenceChain.Add(schemaName);
@@ -91,11 +91,13 @@ namespace Azure.Iot.Operations.CodeGeneration
                     return null;
                 }
 
-                if (!referenceChain.Add(referencedSchemaName))
+                if (referenceChain.Contains(referencedSchemaName))
                 {
                     errorReporter.ReportError(ErrorCondition.Interminable, $"Interminable loop in '{TDDataSchema.LocalRefName}' references: {string.Join(" -> ", referenceChain.Append(referencedSchemaName))}.", localRef.TokenIndex);
                     return null;
                 }
+
+                referenceChain.Add(referencedSchemaName);
 
                 if (!schemaDefinitions.TryGetValue(referencedSchemaName, out schema))
                 {
