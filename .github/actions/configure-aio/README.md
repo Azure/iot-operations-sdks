@@ -1,4 +1,4 @@
-This github action requires special authentication to access a private repo during a Github action run. To do this, we use SSH Keys (as described [here](https://docs.github.com/en/authentication/connecting-to-github-with-ssh/managing-deploy-keys#deploy-keys))
+This github action step requires special authentication to access a private repo during a Github action run. To do this, we use SSH Keys (as described [here](https://docs.github.com/en/authentication/connecting-to-github-with-ssh/managing-deploy-keys#deploy-keys))
 
 Any generated SSH key will be valid in perpetuity and should not need renewal/rotation, but in case it does for any reason, here are the steps for setting this all up again.
 
