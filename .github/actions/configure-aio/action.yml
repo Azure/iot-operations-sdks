@@ -23,7 +23,7 @@ inputs:
     default: 'false'
 
   ssh-key:
-    description: 'SSH key'
+    description: 'SSH private key (deploy key) for checking out Azure/iot-operations-sdks-action'
     required: true
 
 runs:
