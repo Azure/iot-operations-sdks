@@ -18,7 +18,7 @@ Any generated SSH key will be valid in perpetuity and should not need renewal/ro
 ```
 
 ```yaml
-    # The pipeline that calls this build step
+    # The pipeline that calls this build step and provides the Github secret configured in step 3 above
     - name: Install AIO
       uses: ./.github/actions/configure-aio
       with:
