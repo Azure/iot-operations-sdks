@@ -123,7 +123,6 @@ jobs:
           # matrix toolchain below and select it via RUSTUP_TOOLCHAIN.
           install-rust: 'true'
           install-dotnet: 'false'
-          action-token: ${{ secrets.AIO_SDKS_ACTION_TOKEN }}
 
       - name: Install Rust ${{ matrix.rust }}
         run: rustup toolchain install ${{ matrix.rust }} --profile minimal
@@ -169,7 +168,6 @@ jobs:
           wait-for-broker: 'true'
           install-rust: 'true'
           install-dotnet: 'false'
-          action-token: ${{ secrets.AIO_SDKS_ACTION_TOKEN }}
 
       - name: Install system dependencies
         run: bash ./scripts/system-deps.sh

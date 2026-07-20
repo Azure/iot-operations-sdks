@@ -49,7 +49,6 @@ jobs:
           install-go: 'true'
           install-dotnet: 'true'
           install-rust: 'true'
-          action-token: ${{ secrets.AIO_SDKS_ACTION_TOKEN }}
 
       #=======================================================================
       # Build codegen and verify it matches repository
