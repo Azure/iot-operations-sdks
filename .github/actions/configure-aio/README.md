@@ -1,6 +1,6 @@
 This github action step requires special authentication to access a private repo during a Github action run. To do this, we use SSH Keys (as described [here](https://docs.github.com/en/authentication/connecting-to-github-with-ssh/managing-deploy-keys#deploy-keys))
 
-Any generated SSH key will be valid in perpetuity and should not need renewal/rotation, but in case it does for any reason, here are the steps for setting this all up again.
+Any generated SSH key should not need renewal/rotation unless leaked. If the SSH key does need rotation for any reason, here are the steps for setting this all up again.
 
 1) Generate an SSH key on your local machine following [these instructions](https://docs.github.com/en/authentication/connecting-to-github-with-ssh/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent#generating-a-new-ssh-key). It should give you two output files. One is the private key, the other is the public key
 2) In the [actions repo](https://github.com/Azure/iot-operations-sdks-action), navigate to the settings tab -> deploy keys. In that page, hit "Add deploy key" and paste the contents of the public key from the previous step
