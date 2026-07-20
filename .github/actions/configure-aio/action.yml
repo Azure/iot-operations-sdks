@@ -22,6 +22,10 @@ inputs:
     required: false
     default: 'false'
 
+  ssh-key:
+    description: 'SSH key'
+    required: true
+
 runs:
   using: composite
   steps:
@@ -34,7 +38,7 @@ runs:
       with:
         repository: azure/iot-operations-sdks-action
         path: action-deploy
-        ssh-key: ${{ secrets.ACTIONS_REPO_SSH_KEY }}
+        ssh-key: ${{ inputs.ssh-key }}
 
     - name: Install AIO
       uses: ./action-deploy

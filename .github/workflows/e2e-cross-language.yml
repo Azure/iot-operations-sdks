@@ -49,6 +49,7 @@ jobs:
           install-go: 'true'
           install-dotnet: 'true'
           install-rust: 'true'
+          ssh-key: ${{ secrets.ACTIONS_REPO_SSH_KEY }}
 
       #=======================================================================
       # Build codegen and verify it matches repository

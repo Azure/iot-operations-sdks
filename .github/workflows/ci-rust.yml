@@ -123,6 +123,7 @@ jobs:
           # matrix toolchain below and select it via RUSTUP_TOOLCHAIN.
           install-rust: 'true'
           install-dotnet: 'false'
+          ssh-key: ${{ secrets.ACTIONS_REPO_SSH_KEY }}
 
       - name: Install Rust ${{ matrix.rust }}
         run: rustup toolchain install ${{ matrix.rust }} --profile minimal
@@ -168,6 +169,7 @@ jobs:
           wait-for-broker: 'true'
           install-rust: 'true'
           install-dotnet: 'false'
+          ssh-key: ${{ secrets.ACTIONS_REPO_SSH_KEY }}
 
       - name: Install system dependencies
         run: bash ./scripts/system-deps.sh
