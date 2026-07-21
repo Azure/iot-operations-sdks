@@ -66,7 +66,7 @@ An exchange is **gracefully complete** only when *both* of its half-streams have
 
 The invoker supplies the outbound **request stream** (an async sequence of request entries) together with that stream's metadata; it must contain at least one entry. The invocation establishes the exchange; it does **not** represent completion of the request stream. The SDK activates response reception, sends the mandatory first request, and then returns the inbound **response stream** together with the *exchange context* — without waiting for the second request or for the request stream to end. Early responses are buffered for iteration.
 
-After returning, both streams proceed concurrently, so each can react to the other. The response stream exposes response data and metadata; the exchange context exposes lifecycle and control. The invocation also accepts the usual topic-token, timeout, and cancellation options; signalling the ambient cancellation token makes one attempt to notify the executor.
+After returning, both streams proceed concurrently, so each can react to the other. The response stream exposes response data and metadata; the exchange context exposes lifecycle and control.
 
 An empty request stream or setup error fails the invocation before an exchange is returned. Any later request-sending error terminates the local exchange, stops request publication, and triggers a best-effort cancellation; it is exposed through the exchange context's completion signal and, while still open, the response stream.
 
