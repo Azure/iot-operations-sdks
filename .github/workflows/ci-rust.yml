@@ -58,7 +58,7 @@ jobs:
           cache: false
 
       - name: Setup .NET (for codegen drift check)
-        uses: actions/setup-dotnet@v5
+        uses: actions/setup-dotnet@v6
         with:
           dotnet-version: 9.x
 
@@ -123,7 +123,7 @@ jobs:
           # matrix toolchain below and select it via RUSTUP_TOOLCHAIN.
           install-rust: 'true'
           install-dotnet: 'false'
-          action-token: ${{ secrets.AIO_SDKS_ACTION_TOKEN }}
+          ssh-key: ${{ secrets.ACTIONS_REPO_SSH_KEY }}
 
       - name: Install Rust ${{ matrix.rust }}
         run: rustup toolchain install ${{ matrix.rust }} --profile minimal
@@ -169,7 +169,7 @@ jobs:
           wait-for-broker: 'true'
           install-rust: 'true'
           install-dotnet: 'false'
-          action-token: ${{ secrets.AIO_SDKS_ACTION_TOKEN }}
+          ssh-key: ${{ secrets.ACTIONS_REPO_SSH_KEY }}
 
       - name: Install system dependencies
         run: bash ./scripts/system-deps.sh
