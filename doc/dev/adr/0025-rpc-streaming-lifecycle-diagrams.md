@@ -12,7 +12,7 @@ mean the invoker and executor views, respectively.
 stateDiagram-v2
     [*] --> InvokerEstablishing
     [*] --> ExecutorWaiting
-    InvokerEstablishing --> Active: response reception active, request 0 sent, contexts returned
+    InvokerEstablishing --> Active: response reception active, request 0 sent, response stream and exchange context returned
     ExecutorWaiting --> Active: request 0 received
 
     state Active {

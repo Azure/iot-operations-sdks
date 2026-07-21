@@ -49,22 +49,22 @@ While RPC streaming shares a lot with normal RPC, we define a new communication 
 Each entry in a request or response stream pairs a user **payload** with **per-message metadata**. Streaming distinguishes two metadata scopes:
 
 - **Per-message metadata** travels with each individual stream entry.
-- **Per-stream metadata** applies to a whole stream and is symmetric: the producer attaches it, the consumer reads it. On the wire it repeats on every message (like the [stream-level timeout](#stream-level-timeout)) to survive first-message loss, and is read once.
+- **Per-stream metadata** applies to a whole stream: the producer attaches it and the consumer reads it. The request and response streams carry **different** per-stream metadata (mirroring vanilla RPC's request vs response metadata), so this scope is **asymmetric** across directions. On the wire it repeats on every message (like the [stream-level timeout](#stream-level-timeout)) to survive first-message loss, and is read once.
 
 #### Core abstractions
 
 Each side both produces and consumes a stream — the invoker produces requests and consumes responses, the executor does the reverse — and the two together form one **exchange**, the unit of cancellation and timeout.
 
-Two abstractions carry these across the API, and both are used symmetrically by the invoker and the executor:
+Two abstractions carry these across the API:
 
-- A **stream context** represents one stream: an async sequence of its entries plus its per-stream metadata. The **same** abstraction serves a stream you produce or consume, in either direction.
-- An **exchange context** is the per-exchange lifecycle and control handle for completion, cancellation, and timeout. Being **exchange-scoped** (one per invocation, not per direction), it lives here rather than on the *stream context*, keeping that symmetric.
+- A **stream context** is the **consume** side of one stream — the async sequence of entries you receive. A stream you **produce** is supplied directly as an async sequence together with its per-stream metadata, so producing and consuming use different shapes.
+- An **exchange context** is the per-exchange lifecycle and control handle for completion, cancellation, and timeout. Being **exchange-scoped** (one per invocation, not per direction), it lives here rather than on the *stream context*, so a single cancel/timeout covers the whole invocation.
 
 An exchange is **gracefully complete** only when *both* of its half-streams have closed: the invoker has sent its `isLast` request **and** received the `isLast` response, and symmetrically the executor has received the `isLast` request **and** sent the `isLast` response. Closing one half (via `isLast`) does **not** end the exchange — a side that finishes its own stream early stays active for the other half until it closes too, or until the [idle timeout](#stream-level-timeout) fires. Any other terminal — error, cancellation, or timeout — ends the whole exchange immediately. This both-halves condition is the shared definition of completion used by [timeout](#timeout-support) and [cancellation](#cancellation-support).
 
 #### Invoker side
 
-The invoker supplies the outbound **request stream** as a *stream context*; it must contain at least one entry. The invocation establishes the exchange; it does **not** represent completion of the request stream. The SDK activates response reception, sends the mandatory first request, and then returns the inbound **response stream** together with the *exchange context* — without waiting for the second request or for the request stream to end. Early responses are buffered for iteration.
+The invoker supplies the outbound **request stream** (an async sequence of request entries) together with that stream's metadata; it must contain at least one entry. The invocation establishes the exchange; it does **not** represent completion of the request stream. The SDK activates response reception, sends the mandatory first request, and then returns the inbound **response stream** together with the *exchange context* — without waiting for the second request or for the request stream to end. Early responses are buffered for iteration.
 
 After returning, both streams proceed concurrently, so each can react to the other. The response stream exposes response data and metadata; the exchange context exposes lifecycle and control. The invocation also accepts the usual topic-token, timeout, and cancellation options; signalling the ambient cancellation token makes one attempt to notify the executor.
 
@@ -72,7 +72,7 @@ An empty request stream or setup error fails the invocation before an exchange i
 
 #### Executor side
 
-The streaming command executor's callback notifies the user that a command was received; it takes the inbound **request stream** (a *stream context*) and the *exchange context*, and returns the outbound **response stream** (a *stream context*).
+The streaming command executor's callback notifies the user that a command was received; it takes the inbound **request stream** (a *stream context*), that request stream's metadata, and the *exchange context*, and returns the outbound **response stream** (an async sequence of response entries) together with that stream's metadata.
 
 With this design, commands that use streaming are defined at codegen time. Codegen layer changes will be defined in a separate ADR, though.
 
@@ -124,7 +124,8 @@ A side **consumes** one stream and **produces** the other. The rules below are i
 **Consuming a stream:**
 
 - **De-dup caching.** A consumer de-dups received data messages (QoS 1 may re-deliver) by correlationId + index — the index distinguishes duplicates since the correlationId is shared by the whole stream. Each cache entry is retained for the duration of its message's expiry interval (see [message level timeout](#message-level-timeout)), even beyond the end of the stream: clearing it when the stream finishes would let a late re-delivery still within its expiry window be treated as new, which is unsafe for non-idempotent commands.
-- **Acknowledgement.** By default a consumer acknowledges each message as soon as it is delivered to the user. Users may opt into manual acknowledgement to finish processing a message before forgoing broker re-delivery on an unexpected crash.
+- **Acknowledgement.** By default a consumer acknowledges each message as soon as it is delivered to the user. Users may opt into manual acknowledgement to finish processing a message before forgoing broker re-delivery on an unexpected crash. 
+>Because acknowledgements are sent **in order** and count against the client's Receive Maximum, withholding many at once can stall acknowledgement flow — and therefore delivery — on the shared MQTT client.
 - **`isLast` receipt.** On a message with the `isLast` flag set, the consumer notifies the user that the stream has ended. This standalone message carries no payload or application-provided user properties and is **not** surfaced as a stream entry ([why `isLast` is its own message](#islast-message-being-its-own-message)).
 
 **Producing a stream:** every data message carries the same correlation data, the appropriate [`__stream` metadata](#streaming-user-property), the serialized user payload, and any per-message metadata plus the stream's per-stream metadata (repeated on every message so it survives first-message loss), at QoS 1. The producer ends its stream with a standalone `isLast` message (no payload, no application user properties) on the same topic and correlation. Which topic each side uses, and the `$partition` requirement on the command topic, are covered below and in [exchange routing and lifetime](#exchange-routing-and-lifetime).
@@ -195,7 +196,7 @@ Since a cancellation request may expire on the broker, the sender may retransmit
 
 #### API
 
-Cancellation is exposed through the *exchange context* — returned to the invoker and passed into the executor's receive callback — rather than the per-stream *stream context*. This keeps cancellation exchange-scoped (a single cancel/timeout per invocation, not one per direction) and keeps the *stream context* symmetric across directions.
+Cancellation is exposed through the *exchange context* — returned to the invoker and passed into the executor's receive callback — rather than the per-stream *stream context*. This keeps cancellation exchange-scoped (a single cancel/timeout per invocation, not one per direction) and off the per-direction *stream context*.
 
 Either side invokes the **cancel** operation (optionally attaching user properties) and observes peer cancellation or local timeout through the *exchange context*'s signal and its *canceled* / *timed out* flags, along with any user properties on the received cancellation. For a concrete illustration see the [appendix](#illustrative-net-api); for detailed examples see the [integration tests](../../../dotnet/test/Azure.Iot.Operations.Protocol.IntegrationTests/StreamingIntegrationTests.cs).
 
@@ -302,34 +303,69 @@ Two base classes define the pattern — `StreamingCommandInvoker` and `Streaming
 public class StreamingExtendedRequest<TReq>
     where TReq : class
 {
-    public TReq Request { get; set; }
+    public TReq Payload { get; set; }
     public StreamMessageMetadata Metadata { get; set; }
+    // Per-message MQTT expiry; defaults to the idle timeout and must be <= it.
+    public TimeSpan? MessageExpiry { get; set; }
 }
 
 public class StreamingExtendedResponse<TResp>
     where TResp : class
 {
-    public TResp Response { get; set; }
+    public TResp Payload { get; set; }
     public StreamMessageMetadata Metadata { get; set; }
+    public TimeSpan? MessageExpiry { get; set; }
 }
 
+// SDK-assigned index, HLC timestamp, and per-message user properties.
 public class StreamMessageMetadata
 {
     public uint Index { get; init; }
-    public TimeSpan? MessageExpiry { get; set; }
+    public HybridLogicalClock? Timestamp { get; init; }
+    public Dictionary<string, string> UserData { get; init; } = new();
+}
 
-    // Manual-ack mode only; once-only; no-op in auto-ack mode and on produced entries.
-    public Task AcknowledgeAsync(CancellationToken cancellationToken = default) { ... }
+// Consumed entries add manual acknowledgement (used when auto-ack is off).
+public class ReceivedStreamingExtendedRequest<TReq> : StreamingExtendedRequest<TReq>
+    where TReq : class
+{
+    // Once-only; acks are sent in order and count against the client's Receive Maximum.
+    public Task AcknowledgeAsync() { ... }
+}
+
+public class ReceivedStreamingExtendedResponse<TResp> : StreamingExtendedResponse<TResp>
+    where TResp : class
+{
+    public Task AcknowledgeAsync() { ... }
+}
+
+// Per-stream metadata is asymmetric, mirroring vanilla RPC's request/response metadata.
+public class RequestStreamMetadata
+{
+    ...
+}
+
+public class ResponseStreamMetadata
+{
+    ...
 }
 ```
 
-The **stream context** is the async-enumerable of a stream's entries plus that stream's per-stream metadata; the **exchange context** carries per-exchange completion, cancellation, and timeout:
+The **stream context** wraps a stream's entries; its per-stream metadata travels separately as a `RequestStreamMetadata` / `ResponseStreamMetadata`. The **exchange context** carries per-exchange completion, cancellation, and timeout:
 
 ```csharp
-public interface IStreamContext<T> : IAsyncEnumerable<T>
+public interface IStreamContext<T>
     where T : class
 {
-    StreamMetadata? StreamMetadata { get; }
+    IAsyncEnumerable<T> Entries { get; set; }
+}
+
+// The invoker returns before the first response arrives, so await StreamMetadata for the response
+// stream's metadata (it faults if the exchange ends before any response).
+public interface IResponseStreamContext<T> : IStreamContext<T>
+    where T : class
+{
+    Task<ResponseStreamMetadata> StreamMetadata { get; }
 }
 
 public interface IExchangeContext
@@ -350,25 +386,28 @@ public interface IExchangeContext
 }
 ```
 
-The invoker supplies the request stream context and returns the response stream context plus the exchange context:
+The invoker supplies the request stream (and its stream-level metadata) and returns the response stream plus the exchange context:
 
 ```csharp
 public abstract class StreamingCommandInvoker<TReq, TResp>
     where TReq : class
     where TResp : class
 {
+    // false -> the caller must ack each response entry via ReceivedStreamingExtendedResponse.AcknowledgeAsync.
+    public bool AutomaticallyAcknowledgeResponses { get; set; } = true;
+
     // Returns after the first request is accepted, without waiting for the rest.
-    // idleTimeout: inactivity window (default 10s). autoAcknowledge=false enables manual ack.
-    public async Task<(IStreamContext<StreamingExtendedResponse<TResp?>> Responses, IExchangeContext Exchange)> InvokeStreamingCommandAsync(
-      IStreamContext<StreamingExtendedRequest<TReq>> requests,
+    // idleTimeout: inactivity window (default 10s), reset on progress.
+    public async Task<(IResponseStreamContext<ReceivedStreamingExtendedResponse<TResp>> Responses, IExchangeContext Exchange)> InvokeStreamingCommandAsync(
+      IAsyncEnumerable<StreamingExtendedRequest<TReq>> requests,
+      RequestStreamMetadata? streamMetadata = null,
       Dictionary<string, string>? additionalTopicTokenMap = null,
       TimeSpan? idleTimeout = default,
-      bool autoAcknowledge = true,
       CancellationToken cancellationToken = default) {...}
 }
 ```
 
-The executor receives the request stream context and the exchange context, and returns the response stream context:
+The executor's callback receives the request stream, its stream-level metadata, and the exchange context, and returns the response stream together with its metadata:
 
 ```csharp
 public abstract class StreamingCommandExecutor<TReq, TResp> : IAsyncDisposable
@@ -376,13 +415,13 @@ public abstract class StreamingCommandExecutor<TReq, TResp> : IAsyncDisposable
     where TResp : class
 {
     public required Func<
-        IStreamContext<StreamingExtendedRequest<TReq?>>,
+        IStreamContext<ReceivedStreamingExtendedRequest<TReq>>,
+        RequestStreamMetadata,
         IExchangeContext,
-        CancellationToken,
-        IStreamContext<StreamingExtendedResponse<TResp>>> OnStreamingCommandReceived { get; set; }
+        (IAsyncEnumerable<StreamingExtendedResponse<TResp>> Responses, ResponseStreamMetadata Metadata)> OnStreamingCommandReceived { get; set; }
 
     // false -> the callback must ack each request entry manually.
-    public bool AutoAcknowledge { get; set; } = true;
+    public bool AutomaticallyAcknowledgeRequests { get; set; } = true;
 }
 ```
 
