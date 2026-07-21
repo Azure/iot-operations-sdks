@@ -234,7 +234,7 @@ The sender may retransmit the cancellation request while its local exchange rema
 
 #### Receiving a cancellation
 
-The receiver of a cancellation:
+The receiver of a cancellation responds depending on the state of that receiver:
 
 - **Still active** — notifies the application (if the RPC is still running) and replies with `Canceled` on the appropriate route (the invoker's acknowledgement travels on the command topic and carries `$partition`).
 - **Already completed** (both halves closed) — acknowledges the message and sends nothing.
