@@ -80,11 +80,11 @@ The streaming command executor's callback notifies the user that a command was r
 
 To convey streaming context, each message carries a `__stream` MQTT user property with the value:
 
-```<index>:<isLast>:<cancelRequest>:<stream timeout seconds>```
+```<index>:<isLast>:<cancelRequest>:<heartbeat>:<stream timeout seconds>```
 
 with data types
 
-```<uint>:<boolean>:<boolean>:<uint>```
+```<uint>:<boolean>:<boolean>:<boolean>:<uint>```
 
 The `:<stream timeout seconds>` field is present only in request-stream messages. It carries the effective **idle timeout** — the inactivity window after which a stalled exchange times out (the user-supplied value, or 10 seconds by default).
 
@@ -92,24 +92,26 @@ The `:<stream timeout seconds>` field is present only in request-stream messages
 
 | Field | Type | Present in | Meaning | Ignored when |
 |-------|------|------------|---------|--------------|
-| `index` | uint | every stream message | Position of this message within the stream | `cancelRequest = true` or a terminal error status |
-| `isLast` | bool | every stream message | `true` on the standalone final message that closes the stream (no payload or application-provided user properties) | `cancelRequest = true` or a terminal error status |
+| `index` | uint | every stream message | Position of this message within the stream | `cancelRequest = true`, `heartbeat = true`, or a terminal error status |
+| `isLast` | bool | every stream message | `true` on the standalone final message that closes the stream (no payload or application-provided user properties) | `cancelRequest = true`, `heartbeat = true`, or a terminal error status |
 | `cancelRequest` | bool | every stream message | `true` marks a cancellation request for the stream | — (always meaningful) |
+| `heartbeat` | bool | every stream message | `true` marks an SDK-generated liveness heartbeat (no payload or application-provided user properties); resets the peer's idle timer and is not surfaced to the user | — (always meaningful) |
 | `stream timeout s` | uint | **request** stream messages only | Effective idle-timeout window in seconds | Never present on response messages |
 
 Examples:
 
-- ```0:false:false:10``` — first (not last) request message, 10-second idle timeout.
-- ```3:true:false``` — the final response message.
-- ```0:true:true``` — a cancellation; `index` and `isLast` are ignored (the request-direction form additionally carries the timeout field, e.g. ```0:true:true:10```).
+- ```0:false:false:false:10``` — first (not last) request message, 10-second idle timeout.
+- ```3:true:false:false``` — the final response message.
+- ```0:true:true:false``` — a cancellation; `index` and `isLast` are ignored (the request-direction form additionally carries the timeout field, e.g. ```0:true:true:false:10```).
+- ```0:false:false:true``` — a response-direction heartbeat; `index` and `isLast` are ignored (the request-direction form additionally carries the timeout field, e.g. ```0:false:false:true:10```).
 
-Every MQTT PUBLISH belonging to a streaming exchange, **including a terminal status**, must include `__stream`. A terminal status uses `index = 0`, `isLast = false`, and `cancelRequest = false`; its `__stat` value terminates the exchange. The request-direction form also carries the effective idle timeout; the response-direction form has only the first three fields.
+Every MQTT PUBLISH belonging to a streaming exchange, **including a terminal status**, must include `__stream`. A terminal status uses `index = 0`, `isLast = false`, `cancelRequest = false`, and `heartbeat = false`; its `__stat` value terminates the exchange. The request-direction form also carries the effective idle timeout; the response-direction form has only the first four fields.
 
 [see cancellation support](#cancellation-support) and [timeout support](#timeout-support) for how these fields are used.
 
 #### Exchange routing and lifetime
 
-Each of the two MQTT topics is a **directional route** that multiplexes two logical lanes for a correlation: a **data lane** (stream entries) and an **exchange-control lane** (`isLast`, cancellation, `Canceled`, and error statuses). An `isLast` message closes only the **data** lane in its direction; it does **not** tear down the route. Both routes — the topic subscription and the per-correlation exchange state behind it — stay active until the whole **exchange** reaches a terminal state, so cancellation and terminal-status controls can still flow after a half-stream's `isLast`.
+Each of the two MQTT topics is a **directional route** that multiplexes two logical lanes for a correlation: a **data lane** (stream entries) and an **exchange-control lane** (`isLast`, heartbeats, cancellation, `Canceled`, and error statuses). An `isLast` message closes only the **data** lane in its direction; it does **not** tear down the route. Both routes — the topic subscription and the per-correlation exchange state behind it — stay active until the whole **exchange** reaches a terminal state, so cancellation and terminal-status controls can still flow after a half-stream's `isLast`.
 
 Because the executor subscribes to the command topic with a shared subscription, **every** command-topic packet for an exchange — request data, an `isLast` request, invoker cancellation, and the invoker's `Canceled` acknowledgement — must carry the same `$partition` value (the invoker's client id). Otherwise the broker may route a control packet to a different executor that holds no state for the correlation, silently dropping it from the exchange. Response-topic packets need only the correlation data, because `clients/{invokerId}/...` is unique to the invoker and is not a shared subscription.
 
@@ -140,7 +142,7 @@ The executor subscribes to the command topic using a **shared subscription** (so
 
 Two executor-only rules:
 
-- If an `isLast` arrives before any data message in the request stream, log an error, acknowledge it, and ignore it — a request stream must have at least one entry.
+- If an `isLast` arrives before any data message in the request stream, log an error, acknowledge it, and ignore it — a request stream must have at least one entry. A `heartbeat` that arrives before the first request likewise establishes no exchange and is simply acknowledged and ignored.
 - Unlike vanilla RPC, the executor keeps **no replay cache**: streams may grow without bound, so replaying a response stream isn't feasible.
 
 ### Timeout support
@@ -151,20 +153,20 @@ Timeout support avoids either side getting stuck — waiting for a final message
 
 The invoker configures an **idle (inactivity) timeout** for the exchange and a per-message expiry for request/response data. If the user does not specify an idle timeout, the SDK defaults to 10 seconds; a user-supplied value must be positive and finite and is rounded up to whole seconds. Every exchange therefore has a positive, finite effective idle timeout of at least one second.
 
-The idle timeout measures time **without progress**, not total duration: it is the backstop for an exchange that stalls before reaching [graceful completion](#core-abstractions) — a half-stream that never closes, a lost final message, or a crashed peer. A healthy stream keeps resetting the timer, so it runs for as long as it keeps making progress; this is what lets an exchange stay open indefinitely — for example, a continuous sensor feed that ends only on cancellation or failure. A stream that can fall silent without ending must emit periodic heartbeats to stay within the idle window, or use a correspondingly larger timeout.
+The idle timeout measures time **since the last message received from the peer**, not total duration. It is the backstop for an exchange that stalls before reaching [graceful completion](#core-abstractions) — a half-stream that never closes, a lost final message, or a crashed peer. The SDK sends [heartbeats](#stream-level-timeout) at a regular interval, and those steady heartbeats are what keep the peer's timer alive; other messages reset it too, but only as a side effect. An exchange therefore stays open as long as the peer is alive. The SDK produces and consumes heartbeats, so the user never constructs or sees one.
 
 ##### Stream level timeout
 
 Each request-stream message carries the effective idle timeout in the `<stream timeout seconds>` field of `__stream`, sent on **all** request messages in case the first N are lost. Seconds align with the MQTT message expiry interval used for other timeouts, keep the header small for long-running streams, and avoid implying a sub-second precision that isn't meaningful.
 
-Each side runs its own idle countdown for the exchange and **restarts it on every progress event**: receiving either a new, valid stream PUBLISH for the exchange or the first PUBACK for one of its own stream PUBLISH packets.
+Each side runs its own idle countdown and **resets it only on a valid PUBLISH received from the peer** — data, a `heartbeat`, an `isLast`, a cancellation.
 
-- The **invoker** starts its timer on the first PUBACK for a request PUBLISH and resets it on each new, valid response PUBLISH and the first PUBACK for each subsequent request PUBLISH. If the timer elapses before the exchange has gracefully completed — it has not both sent its `isLast` request and received the `isLast` response — it reports the timeout to the user and stops sending.
-- The **executor** starts its timer on the first new, valid request PUBLISH and resets it on each subsequent new, valid request PUBLISH and the first PUBACK for each response PUBLISH. If the timer elapses before it has both received the `isLast` request and sent the `isLast` response, it reports the timeout to the user callback and asks it to stop.
+- The **invoker** starts its timer when it sends its first request. If it elapses before [graceful completion](#core-abstractions), it reports the timeout to the user and stops sending.
+- The **executor** starts its timer on the first response. If it elapses before [graceful completion](#core-abstractions), it reports the timeout to the user callback.
+
+**Heartbeats.** Each side sends a standalone `heartbeat` at a regular **heartbeat interval** — half the effective idle timeout, so two per idle window — on that side's data topic and correlation. Heartbeats are the steady liveness signal. A heartbeat has no payload or application user properties; the receiver resets its idle timer, acknowledges it, and does not surface or cache it. A side stops heart-beating once its exchange is gracefully complete or terminal.
 
 A local idle timeout terminates only that side's exchange state; neither side sends a timeout status to the other. The peer reaches its own timeout independently if no further progress occurs.
-
-Because *received* messages also count as progress, a side that only consumes (or only produces) — such as the consumer of a one-directional sensor feed — stays alive as long as the other side keeps data flowing.
 
 Messages received by either side after it has timed out are acknowledged but otherwise ignored. Each party therefore keeps a per-correlation tombstone for timed-out streams so post-timeout packets aren't treated as a new stream; it is retained at least as long as the longest expiry of any packet that could still arrive.
 
@@ -172,7 +174,7 @@ Messages received by either side after it has timed out are acknowledged but oth
 
 Users may set the message expiry interval of each **data** message in a request/response stream; by default it equals the effective idle timeout. Every stream data message _must_ include a positive, finite message expiry — a message with no (or zero) expiry is rejected, as in vanilla RPC, since an unbounded expiry would make the de-dup cache grow without bound. The receiving end uses this value as the de-dup cache length for the cached message (vanilla RPC has the [same requirement](../../reference/command-timeouts.md#input-values)).
 
-SDK-generated control messages (`isLast`, cancellation requests, cancellation acknowledgements, and terminal errors) use the effective idle timeout as their message expiry, rounded up to whole seconds with a minimum of one second while the exchange is active. No packet is generated solely to report a local idle timeout.
+SDK-generated control messages (`isLast`, cancellation requests, cancellation acknowledgements, and terminal errors) use the effective idle timeout as their message expiry, while the exchange is active; heartbeats instead use half the effective idle timeout length rounded up to whole seconds.
 
 #### Alternative timeout designs considered
 
@@ -184,6 +186,8 @@ SDK-generated control messages (`isLast`, cancellation requests, cancellation ac
   - Misuses the message expiry interval's purpose and could lead to the broker storing messages for extended periods of time unintentionally
 - Send a terminal timeout status when a local idle timer expires
   - Both sides already have local timers and terminate independently. A post-timeout status would require a separate delivery budget and could arrive after the peer is already terminal.
+- Start the idle timer on the first stream message and never reset it (a single overall deadline)
+  - Caps the total duration of an exchange, so it cannot support indefinitely long streams such as a continuous sensor feed.
 
 ### Cancellation support
 
@@ -394,7 +398,7 @@ public abstract class StreamingCommandInvoker<TReq, TResp>
     public bool AutomaticallyAcknowledgeResponses { get; set; } = true;
 
     // Returns after the first request is accepted, without waiting for the rest.
-    // idleTimeout: inactivity window (default 10s), reset on progress.
+    // idleTimeout: inactivity window (default 10s), reset on each message received from the executor.
     public async Task<(IResponseStreamContext<ReceivedStreamingExtendedResponse<TResp>> Responses, IExchangeContext Exchange)> InvokeStreamingCommandAsync(
       IAsyncEnumerable<StreamingExtendedRequest<TReq>> requests,
       RequestStreamMetadata? streamMetadata = null,
