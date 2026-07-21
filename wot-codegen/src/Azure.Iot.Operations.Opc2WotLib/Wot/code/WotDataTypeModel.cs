@@ -23,6 +23,19 @@ namespace Azure.Iot.Operations.Opc2WotLib
                 .ToList();
         }
 
+        public WotDataTypeModel(string specName, IEnumerable<OpcUaVariableType> variableTypes)
+        {
+            this.thingName = WotUtil.LegalizeName("VariableTypes", specName);
+
+            Dictionary<OpcUaVariableType, string> schemaNames = WotVariableTypeSchema.GetSchemaNames(
+                variableTypes.Where(vt => !vt.IsDeprecated && vt.DefiningModel.ModelUri != OpcUaGraph.OpcUaCoreModelUri));
+
+            this.schemaDefinitions = schemaNames
+                .OrderBy(kvp => kvp.Value, StringComparer.Ordinal)
+                .Select(kvp => new KeyValuePair<string, WotDataSchema>(kvp.Value, WotVariableTypeSchema.Create(kvp.Key)))
+                .ToList();
+        }
+
         public bool HasSchemaDefinitions => this.schemaDefinitions.Count > 0;
 
         private static WotDataSchema CreateSchema(OpcUaDataType dataType)

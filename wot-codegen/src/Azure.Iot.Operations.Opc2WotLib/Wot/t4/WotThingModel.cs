@@ -68,16 +68,16 @@ namespace Azure.Iot.Operations.Opc2WotLib
             this.Write("\r\n");
  ix1++; } 
             this.Write("  ],\r\n  \"schemaDefinitions\": {\r\n");
- ix1 = 1; foreach (OpcUaDataTypeEnum dataTypeEnum in this.dataTypeEnums) { 
+ ix1 = 1; foreach (KeyValuePair<string, WotDataSchema> schemaDefinition in this.schemaDefinitions) {
             this.Write("    \"");
-            this.Write(this.ToStringHelper.ToStringWithCulture(dataTypeEnum.EffectiveName));
+            this.Write(this.ToStringHelper.ToStringWithCulture(schemaDefinition.Key));
             this.Write("\": {\r\n");
  this.PushIndent("      ");
-            this.Write(this.ToStringHelper.ToStringWithCulture(new WotDataSchemaEnum(dataTypeEnum).TransformText()));
+            this.Write(this.ToStringHelper.ToStringWithCulture(schemaDefinition.Value.TransformText()));
             this.Write("\r\n");
  this.PopIndent();
             this.Write("    }");
-            this.Write(this.ToStringHelper.ToStringWithCulture(ix1 < this.dataTypeEnums.Count ? "," : ""));
+            this.Write(this.ToStringHelper.ToStringWithCulture(ix1 < this.schemaDefinitions.Count ? "," : ""));
             this.Write("\r\n");
  ix1++; } 
             this.Write("  },\r\n");

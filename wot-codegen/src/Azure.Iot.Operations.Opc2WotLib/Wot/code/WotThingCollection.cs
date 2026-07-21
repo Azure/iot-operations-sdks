@@ -22,12 +22,19 @@ namespace Azure.Iot.Operations.Opc2WotLib
                     .Select(requiredModel => new WotDataTypeModel(SpecMapper.GetSpecNameFromUri(requiredModel.ModelUri), requiredModel.NodeIdToDataTypeMap.Values))
                     .Where(dtm => dtm.HasSchemaDefinitions)
                     .ToList();
+                this.VariableTypeModels = opcUaGraph.GetRequiredModelClosure(modelInfo)
+                    .Select(requiredModel => new WotDataTypeModel(SpecMapper.GetSpecNameFromUri(requiredModel.ModelUri), requiredModel.NodeIdToVariableTypeMap.Values))
+                    .Where(vtm => vtm.HasSchemaDefinitions)
+                    .ToList();
             }
             else
             {
                 this.ThingModels = modelInfo.NodeIdToObjectTypeMap.Values.Select(ot => new WotThingModel(specName, ot, linkRelRuleEngine, isIntegrated: false, inheritVars: inheritVars)).ToList();
                 this.DataTypeModels = new List<WotDataTypeModel> { new WotDataTypeModel(specName, modelInfo.NodeIdToDataTypeMap.Values) }
                     .Where(dtm => dtm.HasSchemaDefinitions)
+                    .ToList();
+                this.VariableTypeModels = new List<WotDataTypeModel> { new WotDataTypeModel(specName, modelInfo.NodeIdToVariableTypeMap.Values) }
+                    .Where(vtm => vtm.HasSchemaDefinitions)
                     .ToList();
             }
         }
@@ -37,5 +44,7 @@ namespace Azure.Iot.Operations.Opc2WotLib
         public List<WotThingModel> ThingModels { get; }
 
         public List<WotDataTypeModel> DataTypeModels { get; }
+
+        public List<WotDataTypeModel> VariableTypeModels { get; }
     }
 }

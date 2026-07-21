@@ -16,16 +16,22 @@ namespace Azure.Iot.Operations.Opc2WotLib
         {
         }
 
-        public static WotDataSchema Create(OpcUaNodeId? dataTypeNodeId, int valueRank, OpcUaNode sourceNode, string? description, IEnumerable<OpcUaNodeId> ancestors)
+        public static WotDataSchema Create(
+            OpcUaNodeId? dataTypeNodeId,
+            int valueRank,
+            OpcUaNode sourceNode,
+            string? description,
+            IEnumerable<OpcUaNodeId> ancestors,
+            OpcUaNode? typeRefNode = null)
         {
             if (valueRank > 0)
             {
-                return new WotDataSchemaArray(dataTypeNodeId, description, valueRank, sourceNode, ancestors);
+                return new WotDataSchemaArray(dataTypeNodeId, description, valueRank, sourceNode, ancestors, typeRefNode);
             }
 
             if (dataTypeNodeId == null)
             {
-                return new WotDataSchemaPrimitive(BaseDataTypeNodeId, description ?? "Stand-in for an unspecified data type.");
+                return new WotDataSchemaPrimitive(BaseDataTypeNodeId, description ?? "Stand-in for an unspecified data type.", dataTypeNode: typeRefNode);
             }
 
             if (ancestors.Contains(dataTypeNodeId))
@@ -35,28 +41,28 @@ namespace Azure.Iot.Operations.Opc2WotLib
 
             if (WotDataSchemaPrimitive.IsPrimitive(dataTypeNodeId))
             {
-                return new WotDataSchemaPrimitive(dataTypeNodeId, description);
+                return new WotDataSchemaPrimitive(dataTypeNodeId, description, dataTypeNode: typeRefNode);
             }
 
             OpcUaNode dataTypeNode =  sourceNode.GetReferencedOpcUaNode(dataTypeNodeId);
 
             if (dataTypeNode is OpcUaDataTypeEnum enumNode)
             {
-                return new WotDataSchemaPrimitive(EnumDataTypeNodeId, description, WotUtil.LegalizeName(enumNode.EffectiveName), enumNode);
+                return new WotDataSchemaPrimitive(EnumDataTypeNodeId, description, WotUtil.LegalizeName(enumNode.EffectiveName), typeRefNode ?? enumNode);
             }
             else if (dataTypeNode is OpcUaDataTypeObject objectNode)
             {
-                return new WotDataSchemaObject(objectNode, objectNode.Description ?? description, WotUtil.LegalizeName(objectNode.EffectiveName), objectNode.GetAllObjectFields(), ancestors.Append(dataTypeNodeId), objectNode.IsUnion);
+                return new WotDataSchemaObject(typeRefNode ?? objectNode, objectNode.Description ?? description, WotUtil.LegalizeName(objectNode.EffectiveName), objectNode.GetAllObjectFields(), ancestors.Append(dataTypeNodeId), objectNode.IsUnion);
             }
             else if (dataTypeNode is OpcUaDataTypeSubtype subtypeNode)
             {
                 OpcUaNodeId? primitiveBaseTypeNodeId = subtypeNode.BaseTypes.FirstOrDefault(t => WotDataSchemaPrimitive.IsPrimitive(t));
                 if (primitiveBaseTypeNodeId != null)
                 {
-                    return new WotDataSchemaPrimitive(primitiveBaseTypeNodeId, description);
+                    return new WotDataSchemaPrimitive(primitiveBaseTypeNodeId, description, dataTypeNode: typeRefNode);
                 }
 
-                return Create(subtypeNode.BaseTypes.First(), 0, subtypeNode, description, ancestors.Append(dataTypeNodeId));
+                return Create(subtypeNode.BaseTypes.First(), 0, subtypeNode, description, ancestors.Append(dataTypeNodeId), typeRefNode);
             }
             else
             {

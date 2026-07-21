@@ -1,0 +1,31 @@
+{
+  "@context": [
+    "https://www.w3.org/2022/wot/td/v1.1",
+    { "dov": "http://azure.com/DigitalOperations/vocab#" }
+  ],
+  "@type": "tm:ThingModel",
+  "title": "LocalRefWithType",
+  "schemaDefinitions": {
+    "DisplayName": {
+      "type": "string"
+    }
+  },
+  "actions": {
+  },
+  "properties": {
+    "displayName": {
+      "type": "string",
+      "tm:ref": "#/schemaDefinitions/DisplayName",
+      "dov:propertyIRI": "http://example.com/iri/displayName",
+      "forms": [
+        {
+          "contentType": "application/json",
+          "dov:topic": "sample/displayName/{maintainerId}",
+          "op": "readproperty"
+        }
+      ]
+    }
+  },
+  "events": {
+  }
+}

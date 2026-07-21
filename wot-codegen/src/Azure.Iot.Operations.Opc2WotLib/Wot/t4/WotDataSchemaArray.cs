@@ -31,7 +31,12 @@ namespace Azure.Iot.Operations.Opc2WotLib
             this.Write(this.ToStringHelper.ToStringWithCulture(this.description));
             this.Write("\",\r\n");
  } 
-            this.Write("\"type\": \"array\",\r\n\"items\": {\r\n");
+  if (this.typeRef != null) {
+             this.Write("\"dov:typeRef\": \"");
+             this.Write(this.ToStringHelper.ToStringWithCulture(this.typeRef));
+             this.Write("\",\r\n");
+  }
+             this.Write("\"type\": \"array\",\r\n\"items\": {\r\n");
  this.PushIndent("  "); 
             this.Write(this.ToStringHelper.ToStringWithCulture(this.itemDataSchema.TransformText()));
             this.Write("\r\n");

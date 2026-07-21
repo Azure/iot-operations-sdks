@@ -20,7 +20,7 @@ namespace Azure.Iot.Operations.Opc2WotLib
         private bool isComposite;
         private HashSet<string> baseModelRefs;
         private List<LinkInfo> linkInfos;
-        private List<OpcUaDataTypeEnum> dataTypeEnums;
+        private Dictionary<string, WotDataSchema> schemaDefinitions;
         private List<WotAction> actions;
         private List<WotProperty> properties;
         private List<WotEvent> events;
@@ -49,11 +49,37 @@ namespace Azure.Iot.Operations.Opc2WotLib
                 .Select(t => GetLinkInfo(uaObjectType, t.Item1, t.Item2, linkRelRuleEngine))
                 .ToList();
 
-            this.dataTypeEnums = uaObjectType.ExtractEnums();
+            this.schemaDefinitions = new Dictionary<string, WotDataSchema>(StringComparer.Ordinal);
+            foreach (OpcUaDataTypeEnum dataTypeEnum in uaObjectType.ExtractEnums().OrderBy(dt => dt.EffectiveName, StringComparer.Ordinal))
+            {
+                this.schemaDefinitions.Add(dataTypeEnum.EffectiveName, new WotDataSchemaEnum(dataTypeEnum));
+            }
+
+            List<OpcUaVariableType> variableTypes = uaObjectType.VariableRecords.Values
+                .Select(r => r.UaVariable.CustomVariableType)
+                .Where(vt => vt != null)
+                .Cast<OpcUaVariableType>()
+                .Distinct()
+                .ToList();
+            Dictionary<OpcUaVariableType, string> variableTypeSchemaNames = WotVariableTypeSchema.GetSchemaNames(variableTypes, this.schemaDefinitions.Keys);
+            foreach (KeyValuePair<OpcUaVariableType, string> variableTypeSchemaName in variableTypeSchemaNames)
+            {
+                if (!this.schemaDefinitions.TryAdd(variableTypeSchemaName.Value, WotVariableTypeSchema.Create(variableTypeSchemaName.Key)))
+                {
+                    throw new InvalidOperationException($"Schema name '{variableTypeSchemaName.Value}' is used by both a DataType and a VariableType in Thing Model '{this.thingName}'.");
+                }
+            }
 
             this.actions = uaObjectType.Methods.OrderBy(m => m.EffectiveName).Select(m => new WotAction(specName, this.thingName, m, false)).ToList();
-            this.properties = uaObjectType.VariableRecords.OrderBy(r => r.Key).Select(r => new WotProperty(specName, this.thingName, r.Value.UaVariable, r.Key, r.Value.ContainedIn, r.Value.Contains, false)).ToList();
-            this.events = uaObjectType.VariableRecords.OrderBy(r => r.Key).Where(r => r.Value.IsDataVariable).Select(r => new WotEvent(specName, this.thingName, r.Value.UaVariable, r.Key, r.Value.ContainedIn, r.Value.Contains, false)).ToList();
+            this.properties = uaObjectType.VariableRecords
+                .OrderBy(r => r.Key)
+                .Select(r => new WotProperty(specName, this.thingName, r.Value.UaVariable, r.Key, r.Value.ContainedIn, r.Value.Contains, false, GetVariableTypeSchemaName(r.Value.UaVariable, variableTypeSchemaNames)))
+                .ToList();
+            this.events = uaObjectType.VariableRecords
+                .OrderBy(r => r.Key)
+                .Where(r => r.Value.IsDataVariable)
+                .Select(r => new WotEvent(specName, this.thingName, r.Value.UaVariable, r.Key, r.Value.ContainedIn, r.Value.Contains, false, GetVariableTypeSchemaName(r.Value.UaVariable, variableTypeSchemaNames)))
+                .ToList();
 
             List<string> unitfulPropertyNames = this.properties.Where(p => p.UsesUnits).Select(p => p.PropertyName).ToList();
             List<string> unitfulEventNames = this.events.Where(e => e.UsesUnits).Select(e => e.EventName).ToList();
@@ -69,6 +95,15 @@ namespace Azure.Iot.Operations.Opc2WotLib
             this.optionalEventNames = this.events.Where(e => !e.IsMandatory).Select(e => e.EventName).ToList();
 
             this.areUnitsInUse = unitfulPropertyNames.Any();
+        }
+
+        private static string? GetVariableTypeSchemaName(OpcUaVariable variable, Dictionary<OpcUaVariableType, string> schemaNames)
+        {
+            return variable.CanUseVariableTypeSchemaReference &&
+                variable.CustomVariableType != null &&
+                schemaNames.TryGetValue(variable.CustomVariableType, out string? schemaName)
+                ? schemaName
+                : null;
         }
 
         private string GetModelRef(OpcUaObjectType sourceObjectType, OpcUaObjectType targetObjectType)

@@ -18,10 +18,12 @@ namespace Azure.Iot.Operations.Opc2WotLib
         private string? quantityKind;
         private bool inDescription;
 
-        public WotEvent(string specName, string thingModelName, OpcUaVariable uaVariable, string variableName, string? containedIn, List<string> contains, bool inDescription)
+        public WotEvent(string specName, string thingModelName, OpcUaVariable uaVariable, string variableName, string? containedIn, List<string> contains, bool inDescription, string? variableTypeSchemaName = null)
         {
             this.uaVariable = uaVariable;
-            this.dataSchema = WotDataSchema.Create(uaVariable.DataType, uaVariable.ValueRank, uaVariable, uaVariable.Description, Enumerable.Empty<OpcUaNodeId>());
+            this.dataSchema = variableTypeSchemaName != null
+                ? new WotDataSchemaReference(variableTypeSchemaName)
+                : WotDataSchema.Create(uaVariable.EffectiveDataType, uaVariable.EffectiveValueRank, uaVariable.EffectiveDataTypeSource, uaVariable.Description, Enumerable.Empty<OpcUaNodeId>(), uaVariable.CustomVariableType);
             this.specName = specName;
             this.thingModelName = thingModelName;
             this.containedIn = containedIn;

@@ -5,13 +5,16 @@ namespace Azure.Iot.Operations.TDParser.Model
 {
     using System;
     using System.Collections.Generic;
+    using System.Diagnostics.CodeAnalysis;
     using System.Linq;
+    using System.Text;
     using System.Text.Json;
 
     public class TDDataSchema : IEquatable<TDDataSchema>, IDeserializable<TDDataSchema>
     {
         public const string RefName = "dov:ref";
         public const string RefLegacyName = "dtv:ref";
+        public const string LocalRefName = "tm:ref";
         public const string TitleName = TDCommon.TitleName;
         public const string DescriptionName = TDCommon.DescriptionName;
         public const string TypeName = "type";
@@ -42,6 +45,7 @@ namespace Azure.Iot.Operations.TDParser.Model
         {
             RefName,
             RefLegacyName,
+            LocalRefName,
             TitleName,
             DescriptionName,
             TypeName,
@@ -70,6 +74,8 @@ namespace Azure.Iot.Operations.TDParser.Model
         };
 
         public ValueTracker<StringHolder>? Ref { get; set; }
+
+        public ValueTracker<StringHolder>? LocalRef { get; set; }
 
         public ValueTracker<StringHolder>? Title { get; set; }
 
@@ -127,7 +133,7 @@ namespace Azure.Iot.Operations.TDParser.Model
 
         public override int GetHashCode()
         {
-            return (Title, Description, Type, Const, Minimum, Maximum, ScaleFactor, DecimalPlaces, Format, Pattern, ContentEncoding, AdditionalProperties, Enum, Required, ErrorMessage, Properties, Items, TypeRef, Namespace).GetHashCode();
+            return (Ref, LocalRef, Title, Description, Type, Const, Minimum, Maximum, ScaleFactor, DecimalPlaces, Format, Pattern, ContentEncoding, AdditionalProperties, Enum, Required, ErrorMessage, Properties, Items, TypeRef, Namespace).GetHashCode();
         }
 
         public virtual bool Equals(TDDataSchema? other)
@@ -140,6 +146,7 @@ namespace Azure.Iot.Operations.TDParser.Model
             {
                 return Title == other.Title &&
                     Ref == other.Ref &&
+                    LocalRef == other.LocalRef &&
                     Description == other.Description &&
                     Type == other.Type &&
                     Const == other.Const &&
@@ -231,6 +238,13 @@ namespace Azure.Iot.Operations.TDParser.Model
             if (Ref != null)
             {
                 foreach (ITraversable item in Ref.Traverse())
+                {
+                    yield return item;
+                }
+            }
+            if (LocalRef != null)
+            {
+                foreach (ITraversable item in LocalRef.Traverse())
                 {
                     yield return item;
                 }
@@ -382,6 +396,9 @@ namespace Azure.Iot.Operations.TDParser.Model
                     dataSchema.Ref = ValueTracker<StringHolder>.Deserialize(ref reader, RefName);
                     dataSchema.RefPrefixType = PrefixType.AioProtocol;
                     return true;
+                case LocalRefName:
+                    dataSchema.LocalRef = ValueTracker<StringHolder>.Deserialize(ref reader, LocalRefName);
+                    return true;
                 case TitleName:
                     dataSchema.Title = ValueTracker<StringHolder>.Deserialize(ref reader, TitleName);
                     return true;
@@ -472,6 +489,84 @@ namespace Azure.Iot.Operations.TDParser.Model
                 default:
                     return false;
             }
+        }
+
+        public static bool TryGetLocalRefSchemaKey(string localRefValue, [NotNullWhen(true)] out string? schemaKey, [NotNullWhen(false)] out string? error)
+        {
+            const string Prefix = "#/schemaDefinitions/";
+
+            schemaKey = null;
+            error = null;
+
+            if (!localRefValue.StartsWith(Prefix, StringComparison.Ordinal))
+            {
+                error = $"Data schema '{LocalRefName}' property value \"{localRefValue}\" must be a local JSON Pointer of the form \"{Prefix}<escaped-key>\".";
+                return false;
+            }
+
+            string encodedKey = localRefValue[Prefix.Length..];
+            if (encodedKey.Length == 0)
+            {
+                error = $"Data schema '{LocalRefName}' property value \"{localRefValue}\" must identify a key in '{TDThing.SchemaDefinitionsName}'.";
+                return false;
+            }
+
+            if (encodedKey.Contains('/'))
+            {
+                error = $"Data schema '{LocalRefName}' property value \"{localRefValue}\" must identify exactly one key in '{TDThing.SchemaDefinitionsName}'.";
+                return false;
+            }
+
+            if (!TryDecodeJsonPointerSegment(encodedKey, out schemaKey, out error))
+            {
+                error = $"Data schema '{LocalRefName}' property value \"{localRefValue}\" is invalid: {error}";
+                return false;
+            }
+
+            return true;
+        }
+
+        private static bool TryDecodeJsonPointerSegment(string encodedSegment, [NotNullWhen(true)] out string? decodedSegment, [NotNullWhen(false)] out string? error)
+        {
+            StringBuilder builder = new();
+
+            for (int index = 0; index < encodedSegment.Length; index++)
+            {
+                char current = encodedSegment[index];
+                if (current != '~')
+                {
+                    builder.Append(current);
+                    continue;
+                }
+
+                if (index + 1 >= encodedSegment.Length)
+                {
+                    decodedSegment = null;
+                    error = "a '~' escape sequence is incomplete";
+                    return false;
+                }
+
+                char escape = encodedSegment[index + 1];
+                switch (escape)
+                {
+                    case '0':
+                        builder.Append('~');
+                        break;
+                    case '1':
+                        builder.Append('/');
+                        break;
+                    default:
+                        decodedSegment = null;
+                        error = $"escape sequence '~{escape}' is not supported";
+                        return false;
+                }
+
+                index++;
+            }
+
+            decodedSegment = builder.ToString();
+            error = null;
+            return true;
         }
     }
 }
