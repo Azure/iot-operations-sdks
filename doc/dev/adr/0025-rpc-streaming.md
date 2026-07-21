@@ -424,7 +424,7 @@ public abstract class StreamingCommandExecutor<TReq, TResp> : IAsyncDisposable
 
 ### IsLast message being its own message
 
-Three approaches to marking the final message in a stream were considered, and why the first two don't work:
+Three approaches to marking the final message in a stream were considered, and this is why the other two approaches don't work:
 
 - Require the `isLast` flag on a message that carries a fully-fledged stream entry (a user payload and/or user properties).
   - We must support ending a stream at an arbitrary time even when a fully-fledged message can't be sent, and this approach doesn't allow that.
