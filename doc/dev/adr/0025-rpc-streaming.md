@@ -74,8 +74,6 @@ An empty request stream or setup error fails the invocation before an exchange i
 
 The streaming command executor's callback notifies the user that a command was received; it takes the inbound **request stream** (a *stream context*), that request stream's metadata, and the *exchange context*, and returns the outbound **response stream** (an async sequence of response entries) together with that stream's metadata.
 
-With this design, commands that use streaming are defined at codegen time. Codegen layer changes will be defined in a separate ADR, though.
-
 ### MQTT layer protocol
 
 #### Streaming user property
