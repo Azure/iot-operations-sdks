@@ -312,38 +312,40 @@ public class StreamingExtendedResponse<TResp>
     public TResp Response { get; set; }
     public StreamMessageMetadata Metadata { get; set; }
 }
+
+public class StreamMessageMetadata
+{
+    public uint Index { get; init; }
+    public TimeSpan? MessageExpiry { get; set; }
+
+    // Manual-ack mode only; once-only; no-op in auto-ack mode and on produced entries.
+    public Task AcknowledgeAsync(CancellationToken cancellationToken = default) { ... }
+}
 ```
 
 The **stream context** is the async-enumerable of a stream's entries plus that stream's per-stream metadata; the **exchange context** carries per-exchange completion, cancellation, and timeout:
 
 ```csharp
-// One stream's items + that stream's stream-level metadata.
-// Used for both the stream you produce and the stream you consume.
 public interface IStreamContext<T> : IAsyncEnumerable<T>
     where T : class
 {
-    // Stream-level metadata for THIS stream: set by its producer, read by its consumer.
     StreamMetadata? StreamMetadata { get; }
 }
 
-// Per-exchange lifecycle and control. One per invocation on each side.
 public interface IExchangeContext
 {
-    // Completes when both half-streams close gracefully. Faults or is canceled when the
-    // exchange terminates for any other reason, including a local request-pump failure.
+    // Completes on graceful close; faults or cancels on any other terminal.
     Task Completion { get; }
 
-    // Cancel the exchange; may be called by either side at any time.
     Task CancelAsync(Dictionary<string, string>? userProperties = null, CancellationToken cancellationToken = default);
 
-    // Fires when the other party cancels or the exchange times out; use IsCanceled / HasTimedOut to distinguish.
+    // Fires on peer cancel or timeout; use IsCanceled / HasTimedOut to distinguish.
     CancellationToken CancellationToken { get; }
 
     bool IsCanceled { get; }
 
     bool HasTimedOut { get; }
 
-    // User properties from a received cancellation, or null if none / not canceled.
     Dictionary<string, string>? GetCancellationRequestUserProperties();
 }
 ```
@@ -355,17 +357,13 @@ public abstract class StreamingCommandInvoker<TReq, TResp>
     where TReq : class
     where TResp : class
 {
-    // Establish a streaming command. requests carries the outbound request stream and its
-    // stream-level metadata; it must contain at least one entry. After the first request is
-    // accepted for QoS 1 publication, returns the inbound response stream plus the exchange
-    // handle without waiting for the remaining requests. The SDK pumps those requests
-    // concurrently with responses.
-    // Omitting commandTimeout uses the 10-second default.
-    // Signalling cancellationToken also makes a single attempt to notify the executor.
+    // Returns after the first request is accepted, without waiting for the rest.
+    // idleTimeout: inactivity window (default 10s). autoAcknowledge=false enables manual ack.
     public async Task<(IStreamContext<StreamingExtendedResponse<TResp?>> Responses, IExchangeContext Exchange)> InvokeStreamingCommandAsync(
       IStreamContext<StreamingExtendedRequest<TReq>> requests,
       Dictionary<string, string>? additionalTopicTokenMap = null,
-      TimeSpan? commandTimeout = default,
+      TimeSpan? idleTimeout = default,
+      bool autoAcknowledge = true,
       CancellationToken cancellationToken = default) {...}
 }
 ```
@@ -377,13 +375,14 @@ public abstract class StreamingCommandExecutor<TReq, TResp> : IAsyncDisposable
     where TReq : class
     where TResp : class
 {
-    // Invoked per streaming command. Receives the inbound request stream (with its StreamMetadata)
-    // and the exchange handle; returns the outbound response stream (with its StreamMetadata).
     public required Func<
         IStreamContext<StreamingExtendedRequest<TReq?>>,
         IExchangeContext,
         CancellationToken,
         IStreamContext<StreamingExtendedResponse<TResp>>> OnStreamingCommandReceived { get; set; }
+
+    // false -> the callback must ack each request entry manually.
+    public bool AutoAcknowledge { get; set; } = true;
 }
 ```
 
