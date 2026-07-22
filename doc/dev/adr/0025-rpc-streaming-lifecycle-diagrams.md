@@ -5,41 +5,42 @@
 
 ## 1. Shared Lifecycle
 
-Read this as one local state machine per role. Sending and receiving in transition labels
-mean the invoker and executor views, respectively.
+Both roles run the **same** local state machine. Each side **produces** one stream and **consumes** the
+other, and the transition labels are written from that side's own view: *my* `isLast` closes the stream
+I produce, and the *peer's* `isLast` closes the stream I consume. The exchange is **gracefully complete**
+only once *both* halves are closed.
+
+| Role | Produces — closed by *my* `isLast` | Consumes — closed by *peer's* `isLast` |
+| --- | --- | --- |
+| Invoker | request stream | response stream |
+| Executor | response stream | request stream |
 
 ```mermaid
 stateDiagram-v2
-    [*] --> InvokerEstablishing
-    [*] --> ExecutorWaiting
-    InvokerEstablishing --> Active: response reception active, request 0 sent, response stream and exchange context returned
-    ExecutorWaiting --> Active: request 0 received
+    [*] --> Active: exchange established
 
     state Active {
         [*] --> BothOpen
-        BothOpen --> RequestClosed: isLast request sent or received
-        BothOpen --> ResponseClosed: isLast response sent or received
-        RequestClosed --> BothClosed: isLast response sent or received
-        ResponseClosed --> BothClosed: isLast request sent or received
+        BothOpen --> ProducedClosed: send my isLast
+        BothOpen --> ConsumedClosed: receive peer's isLast
+        ProducedClosed --> BothClosed: receive peer's isLast
+        ConsumedClosed --> BothClosed: send my isLast
     }
 
     BothClosed --> Completed
     Active --> Canceled: peer cancel or confirmed local cancel
     Active --> TimedOut: local idle timeout
     Active --> Failed: local failure or terminal error
+
     Completed --> [*]
     Canceled --> [*]
     TimedOut --> [*]
     Failed --> [*]
 ```
 
-| Data half closes | Invoker event | Executor event |
-| --- | --- | --- |
-| Request | Sends `isLast` request | Receives `isLast` request |
-| Response | Receives `isLast` response | Sends `isLast` response |
-
-`Completed` requires both data halves to close. Any non-success terminal transition ends
-the whole exchange from any active half-close state.
+A non-success terminal — `Canceled`, `TimedOut`, or `Failed` — ends the whole exchange from any active
+state, regardless of which halves are still open. Establishment is role-specific (the invoker sends
+`request[0]`; the executor receives it); see §2.
 
 ## 2. Invoker Establishment and Full Duplex
 
@@ -78,42 +79,65 @@ sequenceDiagram
 
 ## 3. Normal Bidirectional Exchange
 
-Requests and responses may interleave. Either data half may close first, but both control
-lanes continue carrying exchange controls until the exchange is terminal.
+A fuller happy path across both apps and SDKs. Beyond the interleaved data flow it shows per-entry
+**indexes**, the `__stream` header, response **`__stat`** (`200` with a payload, `204` without), a
+regular **heartbeat** filling a quiet gap, de-dup and idle-timer reset on receipt, standalone `isLast`,
+and independent half-close. Requests and responses may interleave, either data half may close first, and
+both control lanes stay active until the exchange is terminal.
 
 ```mermaid
 sequenceDiagram
     autonumber
+    participant IA as Invoker app
     participant IS as Invoker SDK
     participant B as MQTT broker
     participant ES as Executor SDK
+    participant EA as Executor app
 
-    Note over IS,ES: Invoker app produces requests and consumes responses,<br/>executor app the reverse
+    Note over IA,EA: One correlation GUID for the whole exchange<br/>invoker produces requests, executor produces responses
 
-    IS->>B: request[0], command topic, $partition=P
+    IA->>IS: Yield request[0]
+    IS->>B: PUBLISH request[0]<br/>__stream=0:false:false:false:T, expiry=T, $partition=P
     B->>ES: request[0]
-    ES->>B: response[0], response topic
+    Note over ES: De-dup by correlationId+index<br/>reset idle timer
+    ES->>EA: Deliver request[0] (index 0)
+
+    EA-->>ES: Yield response[0] (with payload)
+    ES->>B: PUBLISH response[0]<br/>__stream=0:false:false:false, __stat=200
     B->>IS: response[0]
-    IS->>B: request[1], command topic, $partition=P
+    Note over IS: Reset idle timer<br/>deliver in index order
+    IS-->>IA: Deliver response[0] (index 0)
+
+    IA->>IS: Yield request[1]
+    IS->>B: PUBLISH request[1]<br/>__stream=1:false:false:false:T
     B->>ES: request[1]
-    ES->>B: response[1], response topic
+    ES->>EA: Deliver request[1] (index 1)
+
+    Note over ES: Heartbeat interval elapsed<br/>emit heartbeat
+    ES->>B: heartbeat<br/>__stream=0:false:false:true, response topic
+    B->>IS: heartbeat
+    Note over IS: Inbound PUBLISH resets idle timer<br/>not surfaced to the app
+
+    EA-->>ES: Yield response[1] (no payload)
+    ES->>B: PUBLISH response[1]<br/>__stream=1:false:false:false, __stat=204
     B->>IS: response[1]
+    IS-->>IA: Deliver response[1] (index 1)
 
-    alt Request data half closes first
-        IS->>B: `isLast` request, $partition=P
-        B->>ES: `isLast` request
-        Note over IS,ES: Request data half closed<br/>both control lanes remain active
-        ES->>B: `isLast` response
-        B->>IS: `isLast` response
-    else Response data half closes first
-        ES->>B: `isLast` response
-        B->>IS: `isLast` response
-        Note over IS,ES: Response data half closed<br/>both control lanes remain active
-        IS->>B: `isLast` request, $partition=P
-        B->>ES: `isLast` request
-    end
+    Note over IA,EA: Either data half may close first, they are independent
 
-    Note over IS,ES: Both data halves closed<br/>exchange Completed, tombstone retained
+    IA->>IS: End request stream
+    IS->>B: `isLast` request<br/>__stream=2:true:false:false:T, no payload, $partition=P
+    B->>ES: `isLast` request
+    ES->>EA: Signal request stream ended
+    Note over IS,ES: Request data half closed<br/>control lanes stay active
+
+    EA-->>ES: End response stream
+    ES->>B: `isLast` response<br/>__stream=2:true:false:false, no payload
+    B->>IS: `isLast` response
+    IS-->>IA: Signal response stream ended
+    Note over IS,ES: Response data half closed
+
+    Note over IA,EA: Both halves closed, exchange Completed<br/>tombstone retained for late or duplicate packets
 ```
 
 ## 4. Exchange Timeout
@@ -152,6 +176,7 @@ sequenceDiagram
     B->>IS: response[0]
     Note over IS: Inbound PUBLISH from peer<br/>reset idle timer T
     IS-->>IA: Deliver response[0]
+    IS--xB: PUBACK for response[0] lost
 
     Note over ES: Heartbeat interval elapsed<br/>emit heartbeat
     ES->>B: heartbeat, __stream=0:false:false:true<br/>response topic
@@ -168,13 +193,15 @@ sequenceDiagram
     IS-->>IA: Report timeout
     Note over IS,B: Invoker sends no timeout PUBLISH
 
-    B->>IS: duplicate response[0], QoS 1 redelivery
-    IS-->>B: PUBACK duplicate response[0]
-    Note over IS: Tombstone identifies terminal exchange<br/>acknowledge and ignore
+    B->>IS: response[0] redelivered (DUP)<br/>QoS 1, because the earlier PUBACK was lost
+    IS-->>B: PUBACK response[0]
+    Note over IS: Invoker already TimedOut<br/>tombstone acknowledges and ignores the duplicate
 ```
 
 Because no timeout status is ever sent, each side simply retains a tombstone for as long as any
-in-flight data packet could still arrive, acknowledging and ignoring late or duplicate messages.
+in-flight data packet could still arrive. In the example, the invoker's PUBACK for `response[0]` is
+lost, so the broker redelivers it (QoS 1, `DUP` set); arriving after the invoker has timed out, it is
+matched to the tombstone, acknowledged, and ignored.
 
 ## 5. Invoker-Initiated Cancellation
 
