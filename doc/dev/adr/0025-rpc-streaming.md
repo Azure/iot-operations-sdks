@@ -110,7 +110,7 @@ Every MQTT PUBLISH belonging to a streaming exchange, **including a terminal sta
 
 #### Exchange routing and lifetime
 
-A single **correlation GUID** identifies the whole exchange — both streams carry it. The exchange spans **two directional routes** — the command topic (invoker → executor) and the response topic (executor → invoker) — each multiplexing a **data lane** and an **control lane**. Data lanes close **independently**, each by its own `isLast`; the control lanes are exchange-scoped, so an `isLast` closes only its direction's data lane and tears down nothing. Both routes and their per-correlation state stay active until the **exchange** is terminal, so control still flows after a half-stream's `isLast`.
+A single **correlation GUID** identifies the whole exchange — both streams carry it. The exchange spans **two directional routes** — the command topic (invoker → executor) and the response topic (executor → invoker) — each multiplexing a **data lane** and a **control lane**. Data lanes close **independently**, each by its own `isLast`; the control lanes are exchange-scoped, so an `isLast` closes only its direction's data lane and tears down nothing. Both routes and their per-correlation state stay active until the **exchange** is terminal, so control still flows after a half-stream's `isLast`.
 
 Because the executor subscribes to the command topic with a shared subscription, **every** command-topic packet for an exchange — request data, an `isLast` request, invoker cancellation, and the invoker's `Canceled` acknowledgement — must carry the same `$partition` value (the invoker's client id). Otherwise the broker may route a control packet to a different executor that holds no state for the correlation, silently dropping it from the exchange. Response-topic packets need only the correlation data, because `clients/{invokerId}/...` is unique to the invoker and is not a shared subscription.
 
@@ -161,9 +161,9 @@ Each request-stream message carries the effective idle timeout in the `<stream t
 Each side runs its own idle countdown and **resets it only on a valid PUBLISH received from the peer** — data, a `heartbeat`, an `isLast`, a cancellation.
 
 - The **invoker** starts its timer when it sends its first request. If it elapses before [graceful completion](#core-abstractions), it reports the timeout to the user and stops sending.
-- The **executor** starts its timer on the first response. If it elapses before [graceful completion](#core-abstractions), it reports the timeout to the user callback.
+- The **executor** starts its timer on the first request it receives. If it elapses before [graceful completion](#core-abstractions), it reports the timeout to the user callback.
 
-**Heartbeats.** Each side sends a standalone `heartbeat` at a regular **heartbeat interval** - half the effective idle timeout, so two per idle window - on that side's data topic and correlation. Heartbeats are the steady liveness signal. A heartbeat has no payload or application user properties; the receiver resets its idle timer, acknowledges it, and does not surface or cache it. A side stops heart-beating once its exchange is gracefully complete or terminal.
+**Heartbeats.** Each side sends a standalone `heartbeat` at a regular **heartbeat interval** - half the effective idle timeout, so two per idle window - on that side's data topic and correlation. Heartbeats are the steady liveness signal. A heartbeat has no payload or application user properties; the receiver resets its idle timer, acknowledges it, and does not surface or cache it. A side begins heart-beating when its exchange becomes active — the invoker on sending its first request, the executor on receiving the first request. The side stops heart-beating once its exchange is gracefully complete or terminal.
 
 A local idle timeout terminates only that side's exchange state; neither side sends a timeout status to the other. The peer reaches its own timeout independently if no further progress occurs.
 
