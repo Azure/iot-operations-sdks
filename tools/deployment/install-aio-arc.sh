@@ -37,7 +37,7 @@ if [ -z $SCHEMA_REGISTRY ]; then echo "SCHEMA_REGISTRY is not set"; exit 1; fi
 if [ -z $SCHEMA_REGISTRY_NAMESPACE ]; then echo "SCHEMA_REGISTRY_NAMESPACE is not set"; exit 1; fi
 
 # upgrade Azure CLI if needed
-az upgrade
+az upgrade --all
 
 # login if needed
 if ! az account show; then
