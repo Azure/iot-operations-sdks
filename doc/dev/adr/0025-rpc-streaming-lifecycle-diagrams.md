@@ -118,18 +118,20 @@ sequenceDiagram
 
 ## 4. Exchange Timeout
 
-The stream timeout is an **idle (inactivity)** timeout. The invoker starts its timer on the first
-PUBACK for a request PUBLISH, while the executor starts on the first new, valid request PUBLISH it
-receives. After that, each side resets its timer when it receives either a new, valid stream PUBLISH
-or the first PUBACK for one of its own stream PUBLISH packets. Duplicate, malformed, and late packets
-do not count as progress.
+The stream timeout is an **idle (inactivity)** timeout. The invoker starts its timer when it sends its
+first request; the executor starts when it receives the first request. After that, each side resets its
+timer only on a valid PUBLISH **received from the peer** — a heartbeat, data, an `isLast`, or a
+cancellation. A side's own sends, and the PUBACKs for them, do not reset it; duplicate, malformed, and
+late packets do not count either.
 
-A side moves to `TimedOut` only after `T` elapses with no progress. Timeout is purely local: the SDK
-reports it to its own application and sends no timeout status, so the peer reaches its own timeout
-independently. The sequence below expands every timer-relevant event. It illustrates a broker ordering
-in which the executor receives the PUBACK for its final response before the invoker receives that
-response, so the executor's last reset occurs first. The roles reverse if the invoker has the earlier
-last reset.
+Because each side emits [heartbeats](0025-rpc-streaming.md#stream-level-timeout) at a regular interval
+(half of `T`, so about two per window), a live peer keeps resetting the timer even when it has no data
+to send. A side moves to `TimedOut` only after `T` elapses with no inbound PUBLISH from the peer — that
+is, once the peer stops both its data and its heartbeats (a crash, a disconnect, or completion with a
+lost final message). Timeout is purely local: the SDK reports it to its own application and sends no
+timeout status, so the peer reaches its own timeout independently. The sequence below shows the executor
+going silent; the invoker then times out. The symmetric case — the invoker going silent and the
+executor timing out — works identically.
 
 ```mermaid
 sequenceDiagram
@@ -140,50 +142,35 @@ sequenceDiagram
     participant ES as Executor SDK
     participant EA as Executor app
 
-    IA->>IS: Yield request[0]
     IS->>B: PUBLISH request[0]<br/>timeout=T, $partition=P
-    B-->>IS: PUBACK for request[0]
-    Note over IS: First PUBACK for own PUBLISH<br/>start idle timer T
-
-    B->>ES: PUBLISH request[0]
-    Note over ES: First new, valid inbound PUBLISH<br/>start idle timer T
-    ES-->>B: PUBACK for request[0]
+    Note over IS: Sent first request<br/>start idle timer T
+    B->>ES: request[0]
+    Note over ES: First request received<br/>start idle timer T
     ES->>EA: Deliver request[0]
-
-    EA-->>ES: Yield response[0]
-    ES->>B: PUBLISH response[0]
-    B-->>ES: PUBACK for response[0]
-    Note over ES: First PUBACK for own PUBLISH<br/>reset idle timer T
-
-    B->>IS: PUBLISH response[0]
-    Note over IS: New, valid inbound PUBLISH<br/>reset idle timer T
-    IS--xB: PUBACK for response[0] is lost
+    EA-->>ES: response[0]
+    ES->>B: response[0], response topic
+    B->>IS: response[0]
+    Note over IS: Inbound PUBLISH from peer<br/>reset idle timer T
     IS-->>IA: Deliver response[0]
 
-    EA-->>ES: End response stream
-    ES->>B: PUBLISH `isLast` response
-    B-->>ES: PUBACK for `isLast` response
-    Note over ES: First PUBACK for own PUBLISH<br/>reset idle timer T
+    Note over ES: Heartbeat interval elapsed<br/>emit heartbeat
+    ES->>B: heartbeat, __stream=0:false:false:true<br/>response topic
+    B->>IS: heartbeat
+    Note over IS: Inbound PUBLISH from peer<br/>reset idle timer T
+    Note over IS: Heartbeat interval elapsed<br/>emit heartbeat
+    IS->>B: heartbeat, __stream=0:false:false:true:T<br/>command topic, $partition=P
+    B->>ES: heartbeat
+    Note over ES: Inbound PUBLISH from peer<br/>reset idle timer T
 
-    B->>IS: PUBLISH `isLast` response
-    Note over IS: New, valid inbound PUBLISH<br/>reset idle timer T
-    IS-->>B: PUBACK for `isLast` response
-    IS-->>IA: Complete response stream
-    Note over IS,ES: Response data half closed<br/>`isLast` request is lost or withheld
-
-    Note over ES: No new valid PUBLISH or first PUBACK for T
-    Note over ES: Local exchange enters TimedOut
-    ES-->>EA: Report timeout and ask callback to stop
-    Note over ES,B: Executor sends no timeout PUBLISH
-
-    Note over IS: No new valid PUBLISH or first PUBACK for T
+    Note over ES,EA: Executor disconnects or crashes<br/>stops sending responses and heartbeats
+    Note over IS: No inbound PUBLISH from peer for T
     Note over IS: Local exchange enters TimedOut<br/>stop request production
     IS-->>IA: Report timeout
     Note over IS,B: Invoker sends no timeout PUBLISH
 
-    B->>IS: PUBLISH duplicate response[0], QoS 1 redelivery
+    B->>IS: duplicate response[0], QoS 1 redelivery
     IS-->>B: PUBACK duplicate response[0]
-    Note over IS: Tombstone identifies terminal exchange<br/>acknowledge and ignore, do not reset timer
+    Note over IS: Tombstone identifies terminal exchange<br/>acknowledge and ignore
 ```
 
 Because no timeout status is ever sent, each side simply retains a tombstone for as long as any
@@ -208,11 +195,11 @@ sequenceDiagram
     B->>ES: request[0]
     ES->>EA: Deliver request[0]
     IA->>IS: Cancel
-    IS->>B: cancel, __stream=0:true:true:T, $partition=P
+    IS->>B: cancel, __stream=0:true:true:false:T, $partition=P
     B->>ES: cancel request
     ES->>EA: Stop callback
     Note over ES: Local exchange becomes Canceled
-    ES->>B: Canceled, __stream=0:false:false, response topic
+    ES->>B: Canceled, __stream=0:false:false:false, response topic
 
     alt Canceled is delivered
         B->>IS: Canceled
@@ -221,7 +208,7 @@ sequenceDiagram
         IS->>B: retry cancel, same correlation, $partition=P
         B->>ES: duplicate cancel
         Note over ES: Canceled tombstone re-answers
-        ES->>B: resend Canceled, __stream=0:false:false
+        ES->>B: resend Canceled, __stream=0:false:false:false
         B->>IS: Canceled
     end
 
@@ -250,11 +237,11 @@ sequenceDiagram
     B->>IS: `isLast` response
     Note over IS,ES: Response data half closed<br/>both control lanes remain active
     EA->>ES: Cancel
-    ES->>B: cancel, __stream=0:true:true, response topic
+    ES->>B: cancel, __stream=0:true:true:false, response topic
     B->>IS: cancel request
     IS->>IA: Signal cancellation
     Note over IS: Stop request production<br/>local exchange becomes Canceled
-    IS->>B: Canceled, __stream=0:false:false:T, command topic, $partition=P
+    IS->>B: Canceled, __stream=0:false:false:false:T, command topic, $partition=P
 
     alt Canceled is delivered
         B->>ES: Canceled
@@ -298,7 +285,7 @@ sequenceDiagram
     Note over IS,ES: Request data half still open<br/>isLast request not yet sent
     EA->>ES: Fail with an error, 4xx or 5xx
     Note over ES: Error status is self-terminating, no isLast response is sent<br/>__apErr flags application vs framework error
-    ES->>B: error 5xx, __stream=0:false:false, response topic
+    ES->>B: error 5xx, __stream=0:false:false:false, response topic
     Note over ES: Local exchange enters Failed
     B->>IS: error 5xx status
     IS-->>IA: Fault response iterator, surface the error
@@ -332,11 +319,11 @@ sequenceDiagram
     Note over IA,IS: Producing request[1] throws in the request pump
     Note over IS: Stop request publication<br/>local exchange faults with the error
     Note over IS: The request direction has no error status<br/>terminate the peer via best-effort cancellation
-    IS->>B: cancel, __stream=0:true:true:T, $partition=P
+    IS->>B: cancel, __stream=0:true:true:false:T, $partition=P
     B->>ES: cancel request
     ES->>EA: Stop callback
     Note over ES: Local exchange becomes Canceled
-    ES->>B: Canceled, __stream=0:false:false, response topic
+    ES->>B: Canceled, __stream=0:false:false:false, response topic
     B->>IS: Canceled
     IS-->>IA: Exchange faulted with the request-pump error
     Note over IS,ES: Cancellation is best-effort<br/>the invoker faulted locally regardless of the ack
@@ -364,7 +351,9 @@ flowchart TD
     C -- "No" --> E{"Terminal error status?"}
     E -- "Canceled" --> CAN["Enter Canceled"]
     E -- "Other 4xx or 5xx" --> F["Enter Failed"]
-    E -- "No" --> L{"isLast = true?"}
+    E -- "No" --> HB{"heartbeat = true?"}
+    HB -- "Yes" --> HBR["Reset idle timer<br/>acknowledge, do not deliver or cache"]
+    HB -- "No" --> L{"isLast = true?"}
     L -- "Yes" --> HC["Close this data half"]
     HC --> BC{"Both data halves closed?"}
     BC -- "Yes" --> CO["Enter Completed"]
@@ -383,7 +372,7 @@ flowchart TD
 | Shared lifecycle | Core abstractions, graceful completion, terminal states |
 | Invoker establishment | Full-duplex return semantics and early-response buffering |
 | Normal exchange | Interleaving, independent half-close, control-lane lifetime |
-| Timeout | Idle timers reset on progress, both sides terminate locally with no wire status, tombstones |
+| Timeout | Idle timers reset on PUBLISHes received from the peer, heartbeats keep them alive, both sides terminate locally with no wire status, tombstones |
 | Invoker cancellation | Command-topic affinity, retries, `Canceled` response |
 | Executor cancellation | Control after half-close, request-direction `Canceled` |
 | Executor error | Self-terminating response `__stat`, whole-exchange teardown, `__apErr` |
