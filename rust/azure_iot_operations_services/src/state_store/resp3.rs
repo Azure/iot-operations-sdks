@@ -31,6 +31,10 @@ pub(crate) enum Request {
         key: Vec<u8>,
         options: KeyNotifyOptions,
     },
+    Scan {
+        pattern: Vec<u8>,
+        continuation_token: Option<Vec<u8>>,
+    },
 }
 
 /// Options for a `Set` Request
@@ -80,6 +84,10 @@ impl PayloadSerialize for Request {
                 Request::KeyNotify { key, options } => serialize_key_notify(&key, &options),
                 Request::Del { key } => serialize_del(&key),
                 Request::VDel { key, value } => serialize_v_del(&key, &value),
+                Request::Scan {
+                    pattern,
+                    continuation_token,
+                } => serialize_scan(&pattern, continuation_token.as_deref()),
             },
             content_type: "application/octet-stream".to_string(),
             format_indicator: FormatIndicator::UnspecifiedBytes,
@@ -227,6 +235,10 @@ fn serialize_key_notify(key: &[u8], options: &KeyNotifyOptions) -> Vec<u8> {
     builder.get_buffer()
 }
 
+fn serialize_scan(pattern: &[u8], continuation_token: Option<&[u8]>) -> Vec<u8> {
+    print!("serialize_scan called with pattern: {:?}, continuation_token: {:?}\n", pattern, continuation_token);
+    todo!("Implement serialize_scan");
+}
 // ----------------------- Response Types -----------------------
 
 #[derive(Clone, Debug, PartialEq)]
@@ -243,6 +255,10 @@ pub(crate) enum Response {
     NotFound,
     /// Description of error because of invalid request
     Error(Vec<u8>),
+    KeysScanned {
+        keys: Vec<Vec<u8>>,
+        continuation_token: Option<Vec<u8>>,
+    },
 }
 
 /// Documentation of response payloads can be found [here](https://learn.microsoft.com/azure/iot-operations/create-edge-apps/concept-about-state-store-protocol#response-format)
@@ -255,6 +271,7 @@ impl Response {
     const RESPONSE_KEY_NOT_FOUND: &'static [u8] = b":0\r\n";
     const RESPONSE_LENGTH_PREFIX: &'static [u8] = b"$";
     const DELETE_RESPONSE_PREFIX: &'static [u8] = b":";
+    const SCAN_RESPONSE_PREFIX: &'static [u8] = b"*";
 
     fn parse_error(payload: &[u8]) -> Result<Vec<u8>, String> {
         if let Some(err) = payload.strip_prefix(Self::RESPONSE_ERROR_PREFIX)
@@ -303,6 +320,10 @@ impl PayloadSerialize for Response {
                         "Error parsing number of keys deleted: {e}. Payload: {payload:?}"
                     ))),
                 }
+            }
+            _ if payload.starts_with(Self::SCAN_RESPONSE_PREFIX) => {
+                let (keys, continuation_token) = parse_scan(payload)?;
+                Ok(Response::KeysScanned { keys, continuation_token })
             }
             _ => Err(DeserializationError::InvalidPayload(format!(
                 "Unknown response: {payload:?}"
@@ -466,6 +487,10 @@ fn parse_value(payload: &[u8], prefix: &[u8]) -> Result<Vec<u8>, String> {
     }
 }
 
+/// Parses a RESP3 `SCAN` response array into its keys and optional continuation token.
+fn parse_scan(payload: &[u8]) -> Result<(Vec<Vec<u8>>, Option<Vec<u8>>), String> {
+    todo!("SCAN response parsing not yet implemented;")
+}
 #[cfg(test)]
 mod tests {
     use test_case::test_case;

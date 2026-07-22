@@ -152,6 +152,19 @@ where
     pub response: T,
 }
 
+
+/// Result of a [`Client::scan`](client::Client::scan) request: one page of keys
+/// matching the requested pattern, plus an optional continuation token to resume
+/// the scan. When `continuation_token` is `None`, the scan is complete.
+#[derive(Clone, Debug, PartialEq, Eq)]
+pub struct ScanResult {
+    /// Keys that matched the requested pattern in this page.
+    pub keys: Vec<Vec<u8>>,
+    /// Token to pass to the next [`Client::scan`](client::Client::scan) call,
+    /// or `None` when there are no more keys.
+    pub continuation_token: Option<Vec<u8>>,
+}
+
 /// Convenience function to convert a [`rpc_command::invoker::Response`] into a [`Response`]
 /// Takes in a closure that converts the payload into the desired type.
 fn convert_response<T, F>(

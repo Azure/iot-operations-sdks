@@ -361,6 +361,33 @@ impl Client {
         .await
     }
 
+    /// Scans the State Store for keys matching `pattern`, returning one page of
+    /// results plus an optional continuation token to resume the scan.
+    ///
+    /// Pass `continuation_token: None` for the first request. On each response,
+    /// if [`ScanResult::continuation_token`](state_store::ScanResult::continuation_token)
+    /// is `Some`, pass it to the next `scan` call to get the next page. A `None`
+    /// continuation token means the scan is complete.
+    ///
+    /// # Errors
+    /// [`struct@Error`] of kind [`InvalidArgument`](ErrorKind::InvalidArgument) if:
+    /// - the `pattern` is empty
+    /// - the `timeout` is zero or > `u32::max`
+    ///
+    /// [`struct@Error`] of kind [`ServiceError`](ErrorKind::ServiceError) if the State Store returns an Error response
+    ///
+    /// [`struct@Error`] of kind [`UnexpectedPayload`](ErrorKind::UnexpectedPayload) if the State Store returns a response that isn't valid for a `Scan` request
+    ///
+    /// [`struct@Error`] of kind [`AIOProtocolError`](ErrorKind::AIOProtocolError) if there are any underlying errors from [`rpc_command::Invoker::invoke`]
+    pub async fn scan(
+        &self,
+        pattern: Vec<u8>,
+        continuation_token: Option<Vec<u8>>,
+        timeout: Duration,
+    ) -> Result<state_store::Response<state_store::ScanResult>, Error> {
+        todo!("Implement scan method");
+    }
+
     async fn del_internal(
         &self,
         request: state_store::resp3::Request,
