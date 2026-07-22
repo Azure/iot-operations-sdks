@@ -6,18 +6,17 @@ Users have expressed a desire to allow more than one request and/or more than on
 
 ## Requirements
 
- - Allow for an arbitrary number of command requests and responses for a single command invocation
-   - The total number of requests and responses does not need to be known before the first request/response is sent
-   - The total number of entries in a stream is allowed to be 1
- - When exposed to the user, each request and response includes an index of where it was in the stream
- - Allow for multiple separate commands to be streamed simultaneously
- - Allow for invoker and/or executor to cancel a streamed request and/or streamed response at any time
- - Allow for invoker + executor to send their requests/responses at arbitrary* times
-   - For instance, executor may send 1 response upon receiving 1 request (stream message), or it may wait for the request stream to finish before sending the first response
-   - Alternatively, this allows the invoker to send a request upon receiving a response
-   - *The only limitation is that the invoker must initiate the RPC streaming with a request
- - Allow for invoker/executor to end their own request/response stream gracefully at any time
-   - For instance, if the executor doesn't know if a response will be the last one prior to sending it, the executor should still be capable of ending the response stream later without sending another fully-fledged payload
+ - A single command invocation MUST support an arbitrary number of command requests and responses.
+   - A producer MUST be able to send its first request or response without knowing the total number of entries in advance.
+   - A stream MAY contain exactly one entry.
+ - When exposed to the user, each request and response MUST include the index of its position within the stream.
+ - The protocol MUST support multiple independent streaming commands simultaneously.
+ - The invoker and the executor MUST each be able to cancel the streamed request and/or the streamed response at any time.
+ - The invoker and the executor MUST be able to send their requests and responses at arbitrary times relative to one another, except that the invoker MUST initiate the streaming invocation with a request.
+   - For instance, the executor MAY send a response as soon as it receives a request, or it MAY wait until the request stream ends before sending its first response.
+   - Likewise, the invoker MAY send a request in reaction to a received response.
+ - The invoker and the executor MUST each be able to end their own stream gracefully at any time.
+   - A side that does not know in advance whether an entry will be its last MUST still be able to end its stream afterward without sending another full entry.
 
 ## Non-requirements
 
