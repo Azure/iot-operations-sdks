@@ -48,7 +48,7 @@ While RPC streaming shares a lot with normal RPC, we define a new communication 
 Each entry in a request or response stream pairs a user **payload** with **per-message metadata**. Streaming distinguishes two metadata scopes:
 
 - **Per-message metadata** travels with each individual stream entry.
-- **Per-stream metadata** applies to a whole stream: the producer attaches it and the consumer reads it. The request and response streams carry **different** per-stream metadata (mirroring vanilla RPC's request vs response metadata), so this scope is **asymmetric** across directions. On the wire it repeats on every message (like the [stream-level timeout](#stream-level-timeout)) to survive first-message loss, and is read once.
+- **Per-stream metadata** applies to a whole stream: the producer attaches it and the consumer reads it. The request and response streams carry **different** per-stream metadata (mirroring vanilla RPC's request vs response metadata), so this scope is **asymmetric** across directions. On the wire it repeats on every message (like the [exchange timeout](#exchange-level-timeout)) to survive first-message loss, and is read once.
 
 #### Core abstractions
 
@@ -59,7 +59,7 @@ Two abstractions carry these across the API:
 - A **stream context** is the **consume** side of one stream — the async sequence of entries you receive. A stream you **produce** is supplied directly as an async sequence together with its per-stream metadata, so producing and consuming use different shapes.
 - An **exchange context** is the per-exchange lifecycle and control handle for completion, cancellation, and timeout. Being **exchange-scoped** (one per invocation, not per direction), it lives here rather than on the *stream context*, so a single cancel/timeout covers the whole invocation.
 
-An exchange is **gracefully complete** only when *both* of its half-streams have closed: the invoker has sent its `isLast` request **and** received the `isLast` response, and symmetrically the executor has received the `isLast` request **and** sent the `isLast` response. Closing one half (via `isLast`) does **not** end the exchange — a side that finishes its own stream early stays active for the other half until it closes too, or until the [idle timeout](#stream-level-timeout) fires. Any other terminal — error, cancellation, or timeout — ends the whole exchange immediately. This both-halves condition is the shared definition of completion used by [timeout](#timeout-support) and [cancellation](#cancellation-support).
+An exchange is **gracefully complete** only when *both* of its half-streams have closed: the invoker has sent its `isLast` request **and** received the `isLast` response, and symmetrically the executor has received the `isLast` request **and** sent the `isLast` response. Closing one half (via `isLast`) does **not** end the exchange — a side that finishes its own stream early stays active for the other half until it closes too, or until the [exchange timeout](#exchange-level-timeout) fires. Any other terminal — error, cancellation, or timeout — ends the whole exchange immediately. This both-halves condition is the shared definition of completion used by [timeout](#timeout-support) and [cancellation](#cancellation-support).
 
 #### Invoker behavior
 
@@ -95,19 +95,19 @@ To convey streaming context, each message carries a `__stream` MQTT user propert
 | ---------------------- | ------------------ | ------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
 | `d` (tag)              | literal            | data    | Identifies a **data** message that carries one stream entry                                                                                                                     |
 | `message_index`        | uint               | data    | Position of this message within the producer's stream; data and control share one counter                                                                                      |
-| `timeout_length`       | uint               | data    | Effective idle-timeout window, in seconds; **request-direction only** (invoker → executor), omitted on response-direction messages |
+| `timeout_length`       | uint               | data    | Invoker's current timeout counter (exchange time remaining), in seconds; **request-direction only** (invoker → executor), omitted on response-direction messages |
 | `c` (tag)              | literal            | control | Identifies a **control** message                                                                                                                                                |
 | `message_index`        | uint               | control | Position of this message within the producer's stream; data and control share one counter                                                                                      |
-| `timeout_length`       | uint               | control | Effective idle-timeout window, in seconds; **request-direction only** (invoker → executor), omitted on response-direction messages |
+| `timeout_length`       | uint               | control | Invoker's current timeout counter (exchange time remaining), in seconds; **request-direction only** (invoker → executor), omitted on response-direction messages |
 | `control_command_word` | `cancel` \| `last` | control | `last`: the standalone final message that closes the producer's stream (no payload or application-provided user properties). `cancel`: a cancellation request for the exchange.  |
 | `s` (tag)              | literal            | status  | Identifies a **status** message reporting an outcome about a received message; the outcome details travel in `__stat`                                                           |
 | `message_index`        | uint               | status  | Stream index of the **received** message the status refers to (the peer's index, not the producer's counter)                                                                    |
-| `timeout_length`       | uint               | status  | Effective idle-timeout window, in seconds; **request-direction only** (invoker → executor), omitted on response-direction messages |
+| `timeout_length`       | uint               | status  | Invoker's current timeout counter (exchange time remaining), in seconds; **request-direction only** (invoker → executor), omitted on response-direction messages |
 
 Examples:
 
-- ```d:0:10``` — a request-direction data message at stream index `0`; the effective idle timeout is 10 seconds.
-- ```c:4:last:10``` — the request stream's final (`isLast`) message; index `4` from the shared data/control counter, 10-second idle timeout.
+- ```d:0:10``` — a request-direction data message at stream index `0`; the invoker's remaining exchange timeout is 10 seconds.
+- ```c:4:last:6``` — the request stream's final (`isLast`) message at index `4`; the invoker's remaining exchange timeout has dropped to 6 seconds (the field is a live countdown).
 - ```c:2:cancel:10``` — a request-direction cancellation at the producer's next index (`2`).
 - ```s:1:10``` — a request-direction status about the received message at stream index `1`; its `__stat` value carries the outcome (intended to communicate non-successful statuses).
 - ```d:0``` / ```c:7:last``` / ```s:3``` — the response-direction counterparts (executor → invoker); identical forms except `timeout_length` is omitted.
@@ -122,7 +122,7 @@ A single **correlation GUID** identifies the whole exchange — both streams car
 
 Because the executor subscribes to the command topic with a shared subscription, **every** command-topic packet for an exchange — request data, an `isLast` request, invoker cancellation, and the invoker's `Canceled` acknowledgement — must carry the same `$partition` value (the invoker's client id). Otherwise the broker may route a control packet to a different executor that holds no state for the correlation, silently dropping it from the exchange. Response-topic packets need only the correlation data, because `clients/{invokerId}/...` is unique to the invoker and is not a shared subscription.
 
-Once a side has reached a terminal state, further data messages for that correlation are acknowledged and ignored; only the required control re-answers (for example, re-sending `Canceled` for a re-issued cancellation) are sent. The per-correlation exchange state is kept as a tombstone so that late or duplicate packets remain routable and are not treated as a new stream; see [stream level timeout](#stream-level-timeout) for how long.
+Once a side has reached a terminal state, further data messages for that correlation are acknowledged and ignored; only the required control re-answers (for example, re-sending `Canceled` for a re-issued cancellation) are sent. The per-correlation exchange state is kept as a tombstone so that late or duplicate packets remain routable and are not treated as a new stream; see [exchange level timeout](#exchange-level-timeout) for how long.
 
 #### Common stream handling
 
@@ -149,7 +149,7 @@ The executor subscribes to the command topic using a **shared subscription** (so
 
 Two executor-only rules:
 
-- If an `isLast` arrives before any data message in the request stream, log an error, acknowledge it, and ignore it — a request stream must have at least one entry. A `heartbeat` that arrives before the first request likewise establishes no exchange and is simply acknowledged and ignored.
+- If an `isLast` arrives before any data message in the request stream, log an error, acknowledge it, and ignore it — a request stream must have at least one entry.
 - Unlike vanilla RPC, the executor keeps **no replay cache**: streams may grow without bound, so replaying a response stream isn't feasible.
 
 ### Timeout support
@@ -158,43 +158,40 @@ Timeout support avoids either side getting stuck — waiting for a final message
 
 #### Approach
 
-The invoker configures an **idle (inactivity) timeout** for the exchange and a per-message expiry for request/response data. If the user does not specify an idle timeout, the SDK defaults to 10 seconds; a user-supplied value must be positive and finite and is rounded up to whole seconds. Every exchange therefore has a positive, finite effective idle timeout of at least one second.
+The invoker configures an **exchange timeout** — a single total budget for the whole exchange — plus a per-message expiry for request/response data. If the user does not specify one, the SDK applies a configurable default; a user-supplied value must be positive and finite and is rounded up to whole seconds. Every exchange therefore has a positive, finite timeout of at least one second.
 
-The idle timeout measures time **since the last message received from the peer**, not total duration. It is the backstop for an exchange that stalls before reaching [graceful completion](#core-abstractions) — a half-stream that never closes, a lost final message, or a crashed peer. The SDK sends [heartbeats](#stream-level-timeout) at a regular interval, and those steady heartbeats are what keep the peer's timer alive; other messages reset it too, but only as a side effect. An exchange therefore stays open as long as the peer is alive. The SDK produces and consumes heartbeats, so the user never constructs or sees one.
+The exchange timeout bounds **total elapsed time from when the exchange begins**, not inactivity; it caps the whole exchange and is the backstop for one that never reaches [graceful completion](#core-abstractions) — a half-stream that never closes, a lost final message, or a crashed peer.
 
-##### Stream level timeout
+##### Exchange level timeout
 
-Every **request-direction** message (invoker → executor) carries the effective idle timeout in the `timeout_length` field of `__stream` (in seconds), repeated on each so the timeout survives loss of earlier messages and lets a different executor recover the exchange mid-stream; response-direction messages (executor → invoker) omit it. Seconds align with the MQTT message expiry interval used for other timeouts, keep the header small for long-running streams, and avoid implying a sub-second precision that isn't meaningful.
-
-Each side runs its own idle countdown and **resets it only on a valid PUBLISH received from the peer** — data, a `heartbeat`, an `isLast`, a cancellation.
+Each side runs its own countdown from the start of the exchange and does **not** reset it:
 
 - The **invoker** starts its timer when it sends its first request. If it elapses before [graceful completion](#core-abstractions), it reports the timeout to the user and stops sending.
 - The **executor** starts its timer on the first request it receives. If it elapses before [graceful completion](#core-abstractions), it reports the timeout to the user callback.
 
-**Heartbeats.** Each side sends a standalone `heartbeat` at a regular **heartbeat interval** - half the effective idle timeout, so two per idle window - on that side's data topic and correlation. Heartbeats are the steady liveness signal. A heartbeat has no payload or application user properties; the receiver resets its idle timer, acknowledges it, and does not surface or cache it. A side begins heart-beating when its exchange becomes active — the invoker on sending its first request, the executor on receiving the first request. The side stops heart-beating once its exchange is gracefully complete or terminal.
+Every **request-direction** message (invoker → executor) carries the **current invoker timeout counter value** in the `timeout_length` field of `__stream` (in seconds), repeated on each so the timeout survives loss of earlier messages and lets a different executor recover the exchange mid-stream; response-direction messages (executor → invoker) omit it. Seconds align with the MQTT message expiry interval used for other timeouts, keep the header small for long-running streams, and avoid implying a sub-second precision that isn't meaningful.
 
-A local idle timeout terminates only that side's exchange state; neither side sends a timeout status to the other. The peer reaches its own timeout independently if no further progress occurs.
+A local timeout terminates only that side's exchange state; neither side sends a timeout status to the other. The peer reaches its own timeout independently if no further progress occurs.
 
 Messages received by either side after it has timed out are acknowledged but otherwise ignored. Each party therefore keeps a per-correlation tombstone for timed-out streams so post-timeout packets aren't treated as a new stream; it is retained at least as long as the longest expiry of any packet that could still arrive.
 
 ##### Message level timeout
 
-Users may set the message expiry interval of each **data** message in a request/response stream; by default it equals the effective idle timeout. Every stream data message _must_ include a positive, finite message expiry — a message with no (or zero) expiry is rejected, as in vanilla RPC, since an unbounded expiry would make the de-dup cache grow without bound. The receiving end uses this value as the de-dup cache length for the cached message (vanilla RPC has the [same requirement](../../reference/command-timeouts.md#input-values)).
+We will allow users to set the message expiry interval of each message in a request/response stream; by default it equals the exchange timeout. Every stream message _must_ include a positive, finite message expiry — a message with no (or zero) expiry is rejected. The receiving end uses this value as the de-dup cache length for the cached message (vanilla RPC has the [same requirement](../../reference/command-timeouts.md#input-values)).
 
-SDK-generated control messages (`isLast`, cancellation requests, cancellation acknowledgements, and terminal errors) use the effective idle timeout as their message expiry, while the exchange is active; heartbeats instead use half the effective idle timeout length rounded up to whole seconds.
 
 #### Alternative timeout designs considered
 
+- An **idle (inactivity) timeout kept alive by SDK heartbeats** — the timer resets on every message received from the peer, and each side emits periodic heartbeats so a live-but-quiet peer keeps it from firing; this supports indefinitely-long streams while still detecting a stalled peer on a short inactivity window.
+  - Rejected for now: significantly more complex (heartbeat traffic, per-message resets, extra failure modes) than a single overall budget. Revisit only if a customer explicitly needs an unbounded stream with liveness detection; adding it later alongside the overall timeout would create two clashing timeout semantics.
 - The above approach, but trying to calculate time spent on broker side (using message expiry interval) so that invoker and executor timeout at the same exact time
   - This would require additional metadata in the ```__stream``` user property (intended vs received message expiry interval) and is only helpful in the uncommon scenario where a message spends extended periods of time at the broker
 - Specify the number of milliseconds allowed between the executor receiving the final command request and delivering the final command response.
   - This is the approach that gRPC takes, but it doesn't account for scenarios where the invoker/executor dies unexpectedly (since gRPC relies on a direct connection between invoker and executor)
-- Use the message expiry interval of the first received message in a stream to indicate the stream-level timeout
+- Use the message expiry interval of the first received message in a stream to indicate the exchange timeout
   - Misuses the message expiry interval's purpose and could lead to the broker storing messages for extended periods of time unintentionally
-- Send a terminal timeout status when a local idle timer expires
+- Send a terminal timeout status when a local timer expires
   - Both sides already have local timers and terminate independently. A post-timeout status would require a separate delivery budget and could arrive after the peer is already terminal.
-- Start the idle timer on the first stream message and never reset it (a single overall deadline)
-  - Caps the total duration of an exchange, so it cannot support indefinitely long streams such as a continuous sensor feed.
 
 ### Cancellation support
 
@@ -266,23 +263,23 @@ The `__apErr` (`IsApplicationError`) property classifies an error as either a fr
 
 ### Disconnection scenario considerations
 
-In every case, QoS 1 sessions carry queued messages across a reconnection (within each message's expiry), and whichever side stops seeing progress reaches its own local [idle timeout](#stream-level-timeout) independently.
+In every case, QoS 1 sessions carry queued messages across a reconnection (within each message's expiry), and whichever side stops seeing progress reaches its own local [exchange timeout](#exchange-level-timeout) independently.
 
 - Invoker side disconnects unexpectedly while sending requests
   - On reconnection, the request messages queued in its session client publish as expected and the exchange resumes
-  - Otherwise the executor stops seeing requests and its idle timeout fires
+  - Otherwise the executor stops seeing requests and times out
 - Invoker side disconnects unexpectedly while receiving responses
   - The broker holds each published response for its [message-level timeout](#message-level-timeout) (message expiry interval) and redelivers those still within their expiry on reconnection; those whose expiry lapses first are lost
-  - If the invoker's session is lost, the exchange cannot resume and the executor's idle timeout fires
+  - If the invoker's session is lost, the exchange cannot resume and the executor times out
 - Executor side isn't connected when the invoker sends the first request
   - The broker may return a "no matching subscribers" PUBACK; whether to retry here is TBD
-  - On a success PUBACK the request is held for its message expiry, and the invoker's idle timeout fires if no executor consumes it in time
+  - On a success PUBACK the request is held for its message expiry, and the invoker times out if no executor consumes it in time
 - Executor side disconnects unexpectedly while receiving requests
   - The broker holds each published request for its [message-level timeout](#message-level-timeout) (message expiry interval) and redelivers those still within their expiry on reconnection; those whose expiry lapses first are lost
-  - If the executor's session is lost, the invoker's idle timeout fires
+  - If the executor's session is lost, the invoker times out
 - Executor side disconnects unexpectedly while sending responses
   - On reconnection, the response messages queued in its session client publish as expected and the exchange resumes
-  - Otherwise the invoker stops seeing responses and its idle timeout fires
+  - Otherwise the invoker stops seeing responses and times out
 
 ### Protocol versioning
 
@@ -311,7 +308,7 @@ public class StreamingExtendedRequest<TReq>
 {
     public TReq Payload { get; set; }
     public StreamMessageMetadata Metadata { get; set; }
-    // Per-message MQTT expiry; defaults to the idle timeout and must be <= it.
+    // Per-message MQTT expiry; defaults to the exchange timeout and must be <= it.
     public TimeSpan? MessageExpiry { get; set; }
 }
 
@@ -403,12 +400,12 @@ public abstract class StreamingCommandInvoker<TReq, TResp>
     public bool AutomaticallyAcknowledgeResponses { get; set; } = true;
 
     // Returns after the first request is accepted, without waiting for the rest.
-    // idleTimeout: inactivity window (default 10s), reset on each message received from the executor.
+    // exchangeTimeout: total budget for the whole exchange (a configurable default applies if unset).
     public async Task<(IResponseStreamContext<ReceivedStreamingExtendedResponse<TResp>> Responses, IExchangeContext Exchange)> InvokeStreamingCommandAsync(
       IAsyncEnumerable<StreamingExtendedRequest<TReq>> requests,
       RequestStreamMetadata? streamMetadata = null,
       Dictionary<string, string>? additionalTopicTokenMap = null,
-      TimeSpan? idleTimeout = default,
+      TimeSpan? exchangeTimeout = default,
       CancellationToken cancellationToken = default) {...}
 }
 ```
