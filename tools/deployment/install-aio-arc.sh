@@ -36,9 +36,10 @@ if [ -z $STORAGE_ACCOUNT ]; then echo "STORAGE_ACCOUNT is not set"; exit 1; fi
 if [ -z $SCHEMA_REGISTRY ]; then echo "SCHEMA_REGISTRY is not set"; exit 1; fi
 if [ -z $SCHEMA_REGISTRY_NAMESPACE ]; then echo "SCHEMA_REGISTRY_NAMESPACE is not set"; exit 1; fi
 
-# upgrade Azure CLI if needed
-az upgrade --all
-
+# upgrade Azure CLI / extensions if needed (non-interactive)
+az upgrade --all --yes
+az extension add --upgrade --name azure-iot-ops
+az extension add --upgrade --name connectedk8s
 # login if needed
 if ! az account show; then
     az login
