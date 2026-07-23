@@ -132,7 +132,7 @@ A side **consumes** one stream and **produces** the other. The rules below are i
 
 - **De-dup caching.** A consumer de-dups received data messages (QoS 1 may re-deliver) by correlationId + index — the index distinguishes duplicates since the correlationId is shared by the whole stream. Each cache entry is retained for the duration of its message's expiry interval (see [message level timeout](#message-level-timeout)), even beyond the end of the stream: clearing it when the stream finishes would let a late re-delivery still within its expiry window be treated as new, which is unsafe for non-idempotent commands.
 - **Acknowledgement.** By default a consumer acknowledges each message as soon as it is delivered to the user. Users may opt into manual acknowledgement to finish processing a message before forgoing broker re-delivery on an unexpected crash. 
-- **`isLast` receipt.** On an `isLast` control message (`c:…:last`), the consumer notifies the user that the stream has ended. This standalone message carries no payload or application-provided user properties and is **not** surfaced as a stream entry ([why `isLast` is its own message](#islast-message-being-its-own-message)).
+- **`isLast` receipt.** On an `isLast` control message (`c:…:last`), the consumer notifies the user that the stream has ended. This standalone message carries no payload or application-provided user properties and is **not** surfaced as a stream entry ([why `isLast` is its own message](#islast-message-being-its-own-message)). Because delivery order is guaranteed, receiving further data for that half after its `isLast` is a protocol violation.
 
 **Producing a stream:** every data message carries the same correlation data, the appropriate [`__stream` metadata](#streaming-user-property), the serialized user payload, and any per-message metadata plus the stream's per-stream metadata (repeated on every message so it survives first-message loss), at QoS 1. The producer ends its stream with a standalone `isLast` message (no payload, no application user properties) on the same topic and correlation. Which topic each side uses, and the `$partition` requirement on the command topic, are covered below and in [exchange routing and lifetime](#exchange-routing-and-lifetime).
 
@@ -238,8 +238,8 @@ When the invoker acknowledges an executor-initiated cancellation on the command 
 
 Either side cancels by publishing a [`cancel` control message](#streaming-user-property) (`c:…:cancel`), no payload, the same correlation data, on the topic it uses to reach the other party:
 
-- The **invoker** cancels on the command topic and therefore carries `$partition` (see [exchange routing and lifetime](#exchange-routing-and-lifetime)). It keeps listening on the response topic afterward, since a late successful response or the `Canceled` status may still arrive.
-- The **executor** cancels on the invoker's response topic and needs only the correlation data. After sending, it listens on the command topic for the invoker's `Canceled` acknowledgement.
+- The **invoker** cancels on the command topic, then keeps listening on the response topic and delivering any in-flight responses to the application until the `Canceled` status arrives and closes the channel, or the whole exchange times out.
+- The **executor** cancels on the invoker's response topic, then keeps listening on the command topic and delivering any in-flight requests to the application until the `Canceled` status arrives and closes the channel, or the whole exchange times out.
 
 The sender may retransmit the cancellation request while its local exchange remains active. Receiving `Canceled` confirms cancellation; any other terminal outcome ends retransmission without confirming it.
 
@@ -250,8 +250,6 @@ The receiver of a cancellation responds depending on the state of that receiver:
 - **Still active** — notifies the application (if the RPC is still running) and replies with `Canceled` on the appropriate route (the invoker's acknowledgement travels on the command topic and carries `$partition`).
 - **Already completed** (both halves closed) — acknowledges the message and sends nothing.
 - **Already canceled** — re-sends `Canceled` so a retried/duplicate cancellation is answered.
-
-Once a side is canceled, any further messages for that correlation are acknowledged but not delivered to the user.
 
 ### Error handling and stream termination
 
