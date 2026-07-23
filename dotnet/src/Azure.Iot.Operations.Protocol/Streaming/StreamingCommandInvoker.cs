@@ -21,7 +21,7 @@ namespace Azure.Iot.Operations.Protocol.Streaming
         /// for topic tokens such as "modelId" which should be the same for the duration of this command invoker's lifetime.
         /// </summary>
         /// <remarks>
-        /// Tokens replacement values can also be specified per-method invocation by specifying the additionalTopicToken map in <see cref="InvokeCommandAsync(TReq, CommandRequestMetadata?, Dictionary{string, string}?, TimeSpan?, CancellationToken)"/>.
+        /// Tokens replacement values can also be specified per-method invocation by specifying the additionalTopicToken map in <see cref="InvokeStreamingCommandAsync"/>.
         /// </remarks>
         public Dictionary<string, string> TopicTokenMap { get; protected set; }
 
@@ -80,17 +80,20 @@ namespace Azure.Iot.Operations.Protocol.Streaming
         /// <param name="requests">The stream of requests to send. This stream must contain at least one request.</param>
         /// <param name="streamMetadata">The metadata for the request stream as a whole.</param>
         /// <param name="additionalTopicTokenMap">Topic tokens to substitute in the request topic.</param>
-        /// <param name="streamExchangeTimeout">The timeout between the beginning of the request stream and the end of both the request and response stream.</param>
+        /// <param name="idleTimeout">
+        /// The idle (inactivity) timeout for the exchange. The timer resets on every progress event and fires only after this much
+        /// time passes with no progress, so it is a backstop for a stalled exchange rather than a cap on total duration. Defaults to 10 seconds when null.
+        /// </param>
         /// <param name="cancellationToken">
         /// Cancellation token. Signalling this will also make a single attempt to notify the executor of the cancellation. To make multiple attempts to cancel and/or
-        /// check that this cancellation succeeded, use <see cref="IStreamContext{T}.CancelAsync(Dictionary{string, string}?, CancellationToken)"/> instead.
+        /// check that this cancellation succeeded, use <see cref="IExchangeContext.CancelAsync(Dictionary{string, string}?, CancellationToken)"/> instead.
         /// </param>
-        /// <returns>The stream of responses.</returns>
-        public async Task<IStreamContext<ReceivedStreamingExtendedResponse<TResp>>> InvokeStreamingCommandAsync(
+        /// <returns>The response stream (await <see cref="IResponseStreamContext{T}.StreamMetadata"/> for the response stream metadata) together with the exchange context for lifecycle and control.</returns>
+        public async Task<(IResponseStreamContext<ReceivedStreamingExtendedResponse<TResp>> Responses, IExchangeContext Exchange)> InvokeStreamingCommandAsync(
             IAsyncEnumerable<StreamingExtendedRequest<TReq>> requests,
             RequestStreamMetadata? streamMetadata = null,
             Dictionary<string, string>? additionalTopicTokenMap = null,
-            TimeSpan? streamExchangeTimeout = null,
+            TimeSpan? idleTimeout = null,
             CancellationToken cancellationToken = default)
         {
             // TODO: Derive the request topic (like commandInvoker does)

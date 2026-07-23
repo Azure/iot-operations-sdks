@@ -6,7 +6,7 @@ using System.Collections.Generic;
 namespace Azure.Iot.Operations.Protocol.Streaming
 {
     /// <summary>
-    /// Metadata for a specific message within a request stream
+    /// Metadata for a specific message within a request or response stream
     /// </summary>
     public class StreamMessageMetadata
     {
@@ -24,6 +24,6 @@ namespace Azure.Iot.Operations.Protocol.Streaming
         /// The index of this message within the stream as a whole
         /// </summary>
         /// <remarks>This value is automatically assigned when sending messages in a request/response stream and cannot be overriden.</remarks>
-        public int Index { get; internal set; }
+        public uint Index { get; internal set; }
     }
 }

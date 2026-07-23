@@ -18,9 +18,9 @@ namespace Azure.Iot.Operations.Protocol.Streaming
         /// A streaming command was invoked
         /// </summary>
         /// <remarks>
-        /// The callback provides the stream of requests and requires the user to return one to many responses.
+        /// The callback provides the request stream, its stream-level metadata, and the exchange context, and requires the user to return one to many responses together with the response stream's metadata.
         /// </remarks>
-        public required Func<IStreamContext<ReceivedStreamingExtendedRequest<TReq>>, RequestStreamMetadata, IAsyncEnumerable<StreamingExtendedResponse<TResp>>> OnStreamingCommandReceived { get; set; }
+        public required Func<IStreamContext<ReceivedStreamingExtendedRequest<TReq>>, RequestStreamMetadata, IExchangeContext, (IAsyncEnumerable<StreamingExtendedResponse<TResp>> Responses, ResponseStreamMetadata Metadata)> OnStreamingCommandReceived { get; set; }
 
         public string RequestTopicPattern { get; init; }
 
@@ -29,7 +29,7 @@ namespace Azure.Iot.Operations.Protocol.Streaming
         /// for topic tokens such as "executorId" which should be the same for the duration of this command executor's lifetime.
         /// </summary>
         /// <remarks>
-        /// Tokens replacement values can also be specified when starting the executor by specifying the additionalTopicToken map in <see cref="StartAsync(int?, Dictionary{string, string}?, CancellationToken)"/>.
+        /// Tokens replacement values can also be specified when starting the executor by specifying the additionalTopicToken map in <see cref="StartAsync(CancellationToken)"/>.
         /// </remarks>
         public Dictionary<string, string> TopicTokenMap { get; protected set; }
 
