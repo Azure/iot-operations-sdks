@@ -17,7 +17,7 @@ usage() {
 }
 
 # Parse arguments
-while getopts "l:g:c:s:r:n:" opt; do
+while getopts "l:g:c:s:r:n:d:" opt; do
   case $opt in
     l) LOCATION="$OPTARG" ;;
     g) RESOURCE_GROUP="$OPTARG" ;;
