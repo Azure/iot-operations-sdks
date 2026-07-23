@@ -122,7 +122,7 @@ A single **correlation GUID** identifies the whole exchange — both streams car
 
 Because the executor subscribes to the command topic with a shared subscription, **every** command-topic packet for an exchange — request data, an `isLast` request, invoker cancellation, and the invoker's `Canceled` acknowledgement — must carry the same `$partition` value (the invoker's client id). Otherwise the broker may route a control packet to a different executor that holds no state for the correlation, silently dropping it from the exchange. Response-topic packets need only the correlation data, because `clients/{invokerId}/...` is unique to the invoker and is not a shared subscription.
 
-Once a side has reached a terminal state, further data messages for that correlation are acknowledged and ignored; only the required control re-answers (for example, re-sending `Canceled` for a retried cancellation) are sent. The per-correlation exchange state is kept as a tombstone so that late or duplicate packets remain routable and are not treated as a new stream; see [stream level timeout](#stream-level-timeout) for how long.
+Once a side has reached a terminal state, further data messages for that correlation are acknowledged and ignored; only the required control re-answers (for example, re-sending `Canceled` for a re-issued cancellation) are sent. The per-correlation exchange state is kept as a tombstone so that late or duplicate packets remain routable and are not treated as a new stream; see [stream level timeout](#stream-level-timeout) for how long.
 
 #### Common stream handling
 
@@ -200,7 +200,7 @@ SDK-generated control messages (`isLast`, cancellation requests, cancellation ac
 
 To avoid scenarios where long-running streaming requests/responses are no longer wanted, either side may cancel a streaming RPC at any time while the exchange is active.
 
-Since a cancellation request may expire on the broker, the sender may retransmit it while its local exchange remains active. Receiving the `Canceled` status confirms cancellation. Any other terminal outcome, including local timeout, ends retransmission without confirming cancellation. Cancellation requests may include user properties explaining why cancellation was requested.
+Cancellation requests may include user properties explaining why cancellation was requested.
 
 #### API
 
@@ -241,15 +241,15 @@ Either side cancels by publishing a [`cancel` control message](#streaming-user-p
 - The **invoker** cancels on the command topic, then keeps listening on the response topic and delivering any in-flight responses to the application until the `Canceled` status arrives and closes the channel, or the whole exchange times out.
 - The **executor** cancels on the invoker's response topic, then keeps listening on the command topic and delivering any in-flight requests to the application until the `Canceled` status arrives and closes the channel, or the whole exchange times out.
 
-The sender may retransmit the cancellation request while its local exchange remains active. Receiving `Canceled` confirms cancellation; any other terminal outcome ends retransmission without confirming it.
+Cancellation is **idempotent**: the sender may issue `cancel` more than once while exchange is active. Receiving `Canceled` confirms cancellation; any other terminal outcome ends re-issuing without confirming it.
 
 #### Receiving a cancellation
 
 The receiver of a cancellation responds depending on the state of that receiver:
 
-- **Still active** — notifies the application (if the RPC is still running) and replies with `Canceled` on the appropriate route (the invoker's acknowledgement travels on the command topic and carries `$partition`).
+- **Still active** — notifies the application, replies with `Canceled` on the appropriate topic.
 - **Already completed** (both halves closed) — acknowledges the message and sends nothing.
-- **Already canceled** — re-sends `Canceled` so a retried/duplicate cancellation is answered.
+- **Already canceled** — re-sends `Canceled` so a later (re-issued) cancellation is answered.
 
 ### Error handling and stream termination
 
