@@ -361,7 +361,7 @@ impl Client {
         .await
     }
 
-    /// Scans the State Store for keys matching `pattern`, returning one page of
+    /// Scans the State Store for keys matching `pattern`, returning one collection of
     /// results plus an optional continuation token to resume the scan.
     ///
     /// Pass `continuation_token: None` for the first request. On each response,
@@ -369,16 +369,6 @@ impl Client {
     /// is `Some`, pass it to the next `scan` call to get the next page. A `None`
     /// continuation token means the scan is complete.
     ///
-    /// # Errors
-    /// [`struct@Error`] of kind [`InvalidArgument`](ErrorKind::InvalidArgument) if:
-    /// - the `pattern` is empty
-    /// - the `timeout` is zero or > `u32::max`
-    ///
-    /// [`struct@Error`] of kind [`ServiceError`](ErrorKind::ServiceError) if the State Store returns an Error response
-    ///
-    /// [`struct@Error`] of kind [`UnexpectedPayload`](ErrorKind::UnexpectedPayload) if the State Store returns a response that isn't valid for a `Scan` request
-    ///
-    /// [`struct@Error`] of kind [`AIOProtocolError`](ErrorKind::AIOProtocolError) if there are any underlying errors from [`rpc_command::Invoker::invoke`]
     pub async fn scan(
         &self,
         pattern: Vec<u8>,
@@ -386,6 +376,27 @@ impl Client {
         timeout: Duration,
     ) -> Result<state_store::Response<state_store::ScanResult>, Error> {
         todo!("Implement scan method");
+    }
+
+    /// Gets the values of multiple keys concurrently.
+    ///
+    /// There is no MGET command in the State Store. This is an SDK side
+    /// convenience that issues one [`Client::get`] per key and drives them
+    /// concurrently.
+    ///
+    /// The returned vector is **positionally aligned** with `keys`:
+    /// `result[i]` is the outcome for `keys[i]`. Each element is an independent
+    /// `Result`, so one key failing (or being empty) does not discard the
+    /// others. An empty `keys` slice yields an empty vector.
+    ///
+    /// Note: ordering is guaranteed by [`futures::future::join_all`], which
+    /// collects in input order. 
+    pub async fn mget(
+        &self,
+        keys: &[Vec<u8>],
+        timeout: Duration,
+    ) -> Vec<Result<state_store::Response<Option<Vec<u8>>>, Error>> {
+        todo!("Implement mget method");
     }
 
     async fn del_internal(

@@ -153,7 +153,7 @@ where
 }
 
 
-/// Result of a [`Client::scan`](client::Client::scan) request: one page of keys
+/// Result of a [`Client::scan`](client::Client::scan) request: one collection of keys
 /// matching the requested pattern, plus an optional continuation token to resume
 /// the scan. When `continuation_token` is `None`, the scan is complete.
 #[derive(Clone, Debug, PartialEq, Eq)]
