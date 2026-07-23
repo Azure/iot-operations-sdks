@@ -37,9 +37,9 @@ gRPC supports these patterns for RPC:
 
 ## Decision
 
-### API design
+### Conceptual model
 
-Described here language-agnostically; the [appendix](#illustrative-net-api) gives a concrete C# sketch. The SDKs target Rust, .NET, and Go.
+The model is defined here language-agnostically; the [appendix](#illustrative-net-api) gives a concrete C# sketch. The SDKs target Rust, .NET, and Go.
 
 While RPC streaming shares a lot with normal RPC, we define a new communication pattern with two roles — a **streaming command invoker** and a **streaming command executor** — analogous to the existing command invoker and executor.
 
@@ -61,7 +61,7 @@ Two abstractions carry these across the API:
 
 An exchange is **gracefully complete** only when *both* of its half-streams have closed: the invoker has sent its `isLast` request **and** received the `isLast` response, and symmetrically the executor has received the `isLast` request **and** sent the `isLast` response. Closing one half (via `isLast`) does **not** end the exchange — a side that finishes its own stream early stays active for the other half until it closes too, or until the [idle timeout](#stream-level-timeout) fires. Any other terminal — error, cancellation, or timeout — ends the whole exchange immediately. This both-halves condition is the shared definition of completion used by [timeout](#timeout-support) and [cancellation](#cancellation-support).
 
-#### Invoker side
+#### Invoker behavior
 
 The invoker supplies the outbound **request stream** (an async sequence of request entries) together with that stream's metadata; it must contain at least one entry. The invocation establishes the exchange; it does **not** represent completion of the request stream. The SDK activates response reception, sends the mandatory first request, and then returns the inbound **response stream** together with the *exchange context* — without waiting for the second request or for the request stream to end. Early responses are buffered for iteration.
 
@@ -69,7 +69,7 @@ After returning, both streams proceed concurrently, so each can react to the oth
 
 An empty request stream or setup error fails the invocation before an exchange is returned. Any later request-sending error terminates the local exchange, stops request publication, and triggers a best-effort cancellation; it is exposed through the exchange context's completion signal and, while still open, the response stream.
 
-#### Executor side
+#### Executor behavior
 
 The streaming command executor's callback notifies the user that a command was received; it takes the inbound **request stream** (a *stream context*), that request stream's metadata, and the *exchange context*, and returns the outbound **response stream** (an async sequence of response entries) together with that stream's metadata.
 
@@ -156,7 +156,7 @@ Two executor-only rules:
 
 Timeout support avoids either side getting stuck — waiting for a final message that was lost or never sent, or for a peer that has silently stalled (the invoker waiting on responses, or the executor waiting on requests).
 
-#### Decision
+#### Approach
 
 The invoker configures an **idle (inactivity) timeout** for the exchange and a per-message expiry for request/response data. If the user does not specify an idle timeout, the SDK defaults to 10 seconds; a user-supplied value must be positive and finite and is rounded up to whole seconds. Every exchange therefore has a positive, finite effective idle timeout of at least one second.
 
@@ -208,7 +208,7 @@ Cancellation is exposed through the *exchange context* — returned to the invok
 
 Either side invokes the **cancel** operation (optionally attaching user properties) and observes peer cancellation or local timeout through the *exchange context*'s signal and its *canceled* / *timed out* flags, along with any user properties on the received cancellation. For a concrete illustration see the [appendix](#illustrative-net-api); for detailed examples see the [integration tests](../../../dotnet/test/Azure.Iot.Operations.Protocol.IntegrationTests/StreamingIntegrationTests.cs).
 
-### Protocol layer details
+#### Canceled status
 
 Cancellation acknowledgements reuse the same status mechanism as vanilla RPC: the status travels in the `__stat` MQTT user property (with an optional human-readable `__stMsg`), not a separate acknowledgement packet. Streaming introduces one new status code:
 
@@ -258,7 +258,7 @@ The **termination machinery** is symmetric across both directions; what is asymm
 Both produced streams end **gracefully** the same way: a standalone `isLast` message (no payload or application-provided user properties, a success status). Either direction can also end with the **`Canceled`** terminal that the [cancellation](#cancellation-support) mechanism produces. The directions differ only in their **error** ending:
 
 - The **response stream** carries a `__stat` on every message and can self-terminate on error. A successful entry uses `200` when it carries a payload and `204` when it does not; neither terminates the stream. An **error status (`4xx`/`5xx`) is self-terminating**: the executor sends nothing further, so the receiver surfaces it as the terminal error and ends the response stream. An error response does **not** also need a separate `isLast` message — its status is sufficient, and the executor may be unable to send a separate `isLast` (for example, after a crash). This covers executor exceptions (`500`) and request/protocol validation errors (`4xx`).
-- The **request stream** carries no outcome `__stat`, so it has no self-terminating-error form. A request-side failure — the request pump throwing, or the application abandoning the exchange — instead terminates the exchange through a best-effort **cancellation** (see [invoker side](#invoker-side)).
+- The **request stream** carries no outcome `__stat`, so it has no self-terminating-error form. A request-side failure — the request pump throwing, or the application abandoning the exchange — instead terminates the exchange through a best-effort **cancellation** (see [invoker behavior](#invoker-behavior)).
 
 Whichever side originates it, a terminal status is **exchange-scoped**, not a stream entry, and is de-duplicated using exchange terminal state keyed by correlation data rather than by index. Because it is exchange-scoped, it may arrive **after** a graceful `isLast` has already closed the data half in its direction — for example an executor error raised while the request half is still open, or a `Canceled` after the request `isLast`. Such a status does not reopen the data stream; it terminates the still-active **exchange**. If the corresponding iterator is still open the status faults it; if the iterator already completed via `isLast`, the status is observed only through the exchange context's completion.
 
@@ -301,7 +301,7 @@ By maintaining RPC streaming as a separate communication pattern from normal RPC
 
 ### Illustrative .NET API
 
-The following C# sketches one possible implementation of the [API design](#api-design) above. It is illustrative only — the SDKs also target Rust and Go, which will expose equivalent shapes idiomatically.
+The following C# sketches one possible implementation of the [conceptual model](#conceptual-model) above. It is illustrative only — the SDKs also target Rust and Go, which will expose equivalent shapes idiomatically.
 
 Two base classes define the pattern — `StreamingCommandInvoker` and `StreamingCommandExecutor` — reusing "extended" request/response types that pair each payload with its per-message metadata:
 
