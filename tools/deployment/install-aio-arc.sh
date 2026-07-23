@@ -9,14 +9,15 @@ set -o errexit # fail if any command fails
 # STORAGE_ACCOUNT: A name for your storage account. Must be between 3 and 24 characters, and only contain numbers and lowercase letters.
 # SCHEMA_REGISTRY: A name for your schema registry. Can only contain numbers, lowercase letters, and hyphens.
 # SCHEMA_REGISTRY_NAMESPACE: A name for your schema registry namespace. Uniquely identifies a schema registry within a tenant. Can only contain numbers, lowercase letters, and hyphens.
+# DEVICE_REGISTRY_NAMESPACE: A name for your device registry namespace. Must be unique within your tenant, and between 3 and 24 characters. Can only contain numbers, letters, hyphens, and underscores.
 
 usage() {
-    echo "Usage: $0 [-l location] [-g resource_group] [-c cluster_name] [-s storage_account] [-r schema_registry] [-n schema_registry_namespace]"
+    echo "Usage: $0 [-l location] [-g resource_group] [-c cluster_name] [-s storage_account] [-r schema_registry] [-n schema_registry_namespace] [-d device_registry_namespace]"
     exit 1
 }
 
 # Parse arguments
-while getopts "l:g:c:s:r:n:" opt; do
+while getopts "l:g:c:s:r:n:d:" opt; do
   case $opt in
     l) LOCATION="$OPTARG" ;;
     g) RESOURCE_GROUP="$OPTARG" ;;
@@ -24,6 +25,7 @@ while getopts "l:g:c:s:r:n:" opt; do
     s) STORAGE_ACCOUNT="$OPTARG" ;;
     r) SCHEMA_REGISTRY="$OPTARG" ;;
     n) SCHEMA_REGISTRY_NAMESPACE="$OPTARG" ;;
+    d) DEVICE_REGISTRY_NAMESPACE="$OPTARG" ;;
     *) usage ;;
   esac
 done
@@ -35,6 +37,12 @@ if [ -z $CLUSTER_NAME ]; then echo "CLUSTER_NAME is not set"; exit 1; fi
 if [ -z $STORAGE_ACCOUNT ]; then echo "STORAGE_ACCOUNT is not set"; exit 1; fi
 if [ -z $SCHEMA_REGISTRY ]; then echo "SCHEMA_REGISTRY is not set"; exit 1; fi
 if [ -z $SCHEMA_REGISTRY_NAMESPACE ]; then echo "SCHEMA_REGISTRY_NAMESPACE is not set"; exit 1; fi
+if [ -z $DEVICE_REGISTRY_NAMESPACE ]; then echo "DEVICE_REGISTRY_NAMESPACE is not set"; exit 1; fi
+
+# upgrade Azure CLI / extensions if needed (non-interactive)
+az upgrade --all --yes
+az extension add --upgrade --name azure-iot-ops
+az extension add --upgrade --name connectedk8s
 
 # login if needed
 if ! az account show; then
@@ -68,8 +76,12 @@ az storage account create --name $STORAGE_ACCOUNT --location $LOCATION --resourc
 echo ===Creating Schema Registry===
 az iot ops schema registry create --name $SCHEMA_REGISTRY --resource-group $RESOURCE_GROUP --registry-namespace $SCHEMA_REGISTRY_NAMESPACE --sa-resource-id $(az storage account show --name $STORAGE_ACCOUNT -o tsv --query id)
 
+# create an Azure device registry namespace
+echo ===Creating Device Registry Namespace===
+az iot ops ns create -n $DEVICE_REGISTRY_NAMESPACE -g $RESOURCE_GROUP
+
 # install azure iot operations
 echo ===Initializing Azure IoT Operations===
 az iot ops init --cluster $CLUSTER_NAME --resource-group $RESOURCE_GROUP
 echo ===Creating Azure IoT Operations===
-az iot ops create --cluster $CLUSTER_NAME --resource-group $RESOURCE_GROUP --name ${CLUSTER_NAME}-instance  --sr-resource-id $(az iot ops schema registry show --name $SCHEMA_REGISTRY --resource-group $RESOURCE_GROUP -o tsv --query id) --broker-frontend-replicas 1 --broker-frontend-workers 1  --broker-backend-part 1  --broker-backend-workers 1 --broker-backend-rf 2 --broker-mem-profile Low
+az iot ops create --cluster $CLUSTER_NAME --resource-group $RESOURCE_GROUP --name ${CLUSTER_NAME}-instance  --sr-resource-id $(az iot ops schema registry show --name $SCHEMA_REGISTRY --resource-group $RESOURCE_GROUP -o tsv --query id) --ns-resource-id $(az iot ops ns show --name $DEVICE_REGISTRY_NAMESPACE --resource-group $RESOURCE_GROUP -o tsv --query id) --broker-frontend-replicas 1 --broker-frontend-workers 1  --broker-backend-part 1  --broker-backend-workers 1 --broker-backend-rf 2 --broker-mem-profile Low
