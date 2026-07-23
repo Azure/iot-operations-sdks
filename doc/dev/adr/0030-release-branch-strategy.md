@@ -87,8 +87,13 @@ Tags are created for beta, RC, and final releases:
 2. When AIO opens the milestone release branch (e.g., 2603) and a release for a language is needed:
    - Create `releases/2603/rust` from `main` (or `releases/2603/dotnet`, etc.)
 3. Cherry-pick any additional fixes from `main` to the release branch
-4. Build and release packages from the release branch
-5. Tag the release (e.g., `rust/protocol/v0.12.0`)
+4. Strip the in-repo `path` attributes from the Rust connector scaffolding
+   (`rust/sample_applications/sample_connector_scaffolding/Cargo.toml`), leaving the
+   crates.io version pins — on `main` these deps are wired as `{ version, path }` so the
+   sample builds against the dev crates, but a release branch must build against the
+   published crates.io versions
+5. Build and release packages from the release branch
+6. Tag the release (e.g., `rust/protocol/v0.12.0`)
 
 #### For Patch Releases (Bug/Vulnerability Fixes)
 
@@ -96,6 +101,9 @@ Tags are created for beta, RC, and final releases:
 2. When the fix needs to ship in a patch release (e.g., 2604):
    - Create `releases/2604/rust` from `releases/2603/rust` (previous release branch for that language)
    - Cherry-pick the fix from `main`
+   - If the cherry-pick touches the connector scaffolding `Cargo.toml`, re-strip its
+     `path` attributes (the previous release branch already has them stripped, but a
+     cherry-pick from `main` can reintroduce them)
 3. Build and release packages from the release branch
 4. Tag the release (e.g., `rust/protocol/v0.12.1`)
 
