@@ -79,32 +79,40 @@ The streaming command executor's callback notifies the user that a command was r
 
 To convey streaming context, each message carries a `__stream` MQTT user property with the value:
 
-```<index>:<isLast>:<cancelRequest>:<heartbeat>:<stream timeout seconds>```
+```txt
+<property_value> ::= <stream_entity_metadata> | <stream_control_metadata> | <stream_status_metadata>
+<stream_entity_metadata>  ::= "d" ":" <message_index> [ ":" <timeout_length> ]
+<stream_control_metadata> ::= "c" ":" <message_index> ":" <control_command_word> [ ":" <timeout_length> ]
+<stream_status_metadata>  ::= "s" ":" <message_index> [ ":" <timeout_length> ]
+<message_index> ::= <uint>
+<timeout_length> ::= <uint>
+<control_command_word> ::= "cancel" | "last"
+```
 
-with data types
+**Table 1. `__stream` value fields.** The value takes one of three mutually exclusive forms distinguished by a leading tag — a **data** form (`d:…`) for stream entries, a **control** form (`c:…`) for stream control, and a **status** form (`s:…`) for reporting an outcome about a received message. Because the form is tagged, a message only ever carries the fields that apply to it; there are no fields to ignore.
 
-```<uint>:<boolean>:<boolean>:<boolean>:<uint>```
-
-The `:<stream timeout seconds>` field is present only in request-stream messages. It carries the effective **idle timeout** — the inactivity window after which a stalled exchange times out (the user-supplied value, or 10 seconds by default).
-
-**Table 1. `__stream` fields, in the order they appear in the value.**
-
-| Field | Type | Present in | Meaning | Ignored when |
-|-------|------|------------|---------|--------------|
-| `index` | uint | every stream message | Position of this message within the stream | `cancelRequest = true`, `heartbeat = true`, or a terminal error status |
-| `isLast` | bool | every stream message | `true` on the standalone final message that closes the stream (no payload or application-provided user properties) | `cancelRequest = true`, `heartbeat = true`, or a terminal error status |
-| `cancelRequest` | bool | every stream message | `true` marks a cancellation request for the stream | — (always meaningful) |
-| `heartbeat` | bool | every stream message | `true` marks an SDK-generated liveness heartbeat (no payload or application-provided user properties); resets the peer's idle timer and is not surfaced to the user | — (always meaningful) |
-| `stream timeout s` | uint | **request** stream messages only | Effective idle-timeout window in seconds | Never present on response messages |
+| Field                  | Type               | Form    | Meaning                                                                                                                                                                          |
+| ---------------------- | ------------------ | ------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `d` (tag)              | literal            | data    | Identifies a **data** message that carries one stream entry                                                                                                                     |
+| `message_index`        | uint               | data    | Position of this message within the producer's stream; data and control share one counter                                                                                      |
+| `timeout_length`       | uint               | data    | Effective idle-timeout window, in seconds; **request-direction only** (invoker → executor), omitted on response-direction messages |
+| `c` (tag)              | literal            | control | Identifies a **control** message                                                                                                                                                |
+| `message_index`        | uint               | control | Position of this message within the producer's stream; data and control share one counter                                                                                      |
+| `timeout_length`       | uint               | control | Effective idle-timeout window, in seconds; **request-direction only** (invoker → executor), omitted on response-direction messages |
+| `control_command_word` | `cancel` \| `last` | control | `last`: the standalone final message that closes the producer's stream (no payload or application-provided user properties). `cancel`: a cancellation request for the exchange.  |
+| `s` (tag)              | literal            | status  | Identifies a **status** message reporting an outcome about a received message; the outcome details travel in `__stat`                                                           |
+| `message_index`        | uint               | status  | Stream index of the **received** message the status refers to (the peer's index, not the producer's counter)                                                                    |
+| `timeout_length`       | uint               | status  | Effective idle-timeout window, in seconds; **request-direction only** (invoker → executor), omitted on response-direction messages |
 
 Examples:
 
-- ```0:false:false:false:10``` — first (not last) request message, 10-second idle timeout.
-- ```3:true:false:false``` — the final response message.
-- ```0:true:true:false``` — a cancellation; `index` and `isLast` are ignored (the request-direction form additionally carries the timeout field, e.g. ```0:true:true:false:10```).
-- ```0:false:false:true``` — a response-direction heartbeat; `index` and `isLast` are ignored (the request-direction form additionally carries the timeout field, e.g. ```0:false:false:true:10```).
+- ```d:0:10``` — a request-direction data message at stream index `0`; the effective idle timeout is 10 seconds.
+- ```c:4:last:10``` — the request stream's final (`isLast`) message; index `4` from the shared data/control counter, 10-second idle timeout.
+- ```c:2:cancel:10``` — a request-direction cancellation at the producer's next index (`2`).
+- ```s:1:10``` — a request-direction status about the received message at stream index `1`; its `__stat` value carries the outcome (intended to communicate non-successful statuses).
+- ```d:0``` / ```c:7:last``` / ```s:3``` — the response-direction counterparts (executor → invoker); identical forms except `timeout_length` is omitted.
 
-Every MQTT PUBLISH belonging to a streaming exchange, **including a terminal status**, must include `__stream`. A terminal status uses `index = 0`, `isLast = false`, `cancelRequest = false`, and `heartbeat = false`; its `__stat` value terminates the exchange. The request-direction form also carries the effective idle timeout; the response-direction form has only the first four fields.
+Every MQTT PUBLISH belonging to a streaming exchange must include `__stream` in exactly one of these three forms: data messages use the `d` form, control messages use the `c` form (`c:…:cancel`, `c:…:last`), and status messages use the `s` form. A status message carries no stream entry; its `__stat` property carries the outcome details for the received message it references. Only **request-direction** messages (invoker → executor) carry the stream-level `timeout_length`, repeated on each so the timeout survives loss of earlier messages and lets a different executor recover the exchange mid-stream; **response-direction** messages (executor → invoker) omit it, since the invoker already set the timeout and cannot be recovered mid-stream.
 
 [see cancellation support](#cancellation-support) and [timeout support](#timeout-support) for how these fields are used.
 
@@ -124,7 +132,7 @@ A side **consumes** one stream and **produces** the other. The rules below are i
 
 - **De-dup caching.** A consumer de-dups received data messages (QoS 1 may re-deliver) by correlationId + index — the index distinguishes duplicates since the correlationId is shared by the whole stream. Each cache entry is retained for the duration of its message's expiry interval (see [message level timeout](#message-level-timeout)), even beyond the end of the stream: clearing it when the stream finishes would let a late re-delivery still within its expiry window be treated as new, which is unsafe for non-idempotent commands.
 - **Acknowledgement.** By default a consumer acknowledges each message as soon as it is delivered to the user. Users may opt into manual acknowledgement to finish processing a message before forgoing broker re-delivery on an unexpected crash. 
-- **`isLast` receipt.** On a message with the `isLast` flag set, the consumer notifies the user that the stream has ended. This standalone message carries no payload or application-provided user properties and is **not** surfaced as a stream entry ([why `isLast` is its own message](#islast-message-being-its-own-message)).
+- **`isLast` receipt.** On an `isLast` control message (`c:…:last`), the consumer notifies the user that the stream has ended. This standalone message carries no payload or application-provided user properties and is **not** surfaced as a stream entry ([why `isLast` is its own message](#islast-message-being-its-own-message)).
 
 **Producing a stream:** every data message carries the same correlation data, the appropriate [`__stream` metadata](#streaming-user-property), the serialized user payload, and any per-message metadata plus the stream's per-stream metadata (repeated on every message so it survives first-message loss), at QoS 1. The producer ends its stream with a standalone `isLast` message (no payload, no application user properties) on the same topic and correlation. Which topic each side uses, and the `$partition` requirement on the command topic, are covered below and in [exchange routing and lifetime](#exchange-routing-and-lifetime).
 
@@ -156,7 +164,7 @@ The idle timeout measures time **since the last message received from the peer**
 
 ##### Stream level timeout
 
-Each request-stream message carries the effective idle timeout in the `<stream timeout seconds>` field of `__stream`, sent on **all** request messages in case the first N are lost. Seconds align with the MQTT message expiry interval used for other timeouts, keep the header small for long-running streams, and avoid implying a sub-second precision that isn't meaningful.
+Every **request-direction** message (invoker → executor) carries the effective idle timeout in the `timeout_length` field of `__stream` (in seconds), repeated on each so the timeout survives loss of earlier messages and lets a different executor recover the exchange mid-stream; response-direction messages (executor → invoker) omit it. Seconds align with the MQTT message expiry interval used for other timeouts, keep the header small for long-running streams, and avoid implying a sub-second precision that isn't meaningful.
 
 Each side runs its own idle countdown and **resets it only on a valid PUBLISH received from the peer** — data, a `heartbeat`, an `isLast`, a cancellation.
 
@@ -215,7 +223,7 @@ PUBLISH
   correlationData:       <same GUID as the stream>
   messageExpiryInterval: <control-message expiry defined above>
   userProperties:
-    __stream:  0:false:false        # streaming terminal status, not a cancellation request
+    __stream:  s:<cancel request's index>   # Canceled status (s form) about the received cancel request; response direction, so no timeout
     __stat:    499                  # Canceled
     __stMsg:   "Canceled"           # optional
     __apErr:   false                # cancellation is not an application error
@@ -224,11 +232,11 @@ PUBLISH
   payload:               <none>
 ```
 
-When the invoker acknowledges an executor-initiated cancellation on the command topic, it uses the request-direction form `__stream: 0:false:false:<effective stream timeout seconds>`; all other fields have the same meaning. Wherever the sections below refer to the `Canceled` code / status, they mean a message of this shape.
+When the invoker acknowledges an executor-initiated cancellation on the command topic, it uses the request-direction form `__stream: s:<cancel request's index>:<effective stream timeout seconds>` (request direction, so it also carries the timeout); all other fields have the same meaning. Wherever the sections below refer to the `Canceled` code / status, they mean a message of this shape.
 
 #### Sending a cancellation
 
-Either side cancels by publishing a message with the [cancel flag set](#streaming-user-property), no payload, the same correlation data, on the topic it uses to reach the other party:
+Either side cancels by publishing a [`cancel` control message](#streaming-user-property) (`c:…:cancel`), no payload, the same correlation data, on the topic it uses to reach the other party:
 
 - The **invoker** cancels on the command topic and therefore carries `$partition` (see [exchange routing and lifetime](#exchange-routing-and-lifetime)). It keeps listening on the response topic afterward, since a late successful response or the `Canceled` status may still arrive.
 - The **executor** cancels on the invoker's response topic and needs only the correlation data. After sending, it listens on the command topic for the invoker's `Canceled` acknowledgement.
@@ -251,7 +259,7 @@ The **termination machinery** is symmetric across both directions; what is asymm
 
 Both produced streams end **gracefully** the same way: a standalone `isLast` message (no payload or application-provided user properties, a success status). Either direction can also end with the **`Canceled`** terminal that the [cancellation](#cancellation-support) mechanism produces. The directions differ only in their **error** ending:
 
-- The **response stream** carries a `__stat` on every message and can self-terminate on error. A successful entry uses `200` when it carries a payload and `204` when it does not; neither terminates the stream. An **error status (`4xx`/`5xx`) is self-terminating**: the executor sends nothing further, so the receiver surfaces it as the terminal error and ends the response stream. An error response does **not** also need the `isLast` flag — its status is sufficient, and the executor may be unable to send a separate `isLast` (for example, after a crash). This covers executor exceptions (`500`) and request/protocol validation errors (`4xx`).
+- The **response stream** carries a `__stat` on every message and can self-terminate on error. A successful entry uses `200` when it carries a payload and `204` when it does not; neither terminates the stream. An **error status (`4xx`/`5xx`) is self-terminating**: the executor sends nothing further, so the receiver surfaces it as the terminal error and ends the response stream. An error response does **not** also need a separate `isLast` message — its status is sufficient, and the executor may be unable to send a separate `isLast` (for example, after a crash). This covers executor exceptions (`500`) and request/protocol validation errors (`4xx`).
 - The **request stream** carries no outcome `__stat`, so it has no self-terminating-error form. A request-side failure — the request pump throwing, or the application abandoning the exchange — instead terminates the exchange through a best-effort **cancellation** (see [invoker side](#invoker-side)).
 
 Whichever side originates it, a terminal status is **exchange-scoped**, not a stream entry, and is de-duplicated using exchange terminal state keyed by correlation data rather than by index. Because it is exchange-scoped, it may arrive **after** a graceful `isLast` has already closed the data half in its direction — for example an executor error raised while the request half is still open, or a `Canceled` after the request `isLast`. Such a status does not reopen the data stream; it terminates the still-active **exchange**. If the corresponding iterator is still open the status faults it; if the iterator already completed via `isLast`, the status is observed only through the exchange context's completion.
@@ -429,9 +437,9 @@ public abstract class StreamingCommandExecutor<TReq, TResp> : IAsyncDisposable
 
 Three approaches to marking the final message in a stream were considered, and this is why the other two approaches don't work:
 
-- Require the `isLast` flag on a message that carries a fully-fledged stream entry (a user payload and/or user properties).
+- Carry the final-message marker on a message that also carries a fully-fledged stream entry (a user payload and/or user properties).
   - We must support ending a stream at an arbitrary time even when a fully-fledged message can't be sent, and this approach doesn't allow that.
-- Allow the `isLast` flag on either a fully-fledged message or a standalone message with no user payload or application-provided user properties.
+- Allow the final-message marker on either a fully-fledged message or a standalone message with no user payload or application-provided user properties.
   - This doesn't let the receiving end distinguish "the stream is over" from "this is the final message in the stream" when the user provides no payload or user properties on streamed messages.
 
-Because both either fail our requirements or are ambiguous in corner cases, the `isLast` flag must be set on a **standalone** message with no user payload or application-provided user properties.
+Because both either fail our requirements or are ambiguous in corner cases, the final-message marker is its own **standalone** `last` control message (`c:…:last`) with no user payload or application-provided user properties.
