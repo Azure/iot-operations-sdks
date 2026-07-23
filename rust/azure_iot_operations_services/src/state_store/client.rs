@@ -369,6 +369,7 @@ impl Client {
     /// is `Some`, pass it to the next `scan` call to get the next page. A `None`
     /// continuation token means the scan is complete.
     ///
+    /// Returns a [`Response`] containing a [`ScanResult`] with the matching keys and an optional continuation token.
     pub async fn scan(
         &self,
         pattern: Vec<u8>,
@@ -389,8 +390,13 @@ impl Client {
     /// `Result`, so one key failing (or being empty) does not discard the
     /// others. An empty `keys` slice yields an empty vector.
     ///
-    /// Note: ordering is guaranteed by [`futures::future::join_all`], which
-    /// collects in input order. 
+    /// # Arguments
+    /// * `keys` - The keys to get. Results are returned in the same order as this
+    ///   slice. An empty slice yields an empty vector.
+    /// * `timeout` - The duration until the client stops waiting for each `Get`
+    ///   response, rounded up to the nearest second. Applied to every key individually.
+    /// 
+    /// Returns a vector of `Result`s, each containing either the value of the key (if found) or an error.
     pub async fn mget(
         &self,
         keys: &[Vec<u8>],

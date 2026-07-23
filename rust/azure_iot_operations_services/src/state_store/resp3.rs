@@ -235,6 +235,7 @@ fn serialize_key_notify(key: &[u8], options: &KeyNotifyOptions) -> Vec<u8> {
     builder.get_buffer()
 }
 
+/// Builds a RESP3 payload to `SCAN(pattern, continuation_token)`
 fn serialize_scan(pattern: &[u8], continuation_token: Option<&[u8]>) -> Vec<u8> {
     print!("serialize_scan called with pattern: {:?}, continuation_token: {:?}\n", pattern, continuation_token);
     todo!("Implement serialize_scan");
@@ -255,6 +256,7 @@ pub(crate) enum Response {
     NotFound,
     /// Description of error because of invalid request
     Error(Vec<u8>),
+    /// Successful `Scan` response. Contains the keys that matched the requested pattern and an optional continuation token
     KeysScanned {
         keys: Vec<Vec<u8>>,
         continuation_token: Option<Vec<u8>>,
