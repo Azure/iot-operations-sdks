@@ -48,7 +48,7 @@ While RPC streaming shares a lot with normal RPC, we define a new communication 
 Each entry in a request or response stream pairs a user **payload** with **metadata**. That metadata combines two scopes:
 
 - **Message metadata** is scoped to the individual stream entry it travels with.
-- **Stream metadata** applies to a whole stream. The request and response streams carry **different** stream metadata, so this scope is **asymmetric** across directions. On the wire it repeats on every message (like the [exchange timeout](#exchange-level-timeout)) to survive first-message loss, and is read once.
+- **Stream metadata** applies to a whole stream. The request and response streams carry **different** stream metadata, so this scope is **asymmetric** across directions. On the wire it repeats on every message to survive first-message loss, and is read once.
 
 #### Core abstractions
 
@@ -111,7 +111,7 @@ Examples:
 - ```s:1:10``` — a request-direction status about the received message at stream index `1`; its `__stat` value carries the outcome (intended to communicate non-successful statuses).
 - ```d:0``` / ```c:7:last``` / ```s:3``` — the response-direction counterparts (executor → invoker); identical forms except `timeout_length` is omitted.
 
-Every MQTT PUBLISH belonging to a streaming exchange must include `__stream` in exactly one of these three forms: data messages use the `d` form, control messages use the `c` form (`c:…:cancel`, `c:…:last`), and status messages use the `s` form. A status message carries no stream entry; its `__stat` property carries the outcome details for the received message it references. Only **request-direction** messages (invoker → executor) carry the stream-level `timeout_length`, repeated on each so the timeout survives loss of earlier messages and lets a different executor recover the exchange mid-stream; **response-direction** messages (executor → invoker) omit it, since the invoker already set the timeout and cannot be recovered mid-stream.
+Every MQTT PUBLISH belonging to a streaming exchange must include `__stream` in exactly one of these three forms: data messages use the `d` form, control messages use the `c` form (`c:…:cancel`, `c:…:last`), and status messages use the `s` form. A status message carries no stream entry; its `__stat` property carries the outcome details for the received message it references.
 
 [see cancellation support](#cancellation-support) and [timeout support](#timeout-support) for how these fields are used.
 
@@ -137,7 +137,7 @@ A side **consumes** one stream and **produces** the other. The consuming and pro
 - **Acknowledgement.** By default a consumer acknowledges each message as soon as it is delivered to the user. Users may opt into manual acknowledgement to finish processing a message before forgoing broker re-delivery on an unexpected crash. 
 - **`isLast` receipt.** On an `isLast` control message (`c:…:last`), the consumer notifies the user that the stream has ended. This standalone message carries no payload or application-provided user properties and is **not** surfaced as a stream entry ([why `isLast` is its own message](#islast-message-being-its-own-message)). Because delivery order is guaranteed, receiving further data for that stream after its `isLast` is a protocol violation.
 
-**Producing a stream:** every data message carries the same correlation data, the appropriate [`__stream` metadata](#streaming-user-property), the serialized user payload, and any message metadata plus the stream metadata (repeated on every message so it survives first-message loss), at QoS 1. The producer ends its stream with a standalone `isLast` message (no payload, no application user properties) on the same topic and correlation. Which topic each side uses, and the `$partition` requirement on the command topic, are covered in [topics and routing](#topics-and-routing) above.
+**Producing a stream:** every data message carries the same correlation data, the appropriate [`__stream` metadata](#streaming-user-property), the serialized user payload, and any message metadata plus the stream metadata, at QoS 1. The producer ends its stream with a standalone `isLast` message (no payload, no application user properties) on the same topic and correlation. Which topic each side uses, and the `$partition` requirement on the command topic, are covered in [topics and routing](#topics-and-routing) above.
 
 **Executor-only rules:**
 
