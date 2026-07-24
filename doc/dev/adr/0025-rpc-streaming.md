@@ -39,39 +39,38 @@ gRPC supports these patterns for RPC:
 
 ### Conceptual model
 
-The model is defined here language-agnostically; the [appendix](#illustrative-net-api) gives a concrete C# sketch. The SDKs target Rust, .NET, and Go.
+The model is defined here language-agnostically; the [appendix](#illustrative-net-api) gives a concrete C# sketch.
 
 While RPC streaming shares a lot with normal RPC, we define a new communication pattern with two roles — a **streaming command invoker** and a **streaming command executor** — analogous to the existing command invoker and executor.
 
 #### Stream entries and metadata scopes
 
-Each entry in a request or response stream pairs a user **payload** with **per-message metadata**. Streaming distinguishes two metadata scopes:
+Each entry in a request or response stream pairs a user **payload** with **metadata**. That metadata combines two scopes:
 
-- **Per-message metadata** travels with each individual stream entry.
-- **Per-stream metadata** applies to a whole stream: the producer attaches it and the consumer reads it. The request and response streams carry **different** per-stream metadata (mirroring vanilla RPC's request vs response metadata), so this scope is **asymmetric** across directions. On the wire it repeats on every message (like the [exchange timeout](#exchange-level-timeout)) to survive first-message loss, and is read once.
+- **Message metadata** is scoped to the individual stream entry it travels with.
+- **Stream metadata** applies to a whole stream. The request and response streams carry **different** stream metadata, so this scope is **asymmetric** across directions. On the wire it repeats on every message (like the [exchange timeout](#exchange-level-timeout)) to survive first-message loss, and is read once.
 
 #### Core abstractions
 
 Each side both produces and consumes a stream — the invoker produces requests and consumes responses, the executor does the reverse — and the two together form one **exchange**, the unit of cancellation and timeout.
 
-Two abstractions carry these across the API:
+The streams themselves surface as plain async sequences — you **supply** the one you produce and **iterate** the one you consume — so producing and consuming take different shapes. Completion, cancellation, and timeout are **exchange-scoped** — one per invocation, not per direction — so a single cancel or timeout covers the whole exchange rather than either individual stream (see [cancellation](#cancellation-support) and [timeout](#timeout-support)).
 
-- A **stream context** is the **consume** side of one stream — the async sequence of entries you receive. A stream you **produce** is supplied directly as an async sequence together with its per-stream metadata, so producing and consuming use different shapes.
-- An **exchange context** is the per-exchange lifecycle and control handle for completion, cancellation, and timeout. Being **exchange-scoped** (one per invocation, not per direction), it lives here rather than on the *stream context*, so a single cancel/timeout covers the whole invocation.
+#### Exchange completion
 
-An exchange is **gracefully complete** only when *both* of its half-streams have closed: the invoker has sent its `isLast` request **and** received the `isLast` response, and symmetrically the executor has received the `isLast` request **and** sent the `isLast` response. Closing one half (via `isLast`) does **not** end the exchange — a side that finishes its own stream early stays active for the other half until it closes too, or until the [exchange timeout](#exchange-level-timeout) fires. Any other terminal — error, cancellation, or timeout — ends the whole exchange immediately. This both-halves condition is the shared definition of completion used by [timeout](#timeout-support) and [cancellation](#cancellation-support).
+Each producer ends its own stream with an **`isLast`** signal. An exchange is **gracefully complete** only when *both* of its streams have closed: the invoker has sent its `isLast` request **and** received the `isLast` response, and symmetrically the executor has received the `isLast` request **and** sent the `isLast` response. Closing one stream (via `isLast`) does **not** end the exchange — a side that finishes its own stream early stays active until the other stream closes too, or until the [exchange timeout](#exchange-level-timeout) fires. Any other terminal — error, cancellation, or timeout — ends the whole exchange immediately. Requiring both streams to close is the shared definition of completion used by [timeout](#timeout-support) and [cancellation](#cancellation-support).
 
 #### Invoker behavior
 
-The invoker supplies the outbound **request stream** (an async sequence of request entries) together with that stream's metadata; it must contain at least one entry. The invocation establishes the exchange; it does **not** represent completion of the request stream. The SDK activates response reception, sends the mandatory first request, and then returns the inbound **response stream** together with the *exchange context* — without waiting for the second request or for the request stream to end. Early responses are buffered for iteration.
+The invoker supplies the outbound **request stream** (an async sequence of request entries) together with that stream's metadata; it must contain at least one entry. The invocation establishes the exchange; it does **not** represent completion of the request stream. The invoker activates response reception, sends the mandatory first request, and then returns the inbound **response stream** — without waiting for the second request or for the request stream to end.
 
-After returning, both streams proceed concurrently, so each can react to the other. The response stream exposes response data and metadata; the exchange context exposes lifecycle and control.
+After returning, both streams proceed concurrently, so each can react to the other. The response stream exposes response data and metadata; completion, cancellation, and timeout operate at the exchange scope.
 
-An empty request stream or setup error fails the invocation before an exchange is returned. Any later request-sending error terminates the local exchange, stops request publication, and triggers a best-effort cancellation; it is exposed through the exchange context's completion signal and, while still open, the response stream.
+An empty request stream or setup error fails the invocation before an exchange is returned. Any later request-sending error terminates the local exchange, stops request publication, and triggers a best-effort cancellation; it is surfaced through the exchange's completion signal and, while still open, the response stream.
 
 #### Executor behavior
 
-The streaming command executor's callback notifies the user that a command was received; it takes the inbound **request stream** (a *stream context*), that request stream's metadata, and the *exchange context*, and returns the outbound **response stream** (an async sequence of response entries) together with that stream's metadata.
+The streaming command executor receives the inbound **request stream** and that request stream's metadata, returns the outbound **response stream** (an async sequence of response entries) together with that stream's metadata, and can cancel or observe the exchange's completion and timeout.
 
 ### MQTT layer protocol
 
@@ -116,38 +115,31 @@ Every MQTT PUBLISH belonging to a streaming exchange must include `__stream` in 
 
 [see cancellation support](#cancellation-support) and [timeout support](#timeout-support) for how these fields are used.
 
-#### Exchange routing and lifetime
+#### Topics and routing
 
-A single **correlation GUID** identifies the whole exchange — both streams carry it. The exchange spans **two directional routes** — the command topic (invoker → executor) and the response topic (executor → invoker) — each multiplexing a **data lane** and a **control lane**. Data lanes close **independently**, each by its own `isLast`; the control lanes are exchange-scoped, so an `isLast` closes only its direction's data lane and tears down nothing. Both routes and their per-correlation state stay active until the **exchange** is terminal, so control still flows after a half-stream's `isLast`.
+A single **correlation GUID** identifies the whole exchange; every message of both streams carries it. The exchange uses **two MQTT topics** — the **command topic** (invoker → executor) and the **response topic** (executor → invoker) — and each carries that direction's data, control, and status messages together.
 
-Because the executor subscribes to the command topic with a shared subscription, **every** command-topic packet for an exchange — request data, an `isLast` request, invoker cancellation, and the invoker's `Canceled` acknowledgement — must carry the same `$partition` value (the invoker's client id). Otherwise the broker may route a control packet to a different executor that holds no state for the correlation, silently dropping it from the exchange. Response-topic packets need only the correlation data, because `clients/{invokerId}/...` is unique to the invoker and is not a shared subscription.
+The executor subscribes to the **command topic** with a **shared subscription** (so that, with multiple executors, only one handles each exchange), with the same topic pre/suffixing and custom-topic-token support as vanilla RPC. The **response topic** is `clients/{invoker client id}/...` (prefixed like vanilla RPC), unique to the invoker and not shared; the invoker subscribes to it before publishing. Each request-stream message the invoker publishes carries the response topic (so the executor knows where to reply) and a `$partition` user property set to the invoker's client id.
 
-Once a side has reached a terminal state, further data messages for that correlation are acknowledged and ignored; only the required control re-answers (for example, re-sending `Canceled` for a re-issued cancellation) are sent. The per-correlation exchange state is kept as a tombstone so that late or duplicate packets remain routable and are not treated as a new stream; see [exchange level timeout](#exchange-level-timeout) for how long.
+Because the command topic is a shared subscription, **every** command-topic packet for an exchange — request data, an `isLast` request, invoker cancellation, and the invoker's `Canceled` acknowledgement — must carry that same `$partition`, so the broker routes them all to the same executor; otherwise a control packet could reach a different executor that holds no state for the correlation and be silently dropped. Response-topic packets need only the correlation data, since that topic is already unique to the invoker.
 
-#### Common stream handling
+#### Exchange lifetime
 
-A side **consumes** one stream and **produces** the other. The rules below are identical for both roles.
+Because closing one stream does not end the exchange (see [exchange completion](#exchange-completion)), each endpoint keeps its per-correlation state active until the exchange is terminal, so control still flows after an `isLast`. Once a side is terminal, further data messages for that correlation are acknowledged and ignored; only the required control re-answers (for example, re-sending `Canceled` for a re-issued cancellation) are sent. The per-correlation state is kept as a **tombstone** so late or duplicate packets remain routable and are not treated as a new stream; see [exchange level timeout](#exchange-level-timeout) for how long.
+
+#### Producing and consuming
+
+A side **consumes** one stream and **produces** the other. The consuming and producing rules below are identical for both roles; two further rules apply to the **executor** only.
 
 **Consuming a stream:**
 
 - **De-dup caching.** A consumer de-dups received data messages (QoS 1 may re-deliver) by correlationId + index — the index distinguishes duplicates since the correlationId is shared by the whole stream. Each cache entry is retained for the duration of its message's expiry interval (see [message level timeout](#message-level-timeout)), even beyond the end of the stream: clearing it when the stream finishes would let a late re-delivery still within its expiry window be treated as new, which is unsafe for non-idempotent commands.
 - **Acknowledgement.** By default a consumer acknowledges each message as soon as it is delivered to the user. Users may opt into manual acknowledgement to finish processing a message before forgoing broker re-delivery on an unexpected crash. 
-- **`isLast` receipt.** On an `isLast` control message (`c:…:last`), the consumer notifies the user that the stream has ended. This standalone message carries no payload or application-provided user properties and is **not** surfaced as a stream entry ([why `isLast` is its own message](#islast-message-being-its-own-message)). Because delivery order is guaranteed, receiving further data for that half after its `isLast` is a protocol violation.
+- **`isLast` receipt.** On an `isLast` control message (`c:…:last`), the consumer notifies the user that the stream has ended. This standalone message carries no payload or application-provided user properties and is **not** surfaced as a stream entry ([why `isLast` is its own message](#islast-message-being-its-own-message)). Because delivery order is guaranteed, receiving further data for that stream after its `isLast` is a protocol violation.
 
-**Producing a stream:** every data message carries the same correlation data, the appropriate [`__stream` metadata](#streaming-user-property), the serialized user payload, and any per-message metadata plus the stream's per-stream metadata (repeated on every message so it survives first-message loss), at QoS 1. The producer ends its stream with a standalone `isLast` message (no payload, no application user properties) on the same topic and correlation. Which topic each side uses, and the `$partition` requirement on the command topic, are covered below and in [exchange routing and lifetime](#exchange-routing-and-lifetime).
+**Producing a stream:** every data message carries the same correlation data, the appropriate [`__stream` metadata](#streaming-user-property), the serialized user payload, and any message metadata plus the stream metadata (repeated on every message so it survives first-message loss), at QoS 1. The producer ends its stream with a standalone `isLast` message (no payload, no application user properties) on the same topic and correlation. Which topic each side uses, and the `$partition` requirement on the command topic, are covered in [topics and routing](#topics-and-routing) above.
 
-#### Invoker side
-
-The invoker first subscribes to its response topic (`clients/{mqtt client id of invoker}/...`, prefixed like vanilla RPC), then publishes the request stream. In addition to the common producer fields, each request-stream message (data and the closing `isLast`) carries:
-
-- the response topic, so the executor knows where to reply;
-- the `$partition` user property set to the invoker's client id, so the shared subscription routes every message of the exchange to the same executor.
-
-#### Executor side
-
-The executor subscribes to the command topic using a **shared subscription** (so that, with multiple executors, only one handles each exchange), with the same topic pre/suffixing and custom-topic-token support as vanilla RPC. On the first request message it notifies the application, which then supplies the response stream; each response message is published to the response topic named in the request, with the same correlation data.
-
-Two executor-only rules:
+**Executor-only rules:**
 
 - If an `isLast` arrives before any data message in the request stream, log an error, acknowledge it, and ignore it — a request stream must have at least one entry.
 - Unlike vanilla RPC, the executor keeps **no replay cache**: streams may grow without bound, so replaying a response stream isn't feasible.
@@ -158,16 +150,16 @@ Timeout support avoids either side getting stuck — waiting for a final message
 
 #### Approach
 
-The invoker configures an **exchange timeout** — a single total budget for the whole exchange — plus a per-message expiry for request/response data. If the user does not specify one, the SDK applies a configurable default; a user-supplied value must be positive and finite and is rounded up to whole seconds. Every exchange therefore has a positive, finite timeout of at least one second.
+The invoker configures an **exchange timeout** — a single total budget for the whole exchange — plus a per-message expiry for request/response data. If the user does not specify one, a configurable default applies; a user-supplied value must be positive and finite and is rounded up to whole seconds. Every exchange therefore has a positive, finite timeout of at least one second.
 
-The exchange timeout bounds **total elapsed time from when the exchange begins**, not inactivity; it caps the whole exchange and is the backstop for one that never reaches [graceful completion](#core-abstractions) — a half-stream that never closes, a lost final message, or a crashed peer.
+The exchange timeout bounds **total elapsed time from when the exchange begins**, not inactivity; it caps the whole exchange and is the backstop for one that never reaches [graceful completion](#exchange-completion) — a stream that never closes, a lost final message, or a crashed peer.
 
 ##### Exchange level timeout
 
 Each side runs its own countdown from the start of the exchange and does **not** reset it:
 
-- The **invoker** starts its timer when it sends its first request. If it elapses before [graceful completion](#core-abstractions), it reports the timeout to the user and stops sending.
-- The **executor** starts its timer on the first request it receives. If it elapses before [graceful completion](#core-abstractions), it reports the timeout to the user callback.
+- The **invoker** starts its timer when it sends its first request. If it elapses before [graceful completion](#exchange-completion), it reports the timeout to the user and stops sending.
+- The **executor** starts its timer on the first request it receives. If it elapses before [graceful completion](#exchange-completion), it reports the timeout to the user.
 
 Every **request-direction** message (invoker → executor) carries the **current invoker timeout counter value** in the `timeout_length` field of `__stream` (in seconds), repeated on each so the timeout survives loss of earlier messages and lets a different executor recover the exchange mid-stream; response-direction messages (executor → invoker) omit it. Seconds align with the MQTT message expiry interval used for other timeouts, keep the header small for long-running streams, and avoid implying a sub-second precision that isn't meaningful.
 
@@ -182,7 +174,7 @@ We will allow users to set the message expiry interval of each message in a requ
 
 #### Alternative timeout designs considered
 
-- An **idle (inactivity) timeout kept alive by SDK heartbeats** — the timer resets on every message received from the peer, and each side emits periodic heartbeats so a live-but-quiet peer keeps it from firing; this supports indefinitely-long streams while still detecting a stalled peer on a short inactivity window.
+- An **idle (inactivity) timeout kept alive by heartbeats** — the timer resets on every message received from the peer, and each side emits periodic heartbeats so a live-but-quiet peer keeps it from firing; this supports indefinitely-long streams while still detecting a stalled peer on a short inactivity window.
   - Rejected for now: significantly more complex (heartbeat traffic, per-message resets, extra failure modes) than a single overall budget. Revisit only if a customer explicitly needs an unbounded stream with liveness detection; adding it later alongside the overall timeout would create two clashing timeout semantics.
 - The above approach, but trying to calculate time spent on broker side (using message expiry interval) so that invoker and executor timeout at the same exact time
   - This would require additional metadata in the ```__stream``` user property (intended vs received message expiry interval) and is only helpful in the uncommon scenario where a message spends extended periods of time at the broker
@@ -201,9 +193,9 @@ Cancellation requests may include user properties explaining why cancellation wa
 
 #### API
 
-Cancellation is exposed through the *exchange context* — returned to the invoker and passed into the executor's receive callback — rather than the per-stream *stream context*. This keeps cancellation exchange-scoped (a single cancel/timeout per invocation, not one per direction) and off the per-direction *stream context*.
+Cancellation is an **exchange-scoped** operation — a single cancel per invocation covers the whole exchange, not one per direction or stream — available to both the invoker and the executor.
 
-Either side invokes the **cancel** operation (optionally attaching user properties) and observes peer cancellation or local timeout through the *exchange context*'s signal and its *canceled* / *timed out* flags, along with any user properties on the received cancellation. For a concrete illustration see the [appendix](#illustrative-net-api); for detailed examples see the [integration tests](../../../dotnet/test/Azure.Iot.Operations.Protocol.IntegrationTests/StreamingIntegrationTests.cs).
+Either side invokes the **cancel** operation (optionally attaching user properties) and observes peer cancellation or local timeout, along with any user properties on the received cancellation. For a concrete illustration see the [appendix](#illustrative-net-api); for detailed examples see the [integration tests](../../../dotnet/test/Azure.Iot.Operations.Protocol.IntegrationTests/StreamingIntegrationTests.cs).
 
 #### Canceled status
 
@@ -245,7 +237,7 @@ Cancellation is **idempotent**: the sender may issue `cancel` more than once whi
 The receiver of a cancellation responds depending on the state of that receiver:
 
 - **Still active** — notifies the application, replies with `Canceled` on the appropriate topic.
-- **Already completed** (both halves closed) — acknowledges the message and sends nothing.
+- **Already completed** (both streams closed) — acknowledges the message and sends nothing.
 - **Already canceled** — re-sends `Canceled` so a later (re-issued) cancellation is answered.
 
 ### Error handling and stream termination
@@ -257,7 +249,7 @@ Both produced streams end **gracefully** the same way: a standalone `isLast` mes
 - The **response stream** carries a `__stat` on every message and can self-terminate on error. A successful entry uses `200` when it carries a payload and `204` when it does not; neither terminates the stream. An **error status (`4xx`/`5xx`) is self-terminating**: the executor sends nothing further, so the receiver surfaces it as the terminal error and ends the response stream. An error response does **not** also need a separate `isLast` message — its status is sufficient, and the executor may be unable to send a separate `isLast` (for example, after a crash). This covers executor exceptions (`500`) and request/protocol validation errors (`4xx`).
 - The **request stream** carries no outcome `__stat`, so it has no self-terminating-error form. A request-side failure — the request pump throwing, or the application abandoning the exchange — instead terminates the exchange through a best-effort **cancellation** (see [invoker behavior](#invoker-behavior)).
 
-Whichever side originates it, a terminal status is **exchange-scoped**, not a stream entry, and is de-duplicated using exchange terminal state keyed by correlation data rather than by index. Because it is exchange-scoped, it may arrive **after** a graceful `isLast` has already closed the data half in its direction — for example an executor error raised while the request half is still open, or a `Canceled` after the request `isLast`. Such a status does not reopen the data stream; it terminates the still-active **exchange**. If the corresponding iterator is still open the status faults it; if the iterator already completed via `isLast`, the status is observed only through the exchange context's completion.
+Whichever side originates it, a terminal status is **exchange-scoped**, not a stream entry, and is de-duplicated using exchange terminal state keyed by correlation data rather than by index. Because it is exchange-scoped, it may arrive **after** a graceful `isLast` has already closed the data stream in its direction — for example an executor error raised while the request stream is still open, or a `Canceled` after the request `isLast`. Such a status does not reopen the data stream; it terminates the still-active **exchange**. If the corresponding iterator is still open the status faults it; if the iterator already completed via `isLast`, the status is observed only through the exchange's completion signal.
 
 The `__apErr` (`IsApplicationError`) property classifies an error as either a framework/protocol error (`__apErr = false`: canceled, bad request, internal error) or an application-level error (`__apErr = true`) the command logic chose to return. **Either way the error status terminates the stream** — there is no per-message error status that leaves the stream running. An application that needs a per-item outcome while the stream keeps going (for example, a batch where individual items may fail) must encode that in its response payload (`TResp`), not the protocol status — a mid-stream "failed item" is just a normal response whose payload represents the failure.
 
@@ -298,9 +290,9 @@ By maintaining RPC streaming as a separate communication pattern from normal RPC
 
 ### Illustrative .NET API
 
-The following C# sketches one possible implementation of the [conceptual model](#conceptual-model) above. It is illustrative only — the SDKs also target Rust and Go, which will expose equivalent shapes idiomatically.
+The following C# sketches one possible implementation of the [conceptual model](#conceptual-model) above. It is illustrative only — the Rust and Go implementations will expose equivalent shapes idiomatically.
 
-Two base classes define the pattern — `StreamingCommandInvoker` and `StreamingCommandExecutor` — reusing "extended" request/response types that pair each payload with its per-message metadata:
+Two base classes define the pattern — `StreamingCommandInvoker` and `StreamingCommandExecutor` — reusing "extended" request/response types that pair each payload with its message metadata:
 
 ```csharp
 public class StreamingExtendedRequest<TReq>
@@ -320,7 +312,7 @@ public class StreamingExtendedResponse<TResp>
     public TimeSpan? MessageExpiry { get; set; }
 }
 
-// SDK-assigned index, HLC timestamp, and per-message user properties.
+// Stream index, HLC timestamp, and per-message user properties.
 public class StreamMessageMetadata
 {
     public uint Index { get; init; }
@@ -342,7 +334,7 @@ public class ReceivedStreamingExtendedResponse<TResp> : StreamingExtendedRespons
     public Task AcknowledgeAsync() { ... }
 }
 
-// Per-stream metadata is asymmetric, mirroring vanilla RPC's request/response metadata.
+// Stream metadata is asymmetric, mirroring vanilla RPC's request/response metadata.
 public class RequestStreamMetadata
 {
     ...
@@ -354,24 +346,19 @@ public class ResponseStreamMetadata
 }
 ```
 
-The **stream context** wraps a stream's entries; its per-stream metadata travels separately as a `RequestStreamMetadata` / `ResponseStreamMetadata`. The **exchange context** carries per-exchange completion, cancellation, and timeout:
+A consumed stream is just an `IAsyncEnumerable<T>` of entries (stream metadata delivered separately as `RequestStreamMetadata` / `ResponseStreamMetadata`), except the invoker's response stream — `IResponseStream<T>` wraps the entries so its metadata can be **awaited**, since the invoker returns before the first response. The **exchange handle** carries per-exchange completion, cancellation, and timeout:
 
 ```csharp
-public interface IStreamContext<T>
+public interface IResponseStream<T>
     where T : class
 {
     IAsyncEnumerable<T> Entries { get; set; }
-}
 
-// The invoker returns before the first response arrives, so await StreamMetadata for the response
-// stream's metadata (it faults if the exchange ends before any response).
-public interface IResponseStreamContext<T> : IStreamContext<T>
-    where T : class
-{
+    // Faults if the exchange ends before any response arrives.
     Task<ResponseStreamMetadata> StreamMetadata { get; }
 }
 
-public interface IExchangeContext
+public interface IExchangeHandle
 {
     // Completes on graceful close; faults or cancels on any other terminal.
     Task Completion { get; }
@@ -389,7 +376,7 @@ public interface IExchangeContext
 }
 ```
 
-The invoker supplies the request stream (and its stream-level metadata) and returns the response stream plus the exchange context:
+The invoker supplies the request stream (and its stream-level metadata) and returns the response stream plus the exchange handle:
 
 ```csharp
 public abstract class StreamingCommandInvoker<TReq, TResp>
@@ -401,7 +388,7 @@ public abstract class StreamingCommandInvoker<TReq, TResp>
 
     // Returns after the first request is accepted, without waiting for the rest.
     // exchangeTimeout: total budget for the whole exchange (a configurable default applies if unset).
-    public async Task<(IResponseStreamContext<ReceivedStreamingExtendedResponse<TResp>> Responses, IExchangeContext Exchange)> InvokeStreamingCommandAsync(
+    public async Task<(IResponseStream<ReceivedStreamingExtendedResponse<TResp>> Responses, IExchangeHandle Exchange)> InvokeStreamingCommandAsync(
       IAsyncEnumerable<StreamingExtendedRequest<TReq>> requests,
       RequestStreamMetadata? streamMetadata = null,
       Dictionary<string, string>? additionalTopicTokenMap = null,
@@ -410,7 +397,7 @@ public abstract class StreamingCommandInvoker<TReq, TResp>
 }
 ```
 
-The executor's callback receives the request stream, its stream-level metadata, and the exchange context, and returns the response stream together with its metadata:
+The executor's callback receives the request stream, its stream-level metadata, and the exchange handle, and returns the response stream together with its metadata:
 
 ```csharp
 public abstract class StreamingCommandExecutor<TReq, TResp> : IAsyncDisposable
@@ -418,9 +405,9 @@ public abstract class StreamingCommandExecutor<TReq, TResp> : IAsyncDisposable
     where TResp : class
 {
     public required Func<
-        IStreamContext<ReceivedStreamingExtendedRequest<TReq>>,
+        IAsyncEnumerable<ReceivedStreamingExtendedRequest<TReq>>,
         RequestStreamMetadata,
-        IExchangeContext,
+        IExchangeHandle,
         (IAsyncEnumerable<StreamingExtendedResponse<TResp>> Responses, ResponseStreamMetadata Metadata)> OnStreamingCommandReceived { get; set; }
 
     // false -> the callback must ack each request entry manually.
