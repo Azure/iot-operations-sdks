@@ -237,7 +237,6 @@ fn serialize_key_notify(key: &[u8], options: &KeyNotifyOptions) -> Vec<u8> {
 
 /// Builds a RESP3 payload to `SCAN(pattern, continuation_token)`
 fn serialize_scan(pattern: &[u8], continuation_token: Option<&[u8]>) -> Vec<u8> {
-    print!("serialize_scan called with pattern: {:?}, continuation_token: {:?}\n", pattern, continuation_token);
     todo!("Implement serialize_scan");
 }
 // ----------------------- Response Types -----------------------

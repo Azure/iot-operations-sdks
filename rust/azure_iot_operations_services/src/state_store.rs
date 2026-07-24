@@ -152,6 +152,23 @@ where
     pub response: T,
 }
 
+/// Opaque cursor returned by [`Client::scan`](client::Client::scan). Pass it back
+/// to the next `scan` call to resume. The internal format is a broker detail and
+/// may change, so do not construct or parse it yourself.
+#[derive(Clone, Debug, PartialEq, Eq)]
+pub struct ContinuationToken(Vec<u8>);
+
+impl ContinuationToken {
+    /// Bytes of the token, for persisting it (e.g. to survive a restart).
+    pub fn as_bytes(&self) -> &[u8] {
+        &self.0
+    }
+
+    /// Rebuilds a token from bytes previously returned by [`as_bytes`](Self::as_bytes).
+    pub fn from_bytes(bytes: Vec<u8>) -> Self {
+        Self(bytes)
+    }
+}
 
 /// Result of a [`Client::scan`](client::Client::scan) request: one collection of keys
 /// matching the requested pattern, plus an optional continuation token to resume
@@ -162,7 +179,7 @@ pub struct ScanResult {
     pub keys: Vec<Vec<u8>>,
     /// Token to pass to the next [`Client::scan`](client::Client::scan) call,
     /// or `None` when there are no more keys.
-    pub continuation_token: Option<Vec<u8>>,
+    pub continuation_token: Option<ContinuationToken>,
 }
 
 /// Convenience function to convert a [`rpc_command::invoker::Response`] into a [`Response`]

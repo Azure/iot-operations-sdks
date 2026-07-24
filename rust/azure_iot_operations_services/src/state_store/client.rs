@@ -22,7 +22,7 @@ use derive_builder::Builder;
 use tokio::{sync::Notify, task};
 
 use crate::state_store::{
-    self, Error, ErrorKind, FENCING_TOKEN_USER_PROPERTY, PERSIST_USER_PROPERTY, SetOptions,
+    self, Error, ErrorKind, FENCING_TOKEN_USER_PROPERTY, PERSIST_USER_PROPERTY, SetOptions, ContinuationToken,
 };
 
 const REQUEST_TOPIC_PATTERN: &str =
@@ -361,50 +361,6 @@ impl Client {
         .await
     }
 
-    /// Scans the State Store for keys matching `pattern`, returning one collection of
-    /// results plus an optional continuation token to resume the scan.
-    ///
-    /// Pass `continuation_token: None` for the first request. On each response,
-    /// if [`ScanResult::continuation_token`](state_store::ScanResult::continuation_token)
-    /// is `Some`, pass it to the next `scan` call to get the next page. A `None`
-    /// continuation token means the scan is complete.
-    ///
-    /// Returns a [`Response`] containing a [`ScanResult`] with the matching keys and an optional continuation token.
-    pub async fn scan(
-        &self,
-        pattern: Vec<u8>,
-        continuation_token: Option<Vec<u8>>,
-        timeout: Duration,
-    ) -> Result<state_store::Response<state_store::ScanResult>, Error> {
-        todo!("Implement scan method");
-    }
-
-    /// Gets the values of multiple keys concurrently.
-    ///
-    /// There is no MGET command in the State Store. This is an SDK side
-    /// convenience that issues one [`Client::get`] per key and drives them
-    /// concurrently.
-    ///
-    /// The returned vector is **positionally aligned** with `keys`:
-    /// `result[i]` is the outcome for `keys[i]`. Each element is an independent
-    /// `Result`, so one key failing (or being empty) does not discard the
-    /// others. An empty `keys` slice yields an empty vector.
-    ///
-    /// # Arguments
-    /// * `keys` - The keys to get. Results are returned in the same order as this
-    ///   slice. An empty slice yields an empty vector.
-    /// * `timeout` - The duration until the client stops waiting for each `Get`
-    ///   response, rounded up to the nearest second. Applied to every key individually.
-    /// 
-    /// Returns a vector of `Result`s, each containing either the value of the key (if found) or an error.
-    pub async fn mget(
-        &self,
-        keys: &[Vec<u8>],
-        timeout: Duration,
-    ) -> Vec<Result<state_store::Response<Option<Vec<u8>>>, Error>> {
-        todo!("Implement mget method");
-    }
-
     async fn del_internal(
         &self,
         request: state_store::resp3::Request,
@@ -604,6 +560,88 @@ impl Client {
             }
             Err(e) => Err(e),
         }
+    }
+
+
+    // pub fn scan_stream(
+    //     &self,
+    //     pattern: Vec<u8>,
+    //     timeout: Duration,
+    // ) -> impl Stream<Item = Result<Vec<u8>, Error>> + '_ {
+    //     todo!("Implement scan_stream method");
+    // }
+    /// Scans the State Store for keys matching `pattern`, returning one collection of
+    /// results plus an optional continuation token to resume the scan.
+    ///
+    /// Pass `continuation_token: None` for the first request. On each response,
+    /// if [`ScanResult::continuation_token`](state_store::ScanResult::continuation_token)
+    /// is `Some`, pass it to the next `scan` call to get the next page. A `None`
+    /// continuation token means the scan is complete.
+    ///
+    /// # Pattern format
+    /// `pattern` is a glob-style pattern (matched by the State Store using the
+    /// [`glob`](https://docs.rs/glob) crate), **not** a regular expression and **not** a plain
+    /// prefix match. A key is returned only if the *entire* key matches the pattern. Keys are
+    /// matched as UTF-8 text: keys that are not valid UTF-8 are never returned, and a pattern that
+    /// is not valid UTF-8 matches nothing.
+    ///
+    /// The following wildcards are supported:
+    /// * `*` - matches any sequence of characters (including the empty sequence).
+    /// * `?` - matches any single character.
+    /// * `[abc]` - matches any single character in the set (e.g. `a`, `b`, or `c`).
+    /// * `[a-z]` - matches any single character in the (inclusive) range.
+    /// * `[!abc]` / `[!a-z]` - matches any single character *not* in the set/range.
+    ///
+    /// To match a wildcard character literally, wrap it in a character class, e.g. `[*]`
+    /// matches a literal `*` and `[?]` matches a literal `?`.
+    ///
+    /// # Examples
+    /// * `*` - matches every key.
+    /// * `key*` - matches every key that starts with `key` (prefix match).
+    /// * `*key` - matches every key that ends with `key` (suffix match).
+    /// * `user:?` - matches `user:1`, `user:a`, etc., but not `user:12`.
+    ///
+    /// # Arguments
+    /// * `pattern` - The glob-style pattern to match keys against, as described above.
+    /// * `continuation_token` - `None` for the first request; otherwise the token returned by the
+    ///   previous `scan` response, to resume where the previous page left off.
+    /// * `timeout` - The duration until the client stops waiting for a `Scan` response, rounded up
+    ///   to the nearest second.
+    ///
+    /// Returns a [`Response`] containing a [`ScanResult`] with the matching keys and an optional continuation token.
+    pub async fn scan(
+        &self,
+        pattern: Vec<u8>,
+        continuation_token: Option<ContinuationToken>,
+        timeout: Duration,
+    ) -> Result<state_store::Response<state_store::ScanResult>, Error> {
+        todo!("Implement scan method");
+    }
+
+    /// Gets the values of multiple keys concurrently.
+    ///
+    /// There is no MGET command in the State Store. This is an SDK side
+    /// convenience that issues one [`Client::get`] per key and drives them
+    /// concurrently.
+    ///
+    /// The returned vector is **positionally aligned** with `keys`:
+    /// `result[i]` is the outcome for `keys[i]`. Each element is an independent
+    /// `Result`, so one key failing (or being empty) does not discard the
+    /// others. An empty `keys` slice yields an empty vector.
+    ///
+    /// # Arguments
+    /// * `keys` - The keys to get. Results are returned in the same order as this
+    ///   slice. An empty slice yields an empty vector.
+    /// * `timeout` - The duration until the client stops waiting for each `Get`
+    ///   response, rounded up to the nearest second. Applied to every key individually.
+    /// 
+    /// Returns a vector of `Result`s, each containing either the value of the key (if found) or an error.
+    pub async fn mget(
+        &self,
+        keys: &[Vec<u8>],
+        timeout: Duration,
+    ) -> Vec<Result<state_store::Response<Option<Vec<u8>>>, Error>> {
+        todo!("Implement mget method");
     }
 
     /// only return when the session goes from connected to disconnected
