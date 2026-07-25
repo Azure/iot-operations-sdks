@@ -90,18 +90,11 @@ To convey streaming context, each message carries a `__stream` MQTT user propert
 
 **Table 1. `__stream` value fields.** The value takes one of three mutually exclusive forms distinguished by a leading tag — a **data** form (`d:…`) for stream entries, a **control** form (`c:…`) for stream control, and a **status** form (`s:…`) for reporting an outcome about a received message. Because the form is tagged, a message only ever carries the fields that apply to it; there are no fields to ignore.
 
-| Field                  | Type               | Form    | Meaning                                                                                                                                                                          |
-| ---------------------- | ------------------ | ------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `d` (tag)              | literal            | data    | Identifies a **data** message that carries one stream entry                                                                                                                     |
-| `message_index`        | uint               | data    | Position of this message within the producer's stream; data and control share one counter                                                                                      |
-| `timeout_length`       | uint               | data    | Invoker's current timeout counter (exchange time remaining), in seconds; **request-direction only** (invoker → executor), omitted on response-direction messages |
-| `c` (tag)              | literal            | control | Identifies a **control** message                                                                                                                                                |
-| `message_index`        | uint               | control | Position of this message within the producer's stream; data and control share one counter                                                                                      |
-| `timeout_length`       | uint               | control | Invoker's current timeout counter (exchange time remaining), in seconds; **request-direction only** (invoker → executor), omitted on response-direction messages |
-| `control_command_word` | `cancel` \| `last` | control | `last`: the standalone final message that closes the producer's stream (no payload or application-provided user properties). `cancel`: a cancellation request for the exchange.  |
-| `s` (tag)              | literal            | status  | Identifies a **status** message reporting an outcome about a received message; the outcome details travel in `__stat`                                                           |
-| `message_index`        | uint               | status  | Stream index of the **received** message the status refers to (the peer's index, not the producer's counter)                                                                    |
-| `timeout_length`       | uint               | status  | Invoker's current timeout counter (exchange time remaining), in seconds; **request-direction only** (invoker → executor), omitted on response-direction messages |
+| Field | Type | Meaning |
+| ---- | ---- | ---- |
+| `message_index` | uint | **data**/**control**: position of this message within the producer's stream (data and control share one counter). **status**: the index of the **received** message the status refers to (the peer's counter, not the producer's). |
+| `control_command_word` | `cancel` \| `last` | **control** form only. `last`: the standalone final message that closes the producer's stream (no payload or application-provided user properties). `cancel`: a cancellation request for the exchange. |
+| `timeout_length` | uint | The invoker's current timeout counter (exchange time remaining), in seconds; **request-direction only** (invoker → executor), omitted on response-direction messages. |
 
 Examples:
 
