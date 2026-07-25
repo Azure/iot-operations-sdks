@@ -8,7 +8,7 @@
 #![allow(dead_code)]
 #![allow(clippy::unused_async)]
 
-use std::{future::Future, io, num::NonZeroU16, pin::pin, time::Duration};
+use std::{future::Future, io, num::NonZeroU16, pin::pin, sync::Arc, time::Duration};
 
 use bytes::{Bytes, BytesMut};
 use futures_util::future::{self, FutureExt as _};
@@ -77,9 +77,12 @@ pub fn new_client(options: ClientOptions) -> (Client, ConnectHandle, Receiver) {
     let (sub_tx, sub_rx) = tokio::sync::mpsc::channel(1);
     let (ack_tx, ack_rx) = tokio::sync::mpsc::channel(1);
     let (auth_tx, auth_rx) = tokio::sync::mpsc::channel(1);
-    // NOTE: We use an unbounded channel for incoming publishes, as messages read off the network must go
-    // somewhere.
+    // QoS 1 and 2 are bounded by MQTT Receive Maximum. QoS 0 has no protocol-level
+    // flow control, so permits cap how many QoS 0 publishes may occupy this channel.
     let (i_pub_tx, i_pub_rx) = tokio::sync::mpsc::unbounded_channel();
+    let incoming_qos0_permits = Arc::new(tokio::sync::Semaphore::new(
+        options.incoming_qos0_queue_size,
+    ));
     let client = Client {
         pub_qos0_tx: o_pub_q0_tx,
         pub_qos12_tx: o_pub_q12_tx,
@@ -95,6 +98,7 @@ pub fn new_client(options: ClientOptions) -> (Client, ConnectHandle, Receiver) {
         ack_rx,
         auth_rx,
         i_pub_tx,
+        incoming_qos0_permits,
         ack_tx,
         auth_tx,
         options.max_packet_identifier,
@@ -120,6 +124,10 @@ pub struct ClientOptions {
     pub publish_qos0_queue_size: usize,
     /// Maximum size of the outgoing queue for QoS 1 and 2 PUBLISH packets.
     pub publish_qos1_qos2_queue_size: usize,
+    /// Maximum number of incoming QoS 0 PUBLISH packets waiting to be received.
+    ///
+    /// Additional QoS 0 packets are dropped when this limit is reached.
+    pub incoming_qos0_queue_size: usize,
     // TODO: Consider using a Builder pattern?
 }
 
@@ -130,6 +138,7 @@ impl Default for ClientOptions {
             max_packet_identifier: PacketIdentifier::MAX,
             publish_qos0_queue_size: 100,
             publish_qos1_qos2_queue_size: 100,
+            incoming_qos0_queue_size: 100,
         }
     }
 }
@@ -1059,7 +1068,7 @@ pub enum ManualAcknowledgement {
 impl From<channel_data::IncomingPublishAndToken<Bytes>> for (Publish, ManualAcknowledgement) {
     fn from(inner: channel_data::IncomingPublishAndToken<Bytes>) -> Self {
         match inner {
-            channel_data::IncomingPublishAndToken::QoS0(publish) => {
+            channel_data::IncomingPublishAndToken::QoS0(publish, _permit) => {
                 (publish.into(), ManualAcknowledgement::QoS0)
             }
             channel_data::IncomingPublishAndToken::QoS1(publish, token) => (

@@ -3,13 +3,17 @@
 
 use std::collections::{HashMap, VecDeque};
 use std::pin::Pin;
+use std::sync::Arc;
 use std::task::Poll;
 
 use derive_where::derive_where;
 use futures_util::future::FutureExt as _;
 use futures_util::stream::{Peekable, Stream, StreamExt as _};
 use indexmap::IndexMap;
-use tokio::sync::mpsc::{Receiver, Sender, UnboundedSender};
+use tokio::sync::{
+    Semaphore,
+    mpsc::{Receiver, Sender, UnboundedSender},
+};
 use tokio::time::Duration;
 
 use crate::azure_mqtt::buffer_pool::{Owned, Shared};
@@ -79,6 +83,7 @@ where
         ack_rx: Receiver<AcknowledgementRequest<O::Shared>>,
         auth_rx: Receiver<ReauthRequest<O::Shared>>,
         i_pub_tx: UnboundedSender<IncomingPublishAndToken<O::Shared>>,
+        incoming_qos0_permits: Arc<Semaphore>,
         ack_tx: Sender<AcknowledgementRequest<O::Shared>>,
         auth_tx: Sender<ReauthRequest<O::Shared>>,
         max_pkid: PacketIdentifier,
@@ -92,6 +97,7 @@ where
             ack_rx,
             auth_rx,
             i_pub_tx,
+            incoming_qos0_permits,
             ack_tx,
             auth_tx,
         };
@@ -544,7 +550,13 @@ where
     /// An incoming PUBLISH packet has been received from the server
     pub fn incoming_publish(&mut self, publish: Publish<O::Shared>) {
         let incoming = match publish.packet_identifier_dup_qos {
-            PacketIdentifierDupQoS::AtMostOnce => IncomingPublishAndToken::QoS0(publish),
+            PacketIdentifierDupQoS::AtMostOnce => {
+                let Ok(permit) = self.ch.incoming_qos0_permits.clone().try_acquire_owned() else {
+                    log::debug!("incoming QoS 0 PUBLISH dropped because the receive queue is full");
+                    return;
+                };
+                IncomingPublishAndToken::QoS0(publish, permit)
+            }
             PacketIdentifierDupQoS::AtLeastOnce(packet_identifier, _) => {
                 let r = self
                     .in_application
@@ -755,6 +767,8 @@ where
     auth_rx: Receiver<ReauthRequest<S>>,
     /// Channel for sending incoming PUBLISHes and associated acknowledgement tokens
     i_pub_tx: UnboundedSender<IncomingPublishAndToken<S>>,
+    /// Limits the number of queued incoming QoS 0 PUBLISH packets
+    incoming_qos0_permits: Arc<Semaphore>,
 
     // --- Channels stored here to be cloned, and should not be used directly ---
     // TODO: Is this really the correct place for these?
