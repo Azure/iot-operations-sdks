@@ -62,15 +62,13 @@ Each producer ends its own stream with an **`isLast`** signal. An exchange is **
 
 #### Invoker behavior
 
-The invoker supplies the outbound **request stream** (an async sequence of request entries) together with that stream's metadata; it must contain at least one entry. The invocation establishes the exchange; it does **not** represent completion of the request stream. The invoker activates response reception, sends the mandatory first request, and then returns the inbound **response stream** — without waiting for the second request or for the request stream to end.
-
-After returning, both streams proceed concurrently, so each can react to the other. The response stream exposes response data and metadata; completion, cancellation, and timeout operate at the exchange scope.
+The invoker supplies the outbound **request stream** together with that stream's metadata; it must contain at least one entry. The invocation establishes the exchange; it does **not** represent completion of the request stream. The invoker activates response reception, sends the mandatory first request, and then returns the inbound **response stream** — without waiting for the second request or for the request stream to end.
 
 An empty request stream or setup error fails the invocation before an exchange is returned. Any later request-sending error terminates the local exchange, stops request publication, and triggers a best-effort cancellation; it is surfaced through the exchange's completion signal and, while still open, the response stream.
 
 #### Executor behavior
 
-The streaming command executor receives the inbound **request stream** and that request stream's metadata, returns the outbound **response stream** (an async sequence of response entries) together with that stream's metadata, and can cancel or observe the exchange's completion and timeout.
+The streaming command executor receives the inbound **request stream** and that request stream's metadata, returns the outbound **response stream** together with that stream's metadata, and can cancel or observe the exchange's completion and timeout.
 
 ### MQTT layer protocol
 
@@ -219,26 +217,26 @@ Either side cancels by publishing a [`cancel` control message](#streaming-user-p
 - The **invoker** cancels on the command topic, then keeps listening on the response topic and delivering any in-flight responses to the application until the `Canceled` status arrives and closes the channel, or the whole exchange times out.
 - The **executor** cancels on the invoker's response topic, then keeps listening on the command topic and delivering any in-flight requests to the application until the `Canceled` status arrives and closes the channel, or the whole exchange times out.
 
-Cancellation is **idempotent**: the sender may issue `cancel` more than once while exchange is active. Receiving `Canceled` confirms cancellation; any other terminal outcome ends re-issuing without confirming it.
+Cancellation is **idempotent**: the sender may issue `cancel` more than once while exchange is active. Receiving `Canceled` confirms cancellation.
 
 #### Receiving a cancellation
 
 The receiver of a cancellation responds depending on the state of that receiver:
 
-- **Still active** — notifies the application, replies with `Canceled` on the appropriate topic.
-- **Already completed** (both streams closed) — acknowledges the message and sends nothing.
+- **Still active** — notifies the application, replies with `Canceled` on the appropriate topic, stops production of the outbound stream, transitions to the canceled state.
 - **Already canceled** — re-sends `Canceled` so a later (re-issued) cancellation is answered.
+- **Other terminal states** — acknowledges the message and sends nothing.
 
 ### Error handling and stream termination
 
 The **termination machinery** is symmetric across both directions; what is asymmetric is **which statuses each side originates** — inherited from RPC, where the outcome `__stat` is a response-direction concept.
 
-Both produced streams end **gracefully** the same way: a standalone `isLast` message (a success status). Either direction can also end with the **`Canceled`** terminal that the [cancellation](#cancellation-support) mechanism produces. The directions differ only in their **error** ending:
+Both streams end **gracefully** via `isLast` (a success status). Either direction can also end with the **`Canceled`** terminal that the [cancellation](#cancellation-support) mechanism produces. The directions differ only in their **error** ending:
 
 - The **response stream** carries a `__stat` on every message and can self-terminate on error. A successful entry uses `200` when it carries a payload and `204` when it does not; neither terminates the stream. An **error status (`4xx`/`5xx`) is self-terminating**: the executor sends nothing further, so the receiver surfaces it as the terminal error and ends the response stream. An error response does **not** also need a separate `isLast` message — its status is sufficient, and the executor may be unable to send a separate `isLast` (for example, after a crash). This covers executor exceptions (`500`) and request/protocol validation errors (`4xx`).
 - The **request stream** carries no outcome `__stat`, so it has no self-terminating-error form. A request-side failure — the request pump throwing, or the application abandoning the exchange — instead terminates the exchange through a best-effort **cancellation** (see [invoker behavior](#invoker-behavior)).
 
-Whichever side originates it, a terminal status is **exchange-scoped**, not a stream entry, and is de-duplicated using exchange terminal state keyed by correlation data rather than by index. Because it is exchange-scoped, it may arrive **after** a graceful `isLast` has already closed the data stream in its direction — for example an executor error raised while the request stream is still open, or a `Canceled` after the request `isLast`. Such a status does not reopen the data stream; it terminates the still-active **exchange**. If the corresponding iterator is still open the status faults it; if the iterator already completed via `isLast`, the status is observed only through the exchange's completion signal.
+Whichever side originates it, a terminal status is **exchange-scoped**, not a stream entry, and is de-duplicated using exchange terminal state keyed by correlation data rather than by index. Because it is exchange-scoped, it may arrive **after** a graceful `isLast` has already closed the data stream in its direction — for example an executor error raised while the request stream is still open, or a `Canceled` after the request `isLast`. Such a status does not reopen the data stream; it terminates the still-active **exchange**. If the affected data stream is still open, it ends with that status as its terminal error; once it has closed via `isLast`, the status surfaces only through the exchange's completion signal.
 
 The `__apErr` (`IsApplicationError`) property classifies an error as either a framework/protocol error (`__apErr = false`: canceled, bad request, internal error) or an application-level error (`__apErr = true`) the command logic chose to return. **Either way the error status terminates the stream** — there is no per-message error status that leaves the stream running. An application that needs a per-item outcome while the stream keeps going (for example, a batch where individual items may fail) must encode that in its response payload (`TResp`), not the protocol status — a mid-stream "failed item" is just a normal response whose payload represents the failure.
 
