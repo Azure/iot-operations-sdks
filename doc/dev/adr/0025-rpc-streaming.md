@@ -21,6 +21,8 @@ Users have expressed a desire to allow more than one request and/or more than on
 ## Non-requirements
 
  - Different payload shapes per command response/request
+ - Chunking a single large payload across multiple stream messages
+   - Any stream message may be lost (message expiry or other circumstances), so a chunked payload could not be reliably reassembled.
  - The API of the receiving side of a stream will provide the user the streamed requests/responses in their **intended** order rather than their **received** order
    - If the stream's Nth message is lost due to message expiry (or other circumstances), our API should still notify the user when the N+1th stream message is received
    - This may be added as a feature later if requested by customers
@@ -209,7 +211,7 @@ Either party may report a problem with an **individual message it received** by 
 
 A per-message error is **not** terminal — neither stream closes and both parties proceed. The original sender receives the status and surfaces it to its application, associated with the referenced entry (for example, to flag a rejected item in a batch). Accepted messages carry no status; success is implicit.
 
-### Stream termination
+### Exchange termination
 
 An exchange terminates in exactly one of three ways:
 
