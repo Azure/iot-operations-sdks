@@ -221,25 +221,15 @@ An exchange terminates in exactly one of three ways:
 
 There is no terminal *error* status: a fatal failure — a crashed peer, an unhandled exception, or a request pump that throws — surfaces as a best-effort **cancellation**, or, failing that, as the peer's timeout.
 
-### Disconnection scenario considerations
+### Disconnection and recovery
 
-In every case, QoS 1 sessions carry queued messages across a reconnection (within each message's expiry), and whichever side stops seeing progress reaches its own local [exchange timeout](#exchange-level-timeout) independently.
+Streaming inherits MQTT 5's reconnection semantics; recovery hinges on whether the disconnected side's **session** survives. With a persistent session (clean start off, within its session-expiry interval), queued outbound PUBLISHes flush and unacknowledged inbound PUBLISHes redeliver at QoS 1 — de-duplicated by index — so the exchange resumes where it left off. If the session is lost, that side's stream state is gone, the exchange cannot resume, and the peer falls back to its [exchange timeout](#exchange-level-timeout).
 
-- Invoker side disconnects unexpectedly while sending requests
-  - On reconnection, the request messages queued in its session client publish as expected and the exchange resumes
-  - Otherwise the executor stops seeing requests and times out
-- Invoker side disconnects unexpectedly while receiving responses
-  - The broker holds each published response for its [message-level timeout](#message-level-timeout) (message expiry interval) and redelivers those still within their expiry on reconnection; those whose expiry lapses first are lost
-  - If the invoker's session is lost, the exchange cannot resume and the executor times out
-- Executor side isn't connected when the invoker sends the first request
-  - The broker may return a "no matching subscribers" PUBACK; whether to retry here is TBD
-  - On a success PUBACK the request is held for its message expiry, and the invoker times out if no executor consumes it in time
-- Executor side disconnects unexpectedly while receiving requests
-  - The broker holds each published request for its [message-level timeout](#message-level-timeout) (message expiry interval) and redelivers those still within their expiry on reconnection; those whose expiry lapses first are lost
-  - If the executor's session is lost, the invoker times out
-- Executor side disconnects unexpectedly while sending responses
-  - On reconnection, the response messages queued in its session client publish as expected and the exchange resumes
-  - Otherwise the invoker stops seeing responses and times out
+An in-flight message survives at the broker only for its [message expiry](#message-level-timeout), which the broker **decrements by the time the message sat queued** — so a redelivered entry has less remaining expiry than when sent and may lapse before reconnection (that entry is then lost, which is tolerated since entries are self-contained). A message's remaining expiry therefore does **not** track the exchange-timeout countdown; the two are independent clocks.
+
+Because the command topic is a [shared subscription](#topics-and-routing), an executor crash does not strand the exchange — another executor in the group takes over, recovering mid-stream from the correlation, the repeated stream metadata, and each request's `timeout_length`. The **invoker has no equivalent**: its response topic is unique to it, so if the invoker's session is lost, in-flight responses cannot be re-routed and are **lost with no recovery** (there is no invoker-side load-balancing). This is an accepted limitation.
+
+If the invoker sends the first request with **no executor subscribed**, the broker returns a `no matching subscribers` PUBACK and drops the request. This is **retriable** — the executor is simply not present yet, not a terminal error — so the invoker re-publishes until an executor appears or the exchange times out. Implementations must treat this reason code uniformly.
 
 ### Protocol versioning
 
