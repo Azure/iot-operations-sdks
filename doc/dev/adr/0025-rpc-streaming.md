@@ -125,7 +125,7 @@ A side **consumes** one stream and **produces** the other. The consuming and pro
 **Consuming a stream:**
 
 - **De-dup caching.** A consumer de-dups received data messages (QoS 1 may re-deliver) by correlationId + index — the index distinguishes duplicates since the correlationId is shared by the whole stream. Each cache entry is retained for the duration of its message's expiry interval (see [message level timeout](#message-level-timeout)), even beyond the end of the stream: clearing it when the stream finishes would let a late re-delivery still within its expiry window be treated as new, which is unsafe for non-idempotent commands.
-- **Acknowledgement.** By default a consumer acknowledges each message as soon as it is delivered to the user. Users may opt into manual acknowledgement to finish processing a message before forgoing broker re-delivery on an unexpected crash. 
+- **Acknowledgement.** By default a consumer acknowledges each message as soon as it is delivered to the user. Manual acknowledgement — finishing processing before forgoing broker re-delivery on an unexpected crash — is available only to the **executor** (request consumption); the invoker cannot resume a response stream after a crash, so it always auto-acknowledges.
 - **`isLast` receipt.** On an `isLast` control message (`c:…:last`), the consumer notifies the user that the stream has ended; it is **not** surfaced as a stream entry ([why `isLast` is its own message](#islast-message-being-its-own-message)). Because delivery order is guaranteed, receiving further data for that stream after its `isLast` is a protocol violation.
 
 **Producing a stream:** every data message carries the same correlation data, the appropriate [`__stream` metadata](#streaming-user-property), the serialized user payload, and any message metadata plus the stream metadata, at QoS 1. The producer ends its stream with a standalone `isLast` message on the same topic and correlation. Which topic each side uses, and the `$partition` requirement on the command topic, are covered in [topics and routing](#topics-and-routing) above.
@@ -286,17 +286,12 @@ public class StreamMessageMetadata
     public Dictionary<string, string> UserData { get; init; } = new();
 }
 
-// Consumed entries add manual acknowledgement (used when auto-ack is off).
+// A consumed request entry adds manual acknowledgement (used when the executor's auto-ack is off).
+// Only the executor exposes manual ack; the invoker always auto-acknowledges responses.
 public class ReceivedStreamingExtendedRequest<TReq> : StreamingExtendedRequest<TReq>
     where TReq : class
 {
     // Once-only; acks are sent in order and count against the client's Receive Maximum.
-    public Task AcknowledgeAsync() { ... }
-}
-
-public class ReceivedStreamingExtendedResponse<TResp> : StreamingExtendedResponse<TResp>
-    where TResp : class
-{
     public Task AcknowledgeAsync() { ... }
 }
 
@@ -349,12 +344,9 @@ public abstract class StreamingCommandInvoker<TReq, TResp>
     where TReq : class
     where TResp : class
 {
-    // false -> the caller must ack each response entry via ReceivedStreamingExtendedResponse.AcknowledgeAsync.
-    public bool AutomaticallyAcknowledgeResponses { get; set; } = true;
-
     // Returns after the first request is accepted, without waiting for the rest.
     // exchangeTimeout: total budget for the whole exchange (a configurable default applies if unset).
-    public async Task<(IResponseStream<ReceivedStreamingExtendedResponse<TResp>> Responses, IExchangeHandle Exchange)> InvokeStreamingCommandAsync(
+    public async Task<(IResponseStream<StreamingExtendedResponse<TResp>> Responses, IExchangeHandle Exchange)> InvokeStreamingCommandAsync(
       IAsyncEnumerable<StreamingExtendedRequest<TReq>> requests,
       RequestStreamMetadata? streamMetadata = null,
       Dictionary<string, string>? additionalTopicTokenMap = null,
