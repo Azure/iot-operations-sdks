@@ -110,7 +110,7 @@ Every MQTT PUBLISH belonging to a streaming exchange must include `__stream` in 
 
 #### Topics and routing
 
-A single **correlation GUID** identifies the whole exchange; every message of both streams carries it. The exchange uses **two MQTT topics** — the **command topic** (invoker → executor) and the **response topic** (executor → invoker) — and each carries that direction's data, control, and status messages together.
+A single **correlation GUID** identifies the whole exchange; every message of both streams carries it. The exchange uses **two MQTT topics** — the **request topic** (invoker → executor) and the **response topic** (executor → invoker) — and each carries that direction's data, control, and status messages together.
 
 The executor subscribes to the **command topic** with a **shared subscription** (so that, with multiple executors, only one handles each exchange), with the same topic pre/suffixing and custom-topic-token support as vanilla RPC. The **response topic** is `clients/{invoker client id}/...` (prefixed like vanilla RPC), unique to the invoker and not shared; the invoker subscribes to it before publishing. Each request-stream message the invoker publishes carries the response topic (so the executor knows where to reply) and a `$partition` user property set to the invoker's client id.
 
