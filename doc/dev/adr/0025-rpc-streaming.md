@@ -176,39 +176,7 @@ We will allow users to set the message expiry interval of each message in a requ
 
 ### Cancellation support
 
-To avoid scenarios where long-running streaming requests/responses are no longer wanted, either side may cancel a streaming RPC at any time while the exchange is active.
-
-Cancellation requests may include user properties explaining why cancellation was requested.
-
-#### API
-
-Either side invokes the **cancel** operation (optionally attaching user properties) and observes peer cancellation or local timeout, along with any user properties on the received cancellation. For a concrete illustration see the [appendix](#illustrative-net-api); for detailed examples see the [integration tests](../../../dotnet/test/Azure.Iot.Operations.Protocol.IntegrationTests/StreamingIntegrationTests.cs).
-
-#### Canceled status
-
-Cancellation acknowledgements reuse the same status mechanism as vanilla RPC: the status travels in the `__stat` MQTT user property (with an optional human-readable `__stMsg`), not a separate acknowledgement packet. Streaming introduces one new status code:
-
-- **`Canceled` = `499`** (mirrors the conventional "Client Closed Request" code). Cancellation is not an application error, so `__apErr` is `false`.
-
-A `Canceled` response from the executor to the invoker looks like this on the wire:
-
-```text
-PUBLISH
-  topic:                 clients/{invokerId}/...        # the stream's response topic
-  qos:                   1
-  correlationData:       <same GUID as the stream>
-  messageExpiryInterval: <control-message expiry defined above>
-  userProperties:
-    __stream:  s:<cancel request's index>   # Canceled status (s form) about the received cancel request; response direction, so no timeout
-    __stat:    499                  # Canceled
-    __stMsg:   "Canceled"           # optional
-    __apErr:   false                # cancellation is not an application error
-    __protVer: <streaming protocol version>
-    __ts:      <HLC timestamp>
-  payload:               <none>
-```
-
-When the invoker acknowledges an executor-initiated cancellation on the command topic, it uses the request-direction form `__stream: s:<cancel request's index>:<effective stream timeout seconds>` (request direction, so it also carries the timeout); all other fields have the same meaning. Wherever the sections below refer to the `Canceled` code / status, they mean a message of this shape.
+Either side may cancel a streaming RPC at any time while the exchange is active — for instance when a long-running request or response stream is no longer wanted.
 
 #### Sending a cancellation
 
@@ -221,9 +189,17 @@ Cancellation is **idempotent**: the sender may issue `cancel` more than once whi
 
 #### Receiving a cancellation
 
-The receiver of a cancellation responds depending on the state of that receiver:
+A receiver replies with a **`Canceled`** [status message](#streaming-user-property) — no payload — carrying:
 
-- **Still active** — notifies the application, replies with `Canceled` on the appropriate topic, stops production of the outbound stream, transitions to the canceled state.
+- `__stream`: `s:<cancel request's index>` (status form referencing the received `cancel`)
+- `__stat`: `499` (`Canceled`), plus an optional human-readable `__stMsg`
+- `__apErr`: `false` (cancellation is not an application error)
+
+An **invoker** sending this to acknowledge an executor-initiated cancellation publishes on the command topic (request direction), so its `__stream` takes the `s:<index>:<timeout>` form — also carrying the remaining timeout; all else is identical.
+
+Whether a receiver replies depends on its state:
+
+- **Still active** — notifies the application, replies with `Canceled`, stops production of the outbound stream, transitions to the canceled state.
 - **Already canceled** — re-sends `Canceled` so a later (re-issued) cancellation is answered.
 - **Other terminal states** — acknowledges the message and sends nothing.
 
@@ -231,7 +207,7 @@ The receiver of a cancellation responds depending on the state of that receiver:
 
 The **termination machinery** is symmetric across both directions; what is asymmetric is **which statuses each side originates** — inherited from RPC, where the outcome `__stat` is a response-direction concept.
 
-Both streams end **gracefully** via `isLast` (a success status). Either direction can also end with the **`Canceled`** terminal that the [cancellation](#cancellation-support) mechanism produces. The directions differ only in their **error** ending:
+Both streams end **gracefully** via `isLast` control message. Either direction can also end with the **`Canceled`** terminal that the [cancellation](#cancellation-support) mechanism produces. The directions differ only in their **error** ending:
 
 - The **response stream** carries a `__stat` on every message and can self-terminate on error. A successful entry uses `200` when it carries a payload and `204` when it does not; neither terminates the stream. An **error status (`4xx`/`5xx`) is self-terminating**: the executor sends nothing further, so the receiver surfaces it as the terminal error and ends the response stream. An error response does **not** also need a separate `isLast` message — its status is sufficient, and the executor may be unable to send a separate `isLast` (for example, after a crash). This covers executor exceptions (`500`) and request/protocol validation errors (`4xx`).
 - The **request stream** carries no outcome `__stat`, so it has no self-terminating-error form. A request-side failure — the request pump throwing, or the application abandoning the exchange — instead terminates the exchange through a best-effort **cancellation** (see [invoker behavior](#invoker-behavior)).
