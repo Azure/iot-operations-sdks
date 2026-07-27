@@ -159,7 +159,7 @@ A local timeout terminates only that side's exchange state; neither side sends a
 
 ##### Message level timeout
 
-We will allow users to set the message expiry interval of each message in a request/response stream; by default it equals the remaining exchange timeout. Every stream message _must_ include a positive, finite message expiry — a message with no (or zero) expiry is rejected. The receiving end uses this value as the de-dup cache length for the cached message (vanilla RPC has the [same requirement](../../reference/command-timeouts.md#input-values)).
+We will allow users to set the message expiry interval of each message in a request/response stream manually; if unset, it defaults to the exchange timeout's **current remaining value** at the moment the message is sent. A manually set value is always **capped** at that same current remaining exchange timeout — so a message can never outlive the exchange, and the usable expiry only shrinks as the exchange counts down. Every stream message _must_ include a positive, finite message expiry — a message with no (or zero) expiry is rejected. The receiving end uses this value as the de-dup cache length for the cached message (vanilla RPC has the [same requirement](../../reference/command-timeouts.md#input-values)).
 
 
 #### Alternative timeout designs considered
