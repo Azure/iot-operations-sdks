@@ -194,7 +194,6 @@ A receiver replies with a **`Canceled`** [status message](#streaming-user-proper
 
 - `__stream`: `s:<cancel request's index>` (status form referencing the received `cancel`)
 - `__stat`: `499` (`Canceled`), plus an optional human-readable `__stMsg`
-- `__apErr`: `false` (cancellation is not an application error)
 
 An **invoker** sending this to acknowledge an executor-initiated cancellation publishes on the command topic (request direction), so its `__stream` takes the `s:<index>:<timeout>` form — also carrying the remaining timeout; all else is identical.
 
@@ -206,19 +205,20 @@ Whether a receiver replies depends on its state:
 
 ### Error handling
 
-Either party may report a problem with an **individual message it received** by sending a [status message](#streaming-user-property) back to that message's sender: `s:<index>` references the offending message and `__stat` carries the error code (with an optional human-readable `__stMsg`). `__apErr` marks whether it is a framework/protocol error (`false`) or an application-level error (`true`) the receiving side's application deliberately returned.
+A **protocol violation** in a message that belongs to the exchange (its correlation matches) — for example an unparseable payload or malformed `__stream` — is **terminal**. The recipient sends a [status message](#streaming-user-property) back to the sender (`s:<index>` references the offending message, `__stat` carries the error code, with an optional human-readable `__stMsg`); both sides then treat the exchange as over and send no further entries. Unmatched or junk data (no correlating exchange) is acknowledged and discarded, never terminating a stream.
 
-A per-message error is **not** terminal — neither stream closes and both parties proceed. The original sender receives the status and surfaces it to its application, associated with the referenced entry (for example, to flag a rejected item in a batch). Accepted messages carry no status; success is implicit.
+Application-level errors are **out of scope**: the protocol does not carry them, so an application that wants to signal one sends it as an ordinary data entry. Accepted messages carry no status; success is implicit.
 
 ### Exchange termination
 
-An exchange terminates in exactly one of three ways:
+An exchange terminates in exactly one of four ways:
 
 - **Graceful** — each producer closes its own stream with `last`; the exchange completes once both streams have closed (see [exchange completion](#exchange-completion)).
 - **Cancellation** — either side cancels and the `Canceled` (`499`) terminal ends the exchange (see [cancellation support](#cancellation-support)).
 - **Timeout** — the [exchange timeout](#exchange-level-timeout) fires.
+- **Protocol violation** — the recipient of a malformed in-exchange message returns an error status and both sides end the exchange (see [error handling](#error-handling)).
 
-There is no terminal *error* status: a fatal failure — a crashed peer, an unhandled exception, or a request pump that throws — surfaces as a best-effort **cancellation**, or, failing that, as the peer's timeout.
+A fatal failure — a crashed peer, an unhandled exception, or a request pump that throws — surfaces as a best-effort **cancellation**, or, failing that, as the peer's timeout.
 
 ### Disconnection and recovery
 
