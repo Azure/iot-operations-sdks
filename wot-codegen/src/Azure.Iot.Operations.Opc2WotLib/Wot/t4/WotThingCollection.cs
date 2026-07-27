@@ -28,7 +28,7 @@ namespace Azure.Iot.Operations.Opc2WotLib
  // Licensed under the MIT License 
             this.Write("[\r\n");
  this.PushIndent("  "); 
- int ix = 1; int total = this.ThingDescriptions.Count + this.ThingModels.Count + this.DataTypeModels.Count; foreach (WotThingDescription thingDescription in this.ThingDescriptions) {
+ int ix = 1; int total = this.ThingDescriptions.Count + this.ThingModels.Count + this.DataTypeModels.Count + this.VariableTypeModels.Count; foreach (WotThingDescription thingDescription in this.ThingDescriptions) {
             this.Write(this.ToStringHelper.ToStringWithCulture(thingDescription.TransformText()));
             this.Write(this.ToStringHelper.ToStringWithCulture(ix < total ? "," : ""));
             this.Write("\r\n");
@@ -40,6 +40,11 @@ namespace Azure.Iot.Operations.Opc2WotLib
  ix++; }
  foreach (WotDataTypeModel dataTypeModel in this.DataTypeModels) {
             this.Write(this.ToStringHelper.ToStringWithCulture(dataTypeModel.TransformText()));
+            this.Write(this.ToStringHelper.ToStringWithCulture(ix < total ? "," : ""));
+            this.Write("\r\n");
+ ix++; }
+ foreach (WotDataTypeModel variableTypeModel in this.VariableTypeModels) {
+            this.Write(this.ToStringHelper.ToStringWithCulture(variableTypeModel.TransformText()));
             this.Write(this.ToStringHelper.ToStringWithCulture(ix < total ? "," : ""));
             this.Write("\r\n");
  ix++; } this.PopIndent(); 

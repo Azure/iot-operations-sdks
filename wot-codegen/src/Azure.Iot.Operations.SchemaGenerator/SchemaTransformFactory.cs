@@ -11,9 +11,9 @@ namespace Azure.Iot.Operations.SchemaGenerator
     {
         private readonly JsonSchemaSupport jsonSchemaSupport;
 
-        internal SchemaTransformFactory(SchemaNamer schemaNamer, DirectoryInfo workingDir)
+        internal SchemaTransformFactory(SchemaNamer schemaNamer, DirectoryInfo workingDir, LocalSchemaResolver localSchemaResolver)
         {
-            this.jsonSchemaSupport = new JsonSchemaSupport(schemaNamer, workingDir);
+            this.jsonSchemaSupport = new JsonSchemaSupport(schemaNamer, workingDir, localSchemaResolver);
         }
 
         internal bool TryGetSchemaTransform(string schemaName, SchemaSpec schemaSpec, [NotNullWhen(true)] out ISchemaTemplateTransform? transform)
