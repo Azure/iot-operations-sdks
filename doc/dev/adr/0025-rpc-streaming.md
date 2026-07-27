@@ -60,7 +60,7 @@ The streams themselves surface as plain async sequences — you **supply** the o
 
 #### Exchange completion
 
-Each producer ends its own stream with an **`isLast`** signal. An exchange is **gracefully complete** only when *both* of its streams have closed: the invoker has sent its `isLast` request **and** received the `isLast` response, and symmetrically the executor has received the `isLast` request **and** sent the `isLast` response. Closing one stream (via `isLast`) does **not** end the exchange — a side that finishes its own stream early stays active until the other stream closes too, or until the [exchange timeout](#exchange-level-timeout) fires. Any other terminal — cancellation or timeout — ends the whole exchange immediately. Requiring both streams to close is the shared definition of completion used by [timeout](#timeout-support) and [cancellation](#cancellation-support).
+Each producer ends its own stream with a **`last`** signal. An exchange is **gracefully complete** only when *both* of its streams have closed: the invoker has sent its `last` request **and** received the `last` response, and symmetrically the executor has received the `last` request **and** sent the `last` response. Closing one stream (via `last`) does **not** end the exchange — a side that finishes its own stream early stays active until the other stream closes too, or until the [exchange timeout](#exchange-level-timeout) fires. Any other terminal — cancellation or timeout — ends the whole exchange immediately. Requiring both streams to close is the shared definition of completion used by [timeout](#timeout-support) and [cancellation](#cancellation-support).
 
 #### Invoker behavior
 
@@ -99,7 +99,7 @@ To convey streaming context, each message carries a `__stream` MQTT user propert
 Examples:
 
 - ```d:0:10``` — a request-direction data message at stream index `0`; the invoker's remaining exchange timeout is 10 seconds.
-- ```c:4:last:6``` — the request stream's final (`isLast`) message at index `4`; the invoker's remaining exchange timeout has dropped to 6 seconds (the field is a live countdown).
+- ```c:4:last:6``` — the request stream's final (`last`) message at index `4`; the invoker's remaining exchange timeout has dropped to 6 seconds (the field is a live countdown).
 - ```c:2:cancel:10``` — a request-direction cancellation at the producer's next index (`2`).
 - ```s:1:10``` — a request-direction status about the received message at stream index `1`; its `__stat` value carries the error status for that message.
 - ```d:0``` / ```c:7:last``` / ```s:3``` — the response-direction counterparts (executor → invoker); identical forms except `timeout_length` is omitted.
@@ -114,11 +114,11 @@ A single **correlation GUID** identifies the whole exchange; every message of bo
 
 The executor subscribes to the **command topic** with a **shared subscription** (so that, with multiple executors, only one handles each exchange), with the same topic pre/suffixing and custom-topic-token support as vanilla RPC. The **response topic** is `clients/{invoker client id}/...` (prefixed like vanilla RPC), unique to the invoker and not shared; the invoker subscribes to it before publishing. Each request-stream message the invoker publishes carries the response topic (so the executor knows where to reply) and a `$partition` user property set to the invoker's client id.
 
-Because the command topic is a shared subscription, **every** command-topic packet for an exchange — request data, an `isLast` request, invoker cancellation, and the invoker's `Canceled` acknowledgement — must carry that same `$partition`, so the broker routes them all to the same executor; otherwise a control packet could reach a different executor that holds no state for the correlation and be silently dropped. Response-topic packets need only the correlation data, since that topic is already unique to the invoker.
+Because the command topic is a shared subscription, **every** command-topic packet for an exchange — request data, a `last` request, invoker cancellation, and the invoker's `Canceled` acknowledgement — must carry that same `$partition`, so the broker routes them all to the same executor; otherwise a control packet could reach a different executor that holds no state for the correlation and be silently dropped. Response-topic packets need only the correlation data, since that topic is already unique to the invoker.
 
 #### Exchange lifetime
 
-Because closing one stream does not end the exchange (see [exchange completion](#exchange-completion)), each endpoint keeps its per-correlation state active until the exchange is terminal, so control still flows after an `isLast`. Once a side is terminal, further data messages for that correlation are acknowledged and ignored; only the required control re-answers (for example, re-sending `Canceled` for a re-issued cancellation) are sent. The per-correlation state is kept as a **tombstone** so late or duplicate packets remain routable and are not treated as a new stream; it is retained at least as long as the longest expiry of any packet that could still arrive, plus some buffer.
+Because closing one stream does not end the exchange (see [exchange completion](#exchange-completion)), each endpoint keeps its per-correlation state active until the exchange is terminal, so control still flows after a `last`. Once a side is terminal, further data messages for that correlation are acknowledged and ignored; only the required control re-answers (for example, re-sending `Canceled` for a re-issued cancellation) are sent. The per-correlation state is kept as a **tombstone** so late or duplicate packets remain routable and are not treated as a new stream; it is retained at least as long as the longest expiry of any packet that could still arrive, plus some buffer.
 
 #### Producing and consuming
 
@@ -128,13 +128,13 @@ A side **consumes** one stream and **produces** the other. The consuming and pro
 
 - **De-dup caching.** A consumer de-dups received data messages (QoS 1 may re-deliver) by correlationId + index — the index distinguishes duplicates since the correlationId is shared by the whole stream. Each cache entry is retained for the duration of its message's expiry interval (see [message level timeout](#message-level-timeout)), even beyond the end of the stream: clearing it when the stream finishes would let a late re-delivery still within its expiry window be treated as new, which is unsafe for non-idempotent commands.
 - **Acknowledgement.** By default a consumer acknowledges each message as soon as it is delivered to the user. Manual acknowledgement — finishing processing before forgoing broker re-delivery on an unexpected crash — is available only to the **executor** (request consumption); the invoker cannot resume a response stream after a crash, so it always auto-acknowledges.
-- **`isLast` receipt.** On an `isLast` control message (`c:…:last`), the consumer notifies the user that the stream has ended; it is **not** surfaced as a stream entry ([why `isLast` is its own message](#islast-message-being-its-own-message)). Because delivery order is guaranteed, receiving further data for that stream after its `isLast` is a protocol violation.
+- **`last` receipt.** On a `last` control message (`c:…:last`), the consumer notifies the user that the stream has ended; it is **not** surfaced as a stream entry ([why `last` is its own message](#last-message-being-its-own-message)). Because delivery order is guaranteed, receiving further data for that stream after its `last` is a protocol violation.
 
-**Producing a stream:** every data message carries the same correlation data, the appropriate [`__stream` metadata](#streaming-user-property), the serialized user payload, and any message metadata plus the stream metadata, at QoS 1. The producer ends its stream with a standalone `isLast` message on the same topic and correlation. Which topic each side uses, and the `$partition` requirement on the command topic, are covered in [topics and routing](#topics-and-routing) above.
+**Producing a stream:** every data message carries the same correlation data, the appropriate [`__stream` metadata](#streaming-user-property), the serialized user payload, and any message metadata plus the stream metadata, at QoS 1. The producer ends its stream with a standalone `last` message on the same topic and correlation. Which topic each side uses, and the `$partition` requirement on the command topic, are covered in [topics and routing](#topics-and-routing) above.
 
 **Executor-only rules:**
 
-- If an `isLast` arrives before any data message in the request stream, log an error, acknowledge it, and ignore it — a request stream must have at least one entry.
+- If a `last` arrives before any data message in the request stream, log an error, acknowledge it, and ignore it — a request stream must have at least one entry.
 - Unlike vanilla RPC, the executor keeps **no replay cache**: streams may grow without bound, so replaying a response stream isn't feasible.
 
 ### Timeout support
@@ -215,7 +215,7 @@ A per-message error is **not** terminal — neither stream closes and both parti
 
 An exchange terminates in exactly one of three ways:
 
-- **Graceful** — each producer closes its own stream with `isLast`; the exchange completes once both streams have closed (see [exchange completion](#exchange-completion)).
+- **Graceful** — each producer closes its own stream with `last`; the exchange completes once both streams have closed (see [exchange completion](#exchange-completion)).
 - **Cancellation** — either side cancels and the `Canceled` (`499`) terminal ends the exchange (see [cancellation support](#cancellation-support)).
 - **Timeout** — the [exchange timeout](#exchange-level-timeout) fires.
 
@@ -365,7 +365,7 @@ public abstract class StreamingCommandExecutor<TReq, TResp> : IAsyncDisposable
 }
 ```
 
-### IsLast message being its own message
+### Last message being its own message
 
 Three approaches to marking the final message in a stream were considered, and this is why the other two approaches don't work:
 
