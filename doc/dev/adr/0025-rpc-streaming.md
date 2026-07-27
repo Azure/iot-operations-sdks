@@ -205,7 +205,7 @@ Whether a receiver replies depends on its state:
 
 ### Error handling
 
-A **protocol violation** in a message that belongs to the exchange (its correlation matches) — for example an unparseable payload or malformed `__stream` — is **terminal**. The recipient sends a [status message](#streaming-user-property) back to the sender (`s:<index>` references the offending message, `__stat` carries the error code, with an optional human-readable `__stMsg`); both sides then treat the exchange as over and send no further entries. Unmatched or junk data (no correlating exchange) is acknowledged and discarded, never terminating a stream.
+A **protocol violation** in a message that belongs to the exchange (its correlation matches) — for example an unparseable payload or malformed `__stream` — is **terminal**. The recipient sends a [status message](#streaming-user-property) back to the sender (`s:<index>` references the offending message, `__stat` carries the error code, with an optional human-readable `__stMsg`); both sides then treat the exchange as over and send no further entries. The referenced index identifies which entry triggered the violation as **diagnostic context only** — since the exchange ends, nothing needs to correlate it back to a specific message. Unmatched or junk data (no correlating exchange) is acknowledged and discarded, never terminating a stream.
 
 Application-level errors are **out of scope**: the protocol does not carry them, so an application that wants to signal one sends it as an ordinary data entry. Accepted messages carry no status; success is implicit.
 
