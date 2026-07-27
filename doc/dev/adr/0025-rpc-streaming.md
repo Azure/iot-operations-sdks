@@ -228,7 +228,7 @@ An in-flight message survives at the broker only for its [message expiry](#messa
 
 Because the command topic is a [shared subscription](#topics-and-routing), an executor crash does not strand the exchange — another executor in the group takes over, recovering mid-stream from the correlation, the repeated stream metadata, and each request's `timeout_length`. The **invoker has no equivalent**: its response topic is unique to it, so if the invoker's session is lost, in-flight responses cannot be re-routed and are **lost with no recovery** (there is no invoker-side load-balancing). This is an accepted limitation.
 
-If the invoker publishes the first request with **no executor subscribed**, the broker returns `no matching subscribers` and the request reaches no one. This is an MQTT-level success rather than a terminal exchange error.An invoker that finds no executor either surfaces the reason code or waits out its [exchange timeout](#exchange-level-timeout).
+If the invoker publishes a request and the broker replies `no matching subscribers` — **no executor is subscribed** — the request reaches no one. Although that reason code is an MQTT-level success, the streaming layer maps it to a distinct **`NoAvailableStreamingExecutor`** error: the invoker surfaces it to the user (the stream cannot push messages right now) and ends the exchange. We **assume** a broker that returns this reason code will not later deliver the request even if an executor subscribes shortly after; this is an MQ-specific assumption, documented here and guarded by end-to-end tests so a change in broker behavior is caught rather than silently breaking the protocol.
 
 ### Protocol versioning
 
