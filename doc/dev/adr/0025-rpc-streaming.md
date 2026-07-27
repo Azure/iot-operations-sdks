@@ -58,7 +58,7 @@ The streams themselves surface as plain async sequences — you **supply** the o
 
 #### Exchange completion
 
-Each producer ends its own stream with an **`isLast`** signal. An exchange is **gracefully complete** only when *both* of its streams have closed: the invoker has sent its `isLast` request **and** received the `isLast` response, and symmetrically the executor has received the `isLast` request **and** sent the `isLast` response. Closing one stream (via `isLast`) does **not** end the exchange — a side that finishes its own stream early stays active until the other stream closes too, or until the [exchange timeout](#exchange-level-timeout) fires. Any other terminal — error, cancellation, or timeout — ends the whole exchange immediately. Requiring both streams to close is the shared definition of completion used by [timeout](#timeout-support) and [cancellation](#cancellation-support).
+Each producer ends its own stream with an **`isLast`** signal. An exchange is **gracefully complete** only when *both* of its streams have closed: the invoker has sent its `isLast` request **and** received the `isLast` response, and symmetrically the executor has received the `isLast` request **and** sent the `isLast` response. Closing one stream (via `isLast`) does **not** end the exchange — a side that finishes its own stream early stays active until the other stream closes too, or until the [exchange timeout](#exchange-level-timeout) fires. Any other terminal — cancellation or timeout — ends the whole exchange immediately. Requiring both streams to close is the shared definition of completion used by [timeout](#timeout-support) and [cancellation](#cancellation-support).
 
 #### Invoker behavior
 
@@ -99,7 +99,7 @@ Examples:
 - ```d:0:10``` — a request-direction data message at stream index `0`; the invoker's remaining exchange timeout is 10 seconds.
 - ```c:4:last:6``` — the request stream's final (`isLast`) message at index `4`; the invoker's remaining exchange timeout has dropped to 6 seconds (the field is a live countdown).
 - ```c:2:cancel:10``` — a request-direction cancellation at the producer's next index (`2`).
-- ```s:1:10``` — a request-direction status about the received message at stream index `1`; its `__stat` value carries the outcome (intended to communicate non-successful statuses).
+- ```s:1:10``` — a request-direction status about the received message at stream index `1`; its `__stat` value carries the error status for that message.
 - ```d:0``` / ```c:7:last``` / ```s:3``` — the response-direction counterparts (executor → invoker); identical forms except `timeout_length` is omitted.
 
 Every MQTT PUBLISH belonging to a streaming exchange must include `__stream` in exactly one of these three forms: data messages use the `d` form, control messages use the `c` form (`c:…:cancel`, `c:…:last`), and status messages use the `s` form. A status message carries no stream entry; its `__stat` property carries the outcome details for the received message it references.
@@ -203,18 +203,21 @@ Whether a receiver replies depends on its state:
 - **Already canceled** — re-sends `Canceled` so a later (re-issued) cancellation is answered.
 - **Other terminal states** — acknowledges the message and sends nothing.
 
-### Error handling and stream termination
+### Error handling
 
-The **termination machinery** is symmetric across both directions; what is asymmetric is **which statuses each side originates** — inherited from RPC, where the outcome `__stat` is a response-direction concept.
+Either party may report a problem with an **individual message it received** by sending a [status message](#streaming-user-property) back to that message's sender: `s:<index>` references the offending message and `__stat` carries the error code (with an optional human-readable `__stMsg`). `__apErr` marks whether it is a framework/protocol error (`false`) or an application-level error (`true`) the receiving side's application deliberately returned.
 
-Both streams end **gracefully** via `isLast` control message. Either direction can also end with the **`Canceled`** terminal that the [cancellation](#cancellation-support) mechanism produces. The directions differ only in their **error** ending:
+A per-message error is **not** terminal — neither stream closes and both parties proceed. The original sender receives the status and surfaces it to its application, associated with the referenced entry (for example, to flag a rejected item in a batch). Accepted messages carry no status; success is implicit.
 
-- The **response stream** carries a `__stat` on every message and can self-terminate on error. A successful entry uses `200` when it carries a payload and `204` when it does not; neither terminates the stream. An **error status (`4xx`/`5xx`) is self-terminating**: the executor sends nothing further, so the receiver surfaces it as the terminal error and ends the response stream. An error response does **not** also need a separate `isLast` message — its status is sufficient, and the executor may be unable to send a separate `isLast` (for example, after a crash). This covers executor exceptions (`500`) and request/protocol validation errors (`4xx`).
-- The **request stream** carries no outcome `__stat`, so it has no self-terminating-error form. A request-side failure — the request pump throwing, or the application abandoning the exchange — instead terminates the exchange through a best-effort **cancellation** (see [invoker behavior](#invoker-behavior)).
+### Stream termination
 
-Whichever side originates it, a terminal status is **exchange-scoped**, not a stream entry, and is de-duplicated using exchange terminal state keyed by correlation data rather than by index. Because it is exchange-scoped, it may arrive **after** a graceful `isLast` has already closed the data stream in its direction — for example an executor error raised while the request stream is still open, or a `Canceled` after the request `isLast`. Such a status does not reopen the data stream; it terminates the still-active **exchange**. If the affected data stream is still open, it ends with that status as its terminal error; once it has closed via `isLast`, the status surfaces only through the exchange's completion signal.
+An exchange terminates in exactly one of three ways:
 
-The `__apErr` (`IsApplicationError`) property classifies an error as either a framework/protocol error (`__apErr = false`: canceled, bad request, internal error) or an application-level error (`__apErr = true`) the command logic chose to return. **Either way the error status terminates the stream** — there is no per-message error status that leaves the stream running. An application that needs a per-item outcome while the stream keeps going (for example, a batch where individual items may fail) must encode that in its response payload (`TResp`), not the protocol status — a mid-stream "failed item" is just a normal response whose payload represents the failure.
+- **Graceful** — each producer closes its own stream with `isLast`; the exchange completes once both streams have closed (see [exchange completion](#exchange-completion)).
+- **Cancellation** — either side cancels and the `Canceled` (`499`) terminal ends the exchange (see [cancellation support](#cancellation-support)).
+- **Timeout** — the [exchange timeout](#exchange-level-timeout) fires.
+
+There is no terminal *error* status: a fatal failure — a crashed peer, an unhandled exception, or a request pump that throws — surfaces as a best-effort **cancellation**, or, failing that, as the peer's timeout.
 
 ### Disconnection scenario considerations
 
