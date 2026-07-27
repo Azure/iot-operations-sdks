@@ -22,8 +22,8 @@ inputs:
     required: false
     default: 'false'
 
-  action-token:
-    description: 'A GitHub PAT'
+  ssh-key:
+    description: 'SSH private key (deploy key) for checking out Azure/iot-operations-sdks-action'
     required: true
 
 runs:
@@ -38,7 +38,7 @@ runs:
       with:
         repository: azure/iot-operations-sdks-action
         path: action-deploy
-        token: ${{ inputs.action-token }}
+        ssh-key: ${{ inputs.ssh-key }}
 
     - name: Install AIO
       uses: ./action-deploy
