@@ -1,0 +1,25 @@
+{
+  "@context": [
+    "https://www.w3.org/2022/wot/td/v1.1",
+    { "dov": "http://azure.com/DigitalOperations/vocab#" }
+  ],
+  "@type": "tm:ThingModel",
+  "title": "LocalRefMalformedPath",
+  "actions": {
+  },
+  "properties": {
+    "displayName": {
+      "tm:ref": "#/schemaDefinitions/Display~2Name",
+      "dov:propertyIRI": "http://example.com/iri/displayName",
+      "forms": [
+        {
+          "contentType": "application/json",
+          "dov:topic": "sample/displayName/{maintainerId}",
+          "op": "readproperty"
+        }
+      ]
+    }
+  },
+  "events": {
+  }
+}

@@ -43,12 +43,12 @@
 <# ix1++; } #>
   ],
   "schemaDefinitions": {
-<# ix1 = 1; foreach (OpcUaDataTypeEnum dataTypeEnum in this.dataTypeEnums) { #>
-    "<#=dataTypeEnum.EffectiveName#>": {
+<# ix1 = 1; foreach (KeyValuePair<string, WotDataSchema> schemaDefinition in this.schemaDefinitions) { #>
+    "<#=schemaDefinition.Key#>": {
 <# this.PushIndent("      "); #>
-<#=new WotDataSchemaEnum(dataTypeEnum).TransformText()#>
+<#=schemaDefinition.Value.TransformText()#>
 <# this.PopIndent(); #>
-    }<#=ix1 < this.dataTypeEnums.Count ? "," : ""#>
+    }<#=ix1 < this.schemaDefinitions.Count ? "," : ""#>
 <# ix1++; } #>
   },
 <# if (this.properties.Any() || this.events.Any()) { #>
