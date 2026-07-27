@@ -1,0 +1,134 @@
+{
+  "@context": [
+    "https://www.w3.org/2022/wot/td/v1.1",
+    {
+      "dov": "http://azure.com/DigitalOperations/vocab#",
+      "qudt": "http://qudt.org/schema/qudt/"
+    }
+  ],
+  "@type": "tm:ThingModel",
+  "title": "LocalRefThing",
+  "schemaDefinitions": {
+    "DisplayName": {
+      "type": "string"
+    },
+    "Widget": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "tm:ref": "#/schemaDefinitions/DisplayName"
+        },
+        "enabled": {
+          "type": "boolean"
+        }
+      },
+      "required": [ "name" ]
+    },
+    "ActionOnlyWidgetAlias": {
+      "tm:ref": "#/schemaDefinitions/ActionOnlyWidget"
+    },
+    "ActionOnlyWidget": {
+      "type": "object",
+      "properties": {
+        "identifier": {
+          "type": "string"
+        }
+      },
+      "required": [ "identifier" ]
+    },
+    "Temperature": {
+      "type": "number"
+    },
+    "ErrorAlias": {
+      "tm:ref": "#/schemaDefinitions/Error"
+    },
+    "Error": {
+      "title": "TerminalError",
+      "type": "object",
+      "properties": {
+        "message": {
+          "type": "string"
+        }
+      },
+      "required": [ "message" ]
+    }
+  },
+  "actions": {
+    "updateWidget": {
+      "input": {
+        "title": "IgnoredInputTitle",
+        "tm:ref": "#/schemaDefinitions/ActionOnlyWidgetAlias"
+      },
+      "output": {
+        "title": "IgnoredOutputTitle",
+        "tm:ref": "#/schemaDefinitions/Widget"
+      },
+      "forms": [
+        {
+          "contentType": "application/json",
+          "dov:topic": "sample/localref/{executorId}",
+          "op": "invokeaction",
+          "additionalResponses": [
+            {
+              "success": false,
+              "contentType": "application/json",
+              "schema": "ErrorAlias"
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "properties": {
+    "displayName": {
+      "tm:ref": "#/schemaDefinitions/DisplayName",
+      "readOnly": true,
+      "dov:propertyIRI": "http://example.com/iri/displayName",
+      "forms": [
+        {
+          "contentType": "application/json",
+          "dov:topic": "sample/displayName/{maintainerId}",
+          "op": "readproperty"
+        }
+      ]
+    },
+    "temperature": {
+      "tm:ref": "#/schemaDefinitions/Temperature",
+      "readOnly": true,
+      "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Temperature",
+      "dov:withUnit": "properties/temperatureUnit",
+      "forms": [
+        {
+          "contentType": "application/json",
+          "dov:topic": "sample/temperature/{maintainerId}",
+          "op": "readproperty"
+        }
+      ]
+    },
+    "temperatureUnit": {
+      "type": "string",
+      "readOnly": true,
+      "forms": [
+        {
+          "contentType": "application/json",
+          "dov:topic": "sample/temperatureUnit/{maintainerId}",
+          "op": "readproperty"
+        }
+      ]
+    }
+  },
+  "events": {
+    "widgetUpdated": {
+      "data": {
+        "tm:ref": "#/schemaDefinitions/Widget"
+      },
+      "forms": [
+        {
+          "contentType": "application/json",
+          "dov:topic": "sample/widgetUpdated/{senderId}",
+          "op": "subscribeevent"
+        }
+      ]
+    }
+  }
+}
