@@ -23,9 +23,8 @@ Users have expressed a desire to allow more than one request and/or more than on
  - Different payload shapes per command response/request
  - Chunking a single large payload across multiple stream messages
    - Any stream message may be lost (message expiry or other circumstances), so a chunked payload could not be reliably reassembled.
- - The API of the receiving side of a stream will provide the user the streamed requests/responses in their **intended** order rather than their **received** order
-   - If the stream's Nth message is lost due to message expiry (or other circumstances), our API should still notify the user when the N+1th stream message is received
-   - This may be added as a feature later if requested by customers
+ - Delivering streamed requests/responses in their **intended** order.
+   - Any stream message may be lost, so entries are surfaced in the order received; reconstructing the intended order is left to the application.
 
 ## State of the art
 
