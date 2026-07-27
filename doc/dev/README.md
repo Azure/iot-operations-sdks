@@ -7,4 +7,3 @@ For documentation on using the Azure IoT Operations SDKs for developing applicat
 ## Resources
 
 * [Packaging the SDKs](packaging.md) - How to create and push the SDK packages to the ADO feed
-* [GitHub](github.md) - Using GitHub and Codespaces to contribute code from a fork
