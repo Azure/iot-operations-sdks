@@ -104,5 +104,9 @@ required-features = ["schema_registry"]
 name = "lock_client"
 required-features = ["leased_lock"]
 
+[[example]]
+name = "edge_registry_client"
+required-features = ["edge_registry"]
+
 [package.metadata.docs.rs]
 all-features = true
