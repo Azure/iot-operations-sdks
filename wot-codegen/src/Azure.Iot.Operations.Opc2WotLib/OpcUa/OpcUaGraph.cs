@@ -134,6 +134,14 @@ namespace Azure.Iot.Operations.Opc2WotLib
                     case "UAVariable":
                         opcUaNode = new OpcUaVariable(modelInfo, NsUriToNsInfoMap, node);
                         break;
+                    case "UAVariableType":
+                        OpcUaVariableType opcUaVariableType = new OpcUaVariableType(modelInfo, NsUriToNsInfoMap, node);
+                        if (!opcUaVariableType.IsDeprecated)
+                        {
+                            modelInfo.NodeIdToVariableTypeMap[opcUaVariableType.NodeId] = opcUaVariableType;
+                        }
+                        opcUaNode = opcUaVariableType;
+                        break;
                     case "UAMethod":
                         opcUaNode = new OpcUaMethod(modelInfo, NsUriToNsInfoMap, node);
                         break;

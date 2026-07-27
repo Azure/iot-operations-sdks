@@ -142,8 +142,12 @@ namespace Azure.Iot.Operations.Opc2Wot
                 {
                     thingTypes.Add("DataType Models");
                 }
+                if (thingCollection.VariableTypeModels.Any())
+                {
+                    thingTypes.Add("VariableType Models");
+                }
 
-                if (thingCollection.ThingDescriptions.Any() || thingCollection.ThingModels.Any() || thingCollection.DataTypeModels.Any())
+                if (thingCollection.ThingDescriptions.Any() || thingCollection.ThingModels.Any() || thingCollection.DataTypeModels.Any() || thingCollection.VariableTypeModels.Any())
                 {
                     statusReceiver?.Invoke($"Writing {string.Join(" and ", thingTypes)} for '{modelUri}' to '{outFileName}'", false);
                     File.WriteAllText(outFilePath, thingText);

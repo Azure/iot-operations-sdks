@@ -47,6 +47,7 @@ namespace Azure.Iot.Operations.SchemaGenerator
         {
             FormInfo? actionForm = FormInfo.CreateFromForm(errorReporter, tdAction.Forms?.Elements?.FirstOrDefault(f => f.Value.Op?.Elements?.Any(e => e.Value.Value == TDValues.OpInvokeAction) ?? false)?.Value, schemaDefinitions);
             actionForm ??= FormInfo.CreateFromForm(errorReporter, tdAction.Forms?.Elements?.FirstOrDefault(f => f.Value.Op == null)?.Value, schemaDefinitions);
+            LocalSchemaResolver localSchemaResolver = new(errorReporter, schemaDefinitions);
 
             if (actionForm?.TopicPattern != null)
             {
@@ -61,6 +62,20 @@ namespace Azure.Iot.Operations.SchemaGenerator
                     }
                     inputSpecs.Add(new AliasSpec(null, InputOutputType, inputRef.Value.Value, actionForm.Format, inputSchemaName, dirName, TokenIndex: -1));
                     errorReporter.RegisterTypedReferenceFromThing(inputRef.TokenIndex, InputOutputType, inputRef.Value.Value);
+                }
+                else if (tdAction.Input?.Value?.LocalRef?.Value != null &&
+                    localSchemaResolver.TryResolve(tdAction.Input, [], out ValueTracker<TDDataSchema>? resolvedInputSchema, out string? inputLocalRefKey, out _))
+                {
+                    string inputSchemaName = schemaNamer.GetActionInSchema(null, actionName);
+                    string localSchemaName = schemaNamer.ApplyBackupSchemaName(resolvedInputSchema!.Value.Title?.Value.Value, inputLocalRefKey!);
+                    if (!schemaSpecs.TryGetValue(inputSchemaName, out List<SchemaSpec>? inputSpecs))
+                    {
+                        inputSpecs = new List<SchemaSpec>();
+                        schemaSpecs[inputSchemaName] = inputSpecs;
+                    }
+
+                    inputSpecs.Add(new AliasSpec(null, InputOutputType, $"{localSchemaName}.{JsonSchemaSupport.JsonSchemaSuffix}", actionForm.Format, inputSchemaName, dirName, TokenIndex: tdAction.Input.TokenIndex));
+                    SchemaGenerationSupport.AddSchemaReference(inputLocalRefKey!, actionForm.Format, referencedSchemas);
                 }
                 else if (tdAction.Input?.Value != null && tdAction.Input.Value.Type?.Value.Value != TDValues.TypeNull)
                 {
@@ -86,6 +101,21 @@ namespace Azure.Iot.Operations.SchemaGenerator
                     }
                     outputSpecs.Add(new AliasSpec(null, InputOutputType, outputRef.Value.Value, actionForm.Format, outputSchemaName, dirName, TokenIndex: -1));
                     errorReporter.RegisterTypedReferenceFromThing(outputRef.TokenIndex, InputOutputType, outputRef.Value.Value);
+                    responseFields[schemaNamer.GetActionRespOutputField(actionName, outputSchemaName)] = FieldSpec.CreateFixed(outputSchemaName, $"Output for the '{actionName}' Action.", outputSchemaName);
+                }
+                else if (tdAction.Output?.Value?.LocalRef?.Value != null &&
+                    localSchemaResolver.TryResolve(tdAction.Output, [], out ValueTracker<TDDataSchema>? resolvedOutputSchema, out string? outputLocalRefKey, out _))
+                {
+                    string outputSchemaName = schemaNamer.GetActionOutSchema(null, actionName);
+                    string localSchemaName = schemaNamer.ApplyBackupSchemaName(resolvedOutputSchema!.Value.Title?.Value.Value, outputLocalRefKey!);
+                    if (!schemaSpecs.TryGetValue(outputSchemaName, out List<SchemaSpec>? outputSpecs))
+                    {
+                        outputSpecs = new List<SchemaSpec>();
+                        schemaSpecs[outputSchemaName] = outputSpecs;
+                    }
+
+                    outputSpecs.Add(new AliasSpec(null, InputOutputType, $"{localSchemaName}.{JsonSchemaSupport.JsonSchemaSuffix}", actionForm.Format, outputSchemaName, dirName, TokenIndex: tdAction.Output.TokenIndex));
+                    SchemaGenerationSupport.AddSchemaReference(outputLocalRefKey!, actionForm.Format, referencedSchemas);
                     responseFields[schemaNamer.GetActionRespOutputField(actionName, outputSchemaName)] = FieldSpec.CreateFixed(outputSchemaName, $"Output for the '{actionName}' Action.", outputSchemaName);
                 }
                 else if (tdAction.Output?.Value != null && tdAction.Output.Value.Type?.Value.Value != TDValues.TypeNull)
