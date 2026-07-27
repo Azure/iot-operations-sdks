@@ -15,9 +15,8 @@ members = [
 ]
 
 exclude = [
-  # Consider moving this outside the Rust SDK since it is built on released SDK versions,
-  # not the dev version in this directory.
-  # Or, at the very least, outside of sample_applications.
+  # Excluded to keep it standalone-buildable: downstream tooling copies this
+  # directory and builds it in isolation.
   "sample_applications/sample_connector_scaffolding"
 ]
 
