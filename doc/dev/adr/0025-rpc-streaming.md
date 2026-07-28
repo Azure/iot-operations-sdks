@@ -133,7 +133,7 @@ A side **consumes** one stream and **produces** the other. The consuming and pro
 
 **Executor-only rules:**
 
-- If a `last` arrives before any data message in the request stream, log an error, acknowledge it, and ignore it — a request stream must have at least one entry.
+- A `last` in the request stream with no preceding data entry is a [protocol violation](#error-handling) (a request stream must have at least one entry): the executor returns the error status and the exchange ends.
 - Unlike vanilla RPC, the executor keeps **no replay cache**: streams may grow without bound, so replaying a response stream isn't feasible.
 
 ### Timeout support
@@ -205,9 +205,17 @@ Whether a receiver replies depends on its state:
 
 ### Error handling
 
-A **protocol violation** in a message that belongs to the exchange (its correlation matches) — for example an unparseable payload or malformed `__stream` — is **terminal**. The recipient sends a [status message](#streaming-user-property) back to the sender (`s:<index>` references the offending message, `__stat` carries the error code, with an optional human-readable `__stMsg`); both sides then treat the exchange as over and send no further entries. The referenced index identifies which entry triggered the violation as **diagnostic context only** — since the exchange ends, nothing needs to correlate it back to a specific message. Unmatched or junk data (no correlating exchange) is acknowledged and discarded, never terminating a stream.
+A **protocol violation** is a message that **belongs to the exchange** (its correlationId matches) yet breaks the wire contract. Concretely, a correlation-matched message violates the protocol when it:
 
-Application-level errors are **out of scope**: the protocol does not carry them, so an application that wants to signal one sends it as an ordinary data entry. Accepted messages carry no status; success is implicit.
+- carries a payload that cannot be **deserialized** to the stream's expected type;
+- has a missing or **malformed `__stream`** property;
+- declares an **incompatible streaming protocol version**;
+- is published at **QoS 0** (every stream message must be QoS 1); or
+- **breaks stream sequencing** — a data entry after the stream's `last`, or a request stream whose `last` arrives with no preceding data entry.
+
+Any such violation is **terminal**: the recipient sends a [status message](#streaming-user-property) back to the sender (`s:<index>` references the offending message, `__stat` carries the error code, with an optional human-readable `__stMsg`), and **both parties then treat the exchange as over and send no further entries**. The referenced index is **diagnostic context only** — since the exchange ends, nothing needs to correlate it back to a specific message. Unmatched or junk data (no correlating exchange) is acknowledged and discarded, never terminating a stream.
+
+None of these should occur between conforming implementations — they indicate data corruption or a peer that does not follow the protocol. Application-level errors are **out of scope**: the protocol does not carry them, so an application that wants to signal one sends it as an ordinary data entry. Accepted messages carry no status; success is implicit.
 
 ### Exchange termination
 
