@@ -267,7 +267,7 @@ public class StreamingExtendedRequest<TReq>
 {
     public TReq Payload { get; set; }
     public StreamMessageMetadata Metadata { get; set; }
-    // Per-message MQTT expiry; defaults to the exchange timeout and must be <= it.
+    // Per-message expiry; defaults to the exchange timeout's remaining value and is capped at it.
     public TimeSpan? MessageExpiry { get; set; }
 }
 
@@ -279,7 +279,7 @@ public class StreamingExtendedResponse<TResp>
     public TimeSpan? MessageExpiry { get; set; }
 }
 
-// Stream index, HLC timestamp, and per-message user properties.
+// Stream index + HLC timestamp (used together for de-dup and to detect an executor restart) and per-message user properties.
 public class StreamMessageMetadata
 {
     public uint Index { get; init; }
@@ -287,12 +287,12 @@ public class StreamMessageMetadata
     public Dictionary<string, string> UserData { get; init; } = new();
 }
 
-// A consumed request entry adds manual acknowledgement (used when the executor's auto-ack is off).
+// A consumed request entry adds manual stream entry acknowledgement (used when the executor's auto-ack is off).
 // Only the executor exposes manual ack; the invoker always auto-acknowledges responses.
 public class ReceivedStreamingExtendedRequest<TReq> : StreamingExtendedRequest<TReq>
     where TReq : class
 {
-    // Once-only; acks are sent in order and count against the client's Receive Maximum.
+    // Signals this stream entry is done (once-only); the framework maps it to the transport ack.
     public Task AcknowledgeAsync() { ... }
 }
 
@@ -346,6 +346,7 @@ public abstract class StreamingCommandInvoker<TReq, TResp>
     where TResp : class
 {
     // Returns after the first request is accepted, without waiting for the rest.
+    // Faults with NoAvailableStreamingExecutor if no executor is subscribed for the first request.
     // exchangeTimeout: total budget for the whole exchange (a configurable default applies if unset).
     public async Task<(IResponseStream<StreamingExtendedResponse<TResp>> Responses, IExchangeHandle Exchange)> InvokeStreamingCommandAsync(
       IAsyncEnumerable<StreamingExtendedRequest<TReq>> requests,
