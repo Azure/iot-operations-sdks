@@ -7,7 +7,6 @@ on:
       - '.github/workflows/ci-rust.yml'
       - '.github/actions/configure-aio/**'
       - 'rust/**'
-      - '!rust/sample_applications/sample_connector_scaffolding/**' # Has own CI
       - 'eng/test/**'
       - 'eng/wot/**'
       - 'tools/deployment/**'
