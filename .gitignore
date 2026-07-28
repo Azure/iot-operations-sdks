@@ -86,6 +86,9 @@ artifacts/
 
 # Rust
 Cargo.lock
+# ...except the stub service: it is a binary that downstream images (DevX) build
+# from a pinned commit, so its dependency set must be reproducible, not floating.
+!tools/azure_iot_operations_stub_services/Cargo.lock
 target/
 
 # Tye
