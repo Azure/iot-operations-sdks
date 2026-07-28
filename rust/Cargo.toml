@@ -3,21 +3,30 @@
 
 [workspace]
 members = [
+  # --- SDK crates ---
   "azure_iot_operations_connector",
   "azure_iot_operations_mqtt",
   "azure_iot_operations_protocol",
   "azure_iot_operations_services",
+
+  # --- Sample applications ---
   "sample_applications/counter/envoy",
   "sample_applications/counter/counter_client",
   "sample_applications/counter/counter_server",
   "sample_applications/event_driven_app/input_client",
   "sample_applications/event_driven_app/output_client",
+  "sample_applications/sample_connector_scaffolding",
 ]
 
-exclude = [
-  # Excluded to keep it standalone-buildable: downstream tooling copies this
-  # directory and builds it in isolation.
-  "sample_applications/sample_connector_scaffolding"
+# Bare `cargo build`/`test`/`clippy` at the workspace root operate only on the
+# SDK crates, which is what we work on day to day. The sample applications
+# remain full members (so they stay compile-guarded and are covered by
+# `--workspace`/`--all` in CI) but are opt-in for default operations.
+default-members = [
+  "azure_iot_operations_connector",
+  "azure_iot_operations_mqtt",
+  "azure_iot_operations_protocol",
+  "azure_iot_operations_services",
 ]
 
 resolver = "2"
