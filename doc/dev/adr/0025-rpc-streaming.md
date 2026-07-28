@@ -222,7 +222,7 @@ A fatal failure — a crashed peer, an unhandled exception, or a request pump th
 
 ### Disconnection and recovery
 
-Streaming inherits MQTT 5's reconnection semantics; recovery hinges on whether the disconnected side's **session** survives. With a persistent session (clean start off, within its session-expiry interval), queued outbound PUBLISHes flush and unacknowledged inbound PUBLISHes redeliver at QoS 1 — de-duplicated by index — so the exchange resumes where it left off. If the session is lost, that side's stream state is gone, the exchange cannot resume, and the peer falls back to its [exchange timeout](#exchange-level-timeout).
+Streaming inherits the [MQTT session client](../../reference/session-client.md)'s reconnection and recovery semantics — which are **more restrictive** than raw MQTT 5's — so recovery hinges on whether the disconnected side's **session** survives the reconnect. With a persistent session (clean start off, within its session-expiry interval), queued outbound PUBLISHes flush and unacknowledged inbound PUBLISHes redeliver at QoS 1 — de-duplicated by index — so the exchange resumes where it left off. If the session is lost, that side's stream state is gone, the exchange cannot resume, and the peer falls back to its [exchange timeout](#exchange-level-timeout).
 
 An in-flight message survives at the broker only for its [message expiry](#message-level-timeout), which the broker **decrements by the time the message sat queued** — so a redelivered entry has less remaining expiry than when sent and may lapse before reconnection (that entry is then lost, which is tolerated since entries are self-contained). A message's remaining expiry therefore does **not** track the exchange-timeout countdown; the two are independent clocks.
 
