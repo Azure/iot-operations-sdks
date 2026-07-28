@@ -228,7 +228,7 @@ An in-flight message survives at the broker only for its [message expiry](#messa
 
 Because the command topic is a [shared subscription](#topics-and-routing), an executor crash does not strand the exchange — another executor in the group takes over, recovering mid-stream from the correlation, the repeated stream metadata, and each request's `timeout_length`. The **invoker has no equivalent**: its response topic is unique to it, so if the invoker's session is lost, in-flight responses cannot be re-routed and are **lost with no recovery** (there is no invoker-side load-balancing). This is an accepted limitation.
 
-If the invoker publishes a request and the broker replies `no matching subscribers` — **no executor is subscribed** — the request reaches no one. Although that reason code is an MQTT-level success, the streaming layer maps it to a distinct **`NoAvailableStreamingExecutor`** error: the invoker surfaces it to the user (the stream cannot push messages right now) and ends the exchange. We **assume** a broker that returns this reason code will not later deliver the request even if an executor subscribes shortly after; this is an MQ-specific assumption, documented here and guarded by end-to-end tests so a change in broker behavior is caught rather than silently breaking the protocol.
+If the invoker publishes a request and the broker replies `no matching subscribers` — **no executor is subscribed** — the request reaches no one. Although that reason code is an MQTT-level success, the streaming layer maps it to a distinct **`NoAvailableStreamingExecutor`** error: the invoker surfaces it to the user (the stream cannot push messages right now) and ends the exchange. This relies on a broker-delivery assumption spelled out in the [appendix](#no-matching-subscribers-broker-assumption).
 
 ### Protocol versioning
 
@@ -374,3 +374,7 @@ Three approaches to marking the final message in a stream were considered, and t
   - This doesn't let the receiving end distinguish "the stream is over" from "this is the final message in the stream" when the user provides no payload or user properties on streamed messages.
 
 Because both either fail our requirements or are ambiguous in corner cases, the final-message marker is its own **standalone** `last` control message (`c:…:last`) with no user payload or application-provided user properties.
+
+### No matching subscribers broker assumption
+
+When the invoker receives a `no matching subscribers` PUBACK, the streaming layer assumes the broker has **dropped** the request and will **not** deliver it later even if a matching executor subscribes shortly afterward. At an MQTT level this reason code is only a success — the PUBLISH reached the broker — and the spec leaves whether the message is then discarded or eventually delivered unspecified, so this is an **MQ-broker-specific** assumption rather than a protocol guarantee. It is guarded by end-to-end tests so that a change in broker behavior is caught rather than silently breaking the protocol.
