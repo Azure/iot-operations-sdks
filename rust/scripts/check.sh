@@ -70,6 +70,11 @@ cargo metadata --format-version=1 --no-deps \
     fi
 done
 
+# Require workspace dependency conventions: deps shared by >= 2 crates must be
+# centralized in [workspace.dependencies], and centralized deps must be
+# inherited (not re-declared inline). See rust/scripts/check_workspace_deps.py.
+python3 "$(dirname "${BASH_SOURCE[0]}")/check_workspace_deps.py"
+
 # Require `rustfmt` pass.
 cargo fmt --verbose --all --check
 
