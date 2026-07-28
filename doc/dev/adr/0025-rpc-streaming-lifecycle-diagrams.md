@@ -6,11 +6,11 @@
 ## 1. Shared Lifecycle
 
 Both roles run the **same** local state machine. Each side **produces** one stream and **consumes** the
-other, and the transition labels are written from that side's own view: *my* `isLast` closes the stream
-I produce, and the *peer's* `isLast` closes the stream I consume. The exchange is **gracefully complete**
-only once *both* halves are closed.
+other, and the transition labels are written from that side's own view: *my* `last` closes the stream
+I produce, and the *peer's* `last` closes the stream I consume. The exchange is **gracefully complete**
+only once *both* streams are closed.
 
-| Role | Produces — closed by *my* `isLast` | Consumes — closed by *peer's* `isLast` |
+| Role | Produces — closed by *my* `last` | Consumes — closed by *peer's* `last` |
 | --- | --- | --- |
 | Invoker | request stream | response stream |
 | Executor | response stream | request stream |
@@ -21,16 +21,16 @@ stateDiagram-v2
 
     state Active {
         [*] --> BothOpen
-        BothOpen --> ProducedClosed: send my isLast
-        BothOpen --> ConsumedClosed: receive peer's isLast
-        ProducedClosed --> BothClosed: receive peer's isLast
-        ConsumedClosed --> BothClosed: send my isLast
+        BothOpen --> ProducedClosed: send my last
+        BothOpen --> ConsumedClosed: receive peer's last
+        ProducedClosed --> BothClosed: receive peer's last
+        ConsumedClosed --> BothClosed: send my last
     }
 
     BothClosed --> Completed
     Active --> Canceled: peer cancel or confirmed local cancel
-    Active --> TimedOut: local idle timeout
-    Active --> Failed: local failure or terminal error
+    Active --> TimedOut: exchange timeout
+    Active --> Failed: local failure
 
     Completed --> [*]
     Canceled --> [*]
@@ -39,7 +39,7 @@ stateDiagram-v2
 ```
 
 A non-success terminal — `Canceled`, `TimedOut`, or `Failed` — ends the whole exchange from any active
-state, regardless of which halves are still open. Establishment is role-specific (the invoker sends
+state, regardless of which streams are still open. A local `Failed` triggers a best-effort cancellation toward the peer, which observes `Canceled` or its own timeout. Establishment is role-specific (the invoker sends
 `request[0]`; the executor receives it); see §2.
 
 ## 2. Invoker Establishment and Full Duplex
@@ -66,7 +66,7 @@ sequenceDiagram
     ES->>B: PUBLISH response[0]<br/>response topic
     B->>IS: response[0]
     Note over IS: Buffer response[0]<br/>call has not returned yet
-    IS-->>IA: Return response stream and exchange context
+    IS-->>IA: Return response stream and exchange handle
     Note over IA,IS: Return follows request[0] publication,<br/>it does not wait for more requests
     IA->>IS: Iterate response stream
     IS-->>IA: Deliver buffered response[0]
@@ -80,10 +80,9 @@ sequenceDiagram
 ## 3. Normal Bidirectional Exchange
 
 A fuller happy path across both apps and SDKs. Beyond the interleaved data flow it shows per-entry
-**indexes**, the `__stream` header, response **`__stat`** (`200` with a payload, `204` without), a
-regular **heartbeat** filling a quiet gap, de-dup and idle-timer reset on receipt, standalone `isLast`,
-and independent half-close. Requests and responses may interleave, either data half may close first, and
-both control lanes stay active until the exchange is terminal.
+**indexes**, the `__stream` header, de-dup on receipt, standalone `last`, and independent stream-close.
+Requests and responses may interleave, either stream may close first, and control still flows until the
+exchange is terminal.
 
 ```mermaid
 sequenceDiagram
@@ -97,65 +96,57 @@ sequenceDiagram
     Note over IA,EA: One correlation GUID for the whole exchange<br/>invoker produces requests, executor produces responses
 
     IA->>IS: Yield request[0]
-    IS->>B: PUBLISH request[0]<br/>__stream=0:false:false:false:T, expiry=T, $partition=P
+    IS->>B: PUBLISH request[0]<br/>__stream=d:0:T, expiry=T, $partition=P
     B->>ES: request[0]
-    Note over ES: De-dup by correlationId+index<br/>reset idle timer
+    Note over ES: De-dup by correlationId+index+timestamp
     ES->>EA: Deliver request[0] (index 0)
 
-    EA-->>ES: Yield response[0] (with payload)
-    ES->>B: PUBLISH response[0]<br/>__stream=0:false:false:false, __stat=200
+    EA-->>ES: Yield response[0]
+    ES->>B: PUBLISH response[0]<br/>__stream=d:0
     B->>IS: response[0]
-    Note over IS: Reset idle timer<br/>deliver in index order
+    Note over IS: Deliver in index order
     IS-->>IA: Deliver response[0] (index 0)
 
     IA->>IS: Yield request[1]
-    IS->>B: PUBLISH request[1]<br/>__stream=1:false:false:false:T
+    IS->>B: PUBLISH request[1]<br/>__stream=d:1:T
     B->>ES: request[1]
     ES->>EA: Deliver request[1] (index 1)
 
-    Note over ES: Heartbeat interval elapsed<br/>emit heartbeat
-    ES->>B: heartbeat<br/>__stream=0:false:false:true, response topic
-    B->>IS: heartbeat
-    Note over IS: Inbound PUBLISH resets idle timer<br/>not surfaced to the app
-
-    EA-->>ES: Yield response[1] (no payload)
-    ES->>B: PUBLISH response[1]<br/>__stream=1:false:false:false, __stat=204
+    EA-->>ES: Yield response[1]
+    ES->>B: PUBLISH response[1]<br/>__stream=d:1
     B->>IS: response[1]
     IS-->>IA: Deliver response[1] (index 1)
 
-    Note over IA,EA: Either data half may close first, they are independent
+    Note over IA,EA: Either stream may close first, they are independent
 
     IA->>IS: End request stream
-    IS->>B: `isLast` request<br/>__stream=2:true:false:false:T, no payload, $partition=P
-    B->>ES: `isLast` request
+    IS->>B: last request<br/>__stream=c:2:last:T, no payload, $partition=P
+    B->>ES: last request
     ES->>EA: Signal request stream ended
-    Note over IS,ES: Request data half closed<br/>control lanes stay active
+    Note over IS,ES: Request stream closed<br/>control still flows
 
     EA-->>ES: End response stream
-    ES->>B: `isLast` response<br/>__stream=2:true:false:false, no payload
-    B->>IS: `isLast` response
+    ES->>B: last response<br/>__stream=c:2:last, no payload
+    B->>IS: last response
     IS-->>IA: Signal response stream ended
-    Note over IS,ES: Response data half closed
+    Note over IS,ES: Response stream closed
 
-    Note over IA,EA: Both halves closed, exchange Completed<br/>tombstone retained for late or duplicate packets
+    Note over IA,EA: Both streams closed, exchange Completed<br/>tombstone retained for late or duplicate packets
 ```
 
 ## 4. Exchange Timeout
 
-The stream timeout is an **idle (inactivity)** timeout. The invoker starts its timer when it sends its
-first request; the executor starts when it receives the first request. After that, each side resets its
-timer only on a valid PUBLISH **received from the peer** — a heartbeat, data, an `isLast`, or a
-cancellation. A side's own sends, and the PUBACKs for them, do not reset it; duplicate, malformed, and
-late packets do not count either.
+The exchange timeout is a single overall budget for the whole exchange, not an inactivity timer — it
+does **not** reset on activity. The invoker starts its countdown when it sends its first request; the
+executor starts when it receives the first request. Each request-direction message carries the invoker's
+**remaining** budget in `__stream` (`d:0:T`, `c:…:T`, `s:…:T`), so a replacement executor can resume
+mid-stream with the true time left.
 
-Because each side emits [heartbeats](0025-rpc-streaming.md#stream-level-timeout) at a regular interval
-(half of `T`, so about two per window), a live peer keeps resetting the timer even when it has no data
-to send. A side moves to `TimedOut` only after `T` elapses with no inbound PUBLISH from the peer — that
-is, once the peer stops both its data and its heartbeats (a crash, a disconnect, or completion with a
-lost final message). Timeout is purely local: the SDK reports it to its own application and sends no
-timeout status, so the peer reaches its own timeout independently. The sequence below shows the executor
-going silent; the invoker then times out. The symmetric case — the invoker going silent and the
-executor timing out — works identically.
+A side moves to `TimedOut` once its budget elapses before [graceful completion](0025-rpc-streaming.md#exchange-completion)
+— a lost final message, or a stalled or crashed peer. Timeout is purely local: the side reports it to
+its own application and sends no timeout status, so the peer reaches its own timeout independently. The
+sequence below shows the executor going silent; the invoker's budget then elapses. The symmetric case —
+the invoker going silent and the executor timing out — works identically.
 
 ```mermaid
 sequenceDiagram
@@ -166,29 +157,19 @@ sequenceDiagram
     participant ES as Executor SDK
     participant EA as Executor app
 
-    IS->>B: PUBLISH request[0]<br/>timeout=T, $partition=P
-    Note over IS: Sent first request<br/>start idle timer T
+    IS->>B: PUBLISH request[0]<br/>__stream=d:0:T, $partition=P
+    Note over IS: Sent first request<br/>start exchange budget T
     B->>ES: request[0]
-    Note over ES: First request received<br/>start idle timer T
+    Note over ES: First request received<br/>start exchange budget T
     ES->>EA: Deliver request[0]
     EA-->>ES: response[0]
-    ES->>B: response[0], response topic
+    ES->>B: PUBLISH response[0]<br/>__stream=d:0
     B->>IS: response[0]
-    Note over IS: Inbound PUBLISH from peer<br/>reset idle timer T
     IS-->>IA: Deliver response[0]
     IS--xB: PUBACK for response[0] lost
 
-    Note over ES: Heartbeat interval elapsed<br/>emit heartbeat
-    ES->>B: heartbeat, __stream=0:false:false:true<br/>response topic
-    B->>IS: heartbeat
-    Note over IS: Inbound PUBLISH from peer<br/>reset idle timer T
-    Note over IS: Heartbeat interval elapsed<br/>emit heartbeat
-    IS->>B: heartbeat, __stream=0:false:false:true:T<br/>command topic, $partition=P
-    B->>ES: heartbeat
-    Note over ES: Inbound PUBLISH from peer<br/>reset idle timer T
-
-    Note over ES,EA: Executor disconnects or crashes<br/>stops sending responses and heartbeats
-    Note over IS: No inbound PUBLISH from peer for T
+    Note over ES,EA: Executor disconnects or crashes<br/>stops sending responses
+    Note over IS: Budget T elapses with no completion
     Note over IS: Local exchange enters TimedOut<br/>stop request production
     IS-->>IA: Report timeout
     Note over IS,B: Invoker sends no timeout PUBLISH
@@ -205,9 +186,9 @@ matched to the tombstone, acknowledged, and ignored.
 
 ## 5. Invoker-Initiated Cancellation
 
-The cancellation request travels on the **command topic** and retains `$partition`. The `Canceled`
-status travels on the **response topic**. A lost status can be recovered by retrying the cancellation
-request and re-answering from terminal tombstone state.
+The cancellation request travels on the **command topic** and retains `$partition`; the `Canceled`
+status travels on the **response topic**. A lost `Canceled` is recovered by re-issuing the cancellation
+(a fresh index) and re-answering from terminal tombstone state.
 
 ```mermaid
 sequenceDiagram
@@ -218,24 +199,24 @@ sequenceDiagram
     participant ES as Executor SDK
     participant EA as Executor app
 
-    IS->>B: request[0], command topic, $partition=P
+    IS->>B: request[0]<br/>__stream=d:0:T, command topic, $partition=P
     B->>ES: request[0]
     ES->>EA: Deliver request[0]
     IA->>IS: Cancel
-    IS->>B: cancel, __stream=0:true:true:false:T, $partition=P
+    IS->>B: cancel<br/>__stream=c:1:cancel:T, $partition=P
     B->>ES: cancel request
     ES->>EA: Stop callback
     Note over ES: Local exchange becomes Canceled
-    ES->>B: Canceled, __stream=0:false:false:false, response topic
+    ES->>B: Canceled<br/>__stream=s:1, __stat=499, response topic
 
     alt Canceled is delivered
         B->>IS: Canceled
     else Canceled expires at the broker
         Note over B: Canceled dropped before delivery
-        IS->>B: retry cancel, same correlation, $partition=P
-        B->>ES: duplicate cancel
+        IS->>B: re-issue cancel<br/>__stream=c:2:cancel:T, $partition=P
+        B->>ES: cancel (re-issued)
         Note over ES: Canceled tombstone re-answers
-        ES->>B: resend Canceled, __stream=0:false:false:false
+        ES->>B: resend Canceled<br/>__stream=s:2, __stat=499
         B->>IS: Canceled
     end
 
@@ -245,9 +226,9 @@ sequenceDiagram
 
 ## 6. Executor-Initiated Cancellation
 
-This example starts after the executor has closed its response data half. The **response topic** still
+This example starts after the executor has closed its response stream. The **response topic** still
 carries the cancellation request, and the **command topic** still carries the invoker's `Canceled`
-acknowledgement.
+acknowledgement — control still flows after `last`.
 
 ```mermaid
 sequenceDiagram
@@ -258,39 +239,40 @@ sequenceDiagram
     participant ES as Executor SDK
     participant EA as Executor app
 
-    IS->>B: request[0], command topic, $partition=P
+    IS->>B: request[0]<br/>__stream=d:0:T, command topic, $partition=P
     B->>ES: request[0]
-    ES->>B: `isLast` response
-    B->>IS: `isLast` response
-    Note over IS,ES: Response data half closed<br/>both control lanes remain active
+    ES->>B: last response<br/>__stream=c:0:last
+    B->>IS: last response
+    Note over IS,ES: Response stream closed<br/>control still flows
     EA->>ES: Cancel
-    ES->>B: cancel, __stream=0:true:true:false, response topic
+    ES->>B: cancel<br/>__stream=c:1:cancel, response topic
     B->>IS: cancel request
     IS->>IA: Signal cancellation
     Note over IS: Stop request production<br/>local exchange becomes Canceled
-    IS->>B: Canceled, __stream=0:false:false:false:T, command topic, $partition=P
+    IS->>B: Canceled<br/>__stream=s:1:T, __stat=499, command topic, $partition=P
 
     alt Canceled is delivered
         B->>ES: Canceled
     else Canceled expires at the broker
         Note over B: Canceled dropped before delivery
-        ES->>B: retry cancel, same correlation
-        B->>IS: duplicate cancel
+        ES->>B: re-issue cancel<br/>__stream=c:2:cancel, response topic
+        B->>IS: cancel (re-issued)
         Note over IS: Canceled tombstone re-answers
-        IS->>B: resend Canceled, $partition=P
+        IS->>B: resend Canceled<br/>__stream=s:2:T, $partition=P
         B->>ES: Canceled
     end
 
     ES-->>EA: Exchange Canceled, cancel completes
 ```
 
-## 7. Executor Error Status
+## 7. Protocol Error Terminates the Exchange
 
-A response `__stat` error code (`4xx`/`5xx`) is **self-terminating**: the executor sends nothing
-further — not even an `isLast` — and the receiver surfaces it as the terminal error. Because the status
-is **exchange-scoped**, it ends the whole exchange, tearing down an open request half as well. `__apErr`
-distinguishes an application error the command returned (`true`) from a framework or protocol error
-(`false`). This is a **response-direction** terminal; the request direction has no equivalent (see §8).
+A **protocol violation** — a correlation-matched message that breaks the wire contract (an undeserializable
+payload, a malformed `__stream`, an incompatible protocol version, a QoS 0 publish, or a sequencing break) —
+is **terminal**. The recipient sends a status message (`s:<index>` + `__stat` `4xx`/`5xx`) back to the
+sender identifying the offending entry, and **both parties then end the exchange** and send no further
+entries. The index is diagnostic context only. Application-level outcomes are **out of scope** — the
+protocol does not carry them, so an application signals one in its own `d` data entries, not as a status.
 
 ```mermaid
 sequenceDiagram
@@ -301,35 +283,34 @@ sequenceDiagram
     participant ES as Executor SDK
     participant EA as Executor app
 
-    IS->>B: request[0], command topic, $partition=P
+    IS->>B: request[0]<br/>__stream=d:0:T, command topic, $partition=P
     B->>ES: request[0]
     ES->>EA: Deliver request[0]
     EA-->>ES: response[0]
-    ES->>B: response[0], response topic
+    ES->>B: response[0]<br/>__stream=d:0
     B->>IS: response[0]
     IS-->>IA: Deliver response[0]
 
-    Note over IS,ES: Request data half still open<br/>isLast request not yet sent
-    EA->>ES: Fail with an error, 4xx or 5xx
-    Note over ES: Error status is self-terminating, no isLast response is sent<br/>__apErr flags application vs framework error
-    ES->>B: error 5xx, __stream=0:false:false:false, response topic
-    Note over ES: Local exchange enters Failed
-    B->>IS: error 5xx status
-    IS-->>IA: Fault response iterator, surface the error
-    Note over IS: Local exchange enters Failed<br/>stop request production
-    Note over IS,ES: The error terminates the whole exchange<br/>the open request half is torn down without an isLast
-    Note over IS,ES: Later data is acknowledged and ignored via tombstone
+    IS->>B: request[1]<br/>__stream=d:1:T, malformed payload
+    B->>ES: request[1]
+    Note over ES: Cannot deserialize payload - protocol violation
+    ES->>B: status<br/>__stream=s:1, __stat=4xx, response topic
+    B->>IS: status about request[1]
+    Note over IA,EA: Terminal - both sides end the exchange<br/>no further entries are sent
+    IS-->>IA: Exchange faulted - protocol error at index 1
+    ES->>EA: Signal exchange ended
 ```
 
-If the invoker's response iterator has already completed via `isLast`, a later error is observed only
-through the exchange context's completion rather than faulting the already-finished iterator.
+A protocol violation ends the exchange for both parties (see §1 and the ADR
+[error handling](0025-rpc-streaming.md#error-handling)). A message with no reported status was accepted —
+success is implicit.
 
-## 8. Request-Side Failure and Cancellation
+## 8. Fatal Failure and Best-Effort Cancellation
 
-The request direction carries no outcome `__stat`, so a request-side failure — the request pump
-throwing, or the application abandoning the exchange — cannot self-terminate with an error. Instead the
-invoker faults its local exchange with the error, stops publishing, and terminates the peer through a
-best-effort **cancellation**; the only terminal status the request direction ever carries is `Canceled`.
+A **fatal failure** — the request pump throwing, an unhandled exception, or an application abandoning the
+exchange — has no status of its own to send (unlike a protocol violation — see §7): it is handled by
+faulting the local exchange and terminating the peer through a best-effort **cancellation**. The example
+shows the invoker's request pump throwing.
 
 ```mermaid
 sequenceDiagram
@@ -340,17 +321,17 @@ sequenceDiagram
     participant ES as Executor SDK
     participant EA as Executor app
 
-    IS->>B: request[0], command topic, $partition=P
+    IS->>B: request[0]<br/>__stream=d:0:T, command topic, $partition=P
     B->>ES: request[0]
     ES->>EA: Deliver request[0]
     Note over IA,IS: Producing request[1] throws in the request pump
     Note over IS: Stop request publication<br/>local exchange faults with the error
-    Note over IS: The request direction has no error status<br/>terminate the peer via best-effort cancellation
-    IS->>B: cancel, __stream=0:true:true:false:T, $partition=P
+    Note over IS: No status for a fatal failure<br/>terminate the peer via best-effort cancellation
+    IS->>B: cancel<br/>__stream=c:1:cancel:T, $partition=P
     B->>ES: cancel request
     ES->>EA: Stop callback
     Note over ES: Local exchange becomes Canceled
-    ES->>B: Canceled, __stream=0:false:false:false, response topic
+    ES->>B: Canceled<br/>__stream=s:1, __stat=499, response topic
     B->>IS: Canceled
     IS-->>IA: Exchange faulted with the request-pump error
     Note over IS,ES: Cancellation is best-effort<br/>the invoker faulted locally regardless of the ack
@@ -363,34 +344,65 @@ error regardless of whether the `Canceled` acknowledgement arrives.
 
 This classifier assumes correlation lookup has found an active exchange or a retained
 terminal tombstone. Initial request validation is outside this diagram. A timeout is never
-received as a packet — it is a local idle event (see §4) — so it does not appear here.
+received as a packet — it is a local event (see §4) — so it does not appear here.
 
 ```mermaid
 flowchart TD
     P["Incoming MQTT PUBLISH"] --> S{"__stream present?"}
     S -- "No" --> O["Route to another protocol handler"]
     S -- "Yes" --> T{"Exchange already terminal?"}
-    T -- "Yes" --> RC{"Retried cancel and<br/>state is Canceled?"}
+    T -- "Yes" --> RC{"Re-issued cancel and<br/>state is Canceled?"}
     RC -- "Yes" --> RA["Re-send Canceled"]
     RC -- "No" --> AI["Acknowledge and ignore"]
-    T -- "No" --> C{"cancelRequest = true?"}
-    C -- "Yes" --> PC["Notify application<br/>send Canceled, enter Canceled"]
-    C -- "No" --> E{"Terminal error status?"}
-    E -- "Canceled" --> CAN["Enter Canceled"]
-    E -- "Other 4xx or 5xx" --> F["Enter Failed"]
-    E -- "No" --> HB{"heartbeat = true?"}
-    HB -- "Yes" --> HBR["Reset idle timer<br/>acknowledge, do not deliver or cache"]
-    HB -- "No" --> L{"isLast = true?"}
-    L -- "Yes" --> HC["Close this data half"]
-    HC --> BC{"Both data halves closed?"}
+    T -- "No" --> TAG{"__stream tag"}
+    TAG -- "c : cancel" --> PC["Notify application<br/>send Canceled, enter Canceled"]
+    TAG -- "c : last" --> HC["Close this data stream"]
+    HC --> BC{"Both streams closed?"}
     BC -- "Yes" --> CO["Enter Completed"]
-    BC -- "No" --> AC["Remain active<br/>keep control lanes open"]
-    L -- "No" --> D["Deduplicate by correlation and index<br/>deliver data entry"]
+    BC -- "No" --> AC["Remain active<br/>control still flows"]
+    TAG -- "s status" --> ST{"__stat code"}
+    ST -- "Canceled 499" --> CAN["Enter Canceled"]
+    ST -- "4xx or 5xx" --> PE["Protocol error<br/>surface to app, end the exchange"]
+    TAG -- "d data" --> D["Deduplicate by correlation, index, and timestamp<br/>deliver data entry"]
     PC --> TS["Retain terminal tombstone"]
     CAN --> TS
-    F --> TS
     CO --> TS
+    PE --> TS
 ```
+
+## 10. `__stream` Property Anatomy
+
+Every streaming PUBLISH carries a `__stream` user property whose value takes one of **three tagged
+forms**, chosen by a leading tag: **data** (`d`) for a stream entry, **control** (`c`) for a
+`last`/`cancel` signal, and **status** (`s`) for an outcome reported about a received message (details
+in the companion `__stat`). Because the form is tagged, a value only ever carries the fields that apply
+to it. Data and control messages share a single per-producer index counter; a status message's index
+instead names the **received** (peer's) message it reports on. The optional trailing timeout — the
+invoker's remaining exchange budget in whole seconds — appears **only on request-direction messages**
+(invoker → executor) and is omitted on the response direction, since the invoker sets it and cannot be
+recovered mid-stream. See [the ADR](0025-rpc-streaming.md#streaming-user-property) for the authoritative
+grammar.
+
+```mermaid
+flowchart TD
+    V["__stream value"] --> TAG{"leading tag"}
+
+    TAG -->|d| D["Data form<br/>d : index [ : timeout ]"]
+    TAG -->|c| C["Control form<br/>c : index : cancel/last [ : timeout ]"]
+    TAG -->|s| S["Status form<br/>s : index [ : timeout ]"]
+
+    D --> DN["index = position in the producer stream<br/>data and control share one counter"]
+    C --> CN["index = position in the producer stream, same counter<br/>command = cancel or last"]
+    S --> SN["index = the received peer message this reports on<br/>outcome details carried in __stat"]
+
+    DN --> TN["optional timeout = exchange time remaining in seconds<br/>present on request-direction messages only, invoker to executor<br/>omitted on response-direction messages, executor to invoker"]
+    CN --> TN
+    SN --> TN
+```
+
+Concrete values — **request direction** (invoker → executor), timeout `T` present: `d:0:T` (data entry
+0), `c:2:cancel:T` (cancel at producer index 2), `s:1:T` (status about received response 1).
+**Response direction** (executor → invoker), timeout omitted: `d:0`, `c:7:last`, `s:3`.
 
 ## Coverage
 
@@ -398,10 +410,11 @@ flowchart TD
 | --- | --- |
 | Shared lifecycle | Core abstractions, graceful completion, terminal states |
 | Invoker establishment | Full-duplex return semantics and early-response buffering |
-| Normal exchange | Interleaving, independent half-close, control-lane lifetime |
-| Timeout | Idle timers reset on PUBLISHes received from the peer, heartbeats keep them alive, both sides terminate locally with no wire status, tombstones |
-| Invoker cancellation | Command-topic affinity, retries, `Canceled` response |
-| Executor cancellation | Control after half-close, request-direction `Canceled` |
-| Executor error | Self-terminating response `__stat`, whole-exchange teardown, `__apErr` |
-| Request-side failure | Request direction has no error status, best-effort cancellation |
-| Packet classification | `__stream` routing, terminal precedence, late packets |
+| Normal exchange | Interleaving, independent stream-close, control lifetime after `last` |
+| Timeout | Overall exchange budget from each side's start, no reset, both sides terminate locally with no wire status, tombstones |
+| Invoker cancellation | Command-topic affinity, re-issue, `Canceled` status |
+| Executor cancellation | Control after stream-close, request-direction `Canceled` |
+| Protocol error | Terminal status about a violating message, ends the exchange for both sides |
+| Fatal failure | No status of its own, best-effort cancellation |
+| Packet classification | `__stream` tag routing, terminal precedence, late packets |
+| `__stream` anatomy | The three tagged value forms, shared data/control index counter, status `__stat`, request-direction-only timeout |
