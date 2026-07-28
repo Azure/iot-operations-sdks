@@ -46,17 +46,45 @@ too_many_lines = "allow"
 module_name_repetitions = "allow"
 large_futures = "allow"     # Currently, the underlying client creates large futures. Remove when fixed.
 
+# Centralized dependency versions, inherited by member crates via
+# `foo.workspace = true`. Conventions for this table:
+#
+# - Add a dependency here only when it is used by >= 2 workspace members.
+#   Single-consumer deps stay inline in that crate's Cargo.toml.
+# - Keep entries version-only and as loose as is correct (a minimum, not a
+#   pin) — the entries become the published version requirement for every
+#   crate that inherits them, and `Cargo.lock` handles the exact version.
+# - Do NOT put crate-specific features here. Cargo unifies features across
+#   the graph, so a feature listed here leaks into every consumer's published
+#   manifest. Declare features per-crate instead:
+#     `foo = { workspace = true, features = ["bar"], optional = true }`.
+# - To ship a minimal default surface, set `default-features = false` on the
+#   workspace entry and have each crate opt into exactly the features it needs.
+#   Note a member CANNOT set `default-features = false` when the workspace entry
+#   omits it (Cargo rejects it), so the disable must live here. See `chrono`.
+# - Sibling `azure_iot_operations_*` crates are intentionally NOT listed here:
+#   they are independently versioned published contracts, declared per-crate
+#   with an explicit `version` + `path`.
 [workspace.dependencies]
+# --- src dependencies ---
+async-trait = "0.1.81"
 bytes = "1.5.0"
-chrono = "0.4"
+chrono = { version = "0.4", default-features = false }
 derive_builder = "0.20"
 derive-getters = { version = "0.5.0", features = ["auto_copy_getters"] }
+futures = "0.3.31"
+iso8601-duration = "0.2"
 log = "0.4.21"                                                          # For performance, I believe this should have some filters on it
 parking_lot = "0.12"
+regex = "1.11.0"
+serde = "1.0"
+serde_json = "1.0"
 thiserror = "2.0.12"
-tokio = { version = "1.41", features = ["rt", "rt-multi-thread", "time", "sync", "macros"] } # TODO: Probably should set this on a per-crate basis to keep size down, as not all features are needed everywhere
+tokio = "1.41"
 tokio-util = "0.7.11"
-# dev dependencies
+uuid = "1.8.0"
+
+# --- dev dependencies ---
 env_logger = "0.11.3"
 test-case = "3.3.1"
 tokio-test = "0.4.4"
