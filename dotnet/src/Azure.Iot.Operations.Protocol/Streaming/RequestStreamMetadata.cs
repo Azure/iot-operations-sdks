@@ -15,7 +15,7 @@ namespace Azure.Iot.Operations.Protocol.Streaming
         /// <summary>
         /// The correlationId for tracking this streaming request
         /// </summary>
-        public Guid CorrelationId { get; set; }
+        public Guid CorrelationId { get; set; } = Guid.NewGuid();
 
         /// <summary>
         /// The Id of the client that invoked this streaming request
