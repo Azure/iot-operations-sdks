@@ -86,9 +86,12 @@ artifacts/
 
 # Rust
 Cargo.lock
-# ...except the stub service: it is a binary that downstream images (DevX) build
-# from a pinned commit, so its dependency set must be reproducible, not floating.
+# ...except the crates under tools/: they are shipped as binaries and images
+# with a lifecycle independent of the SDK, compiled against a milestone
+# release rather than whatever is newest. A committed lock is what makes a
+# downstream commit pin resolve to the same dependency set on any given day.
 !tools/azure_iot_operations_stub_services/Cargo.lock
+!tools/statestore-cli/Cargo.lock
 target/
 
 # Tye

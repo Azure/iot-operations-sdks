@@ -28,5 +28,6 @@ jobs:
       name: stub-services
       path: tools/azure_iot_operations_stub_services
       aio-sdks-registry: false
+      locked: true
     secrets:
       aio-sdks-token: ${{ secrets.CARGO_REGISTRIES_AIO_SDKS_TOKEN }}

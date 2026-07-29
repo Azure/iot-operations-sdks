@@ -16,6 +16,10 @@ name: Reusable Rust tool check
 #   `aio-sdks` Azure DevOps Cargo registry (requires the
 #   `CARGO_REGISTRIES_AIO_SDKS_TOKEN` secret to be forwarded by the
 #   caller).
+# - `locked`: set to `true` for crates that commit a `Cargo.lock`. Without
+#   it `cargo` silently refreshes a stale lock in the workspace and CI goes
+#   green, deferring the failure to downstream `--locked` consumers. Left
+#   off for crates with no committed lock, where it is a hard error.
 #
 # Toolchain resolution: the action reads `rust-toolchain.toml` from
 # `toolchain-src-dir` (or `path` if unset). A missing pin file is a
@@ -40,6 +44,11 @@ on:
         default: ''
       aio-sdks-registry:
         description: 'Whether the crate depends on the aio-sdks registry'
+        required: false
+        type: boolean
+        default: false
+      locked:
+        description: 'Whether the crate commits a Cargo.lock and must build --locked'
         required: false
         type: boolean
         default: false
@@ -119,10 +128,12 @@ jobs:
       # compile. Crates with no `[features]` section just get a single
       # trivial iteration, so this is safe to apply uniformly.
       - name: Static analysis
+        env:
+          LOCKED: ${{ inputs.locked && '--locked' || '' }}
         run: |
           set -euo pipefail
           cargo fmt --verbose --all --check
-          cargo hack clippy --each-feature --all-targets -- --deny=warnings
+          cargo hack clippy --each-feature --all-targets ${LOCKED} -- --deny=warnings
           cargo machete
 
       # Build every feature configuration end-to-end (codegen + link), not
@@ -132,4 +143,6 @@ jobs:
       # contract here. Crates with no `[features]` section run a single
       # iteration equivalent to plain `cargo build`.
       - name: Build
-        run: cargo hack build --each-feature --verbose
+        env:
+          LOCKED: ${{ inputs.locked && '--locked' || '' }}
+        run: cargo hack build --each-feature ${LOCKED} --verbose
