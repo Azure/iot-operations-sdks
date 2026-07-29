@@ -84,6 +84,9 @@ namespace Azure.Iot.Operations.Protocol.Streaming
 
         // The invoker always auto-acknowledges responses; it cannot resume a response stream after a crash, so manual ack is executor-only.
 
+        /// <summary>POC diagnostics hook: receives protocol-level trace lines (topics, publishes, receipts).</summary>
+        public Action<string>? Log { get; set; }
+
         public StreamingCommandInvoker(ApplicationContext applicationContext, IMqttPubSubClient mqttClient, string commandName, IPayloadSerializer serializer)
         {
             _applicationContext = applicationContext;
@@ -139,6 +142,8 @@ namespace Azure.Iot.Operations.Protocol.Streaming
             Guid correlationId = streamMetadata?.CorrelationId ?? Guid.NewGuid();
             _correlationId = correlationId;
 
+            Log?.Invoke($"invoker: exchange {correlationId} cmd '{_commandName}' req='{_requestTopic}' resp='{_responseTopic}' timeout={_exchangeTimeoutSeconds}s");
+
             // The response channel is the push -> pull bridge: the MQTT callback writes entries, the caller reads them.
             _responseChannel = Channel.CreateUnbounded<StreamingExtendedResponse<TResp>>();
             _seenResponseIndexes = new();
@@ -148,10 +153,28 @@ namespace Azure.Iot.Operations.Protocol.Streaming
 
             // Subscribe to the response topic BEFORE sending, so early responses are not missed.
             await _mqttClient.SubscribeAsync(new MqttClientSubscribeOptions(_responseTopic, MqttQualityOfServiceLevel.AtLeastOnce), cancellationToken);
+            Log?.Invoke($"invoker: subscribed to response topic '{_responseTopic}'");
 
+            // Pump the request stream concurrently so the caller can read responses while requests are still going out.
+            // This lets a request source react to responses (e.g. wait for each pong before sending the next ping).
+            _ = Task.Run(() => PumpRequestsAsync(correlationId, requests, streamMetadata, cancellationToken), cancellationToken);
+
+            // Hand back the response stream (drained via the channel) and the exchange handle.
+            ResponseStreamContext<StreamingExtendedResponse<TResp>> responseContext =
+                new(responses, Task.FromResult(new ResponseStreamMetadata()));
+            return (responseContext, exchangeContext);
+        }
+
+        // Publishes the request stream: each entry as a `d:<index>` message, then a closing `last`.
+        private async Task PumpRequestsAsync(
+            Guid correlationId,
+            IAsyncEnumerable<StreamingExtendedRequest<TReq>> requests,
+            RequestStreamMetadata? streamMetadata,
+            CancellationToken cancellationToken)
+        {
             // The invoker assigns each entry its index, in send order.
             uint index = 0;
-            await foreach (StreamingExtendedRequest<TReq> request in requests)
+            await foreach (StreamingExtendedRequest<TReq> request in requests.WithCancellation(cancellationToken))
             {
                 await PublishRequestEntryAsync(correlationId, index, request, streamMetadata, cancellationToken);
                 index++;
@@ -159,11 +182,6 @@ namespace Azure.Iot.Operations.Protocol.Streaming
 
             // A standalone `last` control message closes the request stream at the next index.
             await PublishLastAsync(correlationId, index, cancellationToken);
-
-            // Hand back the response stream (drained via the channel) and the exchange handle.
-            ResponseStreamContext<StreamingExtendedResponse<TResp>> responseContext =
-                new(responses, Task.FromResult(new ResponseStreamMetadata()));
-            return (responseContext, exchangeContext);
         }
 
         // Builds and publishes one request-stream entry as a QoS 1 `d:<index>` message.
@@ -194,6 +212,7 @@ namespace Azure.Iot.Operations.Protocol.Streaming
 
             // The streaming tag: this is data entry `index`, carrying the remaining exchange budget.
             message.AddUserProperty(StreamProperty.Name, StreamProperty.Data(index, _exchangeTimeoutSeconds));
+            Log?.Invoke($"invoker -> data idx={index} \"{request.Payload}\"");
 
             SerializedPayloadContext payload = _serializer.ToBytes(request.Payload);
             if (!payload.SerializedPayload.IsEmpty)
@@ -222,6 +241,7 @@ namespace Azure.Iot.Operations.Protocol.Streaming
             message.AddUserProperty("$partition", clientId);
             message.AddUserProperty(AkriSystemProperties.SourceId, clientId);
             message.AddUserProperty(StreamProperty.Name, StreamProperty.Last(index, _exchangeTimeoutSeconds));
+            Log?.Invoke($"invoker -> last idx={index}");
 
             await _mqttClient.PublishAsync(message, cancellationToken);
         }
@@ -255,13 +275,19 @@ namespace Azure.Iot.Operations.Protocol.Streaming
                     if (_seenResponseIndexes.Add(tag.Index))
                     {
                         TResp payload = _serializer.FromBytes<TResp>(message.Payload, message.ContentType, message.PayloadFormatIndicator);
+                        Log?.Invoke($"invoker <- data idx={tag.Index} \"{payload}\"");
                         StreamMessageMetadata metadata = new() { Index = tag.Index };
                         _responseChannel.Writer.TryWrite(new StreamingExtendedResponse<TResp>(payload, metadata));
+                    }
+                    else
+                    {
+                        Log?.Invoke($"invoker <- data idx={tag.Index} (duplicate, ignored)");
                     }
                     break;
 
                 case StreamMessageKind.Control when tag.Control == StreamControlCommand.Last:
                     // A `last` control message closes the response stream; completing the channel ends the caller's await foreach.
+                    Log?.Invoke($"invoker <- last idx={tag.Index} (response stream complete)");
                     _responseChannel.Writer.TryComplete();
                     _exchangeContext?.Complete();
                     break;

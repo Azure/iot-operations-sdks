@@ -67,6 +67,9 @@ namespace Azure.Iot.Operations.Protocol.Streaming
         /// </remarks>
         public bool AutomaticallyAcknowledgeRequests { get; set; } = true;
 
+        /// <summary>POC diagnostics hook: receives protocol-level trace lines (subscription, receipts, publishes).</summary>
+        public Action<string>? Log { get; set; }
+
         public StreamingCommandExecutor(ApplicationContext applicationContext, IMqttPubSubClient mqttClient, string commandName, IPayloadSerializer serializer)
         {
             _applicationContext = applicationContext;
@@ -87,6 +90,7 @@ namespace Azure.Iot.Operations.Protocol.Streaming
             // A shared subscription load-balances requests across executors in the same group.
             string requestTopic = GetCommandTopic(RequestTopicPattern, TopicTokenMap);
             _subscriptionTopic = ServiceGroupId != string.Empty ? $"$share/{ServiceGroupId}/{requestTopic}" : requestTopic;
+            Log?.Invoke($"executor: subscribing to '{_subscriptionTopic}'");
 
             MqttClientSubscribeOptions subscribeOptions = new(new MqttTopicFilter(_subscriptionTopic, MqttQualityOfServiceLevel.AtLeastOnce));
             await _mqttClient.SubscribeAsync(subscribeOptions, cancellationToken);
@@ -134,13 +138,19 @@ namespace Azure.Iot.Operations.Protocol.Streaming
                     if (_seenRequestIndexes.Add(tag.Index))
                     {
                         TReq payload = _serializer.FromBytes<TReq>(message.Payload, message.ContentType, message.PayloadFormatIndicator);
+                        Log?.Invoke($"executor <- data idx={tag.Index} \"{payload}\"");
                         StreamMessageMetadata metadata = new() { Index = tag.Index };
                         _requestChannel!.Writer.TryWrite(new ReceivedStreamingExtendedRequest<TReq>(payload, metadata, Task.CompletedTask));
+                    }
+                    else
+                    {
+                        Log?.Invoke($"executor <- data idx={tag.Index} (duplicate, ignored)");
                     }
                     break;
 
                 case StreamMessageKind.Control when tag.Control == StreamControlCommand.Last:
                     // Request stream closed; completing the channel ends the handler's await foreach.
+                    Log?.Invoke($"executor <- last idx={tag.Index} (request stream complete)");
                     _requestChannel!.Writer.TryComplete();
                     break;
             }
@@ -156,6 +166,7 @@ namespace Azure.Iot.Operations.Protocol.Streaming
             _seenRequestIndexes = new();
             _requestChannel = Channel.CreateUnbounded<ReceivedStreamingExtendedRequest<TReq>>();
             _exchangeContext = new ExchangeContext();
+            Log?.Invoke($"executor: new exchange {correlationId}, responseTopic='{_responseTopic}'");
 
             StreamContext<ReceivedStreamingExtendedRequest<TReq>> requestStream = new(_requestChannel.Reader.ReadAllAsync());
             RequestStreamMetadata requestMetadata = new() { CorrelationId = correlationId };
@@ -195,6 +206,7 @@ namespace Azure.Iot.Operations.Protocol.Streaming
 
             // Response direction: no timeout in the tag and no $partition (the response topic is unique to the invoker).
             message.AddUserProperty(StreamProperty.Name, StreamProperty.Data(index));
+            Log?.Invoke($"executor -> data idx={index} \"{response.Payload}\"");
 
             SerializedPayloadContext payload = _serializer.ToBytes(response.Payload);
             if (!payload.SerializedPayload.IsEmpty)
@@ -216,6 +228,7 @@ namespace Azure.Iot.Operations.Protocol.Streaming
             };
 
             message.AddUserProperty(StreamProperty.Name, StreamProperty.Last(index));
+            Log?.Invoke($"executor -> last idx={index}");
 
             await _mqttClient.PublishAsync(message, cancellationToken);
         }
