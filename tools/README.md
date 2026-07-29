@@ -28,11 +28,12 @@ Two rules follow from that, and both are load-bearing:
    reproducibility — the lockfile is what makes that pin mean anything, since
    a commit hash otherwise freezes only the source, not the dependencies.
 
-2. **Every build of a tool passes `--locked`.** CI does this via the `locked`
-   input on `_rust-tool-check.yml`, and image builds do it in their
-   Dockerfile. Without it Cargo just refreshes a stale lock in place, so a
-   manifest bump that forgot to regenerate the lock would pass CI and only
-   fail later in a downstream image build.
+2. **Every build of a tool passes `--locked`.** CI does this unconditionally in
+   `_rust-tool-check.yml`, and image builds do it in their Dockerfile. Without
+   it Cargo just refreshes a stale lock in place, so a manifest bump that
+   forgot to regenerate the lock would pass CI and only fail later in a
+   downstream image build. A new tool crate that lands without a committed lock
+   fails that job outright, which is intended — see rule 1.
 
 Moving a tool to a newer release is a deliberate act, not something that
 should happen on its own — if a tool works, there is no need to keep updating
