@@ -17,6 +17,7 @@ Users have expressed a desire to allow more than one request and/or more than on
    - Likewise, the invoker MAY send a request in reaction to a received response.
  - The invoker and the executor MUST each be able to end their own stream gracefully at any time.
    - A side that does not know in advance whether an entry will be its last MUST still be able to end its stream afterward without sending another full entry.
+ - If an executor crashes for any reason, the request stream MUST be able to be picked up by another executor in the group — or by the same executor after it restarts.
 
 ## Non-requirements
 
@@ -25,6 +26,8 @@ Users have expressed a desire to allow more than one request and/or more than on
    - Any stream message may be lost (message expiry or other circumstances), so a chunked payload could not be reliably reassembled.
  - Delivering streamed requests/responses in their **intended** order.
    - Any stream message may be lost, so entries are surfaced in the order received; reconstructing the intended order is left to the application.
+ - Resuming an exchange after the **invoker** crashes or loses its session.
+   - The invoker's response topic is unique to it (no load-balancing), so in-flight responses cannot be re-routed.
 
 ## State of the art
 
@@ -215,7 +218,7 @@ A **protocol violation** is a message that **belongs to the exchange** (its corr
 
 Any such violation is **terminal**: the recipient sends a [status message](#streaming-user-property) back to the sender (`s:<index>` references the offending message, `__stat` carries the error code, with an optional human-readable `__stMsg`), and **both parties then treat the exchange as over and send no further entries**. The referenced index is **diagnostic context only** — since the exchange ends, nothing needs to correlate it back to a specific message. Unmatched or junk data (no correlating exchange) is acknowledged and discarded, never terminating a stream.
 
-None of these should occur between conforming implementations — they indicate data corruption or a peer that does not follow the protocol. Application-level errors are **out of scope**: the protocol does not carry them, so an application that wants to signal one sends it as an ordinary data entry. Accepted messages carry no status; success is implicit.
+None of these should occur between conforming implementations — they indicate data corruption or a peer that does not follow the protocol. Application-level errors are **out of scope**: the protocol does not carry them, so an application that wants to signal one sends it as an ordinary data entry. The vanilla-RPC `__apErr` (`IsApplicationError`) header is **never set on a streaming message** and is **not** part of the streaming protocol. A streaming message that nonetheless carries `__apErr` is accepted and ignored. Accepted messages carry no status; success is implicit.
 
 ### Exchange termination
 
