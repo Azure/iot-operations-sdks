@@ -24,15 +24,15 @@ prologue:
 A common use for `prologue`-only cases is to test initialization error-checking:
 
 ```yaml
-test-name: CommandInvokerInvalidResponseTopicSuffix_ThrowsException_Attenuated
+test-name: CommandInvokerInvalidResponseTopicPrefix_ThrowsException_Attenuated
 description:
   condition: >-
-    CommandInvoker initialized with a response topic suffix that is invalid.
+    CommandInvoker initialized with a response topic prefix that is invalid.
   expect: >-
     CommandInvoker throws 'invalid configuration' exception; error details unchecked.
 prologue:
   invokers:
-  - response-topic-suffix: "suffix/{in/valid}"
+  - response-topic-prefix: "prefix/{in/valid}"
   catch:
     error-kind: invalid configuration
     is-shallow: !!bool true
@@ -42,18 +42,18 @@ prologue:
 Cases that test protocol conformance will generally include at least an `actions` region and often also an `epilogue` region:
 
 ```yaml
-test-name: TelemetryReceiverReceivesWrongContentType_NotRelayed
+test-name: TelemetryReceiverReceivesMalformedPayload_NotRelayed
 description:
   condition: >-
-    TelemetryReceiver receives telemetry with mismatched ContentType metadata.
+    TelemetryReceiver receives telemetry with payload that cannot deserialize.
   expect: >-
     TelemetryReceiver does not relay telemetry to user code.
 prologue:
   receivers:
-  - { }
+  - serializer:
+      fail-deserialization: true
 actions:
 - action: receive telemetry
-  content-type: "raw/0"
   packet-index: 0
 - action: await acknowledgement
   packet-index: 0
@@ -100,14 +100,14 @@ For example:
 ```yaml
 prologue:
   executors:
-  - request-topic: ""
+  - topic-namespace: "invalid/{modelId}"
   catch:
     error-kind: invalid configuration
     is-shallow: !!bool true
     is-remote: !!bool false 
     supplemental:
-      property-name: 'requesttopicpattern'
-      property-value: ""
+      property-name: 'topicnamespace'
+      property-value: "invalid/{modelId}"
 ```
 
 In the above test case, the value of `property-value` is double quoted, indicating that the value must be used verbatim in the test.
@@ -179,14 +179,14 @@ Following is an example CommandExecutor prologue:
 ```yaml
 prologue:
   executors:
-  - request-topic: ""
+  - topic-namespace: "invalid/{modelId}"
   catch:
     error-kind: invalid configuration
     is-shallow: !!bool true
     is-remote: !!bool false 
     supplemental:
-      property-name: 'requesttopicpattern'
-      property-value: ""
+      property-name: 'topicnamespace'
+      property-value: "invalid/{modelId}"
 ```
 
 When a `catch` key is present in a prologue, the test stops after the exception/error is generated, so there is no need for further test-case regions.
@@ -309,7 +309,7 @@ epilogue:
     is-application-error: false
     metadata:
       "__supProtMajVer": "1"
-      "__requestProtVer": "123456.0"
+      "__requestProtVer": "this is not a valid protocol version"
       "__protVer": "1.0"
 ```
 
@@ -488,14 +488,14 @@ Following is an example CommandInvoker prologue:
 ```yaml
 prologue:
   invokers:
-  - request-topic: ""
+  - request-topic: "mock/{in/valid}/test"
   catch:
     error-kind: invalid configuration
     is-shallow: !!bool true
     is-remote: !!bool false 
     supplemental:
       property-name: 'requesttopicpattern'
-      property-value: ""
+      property-value: "mock/{in/valid}/test"
 ```
 
 When a `catch` key is present in a prologue, the test stops after the exception/error is generated, so there is no need for further test-case regions.
@@ -560,15 +560,15 @@ Following is an example CommandInvoker epilogue:
 ```yaml
 epilogue:
   subscribed-topics:
-  - "response/mock/+/test"
+  - "response/mock/test"
   acknowledgement-count: 2
   published-messages:
   - correlation-index: 0
-    topic: "mock/someExecutor/test"
-    payload: "Test_Request0"
+    topic: "mock/test"
+    payload: "Test_Request"
   - correlation-index: 1
-    topic: "mock/someExecutor/test"
-    payload: "Test_Request1"
+    topic: "mock/test"
+    payload: "Test_Request"
 ```
 
 #### InvokerEpilogue
@@ -676,13 +676,13 @@ An `await invocation` action causes the test system to wait for a command invoca
 - action: await invocation
   invocation-index: 0
   catch:
-    error-kind: unsupported version
+    error-kind: unknown error
     is-shallow: !!bool false
     is-remote: !!bool true
-    message: "This is a not supported version exception"
+    message: "This is a content error with details"
     supplemental:
-      protocol-version: '1.0'
-      supported-protocols: "2 3 4"
+      property-name: 'requestheader'
+      property-value: "requestValue"
 ```
 
 When the value of the `action` key is `await invocation`, the following sibling keys are also available:
@@ -793,14 +793,14 @@ Following is an example TelemetryReceiver prologue:
 ```yaml
 prologue:
   receivers:
-  - telemetry-topic: ""
+  - topic-namespace: "invalid/{modelId}"
   catch:
     error-kind: invalid configuration
     is-shallow: !!bool true
     is-remote: !!bool false 
     supplemental:
-      property-name: 'topicpattern'
-      property-value: ""
+      property-name: 'topicnamespace'
+      property-value: "invalid/{modelId}"
 ```
 
 When a `catch` key is present in a prologue, the test stops after the exception/error is generated, so there is no need for further test-case regions.
@@ -838,7 +838,7 @@ The 'serializer' key provides configuration settings for the test serializer ass
 ```yaml
   receivers:
   - serializer:
-      accept-content-types: [ "", "non.conforming" ]
+      fail-deserialization: true
 ```
 
 A TelemetryReceiver serializer can have the following child keys:
@@ -955,13 +955,13 @@ A `receive telemetry` action causes the TelemetryReceiver to receive a telemetry
 ```yaml
 - action: receive telemetry
   metadata:
-    "id": ""
+    "id": "dtmi:test:someAssignedId;1"
     "source": "dtmi:test:myEventSource;1"
     "type": "test-type"
     "specversion": "1.0"
     "time": "1955-11-12T22:04:00Z"
     "subject": "mock/test"
-    "dataschema": "dtmi:test:MyModel:_contents:__test;1"
+    "dataschema": ""
   packet-index: 0
 ```
 
@@ -1085,10 +1085,10 @@ epilogue:
   - topic: "mock/test"
     payload: "Test_Telemetry"
     metadata:
-      "source": # not present
-      "type": # not present
-      "specversion": # not present
-      "subject": # not present
+      "source": "dtmi:test:myEventSource;1"
+      "type": "ms.aio.telemetry"
+      "specversion": "1.0"
+      "subject": "mock/test"
       "dataschema": # not present
 ```
 
@@ -1313,7 +1313,7 @@ The value of `mqtt-config` provides MQTT client configuration settings, as in th
 
 ```yaml
   mqtt-config:
-    client-id: "MySenderClientId"
+    client-id: "ThisInvokerId"
 ```
 
 The MQTT configuration can have the following child keys:
@@ -1328,7 +1328,7 @@ The value of `push-acks` is a collection of queues of ACKs that are used sequent
 
 ```yaml
   push-acks:
-    subscribe: [ fail ]
+    publish: [ drop ]
 ```
 
 By convention, these arrays are written in YAML flow style.
@@ -1361,13 +1361,13 @@ The value of `catch` defines an error that is expected to be caught, as in the f
 
 ```yaml
   catch:
-    error-kind: unsupported version
+    error-kind: unknown error
     is-shallow: !!bool false
     is-remote: !!bool true
-    message: "This is a not supported version exception"
+    message: "This is a content error with details"
     supplemental:
-      protocol-version: '1.0'
-      supported-protocols: "2 3 4"
+      property-name: 'requestheader'
+      property-value: "requestValue"
 ```
 
 The catch can have the following child keys:
