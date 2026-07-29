@@ -17,6 +17,13 @@ name: Reusable Rust tool check
 #   `CARGO_REGISTRIES_AIO_SDKS_TOKEN` secret to be forwarded by the
 #   caller).
 #
+# Every crate routed here commits a `Cargo.lock`, so `--locked` is
+# unconditional rather than an input. Without it `cargo` silently refreshes a
+# stale lock and CI goes green, deferring the failure to downstream `--locked`
+# consumers. A crate with no committed lock fails loudly here — which is the
+# correct outcome: these are shipped binaries, and an unlocked one has no
+# reproducible dependency set to ship.
+#
 # Toolchain resolution: the action reads `rust-toolchain.toml` from
 # `toolchain-src-dir` (or `path` if unset). A missing pin file is a
 # hard error — implicit `stable` fallback is rejected so a forgotten
@@ -122,7 +129,7 @@ jobs:
         run: |
           set -euo pipefail
           cargo fmt --verbose --all --check
-          cargo hack clippy --each-feature --all-targets -- --deny=warnings
+          cargo hack clippy --each-feature --all-targets --locked -- --deny=warnings
           cargo machete
 
       # Build every feature configuration end-to-end (codegen + link), not
@@ -132,4 +139,4 @@ jobs:
       # contract here. Crates with no `[features]` section run a single
       # iteration equivalent to plain `cargo build`.
       - name: Build
-        run: cargo hack build --each-feature --verbose
+        run: cargo hack build --each-feature --locked --verbose

@@ -15,7 +15,9 @@ RUN tdnf remove -y rust; \
     curl https://sh.rustup.rs -sSf | sh -s -- -y --default-toolchain $RUST_VERSION --profile minimal
 
 # AIO SDK deps resolve from public crates.io (no aio-sdks feed), so no CARGO_TOKEN secret is needed.
-RUN cargo build -p "statestore-cli" --release
+# --locked: the image must ship the milestone release recorded in Cargo.lock,
+# not whatever crates.io serves on build day.
+RUN cargo build -p "statestore-cli" --release --locked
 
 # Finalize image
 FROM mcr.microsoft.com/azurelinux/base/core:3.0 AS final
