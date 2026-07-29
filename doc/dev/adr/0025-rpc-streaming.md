@@ -87,26 +87,25 @@ To convey streaming context, each message carries a `__stream` MQTT user propert
 <stream_status_metadata>  ::= "s" ":" <message_index> [ ":" <timeout_length> ]
 <message_index> ::= <uint>
 <timeout_length> ::= <uint>
-<control_command_word> ::= "cancel" | "last"
+<control_command_word> ::= "last"
 ```
 
-**Table 1. `__stream` value fields.** The value takes one of three mutually exclusive forms distinguished by a leading tag — a **data** form (`d:…`) for stream entries, a **control** form (`c:…`) for stream control, and a **status** form (`s:…`) for reporting an outcome about a received message. Because the form is tagged, a message only ever carries the fields that apply to it; there are no fields to ignore.
+**Table 1. `__stream` value fields.** The value takes one of three mutually exclusive forms distinguished by a leading tag — a **data** form (`d:…`) for stream entries, a **control** form (`c:…`) for stream control, and a **status** form (`s:…`) for reporting an outcome (an error about a received message, or exchange cancellation). Because the form is tagged, a message only ever carries the fields that apply to it; there are no fields to ignore.
 
 | Field | Type | Meaning |
 | ---- | ---- | ---- |
 | `message_index` | uint | **data**/**control**: position of this message within the producer's stream (data and control share one counter). **status**: the index of the **received** message the status refers to (the peer's counter, not the producer's). |
-| `control_command_word` | `cancel` \| `last` | **control** form only. `last`: the standalone final message that closes the producer's stream (no payload or application-provided user properties). `cancel`: a cancellation request for the exchange. |
+| `control_command_word` | `last` | **control** form only — `last` is the standalone final message that closes the producer's stream (no payload or application-provided user properties). |
 | `timeout_length` | uint | The invoker's current timeout counter (exchange time remaining), in seconds; **request-direction only** (invoker → executor), omitted on response-direction messages. |
 
 Examples:
 
 - ```d:0:10``` — a request-direction data message at stream index `0`; the invoker's remaining exchange timeout is 10 seconds.
 - ```c:4:last:6``` — the request stream's final (`last`) message at index `4`; the invoker's remaining exchange timeout has dropped to 6 seconds (the field is a live countdown).
-- ```c:2:cancel:10``` — a request-direction cancellation at the producer's next index (`2`).
-- ```s:1:10``` — a request-direction status about the received message at stream index `1`; its `__stat` value carries the error status for that message.
+- ```s:1:10``` — a request-direction status; its `__stat` value carries the outcome — an error code about the received message at index `1`, or `499` (`Canceled`) to cancel the whole exchange.
 - ```d:0``` / ```c:7:last``` / ```s:3``` — the response-direction counterparts (executor → invoker); identical forms except `timeout_length` is omitted.
 
-Every MQTT PUBLISH belonging to a streaming exchange must include `__stream` in exactly one of these three forms: data messages use the `d` form, control messages use the `c` form (`c:…:cancel`, `c:…:last`), and status messages use the `s` form. A status message carries no stream entry; its `__stat` property carries the outcome details for the received message it references.
+Every MQTT PUBLISH belonging to a streaming exchange must include `__stream` in exactly one of these three forms: data messages use the `d` form, control messages use the `c` form (`c:…:last`), and status messages use the `s` form. A status message carries no stream entry; its `__stat` property carries the outcome — an error about a received message, or `499` (`Canceled`) for the whole exchange.
 
 [see cancellation support](#cancellation-support) and [timeout support](#timeout-support) for how these fields are used.
 
@@ -116,7 +115,7 @@ A single **correlation GUID** identifies the whole exchange; every message of bo
 
 The executor subscribes to the **command topic** with a **shared subscription** (so that, with multiple executors, only one handles each exchange), with the same topic pre/suffixing and custom-topic-token support as vanilla RPC. The **response topic** is `clients/{invoker client id}/...` (prefixed like vanilla RPC), unique to the invoker and not shared; the invoker subscribes to it before publishing. Each request-stream message the invoker publishes carries the response topic (so the executor knows where to reply) and a `$partition` user property set to the invoker's client id.
 
-Because the command topic is a shared subscription, **every** command-topic packet for an exchange — request data, a `last` request, invoker cancellation, and the invoker's `Canceled` acknowledgement — must carry that same `$partition`, so the broker routes them all to the same executor; otherwise a control packet could reach a different executor that holds no state for the correlation and be silently dropped. Response-topic packets need only the correlation data, since that topic is already unique to the invoker.
+Because the command topic is a shared subscription, **every** command-topic packet for an exchange — request data, a `last` request, and the invoker's `Canceled` status (whether initiating cancellation or confirming it) — must carry that same `$partition`, so the broker routes them all to the same executor; otherwise a packet could reach a different executor that holds no state for the correlation and be silently dropped. Response-topic packets need only the correlation data, since that topic is already unique to the invoker.
 
 #### Exchange lifetime
 
@@ -180,29 +179,27 @@ We will allow users to set the message expiry interval of each message in a requ
 
 ### Cancellation support
 
-Either side may cancel a streaming RPC at any time while the exchange is active — for instance when a long-running request or response stream is no longer wanted.
+Either side may cancel a streaming RPC at any time while the exchange is active — for instance when a long-running request or response stream is no longer wanted. Cancellation is **exchange-scoped** and is signaled with a **`Canceled` status message** (`__stat` `499`), the initiating cancel and its confirmation are the **same** message, so receiving a `Canceled` status from the peer — whether it started the cancellation or is answering yours — always means the exchange is over.
 
 #### Sending a cancellation
 
-Either side cancels by publishing a [`cancel` control message](#streaming-user-property) (`c:…:cancel`), no payload, the same correlation data, on the topic it uses to reach the other party:
+Either side cancels by publishing a [`Canceled` status message](#streaming-user-property) — no payload, the same correlation data — carrying:
 
-- The **invoker** cancels on the command topic, then keeps listening on the response topic and delivering any in-flight responses to the application until the `Canceled` status arrives and closes the channel, or the whole exchange times out.
-- The **executor** cancels on the invoker's response topic, then keeps listening on the command topic and delivering any in-flight requests to the application until the `Canceled` status arrives and closes the channel, or the whole exchange times out.
+- `__stream`: `s:0` — status form; the index is `0` and has no meaning, since cancellation is exchange-scoped rather than about a received entry (request-direction messages append the remaining timeout, `s:0:<timeout>`).
+- `__stat`: `499` (`Canceled`), plus an optional human-readable `__stMsg`.
 
-Cancellation is **idempotent**: the sender may issue `cancel` more than once while exchange is active. Receiving `Canceled` confirms cancellation.
+The sender publishes it on the topic it uses to reach the other party:
+
+- The **invoker** cancels on the command topic (so its `__stream` also carries the remaining timeout), then keeps listening on the response topic and delivering any in-flight responses to the application until a `Canceled` status arrives and closes the channel, or the whole exchange times out.
+- The **executor** cancels on the invoker's response topic, then keeps listening on the command topic and delivering any in-flight requests to the application until a `Canceled` status arrives and closes the channel, or the whole exchange times out.
+
+Cancellation is **idempotent**: the sender may issue `Canceled` more than once while the exchange is active.
 
 #### Receiving a cancellation
 
-A receiver replies with a **`Canceled`** [status message](#streaming-user-property) — no payload — carrying:
+Receiving a `Canceled` status means the peer has stopped and will send no further entries. Whether the receiver replies depends on its state:
 
-- `__stream`: `s:<cancel request's index>` (status form referencing the received `cancel`)
-- `__stat`: `499` (`Canceled`), plus an optional human-readable `__stMsg`
-
-An **invoker** sending this to acknowledge an executor-initiated cancellation publishes on the command topic (request direction), so its `__stream` takes the `s:<index>:<timeout>` form — also carrying the remaining timeout; all else is identical.
-
-Whether a receiver replies depends on its state:
-
-- **Still active** — notifies the application, replies with `Canceled`, stops production of the outbound stream, transitions to the canceled state.
+- **Still active** — notifies the application, replies with its own `Canceled` status (identical in form to the initiating one), stops production of the outbound stream, transitions to the canceled state.
 - **Already canceled** — re-sends `Canceled` so a later (re-issued) cancellation is answered.
 - **Other terminal states** — acknowledges the message and sends nothing.
 
@@ -225,7 +222,7 @@ None of these should occur between conforming implementations — they indicate 
 An exchange terminates in exactly one of four ways:
 
 - **Graceful** — each producer closes its own stream with `last`; the exchange completes once both streams have closed (see [exchange completion](#exchange-completion)).
-- **Cancellation** — either side cancels and the `Canceled` (`499`) terminal ends the exchange (see [cancellation support](#cancellation-support)).
+- **Cancellation** — either side sends a `Canceled` (`499`) status and the exchange ends (see [cancellation support](#cancellation-support)).
 - **Timeout** — the [exchange timeout](#exchange-level-timeout) fires.
 - **Protocol violation** — the recipient of a malformed in-exchange message returns an error status and both sides end the exchange (see [error handling](#error-handling)).
 
