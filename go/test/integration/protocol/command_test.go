@@ -18,11 +18,11 @@ func TestCommand(t *testing.T) {
 	client, server, done := sessionClients(t)
 	defer done()
 
-	var listeners protocol.Listeners
+	listeners := make(protocol.Listeners, 0, 2)
 	defer listeners.Close()
 
 	enc := protocol.JSON[string]{}
-	topic := "prefix/{ex:token}/suffix"
+	topic := "command/{ex:token}/suffix"
 	value := "test"
 
 	executor, err := protocol.NewCommandExecutor(
@@ -63,7 +63,8 @@ func TestCommand(t *testing.T) {
 
 	expected := value + client.ID() + res.CorrelationData
 	require.Equal(t, expected, res.Payload)
-	require.Equal(t, map[string]string{"ex:token": "test"}, res.Metadata)
+	require.Equal(t, "test", res.Metadata["ex:token"])
+	require.Equal(t, "", res.Metadata["$high_priority"])
 	require.Equal(t, map[string]string{
 		"ex:token":   "test",
 		"executorId": server.ID(),
@@ -75,12 +76,12 @@ func TestCommandError(t *testing.T) {
 	client, server, done := sessionClients(t)
 	defer done()
 
-	var listeners protocol.Listeners
+	listeners := make(protocol.Listeners, 0, 2)
 	defer listeners.Close()
 
 	req := protocol.Empty{}
 	res := protocol.JSON[string]{}
-	topic := "topic"
+	topic := "command-error"
 
 	executor, err := protocol.NewCommandExecutor(
 		app, server, req, res, topic,
@@ -114,12 +115,12 @@ func TestCommandManualError(t *testing.T) {
 	client, server, done := sessionClients(t)
 	defer done()
 
-	var listeners protocol.Listeners
+	listeners := make(protocol.Listeners, 0, 2)
 	defer listeners.Close()
 
 	req := protocol.Empty{}
 	res := protocol.JSON[string]{}
-	topic := "topic"
+	topic := "command-manual-error"
 
 	executor, err := protocol.NewCommandExecutor(
 		app, server, req, res, topic,

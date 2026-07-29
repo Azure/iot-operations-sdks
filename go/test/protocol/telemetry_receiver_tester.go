@@ -241,7 +241,12 @@ func getTelemetryReceiver(
 			err,
 		)
 	} else {
-		require.Errorf(t, err, "Expected %s error, but no error returned when initializing TelemetryReceiver", catch.ErrorKind)
+		require.Errorf(
+			t,
+			err,
+			"Expected %s error, but no error returned when initializing TelemetryReceiver",
+			catch.ErrorKind,
+		)
 		CheckError(t, *catch, err)
 	}
 
@@ -285,7 +290,7 @@ func receiveTelemetry(
 	}
 
 	if actionReceiveTelemetry.FormatIndicator != nil {
-		payloadFormat := byte(*actionReceiveTelemetry.FormatIndicator)
+		payloadFormat := *actionReceiveTelemetry.FormatIndicator
 		props.PayloadFormat = &payloadFormat
 	}
 
@@ -316,7 +321,7 @@ func receiveTelemetry(
 	}
 
 	if actionReceiveTelemetry.Qos != nil {
-		telemetry.QoS = byte(*actionReceiveTelemetry.Qos)
+		telemetry.QoS = *actionReceiveTelemetry.Qos
 	}
 
 	stubBroker.ReceiveMessage(&telemetry)
@@ -371,17 +376,29 @@ func checkReceivedTelemetry(
 			}
 
 			if telem.Capsule.CloudEvent.Type != nil {
-				require.Equal(t, *telem.Capsule.CloudEvent.Type, rcvTelem.CloudEvent.Type)
+				require.Equal(
+					t,
+					*telem.Capsule.CloudEvent.Type,
+					rcvTelem.CloudEvent.Type,
+				)
 			}
 
 			if telem.Capsule.CloudEvent.ID != nil {
-				require.Equal(t, *telem.Capsule.CloudEvent.ID, rcvTelem.CloudEvent.ID)
+				require.Equal(
+					t,
+					*telem.Capsule.CloudEvent.ID,
+					rcvTelem.CloudEvent.ID,
+				)
 			}
 
 			if telem.Capsule.CloudEvent.Time == nil {
 				require.True(t, rcvTelem.CloudEvent.Time.IsZero())
 			} else if eventTime, ok := telem.Capsule.CloudEvent.Time.(string); ok {
-				require.Equal(t, eventTime, rcvTelem.CloudEvent.Time.Format(time.RFC3339))
+				require.Equal(
+					t,
+					eventTime,
+					rcvTelem.CloudEvent.Time.Format(time.RFC3339),
+				)
 			}
 
 			if telem.Capsule.CloudEvent.SpecVersion != nil {
@@ -443,8 +460,8 @@ func processTelemetry(
 	cloudEvent, _ := protocol.CloudEventFromTelemetry(msg)
 
 	receivedTelemetries <- receivedTelemetry{
-		TelemetryValue: msg.Message.Payload,
-		Metadata:       msg.Message.Metadata,
+		TelemetryValue: msg.Payload,
+		Metadata:       msg.Metadata,
 		TopicTokens:    msg.TopicTokens,
 		CloudEvent:     cloudEvent,
 		SourceID:       msg.ClientID,

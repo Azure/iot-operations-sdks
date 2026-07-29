@@ -1,0 +1,16 @@
+{
+  "success": false,
+  "commandLine": {
+    "things": [ "invalidAioBinding/SchemaDefinitionArrayNoItems.TM.json" ],
+    "lang": "none"
+  },
+  "errors": [
+    {
+      "condition": "PropertyMissing",
+      "filename": "SchemaDefinitionArrayNoItems.TM.json",
+      "line": 9,
+      "cfLine": 0,
+      "crossRef": ""
+    }
+  ]
+}

@@ -6,8 +6,8 @@ type DefaultReceiveTelemetry struct {
 	Topic           *string          `toml:"topic"`
 	Payload         *string          `toml:"payload"`
 	ContentType     *string          `toml:"content-type"`
-	FormatIndicator *int             `toml:"format-indicator"`
-	Qos             *int             `toml:"qos"`
+	FormatIndicator *byte            `toml:"format-indicator"`
+	Qos             *byte            `toml:"qos"`
 	MessageExpiry   TestCaseDuration `toml:"message-expiry"`
 	SourceIndex     *int             `toml:"source-index"`
 }
@@ -39,7 +39,7 @@ func (receiveTelemetry *DefaultReceiveTelemetry) GetContentType() *string {
 	return &contentType
 }
 
-func (receiveTelemetry *DefaultReceiveTelemetry) GetFormatIndicator() *int {
+func (receiveTelemetry *DefaultReceiveTelemetry) GetFormatIndicator() *byte {
 	if receiveTelemetry.FormatIndicator == nil {
 		return nil
 	}
@@ -48,7 +48,7 @@ func (receiveTelemetry *DefaultReceiveTelemetry) GetFormatIndicator() *int {
 	return &formatIndicator
 }
 
-func (receiveTelemetry *DefaultReceiveTelemetry) GetQos() *int {
+func (receiveTelemetry *DefaultReceiveTelemetry) GetQos() *byte {
 	if receiveTelemetry.Qos == nil {
 		return nil
 	}

@@ -8,6 +8,7 @@ namespace Azure.Iot.Operations.ProtocolCompilerLib
         private readonly DTTelemetryInfo dtTelemetry;
         private readonly bool usesTypes;
         private readonly string contentType;
+        private readonly bool separate;
         private readonly string telemetryTopic;
         private readonly string? serviceGroupId;
         private readonly ThingDescriber thingDescriber;
@@ -17,7 +18,8 @@ namespace Azure.Iot.Operations.ProtocolCompilerLib
             this.dtTelemetry = dtTelemetry;
             this.usesTypes = usesTypes;
             this.contentType = contentType;
-            this.telemetryTopic = telemetryTopic;
+            this.separate = telemetryTopic.Contains(MqttTopicTokens.TelemetryName);
+            this.telemetryTopic = telemetryTopic.Replace(MqttTopicTokens.TelemetryName, this.dtTelemetry.Name);
             this.serviceGroupId = serviceGroupId;
 
             this.thingDescriber = thingDescriber;

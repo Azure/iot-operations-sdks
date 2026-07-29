@@ -1,0 +1,16 @@
+{
+  "success": false,
+  "commandLine": {
+    "things": [ "invalidThing/SchemaDefinitionIntegerMaxNotNumeric.TM.json" ],
+    "lang": "none"
+  },
+  "errors": [
+    {
+      "condition": "JsonInvalid",
+      "filename": "SchemaDefinitionIntegerMaxNotNumeric.TM.json",
+      "line": 11,
+      "cfLine": 0,
+      "crossRef": ""
+    }
+  ]
+}

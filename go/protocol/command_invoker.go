@@ -254,6 +254,7 @@ func (ci *CommandInvoker[Req, Res]) Invoke(
 	}
 
 	pub.UserProperties[constants.Partition] = ci.publisher.client.ID()
+	pub.UserProperties[constants.HighPriority] = ""
 	pub.ResponseTopic, err = ci.responseTopic.Topic(opts.TopicTokens)
 	if err != nil {
 		return nil, err

@@ -1,0 +1,14 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema",
+  "title": "UpdateAssetStatusResponsePayload",
+  "description": "Response containing the updated asset status or error details if the update failed.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [ "updatedAssetStatus" ],
+  "properties": {
+    "updatedAssetStatus": {
+      "description": "The updated asset status.",
+      "$ref": "AssetStatus.schema.json"
+    }
+  }
+}

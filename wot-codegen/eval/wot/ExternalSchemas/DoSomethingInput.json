@@ -1,0 +1,18 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema",
+  "title": "DoSomethingInputArguments",
+  "description": "Input arguments for action 'DoSomething'",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [ "alpha", "beta" ],
+  "properties": {
+    "alpha": {
+      "description": "The 'alpha' Field.",
+      "type": "string"
+    },
+    "beta": {
+      "description": "The 'beta' Field.",
+      "type": "integer", "minimum": -2147483648, "maximum": 2147483647
+    }
+  }
+}

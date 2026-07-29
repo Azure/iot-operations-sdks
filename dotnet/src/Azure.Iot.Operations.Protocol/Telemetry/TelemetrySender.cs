@@ -29,7 +29,7 @@ namespace Azure.Iot.Operations.Protocol.Telemetry
         /// that, if the message is successfully delivered to the MQTT broker, the message will be discarded
         /// by the broker if the broker has not managed to start onward delivery to a matching subscriber within
         /// this timeout.
-        /// 
+        ///
         /// If this value is equal to zero seconds, then the message will never expire at the broker.
         /// </remarks>
         private static readonly TimeSpan DefaultTelemetryTimeout = TimeSpan.FromSeconds(10);
@@ -149,12 +149,20 @@ namespace Azure.Iot.Operations.Protocol.Telemetry
                     applicationMessage.AioPersistence = true;
                 }
 
+                // If the cloud event subject has not been set by the user, provide the default value
+                if (metadata != null
+                    && metadata.CloudEvent is not null
+                    && metadata.CloudEvent.IsSubjectDefault)
+                {
+                    metadata.CloudEvent.Subject = telemTopic.ToString();
+                }
+
                 if (metadata?.CloudEvent is not null)
                 {
-                    metadata.CloudEvent.Id ??= Guid.NewGuid().ToString();
-                    metadata.CloudEvent.Time ??= DateTime.UtcNow;
-                    metadata.CloudEvent.Subject ??= telemTopic.ToString();
-                    metadata.CloudEvent.DataContentType = serializedPayloadContext.ContentType;
+                    if(string.IsNullOrEmpty(metadata.CloudEvent.Type))
+                    {
+                        metadata.CloudEvent.Type = "ms.aio.telemetry";
+                    }
                 }
 
                 // Update HLC and use as the timestamp.
@@ -239,13 +247,32 @@ namespace Azure.Iot.Operations.Protocol.Telemetry
 
         public virtual async ValueTask DisposeAsync()
         {
-            await DisposeAsyncCore(false);
+            await DisposeAsyncCore(false, CancellationToken.None);
             GC.SuppressFinalize(this);
+        }
+
+        public virtual async ValueTask DisposeAsync(CancellationToken cancellationToken)
+        {
+            await DisposeAsyncCore(false, cancellationToken);
+#pragma warning disable CA1816 // Dispose methods should call SuppressFinalize. Reason: This is a dispose method
+            GC.SuppressFinalize(this);
+#pragma warning restore CA1816 // Dispose methods should call SuppressFinalize
         }
 
         public virtual async ValueTask DisposeAsync(bool disposing)
         {
-            await DisposeAsyncCore(disposing);
+            await DisposeAsyncCore(disposing, CancellationToken.None);
+#pragma warning disable CA1816 // Dispose methods should call SuppressFinalize. Reason: This is a dispose method
+            GC.SuppressFinalize(this);
+#pragma warning restore CA1816 // Dispose methods should call SuppressFinalize
+        }
+
+        public virtual async ValueTask DisposeAsync(bool disposing, CancellationToken cancellationToken)
+        {
+            await DisposeAsyncCore(disposing, cancellationToken);
+#pragma warning disable CA1816 // Dispose methods should call SuppressFinalize. Reason: This is a dispose method
+            GC.SuppressFinalize(this);
+#pragma warning restore CA1816 // Dispose methods should call SuppressFinalize
         }
 
         private static Dictionary<string, string> CombineTopicTokenMaps(Dictionary<string, string> baseMap, Dictionary<string, string>? additionalMap)
@@ -261,13 +288,13 @@ namespace Azure.Iot.Operations.Protocol.Telemetry
             return combinedTopicTokenMap;
         }
 
-        protected virtual async ValueTask DisposeAsyncCore(bool disposing)
+        protected virtual async ValueTask DisposeAsyncCore(bool disposing, CancellationToken cancellationToken)
         {
             if (!_isDisposed)
             {
                 if (disposing)
                 {
-                    await _mqttClient.DisposeAsync(disposing);
+                    await _mqttClient.DisposeAsync(disposing, cancellationToken);
                 }
 
                 _isDisposed = true;

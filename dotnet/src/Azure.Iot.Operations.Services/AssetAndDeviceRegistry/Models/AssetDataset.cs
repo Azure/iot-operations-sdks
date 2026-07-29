@@ -8,17 +8,17 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models;
 
 public record AssetDataset
 {
-    public List<AssetDatasetDataPointSchemaElement>? DataPoints { get; set; }
+    public List<AssetDatasetDataPoint>? DataPoints { get; set; }
 
-    public Dictionary<string, AssetDatasetDataPointSchemaElement>? DataPointsDictionary
+    public Dictionary<string, AssetDatasetDataPoint>? DataPointsDictionary
     {
         get
         {
-            Dictionary<string, AssetDatasetDataPointSchemaElement>? dictionary = null;
+            Dictionary<string, AssetDatasetDataPoint>? dictionary = null;
             if (DataPoints != null)
             {
                 dictionary = new();
-                foreach (AssetDatasetDataPointSchemaElement datapoint in DataPoints)
+                foreach (AssetDatasetDataPoint datapoint in DataPoints)
                 {
                     if (!string.IsNullOrWhiteSpace(datapoint.Name))
                     {

@@ -5,7 +5,7 @@ namespace Azure.Iot.Operations.ProtocolCompilerLib
 
     public static class JsonSchemaSupport
     {
-        public static string GetTypeAndAddenda(DTSchemaInfo dtSchema, CodeName? sharedPrefix, CodeName srcNamespace)
+        public static string GetTypeAndAddenda(DTSchemaInfo dtSchema, CodeName? sharedPrefix, CodeName srcNamespace, bool nullValues = false)
         {
             if (dtSchema.EntityKind == DTEntityKind.Array)
             {
@@ -14,7 +14,9 @@ namespace Azure.Iot.Operations.ProtocolCompilerLib
 
             if (dtSchema.EntityKind == DTEntityKind.Map)
             {
-                return $"\"type\": \"object\", \"additionalProperties\": {{ {GetTypeAndAddenda(((DTMapInfo)dtSchema).MapValue.Schema, sharedPrefix, srcNamespace)} }}";
+                string typeAndAddenda = GetTypeAndAddenda(((DTMapInfo)dtSchema).MapValue.Schema, sharedPrefix, srcNamespace);
+                string addProps = nullValues ? $"\"anyOf\": [ {{ \"type\": \"null\" }}, {{ {typeAndAddenda} }} ]" : typeAndAddenda;
+                return $"\"type\": \"object\", \"additionalProperties\": {{ {addProps} }}";
             }
 
             return dtSchema.Id.AbsoluteUri switch

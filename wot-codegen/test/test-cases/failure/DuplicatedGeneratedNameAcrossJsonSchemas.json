@@ -1,0 +1,23 @@
+{
+  "success": false,
+  "commandLine": {
+    "schemas": [ "../schemas/json-schemas/AnObjectSchema.json", "../schemas/json-schemas/AnotherObjectSchema.json" ],
+    "lang": "csharp"
+  },
+  "errors": [
+    {
+      "condition": "Duplication",
+      "filename": "AnObjectSchema.json",
+      "line": 1,
+      "cfLine": 0,
+      "crossRef": "AnObjectSchema"
+    },
+    {
+      "condition": "Duplication",
+      "filename": "AnotherObjectSchema.json",
+      "line": 1,
+      "cfLine": 0,
+      "crossRef": "AnObjectSchema"
+    }
+  ]
+}

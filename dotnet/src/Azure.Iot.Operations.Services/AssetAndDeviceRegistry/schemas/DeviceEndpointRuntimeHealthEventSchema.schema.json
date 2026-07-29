@@ -1,0 +1,13 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema",
+  "title": "DeviceEndpointRuntimeHealthEventSchema",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [ "runtimeHealth" ],
+  "properties": {
+    "runtimeHealth": {
+      "description": "The runtime health of the specific inbound endpoint details as specified in the topic.",
+      "$ref": "RuntimeHealth.schema.json"
+    }
+  }
+}

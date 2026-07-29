@@ -1,0 +1,28 @@
+<#@ template language="C#" linePragmas="false" #>
+<#@ import namespace="DTDLParser.Models" #>
+{
+  "$schema": "https://json-schema.org/draft-07/schema",
+  "$id": "<#=this.schemaId#>",
+  "title": "<#=this.schema.GetTypeName(TargetLanguage.Independent)#>",
+  "type": "object",
+  "additionalProperties": false,
+<# if (this.required) { #>
+  "required": [ <#=string.Join(", ", this.nameDescSchemaIndexFrags.Select(ndsif => $"\"{ndsif.Item1}\""))#> ],
+<# } else if (this.nameDescSchemaIndexFrags.Any(ndsif => ndsif.Item5)) { #>
+  "required": [ <#=string.Join(", ", this.nameDescSchemaIndexFrags.Where(ndsif => ndsif.Item5).Select(ndsif => $"\"{ndsif.Item1}\""))#> ],
+<# } #>
+  "properties": {
+<# foreach (var nameDescSchemaIndexFrag in this.nameDescSchemaIndexFrags) { #>
+    "<#=nameDescSchemaIndexFrag.Item1#>": {
+      "description": "<#=nameDescSchemaIndexFrag.Item2#>",
+<# if (this.setIndex && nameDescSchemaIndexFrag.Item4 > 0) { #>
+      "index": <#=nameDescSchemaIndexFrag.Item4#>,
+<# } #>
+      <#=JsonSchemaSupport.GetTypeAndAddenda(nameDescSchemaIndexFrag.Item3, this.sharedPrefix, this.genNamespace, nullValues: nameDescSchemaIndexFrag.Item5)#>
+    }<#=this.IsLast(nameDescSchemaIndexFrag) ? "" : ","#>
+<# } #>
+  }
+}
+<#+
+    private bool IsLast((string, string, DTSchemaInfo, int, bool) nameDescSchemaIndexFrag) => nameDescSchemaIndexFrag.Item1 == this.nameDescSchemaIndexFrags.Last().Item1;
+#>

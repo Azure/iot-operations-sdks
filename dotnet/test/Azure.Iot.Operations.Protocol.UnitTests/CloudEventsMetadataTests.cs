@@ -1,8 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-using Azure.Iot.Operations.Protocol.Telemetry;
-
 namespace Azure.Iot.Operations.Protocol.Tests.Telemetry;
 
 public class CloudEventsMetadataTests
@@ -11,16 +9,16 @@ public class CloudEventsMetadataTests
     public void DefaultValues()
     {
         var metadata = new CloudEvent(new Uri("a", UriKind.RelativeOrAbsolute), "tel-type");
-        
+
         Assert.Equal("1.0", metadata.SpecVersion);
         Assert.Equal("tel-type", metadata.Type);
         Assert.Equal("a", metadata.Source!.ToString());
-        Assert.Null(metadata.Id);
+        Assert.NotNull(metadata.Id);
+        Assert.True(Guid.TryParse(metadata.Id, out _));
 
-        Assert.Null(metadata.DataContentType);
         Assert.Null(metadata.DataSchema);
         Assert.Null(metadata.Subject);
-        Assert.Null(metadata.Time);
+        Assert.NotNull(metadata.Time);
     }
 
     [Fact]
@@ -30,7 +28,6 @@ public class CloudEventsMetadataTests
         var source = new Uri("https://example.com");
         var specVersion = "2.0";
         var type = "custom.type";
-        var dataContentType = "application/json";
         var dataSchema = "https://schema.example.com";
         var subject = "test";
         var time = DateTime.Now;
@@ -38,7 +35,6 @@ public class CloudEventsMetadataTests
         var metadata = new CloudEvent(source, type, specVersion)
         {
             Id = id,
-            DataContentType = dataContentType,
             DataSchema = dataSchema,
             Subject = subject,
             Time = time
@@ -48,7 +44,6 @@ public class CloudEventsMetadataTests
         Assert.Equal(source, metadata.Source);
         Assert.Equal(specVersion, metadata.SpecVersion);
         Assert.Equal(type, metadata.Type);
-        Assert.Equal(dataContentType, metadata.DataContentType);
         Assert.Equal(dataSchema, metadata.DataSchema);
         Assert.Equal(subject, metadata.Subject);
         Assert.Equal(time, metadata.Time);

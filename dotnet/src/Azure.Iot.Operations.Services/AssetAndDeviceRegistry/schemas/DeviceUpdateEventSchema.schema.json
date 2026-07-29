@@ -1,0 +1,17 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema",
+  "title": "DeviceUpdateEventSchema",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [ "deviceName", "device" ],
+  "properties": {
+    "device": {
+      "description": "The updated device resource, containing the specific inbound endpoint details as specified in the topic.",
+      "$ref": "Device.schema.json"
+    },
+    "deviceName": {
+      "description": "The name of the device that was updated.",
+      "type": "string"
+    }
+  }
+}

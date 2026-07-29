@@ -4,11 +4,19 @@
 using TestEnvoys.Math;
 using System.Diagnostics;
 using Azure.Iot.Operations.Mqtt.Session;
+using Xunit.Abstractions;
 
 namespace Azure.Iot.Operations.Protocol.IntegrationTests;
 
 public class MathEnvoyTests
-{ 
+{
+    private readonly ITestOutputHelper _output;
+
+    public MathEnvoyTests(ITestOutputHelper output)
+    {
+        _output = output;
+    }
+
     [Fact]
     public async Task IsPrime_OneInvoker_SecondCallFromCache()
     {
@@ -32,6 +40,9 @@ public class MathEnvoyTests
         Assert.True(resp.Response.IsPrimeResponse.IsPrime);
 
         Assert.True(firstCall > secondCalCall);
+
+        await mathService.StopAsync();
+        await mathClient.StopAsync();
     }
 
     [Fact]
@@ -51,6 +62,9 @@ public class MathEnvoyTests
             new RPC.CommandRequestMetadata(), null, TimeSpan.FromSeconds(30)).WithMetadata());
 
         Assert.True(ex.IsRemote);
+
+        await mathService.StopAsync();
+        await mathClient.StopAsync();
     }
 
     [Fact]
@@ -67,6 +81,9 @@ public class MathEnvoyTests
 
         var resp = await mathClient.FibAsync(executorId, new FibRequestPayload { FibRequest = new FibRequestSchema { Number = 13 } }, commandTimeout: TimeSpan.FromSeconds(30)).WithMetadata();
         Assert.Equal(233, resp.Response.FibResponse.FibResult);
+
+        await mathService.StopAsync();
+        await mathClient.StopAsync();
     }
 
     [Fact()]
@@ -84,6 +101,9 @@ public class MathEnvoyTests
         var resp = await mathClient.GetRandomAsync(executorId, commandTimeout: TimeSpan.FromSeconds(30)).WithMetadata();
         Assert.True(resp.Response.GetRandomResponse > -1);
         Assert.True(resp.Response.GetRandomResponse < 51);
+
+        await mathService.StopAsync();
+        await mathClient.StopAsync();
     }
 
     [Fact]
@@ -96,14 +116,23 @@ public class MathEnvoyTests
         await using MqttSessionClient mqttInvoker = await ClientFactory.CreateSessionClientFromEnvAsync();
         await using MathClient mathClient = new(applicationContext, mqttInvoker);
 
+        _output.WriteLine($"Starting MathService with executorId: {executorId}");
         await mathService.StartAsync();
 
-        mathClient.IsPrimeCommandInvoker.ResponseTopicPattern = "myCustomResponseTopic/" + Guid.NewGuid().ToString();
+        string customResponseTopic = "myCustomResponseTopic/" + Guid.NewGuid().ToString();
+        mathClient.IsPrimeCommandInvoker.ResponseTopicPattern = customResponseTopic;
+        _output.WriteLine($"Set custom ResponseTopicPattern: {customResponseTopic}");
 
+        _output.WriteLine("Calling mathService.StartAsync() second time");
         await mathService.StartAsync();
 
-        var result = await mathClient.IsPrimeAsync(executorId, new IsPrimeRequestPayload() { IsPrimeRequest = new IsPrimeRequestSchema() { Number = 45677 } });
+        _output.WriteLine($"Invoking IsPrimeAsync command with executorId: {executorId}");
+        var result = await mathClient.IsPrimeAsync(executorId, new IsPrimeRequestPayload() { IsPrimeRequest = new IsPrimeRequestSchema() { Number = 45677 } }, commandTimeout: TimeSpan.FromSeconds(30));
 
+        _output.WriteLine($"Received response, IsPrime: {result.IsPrimeResponse.IsPrime}");
         Assert.True(result.IsPrimeResponse.IsPrime);
+
+        await mathService.StopAsync();
+        await mathClient.StopAsync();
     }
 }

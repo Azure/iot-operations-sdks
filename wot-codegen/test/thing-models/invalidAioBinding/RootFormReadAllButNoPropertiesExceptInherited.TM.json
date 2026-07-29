@@ -1,0 +1,28 @@
+{
+  "@context": [
+    "https://www.w3.org/2022/wot/td/v1.1",
+    { "dov": "http://azure.com/DigitalOperations/vocab#" }
+  ],
+  "@type": "tm:ThingModel",
+  "title": "Inheriting",
+  "links": [
+    {
+      "rel": "tm:extends",
+      "href": "../valid/PropertyWithUnitDataSchemaInteger.TM.json#title=Noop",
+      "type": "application/tm+json"
+    }
+  ],
+  "forms": [
+    {
+      "dov:topic": "sample/all/events",
+      "contentType": "application/json",
+      "op": "readallproperties"
+    }
+  ],
+  "actions": {
+  },
+  "properties": {
+  },
+  "events": {
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "success": false,
+  "commandLine": {
+    "things": [ "invalidAioBinding/PropertyFormWriteWithoutTopicAndNoRootFormWriteMulti.TM.json" ],
+    "lang": "none"
+  },
+  "errors": [
+    {
+      "condition": "Unusable",
+      "filename": "PropertyFormWriteWithoutTopicAndNoRootFormWriteMulti.TM.json",
+      "line": 19,
+      "cfLine": 0,
+      "crossRef": ""
+    }
+  ]
+}

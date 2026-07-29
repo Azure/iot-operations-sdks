@@ -79,6 +79,17 @@ namespace Azure.Iot.Operations.Protocol
         // TODO remove this once akri service is code gen'd to expect srcId instead of invId
         internal const string CommandInvokerId = ReservedPrefix + "invId";
 
+        /// <summary>
+        /// User property that marks an MQTT PUBLISH for the broker's high-priority backpressure-bypass
+        /// mechanism. Its presence alone signals high priority; the value is empty and ignored.
+        /// </summary>
+        /// <remarks>
+        /// This property is broker-owned and deliberately sits outside the SDK-reserved
+        /// <see cref="ReservedPrefix"/>, so it is intentionally excluded from <see cref="IsReservedUserProperty"/>.
+        /// Per ADR 31, every mRPC PUBLISH (command request and response) is always marked with this property.
+        /// </remarks>
+        internal const string HighPriority = "$high_priority";
+
         internal static bool IsReservedUserProperty(string name)
         { 
             return name.Equals(Timestamp, StringComparison.Ordinal) 

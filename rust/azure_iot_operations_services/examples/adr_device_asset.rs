@@ -4,11 +4,14 @@
 use std::{collections::HashMap, time::Duration};
 
 use azure_iot_operations_mqtt::{
-    MqttConnectionSettingsBuilder,
-    session::{Session, SessionExitHandle, SessionManagedClient, SessionOptionsBuilder},
+    aio::connection_settings::MqttConnectionSettingsBuilder,
+    session::{Session, SessionExitHandle, SessionOptionsBuilder},
 };
 use azure_iot_operations_protocol::application::ApplicationContextBuilder;
-use azure_iot_operations_services::azure_device_registry::{self, models};
+use azure_iot_operations_services::azure_device_registry::{
+    self, HealthStatus, RuntimeHealth, health_reporter::ReportInterval, models, models::DeviceRef,
+};
+use tokio_util::sync::CancellationToken;
 
 // Replace these values with the actual values for your device, inbound endpoint, and asset.
 // They must be present in the Azure Device Registry Service for the example to work correctly.
@@ -23,7 +26,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     env_logger::Builder::new()
         .filter_level(log::LevelFilter::Info)
         .format_timestamp(None)
-        .filter_module("rumqttc", log::LevelFilter::Warn)
+        .filter_module("azure_mqtt", log::LevelFilter::Warn)
         .init();
 
     // Create a Session
@@ -45,7 +48,9 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     let azure_device_registry_client = azure_device_registry::Client::new(
         application_context,
         session.create_managed_client(),
-        azure_device_registry::ClientOptions::default(),
+        azure_device_registry::ClientOptionsBuilder::default()
+            .build()
+            .unwrap(),
     )?;
 
     // Run the Session and the Azure Device Registry operations concurrently
@@ -61,9 +66,24 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 }
 
 async fn azure_device_registry_operations(
-    azure_device_registry_client: azure_device_registry::Client<SessionManagedClient>,
+    azure_device_registry_client: azure_device_registry::Client,
     exit_handle: SessionExitHandle,
 ) {
+    // Create a cancellation token for health reporting
+    let health_cancellation = CancellationToken::new();
+
+    // Create a background health reporter for the device endpoint
+    let device_ref = DeviceRef {
+        device_name: DEVICE_NAME.to_string(),
+        endpoint_name: INBOUND_ENDPOINT_NAME.to_string(),
+    };
+    let endpoint_reporter = azure_device_registry_client.new_device_endpoint_health_reporter(
+        device_ref,
+        TIMEOUT,
+        ReportInterval::default(),
+        health_cancellation.clone(),
+    );
+
     // observe for updates for our Device + Inbound Endpoint
     match azure_device_registry_client
         .observe_device_update_notifications(
@@ -87,7 +107,7 @@ async fn azure_device_registry_operations(
         Err(e) => {
             log::error!("Observing for device updates failed: {e}");
         }
-    };
+    }
 
     // observe for updates for our Asset
     match azure_device_registry_client
@@ -113,17 +133,17 @@ async fn azure_device_registry_operations(
         Err(e) => {
             log::error!("Observing for asset updates failed: {e}");
         }
-    };
+    }
 
     // run device operations and log any errors
-    match device_operations(&azure_device_registry_client).await {
+    match device_operations(&azure_device_registry_client, &endpoint_reporter).await {
         Ok(()) => {
             log::info!("Device operations completed successfully");
         }
         Err(e) => {
             log::error!("Device operations failed: {e}");
         }
-    };
+    }
 
     // run asset operations and log any errors
     match asset_operations(&azure_device_registry_client).await {
@@ -133,7 +153,7 @@ async fn azure_device_registry_operations(
         Err(e) => {
             log::error!("Asset operations failed: {e}");
         }
-    };
+    }
 
     // Unobserve must be called on clean-up to prevent getting notifications for this in the future
     match azure_device_registry_client
@@ -150,7 +170,7 @@ async fn azure_device_registry_operations(
         Err(e) => {
             log::error!("Unobserving for device updates failed: {e}");
         }
-    };
+    }
 
     // Unobserve must be called on clean-up to prevent getting notifications for this in the future
     match azure_device_registry_client
@@ -168,7 +188,11 @@ async fn azure_device_registry_operations(
         Err(e) => {
             log::error!("Unobserving for Asset updates failed: {e}");
         }
-    };
+    }
+
+    // Cancel health reporting before shutdown
+    log::info!("Cancelling health reporter");
+    health_cancellation.cancel();
 
     match azure_device_registry_client.shutdown().await {
         Ok(()) => {
@@ -182,18 +206,19 @@ async fn azure_device_registry_operations(
     }
 
     log::info!("Exiting session");
-    match exit_handle.try_exit().await {
+    match exit_handle.try_exit() {
         Ok(()) => log::info!("Session exited gracefully"),
         Err(e) => {
             log::error!("Graceful session exit failed: {e}");
             log::warn!("Forcing session exit");
-            exit_handle.exit_force().await;
+            exit_handle.force_exit();
         }
     }
 }
 
 async fn device_operations(
-    azure_device_registry_client: &azure_device_registry::Client<SessionManagedClient>,
+    azure_device_registry_client: &azure_device_registry::Client,
+    health_sender: &azure_device_registry::health_reporter::HealthReporterSender,
 ) -> Result<(), Box<dyn std::error::Error>> {
     // Get Device + Inbound Endpoint details and send status update
     let device = azure_device_registry_client
@@ -204,6 +229,17 @@ async fn device_operations(
         )
         .await?;
     log::info!("Device details: {device:?}");
+
+    // Report healthy status for the device endpoint
+    // The background task handles deduplication and periodic re-reporting
+    let _ = health_sender.report(RuntimeHealth {
+        version: device.version.unwrap_or(0),
+        status: HealthStatus::Available,
+        message: Some("Connected and operational".to_string()),
+        reason_code: None,
+        last_update_time: chrono::Utc::now(),
+    });
+    log::info!("Reported healthy status for device endpoint");
 
     // get the current status so that we can update it in place
     let mut device_status = azure_device_registry_client
@@ -268,7 +304,7 @@ async fn device_operations(
 }
 
 async fn asset_operations(
-    azure_device_registry_client: &azure_device_registry::Client<SessionManagedClient>,
+    azure_device_registry_client: &azure_device_registry::Client,
 ) -> Result<(), Box<dyn std::error::Error>> {
     // Get Asset details and send status update
     let asset = azure_device_registry_client

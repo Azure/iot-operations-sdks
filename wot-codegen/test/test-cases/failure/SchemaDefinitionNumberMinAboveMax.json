@@ -1,0 +1,16 @@
+{
+  "success": false,
+  "commandLine": {
+    "things": [ "invalidAioBinding/SchemaDefinitionNumberMinAboveMax.TM.json" ],
+    "lang": "none"
+  },
+  "errors": [
+    {
+      "condition": "ValuesInconsistent",
+      "filename": "SchemaDefinitionNumberMinAboveMax.TM.json",
+      "line": 12,
+      "cfLine": 11,
+      "crossRef": ""
+    }
+  ]
+}

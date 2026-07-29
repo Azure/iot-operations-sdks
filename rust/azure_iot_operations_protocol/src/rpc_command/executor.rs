@@ -5,32 +5,48 @@ use std::str::FromStr;
 use std::sync::{Arc, Mutex};
 use std::{collections::HashMap, marker::PhantomData, time::Duration};
 
-use azure_iot_operations_mqtt::control_packet::{PublishProperties, QoS};
-use azure_iot_operations_mqtt::interface::{AckToken, ManagedClient, PubReceiver};
+use azure_iot_operations_mqtt::{
+    aio::cloud_event as aio_cloud_event,
+    session::{SessionManagedClient, SessionPubReceiver},
+};
+use azure_iot_operations_mqtt::{
+    control_packet::{PublishProperties, QoS, TopicFilter, TopicName},
+    token::AckToken,
+};
 use bytes::Bytes;
+use chrono::{DateTime, Utc};
 use tokio::sync::oneshot;
 use tokio::time::{Instant, timeout};
-use tokio_util::sync::CancellationToken;
+use tokio_util::sync::{CancellationToken, DropGuard};
 
 use crate::{
     ProtocolVersion,
     application::{ApplicationContext, ApplicationHybridLogicalClock},
     common::{
         aio_protocol_error::{AIOProtocolError, Value},
+        cloud_event as protocol_cloud_event,
         hybrid_logical_clock::{HLCErrorKind, HybridLogicalClock},
         is_invalid_utf8,
         payload_serialize::{
             DeserializationError, FormatIndicator, PayloadSerialize, SerializedPayload,
         },
         topic_processor::{TopicPattern, contains_invalid_char, is_valid_replacement},
-        user_properties::{PARTITION_KEY, UserProperty, validate_user_properties},
+        user_properties::{
+            BrokerReservedUserProperty, ProtocolReservedUserProperty, validate_user_properties,
+        },
     },
-    rpc_command::{DEFAULT_RPC_COMMAND_PROTOCOL_VERSION, RPC_COMMAND_PROTOCOL_VERSION, StatusCode},
+    rpc_command::{
+        DEFAULT_RPC_COMMAND_PROTOCOL_VERSION, DEFAULT_RPC_RESPONSE_CLOUD_EVENT_EVENT_TYPE,
+        RPC_COMMAND_PROTOCOL_VERSION, StatusCode,
+    },
     supported_protocol_major_versions_to_string,
 };
 
 /// Default message expiry interval only for when the message expiry interval is not present
 const DEFAULT_MESSAGE_EXPIRY_INTERVAL_SECONDS: u32 = 10;
+
+/// Additional time in seconds to extend cache entry expiration beyond the command expiration time
+const CACHE_EXPIRY_BUFFER_SECONDS: u64 = 60;
 
 /// Message for when expiration time is unable to be calculated, internal logic error
 const INTERNAL_LOGIC_EXPIRATION_ERROR: &str =
@@ -41,7 +57,7 @@ const SUPPORTED_PROTOCOL_VERSIONS: &[u16] = &[1];
 /// Struct to hold response arguments
 struct ResponseArguments {
     command_name: String,
-    response_topic: String,
+    response_topic: TopicName,
     correlation_data: Option<Bytes>,
     status_code: StatusCode,
     status_message: Option<String>,
@@ -53,7 +69,7 @@ struct ResponseArguments {
     supported_protocol_major_versions: Option<Vec<u16>>,
     request_protocol_version: Option<String>,
     cached_key: Option<CacheKey>,
-    cached_entry_status: CacheEntryStatus,
+    cache_lookup_result: CacheLookupResult,
 }
 
 /// Command Executor Request struct.
@@ -79,10 +95,9 @@ where
     pub invoker_id: Option<String>,
     /// Resolved static and dynamic topic tokens from the incoming request's topic.
     pub topic_tokens: HashMap<String, String>,
-    // Internal fields
-    command_name: String,
-    response_tx: oneshot::Sender<Response<TResp>>,
-    publish_completion_rx: oneshot::Receiver<Result<(), AIOProtocolError>>,
+    // Internal handle used to respond to the invoker. Kept private so that all response logic
+    // lives on `Responder` and `Request` simply delegates to it.
+    responder: Responder<TResp>,
 }
 
 impl<TReq, TResp> Request<TReq, TResp>
@@ -91,6 +106,125 @@ where
     TResp: PayloadSerialize,
 {
     /// Consumes the command request and reports the response to the executor. An attempt is made to
+    /// send the response to the invoker.
+    ///
+    /// Returns Ok(()) on success, otherwise returns [`AIOProtocolError`].
+    ///
+    /// # Arguments
+    /// * `response` - The [`Response`] to send.
+    ///
+    /// # Errors
+    ///
+    /// [`AIOProtocolError`] of kind [`Timeout`](crate::common::aio_protocol_error::AIOProtocolErrorKind::Timeout) if the command request
+    /// has expired.
+    ///
+    /// [`AIOProtocolError`] of kind [`ClientError`](crate::common::aio_protocol_error::AIOProtocolErrorKind::ClientError) if the response
+    /// acknowledgement returns an error.
+    ///
+    /// [`AIOProtocolError`] of kind [`Cancellation`](crate::common::aio_protocol_error::AIOProtocolErrorKind::Cancellation) if the
+    /// executor is dropped.
+    ///
+    /// [`AIOProtocolError`] of kind [`InternalLogicError`](crate::common::aio_protocol_error::AIOProtocolErrorKind::InternalLogicError)
+    /// if the response publish completion fails. This should not happen.
+    pub async fn complete(self, response: Response<TResp>) -> Result<(), AIOProtocolError> {
+        self.responder.complete(response).await
+    }
+
+    /// Splits the command request into its owned data ([`RequestParts`]) and a [`Responder`] used
+    /// to respond to the invoker.
+    ///
+    /// This allows the request payload (or any other field) to be moved out and retained while
+    /// still being able to respond to the invoker later via the returned [`Responder`], avoiding
+    /// the need to clone the payload.
+    ///
+    /// Note that, just like the [`Request`], dropping the returned [`Responder`] without calling
+    /// [`Responder::complete`] will cause the executor to send an error response to the invoker.
+    ///
+    /// # Example
+    /// ```ignore
+    /// let (parts, responder) = request.into_parts();
+    /// // The payload can now be moved out and stored without cloning.
+    /// let payload = parts.payload;
+    /// // ... later ...
+    /// responder.complete(response).await?;
+    /// ```
+    #[must_use]
+    pub fn into_parts(self) -> (RequestParts<TReq>, Responder<TResp>) {
+        let Request {
+            payload,
+            content_type,
+            format_indicator,
+            custom_user_data,
+            timestamp,
+            invoker_id,
+            topic_tokens,
+            responder,
+        } = self;
+
+        (
+            RequestParts {
+                payload,
+                content_type,
+                format_indicator,
+                custom_user_data,
+                timestamp,
+                invoker_id,
+                topic_tokens,
+            },
+            responder,
+        )
+    }
+
+    /// Check if the command response is no longer expected.
+    ///
+    /// Returns true if the response is no longer expected, otherwise returns false.
+    #[must_use]
+    pub fn is_cancelled(&self) -> bool {
+        self.responder.is_cancelled()
+    }
+}
+
+/// Owned data extracted from a [`Request`] via [`Request::into_parts`].
+///
+/// Contains all of the public data of the command request but no ability to respond to the
+/// invoker. Responding is done via the corresponding [`Responder`]. Dropping a [`RequestParts`]
+/// has no effect on the command response.
+pub struct RequestParts<TReq> {
+    /// Payload of the command request.
+    pub payload: TReq,
+    /// Content Type of the command request.
+    pub content_type: Option<String>,
+    /// Format Indicator of the command request.
+    pub format_indicator: FormatIndicator,
+    /// Custom user data set as custom MQTT User Properties on the request message.
+    pub custom_user_data: Vec<(String, String)>,
+    /// Timestamp of the command request.
+    pub timestamp: Option<HybridLogicalClock>,
+    /// If present, contains the client ID of the invoker of the command.
+    pub invoker_id: Option<String>,
+    /// Resolved static and dynamic topic tokens from the incoming request's topic.
+    pub topic_tokens: HashMap<String, String>,
+}
+
+/// Handle used to respond to a [`Request`] after its data has been extracted via
+/// [`Request::into_parts`].
+///
+/// If dropped without calling [`Responder::complete`], the executor will send an error response
+/// to the invoker (identical to dropping the [`Request`]).
+pub struct Responder<TResp>
+where
+    TResp: PayloadSerialize,
+{
+    command_name: String,
+    response_tx: oneshot::Sender<Response<TResp>>,
+    publish_completion_rx: oneshot::Receiver<Result<(), AIOProtocolError>>,
+}
+
+impl<TResp> Responder<TResp>
+where
+    TResp: PayloadSerialize,
+{
+    /// Consumes the responder and reports the response to the executor. An attempt is made to
     /// send the response to the invoker.
     ///
     /// Returns Ok(()) on success, otherwise returns [`AIOProtocolError`].
@@ -138,15 +272,50 @@ where
     /// Check if the command response is no longer expected.
     ///
     /// Returns true if the response is no longer expected, otherwise returns false.
+    #[must_use]
     pub fn is_cancelled(&self) -> bool {
         self.response_tx.is_closed()
     }
 }
 
+/// Cloud Event struct derived from the Command Request.
+pub type RequestCloudEvent = aio_cloud_event::CloudEvent;
+/// Error when parsing a Cloud Event from a Request
+pub type RequestCloudEventParseError = aio_cloud_event::CloudEventParseError;
+
+/// Parse a [`RequestCloudEvent`] from a [`Request`].
+/// Note that this will return an error if the [`Request`] does not contain the required fields for a [`RequestCloudEvent`].
+///
+/// # Errors
+/// [`RequestCloudEventParseError`] if
+/// - the [`Request`] does not contain the required fields for a [`RequestCloudEvent`].
+/// - any of the field values are not valid for a [`RequestCloudEvent`].
+pub fn cloud_event_from_request<TReq: PayloadSerialize, TResp: PayloadSerialize>(
+    request: &Request<TReq, TResp>,
+) -> Result<RequestCloudEvent, RequestCloudEventParseError> {
+    RequestCloudEvent::try_from((&request.custom_user_data, request.content_type.as_deref()))
+}
+
+/// Parse a [`RequestCloudEvent`] from a [`RequestParts`].
+/// Note that this will return an error if the [`RequestParts`] does not contain the required fields for a [`RequestCloudEvent`].
+///
+/// # Errors
+/// [`RequestCloudEventParseError`] if
+/// - the [`RequestParts`] does not contain the required fields for a [`RequestCloudEvent`].
+/// - any of the field values are not valid for a [`RequestCloudEvent`].
+pub fn cloud_event_from_request_parts<TReq>(
+    request_parts: &RequestParts<TReq>,
+) -> Result<RequestCloudEvent, RequestCloudEventParseError> {
+    RequestCloudEvent::try_from((
+        &request_parts.custom_user_data,
+        request_parts.content_type.as_deref(),
+    ))
+}
+
 /// Command Executor Response struct.
 /// Used by the [`Executor`]
 #[derive(Builder, Clone, Debug)]
-#[builder(setter(into, strip_option), build_fn(validate = "Self::validate"))]
+#[builder(setter(into), build_fn(validate = "Self::validate"))]
 pub struct Response<TResp>
 where
     TResp: PayloadSerialize,
@@ -156,12 +325,136 @@ where
     serialized_payload: SerializedPayload,
     /// Strongly link `Response` with type `TResp`
     #[builder(private)]
-    response_payload_type: PhantomData<TResp>,
+    payload_type: PhantomData<TResp>,
     /// Custom user data set as custom MQTT User Properties on the response message.
     /// Used to pass additional metadata to the invoker.
     /// Default is an empty vector.
     #[builder(default)]
     custom_user_data: Vec<(String, String)>,
+    /// Cloud event of the response.
+    #[builder(default = "None")]
+    cloud_event: Option<ResponseCloudEvent>,
+}
+
+/// Cloud Event struct used for the Command Response.
+///
+/// Implements the Cloud Events spec 1.0 for the command executor.
+/// See [CloudEvents Spec](https://github.com/cloudevents/spec/blob/main/cloudevents/spec.md).
+#[derive(Clone, Debug)]
+pub struct ResponseCloudEvent(protocol_cloud_event::CloudEvent);
+
+/// Builder for [`ResponseCloudEvent`].
+#[derive(Clone)]
+pub struct ResponseCloudEventBuilder(protocol_cloud_event::CloudEventBuilder);
+
+/// Error type for [`ResponseCloudEventBuilder`]
+#[derive(Debug)]
+#[non_exhaustive]
+pub enum ResponseCloudEventBuilderError {
+    /// Uninitialized field
+    UninitializedField(&'static str),
+    /// Custom validation error
+    ValidationError(String),
+}
+
+impl std::error::Error for ResponseCloudEventBuilderError {}
+impl std::fmt::Display for ResponseCloudEventBuilderError {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        match self {
+            ResponseCloudEventBuilderError::UninitializedField(field_name) => {
+                write!(f, "Uninitialized field: {field_name}")
+            }
+            ResponseCloudEventBuilderError::ValidationError(err_msg) => {
+                write!(f, "Validation error: {err_msg}")
+            }
+        }
+    }
+}
+
+impl From<protocol_cloud_event::CloudEventBuilderError> for ResponseCloudEventBuilderError {
+    fn from(value: protocol_cloud_event::CloudEventBuilderError) -> Self {
+        match value {
+            protocol_cloud_event::CloudEventBuilderError::UninitializedField(field_name) => {
+                ResponseCloudEventBuilderError::UninitializedField(field_name)
+            }
+            protocol_cloud_event::CloudEventBuilderError::ValidationError(err_msg) => {
+                ResponseCloudEventBuilderError::ValidationError(err_msg)
+            }
+        }
+    }
+}
+impl Default for ResponseCloudEventBuilder {
+    fn default() -> Self {
+        Self(protocol_cloud_event::CloudEventBuilder::new(
+            DEFAULT_RPC_RESPONSE_CLOUD_EVENT_EVENT_TYPE.to_string(),
+        ))
+    }
+}
+
+impl ResponseCloudEventBuilder {
+    /// Builds a new [`ResponseCloudEvent`].
+    /// # Errors
+    /// If a required field has not been initialized.
+    pub fn build(&self) -> Result<ResponseCloudEvent, ResponseCloudEventBuilderError> {
+        Ok(ResponseCloudEvent(
+            protocol_cloud_event::CloudEventBuilder::build(&self.0)?,
+        ))
+    }
+    /// Identifies the context in which an event happened. Often this will include information such
+    /// as the type of the event source, the organization publishing the event or the process that
+    /// produced the event. The exact syntax and semantics behind the data encoded in the URI is
+    /// defined by the event producer.
+    pub fn source<VALUE: Into<String>>(&mut self, value: VALUE) -> &mut Self {
+        self.0.source(value);
+        self
+    }
+    /// The version of the cloud events specification which the event uses. This enables the
+    /// interpretation of the context. Compliant event producers MUST use a value of 1.0 when
+    /// referring to this version of the specification.
+    pub fn spec_version<VALUE: Into<String>>(&mut self, value: VALUE) -> &mut Self {
+        self.0.spec_version(value);
+        self
+    }
+    /// Contains a value describing the type of event related to the originating occurrence. Often
+    /// this attribute is used for routing, observability, policy enforcement, etc. The format of
+    /// this is producer defined and might include information such as the version of the type.
+    pub fn event_type<VALUE: Into<String>>(&mut self, value: VALUE) -> &mut Self {
+        self.0.event_type(value);
+        self
+    }
+    /// Identifies the schema that data adheres to. Incompatible changes to the schema SHOULD be
+    /// reflected by a different URI.
+    pub fn data_schema<VALUE: Into<Option<String>>>(&mut self, value: VALUE) -> &mut Self {
+        self.0.data_schema(value);
+        self
+    }
+    /// Identifies the event. Producers MUST ensure that source + id is unique for each distinct
+    /// event. If a duplicate event is re-sent (e.g. due to a network error) it MAY have the same
+    /// id. Consumers MAY assume that Events with identical source and id are duplicates.
+    pub fn id<VALUE: Into<String>>(&mut self, value: VALUE) -> &mut Self {
+        self.0.id(value);
+        self
+    }
+    /// Timestamp of when the occurrence happened. If the time of the occurrence cannot be
+    /// determined then this attribute MAY be set to some other time (such as the current time) by
+    /// the cloud event producer, however all producers for the same source MUST be consistent in
+    /// this respect. In other words, either they all use the actual time of the occurrence or they
+    /// all use the same algorithm to determine the value used.
+    pub fn time<VALUE: Into<Option<DateTime<Utc>>>>(&mut self, value: VALUE) -> &mut Self {
+        self.0.time(value);
+        self
+    }
+    /// Identifies the subject of the event in the context of the event producer (identified by
+    /// source). In publish-subscribe scenarios, a subscriber will typically subscribe to events
+    /// emitted by a source, but the source identifier alone might not be sufficient as a qualifier
+    /// for any specific event if the source context has internal sub-structure.
+    pub fn subject<VALUE: Into<protocol_cloud_event::CloudEventSubject>>(
+        &mut self,
+        value: VALUE,
+    ) -> &mut Self {
+        self.0.subject(value);
+        self
+    }
 }
 
 impl<TResp: PayloadSerialize> ResponseBuilder<TResp> {
@@ -186,7 +479,7 @@ impl<TResp: PayloadSerialize> ResponseBuilder<TResp> {
                     return Err(AIOProtocolError::new_configuration_invalid_error(
                         None,
                         "content_type",
-                        Value::String(serialized_payload.content_type.to_string()),
+                        Value::String(serialized_payload.content_type.clone()),
                         Some(format!(
                             "Content type '{}' of command response is not valid UTF-8",
                             serialized_payload.content_type
@@ -195,7 +488,7 @@ impl<TResp: PayloadSerialize> ResponseBuilder<TResp> {
                     ));
                 }
                 self.serialized_payload = Some(serialized_payload);
-                self.response_payload_type = Some(PhantomData);
+                self.payload_type = Some(PhantomData);
                 Ok(self)
             }
         }
@@ -205,10 +498,29 @@ impl<TResp: PayloadSerialize> ResponseBuilder<TResp> {
     ///
     /// # Errors
     /// Returns a `String` describing the error if any of `custom_user_data`'s keys or values are invalid utf-8
-    /// or the reserved [`PARTITION_KEY`] key is used.
+    /// or a reserved Cloud Event key is used.
     fn validate(&self) -> Result<(), String> {
         if let Some(custom_user_data) = &self.custom_user_data {
+            for (key, _) in custom_user_data {
+                if aio_cloud_event::CloudEventFields::from_str(key).is_ok() {
+                    return Err(format!(
+                        "Invalid user data property '{key}' is a reserved Cloud Event key"
+                    ));
+                }
+            }
+            // NOTE: This does NOT validate the broker-reserved user properties.
+            // This is done to maintain existing behavior that the documentation had been wrong about.
+            // Consider changing this as a clearer story regarding how certain values are restricted emerges.
             validate_user_properties(custom_user_data)?;
+        }
+        // If there's a cloud event, make sure the content type is valid for the cloud event spec version
+        if let Some(Some(cloud_event)) = &self.cloud_event
+            && let Some(serialized_payload) = &self.serialized_payload
+        {
+            aio_cloud_event::CloudEventFields::DataContentType.validate(
+                &serialized_payload.content_type,
+                &cloud_event.0.spec_version,
+            )?;
         }
         Ok(())
     }
@@ -253,31 +565,40 @@ pub fn application_error_headers(
 /// Used to uniquely identify a command request.
 #[derive(Eq, Hash, PartialEq, Clone)]
 struct CacheKey {
-    response_topic: String,
+    response_topic: TopicName,
     correlation_data: Bytes,
 }
 
 /// Command Executor Cache Entry struct.
-#[derive(Clone, PartialEq, Debug)]
-struct CacheEntry {
-    serialized_payload: SerializedPayload,
-    properties: PublishProperties,
-    expiration_time: Instant,
+#[derive(Clone, Debug)]
+#[allow(clippy::large_enum_variant)]
+enum CacheEntry {
+    /// Indicates that the response is completed and cached
+    Cached {
+        serialized_payload: SerializedPayload,
+        properties: PublishProperties,
+        expiration_time: Instant,
+    },
+    /// Indicates that the request is in progress
+    InProgress {
+        /// Used for deduped requests to await the completion of the original request in order to ack
+        processing_cancellation_token: CancellationToken,
+    },
 }
 
-/// Command Executor Cache Entry Status enum.
+/// Command Executor Cache Lookup Result enum
 ///
 /// Used to indicate the status of a cache entry.
-///
-/// Note: It is not possible for a cache entry to be in progress due to the nature of the underlying
-/// session. If a command request is received, the session will drop duplicates while the original
-/// request is being processed.
-#[derive(PartialEq, Debug)]
-enum CacheEntryStatus {
+#[derive(Debug)]
+enum CacheLookupResult {
     /// The cache entry is cached and has not expired
-    Cached(CacheEntry),
-    /// The cache entry is expired
-    Expired,
+    Cached {
+        serialized_payload: SerializedPayload,
+        properties: PublishProperties,
+        response_message_expiry_interval: u32,
+    },
+    /// The cache entry is in progress
+    InProgress(CancellationToken),
     /// The cache entry is not found
     NotFound,
 }
@@ -289,21 +610,52 @@ enum CacheEntryStatus {
 struct Cache(Arc<Mutex<HashMap<CacheKey, CacheEntry>>>);
 
 impl Cache {
-    /// Get a cache entry from the [`Cache`].
+    /// Get the status of a cache entry from the [`Cache`].
     ///
     /// # Arguments
-    /// `key` - The cache key to get the cache entry for.
+    /// `key` - The cache key to look for.
     ///
-    /// Returns a [`CacheEntryStatus`] indicating the status of the cache entry.
-    fn get(&self, key: &CacheKey) -> CacheEntryStatus {
+    /// Returns a [`CacheLookupResult`] indicating the result of the get.
+    fn get(&self, key: &CacheKey) -> CacheLookupResult {
         let cache = self.0.lock().unwrap();
-        cache.get(key).map_or(CacheEntryStatus::NotFound, |entry| {
-            if entry.expiration_time.elapsed().is_zero() {
-                CacheEntryStatus::Cached(entry.clone())
-            } else {
-                CacheEntryStatus::Expired
+
+        match cache.get(key) {
+            Some(entry) => {
+                match entry {
+                    CacheEntry::Cached {
+                        serialized_payload,
+                        properties,
+                        expiration_time,
+                    } => {
+                        let response_message_expiry_interval =
+                            get_response_message_expiry_interval(*expiration_time);
+
+                        // Check if the entry has expired, return the entry if not
+                        if let Some(response_message_expiry_interval) =
+                            response_message_expiry_interval
+                        {
+                            CacheLookupResult::Cached {
+                                serialized_payload: serialized_payload.clone(),
+                                properties: properties.clone(),
+                                response_message_expiry_interval,
+                            }
+                        } else {
+                            // Entry has expired, return not found
+                            CacheLookupResult::NotFound
+                        }
+                    }
+                    CacheEntry::InProgress {
+                        processing_cancellation_token,
+                    } => {
+                        // If the entry is in progress, it means it has not been completed yet
+                        // any duplicate requests should await the cancellation token to complete
+                        // their acknowledgement
+                        CacheLookupResult::InProgress(processing_cancellation_token.clone())
+                    }
+                }
             }
-        })
+            None => CacheLookupResult::NotFound,
+        }
     }
 
     /// Set a cache entry in the cache. Also removes expired cache entries.
@@ -313,7 +665,24 @@ impl Cache {
     /// `entry` - The cache entry to set.
     fn set(&self, key: CacheKey, entry: CacheEntry) {
         let mut cache = self.0.lock().unwrap();
-        cache.retain(|_, entry| entry.expiration_time.elapsed().is_zero());
+        cache.retain(|_, entry| {
+            match entry {
+                CacheEntry::Cached {
+                    expiration_time, ..
+                } => {
+                    // Retain only non-expired entries
+                    expiration_time.elapsed().is_zero()
+                }
+                CacheEntry::InProgress {
+                    processing_cancellation_token,
+                } => {
+                    // If an entry is in progress and its processing cancellation token is cancelled
+                    // it means it timed out or the application dropped it, so it can be safely
+                    // removed. If it didn't time out it would have been converted to a Cached entry.
+                    !processing_cancellation_token.is_cancelled()
+                }
+            }
+        });
         cache.insert(key, entry);
     }
 }
@@ -326,7 +695,7 @@ pub struct Options {
     /// Topic pattern for the command request.
     /// Must align with [topic-structure.md](https://github.com/Azure/iot-operations-sdks/blob/main/doc/reference/topic-structure.md)
     request_topic_pattern: String,
-    /// Command name if required by the topic pattern
+    /// Command name
     command_name: String,
     /// Optional Topic namespace to be prepended to the topic pattern
     #[builder(default = "None")]
@@ -347,7 +716,7 @@ pub struct Options {
 /// ```
 /// # use std::{collections::HashMap, time::Duration};
 /// # use tokio_test::block_on;
-/// # use azure_iot_operations_mqtt::MqttConnectionSettingsBuilder;
+/// # use azure_iot_operations_mqtt::aio::connection_settings::MqttConnectionSettingsBuilder;
 /// # use azure_iot_operations_mqtt::session::{Session, SessionOptionsBuilder};
 /// # use azure_iot_operations_protocol::rpc_command;
 /// # use azure_iot_operations_protocol::application::ApplicationContextBuilder;
@@ -366,7 +735,7 @@ pub struct Options {
 ///   .request_topic_pattern("test/request")
 ///   .build().unwrap();
 /// # tokio_test::block_on(async {
-/// let mut executor: rpc_command::Executor<Vec<u8>, Vec<u8>, _> = rpc_command::Executor::new(application_context, mqtt_session.create_managed_client(), executor_options).unwrap();
+/// let mut executor: rpc_command::Executor<Vec<u8>, Vec<u8>> = rpc_command::Executor::new(application_context, mqtt_session.create_managed_client(), executor_options).unwrap();
 /// // let request = executor.recv().await.unwrap();
 /// // let response = rpc_command::executor::ResponseBuilder::default()
 ///  // .payload(Vec::new()).unwrap()
@@ -375,27 +744,26 @@ pub struct Options {
 /// # });
 /// ```
 #[allow(unused)]
-pub struct Executor<TReq, TResp, C>
+pub struct Executor<TReq, TResp>
 where
     TReq: PayloadSerialize + Send + 'static,
     TResp: PayloadSerialize + Send + 'static,
-    C: ManagedClient + Clone + Send + Sync + 'static,
-    C::PubReceiver: Send + Sync + 'static,
 {
     // Static properties of the executor
     application_hlc: Arc<ApplicationHybridLogicalClock>,
-    mqtt_client: C,
-    mqtt_receiver: C::PubReceiver,
+    mqtt_client: SessionManagedClient,
+    mqtt_receiver: SessionPubReceiver,
     is_idempotent: bool,
     request_topic_pattern: TopicPattern,
+    request_topic_filter: TopicFilter,
     command_name: String,
     request_payload_type: PhantomData<TReq>,
     response_payload_type: PhantomData<TResp>,
     cache: Cache,
     // Describes state
-    executor_state: State,
+    state: State,
     // Information to manage state
-    executor_cancellation_token: CancellationToken,
+    cancellation_token: CancellationToken,
 }
 
 /// Describes state of executor
@@ -407,12 +775,10 @@ enum State {
 }
 
 /// Implementation of Command Executor.
-impl<TReq, TResp, C> Executor<TReq, TResp, C>
+impl<TReq, TResp> Executor<TReq, TResp>
 where
     TReq: PayloadSerialize + Send + 'static,
     TResp: PayloadSerialize + Send + 'static,
-    C: ManagedClient + Clone + Send + Sync + 'static,
-    C::PubReceiver: Send + Sync + 'static,
 {
     /// Create a new [`Executor`].
     ///
@@ -427,12 +793,12 @@ where
     /// [`AIOProtocolError`] of kind [`ConfigurationInvalid`](crate::common::aio_protocol_error::AIOProtocolErrorKind::ConfigurationInvalid) if:
     /// - [`command_name`](OptionsBuilder::command_name) is empty, whitespace or invalid
     /// - [`request_topic_pattern`](OptionsBuilder::request_topic_pattern),
-    ///     [`topic_namespace`](OptionsBuilder::topic_namespace)
-    ///     are Some and invalid or contain a token with no valid replacement
+    ///   [`topic_namespace`](OptionsBuilder::topic_namespace)
+    ///   are Some and invalid or contain a token with no valid replacement
     /// - [`topic_token_map`](OptionsBuilder::topic_token_map) is not empty and contains invalid key(s) and/or token(s)
     pub fn new(
         application_context: ApplicationContext,
-        client: C,
+        client: SessionManagedClient,
         executor_options: Options,
     ) -> Result<Self, AIOProtocolError> {
         // Validate function parameters, validation for topic pattern and related options done in
@@ -463,21 +829,15 @@ where
             )
         })?;
 
+        let request_topic_filter = request_topic_pattern.as_subscribe_topic().map_err(|e| {
+            AIOProtocolError::config_invalid_from_topic_pattern_error(
+                e,
+                "executor_options.request_topic_pattern",
+            )
+        })?;
+
         // Get pub sub and receiver from the mqtt session
-        let mqtt_receiver = match client
-            .create_filtered_pub_receiver(&request_topic_pattern.as_subscribe_topic())
-        {
-            Ok(receiver) => receiver,
-            Err(e) => {
-                return Err(AIOProtocolError::new_configuration_invalid_error(
-                    Some(Box::new(e)),
-                    "request_topic_pattern",
-                    Value::String(request_topic_pattern.as_subscribe_topic()),
-                    Some("Could not parse request topic pattern".to_string()),
-                    Some(executor_options.command_name),
-                ));
-            }
-        };
+        let mqtt_receiver = client.create_filtered_pub_receiver(request_topic_filter.clone());
 
         // Create Command executor
         Ok(Executor {
@@ -486,12 +846,13 @@ where
             mqtt_receiver,
             is_idempotent: executor_options.is_idempotent,
             request_topic_pattern,
+            request_topic_filter,
             command_name: executor_options.command_name,
             request_payload_type: PhantomData,
             response_payload_type: PhantomData,
             cache: Cache(Arc::new(Mutex::new(HashMap::new()))),
-            executor_state: State::New,
-            executor_cancellation_token: CancellationToken::new(),
+            state: State::New,
+            cancellation_token: CancellationToken::new(),
         })
     }
 
@@ -508,26 +869,45 @@ where
         // Close the receiver, no longer receive messages
         self.mqtt_receiver.close();
 
-        match self.executor_state {
+        match self.state {
             State::New | State::ShutdownSuccessful => {
                 // If subscribe has not been called or shutdown was successful, do not unsubscribe
-                self.executor_state = State::ShutdownSuccessful;
+                self.state = State::ShutdownSuccessful;
             }
             State::Subscribed => {
                 let unsubscribe_result = self
                     .mqtt_client
-                    .unsubscribe(self.request_topic_pattern.as_subscribe_topic())
+                    .unsubscribe(
+                        self.request_topic_filter.clone(),
+                        azure_iot_operations_mqtt::control_packet::UnsubscribeProperties::default(),
+                    )
                     .await;
 
                 match unsubscribe_result {
                     Ok(unsub_ct) => match unsub_ct.await {
-                        Ok(()) => {
-                            self.executor_state = State::ShutdownSuccessful;
-                        }
+                        Ok(unsuback) => match unsuback.as_result() {
+                            Ok(()) => {
+                                self.state = State::ShutdownSuccessful;
+                            }
+                            Err(e) => {
+                                log::error!(
+                                    "[{}] Executor unsuback error: {unsuback:?}",
+                                    self.command_name
+                                );
+                                return Err(AIOProtocolError::new_mqtt_error(
+                                    Some("MQTT error on command executor unsuback".to_string()),
+                                    Box::new(e),
+                                    Some(self.command_name.clone()),
+                                ));
+                            }
+                        },
                         Err(e) => {
-                            log::error!("[{}] Unsuback error: {e}", self.command_name);
+                            log::error!(
+                                "[{}] Executor unsubscribe completion error: {e}",
+                                self.command_name
+                            );
                             return Err(AIOProtocolError::new_mqtt_error(
-                                Some("MQTT error on command executor unsuback".to_string()),
+                                Some("MQTT error on command executor unsubscribe".to_string()),
                                 Box::new(e),
                                 Some(self.command_name.clone()),
                             ));
@@ -535,7 +915,7 @@ where
                     },
                     Err(e) => {
                         log::error!(
-                            "[{}] Client error while unsubscribing: {e}",
+                            "[{}] Client error while unsubscribing in Executor: {e}",
                             self.command_name
                         );
                         return Err(AIOProtocolError::new_mqtt_error(
@@ -547,7 +927,7 @@ where
                 }
             }
         }
-        log::info!("[{}] Shutdown", self.command_name);
+        log::info!("[{}] Executor Shutdown", self.command_name);
         Ok(())
     }
 
@@ -560,18 +940,33 @@ where
         let subscribe_result = self
             .mqtt_client
             .subscribe(
-                self.request_topic_pattern.as_subscribe_topic(),
+                self.request_topic_filter.clone(),
                 QoS::AtLeastOnce,
+                false,
+                azure_iot_operations_mqtt::control_packet::RetainOptions::default(),
+                azure_iot_operations_mqtt::control_packet::SubscribeProperties::default(),
             )
             .await;
 
         match subscribe_result {
             Ok(sub_ct) => match sub_ct.await {
-                Ok(()) => { /* Success */ }
+                Ok(suback) => {
+                    suback.as_result().map_err(|e| {
+                        log::error!("[{}] Executor suback error: {suback:?}", self.command_name);
+                        AIOProtocolError::new_mqtt_error(
+                            Some("MQTT error on command executor suback".to_string()),
+                            Box::new(e),
+                            Some(self.command_name.clone()),
+                        )
+                    })?;
+                }
                 Err(e) => {
-                    log::error!("[{}] Suback error: {e}", self.command_name);
+                    log::error!(
+                        "[{}] Executor subscribe completion error: {e}",
+                        self.command_name
+                    );
                     return Err(AIOProtocolError::new_mqtt_error(
-                        Some("MQTT error on command executor suback".to_string()),
+                        Some("MQTT error on command executor subscribe".to_string()),
                         Box::new(e),
                         Some(self.command_name.clone()),
                     ));
@@ -579,7 +974,7 @@ where
             },
             Err(e) => {
                 log::error!(
-                    "[{}] Client error while subscribing: {e}",
+                    "[{}] Client error while subscribing in Executor: {e}",
                     self.command_name
                 );
                 return Err(AIOProtocolError::new_mqtt_error(
@@ -608,11 +1003,11 @@ where
     /// [`AIOProtocolError`] of kind [`InternalLogicError`](crate::common::aio_protocol_error::AIOProtocolErrorKind::InternalLogicError) if the command expiration time cannot be calculated.
     pub async fn recv(&mut self) -> Option<Result<Request<TReq, TResp>, AIOProtocolError>> {
         // Subscribe to the request topic if not already subscribed
-        if State::New == self.executor_state {
+        if State::New == self.state {
             if let Err(e) = self.try_subscribe().await {
                 return Some(Err(e));
             }
-            self.executor_state = State::Subscribed;
+            self.state = State::Subscribed;
         }
 
         loop {
@@ -621,67 +1016,70 @@ where
                     let Some(ack_token) = ack_token else {
                         // No ack token, ignore the message. This should never happen as the executor
                         // should always receive QoS 1 messages that have an ack token.
-                        log::warn!("[{}] Received message without ack token", self.command_name);
+                        log::warn!(
+                            "[{}] Received command request without ack token",
+                            self.command_name
+                        );
                         continue;
+                    };
+                    let pkid = match m.qos {
+                        azure_iot_operations_mqtt::control_packet::DeliveryQoS::AtMostOnce
+                        | azure_iot_operations_mqtt::control_packet::DeliveryQoS::ExactlyOnce(_) => {
+                            // This should never happen as the executor should always receive QoS 1 messages
+                            log::warn!(
+                                "[{}] Received non QoS 1 command request",
+                                self.command_name
+                            );
+                            continue;
+                        }
+                        azure_iot_operations_mqtt::control_packet::DeliveryQoS::AtLeastOnce(
+                            delivery_info,
+                        ) => delivery_info.packet_identifier.get(),
                     };
                     // Process the request
-                    log::info!("[{}][pkid: {}] Received request", self.command_name, m.pkid);
+                    log::debug!("[{}][pkid: {}] Received request", self.command_name, pkid);
                     let message_received_time = Instant::now();
 
+                    // Create a cancellation token to be used to track cache entry state, once the
+                    // entry has gone from InProgress to Cached or removed, this token will be cancelled
+                    let processing_cancellation_token = CancellationToken::new();
+                    let processing_cancellation_token_clone = processing_cancellation_token.clone();
+                    // This drop guard will stay alive until the request processing is complete,
+                    // whether a timeout occurs, or we have an ok or error response.
+                    let processing_drop_guard = processing_cancellation_token.drop_guard();
+
                     // Clone properties
-                    let properties = if let Some(properties) = &m.properties {
-                        properties.clone()
-                    } else {
-                        log::error!(
-                            "[{}][pkid: {}] Properties missing",
-                            self.command_name,
-                            m.pkid
-                        );
-                        tokio::task::spawn({
-                            let executor_cancellation_token_clone =
-                                self.executor_cancellation_token.clone();
-                            async move {
-                                handle_ack(ack_token, executor_cancellation_token_clone, m.pkid)
-                                    .await;
-                            }
-                        });
-                        continue;
-                    };
+                    let properties = m.properties;
 
                     // Get response topic
                     let response_topic = if let Some(rt) = properties.response_topic {
-                        if !is_valid_replacement(&rt) {
-                            log::error!(
+                        if !is_valid_replacement(rt.as_str()) {
+                            log::warn!(
                                 "[{}][pkid: {}] Response topic invalid, command response will not be published",
                                 self.command_name,
-                                m.pkid
+                                pkid
                             );
                             tokio::task::spawn({
                                 let executor_cancellation_token_clone =
-                                    self.executor_cancellation_token.clone();
+                                    self.cancellation_token.clone();
                                 async move {
-                                    handle_ack(
-                                        ack_token,
-                                        executor_cancellation_token_clone,
-                                        m.pkid,
-                                    )
-                                    .await;
+                                    handle_ack(ack_token, executor_cancellation_token_clone, pkid)
+                                        .await;
                                 }
                             });
                             continue;
                         }
                         rt
                     } else {
-                        log::error!(
-                            "[{}][pkid: {}] Response topic missing",
+                        log::warn!(
+                            "[{}][pkid: {}] Response topic missing, command response will not be published",
                             self.command_name,
-                            m.pkid
+                            pkid
                         );
                         tokio::task::spawn({
-                            let executor_cancellation_token_clone =
-                                self.executor_cancellation_token.clone();
+                            let executor_cancellation_token_clone = self.cancellation_token.clone();
                             async move {
-                                handle_ack(ack_token, executor_cancellation_token_clone, m.pkid)
+                                handle_ack(ack_token, executor_cancellation_token_clone, pkid)
                                     .await;
                             }
                         });
@@ -703,7 +1101,7 @@ where
                         supported_protocol_major_versions: None,
                         request_protocol_version: None,
                         cached_key: None,
-                        cached_entry_status: CacheEntryStatus::NotFound,
+                        cache_lookup_result: CacheLookupResult::NotFound,
                     };
 
                     // Get message expiry interval
@@ -753,7 +1151,7 @@ where
                             Some("Correlation data missing".to_string());
                         response_arguments.invalid_property_name =
                             Some("Correlation Data".to_string());
-                    };
+                    }
 
                     'process_request: {
                         // If the cache key was not created it means the correlation data was invalid
@@ -781,18 +1179,31 @@ where
                         }
 
                         // Check cache
-                        response_arguments.cached_entry_status = self.cache.get(cache_key);
+                        response_arguments.cache_lookup_result = self.cache.get(cache_key);
 
-                        // If the cache entry is not found, continue processing the request
-                        if response_arguments.cached_entry_status != CacheEntryStatus::NotFound {
+                        if !matches!(
+                            response_arguments.cache_lookup_result,
+                            CacheLookupResult::NotFound
+                        ) {
+                            // This means there is an entry for this correlation ID so either we
+                            // have a cached response or the request is already being processed.
                             break 'process_request;
                         }
+
+                        // If there is no entry for this correlation ID we register it as in progress
+                        self.cache.set(
+                            cache_key.clone(),
+                            CacheEntry::InProgress {
+                                processing_cancellation_token: processing_cancellation_token_clone,
+                            },
+                        );
 
                         // unused beyond validation, but may be used in the future to determine how to handle other fields. Can be moved higher in the future if needed.
                         let mut request_protocol_version = DEFAULT_RPC_COMMAND_PROTOCOL_VERSION; // assume default version if none is provided
                         if let Some((_, protocol_version)) =
                             properties.user_properties.iter().find(|(key, _)| {
-                                UserProperty::from_str(key) == Ok(UserProperty::ProtocolVersion)
+                                ProtocolReservedUserProperty::from_str(key)
+                                    == Ok(ProtocolReservedUserProperty::ProtocolVersion)
                             })
                         {
                             if let Some(request_version) =
@@ -807,7 +1218,7 @@ where
                                 response_arguments.supported_protocol_major_versions =
                                     Some(SUPPORTED_PROTOCOL_VERSIONS.to_vec());
                                 response_arguments.request_protocol_version =
-                                    Some(protocol_version.to_string());
+                                    Some(protocol_version.clone());
                                 break 'process_request;
                             }
                         }
@@ -828,8 +1239,8 @@ where
                         let mut timestamp = None;
                         let mut invoker_id = None;
                         for (key, value) in properties.user_properties {
-                            match UserProperty::from_str(&key) {
-                                Ok(UserProperty::Timestamp) => {
+                            match ProtocolReservedUserProperty::from_str(&key) {
+                                Ok(ProtocolReservedUserProperty::Timestamp) => {
                                     match HybridLogicalClock::from_str(&value) {
                                         Ok(ts) => {
                                             // Update application HLC against received __ts
@@ -837,8 +1248,10 @@ where
                                                 response_arguments.status_message = Some(format!(
                                                     "Failure updating application HLC against {value}: {e}"
                                                 ));
-                                                response_arguments.invalid_property_name =
-                                                    Some(UserProperty::Timestamp.to_string());
+                                                response_arguments.invalid_property_name = Some(
+                                                    ProtocolReservedUserProperty::Timestamp
+                                                        .to_string(),
+                                                );
                                                 response_arguments.invalid_property_value =
                                                     Some(value);
                                                 match e.kind() {
@@ -859,22 +1272,25 @@ where
                                             response_arguments.status_code = StatusCode::BadRequest;
                                             response_arguments.status_message =
                                                 Some(format!("Timestamp invalid: {e}"));
-                                            response_arguments.invalid_property_name =
-                                                Some(UserProperty::Timestamp.to_string());
+                                            response_arguments.invalid_property_name = Some(
+                                                ProtocolReservedUserProperty::Timestamp.to_string(),
+                                            );
                                             response_arguments.invalid_property_value = Some(value);
                                             break 'process_request;
                                         }
                                     }
                                 }
-                                Ok(UserProperty::SourceId) => {
+                                Ok(ProtocolReservedUserProperty::SourceId) => {
                                     invoker_id = Some(value);
                                 }
-                                Ok(UserProperty::ProtocolVersion) => {
+                                Ok(ProtocolReservedUserProperty::ProtocolVersion) => {
                                     // skip, already processed
                                 }
                                 Err(()) => {
-                                    if key == PARTITION_KEY {
-                                        // Ignore partition key, it is meant for the broker
+                                    // Not a protocol-reserved property, check if it's a broker-reserved property.
+                                    // All broker-reserved properties are stripped on receive — they are
+                                    // SDK/broker internals and should never appear in user-facing custom_user_data.
+                                    if BrokerReservedUserProperty::from_str(&key).is_ok() {
                                         continue;
                                     }
                                     user_data.push((key, value));
@@ -883,39 +1299,20 @@ where
                                     /* UserProperty::Status, UserProperty::StatusMessage, UserProperty::IsApplicationError, UserProperty::InvalidPropertyName, UserProperty::InvalidPropertyValue */
                                     // Don't return error, although above properties shouldn't be in the request
                                     log::warn!(
-                                        "Request should not contain MQTT user property {key}. Value is {value}"
+                                        "[{}] Command request should not contain MQTT user property {key}. Value is {value}",
+                                        self.command_name
                                     );
                                     user_data.push((key, value));
                                 }
                             }
                         }
 
-                        let topic = match std::str::from_utf8(&m.topic) {
-                            Ok(topic) => topic,
-                            Err(e) => {
-                                // This should never happen as the topic is always a valid UTF-8 string from the MQTT client
-                                response_arguments.status_code = StatusCode::BadRequest;
-                                response_arguments.status_message =
-                                    Some(format!("Error deserializing topic: {e:?}"));
-                                break 'process_request;
-                            }
-                        };
-
-                        let topic_tokens = self.request_topic_pattern.parse_tokens(topic);
+                        let topic_tokens = self
+                            .request_topic_pattern
+                            .parse_tokens(m.topic_name.as_str());
 
                         // Deserialize payload
-                        let format_indicator = match properties.payload_format_indicator.try_into()
-                        {
-                            Ok(format_indicator) => format_indicator,
-                            Err(e) => {
-                                log::error!(
-                                    "[pkid: {}] Received invalid payload format indicator: {e}. This should not be possible to receive from the broker.",
-                                    m.pkid
-                                );
-                                // Use default format indicator
-                                FormatIndicator::default()
-                            }
-                        };
+                        let format_indicator = properties.payload_format_indicator.into();
                         let payload = match TReq::deserialize(
                             &m.payload,
                             properties.content_type.as_ref(),
@@ -954,9 +1351,11 @@ where
                             timestamp,
                             invoker_id,
                             topic_tokens,
-                            command_name: self.command_name.clone(),
-                            response_tx,
-                            publish_completion_rx,
+                            responder: Responder {
+                                command_name: self.command_name.clone(),
+                                response_tx,
+                                publish_completion_rx,
+                            },
                         };
 
                         // Check the command has not expired, if it has, we do not respond to the invoker.
@@ -967,8 +1366,7 @@ where
                                 let client_clone = self.mqtt_client.clone();
                                 let cache_clone = self.cache.clone();
                                 let executor_cancellation_token_clone =
-                                    self.executor_cancellation_token.clone();
-                                let pkid = m.pkid;
+                                    self.cancellation_token.clone();
                                 async move {
                                     tokio::select! {
                                         () = executor_cancellation_token_clone.cancelled() => { /* executor dropped */},
@@ -977,10 +1375,9 @@ where
                                             client_clone,
                                             pkid,
                                             response_arguments,
-                                            Some(response_rx),
-                                            Some(publish_completion_tx),
+                                            (Some(response_rx), Some(publish_completion_tx)),
                                             cache_clone,
-
+                                            processing_drop_guard,
                                         ) => {
                                             // Finished processing command
                                             handle_ack(ack_token, executor_cancellation_token_clone, pkid).await;
@@ -992,50 +1389,83 @@ where
                         }
                     }
 
-                    // Checking that command expiration time was calculated and has not
-                    // expired. If it has, we do not respond to the invoker.
-                    if let Some(command_expiration_time) = command_expiration_time {
-                        if !command_expiration_time.elapsed().is_zero() {
-                            continue;
-                        }
-                    }
+                    // Checking that command expiration time was calculated, if it has not we do not
+                    // respond to the invoker.
+                    let Some(command_expiration_time) = command_expiration_time else {
+                        continue;
+                    };
 
-                    // If the command has expired, we do not respond to the invoker.
-                    match response_arguments.cached_entry_status {
-                        CacheEntryStatus::Expired => {
-                            log::debug!(
-                                "[{}][pkid: {}] Duplicate request has expired",
-                                self.command_name,
-                                m.pkid
-                            );
-                            continue;
-                        }
-                        _ => {
+                    match response_arguments.cache_lookup_result {
+                        CacheLookupResult::Cached {
+                            serialized_payload,
+                            properties,
+                            response_message_expiry_interval,
+                        } => {
+                            // Process the duplicate command
                             tokio::task::spawn({
-                                let app_hlc_clone = self.application_hlc.clone();
                                 let client_clone = self.mqtt_client.clone();
-                                let cache_clone = self.cache.clone();
                                 let executor_cancellation_token_clone =
-                                    self.executor_cancellation_token.clone();
-                                let pkid = m.pkid;
+                                    self.cancellation_token.clone();
                                 async move {
                                     tokio::select! {
                                         () = executor_cancellation_token_clone.cancelled() => { /* executor dropped */},
-                                        () = Self::process_command(
-                                            app_hlc_clone,
+                                        () = Self::process_duplicate_command(
                                             client_clone,
+                                            response_arguments.response_topic,
+                                            serialized_payload,
+                                            properties,
+                                            response_message_expiry_interval,
+                                            response_arguments.command_name,
                                             pkid,
-                                            response_arguments,
-                                            None,
-                                            None,
-                                            cache_clone,
                                         ) => {
-                                            // Finished processing command
+                                            // Finished processing duplicate command
                                             handle_ack(ack_token, executor_cancellation_token_clone, pkid).await;
                                         },
                                     }
                                 }
                             });
+                        }
+                        CacheLookupResult::InProgress(cancellation_token) => {
+                            // If the command is currently in progress that means this message
+                            // is a dupe and we need to wait for the original to complete before
+                            // acking.
+                            tokio::task::spawn(handle_in_progress_duplicate_ack(
+                                ack_token,
+                                cancellation_token.clone(),
+                                self.cancellation_token.clone(),
+                                pkid,
+                            ));
+                        }
+                        CacheLookupResult::NotFound => {
+                            // Indicates the command should be processed as an error
+
+                            // Check the command has not expired, if it has, we do not respond to the invoker.
+                            if command_expiration_time.elapsed().is_zero() {
+                                tokio::task::spawn({
+                                    let app_hlc_clone = self.application_hlc.clone();
+                                    let client_clone = self.mqtt_client.clone();
+                                    let cache_clone = self.cache.clone();
+                                    let executor_cancellation_token_clone =
+                                        self.cancellation_token.clone();
+                                    async move {
+                                        tokio::select! {
+                                            () = executor_cancellation_token_clone.cancelled() => { /* executor dropped */},
+                                            () = Self::process_command(
+                                                app_hlc_clone,
+                                                client_clone,
+                                                pkid,
+                                                response_arguments,
+                                                (None, None),
+                                                cache_clone,
+                                                processing_drop_guard,
+                                            ) => {
+                                                // Finished processing command
+                                                handle_ack(ack_token, executor_cancellation_token_clone, pkid).await;
+                                            },
+                                        }
+                                    }
+                                });
+                            }
                         }
                     }
 
@@ -1059,174 +1489,247 @@ where
         }
     }
 
-    async fn process_command(
-        application_hlc: Arc<ApplicationHybridLogicalClock>,
-        client: C,
+    /// Process a duplicate command by sending the cached response.
+    async fn process_duplicate_command(
+        client: SessionManagedClient,
+        response_topic: TopicName,
+        serialized_payload: SerializedPayload,
+        mut publish_properties: PublishProperties,
+        response_message_expiry_interval: u32,
+        command_name: String,
         pkid: u16,
-        mut response_arguments: ResponseArguments,
-        response_rx: Option<oneshot::Receiver<Response<TResp>>>,
-        completion_tx: Option<oneshot::Sender<Result<(), AIOProtocolError>>>,
-        cache: Cache,
     ) {
-        let mut serialized_payload = SerializedPayload::default();
-        let mut publish_properties = PublishProperties::default();
-        let cache_not_found = response_arguments.cached_entry_status == CacheEntryStatus::NotFound;
+        log::debug!(
+            "[{command_name}][pkid: {pkid}] Duplicate request, responding with cached response"
+        );
 
-        if let CacheEntryStatus::Cached(entry) = response_arguments.cached_entry_status {
-            // The command has already been processed, we can respond with the cached response
-            log::debug!(
-                "[{}][pkid: {}] Duplicate request, responding with cached response",
-                response_arguments.command_name,
-                pkid
-            );
-            publish_properties = entry.properties;
-            serialized_payload = entry.serialized_payload;
-        } else {
-            let mut user_properties: Vec<(String, String)> = Vec::new();
-            'process_response: {
-                let Some(command_expiration_time) = response_arguments.command_expiration_time
-                else {
-                    break 'process_response;
-                };
-                if let Some(response_rx) = response_rx {
-                    // Wait for response
-                    let response = if let Ok(response_timer) = timeout(
-                        command_expiration_time.duration_since(Instant::now()),
-                        response_rx,
-                    )
-                    .await
-                    {
-                        if let Ok(response_app) = response_timer {
-                            response_app
-                        } else {
-                            // Happens when the sender is dropped by the application.
-                            response_arguments.status_code = StatusCode::InternalServerError;
-                            response_arguments.status_message =
-                                Some("Request has been dropped by the application".to_string());
-                            response_arguments.is_application_error = true;
-                            break 'process_response;
+        publish_properties.message_expiry_interval = Some(response_message_expiry_interval);
+
+        match client
+            .publish_qos1(
+                response_topic,
+                false,
+                serialized_payload.payload,
+                publish_properties,
+            )
+            .await
+        {
+            Ok(publish_completion_token) => {
+                // Wait and handle puback
+                match publish_completion_token.await {
+                    Ok(puback) => {
+                        if !puback.is_success() {
+                            log::warn!(
+                                "[{command_name}][pkid: {pkid}] Puback reported failure for cached command response: {puback:?}"
+                            );
                         }
-                    } else {
-                        log::error!(
-                            "[{}][pkid: {}] Request timed out",
-                            response_arguments.command_name,
-                            pkid
-                        );
-                        // Notify the application that a timeout occurred
-                        if let Some(completion_tx) = completion_tx {
-                            let _ = completion_tx.send(Err(AIOProtocolError::new_timeout_error(
-                                false,
-                                None,
-                                &response_arguments.command_name,
-                                Duration::from_secs(
-                                    response_arguments
-                                        .message_expiry_interval
-                                        .unwrap_or_default()
-                                        .into(),
-                                ),
-                                None,
-                                Some(response_arguments.command_name.clone()),
-                            )));
-                        }
-                        return;
-                    };
-
-                    user_properties = response.custom_user_data;
-
-                    // Serialize payload
-                    serialized_payload = response.serialized_payload;
-
-                    if serialized_payload.payload.is_empty() {
-                        response_arguments.status_code = StatusCode::NoContent;
                     }
-                } else { /* Error */
+                    Err(e) => {
+                        log::warn!(
+                            "[{command_name}][pkid: {pkid}] Publish completion error for cached command response: {e}"
+                        );
+                    }
                 }
             }
-
-            if response_arguments.status_code != StatusCode::Ok
-                || response_arguments.status_code != StatusCode::NoContent
-            {
-                user_properties.push((
-                    UserProperty::IsApplicationError.to_string(),
-                    response_arguments.is_application_error.to_string(),
-                ));
-            }
-
-            user_properties.push((
-                UserProperty::Status.to_string(),
-                (response_arguments.status_code as u16).to_string(),
-            ));
-
-            user_properties.push((
-                UserProperty::ProtocolVersion.to_string(),
-                RPC_COMMAND_PROTOCOL_VERSION.to_string(),
-            ));
-
-            user_properties.push((
-                UserProperty::SourceId.to_string(),
-                client.client_id().to_string(),
-            ));
-
-            // Update HLC and use as the timestamp.
-            // If there are errors updating the HLC (unlikely when updating against now),
-            // the timestamp will not be added.
-            if let Ok(timestamp_str) = application_hlc.update_now() {
-                user_properties.push((UserProperty::Timestamp.to_string(), timestamp_str));
-            }
-
-            if let Some(status_message) = response_arguments.status_message {
-                log::error!(
-                    "[{}][pkid: {}] {}",
-                    response_arguments.command_name,
-                    pkid,
-                    status_message
+            Err(e) => {
+                log::warn!(
+                    "[{command_name}][pkid: {pkid}] Client error on cached command response publish: {e}"
                 );
-                user_properties.push((UserProperty::StatusMessage.to_string(), status_message));
             }
+        }
+    }
 
-            if let Some(name) = response_arguments.invalid_property_name {
-                user_properties.push((UserProperty::InvalidPropertyName.to_string(), name));
+    /// Process a command request, finish building the response and send it.
+    #[allow(clippy::type_complexity)]
+    async fn process_command(
+        application_hlc: Arc<ApplicationHybridLogicalClock>,
+        client: SessionManagedClient,
+        pkid: u16,
+        mut response_arguments: ResponseArguments,
+        application_channels: (
+            Option<oneshot::Receiver<Response<TResp>>>,
+            Option<oneshot::Sender<Result<(), AIOProtocolError>>>,
+        ), // TODO: Once simplified, remove this complex type
+        cache: Cache,
+        _processing_drop_guard: DropGuard,
+    ) {
+        let (response_rx, completion_tx) = application_channels;
+        let mut serialized_payload = SerializedPayload::default();
+        let mut publish_properties = PublishProperties::default();
+
+        let mut user_properties: Vec<(String, String)> = Vec::new();
+        'process_response: {
+            let Some(command_expiration_time) = response_arguments.command_expiration_time else {
+                break 'process_response;
+            };
+            if let Some(response_rx) = response_rx {
+                // Wait for response
+                let response = if let Ok(response_timer) = timeout(
+                    command_expiration_time.duration_since(Instant::now()),
+                    response_rx,
+                )
+                .await
+                {
+                    if let Ok(response_app) = response_timer {
+                        response_app
+                    } else {
+                        // Happens when the sender is dropped by the application.
+                        response_arguments.status_code = StatusCode::InternalServerError;
+                        response_arguments.status_message =
+                            Some("Request has been dropped by the application".to_string());
+                        response_arguments.is_application_error = true;
+                        break 'process_response;
+                    }
+                } else {
+                    log::warn!(
+                        "[{}][pkid: {}] Command request timed out",
+                        response_arguments.command_name,
+                        pkid
+                    );
+                    // Notify the application that a timeout occurred
+                    if let Some(completion_tx) = completion_tx {
+                        let _ = completion_tx.send(Err(AIOProtocolError::new_timeout_error(
+                            false,
+                            None,
+                            &response_arguments.command_name,
+                            Duration::from_secs(
+                                response_arguments
+                                    .message_expiry_interval
+                                    .unwrap_or_default()
+                                    .into(),
+                            ),
+                            None,
+                            Some(response_arguments.command_name.clone()),
+                        )));
+                    }
+                    return;
+                };
+
+                user_properties = response.custom_user_data;
+
+                // Cloud Events headers
+                if let Some(cloud_event) = response.cloud_event {
+                    let cloud_event_headers = cloud_event
+                        .0
+                        .into_headers(response_arguments.response_topic.as_str());
+                    for (key, value) in cloud_event_headers {
+                        user_properties.push((key, value));
+                    }
+                }
+
+                // Serialize payload
+                serialized_payload = response.serialized_payload;
+
+                if serialized_payload.payload.is_empty() {
+                    response_arguments.status_code = StatusCode::NoContent;
+                }
+            } else { /* Error */
             }
+        }
 
-            if let Some(value) = response_arguments.invalid_property_value {
-                user_properties.push((UserProperty::InvalidPropertyValue.to_string(), value));
-            }
+        if response_arguments.status_code != StatusCode::Ok
+            || response_arguments.status_code != StatusCode::NoContent
+        {
+            user_properties.push((
+                ProtocolReservedUserProperty::IsApplicationError.to_string(),
+                response_arguments.is_application_error.to_string(),
+            ));
+        }
 
-            if let Some(supported_protocol_major_versions) =
-                response_arguments.supported_protocol_major_versions
-            {
-                user_properties.push((
-                    UserProperty::SupportedMajorVersions.to_string(),
-                    supported_protocol_major_versions_to_string(&supported_protocol_major_versions),
-                ));
-            }
+        user_properties.push((
+            ProtocolReservedUserProperty::Status.to_string(),
+            (response_arguments.status_code as u16).to_string(),
+        ));
 
-            if let Some(request_protocol_version) = response_arguments.request_protocol_version {
-                user_properties.push((
-                    UserProperty::RequestProtocolVersion.to_string(),
-                    request_protocol_version,
-                ));
-            }
+        user_properties.push((
+            ProtocolReservedUserProperty::ProtocolVersion.to_string(),
+            RPC_COMMAND_PROTOCOL_VERSION.to_string(),
+        ));
 
-            // Create publish properties
-            publish_properties.payload_format_indicator =
-                Some(serialized_payload.format_indicator.clone() as u8);
-            publish_properties.topic_alias = None;
-            publish_properties.response_topic = None;
-            publish_properties.correlation_data = response_arguments.correlation_data;
-            publish_properties.user_properties = user_properties;
-            publish_properties.subscription_identifiers = Vec::new();
-            publish_properties.content_type = Some(serialized_payload.content_type.to_string());
-        };
+        user_properties.push((
+            ProtocolReservedUserProperty::SourceId.to_string(),
+            client.client_id().to_string(),
+        ));
+
+        // Update HLC and use as the timestamp.
+        // If there are errors updating the HLC (unlikely when updating against now),
+        // the timestamp will not be added.
+        if let Ok(timestamp_str) = application_hlc.update_now() {
+            user_properties.push((
+                ProtocolReservedUserProperty::Timestamp.to_string(),
+                timestamp_str,
+            ));
+        }
+
+        if let Some(status_message) = response_arguments.status_message {
+            log::warn!(
+                "[{}][pkid: {}] sending error reponse to invoker: {}",
+                response_arguments.command_name,
+                pkid,
+                status_message
+            );
+            user_properties.push((
+                ProtocolReservedUserProperty::StatusMessage.to_string(),
+                status_message,
+            ));
+        }
+
+        if let Some(name) = response_arguments.invalid_property_name {
+            user_properties.push((
+                ProtocolReservedUserProperty::InvalidPropertyName.to_string(),
+                name,
+            ));
+        }
+
+        if let Some(value) = response_arguments.invalid_property_value {
+            user_properties.push((
+                ProtocolReservedUserProperty::InvalidPropertyValue.to_string(),
+                value,
+            ));
+        }
+
+        if let Some(supported_protocol_major_versions) =
+            response_arguments.supported_protocol_major_versions
+        {
+            user_properties.push((
+                ProtocolReservedUserProperty::SupportedMajorVersions.to_string(),
+                supported_protocol_major_versions_to_string(&supported_protocol_major_versions),
+            ));
+        }
+
+        if let Some(request_protocol_version) = response_arguments.request_protocol_version {
+            user_properties.push((
+                ProtocolReservedUserProperty::RequestProtocolVersion.to_string(),
+                request_protocol_version,
+            ));
+        }
+
+        user_properties.push((
+            BrokerReservedUserProperty::HighPriority.to_string(),
+            String::new(),
+        ));
+
+        // Create publish properties
+        publish_properties.payload_format_indicator = serialized_payload.format_indicator.into();
+        publish_properties.topic_alias = None;
+        publish_properties.response_topic = None;
+        publish_properties.correlation_data = response_arguments.correlation_data;
+        publish_properties.user_properties = user_properties;
+        publish_properties.subscription_identifiers = Vec::new();
+        publish_properties.content_type = Some(serialized_payload.content_type.clone());
 
         match response_arguments.command_expiration_time {
             Some(command_expiration_time) => {
-                // Calculating remaining time until the command expires
                 let response_message_expiry_interval =
-                    command_expiration_time.saturating_duration_since(Instant::now());
-                if response_message_expiry_interval.is_zero() {
-                    log::error!(
-                        "[{}][pkid: {}] Request timed out",
+                    get_response_message_expiry_interval(command_expiration_time);
+
+                // Check if the entry has expired
+                if let Some(response_message_expiry_interval) = response_message_expiry_interval {
+                    publish_properties.message_expiry_interval =
+                        Some(response_message_expiry_interval);
+                } else {
+                    log::warn!(
+                        "[{}][pkid: {}] Command request timed out",
                         response_arguments.command_name,
                         pkid
                     );
@@ -1249,53 +1752,26 @@ where
                     return;
                 }
 
-                // Rounding remaining expiration time up to the nearest second
-                let response_message_expiry_interval =
-                    if response_message_expiry_interval.subsec_nanos() != 0 {
-                        // NOTE: We should always be able to add 1 since the seconds portion of the
-                        // response_message_expiry_interval is always at least one less than its initial
-                        // value when received in this block.
-                        // NOTE: Rounding up to the nearest second to ensure the invoker will time out
-                        // at or before the response expires.
-                        response_message_expiry_interval.as_secs().saturating_add(1)
-                    } else {
-                        response_message_expiry_interval.as_secs()
+                // Store cache, even if the response is an error
+                if let Some(cached_key) = response_arguments.cached_key {
+                    let cache_entry = CacheEntry::Cached {
+                        serialized_payload: serialized_payload.clone(),
+                        properties: publish_properties.clone(),
+                        expiration_time: command_expiration_time
+                            + Duration::from_secs(CACHE_EXPIRY_BUFFER_SECONDS),
                     };
-
-                let Ok(response_message_expiry_interval) =
-                    response_message_expiry_interval.try_into()
-                else {
-                    // Unreachable, will be smaller than u32::MAX
-                    log::error!(
-                        "[{}][pkid: {}] Message expiry interval is too large",
+                    log::debug!(
+                        "[{}][pkid: {}] Caching response",
                         response_arguments.command_name,
                         pkid
                     );
-                    return;
-                };
-
-                publish_properties.message_expiry_interval = Some(response_message_expiry_interval);
-
-                // Store cache, even if the response is an error
-                if cache_not_found {
-                    if let Some(cached_key) = response_arguments.cached_key {
-                        let cache_entry = CacheEntry {
-                            properties: publish_properties.clone(),
-                            serialized_payload: serialized_payload.clone(),
-                            expiration_time: command_expiration_time,
-                        };
-                        log::info!(
-                            "[{}][pkid: {}] Caching response",
-                            response_arguments.command_name,
-                            pkid
-                        );
-                        cache.set(cached_key, cache_entry);
-                    }
+                    cache.set(cached_key, cache_entry);
                 }
             }
             _ => {
                 // Happens when the command expiration time was not able to be calculated.
-                // We don't cache the response in this case.
+                // We don't cache the response in this case. Note that we did not set a in progress
+                // entry for this case since it requires a valid expiration time.
                 publish_properties.message_expiry_interval =
                     Some(DEFAULT_MESSAGE_EXPIRY_INTERVAL_SECONDS);
             }
@@ -1303,9 +1779,8 @@ where
 
         // Try to publish
         match client
-            .publish_with_properties(
+            .publish_qos1(
                 response_arguments.response_topic,
-                QoS::AtLeastOnce,
                 false,
                 serialized_payload.payload,
                 publish_properties,
@@ -1315,23 +1790,46 @@ where
             Ok(publish_completion_token) => {
                 // Wait and handle puback
                 match publish_completion_token.await {
-                    Ok(()) => {
-                        if let Some(completion_tx) = completion_tx {
-                            // We ignore the error as the receiver may have been dropped indicating that the
-                            // application is not interested in the completion of the publish.
-                            let _ = completion_tx.send(Ok(()));
+                    Ok(puback) => {
+                        match puback.as_result() {
+                            Ok(()) => {
+                                if let Some(completion_tx) = completion_tx {
+                                    // We ignore the error as the receiver may have been dropped indicating that the
+                                    // application is not interested in the completion of the publish.
+                                    let _ = completion_tx.send(Ok(()));
+                                }
+                            }
+                            Err(e) => {
+                                log::error!(
+                                    "[{}][pkid: {}] Command response Puback error: {puback:?}",
+                                    response_arguments.command_name,
+                                    pkid
+                                );
+                                if let Some(completion_tx) = completion_tx {
+                                    // Ignore error as receiver may have been dropped
+                                    let _ =
+                                        completion_tx.send(Err(AIOProtocolError::new_mqtt_error(
+                                            Some(
+                                                "MQTT error on command executor response puback"
+                                                    .to_string(),
+                                            ),
+                                            Box::new(e),
+                                            Some(response_arguments.command_name.clone()),
+                                        )));
+                                }
+                            }
                         }
                     }
                     Err(e) => {
                         log::error!(
-                            "[{}][pkid: {}] Puback error: {e}",
+                            "[{}][pkid: {}] Command response Publish completion error: {e}",
                             response_arguments.command_name,
                             pkid
                         );
                         if let Some(completion_tx) = completion_tx {
                             // Ignore error as receiver may have been dropped
                             let _ = completion_tx.send(Err(AIOProtocolError::new_mqtt_error(
-                                Some("MQTT error on command executor response puback".to_string()),
+                                Some("MQTT error on command executor response publish".to_string()),
                                 Box::new(e),
                                 Some(response_arguments.command_name.clone()),
                             )));
@@ -1340,7 +1838,6 @@ where
                 }
             }
             Err(e) => {
-                // Unreachable, we control the topic
                 log::error!(
                     "[{}][pkid: {}] Client error on command executor response publish: {e}",
                     response_arguments.command_name,
@@ -1349,13 +1846,9 @@ where
                 // Notify error publishing
                 if let Some(completion_tx) = completion_tx {
                     // Ignore error as receiver may have been dropped
-                    let _ = completion_tx.send(Err(AIOProtocolError::new_internal_logic_error(
-                        false,
-                        false,
-                        Some(Box::new(e)),
-                        "response_publish",
-                        None,
-                        Some("Error publishing response".to_string()),
+                    let _ = completion_tx.send(Err(AIOProtocolError::new_mqtt_error(
+                        Some("MQTT error on command executor response publish".to_string()),
+                        Box::new(e),
                         Some(response_arguments.command_name.clone()),
                     )));
                 }
@@ -1364,40 +1857,75 @@ where
     }
 }
 
-impl<TReq, TResp, C> Drop for Executor<TReq, TResp, C>
+impl<TReq, TResp> Drop for Executor<TReq, TResp>
 where
     TReq: PayloadSerialize + Send + 'static,
     TResp: PayloadSerialize + Send + 'static,
-    C: ManagedClient + Clone + Send + Sync + 'static,
-    C::PubReceiver: Send + Sync + 'static,
 {
     fn drop(&mut self) {
         // Cancel all tasks awaiting responses
-        self.executor_cancellation_token.cancel();
+        self.cancellation_token.cancel();
         // Close the receiver, once dropped all remaining messages are automatically ack'd
         self.mqtt_receiver.close();
 
         // If the executor has not been unsubscribed, attempt to unsubscribe
-        if State::Subscribed == self.executor_state {
+        if State::Subscribed == self.state {
             tokio::spawn({
-                let request_topic = self.request_topic_pattern.as_subscribe_topic();
+                let request_topic = self.request_topic_filter.clone();
                 let mqtt_client = self.mqtt_client.clone();
                 async move {
-                    match mqtt_client.unsubscribe(request_topic.clone()).await {
+                    match mqtt_client
+                        .unsubscribe(
+                            request_topic.clone(),
+                            azure_iot_operations_mqtt::control_packet::UnsubscribeProperties::default(),
+                        )
+                        .await
+                    {
                         Ok(_) => {
                             log::debug!(
-                                "Unsubscribe sent on topic {request_topic}. Unsuback may still be pending."
+                                "Executor Unsubscribe sent on topic {request_topic}. Unsuback may still be pending."
                             );
                         }
                         Err(e) => {
-                            log::error!("Unsubscribe error on topic {request_topic}: {e}");
+                            log::warn!("Executor Unsubscribe error on topic {request_topic}: {e}");
                         }
                     }
                 }
             });
         }
 
-        log::info!("[{}] Executor has been dropped", self.command_name);
+        log::info!("[{}] Command Executor has been dropped", self.command_name);
+    }
+}
+
+fn get_response_message_expiry_interval(command_expiration_time: Instant) -> Option<u32> {
+    // Calculate the remaining time until the command expires
+    let response_message_expiry_interval =
+        command_expiration_time.saturating_duration_since(Instant::now());
+
+    // Check if the entry has expired
+    if response_message_expiry_interval.is_zero() {
+        // Don't return zero as returning a message expiry interval of zero means the message
+        // never expires.
+        None
+    } else {
+        // Rounding remaining expiration time up to the nearest second
+        let response_message_expiry_interval =
+            if response_message_expiry_interval.subsec_nanos() != 0 {
+                // NOTE: We should always be able to add 1 since the seconds portion of the
+                // response_message_expiry_interval is always at least one less than its initial
+                // value when received in this block.
+                // NOTE: Rounding up to the nearest second to ensure the invoker will time out
+                // at or before the response expires.
+                response_message_expiry_interval.as_secs().saturating_add(1)
+            } else {
+                response_message_expiry_interval.as_secs()
+            };
+
+        match response_message_expiry_interval.try_into() {
+            Ok(interval) => Some(interval),
+            Err(_) => unreachable!(), // Unreachable, will be less than or equal to u32::MAX, see unit test "test_get_response_message_expiry_interval_at_limit"
+        }
     }
 }
 
@@ -1415,13 +1943,43 @@ async fn handle_ack(
         () = executor_cancellation_token.cancelled() => { /* executor dropped */ },
         ack_res = ack_token.ack() => {
             match ack_res {
-                Ok(_) => {
-                    log::info!("[pkid: {pkid}] Acknowledged");
+                Ok(ack_ct) => {
+                    match ack_ct.await {
+                        Ok(()) => log::debug!("[pkid: {pkid}] Command Request Acknowledged"),
+                        Err(e) => {
+                            match e {
+                                azure_iot_operations_mqtt::error::CompletionError::Detached => {
+                                    log::warn!("[pkid: {pkid}] Command Request Ack error: {e}");
+                                },
+                                azure_iot_operations_mqtt::error::CompletionError::Canceled(_) => {
+                                    // This means the executor will receive a future ack from the
+                                    // session once the dupe comes in.
+                                    log::warn!("[pkid: {pkid}] Command Request ack cancelled due to disconnect, request will be redelivered");
+                                },
+                            }
+                         }
+                    }
                 },
                 Err(e) => {
-                    log::error!("[pkid: {pkid}] Ack error: {e}");
+                    log::warn!("[pkid: {pkid}] Command Request Ack error: {e}");
                 }
             }
+        }
+    }
+}
+
+async fn handle_in_progress_duplicate_ack(
+    ack_token: AckToken,
+    in_progress_cancellation_token: CancellationToken,
+    executor_cancellation_token: CancellationToken,
+    pkid: u16,
+) {
+    tokio::select! {
+        () = executor_cancellation_token.cancelled() => { /* executor dropped */ },
+        () = in_progress_cancellation_token.cancelled() => {
+            // This means the in progress command has finished processing, we can now ack the
+            // duplicate ack
+            handle_ack(ack_token, executor_cancellation_token, pkid).await;
         }
     }
 }
@@ -1431,7 +1989,7 @@ mod tests {
     use azure_iot_operations_mqtt::session::{Session, SessionOptionsBuilder};
     use test_case::test_case;
     // TODO: This dependency on MqttConnectionSettingsBuilder should be removed in lieu of using a true mock
-    use azure_iot_operations_mqtt::MqttConnectionSettingsBuilder;
+    use azure_iot_operations_mqtt::aio::connection_settings::MqttConnectionSettingsBuilder;
 
     use super::*;
     use crate::application::ApplicationContextBuilder;
@@ -1460,6 +2018,56 @@ mod tests {
         ])
     }
 
+    /// Builds a [`Request`] with the given payload for testing
+    #[allow(clippy::type_complexity)]
+    fn build_test_request(
+        payload: MockPayload,
+    ) -> (
+        Request<MockPayload, MockPayload>,
+        oneshot::Receiver<Response<MockPayload>>,
+        oneshot::Sender<Result<(), AIOProtocolError>>,
+    ) {
+        let (response_tx, response_rx) = oneshot::channel();
+        let (publish_completion_tx, publish_completion_rx) = oneshot::channel();
+
+        let request = Request {
+            payload,
+            content_type: Some("application/json".to_string()),
+            format_indicator: FormatIndicator::Utf8EncodedCharacterData,
+            custom_user_data: vec![("key".to_string(), "value".to_string())],
+            timestamp: None,
+            invoker_id: Some("test_invoker_id".to_string()),
+            topic_tokens: HashMap::from([("commandName".to_string(), "test".to_string())]),
+            responder: Responder {
+                command_name: "test_command_name".to_string(),
+                response_tx,
+                publish_completion_rx,
+            },
+        };
+
+        (request, response_rx, publish_completion_tx)
+    }
+
+    fn build_test_response() -> Response<MockPayload> {
+        let mut mock_response_payload = MockPayload::new();
+        mock_response_payload
+            .expect_serialize()
+            .returning(|| {
+                Ok(SerializedPayload {
+                    payload: Vec::new(),
+                    content_type: "application/json".to_string(),
+                    format_indicator: FormatIndicator::Utf8EncodedCharacterData,
+                })
+            })
+            .times(1);
+
+        ResponseBuilder::default()
+            .payload(mock_response_payload)
+            .unwrap()
+            .build()
+            .unwrap()
+    }
+
     #[tokio::test]
     async fn test_new_defaults() {
         let session = create_session();
@@ -1471,7 +2079,7 @@ mod tests {
             .build()
             .unwrap();
 
-        let executor: Executor<MockPayload, MockPayload, _> = Executor::new(
+        let executor: Executor<MockPayload, MockPayload> = Executor::new(
             ApplicationContextBuilder::default().build().unwrap(),
             managed_client,
             executor_options,
@@ -1479,7 +2087,11 @@ mod tests {
         .unwrap();
 
         assert_eq!(
-            executor.request_topic_pattern.as_subscribe_topic(),
+            executor
+                .request_topic_pattern
+                .as_subscribe_topic()
+                .unwrap()
+                .as_str(),
             "test/test_command_name/test_executor_id/request"
         );
 
@@ -1499,7 +2111,7 @@ mod tests {
             .build()
             .unwrap();
 
-        let executor: Executor<MockPayload, MockPayload, _> = Executor::new(
+        let executor: Executor<MockPayload, MockPayload> = Executor::new(
             ApplicationContextBuilder::default().build().unwrap(),
             managed_client,
             executor_options,
@@ -1507,7 +2119,11 @@ mod tests {
         .unwrap();
 
         assert_eq!(
-            executor.request_topic_pattern.as_subscribe_topic(),
+            executor
+                .request_topic_pattern
+                .as_subscribe_topic()
+                .unwrap()
+                .as_str(),
             "test_namespace/test/test_command_name/test_executor_id/request"
         );
 
@@ -1528,12 +2144,11 @@ mod tests {
             .build()
             .unwrap();
 
-        let executor: Result<Executor<MockPayload, MockPayload, _>, AIOProtocolError> =
-            Executor::new(
-                ApplicationContextBuilder::default().build().unwrap(),
-                managed_client,
-                executor_options,
-            );
+        let executor: Result<Executor<MockPayload, MockPayload>, AIOProtocolError> = Executor::new(
+            ApplicationContextBuilder::default().build().unwrap(),
+            managed_client,
+            executor_options,
+        );
 
         match executor {
             Err(e) => {
@@ -1564,12 +2179,11 @@ mod tests {
             .build()
             .unwrap();
 
-        let executor: Result<Executor<MockPayload, MockPayload, _>, AIOProtocolError> =
-            Executor::new(
-                ApplicationContextBuilder::default().build().unwrap(),
-                managed_client,
-                executor_options,
-            );
+        let executor: Result<Executor<MockPayload, MockPayload>, AIOProtocolError> = Executor::new(
+            ApplicationContextBuilder::default().build().unwrap(),
+            managed_client,
+            executor_options,
+        );
 
         match executor {
             Err(e) => {
@@ -1603,12 +2217,11 @@ mod tests {
             .build()
             .unwrap();
 
-        let executor: Result<Executor<MockPayload, MockPayload, _>, AIOProtocolError> =
-            Executor::new(
-                ApplicationContextBuilder::default().build().unwrap(),
-                managed_client,
-                executor_options,
-            );
+        let executor: Result<Executor<MockPayload, MockPayload>, AIOProtocolError> = Executor::new(
+            ApplicationContextBuilder::default().build().unwrap(),
+            managed_client,
+            executor_options,
+        );
         match executor {
             Err(e) => {
                 assert_eq!(e.kind, AIOProtocolErrorKind::ConfigurationInvalid);
@@ -1631,7 +2244,7 @@ mod tests {
             .command_name("test_command_name")
             .build()
             .unwrap();
-        let mut executor: Executor<MockPayload, MockPayload, _> = Executor::new(
+        let mut executor: Executor<MockPayload, MockPayload> = Executor::new(
             ApplicationContextBuilder::default().build().unwrap(),
             session.create_managed_client(),
             executor_options,
@@ -1692,46 +2305,132 @@ mod tests {
         }
     }
 
+    #[test]
+    fn test_response_invalid_custom_user_data_cloud_event_header() {
+        let mut mock_response_payload = MockPayload::new();
+        mock_response_payload
+            .expect_serialize()
+            .returning(|| {
+                Ok(SerializedPayload {
+                    payload: Vec::new(),
+                    content_type: "application/json".to_string(),
+                    format_indicator: FormatIndicator::Utf8EncodedCharacterData,
+                })
+            })
+            .times(1);
+
+        let response_builder_result = ResponseBuilder::default()
+            .payload(mock_response_payload)
+            .unwrap()
+            .custom_user_data(vec![("source".to_string(), "test".to_string())])
+            .build();
+
+        assert!(response_builder_result.is_err());
+    }
+
+    #[test]
+    fn test_response_defaults() {
+        let mut mock_response_payload = MockPayload::new();
+        mock_response_payload
+            .expect_serialize()
+            .returning(|| {
+                Ok(SerializedPayload {
+                    payload: Vec::new(),
+                    content_type: "application/json".to_string(),
+                    format_indicator: FormatIndicator::Utf8EncodedCharacterData,
+                })
+            })
+            .times(1);
+
+        let response_builder_result = ResponseBuilder::default()
+            .payload(mock_response_payload)
+            .unwrap()
+            .build();
+
+        let r = response_builder_result.unwrap();
+
+        assert!(r.custom_user_data.is_empty());
+        assert!(r.cloud_event.is_none());
+        assert!(r.serialized_payload.payload.is_empty());
+    }
+
     #[tokio::test]
     async fn test_cache_not_found() {
         let cache = Cache(Arc::new(Mutex::new(HashMap::new())));
         let key = CacheKey {
-            response_topic: String::from("test_response_topic"),
+            response_topic: TopicName::new("test_response_topic").unwrap(),
             correlation_data: Bytes::from("test_correlation_data"),
         };
         let status = cache.get(&key);
-        assert_eq!(status, CacheEntryStatus::NotFound);
+        assert!(matches!(status, CacheLookupResult::NotFound));
     }
 
-    #[tokio::test]
-    async fn test_cache_found() {
+    #[test]
+    fn test_cache_found_complete() {
         let cache = Cache(Arc::new(Mutex::new(HashMap::new())));
         let key = CacheKey {
-            response_topic: String::from("test_response_topic"),
+            response_topic: TopicName::new("test_response_topic").unwrap(),
             correlation_data: Bytes::from("test_correlation_data"),
         };
-        let entry = CacheEntry {
-            serialized_payload: SerializedPayload {
-                payload: Bytes::from("test_payload").to_vec(),
-                content_type: "application/json".to_string(),
-                format_indicator: FormatIndicator::Utf8EncodedCharacterData,
-            },
+        let entered_serialized_payload = SerializedPayload {
+            payload: Bytes::from("test_payload").to_vec(),
+            content_type: "application/json".to_string(),
+            format_indicator: FormatIndicator::Utf8EncodedCharacterData,
+        };
+        let entry = CacheEntry::Cached {
+            serialized_payload: entered_serialized_payload.clone(),
             properties: PublishProperties::default(),
             expiration_time: Instant::now() + Duration::from_secs(60),
         };
         cache.set(key.clone(), entry.clone());
         let status = cache.get(&key);
-        assert_eq!(status, CacheEntryStatus::Cached(entry));
+        match status {
+            CacheLookupResult::Cached {
+                serialized_payload,
+                properties,
+                response_message_expiry_interval,
+            } => {
+                assert_eq!(serialized_payload, entered_serialized_payload);
+                assert_eq!(properties, PublishProperties::default());
+                // The expiry interval should be between 1 and 60 seconds, 60 seconds should not pass
+                // before this check is made and we will always round up to the nearest second.
+                let range = 1..=60;
+                assert!(range.contains(&response_message_expiry_interval));
+            }
+            _ => {
+                panic!("Expected cached entry");
+            }
+        }
     }
 
-    #[tokio::test]
-    async fn test_cache_expired() {
+    #[test]
+    fn test_cache_found_in_progress() {
         let cache = Cache(Arc::new(Mutex::new(HashMap::new())));
         let key = CacheKey {
-            response_topic: String::from("test_response_topic"),
+            response_topic: TopicName::new("test_response_topic").unwrap(),
             correlation_data: Bytes::from("test_correlation_data"),
         };
-        let entry = CacheEntry {
+        let entry = CacheEntry::InProgress {
+            processing_cancellation_token: CancellationToken::new(),
+        };
+        cache.set(key.clone(), entry.clone());
+
+        match cache.get(&key) {
+            CacheLookupResult::InProgress(_) => { /* Success */ }
+            _ => {
+                panic!("Expected in progress entry");
+            }
+        }
+    }
+
+    #[test]
+    fn test_cache_expired_entry_not_found() {
+        let cache = Cache(Arc::new(Mutex::new(HashMap::new())));
+        let key = CacheKey {
+            response_topic: TopicName::new("test_response_topic").unwrap(),
+            correlation_data: Bytes::from("test_correlation_data"),
+        };
+        let entry = CacheEntry::Cached {
             serialized_payload: SerializedPayload {
                 payload: Bytes::from("test_payload").to_vec(),
                 content_type: "application/json".to_string(),
@@ -1742,15 +2441,16 @@ mod tests {
         };
         cache.set(key.clone(), entry);
         let status = cache.get(&key);
-        assert_eq!(status, CacheEntryStatus::Expired);
+        assert!(matches!(status, CacheLookupResult::NotFound));
 
         // Set a new entry and check if the expired entry is deleted
-        let new_entry = CacheEntry {
-            serialized_payload: SerializedPayload {
-                payload: Bytes::from("new_test_payload").to_vec(),
-                content_type: "application/json".to_string(),
-                format_indicator: FormatIndicator::Utf8EncodedCharacterData,
-            },
+        let new_serialized_payload = SerializedPayload {
+            payload: Bytes::from("new_test_payload").to_vec(),
+            content_type: "application/json".to_string(),
+            format_indicator: FormatIndicator::Utf8EncodedCharacterData,
+        };
+        let new_entry = CacheEntry::Cached {
+            serialized_payload: new_serialized_payload.clone(),
             properties: PublishProperties::default(),
             expiration_time: Instant::now() + Duration::from_secs(60),
         };
@@ -1758,17 +2458,33 @@ mod tests {
         cache.set(key.clone(), new_entry.clone());
 
         let new_status = cache.get(&key);
-        assert_eq!(new_status, CacheEntryStatus::Cached(new_entry));
+        match new_status {
+            CacheLookupResult::Cached {
+                serialized_payload,
+                properties,
+                response_message_expiry_interval,
+            } => {
+                assert_eq!(serialized_payload, new_serialized_payload);
+                assert_eq!(properties, PublishProperties::default());
+                // The expiry interval should be between 1 and 60 seconds, 60 seconds should not pass
+                // before this check is made and we will always round up to the nearest second.
+                let range = 1..=60;
+                assert!(range.contains(&response_message_expiry_interval));
+            }
+            _ => {
+                panic!("Expected cached entry");
+            }
+        }
     }
 
-    #[tokio::test]
-    async fn test_cache_expired_with_different_key_set() {
+    #[test]
+    fn test_cache_expired_entry_not_found_with_different_key_set() {
         let cache = Cache(Arc::new(Mutex::new(HashMap::new())));
-        let key = CacheKey {
-            response_topic: String::from("test_response_topic"),
+        let old_key = CacheKey {
+            response_topic: TopicName::new("test_response_topic").unwrap(),
             correlation_data: Bytes::from("test_correlation_data"),
         };
-        let entry = CacheEntry {
+        let old_entry = CacheEntry::Cached {
             serialized_payload: SerializedPayload {
                 payload: Bytes::from("test_payload").to_vec(),
                 content_type: "application/json".to_string(),
@@ -1777,30 +2493,141 @@ mod tests {
             properties: PublishProperties::default(),
             expiration_time: Instant::now() - Duration::from_secs(60),
         };
-        cache.set(key.clone(), entry);
-        let status = cache.get(&key);
-        assert_eq!(status, CacheEntryStatus::Expired);
+        cache.set(old_key.clone(), old_entry);
+        let status = cache.get(&old_key);
+        assert!(matches!(status, CacheLookupResult::NotFound));
 
         // Set a new entry with a different key and check if the expired entry is deleted
         let new_key = CacheKey {
-            response_topic: String::from("new_test_response_topic"),
+            response_topic: TopicName::new("new_test_response_topic").unwrap(),
             correlation_data: Bytes::from("new_test_correlation_data"),
         };
-        let new_entry = CacheEntry {
-            serialized_payload: SerializedPayload {
-                payload: Bytes::from("new_test_payload").to_vec(),
-                content_type: "application/json".to_string(),
-                format_indicator: FormatIndicator::Utf8EncodedCharacterData,
-            },
+        let new_serialized_payload = SerializedPayload {
+            payload: Bytes::from("new_test_payload").to_vec(),
+            content_type: "application/json".to_string(),
+            format_indicator: FormatIndicator::Utf8EncodedCharacterData,
+        };
+        let new_entry = CacheEntry::Cached {
+            serialized_payload: new_serialized_payload.clone(),
             properties: PublishProperties::default(),
             expiration_time: Instant::now() + Duration::from_secs(60),
         };
         cache.set(new_key.clone(), new_entry.clone());
 
-        let status = cache.get(&key);
-        assert_eq!(status, CacheEntryStatus::NotFound);
-        let status = cache.get(&new_key);
-        assert_eq!(status, CacheEntryStatus::Cached(new_entry));
+        let old_status = cache.get(&old_key);
+        assert!(matches!(old_status, CacheLookupResult::NotFound));
+        let new_status = cache.get(&new_key);
+
+        match new_status {
+            CacheLookupResult::Cached {
+                serialized_payload,
+                properties,
+                response_message_expiry_interval,
+            } => {
+                assert_eq!(serialized_payload, new_serialized_payload);
+                assert_eq!(properties, PublishProperties::default());
+                // The expiry interval should be between 1 and 60 seconds, 60 seconds should not pass
+                // before this check is made and we will always round up to the nearest second.
+                let range = 1..=60;
+                assert!(range.contains(&response_message_expiry_interval));
+            }
+            _ => {
+                panic!("Expected cached entry");
+            }
+        }
+    }
+
+    #[test]
+    fn test_cache_in_progress_found_with_different_key_set() {
+        let cache = Cache(Arc::new(Mutex::new(HashMap::new())));
+        let old_key = CacheKey {
+            response_topic: TopicName::new("test_response_topic").unwrap(),
+            correlation_data: Bytes::from("test_correlation_data"),
+        };
+        let old_entry = CacheEntry::InProgress {
+            processing_cancellation_token: CancellationToken::new(),
+        };
+        cache.set(old_key.clone(), old_entry);
+        let status = cache.get(&old_key);
+        // While in progress, the entry can't expire.
+        assert!(matches!(status, CacheLookupResult::InProgress(..)));
+
+        // Set a new entry with a different key and check if the in progress entry is still present
+        let new_key = CacheKey {
+            response_topic: TopicName::new("new_test_response_topic").unwrap(),
+            correlation_data: Bytes::from("new_test_correlation_data"),
+        };
+        let new_serialized_payload = SerializedPayload {
+            payload: Bytes::from("new_test_payload").to_vec(),
+            content_type: "application/json".to_string(),
+            format_indicator: FormatIndicator::Utf8EncodedCharacterData,
+        };
+        let new_entry = CacheEntry::Cached {
+            serialized_payload: new_serialized_payload.clone(),
+            properties: PublishProperties::default(),
+            expiration_time: Instant::now() + Duration::from_secs(60),
+        };
+        cache.set(new_key.clone(), new_entry.clone());
+
+        let old_status = cache.get(&old_key);
+        assert!(matches!(old_status, CacheLookupResult::InProgress(..)));
+        let new_status = cache.get(&new_key);
+
+        match new_status {
+            CacheLookupResult::Cached {
+                serialized_payload,
+                properties,
+                response_message_expiry_interval,
+            } => {
+                assert_eq!(serialized_payload, new_serialized_payload);
+                assert_eq!(properties, PublishProperties::default());
+                // The expiry interval should be between 1 and 60 seconds, 60 seconds should not pass
+                // before this check is made and we will always round up to the nearest second.
+                let range = 1..=60;
+                assert!(range.contains(&response_message_expiry_interval));
+            }
+            _ => {
+                panic!("Expected cached entry");
+            }
+        }
+    }
+
+    #[test]
+    fn test_cache_in_progress_notified_completion() {
+        // This tests the verified flow of registering to completion in case a dupe comes in
+        let cache = Cache(Arc::new(Mutex::new(HashMap::new())));
+        let processing_cancellation_token = CancellationToken::new();
+        let key = CacheKey {
+            response_topic: TopicName::new("test_response_topic").unwrap(),
+            correlation_data: Bytes::from("test_correlation_data"),
+        };
+        let entry = CacheEntry::InProgress {
+            processing_cancellation_token: processing_cancellation_token.clone(),
+        };
+        cache.set(key.clone(), entry.clone());
+
+        {
+            // This simulates processing the command
+            let _processing_drop_guard = processing_cancellation_token.drop_guard();
+
+            match cache.get(&key) {
+                CacheLookupResult::InProgress(_) => { /* Success */ }
+                _ => {
+                    panic!("Expected in progress entry");
+                }
+            }
+        }
+
+        // If a dupe comes in, and checks the cancellation token it should know it can ack
+        match cache.get(&key) {
+            CacheLookupResult::InProgress(cancellation_token) => {
+                // Since the command processing simulation ended, the cancellation token should be cancelled
+                assert!(cancellation_token.is_cancelled());
+            }
+            _ => {
+                panic!("Expected in progress entry");
+            }
+        }
     }
 
     #[test]
@@ -1857,6 +2684,159 @@ mod tests {
         );
 
         assert_eq!(custom_user_data.len(), 0);
+    }
+
+    #[test]
+    fn test_get_response_message_expiry_interval_not_expired() {
+        let response_message_expiry_interval =
+            get_response_message_expiry_interval(Instant::now() + Duration::from_secs(10));
+
+        let range = 1..=10;
+        // Should be between 1 and 10 seconds
+        assert!(range.contains(&response_message_expiry_interval.unwrap()));
+    }
+
+    #[test]
+    fn test_get_response_message_expiry_inteval_expired() {
+        let response_message_expiry_interval =
+            get_response_message_expiry_interval(Instant::now() - Duration::from_secs(10));
+
+        assert!(response_message_expiry_interval.is_none());
+    }
+
+    #[test]
+    fn test_get_response_message_expiry_interval_at_limit() {
+        // When the message_expiry_interval property is received it is bounded to a u32 meaning that the
+        // maximum value is u32::MAX seconds. We test that the function correctly handles this upper limit.
+        let response_message_expiry_interval = get_response_message_expiry_interval(
+            Instant::now() + Duration::from_secs(u64::from(u32::MAX)),
+        );
+
+        let range = 1..=u32::MAX; // note, range is memory efficient
+        assert!(range.contains(&response_message_expiry_interval.unwrap()));
+    }
+
+    #[tokio::test]
+    async fn test_into_parts_splits_fields() {
+        // The request payload should be moved into the parts unchanged. We tag it via a distinct
+        // serialized content type so we can assert it wasn't cloned/replaced.
+        let mut request_payload = MockPayload::new();
+        request_payload
+            .expect_serialize()
+            .returning(|| {
+                Ok(SerializedPayload {
+                    payload: Vec::new(),
+                    content_type: "request-payload-marker".to_string(),
+                    format_indicator: FormatIndicator::Utf8EncodedCharacterData,
+                })
+            })
+            .times(1);
+
+        let (request, _response_rx, _publish_completion_tx) = build_test_request(request_payload);
+
+        let (parts, responder) = request.into_parts();
+
+        assert_eq!(parts.content_type, Some("application/json".to_string()));
+        assert_eq!(
+            parts.format_indicator,
+            FormatIndicator::Utf8EncodedCharacterData
+        );
+        assert_eq!(
+            parts.custom_user_data,
+            vec![("key".to_string(), "value".to_string())]
+        );
+        assert_eq!(parts.invoker_id, Some("test_invoker_id".to_string()));
+        assert_eq!(
+            parts.topic_tokens.get("commandName"),
+            Some(&"test".to_string())
+        );
+        // The payload was moved (not cloned) into the parts.
+        assert_eq!(
+            parts.payload.serialize().unwrap().content_type,
+            "request-payload-marker"
+        );
+        // The responder still expects a response.
+        assert!(!responder.is_cancelled());
+    }
+
+    #[tokio::test]
+    async fn test_into_parts_responder_completes() {
+        let (request, response_rx, publish_completion_tx) = build_test_request(MockPayload::new());
+        let (_parts, responder) = request.into_parts();
+        let response = build_test_response();
+
+        let complete_handle = tokio::spawn(async move { responder.complete(response).await });
+
+        // The executor side receives the response...
+        let _received = response_rx.await.expect("response should be received");
+        // ...and signals successful publish completion.
+        publish_completion_tx.send(Ok(())).unwrap();
+
+        assert!(complete_handle.await.unwrap().is_ok());
+    }
+
+    #[tokio::test]
+    async fn test_into_parts_responder_is_cancelled() {
+        let (request, response_rx, _publish_completion_tx) = build_test_request(MockPayload::new());
+        let (_parts, responder) = request.into_parts();
+
+        assert!(!responder.is_cancelled());
+        // When the executor stops expecting a response, the responder reports cancellation.
+        drop(response_rx);
+        assert!(responder.is_cancelled());
+    }
+
+    #[tokio::test]
+    async fn test_into_parts_dropping_responder_sends_no_response() {
+        let (request, response_rx, _publish_completion_tx) = build_test_request(MockPayload::new());
+        let (parts, responder) = request.into_parts();
+
+        // Dropping the parts is inert; dropping the responder without completing behaves like
+        // dropping the request: the executor receives no response.
+        drop(parts);
+        drop(responder);
+
+        assert!(response_rx.await.is_err());
+    }
+
+    #[test]
+    fn test_cloud_event_from_request_parts_missing_fields() {
+        let parts: RequestParts<MockPayload> = RequestParts {
+            payload: MockPayload::new(),
+            content_type: Some("application/json".to_string()),
+            format_indicator: FormatIndicator::Utf8EncodedCharacterData,
+            custom_user_data: Vec::new(),
+            timestamp: None,
+            invoker_id: None,
+            topic_tokens: HashMap::new(),
+        };
+
+        assert!(cloud_event_from_request_parts(&parts).is_err());
+    }
+
+    #[test]
+    fn test_cloud_event_from_request_parts_success() {
+        let parts: RequestParts<MockPayload> = RequestParts {
+            payload: MockPayload::new(),
+            content_type: Some("application/json".to_string()),
+            format_indicator: FormatIndicator::Utf8EncodedCharacterData,
+            custom_user_data: vec![
+                ("id".to_string(), "test-id".to_string()),
+                ("source".to_string(), "test-source".to_string()),
+                ("specversion".to_string(), "1.0".to_string()),
+                ("type".to_string(), "test-type".to_string()),
+            ],
+            timestamp: None,
+            invoker_id: None,
+            topic_tokens: HashMap::new(),
+        };
+
+        let cloud_event =
+            cloud_event_from_request_parts(&parts).expect("valid fields should parse");
+        assert_eq!(cloud_event.id, "test-id");
+        assert_eq!(cloud_event.source, "test-source");
+        assert_eq!(cloud_event.spec_version, "1.0");
+        assert_eq!(cloud_event.event_type, "test-type");
     }
 }
 

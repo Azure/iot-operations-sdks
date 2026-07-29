@@ -1,0 +1,17 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema",
+  "title": "ListThingModelVersionsResponseSchema",
+  "description": "List of Thing Model Version XIDs matching the provided constraints.",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "_error": {
+      "description": "Error for the 'listThingModelVersions' Action.",
+      "$ref": "ThingModelExtensionError.schema.json"
+    },
+    "_output": {
+      "description": "Output for the 'listThingModelVersions' Action.",
+      "$ref": "ListThingModelVersionsOutputArguments.schema.json"
+    }
+  }
+}

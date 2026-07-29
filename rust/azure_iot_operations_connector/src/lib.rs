@@ -5,6 +5,8 @@
 
 #![warn(missing_docs)]
 
+use std::fmt::Display;
+
 use azure_iot_operations_protocol::common::hybrid_logical_clock::HybridLogicalClock;
 use azure_iot_operations_services::{
     azure_device_registry,
@@ -15,7 +17,8 @@ pub mod base_connector;
 pub mod data_processor;
 pub mod deployment_artifacts;
 pub mod destination_endpoint;
-pub mod source_endpoint;
+pub mod management_action_executor;
+pub mod readiness_probe;
 
 #[macro_use]
 extern crate derive_getters;
@@ -33,7 +36,6 @@ pub type MessageSchemaBuilderError = PutSchemaRequestBuilderError;
 
 /// Struct format for data sent to the destination
 #[derive(Debug, Clone, PartialEq)]
-/// Struct format for data sent to the [`DataTransformer`] and the destination
 pub struct Data {
     /// The payload in raw bytes
     pub payload: Vec<u8>,
@@ -57,17 +59,84 @@ pub enum DataOperationKind {
     Stream,
 }
 
+/// Represents the name of a `DataOperation`
+#[derive(Debug, Clone, PartialEq, Eq, Hash)]
+pub enum DataOperationName {
+    /// Dataset
+    Dataset {
+        /// The name of the dataset
+        name: String,
+    },
+    /// Event
+    Event {
+        /// The name of the event
+        name: String,
+        /// The name of the event's parent event group
+        event_group_name: String,
+    },
+    /// Stream
+    Stream {
+        /// The name of the stream
+        name: String,
+    },
+}
+
+impl Display for DataOperationName {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        match self {
+            DataOperationName::Dataset { name } => write!(f, "Dataset: {name}"),
+            DataOperationName::Event {
+                name,
+                event_group_name,
+            } => write!(f, "Event: {event_group_name}::{name}"),
+            DataOperationName::Stream { name } => write!(f, "Stream: {name}"),
+        }
+    }
+}
+
 /// Represents a `DataOperation` (Dataset, Event, or Stream) associated with a specific device, endpoint, and asset.
 #[derive(Debug, Clone, PartialEq, Eq, Hash)]
 pub struct DataOperationRef {
     /// The name of the `DataOperation`
-    pub data_operation_name: String,
-    /// The kind of the `DataOperation`
-    pub data_operation_kind: DataOperationKind,
+    pub data_operation_name: DataOperationName,
     /// The name of the asset
     pub asset_name: String,
     /// The name of the device
     pub device_name: String,
     /// The name of the endpoint
     pub inbound_endpoint_name: String,
+}
+
+/// Represents a `ManagementAction` associated with a specific device, endpoint, asset, and management group.
+#[derive(Debug, Clone, PartialEq, Eq, Hash)]
+pub struct ManagementActionRef {
+    /// The name of the management action
+    pub management_action_name: String,
+    /// The name of the management group
+    pub management_group_name: String,
+    /// The name of the asset
+    pub asset_name: String,
+    /// The name of the device
+    pub device_name: String,
+    /// The name of the endpoint
+    pub inbound_endpoint_name: String,
+}
+
+impl ManagementActionRef {
+    /// Gets the command name for this management action
+    pub(crate) fn command_name(&self) -> String {
+        format!(
+            "{}::{}",
+            self.management_group_name, self.management_action_name
+        )
+    }
+
+    /// Printable name for management action
+    #[must_use]
+    pub fn name(&self) -> String {
+        format!(
+            "Management Action: {}::{}",
+            self.management_group_name, self.management_action_name
+        )
+    }
 }

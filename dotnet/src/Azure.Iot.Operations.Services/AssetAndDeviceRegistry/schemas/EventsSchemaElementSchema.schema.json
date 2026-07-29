@@ -1,0 +1,21 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema",
+  "title": "EventsSchemaElementSchema",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [ "eventGroupName", "eventName", "runtimeHealth" ],
+  "properties": {
+    "eventGroupName": {
+      "description": "The name of the event group containing the event for which the runtime health is being reported.",
+      "type": "string"
+    },
+    "eventName": {
+      "description": "The name of the event for which the runtime health is being reported.",
+      "type": "string"
+    },
+    "runtimeHealth": {
+      "description": "The runtime health of the specific event.",
+      "$ref": "RuntimeHealth.schema.json"
+    }
+  }
+}

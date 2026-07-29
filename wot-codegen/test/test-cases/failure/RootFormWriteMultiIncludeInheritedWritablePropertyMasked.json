@@ -1,0 +1,19 @@
+{
+  "success": false,
+  "commandLine": {
+    "things": [
+      "invalidAioBinding/RootFormWriteMultiIncludeInheritedWritablePropertyMasked.TM.json",
+      "valid/PropertyWithUnitDataSchemaNumber.TM.json"
+    ],
+    "lang": "none"
+  },
+  "errors": [
+    {
+      "condition": "Unusable",
+      "filename": "RootFormWriteMultiIncludeInheritedWritablePropertyMasked.TM.json",
+      "line": 24,
+      "cfLine": 30,
+      "crossRef": ""
+    }
+  ]
+}

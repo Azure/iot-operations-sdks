@@ -1,0 +1,16 @@
+{
+  "success": false,
+  "commandLine": {
+    "things": [ "invalidAioBinding/ActionInputNumber.TM.json" ],
+    "lang": "none"
+  },
+  "errors": [
+    {
+      "condition": "TypeMismatch",
+      "filename": "ActionInputNumber.TM.json",
+      "line": 10,
+      "cfLine": 0,
+      "crossRef": ""
+    }
+  ]
+}

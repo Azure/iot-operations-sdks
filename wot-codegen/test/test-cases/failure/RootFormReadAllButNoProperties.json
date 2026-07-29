@@ -1,0 +1,16 @@
+{
+  "success": false,
+  "commandLine": {
+    "things": [ "invalidAioBinding/RootFormReadAllButNoProperties.TM.json" ],
+    "lang": "none"
+  },
+  "errors": [
+    {
+      "condition": "Unusable",
+      "filename": "RootFormReadAllButNoProperties.TM.json",
+      "line": 12,
+      "cfLine": 17,
+      "crossRef": ""
+    }
+  ]
+}

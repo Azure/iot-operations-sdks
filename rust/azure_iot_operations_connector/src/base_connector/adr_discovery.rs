@@ -60,7 +60,7 @@ impl Client {
                 device_name,
                 device,
                 inbound_endpoint_type,
-                self.0.default_timeout,
+                self.0.azure_device_registry_timeout,
             )
             .await
     }
@@ -106,7 +106,7 @@ impl Client {
                 inbound_endpoint_name,
                 asset_name,
                 asset,
-                self.0.default_timeout,
+                self.0.azure_device_registry_timeout,
             )
             .await
     }

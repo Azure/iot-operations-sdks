@@ -1,0 +1,16 @@
+{
+  "success": false,
+  "commandLine": {
+    "things": [ "invalidAioBinding/RootFormOpReadAllDuplicate.TM.json" ],
+    "lang": "none"
+  },
+  "errors": [
+    {
+      "condition": "Duplication",
+      "filename": "RootFormOpReadAllDuplicate.TM.json",
+      "line": 12,
+      "cfLine": 0,
+      "crossRef": ""
+    }
+  ]
+}

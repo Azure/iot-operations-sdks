@@ -1,0 +1,17 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema",
+  "title": "DatasetRuntimeHealthEventSchema",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [ "assetName", "datasets" ],
+  "properties": {
+    "assetName": {
+      "description": "The name of the asset containing the datasets for which the runtime health is being reported.",
+      "type": "string"
+    },
+    "datasets": {
+      "description": "Array of dataset runtime health information.",
+      "type": "array", "items": { "$ref": "DatasetsSchemaElementSchema.schema.json" }
+    }
+  }
+}

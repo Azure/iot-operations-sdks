@@ -221,5 +221,17 @@ namespace Azure.Iot.Operations.Connector.UnitTests
         {
             throw new NotImplementedException();
         }
+
+        public ValueTask DisposeAsync(bool disposing, CancellationToken cancellationToken)
+        {
+            // nothing to dispose
+            return ValueTask.CompletedTask;
+        }
+
+        public ValueTask DisposeAsync(CancellationToken cancellationToken)
+        {
+            // nothing to dispose
+            return ValueTask.CompletedTask;
+        }
     }
 }

@@ -1,0 +1,16 @@
+{
+  "success": false,
+  "commandLine": {
+    "things": [ "invalidAioBinding/SchemaDefinitionStringEnumContentEncoding.TM.json" ],
+    "lang": "none"
+  },
+  "errors": [
+    {
+      "condition": "PropertyUnsupported",
+      "filename": "SchemaDefinitionStringEnumContentEncoding.TM.json",
+      "line": 12,
+      "cfLine": 11,
+      "crossRef": ""
+    }
+  ]
+}

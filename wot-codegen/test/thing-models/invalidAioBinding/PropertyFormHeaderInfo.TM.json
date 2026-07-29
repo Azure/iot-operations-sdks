@@ -1,0 +1,41 @@
+{
+  "@context": [
+    "https://www.w3.org/2022/wot/td/v1.1",
+    { "dov": "http://azure.com/DigitalOperations/vocab#" }
+  ],
+  "@type": "tm:ThingModel",
+  "title": "Noop",
+  "schemaDefinitions": {
+    "Error": {
+      "type": "object",
+      "properties": {
+        "error": {
+          "type": "string"
+        }
+      }
+    }
+  },
+  "actions": {
+  },
+  "properties": {
+    "alpha": {
+      "type": "string",
+      "forms": [
+        {
+          "contentType": "application/json",
+          "dov:topic": "sample/alpha/{maintainerId}/{action}",
+          "op": "readproperty",
+          "dov:headerInfo": [
+            {
+              "success": false,
+              "contentType": "application/json",
+              "schema": "Error"
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "events": {
+  }
+}

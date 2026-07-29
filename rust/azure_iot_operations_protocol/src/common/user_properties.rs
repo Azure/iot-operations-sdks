@@ -6,17 +6,63 @@ use std::{
     str::FromStr,
 };
 
-/// Partition key used by the MQ broker for RPC operations with shared subscriptions.
-/// It is added as a user property key in the MQTT message, with the client ID as its value.
-/// Users cannot set this property on the invoker. For more details, see: [shared_subscriptions.md](https://github.com/Azure/iot-operations-sdks/blob/main/doc/reference/shared-subscriptions.md).
-pub(crate) const PARTITION_KEY: &str = "$partition";
+// NOTE: The use of these broker/protocol properties is currently rather inconsistent.
+// The current implementation does not necessarily capture the intent, do not read too much into
+// the design choices.
 
-/// Persist key used by the MQ broker to indicate disk-persistence.
-pub(crate) const PERSIST_KEY: &str = "aio-persistence";
+/// Enum representing user properties that are AIO MQ broker-owned/reserved.
+/// They correspond to broker-specific functionality and may be set by the protocols.
+/// May or may not be restricted from the end-user (case-by-case)
+pub(crate) enum BrokerReservedUserProperty {
+    /// The partition ID that the MQ broker uses to determine which subscriber in a shared subscription
+    /// receives a given message. Partition ID should correspond with an MQTT client ID.
+    /// For more details, see: [shared_subscriptions.md](https://github.com/Azure/iot-operations-sdks/blob/main/doc/reference/shared-subscriptions.md).
+    Partition,
+    /// Flag indicating high priority for the message (i.e. backpressure bypass). The broker ignores the value; presence of the key is what matters.
+    HighPriority,
+    /// Indicates that the message should be persisted to disk by the MQ broker.
+    Persist,
+}
+
+impl BrokerReservedUserProperty {
+    /// Indicates if the user property is restricted from being set by the end-user.
+    pub(crate) fn is_user_restricted(&self) -> bool {
+        #[allow(clippy::match_same_arms)]
+        match self {
+            BrokerReservedUserProperty::Partition => true,
+            BrokerReservedUserProperty::HighPriority => false,
+            BrokerReservedUserProperty::Persist => false,
+        }
+    }
+}
+
+impl Display for BrokerReservedUserProperty {
+    /// Get the string representation of the broker user property.
+    fn fmt(&self, f: &mut Formatter<'_>) -> fmt::Result {
+        match self {
+            BrokerReservedUserProperty::Partition => write!(f, "$partition"),
+            BrokerReservedUserProperty::HighPriority => write!(f, "$high_priority"),
+            BrokerReservedUserProperty::Persist => write!(f, "aio-persistence"),
+        }
+    }
+}
+
+impl FromStr for BrokerReservedUserProperty {
+    type Err = ();
+
+    fn from_str(s: &str) -> Result<Self, Self::Err> {
+        match s {
+            "$partition" => Ok(BrokerReservedUserProperty::Partition),
+            "$high_priority" => Ok(BrokerReservedUserProperty::HighPriority),
+            "aio-persistence" => Ok(BrokerReservedUserProperty::Persist),
+            _ => Err(()),
+        }
+    }
+}
 
 /// Enum representing the system properties.
 #[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]
-pub enum UserProperty {
+pub(crate) enum ProtocolReservedUserProperty {
     /// A [`HybridLogicalClock`](super::hybrid_logical_clock::HybridLogicalClock) timestamp associated with the request or response.
     Timestamp,
     /// User Property indicating an HTTP status code.
@@ -42,39 +88,39 @@ pub enum UserProperty {
     RequestProtocolVersion,
 }
 
-impl Display for UserProperty {
+impl Display for ProtocolReservedUserProperty {
     /// Get the string representation of the user property.
     fn fmt(&self, f: &mut Formatter<'_>) -> fmt::Result {
         match self {
-            UserProperty::Timestamp => write!(f, "__ts"),
-            UserProperty::Status => write!(f, "__stat"),
-            UserProperty::StatusMessage => write!(f, "__stMsg"),
-            UserProperty::IsApplicationError => write!(f, "__apErr"),
-            UserProperty::SourceId => write!(f, "__srcId"),
-            UserProperty::InvalidPropertyName => write!(f, "__propName"),
-            UserProperty::InvalidPropertyValue => write!(f, "__propVal"),
-            UserProperty::ProtocolVersion => write!(f, "__protVer"),
-            UserProperty::SupportedMajorVersions => write!(f, "__supProtMajVer"),
-            UserProperty::RequestProtocolVersion => write!(f, "__requestProtVer"),
+            ProtocolReservedUserProperty::Timestamp => write!(f, "__ts"),
+            ProtocolReservedUserProperty::Status => write!(f, "__stat"),
+            ProtocolReservedUserProperty::StatusMessage => write!(f, "__stMsg"),
+            ProtocolReservedUserProperty::IsApplicationError => write!(f, "__apErr"),
+            ProtocolReservedUserProperty::SourceId => write!(f, "__srcId"),
+            ProtocolReservedUserProperty::InvalidPropertyName => write!(f, "__propName"),
+            ProtocolReservedUserProperty::InvalidPropertyValue => write!(f, "__propVal"),
+            ProtocolReservedUserProperty::ProtocolVersion => write!(f, "__protVer"),
+            ProtocolReservedUserProperty::SupportedMajorVersions => write!(f, "__supProtMajVer"),
+            ProtocolReservedUserProperty::RequestProtocolVersion => write!(f, "__requestProtVer"),
         }
     }
 }
 
-impl FromStr for UserProperty {
+impl FromStr for ProtocolReservedUserProperty {
     type Err = ();
 
     fn from_str(s: &str) -> Result<Self, Self::Err> {
         match s {
-            "__ts" => Ok(UserProperty::Timestamp),
-            "__stat" => Ok(UserProperty::Status),
-            "__stMsg" => Ok(UserProperty::StatusMessage),
-            "__apErr" => Ok(UserProperty::IsApplicationError),
-            "__srcId" => Ok(UserProperty::SourceId),
-            "__propName" => Ok(UserProperty::InvalidPropertyName),
-            "__propVal" => Ok(UserProperty::InvalidPropertyValue),
-            "__protVer" => Ok(UserProperty::ProtocolVersion),
-            "__supProtMajVer" => Ok(UserProperty::SupportedMajorVersions),
-            "__requestProtVer" => Ok(UserProperty::RequestProtocolVersion),
+            "__ts" => Ok(ProtocolReservedUserProperty::Timestamp),
+            "__stat" => Ok(ProtocolReservedUserProperty::Status),
+            "__stMsg" => Ok(ProtocolReservedUserProperty::StatusMessage),
+            "__apErr" => Ok(ProtocolReservedUserProperty::IsApplicationError),
+            "__srcId" => Ok(ProtocolReservedUserProperty::SourceId),
+            "__propName" => Ok(ProtocolReservedUserProperty::InvalidPropertyName),
+            "__propVal" => Ok(ProtocolReservedUserProperty::InvalidPropertyValue),
+            "__protVer" => Ok(ProtocolReservedUserProperty::ProtocolVersion),
+            "__supProtMajVer" => Ok(ProtocolReservedUserProperty::SupportedMajorVersions),
+            "__requestProtVer" => Ok(ProtocolReservedUserProperty::RequestProtocolVersion),
             _ => Err(()),
         }
     }
@@ -84,7 +130,7 @@ impl FromStr for UserProperty {
 ///
 /// # Errors
 /// Returns a `String` describing the error if any of `property_list`'s keys are invalid utf-8
-/// or are the reserved key [`PARTITION_KEY`].
+/// or are a user-restricted broker reserved property.
 pub(crate) fn validate_invoker_user_properties(
     property_list: &[(String, String)],
 ) -> Result<(), String> {
@@ -94,8 +140,12 @@ pub(crate) fn validate_invoker_user_properties(
                 "Invalid user data key '{key}' or value '{value}' isn't valid utf-8"
             ));
         }
-        if key == PARTITION_KEY {
-            return Err(format!("User data key '{PARTITION_KEY}'"));
+        if let Ok(broker_prop) = BrokerReservedUserProperty::from_str(key) {
+            if broker_prop.is_user_restricted() {
+                return Err(format!(
+                    "User data key '{key}' is a restricted broker property"
+                ));
+            }
         }
     }
     Ok(())
@@ -123,20 +173,23 @@ mod tests {
     use test_case::test_case;
 
     use super::*;
-    use crate::common::user_properties::UserProperty;
+    use crate::common::user_properties::ProtocolReservedUserProperty;
 
-    #[test_case(UserProperty::Timestamp; "timestamp")]
-    #[test_case(UserProperty::Status; "status")]
-    #[test_case(UserProperty::StatusMessage; "status_message")]
-    #[test_case(UserProperty::IsApplicationError; "is_application_error")]
-    #[test_case(UserProperty::SourceId; "source_id")]
-    #[test_case(UserProperty::InvalidPropertyName; "invalid_property_name")]
-    #[test_case(UserProperty::InvalidPropertyValue; "invalid_property_value")]
-    #[test_case(UserProperty::ProtocolVersion; "protocol_version")]
-    #[test_case(UserProperty::SupportedMajorVersions; "supported_major_versions")]
-    #[test_case(UserProperty::RequestProtocolVersion; "request_protocol_version")]
-    fn test_to_from_string(prop: UserProperty) {
-        assert_eq!(prop, UserProperty::from_str(&prop.to_string()).unwrap());
+    #[test_case(ProtocolReservedUserProperty::Timestamp; "timestamp")]
+    #[test_case(ProtocolReservedUserProperty::Status; "status")]
+    #[test_case(ProtocolReservedUserProperty::StatusMessage; "status_message")]
+    #[test_case(ProtocolReservedUserProperty::IsApplicationError; "is_application_error")]
+    #[test_case(ProtocolReservedUserProperty::SourceId; "source_id")]
+    #[test_case(ProtocolReservedUserProperty::InvalidPropertyName; "invalid_property_name")]
+    #[test_case(ProtocolReservedUserProperty::InvalidPropertyValue; "invalid_property_value")]
+    #[test_case(ProtocolReservedUserProperty::ProtocolVersion; "protocol_version")]
+    #[test_case(ProtocolReservedUserProperty::SupportedMajorVersions; "supported_major_versions")]
+    #[test_case(ProtocolReservedUserProperty::RequestProtocolVersion; "request_protocol_version")]
+    fn test_to_from_string(prop: ProtocolReservedUserProperty) {
+        assert_eq!(
+            prop,
+            ProtocolReservedUserProperty::from_str(&prop.to_string()).unwrap()
+        );
     }
 
     /// Tests failure: Custom user data key is malformed utf-8 and an error is returned
@@ -158,9 +211,32 @@ mod tests {
     }
 
     #[test]
-    fn test_partition_key_user_property() {
-        let partition_key_user_properties = vec![(PARTITION_KEY.to_string(), "abcdef".to_string())];
-        assert!(validate_user_properties(&partition_key_user_properties).is_ok());
-        assert!(validate_invoker_user_properties(&partition_key_user_properties).is_err());
+    fn test_restricted_broker_property_rejected_by_invoker_validation() {
+        let props = vec![(
+            BrokerReservedUserProperty::Partition.to_string(),
+            "abcdef".to_string(),
+        )];
+        assert!(validate_user_properties(&props).is_ok());
+        assert!(validate_invoker_user_properties(&props).is_err());
+    }
+
+    #[test]
+    fn test_unrestricted_broker_property_allowed_by_invoker_validation() {
+        let props = vec![(
+            BrokerReservedUserProperty::HighPriority.to_string(),
+            String::new(),
+        )];
+        assert!(validate_user_properties(&props).is_ok());
+        assert!(validate_invoker_user_properties(&props).is_ok());
+    }
+
+    #[test]
+    fn test_persist_broker_property_allowed_by_invoker_validation() {
+        let props = vec![(
+            BrokerReservedUserProperty::Persist.to_string(),
+            "true".to_string(),
+        )];
+        assert!(validate_user_properties(&props).is_ok());
+        assert!(validate_invoker_user_properties(&props).is_ok());
     }
 }

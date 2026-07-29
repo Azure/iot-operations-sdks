@@ -39,7 +39,7 @@ public class LeaderElectionClientIntegrationTests
         Assert.NotNull(getCurrentLeaderResponse.CurrentLeader);
         Assert.Equal(candidateName, getCurrentLeaderResponse.CurrentLeader.GetString());
 
-        StateStoreSetResponse setResponse = await stateStoreClient.SetAsync(
+        IStateStoreSetResponse setResponse = await stateStoreClient.SetAsync(
             sharedResourceName,
             Guid.NewGuid().ToString(),
             new StateStoreSetRequestOptions()
@@ -57,6 +57,9 @@ public class LeaderElectionClientIntegrationTests
         // Since this client was the leader and just resigned, and no other process is aware of this lock,
         // there should be no current leader.
         Assert.Null(getCurrentLeaderResponse.CurrentLeader);
+
+        await stateStoreClient.StopAsync();
+        await leaderElectionClient.StopAsync();
     }
 
     [Fact]
@@ -86,10 +89,13 @@ public class LeaderElectionClientIntegrationTests
                 return initialValue;
             });
 
-        StateStoreGetResponse getResponse = await stateStoreClient.GetAsync(sharedResourceName);
+        IStateStoreGetResponse getResponse = await stateStoreClient.GetAsync(sharedResourceName);
 
         Assert.NotNull(getResponse.Value);
         Assert.Equal(updatedValue, getResponse.Value);
+
+        await stateStoreClient.StopAsync();
+        await leaderElectionClient.StopAsync();
     }
 
     [Fact]
@@ -111,7 +117,7 @@ public class LeaderElectionClientIntegrationTests
 
         Assert.True(campaignResponse.IsLeader);
 
-        StateStoreSetResponse setResponse = await stateStoreClient.SetAsync(
+        IStateStoreSetResponse setResponse = await stateStoreClient.SetAsync(
             sharedResourceName,
             Guid.NewGuid().ToString(),
             new StateStoreSetRequestOptions()
@@ -127,6 +133,9 @@ public class LeaderElectionClientIntegrationTests
         };
 
         Assert.True((await leaderElectionClient.ResignAsync(resignationRequestOptions)).Success);
+
+        await stateStoreClient.StopAsync();
+        await leaderElectionClient.StopAsync();
     }
 
     [Fact]
@@ -159,7 +168,7 @@ public class LeaderElectionClientIntegrationTests
         Assert.NotEqual(firstFencingToken, secondFencingToken);
         Assert.True(secondFencingToken.CompareTo(firstFencingToken) > 0);
 
-        StateStoreSetResponse setResponse = await stateStoreClient.SetAsync(
+        IStateStoreSetResponse setResponse = await stateStoreClient.SetAsync(
             sharedResourceName,
             Guid.NewGuid().ToString(),
             new StateStoreSetRequestOptions()
@@ -168,6 +177,9 @@ public class LeaderElectionClientIntegrationTests
             });
 
         Assert.True(setResponse.Success);
+
+        await stateStoreClient.StopAsync();
+        await leaderElectionClient.StopAsync();
     }
 
     [Fact]
@@ -195,7 +207,7 @@ public class LeaderElectionClientIntegrationTests
         Assert.NotNull(leaderElectionClient.LastKnownCampaignResult.FencingToken);
         HybridLogicalClock firstFencingToken = leaderElectionClient.LastKnownCampaignResult.FencingToken;
 
-        StateStoreSetResponse setResponse = await stateStoreClient.SetAsync(
+        IStateStoreSetResponse setResponse = await stateStoreClient.SetAsync(
             sharedResourceName,
             Guid.NewGuid().ToString(),
             new StateStoreSetRequestOptions()
@@ -245,6 +257,9 @@ public class LeaderElectionClientIntegrationTests
 
         // The most recent fencing token should be equal to the final fencing token saved before disabling auto-renewal
         Assert.Equal(0, automaticallyRenewedFencingToken.CompareTo(leaderElectionClient.LastKnownCampaignResult.FencingToken));
+
+        await stateStoreClient.StopAsync();
+        await leaderElectionClient.StopAsync();
     }
 
     [Fact]
@@ -322,6 +337,8 @@ public class LeaderElectionClientIntegrationTests
 
         // The callback should no longer execute since this client unobserved the leadership position
         Assert.False(onCallbackExecuted.Task.IsCompleted);
+
+        await leaderElectionClient.StopAsync();
     }
 
     [Fact]
@@ -384,6 +401,8 @@ public class LeaderElectionClientIntegrationTests
         {
             // Expected result since the callback should not execute after unobserving the leadership position.
         }
+
+        await leaderElectionClient.StopAsync();
     }
 
     [Fact]
@@ -408,6 +427,9 @@ public class LeaderElectionClientIntegrationTests
             await leaderElectionClient2.CampaignAsync(TimeSpan.FromSeconds(1), cancellationToken: new CancellationTokenSource(TimeSpan.FromMinutes(1)).Token);
 
         Assert.True(response2.IsLeader);
+
+        await leaderElectionClient1.StopAsync();
+        await leaderElectionClient2.StopAsync();
     }
 
     [Fact]
@@ -440,10 +462,14 @@ public class LeaderElectionClientIntegrationTests
                 return updatedValue;
             });
 
-        StateStoreGetResponse getResponse = await stateStoreClient.GetAsync(sharedResourceName);
+        IStateStoreGetResponse getResponse = await stateStoreClient.GetAsync(sharedResourceName);
 
         Assert.NotNull(getResponse.Value);
         Assert.Equal(updatedValue, getResponse.Value);
+
+        await stateStoreClient.StopAsync();
+        await leaderElectionClient1.StopAsync();
+        await leaderElectionClient2.StopAsync();
     }
 
     [Fact]
@@ -484,12 +510,16 @@ public class LeaderElectionClientIntegrationTests
                 },
                 cancellationToken: cts.Token));
 
-        StateStoreGetResponse getResponse = await stateStoreClient.GetAsync(sharedResourceName);
+        IStateStoreGetResponse getResponse = await stateStoreClient.GetAsync(sharedResourceName);
 
         // Because the call to CampaignAndUpdateValueAsync was never elected leader, the value
         // of the shared resource should still be equal to the initial value.
         Assert.NotNull(getResponse.Value);
         Assert.Equal(sharedResourceInitialValue, getResponse.Value);
+
+        await stateStoreClient.StopAsync();
+        await leaderElectionClient1.StopAsync();
+        await leaderElectionClient2.StopAsync();
     }
 
     [Fact]
@@ -547,6 +577,9 @@ public class LeaderElectionClientIntegrationTests
         {
             await Task.Delay(TimeSpan.FromSeconds(1));
         }
+
+        await leaderElectionClient1.StopAsync();
+        await leaderElectionClient2.StopAsync();
     }
 }
 

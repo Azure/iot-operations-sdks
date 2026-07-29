@@ -1,0 +1,29 @@
+{
+  "@context": [
+    "https://www.w3.org/2022/wot/td/v1.1",
+    { "dov": "http://azure.com/DigitalOperations/vocab#" }
+  ],
+  "@type": "tm:ThingModel",
+  "title": "Noop",
+  "schemaDefinitions": {
+    "Condition": {
+      "type": "string"
+    }
+  },
+  "actions": {
+    "noop": {
+      "forms": [
+        {
+          "contentType": "application/json",
+          "dov:topic": "sample/noop/{executorId}",
+          "op": "invokeaction",
+          "dov:headerCode": "Condition"
+        }
+      ]
+    }
+  },
+  "properties": {
+  },
+  "events": {
+  }
+}

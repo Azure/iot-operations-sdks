@@ -110,7 +110,7 @@ func (l *Lease[K, V]) Acquire(ctx context.Context, duration time.Duration, opt .
 Acquire performs a single attempt to acquire the lease, returning whether it was successful. If the lease was already held by another client, this will return false with no error.
 
 <a name="Lease[K, V].Holder"></a>
-### func \(\*Lease\[K, V\]\) [Holder](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/leasedlock/lease.go#L214-L217>)
+### func \(\*Lease\[K, V\]\) [Holder](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/leasedlock/lease.go#L215-L218>)
 
 ```go
 func (l *Lease[K, V]) Holder(ctx context.Context, opt ...Option) (string, bool, error)
@@ -119,7 +119,7 @@ func (l *Lease[K, V]) Holder(ctx context.Context, opt ...Option) (string, bool, 
 Holder gets the current holder of the lease and an indicator of whether the lease is currently held.
 
 <a name="Lease[K, V].Observe"></a>
-### func \(\*Lease\[K, V\]\) [Observe](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/leasedlock/lease.go#L252>)
+### func \(\*Lease\[K, V\]\) [Observe](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/leasedlock/lease.go#L253>)
 
 ```go
 func (l *Lease[K, V]) Observe() (<-chan Change, func())
@@ -128,7 +128,7 @@ func (l *Lease[K, V]) Observe() (<-chan Change, func())
 Observe requests a lease holder change notification channel for this lease. It returns the channel and a function to remove and close that channel. Note that ObserveStart must be called to actually start observing \(though changes may be received on this channel if ObserveStart had already been called previously\).
 
 <a name="Lease[K, V].ObserveStart"></a>
-### func \(\*Lease\[K, V\]\) [ObserveStart](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/leasedlock/lease.go#L230>)
+### func \(\*Lease\[K, V\]\) [ObserveStart](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/leasedlock/lease.go#L231>)
 
 ```go
 func (l *Lease[K, V]) ObserveStart(ctx context.Context, opt ...Option) error
@@ -137,7 +137,7 @@ func (l *Lease[K, V]) ObserveStart(ctx context.Context, opt ...Option) error
 ObserveStart initializes observation of lease holder changes. It should be paired with a call to ObserveStop.
 
 <a name="Lease[K, V].ObserveStop"></a>
-### func \(\*Lease\[K, V\]\) [ObserveStop](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/leasedlock/lease.go#L240>)
+### func \(\*Lease\[K, V\]\) [ObserveStop](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/leasedlock/lease.go#L241>)
 
 ```go
 func (l *Lease[K, V]) ObserveStop(ctx context.Context, opt ...Option) error
@@ -146,7 +146,7 @@ func (l *Lease[K, V]) ObserveStop(ctx context.Context, opt ...Option) error
 ObserveStop terminates observation of lease holder changes. It should only be called once per successfull call to ObserveStart \(but may be retried in case of failure\).
 
 <a name="Lease[K, V].Release"></a>
-### func \(\*Lease\[K, V\]\) [Release](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/leasedlock/lease.go#L181-L184>)
+### func \(\*Lease\[K, V\]\) [Release](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/leasedlock/lease.go#L182-L185>)
 
 ```go
 func (l *Lease[K, V]) Release(ctx context.Context, opt ...Option) error

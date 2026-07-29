@@ -1,4 +1,21 @@
-# Instructions to deploy sample Rust connector
+# Azure IoT Operations - Connector
+Framework for building Azure IoT Operations connectors that handle device discovery, asset definitions, and data transformation.
+
+[Examples](examples) |
+[Release Notes](https://github.com/Azure/iot-operations-sdks/releases?q=rust%2Fconnector&expanded=true)
+
+## Overview
+
+The Azure IoT Operations Connector framework provides:
+
+- **Base Connector**: Handles device endpoint and asset lifecycle management from Azure Device Registry
+- **ADR Discovery**: Provides functionality to discover and manage discovered device and asset definitions
+- **Data Operations**: Supports datasets, events, and streams
+- **Status Reporting**: Reports device, endpoint, and asset status back to Azure Device Registry
+
+Build connectors that seamlessly integrate with Azure IoT Operations to transform and forward data from edge devices.
+
+## Instructions to deploy sample Rust connector
 
 ### The sample Rust connector that retrieves ADR definitions is currently under the `examples` folder of this crate.
 
@@ -64,5 +81,6 @@ Any AIO Protocol Error is considered a "network error" and retriable. This may n
 If Connector Artifacts contain invalid or incorrect values, setup of the BaseConnector will return an error indicating the reason.
 
 ### Fatal
-- Creating a new file mount DeviceEndpointCreateObservation is fatal if there's an error. There's no way to recover from this other than restarting the connector. It causes a panic (TODO: we could propogate to the application?)
+- Creating a new file mount DeviceEndpointCreateObservation returns an error if it fails. The error is propagated to `BaseConnector::run()` as an unrecoverable `ConnectorError`. The connector application should handle this by restarting the connector pod.
+- If a credential mount path is missing when the authentication mode requires it (e.g., during a Kubernetes authentication mode transition), the error is propagated to `BaseConnector::run()` as an unrecoverable `ConnectorError`. The connector application should handle this by restarting the connector pod.
 - There are other .expect()s/.unwrap()s in our code that technically can trigger a panic, but they should not be possible, so will not be defined here.

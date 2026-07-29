@@ -1,14 +1,25 @@
 #!/bin/sh
-../../codegen/src/Azure.Iot.Operations.ProtocolCompiler/bin/Debug/net9.0/Azure.Iot.Operations.ProtocolCompiler \
- --clientOnly --modelFile ../../eng/dtdl/SchemaRegistry-1.json --sdkPath ../ --lang=rust --noProj \
- --outDir src/schema_registry/schemaregistry_gen
+set -e
+rm -rf ./src/schema_registry/schemaregistry_gen
+dotnet run --project ../../wot-codegen/src/Azure.Iot.Operations.ProtocolCompiler/ \
+ --clientThings ../../eng/wot/schemaregistry/SchemaRegistry.TM.json --outDir src/schema_registry/schemaregistry_gen --lang rust \
+ --namespace schema_registry --workingDir target/akri/SchemaRegistry --sdkPath ../ --noProj
 
-../../codegen/src/Azure.Iot.Operations.ProtocolCompiler/bin/Debug/net9.0/Azure.Iot.Operations.ProtocolCompiler \
- --clientOnly --modelFile ../../eng/dtdl/adr-base-service.json --sdkPath ../ --lang=rust --noProj \
- --outDir src/azure_device_registry/adr_base_gen
+rm -rf ./src/azure_device_registry/adr_base_gen
+dotnet run --project ../../wot-codegen/src/Azure.Iot.Operations.ProtocolCompiler/ \
+ --clientThings ../../eng/wot/adr-base-service/AdrBaseServiceClientSide.TM.json --serverThings ../../eng/wot/adr-base-service/AdrBaseServiceServerSide.TM.json --outDir src/azure_device_registry/adr_base_gen --lang rust \
+ --namespace adr_base_service --workingDir target/akri/AdrBaseService --sdkPath ../ --noProj
 
-../../codegen/src/Azure.Iot.Operations.ProtocolCompiler/bin/Debug/net9.0/Azure.Iot.Operations.ProtocolCompiler \
- --clientOnly --modelFile ../../eng/dtdl/device-discovery-service.json --sdkPath ../ --lang=rust --noProj \
- --outDir src/azure_device_registry/device_discovery_gen
+rm -rf ./src/azure_device_registry/device_discovery_gen
+dotnet run --project ../../wot-codegen/src/Azure.Iot.Operations.ProtocolCompiler/ \
+ --clientThings ../../eng/wot/device-discovery-service/DeviceDiscoveryService.TM.json --outDir src/azure_device_registry/device_discovery_gen --lang rust \
+ --namespace device_discovery_service --workingDir target/akri/DeviceDiscoveryService --sdkPath ../ --noProj
+
+rm -rf ./src/edge_registry/edge_registry_gen
+dotnet run --project ../../wot-codegen/src/Azure.Iot.Operations.ProtocolCompiler/ \
+ --clientThings ../../eng/wot/edge-registry/EdgeRegistry.TM.json ../../eng/wot/edge-registry/SchemaExtensions.TM.json ../../eng/wot/edge-registry/ThingDescriptionExtensions.TM.json ../../eng/wot/edge-registry/ThingModelExtensions.TM.json \
+ --schemas '../../eng/wot/edge-registry/core-xregistry/*.schema.json' '../../eng/wot/edge-registry/schema-extension/*.schema.json' '../../eng/wot/edge-registry/thing-description-extension/*.schema.json' '../../eng/wot/edge-registry/thing-model-extension/*.schema.json' \
+ --outDir src/edge_registry/edge_registry_gen --lang rust \
+ --namespace edge_registry --workingDir target/akri/EdgeRegistry --sdkPath ../ --noProj
 
 cargo fmt

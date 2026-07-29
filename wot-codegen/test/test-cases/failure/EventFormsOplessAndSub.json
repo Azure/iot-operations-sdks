@@ -1,0 +1,16 @@
+{
+  "success": false,
+  "commandLine": {
+    "things": [ "invalidAioBinding/EventFormsOplessAndSub.TM.json" ],
+    "lang": "none"
+  },
+  "errors": [
+    {
+      "condition": "ValuesInconsistent",
+      "filename": "EventFormsOplessAndSub.TM.json",
+      "line": 23,
+      "cfLine": 17,
+      "crossRef": ""
+    }
+  ]
+}

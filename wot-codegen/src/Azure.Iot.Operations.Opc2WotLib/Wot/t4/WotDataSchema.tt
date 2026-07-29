@@ -1,0 +1,5 @@
+<#@ template language="C#" linePragmas="false" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ import namespace="System.Linq" #>
+<# // Copyright (c) Microsoft Corporation. #>
+<# // Licensed under the MIT License #>

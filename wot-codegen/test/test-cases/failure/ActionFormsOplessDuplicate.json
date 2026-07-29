@@ -1,0 +1,16 @@
+{
+  "success": false,
+  "commandLine": {
+    "things": [ "invalidAioBinding/ActionFormsOplessDuplicate.TM.json" ],
+    "lang": "none"
+  },
+  "errors": [
+    {
+      "condition": "ValuesInconsistent",
+      "filename": "ActionFormsOplessDuplicate.TM.json",
+      "line": 11,
+      "cfLine": 10,
+      "crossRef": ""
+    }
+  ]
+}

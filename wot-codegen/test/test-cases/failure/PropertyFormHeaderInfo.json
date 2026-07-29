@@ -1,0 +1,16 @@
+{
+  "success": false,
+  "commandLine": {
+    "things": [ "invalidAioBinding/PropertyFormHeaderInfo.TM.json" ],
+    "lang": "none"
+  },
+  "errors": [
+    {
+      "condition": "PropertyUnsupported",
+      "filename": "PropertyFormHeaderInfo.TM.json",
+      "line": 28,
+      "cfLine": 0,
+      "crossRef": ""
+    }
+  ]
+}

@@ -1,0 +1,48 @@
+{
+  "@context": [
+    "https://www.w3.org/2022/wot/td/v1.1",
+    {
+      "qudt": "http://qudt.org/schema/qudt/",
+      "dov": "http://azure.com/DigitalOperations/vocab#"
+    }
+  ],
+  "@type": "tm:ThingModel",
+  "title": "Noop",
+  "actions": {
+  },
+  "properties": {
+    "beta": {
+      "type": "string",
+      "forms": [
+        {
+          "contentType": "application/json",
+          "dov:topic": "sample/beta/{maintainerId}",
+          "op": "readproperty"
+        }
+      ]
+    }
+  },
+  "events": {
+    "alpha": {
+      "data": {
+        "type": "object",
+        "properties": {
+          "foo": {
+            "type": "number"
+          },
+          "bar": {
+            "type": "integer"
+          }
+        }
+      },
+      "dov:withUnit": "properties/beta",
+      "forms": [
+        {
+          "contentType": "application/json",
+          "dov:topic": "sample/alpha/{senderId}",
+          "op": "subscribeevent"
+        }
+      ]
+    }
+  }
+}

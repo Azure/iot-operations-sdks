@@ -1,0 +1,119 @@
+<#@ template language="C#" linePragmas="false" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ import namespace="System.Linq" #>
+<# // Copyright (c) Microsoft Corporation. #>
+<# // Licensed under the MIT License #>
+{
+  "@context": [
+    "https://www.w3.org/2022/wot/td/v1.1",
+    {
+<# if (this.areUnitsInUse) { #>
+      "qudt": "http://qudt.org/schema/qudt/",
+<# } #>
+      "dov": "http://azure.com/DigitalOperations/vocab#"
+    }
+  ],
+  "@type": "tm:ThingModel",
+  "title": "<#=this.thingName#>",
+  "dov:typeRef": "<#=this.typeRef#>",
+<# if (this.isEvent) { #>
+  "dov:isEvent": true,
+<# } #>
+<# if (this.isComposite) { #>
+  "dov:isComposite": true,
+<# } #>
+  "links": [
+<# int ix1 = 1; foreach (string baseModelRef in this.baseModelRefs) { #>
+    {
+      "rel": "tm:extends",
+      "href": "<#=baseModelRef#>",
+      "type": "application/tm+json"
+    }<#=ix1 < this.baseModelRefs.Count + this.linkInfos.Count ? "," : ""#>
+<# ix1++; } #>
+<# foreach (LinkInfo linkInfo in this.linkInfos) { #>
+    {
+      "rel": "<#=linkInfo.Rel#>",
+      "dov:refName": "<#=linkInfo.RefName#>",
+<# if (linkInfo.RefType != null) { #>
+      "dov:refType": "<#=linkInfo.RefType#>",
+<# } #>
+      "href": "<#=linkInfo.Href#>",
+      "type": "application/tm+json"
+    }<#=ix1 < this.baseModelRefs.Count + this.linkInfos.Count ? "," : ""#>
+<# ix1++; } #>
+  ],
+  "schemaDefinitions": {
+<# ix1 = 1; foreach (KeyValuePair<string, WotDataSchema> schemaDefinition in this.schemaDefinitions) { #>
+    "<#=schemaDefinition.Key#>": {
+<# this.PushIndent("      "); #>
+<#=schemaDefinition.Value.TransformText()#>
+<# this.PopIndent(); #>
+    }<#=ix1 < this.schemaDefinitions.Count ? "," : ""#>
+<# ix1++; } #>
+  },
+<# if (this.properties.Any() || this.events.Any()) { #>
+  "forms": [
+<# if (this.events.Any()) { #>
+    {
+      "contentType": "application/json",
+      "dov:topic": "opcua/<#=this.specName#>/<#=this.thingName#>/events/{senderId}",
+<# if (this.inheritVars && this.baseModelRefs.Any()) { #>
+      "dov:includeInherited": true,
+<# } #>
+      "op": "subscribeallevents"
+    }<#=this.properties.Any() ? "," : ""#>
+<# } #>
+<# if (this.properties.Any()) { #>
+<# if (this.properties.Any(p => !p.ReadOnly)) { #>
+    {
+      "contentType": "application/json",
+      "dov:topic": "opcua/<#=this.specName#>/<#=this.thingName#>/properties/write",
+<# if (this.inheritVars && this.baseModelRefs.Any()) { #>
+      "dov:includeInherited": true,
+<# } #>
+      "op": "writemultipleproperties"
+    },
+<# } #>
+    {
+      "contentType": "application/json",
+      "dov:topic": "opcua/<#=this.specName#>/<#=this.thingName#>/properties/read",
+<# if (this.inheritVars && this.baseModelRefs.Any()) { #>
+      "dov:includeInherited": true,
+<# } #>
+      "op": "readallproperties"
+    }
+<# } #>
+  ],
+<# } #>
+<# if (this.optionalActionNames.Any() || this.optionalPropertyNames.Any() || this.optionalEventNames.Any()) { #>
+  "tm:optional": [
+<# ix1 = 1; foreach (string actionName in this.optionalActionNames) { #>
+    "/actions/<#=actionName#>"<#=ix1 < this.optionalActionNames.Count + this.optionalPropertyNames.Count + this.optionalEventNames.Count ? "," : ""#>
+<# ix1++; } #>
+<# foreach (string propertyName in this.optionalPropertyNames) { #>
+    "/properties/<#=propertyName#>"<#=ix1 < this.optionalActionNames.Count + this.optionalPropertyNames.Count + this.optionalEventNames.Count ? "," : ""#>
+<# ix1++; } #>
+<# foreach (string eventName in this.optionalEventNames) { #>
+    "/events/<#=eventName#>"<#=ix1 < this.optionalActionNames.Count + this.optionalPropertyNames.Count + this.optionalEventNames.Count ? "," : ""#>
+<# ix1++; } #>
+  ],
+<# } #>
+  "actions": {
+<# this.PushIndent("    "); #>
+<# ix1 = 1; foreach (WotAction action in this.actions) { #>
+<#=action.TransformText()#><#=ix1 < this.actions.Count ? "," : ""#>
+<# ix1++; } this.PopIndent(); #>
+  },
+  "properties": {
+<# this.PushIndent("    "); #>
+<# ix1 = 1; foreach (WotProperty property in this.properties) { #>
+<#=property.TransformText()#><#=ix1 < this.properties.Count ? "," : ""#>
+<# ix1++; } this.PopIndent(); #>
+  },
+  "events": {
+<# this.PushIndent("    "); #>
+<# ix1 = 1; foreach (WotEvent evt in this.events) { #>
+<#=evt.TransformText()#><#=ix1 < this.events.Count ? "," : ""#>
+<# ix1++; } this.PopIndent(); #>
+  }
+}

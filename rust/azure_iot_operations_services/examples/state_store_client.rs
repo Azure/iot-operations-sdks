@@ -3,10 +3,8 @@
 
 use std::time::Duration;
 
-use azure_iot_operations_mqtt::MqttConnectionSettingsBuilder;
-use azure_iot_operations_mqtt::session::{
-    Session, SessionExitHandle, SessionManagedClient, SessionOptionsBuilder,
-};
+use azure_iot_operations_mqtt::aio::connection_settings::MqttConnectionSettingsBuilder;
+use azure_iot_operations_mqtt::session::{Session, SessionExitHandle, SessionOptionsBuilder};
 use azure_iot_operations_protocol::application::ApplicationContextBuilder;
 use azure_iot_operations_services::state_store::{self, SetOptions};
 use env_logger::Builder;
@@ -16,7 +14,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     Builder::new()
         .filter_level(log::LevelFilter::max())
         .format_timestamp(None)
-        .filter_module("rumqttc", log::LevelFilter::Warn)
+        .filter_module("azure_mqtt", log::LevelFilter::Warn)
         .init();
 
     // Create a Session and exit handle
@@ -34,7 +32,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     let state_store_client = state_store::Client::new(
         application_context,
         session.create_managed_client(),
-        session.create_connection_monitor(),
+        session.create_session_monitor(),
         state_store::ClientOptionsBuilder::default().build()?,
     )?;
 
@@ -42,7 +40,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     let results = tokio::join! {
         async {
             state_store_operations(state_store_client).await;
-            exit(exit_handle).await;
+            exit(&exit_handle);
         },
         session.run(),
     };
@@ -50,7 +48,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     Ok(())
 }
 
-async fn state_store_operations(client: state_store::Client<SessionManagedClient>) {
+async fn state_store_operations(client: state_store::Client) {
     let state_store_key = b"someKey";
     let state_store_value = b"someValue";
     let timeout = Duration::from_secs(10);
@@ -110,14 +108,14 @@ async fn state_store_operations(client: state_store::Client<SessionManagedClient
 }
 
 // Exit the Session
-async fn exit(exit_handle: SessionExitHandle) {
+fn exit(exit_handle: &SessionExitHandle) {
     log::info!("Exiting session");
-    match exit_handle.try_exit().await {
+    match exit_handle.try_exit() {
         Ok(()) => log::info!("Session exited gracefully"),
         Err(e) => {
             log::error!("Graceful session exit failed: {e}");
             log::warn!("Forcing session exit");
-            exit_handle.exit_force().await;
+            exit_handle.force_exit();
         }
     }
 }

@@ -1,0 +1,38 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema",
+  "title": "PutRequestSchema",
+  "description": "PUT Schema request object",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [ "format", "schemaType", "schemaContent", "version" ],
+  "properties": {
+    "description": {
+      "description": "Human-readable description of the schema.",
+      "type": "string"
+    },
+    "displayName": {
+      "description": "Human-readable display name.",
+      "type": "string"
+    },
+    "format": {
+      "description": "Format of the schema.",
+      "type": "string"
+    },
+    "schemaContent": {
+      "description": "Content stored in the schema.",
+      "type": "string"
+    },
+    "schemaType": {
+      "description": "Type of the schema.",
+      "$ref": "SchemaType.schema.json"
+    },
+    "tags": {
+      "description": "Schema tags.",
+      "type": "object", "additionalProperties": { "type": "string" }
+    },
+    "version": {
+      "description": "Version of the schema. Allowed between 0-9.",
+      "type": "string"
+    }
+  }
+}

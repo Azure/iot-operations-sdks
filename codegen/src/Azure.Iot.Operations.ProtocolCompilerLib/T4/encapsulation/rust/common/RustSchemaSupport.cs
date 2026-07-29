@@ -9,7 +9,7 @@ namespace Azure.Iot.Operations.ProtocolCompilerLib
             string innerType = schemaType switch
             {
                 ArrayType arrayType => $"Vec<{GetType(arrayType.ElementSchema, false, true)}>",
-                MapType mapType => $"HashMap<String, {GetType(mapType.ValueSchema, false, true)}>",
+                MapType mapType => $"HashMap<String, {GetType(mapType.ValueSchema, false, !mapType.NullValues)}>",
                 ObjectType objectType => objectType.SchemaName.GetTypeName(TargetLanguage.Rust),
                 EnumType enumType => enumType.SchemaName.GetTypeName(TargetLanguage.Rust),
                 BooleanType _ => "bool",

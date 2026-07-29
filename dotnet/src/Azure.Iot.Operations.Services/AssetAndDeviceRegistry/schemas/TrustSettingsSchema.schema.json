@@ -1,0 +1,13 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema",
+  "title": "TrustSettingsSchema",
+  "description": "Defines server trust settings for the endpoint.",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "trustList": {
+      "description": "Secret reference to certificates list to trust.",
+      "type": "string"
+    }
+  }
+}

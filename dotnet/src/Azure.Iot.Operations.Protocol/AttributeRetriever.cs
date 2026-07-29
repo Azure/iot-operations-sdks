@@ -6,15 +6,15 @@ using System.Linq;
 
 namespace Azure.Iot.Operations.Protocol
 {
-    internal static class AttributeRetriever
+    public static class AttributeRetriever
     {
-        internal static bool HasAttribute<T>(Object obj)
+        public static bool HasAttribute<T>(object obj)
             where T : Attribute
         {
             return GetAttribute<T>(obj) != null;
         }
 
-        internal static T? GetAttribute<T>(Object obj)
+        public static T? GetAttribute<T>(object obj)
             where T : Attribute
         {
             T? attr = null;

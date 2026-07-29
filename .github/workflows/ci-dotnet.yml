@@ -31,17 +31,17 @@ jobs:
   build:
     runs-on: ubuntu-latest
     name: CI-dotnet
-    timeout-minutes: 30
+    timeout-minutes: 45
 
     steps:
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@v7
 
     - name: Install AIO
       uses: ./.github/actions/configure-aio
       with:
         wait-for-broker: 'true'
         install-dotnet: 'true'
-        action-token: ${{ secrets.AIO_SDKS_ACTION_TOKEN }}
+        ssh-key: ${{ secrets.ACTIONS_REPO_SSH_KEY }}
 
     - name: dotnet info
       run: dotnet --info
@@ -69,11 +69,23 @@ jobs:
     - name: CodeGen SchemaRegistryEnvoy
       run: (cd dotnet/src/Azure.Iot.Operations.Services/SchemaRegistry; ./gen.sh)
 
+    - name: CodeGen Akri clients
+      run: (cd dotnet/src/Azure.Iot.Operations.Services/AssetAndDeviceRegistry; ./gen.sh)
+
     - name: Build SDK (Debug)
       run: dotnet build -c Debug dotnet/Azure.Iot.Operations.sln
 
     - name: Build SDK (Release)
       run: dotnet build -c Release dotnet/Azure.Iot.Operations.sln
+
+    - name: Verify Generated Code Matches Repo
+      run: |
+        if ! git diff --exit-code --ignore-cr-at-eol
+        then
+            echo "Detected changes after running code gen for one or more projects. Do not manually edit generated files."
+            git diff-files
+            exit 1
+        fi
 
     - name: Install .NET connector templates
       run: |
@@ -91,6 +103,12 @@ jobs:
  
     - name: Setup SchemaRegistry Host
       run: RUNNER_TRACKING_ID="" && dotnet run --project eng/test/schema-registry/src/Azure.Iot.Operations.Services.SchemaRegistry.Host/Azure.Iot.Operations.Services.SchemaRegistry.Host.csproj &
+
+    - name: Build EdgeRegistry Host
+      run: dotnet build eng/test/edge-registry/src/Azure.Iot.Operations.Services.EdgeRegistry.Host/Azure.Iot.Operations.Services.EdgeRegistry.Host.csproj
+
+    - name: Setup EdgeRegistry Host
+      run: RUNNER_TRACKING_ID="" && dotnet run --project eng/test/edge-registry/src/Azure.Iot.Operations.Services.EdgeRegistry.Host/Azure.Iot.Operations.Services.EdgeRegistry.Host.csproj &
 
     - name: Create ADR resources
       run: kubectl apply -f eng/test/test-adr-resources
@@ -146,11 +164,113 @@ jobs:
         cd dotnet/samples/Connectors/SqlConnector
         ./deploy-connector-and-device.sh
 
+    - name: Deploy Management Action Connector
+      run: |
+        cd dotnet/samples/Connectors/ManagementActionConnector
+        ./deploy-connector-and-device.sh
+
+    - name: Wait for Polling Rest Connector to be ready
+      run: |
+        echo "Waiting for rest-test-server to be ready..."
+        kubectl rollout status deployment/rest-test-server -n azure-iot-operations --timeout=120s
+        echo "Waiting for connector pod to appear and be ready..."
+        for i in {1..30}; do
+          if kubectl get pods -n azure-iot-operations | grep -q "rest-ctemplate.*Running"; then
+            echo "Connector pod is running"
+            break
+          fi
+          echo "Waiting for connector pod... ($i/30)"
+          sleep 2
+        done
+        kubectl get pods -n azure-iot-operations | grep rest-ctemplate || echo "No rest-ctemplate pods found"
+
+    - name: Wait for Event Driven TCP Connector to be ready
+      run: |
+        echo "Waiting for tcp-service-deployment to be ready..."
+        kubectl rollout status deployment/tcp-service-deployment -n azure-iot-operations --timeout=120s
+        echo "Waiting for connector pod to appear and be ready..."
+        for i in {1..30}; do
+          if kubectl get pods -n azure-iot-operations | grep -q "tcp-ctemplate.*Running"; then
+            echo "Connector pod is running"
+            break
+          fi
+          echo "Waiting for connector pod... ($i/30)"
+          sleep 2
+        done
+        kubectl get pods -n azure-iot-operations | grep tcp-ctemplate || echo "No tcp-ctemplate pods found"
+
+    - name: Wait for SQL Connector to be ready
+      run: |
+        echo "Waiting for mssql-deployment to be ready..."
+        kubectl rollout status deployment/mssql-deployment -n azure-iot-operations --timeout=180s
+        echo "Waiting for SQL pod to be fully initialized..."
+        kubectl wait --for=condition=ready pod -l app=mssql -n azure-iot-operations --timeout=120s
+        echo "Waiting for MySampleDB to be created and seeded..."
+        SA_PASSWORD=$(kubectl get secret sql-server-auth-credentials -n azure-iot-operations -o jsonpath='{.data.SA_PASSWORD}' | base64 -d)
+        db_ready=false
+        for i in {1..36}; do
+          rows=$(kubectl exec -n azure-iot-operations deployment/mssql-deployment -- \
+            /opt/mssql-tools18/bin/sqlcmd -S localhost -U sa -P "$SA_PASSWORD" -C -d MySampleDB -h -1 -W \
+            -Q "SET NOCOUNT ON; SELECT COUNT(*) FROM CountryMeasurements" 2>/dev/null | tr -d '[:space:]' || true)
+          if [[ "$rows" =~ ^[0-9]+$ ]] && [ "$rows" -gt 0 ]; then
+            echo "MySampleDB is ready with $rows rows in CountryMeasurements"
+            db_ready=true
+            break
+          fi
+          echo "Waiting for MySampleDB... ($i/36)"
+          sleep 5
+        done
+        if [ "$db_ready" != "true" ]; then
+          echo "ERROR: MySampleDB was not created and seeded in time"
+          kubectl logs -n azure-iot-operations deployment/mssql-deployment --tail=50 || true
+          exit 1
+        fi
+        echo "Waiting for connector pod to appear and be ready..."
+        for i in {1..30}; do
+          if kubectl get pods -n azure-iot-operations | grep -q "sql-ctemplate.*Running"; then
+            echo "Connector pod is running"
+            break
+          fi
+          echo "Waiting for connector pod... ($i/30)"
+          sleep 2
+        done
+        kubectl get pods -n azure-iot-operations | grep sql-ctemplate || echo "No sql-ctemplate pods found"
+
+    - name: Wait for Management Action Connector to be ready
+      # The Management Action sample uses an in-process FakeDevice (no
+      # southbound deployment to wait on), so we only watch for the connector
+      # pod itself to come up.
+      run: |
+        echo "Waiting for management-action connector pod to appear and be ready..."
+        for i in {1..30}; do
+          if kubectl get pods -n azure-iot-operations | grep -q "mgmt-action-ctemplate.*Running"; then
+            echo "Connector pod is running"
+            break
+          fi
+          echo "Waiting for connector pod... ($i/30)"
+          sleep 2
+        done
+        kubectl get pods -n azure-iot-operations | grep mgmt-action-ctemplate || echo "No mgmt-action-ctemplate pods found"
+
+    - name: Verify all connector pods are running
+      run: |
+        echo "=== All Pods in azure-iot-operations namespace ==="
+        kubectl get pods -n azure-iot-operations
+        echo ""
+        echo "=== Connector Pods Status ==="
+        kubectl get pods -n azure-iot-operations | grep ctemplate || echo "No connector pods found"
+        echo ""
+        echo "=== Service Pods Status ==="
+        kubectl get pods -n azure-iot-operations | grep -E "(rest-server|tcp-service|mssql)" || echo "No service pods found"
+        echo ""
+        echo "Giving connectors additional time to stabilize..."
+        sleep 10
+
     - name: Test SDK (TLS + SAT)
       run: dotnet test dotnet/Azure.Iot.Operations.sln -e MQTT_TEST_BROKER_CS="HostName=127.0.0.1;TcpPort=8884;UseTls=true;ClientId=TestClient;CaFile=${{ env.CA_FILE_PATH }};SatAuthFile=${{ env.TOKEN_FILE_PATH }}" -e FAULTABLE_MQTT_TEST_BROKER_CS="HostName=localhost;TcpPort=1884;UseTls=false;ClientId=TestClient" --collect:"XPlat Code Coverage" --logger:"trx;LogFileName=test-results.trx" -- xunit.parallelizeAssembly=true
 
     - name: Test SDK (TLS + x509)
-      run: dotnet test dotnet/Azure.Iot.Operations.sln --filter "FullyQualifiedName~Azure.Iot.Operations.Services.IntegrationTests.LeaderElectionClientIntegrationTests.TestFencing" -e MQTT_TEST_BROKER_CS="HostName=127.0.0.1;TcpPort=8883;UseTls=true;ClientId=TestClient;CaFile=${{ env.CA_FILE_PATH }};KeyFile=${{ env.CLIENT_KEY }};CertFile=${{ env.CLIENT_CERT }}" --logger:"trx;LogFileName=test-results.trx" -- xunit.parallelizeAssembly=true    
+      run: dotnet test dotnet/Azure.Iot.Operations.sln --filter "FullyQualifiedName~Azure.Iot.Operations.Services.IntegrationTest.LeaderElectionClientIntegrationTests.TestFencing" -e MQTT_TEST_BROKER_CS="HostName=127.0.0.1;TcpPort=8883;UseTls=true;ClientId=TestClient;CaFile=${{ env.CA_FILE_PATH }};KeyFile=${{ env.CLIENT_KEY }};CertFile=${{ env.CLIENT_CERT }}" --logger:"trx;LogFileName=test-results.trx" -- xunit.parallelizeAssembly=true    
 
     - name: Azure.Iot.Operations.Mqtt.UnitTests Package Code Coverage
       uses: irongut/CodeCoverageSummary@v1.3.0
@@ -240,7 +360,7 @@ jobs:
         indicators: true
         output: both
 
-    - uses: dorny/test-reporter@v1
+    - uses: dorny/test-reporter@v3
       id: test-reporter
       if: always()
       with:

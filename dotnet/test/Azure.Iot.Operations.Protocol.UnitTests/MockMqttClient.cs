@@ -1,4 +1,4 @@
-﻿// Copyright (c) Microsoft Corporation.
+// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
 using System.Buffers;
@@ -12,6 +12,8 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
 {
     public class MockMqttClient : MQTTnet.IMqttClient
     {
+        public bool IsDisposed { get; set; }
+
         private string _clientId;
         private readonly MqttProtocolVersion _protocolVersion;
         public static MqttConnAckPacket SuccessfulInitialConnAck = new()
@@ -136,7 +138,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
                     IsSessionPresent = !options.CleanSession,
                 };
 
-                connectResult = new MqttClientConnectResultFactory().Create(connAckPacket, _protocolVersion);
+                connectResult = MqttClientConnectResultFactory.Create(connAckPacket, _protocolVersion);
             }
 
             if (connectResult.ResultCode == MqttClientConnectResultCode.Success)
@@ -243,7 +245,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
 
         public void Dispose()
         {
-            // nothing to dispose
+            IsDisposed = true;
         }
 
 
@@ -356,7 +358,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
 
             CompareExpectedUserPropertiesWithActual(expectedOptions.WillUserProperties, actualOptions.WillUserProperties);
 
-            return new MqttClientConnectResultFactory().Create(expectedOptions.CleanSession ? SuccessfulInitialConnAck : SuccessfulReconnectConnAck, _protocolVersion);
+            return MqttClientConnectResultFactory.Create(expectedOptions.CleanSession ? SuccessfulInitialConnAck : SuccessfulReconnectConnAck, _protocolVersion);
         }
 
         // Returns a successful result only if the expected matches the actual. Throws with a human-readable error message
@@ -648,7 +650,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
                 foreach (MqttUserProperty actualUserProperty in actualUserProperties)
                 {
                     if (string.Equals(expectedUserProperty.Name, actualUserProperty.Name)
-                        && string.Equals(expectedUserProperty.Value, actualUserProperty.Value))
+                        && string.Equals(expectedUserProperty.Value, actualUserProperty.ReadValueAsString()))
                     {
                         matchFound = true;
                         break;
@@ -687,7 +689,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
                 foreach (Azure.Iot.Operations.Protocol.Models.MqttUserProperty actualUserProperty in actualUserProperties)
                 {
                     if (string.Equals(expectedUserProperty.Name, actualUserProperty.Name)
-                        && string.Equals(expectedUserProperty.Value, actualUserProperty.Value))
+                        && string.Equals(expectedUserProperty.ReadValueAsString(), actualUserProperty.Value))
                     {
                         matchFound = true;
                         break;

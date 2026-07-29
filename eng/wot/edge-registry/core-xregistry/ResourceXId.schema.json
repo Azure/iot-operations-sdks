@@ -1,0 +1,31 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema",
+  "title": "ResourceXId",
+  "description": "The XID components that identify a Resource.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "groupType",
+    "groupId",
+    "resourceType",
+    "resourceId"
+  ],
+  "properties": {
+    "groupType": {
+      "description": "Group type.",
+      "type": "string"
+    },
+    "groupId": {
+      "description": "Group identifier.",
+      "type": "string"
+    },
+    "resourceType": {
+      "description": "Resource type.",
+      "type": "string"
+    },
+    "resourceId": {
+      "description": "Resource identifier.",
+      "type": "string"
+    }
+  }
+}

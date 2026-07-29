@@ -1,0 +1,19 @@
+{
+  "success": false,
+  "commandLine": {
+    "things": [
+      "invalidAioBinding/RootFormReadAllButNoPropertiesExceptInherited.TM.json",
+      "valid/PropertyWithUnitDataSchemaInteger.TM.json"
+    ],
+    "lang": "none"
+  },
+  "errors": [
+    {
+      "condition": "Unusable",
+      "filename": "RootFormReadAllButNoPropertiesExceptInherited.TM.json",
+      "line": 19,
+      "cfLine": 24,
+      "crossRef": ""
+    }
+  ]
+}

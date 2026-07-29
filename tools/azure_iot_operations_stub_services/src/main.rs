@@ -7,7 +7,8 @@ use azure_iot_operations_stub_services::{
     OutputDirectoryManager, create_service_session,
     schema_registry::{self},
 };
-use log::LevelFilter;
+use clap::{Arg, Command};
+use log::{LevelFilter, info};
 use log4rs::{
     Config,
     append::console::ConsoleAppender,
@@ -16,8 +17,6 @@ use log4rs::{
     init_config,
 };
 
-const HOSTNAME: &str = "localhost";
-const PORT: u16 = 1883;
 #[cfg(feature = "enable-output")]
 const LOGGING_FILE_SIZE: u64 = 1024 * 1024 * 10; // 10 MB
 const LOGGING_PATTERN: &str = "[{h({l})} {M}] {m}{n}"; // Pattern for log messages, ex: [ERROR stub_service::schema_registry] message
@@ -104,14 +103,16 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     // Initialize the logger
     initialize_logger(&output_directory_manager);
 
+    let arguments = process_arguments();
+
     // Create the application context
     let application_context = ApplicationContextBuilder::default().build()?;
 
     // Create the schema registry service session and stub
     let sr_service_session = create_service_session(
         schema_registry::CLIENT_ID.to_string(),
-        HOSTNAME.to_string(),
-        PORT,
+        arguments.broker_addr.to_string(),
+        arguments.broker_port,
     )?;
     let sr_service_stub = schema_registry::Service::new(
         application_context,
@@ -126,4 +127,48 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     }
 
     Ok(())
+}
+
+fn process_arguments() -> CommandLineArguments {
+    let matches = Command::new("Context-Data Setter")
+        .arg(
+            Arg::new("broker_port")
+                .short('p')
+                .long("broker-port")
+                .help("MQTT Broker Port")
+                .required(false)
+                .default_value("1883")
+                .num_args(1),
+        )
+        .arg(
+            Arg::new("broker_addr")
+                .short('a')
+                .long("broker-addr")
+                .help("MQTT Broker Address")
+                .required(false)
+                .default_value("localhost")
+                .num_args(1),
+        )
+        .get_matches();
+
+    let broker_port = matches.get_one::<String>("broker_port").unwrap().to_owned();
+    let broker_addr = matches.get_one::<String>("broker_addr").unwrap().to_owned();
+
+    info!("Broker Address {:?}", &broker_addr);
+    info!("Broker Port {:?}", &broker_port);
+
+    let broker_port = broker_port.parse::<u16>().unwrap_or_else(|_| {
+        panic!("Invalid broker port: {broker_port}. Must be a valid u16 integer.")
+    });
+
+    CommandLineArguments {
+        broker_port,
+        broker_addr,
+    }
+}
+
+#[derive(Debug, Clone)]
+struct CommandLineArguments {
+    broker_port: u16,
+    broker_addr: String,
 }

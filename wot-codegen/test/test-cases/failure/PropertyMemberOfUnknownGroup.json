@@ -1,0 +1,16 @@
+{
+  "success": false,
+  "commandLine": {
+    "things": [ "invalidAioBinding/PropertyMemberOfUnknownGroup.TM.json" ],
+    "lang": "none"
+  },
+  "errors": [
+    {
+      "condition": "ItemNotFound",
+      "filename": "PropertyMemberOfUnknownGroup.TM.json",
+      "line": 16,
+      "cfLine": 0,
+      "crossRef": ""
+    }
+  ]
+}

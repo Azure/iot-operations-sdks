@@ -1,0 +1,16 @@
+{
+  "success": false,
+  "commandLine": {
+    "things": [ "invalidAioBinding/ActionFormHeaderInfoContentTypeNotJson.TM.json" ],
+    "lang": "none"
+  },
+  "errors": [
+    {
+      "condition": "PropertyUnsupportedValue",
+      "filename": "ActionFormHeaderInfoContentTypeNotJson.TM.json",
+      "line": 36,
+      "cfLine": 0,
+      "crossRef": ""
+    }
+  ]
+}

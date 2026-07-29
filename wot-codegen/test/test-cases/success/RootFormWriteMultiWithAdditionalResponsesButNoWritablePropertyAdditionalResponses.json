@@ -1,0 +1,15 @@
+{
+  "success": true,
+  "commandLine": {
+    "things": [ "valid/RootFormWriteMultiWithAdditionalResponsesButNoWritablePropertyAdditionalResponses.TM.json" ],
+    "lang": "none"
+  },
+  "warnings": [
+    {
+      "filename": "RootFormWriteMultiWithAdditionalResponsesButNoWritablePropertyAdditionalResponses.TM.json",
+      "line": 32,
+      "cfLine": 47,
+      "crossRef": ""
+    }
+  ]
+}

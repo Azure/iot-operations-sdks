@@ -15,7 +15,7 @@ IHost host = Host.CreateDefaultBuilder(args)
         services.AddSingleton(RestThermostatDatasetSamplerProvider.Factory);
         services.AddSingleton(MessageSchemaProvider.Factory);
         services.AddSingleton(LeaderElectionConfigurationProvider.Factory);
-        services.AddSingleton<IAdrClientWrapperProvider>(AdrClientWrapperProvider.Factory);
+        services.AddSingleton<IAzureDeviceRegistryClientWrapperProvider>(AzureDeviceRegistryClientWrapperProvider.Factory);
         services.AddHostedService<PollingTelemetryConnectorWorker>();
     })
     .Build();

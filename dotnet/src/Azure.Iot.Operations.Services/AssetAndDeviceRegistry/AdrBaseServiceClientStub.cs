@@ -4,13 +4,13 @@
 using System.Diagnostics;
 using Azure.Iot.Operations.Protocol;
 using Azure.Iot.Operations.Protocol.Telemetry;
-using Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService;
+using Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Generated.AdrBaseService;
 using Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models;
 
 namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry;
 
 internal class AdrBaseServiceClientStub(ApplicationContext applicationContext, IMqttPubSubClient mqttClient, Dictionary<string, string>? topicTokenMap = null)
-    : AdrBaseService.AdrBaseService.Client(applicationContext, mqttClient, topicTokenMap), IAdrBaseServiceClientStub
+    : Generated.AdrBaseService.AdrBaseService.Client(applicationContext, mqttClient, topicTokenMap), IAdrBaseServiceClientStub
 {
     public event Func<string, string, Models.Device, Task>? OnReceiveDeviceUpdateEventTelemetry;
     public event Func<string, Models.Asset, Task>? OnReceiveAssetUpdateEventTelemetry;
@@ -49,5 +49,40 @@ internal class AdrBaseServiceClientStub(ApplicationContext applicationContext, I
         {
             await OnReceiveAssetUpdateEventTelemetry.Invoke(assetName, asset);
         }
+    }
+
+    public override Task ReceiveTelemetry(string senderId, DeviceEndpointRuntimeHealthEventTelemetry telemetry, IncomingTelemetryMetadata metadata)
+    {
+        throw new NotImplementedException();
+    }
+
+    public override Task ReceiveTelemetry(string senderId, DatasetRuntimeHealthEventTelemetry telemetry, IncomingTelemetryMetadata metadata)
+    {
+        throw new NotImplementedException();
+    }
+
+    public override Task ReceiveTelemetry(string senderId, EventRuntimeHealthEventTelemetry telemetry, IncomingTelemetryMetadata metadata)
+    {
+        throw new NotImplementedException();
+    }
+
+    public override Task ReceiveTelemetry(string senderId, ManagementActionRuntimeHealthEventTelemetry telemetry, IncomingTelemetryMetadata metadata)
+    {
+        throw new NotImplementedException();
+    }
+
+    public override Task ReceiveTelemetry(string senderId, StreamRuntimeHealthEventTelemetry telemetry, IncomingTelemetryMetadata metadata)
+    {
+        throw new NotImplementedException();
+    }
+
+    public ValueTask DisposeAsync(bool disposing)
+    {
+        return base.DisposeAsync(disposing, CancellationToken.None);
+    }
+
+    public ValueTask DisposeAsync(CancellationToken cancellationToken)
+    {
+        return base.DisposeAsync(false, cancellationToken);
     }
 }

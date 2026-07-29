@@ -3,16 +3,10 @@
 
 namespace Azure.Iot.Operations.Services.StateStore
 {
-    public class StateStoreDeleteResponse
+    public class StateStoreDeleteResponse : IStateStoreDeleteResponse
     {
-        /// <summary>
-        /// The number of items deleted by the request.
-        /// </summary>
-        /// <remarks>
-        /// If this delete operation was conditional on <see cref="StateStoreDeleteRequestOptions.OnlyDeleteIfValueEquals"/>
-        /// and the request was not carried out because of that condition, then this value will be -1.
-        /// </remarks>
-        public int? DeletedItemsCount { get; internal set; }
+        /// <inheritdoc/>
+        public int? DeletedItemsCount { get; }
 
         internal StateStoreDeleteResponse(int? deletedItemsCount = null)
         {

@@ -22,7 +22,7 @@ public class StateStoreClientIntegrationTests
 
         Assert.True((await stateStoreClient.SetAsync(key, value)).Success);
 
-        StateStoreGetResponse getResponse = await stateStoreClient.GetAsync(key);
+        IStateStoreGetResponse getResponse = await stateStoreClient.GetAsync(key);
 
         Assert.Equal(value, getResponse.Value);
 
@@ -31,6 +31,8 @@ public class StateStoreClientIntegrationTests
         getResponse = await stateStoreClient.GetAsync(key);
 
         Assert.Null(getResponse.Value);
+
+        await stateStoreClient.StopAsync();
     }
 
     [Fact]
@@ -42,7 +44,7 @@ public class StateStoreClientIntegrationTests
         var key = Guid.NewGuid().ToString();
         var value = Guid.NewGuid().ToString();
 
-        StateStoreSetResponse setResponse =
+        IStateStoreSetResponse setResponse =
             await stateStoreClient.SetAsync(
                 key,
                 value,
@@ -56,11 +58,13 @@ public class StateStoreClientIntegrationTests
         // Wait a bit for the value in DSS to expire
         await Task.Delay(TimeSpan.FromSeconds(3));
 
-        StateStoreGetResponse getResponse = await stateStoreClient.GetAsync(key);
+        IStateStoreGetResponse getResponse = await stateStoreClient.GetAsync(key);
 
         // No value should have been retrieved because the value expired
         // on its own earlier
         Assert.Null(getResponse.Value);
+
+        await stateStoreClient.StopAsync();
     }
 
     [Fact]
@@ -72,7 +76,7 @@ public class StateStoreClientIntegrationTests
         var key = Guid.NewGuid().ToString();
         var value = Guid.NewGuid().ToString();
 
-        StateStoreSetResponse setResponse =
+        IStateStoreSetResponse setResponse =
             await stateStoreClient.SetAsync(key, value);
 
         Assert.True(setResponse.Success);
@@ -133,6 +137,8 @@ public class StateStoreClientIntegrationTests
         Assert.False(setResponse.Success,
             "Setting a value on an existing key should fail when the OnlyIfEqualOrNotSet flag is set on the " +
             "request and the key exists in the store with a different value than what is provided");
+
+        await stateStoreClient.StopAsync();
     }
 
     [Fact]
@@ -144,12 +150,12 @@ public class StateStoreClientIntegrationTests
         var key = Guid.NewGuid().ToString();
         var value = Guid.NewGuid().ToString();
 
-        StateStoreSetResponse setResponse =
+        IStateStoreSetResponse setResponse =
             await stateStoreClient.SetAsync(key, value);
 
         Assert.True(setResponse.Success);
 
-        StateStoreDeleteResponse deleteResponse =
+        IStateStoreDeleteResponse deleteResponse =
             await stateStoreClient.DeleteAsync(
                 key,
                 new StateStoreDeleteRequestOptions()
@@ -172,6 +178,8 @@ public class StateStoreClientIntegrationTests
         // The "OnlyDeleteIfValueEquals" flag should allow the delete operation since
         // the provided value did match what was in the State Store
         Assert.Equal(1, deleteResponse.DeletedItemsCount);
+
+        await stateStoreClient.StopAsync();
     }
 
     [Fact]
@@ -229,6 +237,8 @@ public class StateStoreClientIntegrationTests
         }
 
         Assert.Equal(KeyState.Deleted, mostRecentKeyChange.NewState);
+
+        await stateStoreClient.StopAsync();
     }
 
     [Fact]
@@ -289,6 +299,8 @@ public class StateStoreClientIntegrationTests
 
         Assert.Equal(KeyState.Deleted, mostRecentKeyChange.NewState);
         Assert.NotNull(mostRecentKeyChange.Timestamp);
+
+        await stateStoreClient.StopAsync();
     }
 
     [Fact]
@@ -347,6 +359,8 @@ public class StateStoreClientIntegrationTests
         {
             // Expected result since the callback should not execute after unobserving the key that was changed.
         }
+
+        await stateStoreClient.StopAsync();
     }
 
     [Fact]
@@ -357,6 +371,8 @@ public class StateStoreClientIntegrationTests
 
         var resp = await stateStoreClient.SetAsync("keyEmpty", string.Empty);
         Assert.True(resp.Success);
+
+        await stateStoreClient.StopAsync();
     }
 
     [Fact]
@@ -370,6 +386,8 @@ public class StateStoreClientIntegrationTests
         StateStoreValue normalSizeValue = Guid.NewGuid().ToString();
         var resp = await stateStoreClient.SetAsync(largeSizeKey, normalSizeValue);
         Assert.True(resp.Success);
+
+        await stateStoreClient.StopAsync();
     }
 
     [Fact]
@@ -383,6 +401,8 @@ public class StateStoreClientIntegrationTests
         StateStoreValue largeSizeValue = new StateStoreValue(valuePayload);
         var resp = await stateStoreClient.SetAsync(normalSizeKey, largeSizeValue);
         Assert.True(resp.Success);
+
+        await stateStoreClient.StopAsync();
     }
 
     [Fact]
@@ -396,9 +416,11 @@ public class StateStoreClientIntegrationTests
 
         Assert.True((await stateStoreClient.SetAsync(key, value)).Success);
 
-        StateStoreGetResponse getResponse = await stateStoreClient.GetAsync(key);
+        IStateStoreGetResponse getResponse = await stateStoreClient.GetAsync(key);
 
         Assert.Equal(value, getResponse.Value);
+
+        await stateStoreClient.StopAsync();
     }
 
     [Fact]
@@ -416,6 +438,8 @@ public class StateStoreClientIntegrationTests
         {
             Assert.Equal(ServiceError.KeyLengthZero, e.Reason);
         }
+
+        await stateStoreClient.StopAsync();
     }
 
     [Fact]
@@ -445,5 +469,7 @@ public class StateStoreClientIntegrationTests
         {
             Assert.Equal(ServiceError.FencingTokenSkew, e.Reason);
         }
+
+        await stateStoreClient.StopAsync();
     }
 }

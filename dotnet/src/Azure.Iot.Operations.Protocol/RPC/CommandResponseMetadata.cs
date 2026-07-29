@@ -47,6 +47,22 @@ namespace Azure.Iot.Operations.Protocol.RPC
         public Dictionary<string, string> UserData { get; set; } = new();
 
         /// <summary>
+        /// The cloud event to apply to an outgoing command response.
+        /// </summary>
+        /// <remarks>
+        /// For getting the full cloud event from a received command response on the invoker side, use <see cref="ExtendedCloudEvent"/>.
+        /// </remarks>
+        public CloudEvent? CloudEvent { get; set; }
+
+        /// <summary>
+        /// The full received cloud event as received in a command response by a command invoker.
+        /// </summary>
+        /// <remarks>
+        /// For setting cloud events on an outgoing command response, use <see cref="CloudEvent"/> instead.
+        /// </remarks>
+        public ExtendedCloudEvent? ExtendedCloudEvent { get; internal set; }
+
+        /// <summary>
         /// Construct CommandResponseMetadata in user code, presumably within an execution function that will include the metadata in its return value.
         /// </summary>
         /// <remarks>
@@ -73,6 +89,8 @@ namespace Azure.Iot.Operations.Protocol.RPC
 
             Timestamp = null;
             UserData = [];
+            ExtendedCloudEvent = message.GetCloudEvent();
+            CloudEvent = ExtendedCloudEvent; // in case someone tries to get the non-extended version
 
             if (message.UserProperties != null)
             {
@@ -94,11 +112,21 @@ namespace Azure.Iot.Operations.Protocol.RPC
             }
         }
 
-        public void MarshalTo(MqttApplicationMessage message)
+        internal void MarshalTo(MqttApplicationMessage message)
         {
             if (Timestamp != default)
             {
                 message.AddUserProperty(AkriSystemProperties.Timestamp, Timestamp.EncodeToString());
+            }
+
+            if (CloudEvent != null)
+            {
+                if (string.IsNullOrEmpty(CloudEvent.Type))
+                {
+                    CloudEvent.Type = "ms.aio.rpc.response";
+                }
+
+                message.SetCloudEvent(CloudEvent);
             }
 
             foreach (KeyValuePair<string, string> kvp in UserData)

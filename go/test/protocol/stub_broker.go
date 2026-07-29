@@ -265,7 +265,7 @@ func (s *StubBroker) Disconnect() {
 	defer s.mu.Unlock()
 
 	if s.client != nil {
-		s.client.Close()
+		_ = s.client.Close()
 	}
 
 	client, server := net.Pipe()

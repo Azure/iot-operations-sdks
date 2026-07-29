@@ -9,18 +9,12 @@
 },
 <# } #>
 "type": "<#=this.valueSchema#>",
-<# if (!this.allNamesMatchValues) { #>
-"x-enumNames": [
+<# if (this.valueSchema != "integer") { #>
+"enum": [
 <# int ix1 = 1; foreach (var enumValue in this.dtEnum.EnumValues) { #>
   "<#=enumValue.Name#>"<#=ix1 < this.dtEnum.EnumValues.Count ? "," : ""#>
 <# ix1++; } #>
-],
-<# } #>
-"enum": [
-<# int ix2 = 1; foreach (var enumValue in this.dtEnum.EnumValues) { #>
-  <#=ConditionallyQuote(enumValue.EnumValue.ToString())#><#=ix2 < this.dtEnum.EnumValues.Count ? "," : ""#>
-<# ix2++; } #>
 ]<# this.PopIndent(); #>
-<#+
-    private string ConditionallyQuote(string value) => this.valueSchema == "string" ? $"\"{value}\"" : value;
-#>
+<# } else { #>
+"minimum": -2147483648,
+"maximum": 2147483647<# } this.PopIndent(); #>

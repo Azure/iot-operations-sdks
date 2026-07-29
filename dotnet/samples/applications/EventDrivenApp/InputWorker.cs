@@ -65,7 +65,7 @@ public class InputWorker(ApplicationContext applicationContext, SessionClientFac
                 try
                 {
                     // Fetch the historical sensor data from the state store
-                    StateStoreGetResponse response = await stateStoreClient.GetAsync(Constants.StateStoreSensorKey, null, cancellationToken);
+                    IStateStoreGetResponse response = await stateStoreClient.GetAsync(Constants.StateStoreSensorKey, null, cancellationToken);
                     if (response.Value != null)
                     {
                         data = JsonSerializer.Deserialize<List<SensorData>>(response.Value.GetString()) ?? [];
@@ -101,6 +101,8 @@ public class InputWorker(ApplicationContext applicationContext, SessionClientFac
                 {
                     logger.LogError(ex, ex.Message);
                 }
+
+                await stateStoreClient.StopAsync(cancellationToken);
             }
         }
     }

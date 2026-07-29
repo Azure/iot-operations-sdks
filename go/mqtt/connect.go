@@ -20,7 +20,14 @@ import (
 func (c *SessionClient) RegisterConnectEventHandler(
 	handler ConnectEventHandler,
 ) func() {
-	return c.connectEventHandlers.AppendEntry(handler)
+	return c.connectEventHandlers.AppendEntry(func(ce *ConnectEvent) {
+		defer func() {
+			if e := recover(); e != nil {
+				c.log.Error(context.Background(), &HandlerPanicError{e})
+			}
+		}()
+		handler(ce)
+	})
 }
 
 // RegisterDisconnectEventHandler registers a handler to a list of handlers that
@@ -31,7 +38,14 @@ func (c *SessionClient) RegisterConnectEventHandler(
 func (c *SessionClient) RegisterDisconnectEventHandler(
 	handler DisconnectEventHandler,
 ) func() {
-	return c.disconnectEventHandlers.AppendEntry(handler)
+	return c.disconnectEventHandlers.AppendEntry(func(de *DisconnectEvent) {
+		defer func() {
+			if e := recover(); e != nil {
+				c.log.Error(context.Background(), &HandlerPanicError{e})
+			}
+		}()
+		handler(de)
+	})
 }
 
 // RegisterFatalErrorHandler registers a handler that is called in a goroutine
@@ -39,7 +53,14 @@ func (c *SessionClient) RegisterDisconnectEventHandler(
 func (c *SessionClient) RegisterFatalErrorHandler(
 	handler func(error),
 ) func() {
-	return c.fatalErrorHandlers.AppendEntry(handler)
+	return c.fatalErrorHandlers.AppendEntry(func(err error) {
+		defer func() {
+			if e := recover(); e != nil {
+				c.log.Error(context.Background(), &HandlerPanicError{e})
+			}
+		}()
+		handler(err)
+	})
 }
 
 // Start the session client, spawning any necessary background goroutines. In
@@ -256,7 +277,7 @@ func (c *SessionClient) signalConnection(
 	)
 
 	for handler := range c.connectEventHandlers.All() {
-		handler(event)
+		go handler(event)
 	}
 }
 
@@ -280,7 +301,7 @@ func (c *SessionClient) signalDisconnection(
 	}
 
 	for handler := range c.disconnectEventHandlers.All() {
-		handler(event)
+		go handler(event)
 	}
 }
 

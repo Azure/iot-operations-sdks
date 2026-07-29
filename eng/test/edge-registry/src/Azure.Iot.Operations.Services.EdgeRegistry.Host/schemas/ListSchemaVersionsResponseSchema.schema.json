@@ -1,0 +1,17 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema",
+  "title": "ListSchemaVersionsResponseSchema",
+  "description": "List of Schema Version XIDs matching the provided constraints.",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "_error": {
+      "description": "Error for the 'listSchemaVersions' Action.",
+      "$ref": "SchemaExtensionError.schema.json"
+    },
+    "_output": {
+      "description": "Output for the 'listSchemaVersions' Action.",
+      "$ref": "ListSchemaVersionsOutputArguments.schema.json"
+    }
+  }
+}

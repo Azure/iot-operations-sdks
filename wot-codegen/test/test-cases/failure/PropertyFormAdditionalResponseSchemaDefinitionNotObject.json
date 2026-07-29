@@ -1,0 +1,16 @@
+{
+  "success": false,
+  "commandLine": {
+    "things": [ "invalidAioBinding/PropertyFormAdditionalResponseSchemaDefinitionNotObject.TM.json" ],
+    "lang": "none"
+  },
+  "errors": [
+    {
+      "condition": "TypeMismatch",
+      "filename": "PropertyFormAdditionalResponseSchemaDefinitionNotObject.TM.json",
+      "line": 38,
+      "cfLine": 9,
+      "crossRef": ""
+    }
+  ]
+}

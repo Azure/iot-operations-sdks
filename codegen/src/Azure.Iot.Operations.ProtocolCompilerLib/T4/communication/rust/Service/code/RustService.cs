@@ -8,6 +8,7 @@ namespace Azure.Iot.Operations.ProtocolCompilerLib
         private readonly CodeName genNamespace;
         private readonly string modelId;
         private readonly string? commandTopic;
+        private readonly string? propertyTopic;
         private readonly string? telemetryTopic;
         private readonly string? cmdServiceGroupId;
         private readonly string? telemServiceGroupId;
@@ -19,6 +20,7 @@ namespace Azure.Iot.Operations.ProtocolCompilerLib
             CodeName genNamespace,
             string modelId,
             string? commandTopic,
+            string? propertyTopic,
             string? telemetryTopic,
             string? cmdServiceGroupId,
             string? telemServiceGroupId,
@@ -29,6 +31,7 @@ namespace Azure.Iot.Operations.ProtocolCompilerLib
             this.genNamespace = genNamespace;
             this.modelId = modelId;
             this.commandTopic = commandTopic;
+            this.propertyTopic = propertyTopic;
             this.telemetryTopic = telemetryTopic;
             this.cmdServiceGroupId = cmdServiceGroupId;
             this.telemServiceGroupId = telemServiceGroupId;

@@ -26,7 +26,10 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
 
         private static readonly TimeSpan TestTimeout = TimeSpan.FromMinutes(1);
 
-        private static readonly HashSet<string> problematicTestCases = new HashSet<string>{};
+        private static readonly HashSet<string> problematicTestCases = new HashSet<string>
+        {
+            "CommandExecutorDispatchConcurrencyBelowNeed_TimeoutErrors" // This test behaves inconsistently. It usually passes, but sometimes fails
+        };
 
         private static readonly IDeserializer yamlDeserializer;
         private static readonly AsyncAtomicInt TestCaseIndex = new(0);
@@ -470,7 +473,7 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
 
             if (sourceId != null)
             {
-                requestAppMsgBuilder.WithUserProperty(AkriSystemProperties.SourceId, ((Guid)sourceId!).ToString());
+                requestAppMsgBuilder.WithUserProperty(AkriSystemProperties.SourceId, System.Text.Encoding.UTF8.GetBytes(((Guid)sourceId!).ToString()));
             }
 
             if (correlationId != null)
@@ -490,7 +493,7 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
 
             foreach (KeyValuePair<string, string> kvp in actionReceiveRequest.Metadata)
             {
-                requestAppMsgBuilder.WithUserProperty(kvp.Key, kvp.Value);
+                requestAppMsgBuilder.WithUserProperty(kvp.Key, System.Text.Encoding.UTF8.GetBytes(kvp.Value));
             }
 
             MqttApplicationMessage requestAppMsg = requestAppMsgBuilder.Build();

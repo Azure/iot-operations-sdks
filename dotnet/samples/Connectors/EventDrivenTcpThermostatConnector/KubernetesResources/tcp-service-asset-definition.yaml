@@ -1,23 +1,22 @@
-apiVersion: namespaces.deviceregistry.microsoft.com/v1beta1
+apiVersion: namespaces.deviceregistry.microsoft.com/v1
 kind: Asset
 metadata:
   name: my-tcp-thermostat-asset
   namespace: azure-iot-operations
 spec:
+  uuid: 123e4567-e89b-12d3-a456-426614174000
   attributes:
     assetId: my-tcp-thermostat-asset
     assetType: thermostat
-  events:
-    - name: thermostat_status_changed
-      dataPoints:
-        - dataSource: /api/thermostat/current
-          name: currentTemperature
-          dataPointConfiguration: '{}'
-      destinations:
-        - configuration:
-            topic: /mqtt/machine/status/change_event
-          target: Mqtt
-      eventNotifier: "80"
+  eventGroups:
+    - name: my-event-group  
+      events:
+        - name: thermostat_status_changed
+          destinations:
+            - configuration:
+                topic: mqtt/machine/status/change_event
+              target: Mqtt
+          dataSource: "80"
   defaultDatasetsConfiguration: '{}'
   deviceRef:
     deviceName: my-tcp-thermostat

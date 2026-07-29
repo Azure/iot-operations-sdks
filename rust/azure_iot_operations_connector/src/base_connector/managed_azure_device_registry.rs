@@ -3,36 +3,55 @@
 
 //! Types for Azure IoT Operations Connectors.
 
-use std::{borrow::Cow, collections::HashMap, path::PathBuf, sync::Arc};
+use std::{borrow::Cow, collections::HashMap, hash::Hash, path::PathBuf, sync::Arc};
 
 use azure_iot_operations_services::{
     azure_device_registry::{
-        self,
-        models::{self as adr_models, Asset},
+        self, HealthStatus, RuntimeHealth,
+        health_reporter::HealthReporterSender,
+        models::{self as adr_models, Asset, DeviceRef},
     },
     schema_registry,
 };
 use chrono::{DateTime, Utc};
 use thiserror::Error;
-use tokio::sync::mpsc::{self, UnboundedReceiver, UnboundedSender};
 use tokio::sync::watch;
+use tokio::sync::{
+    Notify,
+    mpsc::{self, UnboundedReceiver, UnboundedSender},
+};
 use tokio_retry2::{Retry, RetryError};
 use tokio_util::sync::CancellationToken;
 
 use crate::{
-    AdrConfigError, Data, DataOperationKind, DataOperationRef, MessageSchema,
-    MessageSchemaReference,
+    AdrConfigError, Data, DataOperationKind, DataOperationName, DataOperationRef,
+    ManagementActionRef, MessageSchema, MessageSchemaReference,
     base_connector::ConnectorContext,
     deployment_artifacts::{
         self,
         azure_device_registry::{AssetRef, DeviceEndpointRef},
     },
-    destination_endpoint,
+    destination_endpoint::{self, DataOperationForwarder},
+    management_action_executor::{self, ManagementActionExecutor},
 };
 
 /// Used as the strategy when using [`tokio_retry2::Retry`]
 const RETRY_STRATEGY: tokio_retry2::strategy::ExponentialFactorBackoff =
     tokio_retry2::strategy::ExponentialFactorBackoff::from_millis(500, 2.0);
+
+/// Represents the runtime health of a resource.
+#[derive(Debug, Clone)]
+pub enum RuntimeHealthEvent {
+    /// Resource is currently available.
+    Available,
+    /// Resource is currently unavailable.
+    Unavailable {
+        /// A human-readable message describing the last transition.
+        message: Option<String>,
+        /// Unique, CamelCase reason code describing the cause of the last health state transition.
+        reason_code: Option<String>,
+    },
+}
 
 /// Notifications that can be received for a Client
 pub enum ClientNotification<T> {
@@ -55,15 +74,85 @@ pub enum ModifyResult {
 /// A cloneable status reporter for Device and Endpoint status reporting.
 ///
 /// This provides a way to report Device and Endpoint status changes from outside the [`DeviceEndpointClient`].
+/// Each clone maintains its own independent version snapshot, allowing different tasks to work with
+/// different versions of the device specification.
 #[derive(Clone, Debug)]
 pub struct DeviceEndpointStatusReporter {
     connector_context: Arc<ConnectorContext>,
     device_endpoint_status: Arc<tokio::sync::RwLock<DeviceEndpointStatus>>,
     device_endpoint_specification: Arc<std::sync::RwLock<DeviceSpecification>>,
+    health_sender: HealthReporterSender,
     device_endpoint_ref: DeviceEndpointRef,
+    snapshotted_version: u64,
 }
 
 impl DeviceEndpointStatusReporter {
+    /// This function is used to report the current runtime health event for the Endpoint.
+    ///
+    /// NOTE: This will only report the health event to the service if needed, so it is
+    /// okay to call this function frequently. It is required to call this function any time
+    /// the health status changes to ensure that the service has the latest information.
+    /// If the health status does not change, the underlying client will report the last known
+    /// health event at the base connector `health_report_interval`'s frequency unless `pause_health_reporting` is called.
+    ///
+    /// The version used for reporting is the snapshotted version from the last call to
+    /// `refresh_health_version()` or `pause_and_refresh_health_version()`, not necessarily the current specification version.
+    pub fn report_health_event(&self, health_event: RuntimeHealthEvent) {
+        let (status, message, reason_code) = match health_event {
+            RuntimeHealthEvent::Available => (HealthStatus::Available, None, None),
+            RuntimeHealthEvent::Unavailable {
+                message,
+                reason_code,
+            } => (HealthStatus::Unavailable, message, reason_code),
+        };
+        let runtime_health = RuntimeHealth {
+            last_update_time: Utc::now(),
+            message,
+            reason_code,
+            status,
+            version: self.snapshotted_version,
+        };
+        if let Err(e) = self.health_sender.report(runtime_health) {
+            log::warn!(
+                "Failed to send health event for device endpoint {:?}: {e}",
+                self.device_endpoint_ref
+            );
+        }
+    }
+
+    /// Pauses background health event reporting until a new event is reported.
+    /// This should be called when the component is updated to indicate that the previous health event may no longer be applicable.
+    pub fn pause_health_reporting(&self) {
+        if let Err(e) = self.health_sender.pause() {
+            log::warn!(
+                "Failed to pause health reporting for device endpoint {:?}: {e}",
+                self.device_endpoint_ref
+            );
+        }
+    }
+
+    /// Snapshots the current specification version for use in future health events.
+    /// Call this when starting to use a new definition to "lock in" the version you're working with.
+    ///
+    /// # Panics
+    /// if the specification mutex has been poisoned, which should not be possible
+    pub fn refresh_health_version(&mut self) {
+        self.snapshotted_version = self
+            .device_endpoint_specification
+            .read()
+            .unwrap()
+            .version
+            .unwrap_or(0);
+    }
+
+    /// Combines `pause_health_reporting()` and `refresh_health_version()`.
+    /// Pauses background reporting AND snapshots the current specification version.
+    /// Useful when receiving an update in the same task that handles notifications.
+    pub fn pause_and_refresh_health_version(&mut self) {
+        self.pause_health_reporting();
+        self.refresh_health_version();
+    }
+
     /// Used to conditionally report the device status and then updates the device with the new status returned.
     ///
     /// The `modify` function is called with the current device status (if any) and should return:
@@ -152,8 +241,8 @@ impl DeviceEndpointStatusReporter {
                     inbound_endpoint_status.err(),
                 )])
             } else {
-                // If the inbound endpoint status is not present, exclude it from the report
-                HashMap::new()
+                // If the inbound endpoint status is not present, we still have to include it in the report
+                HashMap::from([(self.device_endpoint_ref.inbound_endpoint_name.clone(), None)])
             }
         };
 
@@ -334,7 +423,7 @@ impl DeviceEndpointStatusReporter {
                         device_endpoint_ref.device_name.clone(),
                         device_endpoint_ref.inbound_endpoint_name.clone(),
                         adr_device_status.clone(),
-                        connector_context.default_timeout,
+                        connector_context.azure_device_registry_timeout,
                     )
                     .await
                     .map_err(|e| adr_error_into_retry_error(e, "Update Device Status"))
@@ -366,23 +455,34 @@ pub struct DeviceEndpointClientCreationObservation {
 }
 impl DeviceEndpointClientCreationObservation {
     /// Creates a new [`DeviceEndpointClientCreationObservation`] that uses the given [`ConnectorContext`]
-    pub(crate) fn new(connector_context: Arc<ConnectorContext>) -> Self {
-        // TODO: handle unwrap in a better way
+    ///
+    /// # Errors
+    /// Returns a `String` error if the underlying file mount observation cannot be created.
+    /// This signals a fatal error — the caller should treat this as requiring a connector restart.
+    pub(crate) fn new(connector_context: Arc<ConnectorContext>) -> Result<Self, String> {
         let device_endpoint_create_observation =
             deployment_artifacts::azure_device_registry::DeviceEndpointCreateObservation::new(
                 connector_context.debounce_duration,
             )
-            .unwrap();
+            .map_err(|e| {
+                let error_message =
+                    format!("Failed to create DeviceEndpointCreateObservation: {e}");
+                log::error!("{error_message}");
+                let _ = connector_context
+                    .connector_restart_tx
+                    .try_send(error_message.clone());
+                error_message
+            })?;
 
         let (device_completion_tx, device_completion_rx) = mpsc::channel(1);
 
-        Self {
+        Ok(Self {
             connector_context,
             device_endpoint_create_observation,
             pending_device_creation: false,
             device_completion_rx,
             device_completion_tx,
-        }
+        })
     }
 
     /// Receives a notification for a newly created device endpoint. This
@@ -442,7 +542,7 @@ impl DeviceEndpointClientCreationObservation {
                     .observe_device_update_notifications(
                         device_endpoint_ref.device_name.clone(),
                         device_endpoint_ref.inbound_endpoint_name.clone(),
-                        connector_context.default_timeout,
+                        connector_context.azure_device_registry_timeout,
                     )
                     // retry on network errors, otherwise don't retry on config/dev errors
                     .await
@@ -464,7 +564,7 @@ impl DeviceEndpointClientCreationObservation {
                     .get_device(
                         device_endpoint_ref.device_name.clone(),
                         device_endpoint_ref.inbound_endpoint_name.clone(),
-                        connector_context.default_timeout,
+                        connector_context.azure_device_registry_timeout,
                     )
                     .await
                     .map_err(|e| adr_error_into_retry_error(e, "Get Device Definition"))
@@ -478,8 +578,12 @@ impl DeviceEndpointClientCreationObservation {
                     "Dropping device endpoint create notification: {device_endpoint_ref:?}. Failed to get Device definition after retries: {e}"
                 );
                 // unobserve as cleanup
-                DeviceEndpointClient::unobserve_device(&connector_context, &device_endpoint_ref)
-                    .await;
+                DeviceEndpointClient::unobserve_device(
+                    &connector_context,
+                    &device_endpoint_ref,
+                    false,
+                )
+                .await;
                 return None;
             }
         };
@@ -493,7 +597,7 @@ impl DeviceEndpointClientCreationObservation {
                     .get_device_status(
                         device_endpoint_ref.device_name.clone(),
                         device_endpoint_ref.inbound_endpoint_name.clone(),
-                        connector_context.default_timeout,
+                        connector_context.azure_device_registry_timeout,
                     )
                     .await
                     .map_err(|e| adr_error_into_retry_error(e, "Get Device Status"))
@@ -507,7 +611,8 @@ impl DeviceEndpointClientCreationObservation {
                 // unobserve as cleanup
                 DeviceEndpointClient::unobserve_device(
                     &connector_context,
-                    &device_endpoint_ref)
+                    &device_endpoint_ref,
+                    false)
                 .await;
                 return None;
             }
@@ -529,9 +634,16 @@ impl DeviceEndpointClientCreationObservation {
                 log::error!(
                     "Dropping device endpoint create notification: {device_endpoint_ref:?}. {e}"
                 );
+                if let DeviceSpecificationError::CredentialsMountPathMissing(e_message) = e {
+                    let _ = connector_context.connector_restart_tx.try_send(e_message);
+                }
                 // unobserve as cleanup
-                DeviceEndpointClient::unobserve_device(&connector_context, &device_endpoint_ref)
-                    .await;
+                DeviceEndpointClient::unobserve_device(
+                    &connector_context,
+                    &device_endpoint_ref,
+                    false,
+                )
+                .await;
                 None
             }
         }
@@ -558,6 +670,12 @@ pub struct DeviceEndpointClient {
     /// Flag to track if asset creation is in progress
     #[getter(skip)]
     pending_asset_creation: bool,
+    /// Health reporter sender for sending health events
+    #[getter(skip)]
+    health_sender: HealthReporterSender,
+    /// Cancellation token for health reporting task - cancelled on deletion
+    #[getter(skip)]
+    health_cancellation_token: CancellationToken,
     /// Channels for sending and receiving completed asset clients.
     /// This is used to ensure that we only process one asset creation at a time
     #[getter(skip)]
@@ -576,9 +694,22 @@ impl DeviceEndpointClient {
         asset_create_observation: deployment_artifacts::azure_device_registry::AssetCreateObservation,
         connector_context: Arc<ConnectorContext>,
         // TODO: This won't need to return an error once the service properly sends errors if the endpoint doesn't exist
-    ) -> Result<Self, String> {
+    ) -> Result<Self, DeviceSpecificationError> {
         let (asset_completion_tx, asset_completion_rx) = mpsc::unbounded_channel();
 
+        let health_cancellation_token = CancellationToken::new();
+        let device_ref = DeviceRef {
+            device_name: device_endpoint_ref.device_name.clone(),
+            endpoint_name: device_endpoint_ref.inbound_endpoint_name.clone(),
+        };
+        let health_sender = connector_context
+            .azure_device_registry_client
+            .new_device_endpoint_health_reporter(
+                device_ref,
+                connector_context.azure_device_registry_timeout,
+                connector_context.health_report_interval,
+                health_cancellation_token.clone(),
+            );
         Ok(DeviceEndpointClient {
             specification: Arc::new(std::sync::RwLock::new(DeviceSpecification::new(
                 device,
@@ -596,6 +727,8 @@ impl DeviceEndpointClient {
             device_update_observation,
             asset_create_observation,
             pending_asset_creation: false,
+            health_sender,
+            health_cancellation_token,
             asset_completion_rx,
             asset_completion_tx,
             connector_context,
@@ -630,6 +763,8 @@ impl DeviceEndpointClient {
                     // the notification again.
                     let Some((updated_device, _)) = update else {
                         // if the update notification is None, then the device endpoint has been deleted
+                        // Cancel health reporting task
+                        self.health_cancellation_token.cancel();
                         // unobserve as cleanup
                         // Spawn a new task to prevent a possible cancellation and ensure the deleted
                         // notification reaches the application.
@@ -638,24 +773,36 @@ impl DeviceEndpointClient {
                                 let connector_context_clone = self.connector_context.clone();
                                 let device_endpoint_ref_clone = self.device_endpoint_ref.clone();
                                 async move {
-                                    Self::unobserve_device(&connector_context_clone, &device_endpoint_ref_clone).await;
+                                    Self::unobserve_device(&connector_context_clone, &device_endpoint_ref_clone, true).await;
                                 }
                             }
                         );
                         return ClientNotification::Deleted;
                     };
                     // update self with updated specification
-                    let mut unlocked_specification = self.specification.write().unwrap(); // unwrap can't fail unless lock is poisoned
-                    *unlocked_specification = DeviceSpecification::new(
+                    match DeviceSpecification::new(
                         updated_device,
                         self.connector_context
                             .connector_artifacts
                             .device_endpoint_credentials_mount
                             .as_ref(),
                         &self.device_endpoint_ref.inbound_endpoint_name,
-                    ).expect("Device Update Notification should never provide a device that doesn't have the inbound endpoint");
-
-                    return ClientNotification::Updated;
+                    ) {
+                        Ok(new_specification) => {
+                            let mut unlocked_specification = self.specification.write().unwrap(); // unwrap can't fail unless lock is poisoned
+                            *unlocked_specification = new_specification;
+                            return ClientNotification::Updated;
+                        }
+                        Err(e) => match e {
+                            DeviceSpecificationError::InvalidSpecification(_) => {
+                                unreachable!("Device Update Notification should never provide a device that doesn't have the inbound endpoint")
+                            },
+                            DeviceSpecificationError::CredentialsMountPathMissing(e_message) => {
+                                log::error!("Failed to apply device update for {:?}: {e_message}", self.device_endpoint_ref);
+                                let _ = self.connector_context.connector_restart_tx.try_send(e_message);
+                            },
+                        }
+                    }
                 },
                 // Check for completed asset creation
                 Some(asset_client_option) = self.asset_completion_rx.recv() => {
@@ -668,7 +815,9 @@ impl DeviceEndpointClient {
                 create_notification = self.asset_create_observation.recv_notification(), if !self.pending_asset_creation => {
                     let Some((asset_ref, asset_deletion_token)) = create_notification else {
                         // if the create notification is None, then the device endpoint has been deleted
-                        log::debug!("Device Endpoint Deletion detected, stopping device update observation for {:?}", self.device_endpoint_ref);
+                        log::info!("Device Endpoint Deletion detected, stopping device update observation for {:?}", self.device_endpoint_ref);
+                        // Cancel health reporting task
+                        self.health_cancellation_token.cancel();
                         // unobserve as cleanup
                         // Spawn a new task to prevent a possible cancellation and ensure the deleted
                         // notification reaches the application.
@@ -677,7 +826,7 @@ impl DeviceEndpointClient {
                                 let connector_context_clone = self.connector_context.clone();
                                 let device_endpoint_ref_clone = self.device_endpoint_ref.clone();
                                 async move {
-                                    Self::unobserve_device(&connector_context_clone, &device_endpoint_ref_clone).await;
+                                    Self::unobserve_device(&connector_context_clone, &device_endpoint_ref_clone, true).await;
                                 }
                             }
                         );
@@ -703,20 +852,26 @@ impl DeviceEndpointClient {
                         // Always send the result (Some or None) to unblock the receiver
                         let _ = asset_completion_tx.send(asset_client);
                     });
-                    continue; // Continue the loop to wait for task completion
                 }
             }
         }
     }
 
     /// Creates a new status reporter for this [`DeviceEndpointClient`].
+    /// The reporter's version snapshot is initialized to the current specification version.
+    ///
+    /// # Panics
+    /// if the specification mutex has been poisoned, which should not be possible
     #[must_use]
     pub fn get_status_reporter(&self) -> DeviceEndpointStatusReporter {
+        let snapshotted_version = self.specification.read().unwrap().version.unwrap_or(0);
         DeviceEndpointStatusReporter {
             connector_context: self.connector_context.clone(),
             device_endpoint_status: self.status.clone(),
             device_endpoint_specification: self.specification.clone(),
+            health_sender: self.health_sender.clone(),
             device_endpoint_ref: self.device_endpoint_ref.clone(),
+            snapshotted_version,
         }
     }
 
@@ -738,7 +893,7 @@ impl DeviceEndpointClient {
                         asset_ref.device_name.clone(),
                         asset_ref.inbound_endpoint_name.clone(),
                         asset_ref.name.clone(),
-                        connector_context.default_timeout,
+                        connector_context.azure_device_registry_timeout,
                     )
                     // retry on network errors, otherwise don't retry on config/dev errors
                     .await
@@ -761,7 +916,7 @@ impl DeviceEndpointClient {
                         asset_ref.device_name.clone(),
                         asset_ref.inbound_endpoint_name.clone(),
                         asset_ref.name.clone(),
-                        connector_context.default_timeout,
+                        connector_context.azure_device_registry_timeout,
                     )
                     .await
                     .map_err(|e| adr_error_into_retry_error(e, "Get Asset Definition"))
@@ -775,7 +930,7 @@ impl DeviceEndpointClient {
                     "Dropping asset create notification: {asset_ref:?}. Failed to get Asset definition after retries: {e}"
                 );
                 // unobserve as cleanup
-                AssetClient::unobserve_asset(&connector_context, &asset_ref).await;
+                AssetClient::unobserve_asset(&connector_context, &asset_ref, false).await;
                 return None;
             }
         };
@@ -790,7 +945,7 @@ impl DeviceEndpointClient {
                         asset_ref.device_name.clone(),
                         asset_ref.inbound_endpoint_name.clone(),
                         asset_ref.name.clone(),
-                        connector_context.default_timeout,
+                        connector_context.azure_device_registry_timeout,
                     )
                     .await
                     .map_err(|e| adr_error_into_retry_error(e, "Get Asset Status"))
@@ -801,7 +956,7 @@ impl DeviceEndpointClient {
             Err(e) => {
                 log::error!("Dropping asset create notification: {asset_ref:?}. Failed to get Asset status after retries: {e}");
                 // unobserve as cleanup
-                AssetClient::unobserve_asset(&connector_context, &asset_ref).await;
+                AssetClient::unobserve_asset(&connector_context, &asset_ref, false).await;
                 return None;
             },
         };
@@ -830,7 +985,7 @@ impl DeviceEndpointClient {
         (*self.status.read().await).clone()
     }
 
-    // Returns a clone of the current device specification
+    /// Returns a clone of the current device specification
     /// # Panics
     /// if the specification mutex has been poisoned, which should not be possible
     #[must_use]
@@ -842,6 +997,7 @@ impl DeviceEndpointClient {
     async fn unobserve_device(
         connector_context: &Arc<ConnectorContext>,
         device_endpoint_ref: &DeviceEndpointRef,
+        is_device_endpoint_deleted: bool,
     ) {
         let _ = Retry::spawn(
             RETRY_STRATEGY.map(tokio_retry2::strategy::jitter),
@@ -851,7 +1007,7 @@ impl DeviceEndpointClient {
                     .unobserve_device_update_notifications(
                         device_endpoint_ref.device_name.clone(),
                         device_endpoint_ref.inbound_endpoint_name.clone(),
-                        connector_context.default_timeout,
+                        connector_context.azure_device_registry_timeout,
                     )
                     // retry on network errors, otherwise don't retry on config/dev errors
                     .await
@@ -860,8 +1016,28 @@ impl DeviceEndpointClient {
         )
         .await
         .inspect_err(|e| {
-            log::error!("Failed to unobserve device update notifications for {device_endpoint_ref:?} after retries: {e}");
+            // If this unobserve is happening because the device_endpoint has been deleted, the unobserve call isn't necessary and will likely return
+            // an error indicating that the device_endpoint can't be found. In the future, we may have a service change to allow us to not need to
+            // call unobserve in these cases to clean up our local state, but for now this call is needed and the error should be ignored.
+            if is_device_endpoint_deleted {
+                match e.kind() {
+                    azure_device_registry::ErrorKind::ServiceError(_) => {
+                        log::debug!("Expected failure unobserving device update notifications for {device_endpoint_ref:?}. Since the device/endpoint has been deleted, this is expected and not an error if the error indicates that the device/endpoint is not found: {e}");
+                    },
+                    _ => {
+                        log::warn!("Failed to unobserve device update notifications for deleted {device_endpoint_ref:?} after retries. If error indicates that the device/endpoint is not found, this is expected and not a true error: {e}");
+                    }
+                }
+            } else {
+                log::error!("Failed to unobserve device update notifications for {device_endpoint_ref:?} after retries. If error indicates that the device/endpoint is not found, this may be expected and not a true error: {e}");
+            }
         });
+    }
+}
+
+impl Drop for DeviceEndpointClient {
+    fn drop(&mut self) {
+        self.health_cancellation_token.cancel();
     }
 }
 
@@ -1006,7 +1182,7 @@ impl AssetStatusReporter {
                         asset_ref.inbound_endpoint_name.clone(),
                         asset_ref.name.clone(),
                         adr_asset_status.clone(),
-                        connector_context.default_timeout,
+                        connector_context.azure_device_registry_timeout,
                     )
                     .await
                     .map_err(|e| adr_error_into_retry_error(e, &format!("Update Asset Status for {log_identifier}")))
@@ -1019,18 +1195,22 @@ impl AssetStatusReporter {
     }
 }
 
-/// Struct used to hold the updates for an Asset's data operations
-/// until all data operation kinds have been processed and the function
+/// Struct used to hold the updates for an Asset's components
+/// until all components have been processed and the function
 /// using this struct is beyond the point where it needs to worry about
 /// cancel safety.
-struct AssetDataOperationUpdates {
+struct AssetComponentUpdates {
     new_status: adr_models::AssetStatus,
     status_updated: bool,
     data_operation_updates: Vec<(
         watch::Sender<DataOperationUpdateNotification>,
         DataOperationUpdateNotification,
     )>,
-    new_data_operation_clients: Vec<DataOperationClient>,
+    management_action_updates: Vec<(
+        watch::Sender<ManagementActionUpdateNotification>,
+        ManagementActionUpdateNotification,
+    )>,
+    new_asset_component_clients: Vec<AssetComponentClient>,
 }
 
 /// Azure Device Registry Asset that includes additional functionality
@@ -1065,41 +1245,32 @@ pub struct AssetClient {
     /// Internal watcher sender that sends the latest update
     #[getter(skip)]
     asset_update_watcher_tx: watch::Sender<Asset>,
-    /// Internal sender for when new data operations are created
+    /// Internal sender for when new asset components are created
     #[getter(skip)]
-    data_operation_creation_tx: UnboundedSender<DataOperationClient>,
-    /// Internal channel for receiving notifications about data operation creation events.
+    asset_component_creation_tx: UnboundedSender<AssetComponentClient>,
+    /// Internal channel for receiving notifications about asset component creation events.
     #[getter(skip)]
-    data_operation_creation_rx: UnboundedReceiver<DataOperationClient>,
-    /// Internal watch sender for releasing data operation create/update notifications
+    asset_component_creation_rx: UnboundedReceiver<AssetComponentClient>,
+    /// Internal watch sender for releasing asset component create/update notifications
     #[getter(skip)]
-    release_data_operation_notifications_tx: watch::Sender<()>,
-    /// hashmap of current dataset names to their current definition and a sender to send dataset updates
+    release_asset_component_notifications_tx: watch::Sender<()>,
+    /// hashmap of current dataset names to their sender to send dataset updates
     #[getter(skip)]
-    dataset_hashmap: HashMap<
-        String,
-        (
-            adr_models::Dataset,
-            watch::Sender<DataOperationUpdateNotification>,
-        ),
-    >,
-    /// hashmap of current event names to their current definition and a sender to send event updates
+    dataset_hashmap: HashMap<String, watch::Sender<DataOperationUpdateNotification>>,
+    /// hashmap of current event/event group names to their sender to send event updates
     #[getter(skip)]
     event_hashmap: HashMap<
-        String,
-        (
-            adr_models::Event,
-            watch::Sender<DataOperationUpdateNotification>,
-        ),
+        (String, String), // (EventGroup name, Event name)
+        watch::Sender<DataOperationUpdateNotification>,
     >,
-    /// hashmap of current stream names to their current definition and a sender to send stream updates
+    /// hashmap of current stream names to their sender to send stream updates
     #[getter(skip)]
-    stream_hashmap: HashMap<
-        String,
-        (
-            adr_models::Stream,
-            watch::Sender<DataOperationUpdateNotification>,
-        ),
+    stream_hashmap: HashMap<String, watch::Sender<DataOperationUpdateNotification>>,
+    /// hashmap of current management action/management group names to their current definitions and a sender to send action updates
+    #[getter(skip)]
+    management_action_hashmap: HashMap<
+        (String, String), // (ManagementGroup name, ManagementAction name)
+        watch::Sender<ManagementActionUpdateNotification>,
     >,
     #[getter(skip)]
     connector_context: Arc<ConnectorContext>,
@@ -1120,9 +1291,9 @@ impl AssetClient {
         let (asset_update_watcher_tx, asset_update_watcher_rx) = watch::channel(asset.clone());
         let specification = AssetSpecification::from(asset.clone());
         let specification_version = specification.version;
-        let (data_operation_creation_tx, data_operation_creation_rx) = mpsc::unbounded_channel();
+        let (asset_component_creation_tx, asset_component_creation_rx) = mpsc::unbounded_channel();
 
-        // Create the AssetClient so that we can use the same helper functions for processing the data_operations as we do during the update flow
+        // Create the AssetClient so that we can use the same helper functions for processing the asset components as we do during the update flow
         let mut asset_client = AssetClient {
             asset_ref,
             specification: Arc::new(std::sync::RwLock::new(specification)),
@@ -1132,13 +1303,14 @@ impl AssetClient {
             asset_update_observation,
             asset_update_watcher_rx,
             asset_update_watcher_tx,
-            data_operation_creation_tx,
-            data_operation_creation_rx,
+            asset_component_creation_tx,
+            asset_component_creation_rx,
             dataset_hashmap: HashMap::new(),
             event_hashmap: HashMap::new(),
             stream_hashmap: HashMap::new(),
+            management_action_hashmap: HashMap::new(),
             connector_context,
-            release_data_operation_notifications_tx: watch::Sender::new(()),
+            release_asset_component_notifications_tx: watch::Sender::new(()),
             asset_deletion_token,
         };
 
@@ -1147,7 +1319,7 @@ impl AssetClient {
             // (not possible in new, but allows use of Self:: helper fns)
             let mut status_write_guard = asset_client.status.write().await;
             // if there are any config errors when parsing the asset, collect them all so we can report them at once
-            let mut updates = AssetDataOperationUpdates {
+            let mut updates = AssetComponentUpdates {
                 new_status: Self::get_current_asset_status(
                     &status_write_guard,
                     specification_version,
@@ -1155,15 +1327,15 @@ impl AssetClient {
                 .into_owned(),
                 status_updated: false,
                 data_operation_updates: Vec::new(),
-                new_data_operation_clients: Vec::new(),
+                new_asset_component_clients: Vec::new(),
+                management_action_updates: Vec::new(),
             };
-            // Handle "updates" for each type of data operation. Since we don't currently have any data
-            // operations tracked yet, everything in the definition will be treated as a new data operation.
+            // Handle "updates" for each type of asset component. Since we don't currently have any asset
+            // components tracked yet, everything in the definition will be treated as a new asset component.
             let mut temp_dataset_hashmap = asset_client.dataset_hashmap.clone();
             // asset_client.dataset_hashmap will be empty, so all datasets will be treated as new (as it should be).
             // Note that I could use vec::new() for temp_dataset_hashmap, but for extra safety, I'll clone the asset's dataset hashmap instead
             asset_client.handle_data_operation_kind_updates(
-                DataOperationKind::Dataset,
                 &mut temp_dataset_hashmap,
                 &asset,
                 &asset.datasets,
@@ -1172,24 +1344,30 @@ impl AssetClient {
             asset_client.dataset_hashmap = temp_dataset_hashmap;
 
             let mut temp_event_hashmap = asset_client.event_hashmap.clone();
-            asset_client.handle_data_operation_kind_updates(
-                DataOperationKind::Event,
+            asset_client.handle_event_group_updates(
                 &mut temp_event_hashmap,
                 &asset,
-                &asset.events,
+                &asset.event_groups,
                 &mut updates,
             );
             asset_client.event_hashmap = temp_event_hashmap;
 
             let mut temp_stream_hashmap = asset_client.stream_hashmap.clone();
             asset_client.handle_data_operation_kind_updates(
-                DataOperationKind::Stream,
                 &mut temp_stream_hashmap,
                 &asset,
                 &asset.streams,
                 &mut updates,
             );
             asset_client.stream_hashmap = temp_stream_hashmap;
+
+            let mut temp_management_action_hashmap = asset_client.management_action_hashmap.clone();
+            asset_client.handle_management_action_updates(
+                &mut temp_management_action_hashmap,
+                &asset.management_groups,
+                &mut updates,
+            );
+            asset_client.management_action_hashmap = temp_management_action_hashmap;
 
             // if there were any config errors, report them to the ADR service together
             if updates.status_updated {
@@ -1213,50 +1391,180 @@ impl AssetClient {
                 }
             }
 
-            // Send all new data operation create notifications
-            for new_data_operation_client in updates.new_data_operation_clients {
+            // Send all new asset component create notifications
+            for new_asset_component_client in updates.new_asset_component_clients {
                 // error is not possible since the receiving side of the channel is owned by the AssetClient
                 let _ = asset_client
-                    .data_operation_creation_tx
-                    .send(new_data_operation_client);
+                    .asset_component_creation_tx
+                    .send(new_asset_component_client);
             }
-            // Note, updates.data_operation_updates is not used because there will be no updates on new
+            // Note, updates.data_operation_updates/management_action_updates is not used because there will be no updates on new
         }
 
         asset_client
     }
 
+    /// Helper function to handle updates for all management actions on an Asset
+    ///
+    /// Parses and validates all Asset updates pertaining to management actions: detects any deleted, updated, and new management actions
+    /// Modifies `updates` and `management_action_hashmap` in place:
+    ///     Modifies `updates.new_status` with any validation errors found
+    ///     Adds any management action updates to `updates.management_action_updates` that can be sent after the update task can't be cancelled
+    ///     Adds any new Management Action Clients to `updates.new_asset_component_clients` that can be sent after the update task can't be cancelled
+    ///     Removes any deleted Management Actions from the `management_action_hashmap` that can be applied after the update task can't be cancelled
+    fn handle_management_action_updates(
+        &self,
+        management_action_hashmap: &mut HashMap<
+            (String, String), // (ManagementGroup name, ManagementAction name)
+            watch::Sender<ManagementActionUpdateNotification>,
+        >,
+        updated_management_groups: &[adr_models::ManagementGroup],
+        updates: &mut AssetComponentUpdates,
+    ) {
+        // remove the management actions that are no longer present in the new asset definition.
+        // This triggers deletion notification since this drops the update sender.
+        management_action_hashmap.retain(|(management_group_name, action_name), _| {
+            if let Some(updated_management_group) = updated_management_groups
+                .iter()
+                .find(|management_group| management_group.name == *management_group_name)
+            {
+                updated_management_group
+                    .actions
+                    .iter()
+                    .any(|updated_action| updated_action.name == *action_name)
+            } else {
+                false
+            }
+        });
+
+        // For all received actions, check if the existing action needs to be updated or if a new one needs to be created
+        for received_management_group in updated_management_groups {
+            for received_management_action in &received_management_group.actions {
+                let update_notification = ManagementActionUpdateNotification {
+                    definition: (
+                        received_management_group.clone(),
+                        received_management_action.clone(),
+                    )
+                        .into(),
+                    release_asset_component_notifications_rx: self
+                        .release_asset_component_notifications_tx
+                        .subscribe(),
+                };
+                // if it already exists
+                if let Some(management_action_update_tx) =
+                    management_action_hashmap.get(update_notification.definition.hash_name())
+                {
+                    // save update to send to the action after the task can't get cancelled
+                    // Send an update whether the action changed or not, because the client needs to know the asset was updated at minimum
+                    updates
+                        .management_action_updates
+                        .push((management_action_update_tx.clone(), update_notification));
+                }
+                // it needs to be created
+                else {
+                    let received_management_specification = update_notification.definition.clone();
+                    let (management_action_update_watcher_tx, management_action_update_watcher_rx) =
+                        watch::channel(update_notification);
+                    let (new_management_action_client, new_executor_res) =
+                        ManagementActionClient::new(
+                            received_management_specification,
+                            management_action_update_watcher_rx,
+                            self.asset_ref.clone(),
+                            self.status.clone(),
+                            self.specification.clone(),
+                            self.device_specification.clone(),
+                            self.device_status.clone(),
+                            self.connector_context.clone(),
+                        );
+                    // if there were errors, report them to the status to be send to ADR
+                    if let Err(e) = &new_executor_res {
+                        // add the error to the status to be reported to ADR, and then continue to process
+                        // other actions
+                        ManagementActionClient::update_action_status(
+                            &mut updates.new_status,
+                            &received_management_group.name,
+                            &received_management_action.name,
+                            Err(e.clone()),
+                        );
+                        updates.status_updated = true;
+                    }
+                    // insert the management action into the hashmap so we can handle updates
+                    management_action_hashmap.insert(
+                        new_management_action_client.definition.hash_name().clone(),
+                        management_action_update_watcher_tx,
+                    );
+                    // save the new management action client to be sent on self.asset_component_creation_tx after the task can't get cancelled
+                    updates.new_asset_component_clients.push(
+                        AssetComponentClient::ManagementAction((
+                            new_management_action_client,
+                            new_executor_res,
+                        )),
+                    );
+                }
+            }
+        }
+    }
+
+    /// Helper function to handle updates for event groups on an Asset
+    /// Transforms a list of `adr_models::EventGroup`s into a list of
+    /// [`EventSpecification`]s per Event and calls `handle_data_operation_kind_updates`
+    fn handle_event_group_updates(
+        &self,
+        event_hashmap: &mut HashMap<
+            (String, String), // (eg name, event name)
+            watch::Sender<DataOperationUpdateNotification>,
+        >,
+        updated_asset: &Asset,
+        updated_asset_event_groups: &[adr_models::EventGroup],
+        updates: &mut AssetComponentUpdates,
+    ) {
+        let mut updated_asset_events: Vec<EventSpecification> = Vec::new();
+        for event_group in updated_asset_event_groups {
+            // Creates an [`EventSpecification`] for each event in the event group
+            for event in &event_group.events {
+                updated_asset_events.push((event_group.clone(), event.clone()).into());
+            }
+        }
+
+        // Do the actual updates now that we have the correct data format
+        self.handle_data_operation_kind_updates(
+            event_hashmap,
+            updated_asset,
+            &updated_asset_events,
+            updates,
+        );
+    }
+
     /// Helper function to handle updates for all of a type of data operations on an Asset
     /// This reduces duplicate code for each data operation kind - instead this function is called once for each
     ///
-    /// Parses and validates all Asset updates pertaining to this data operation kind
+    /// Parses and validates all Asset updates pertaining to this data operation kind:
     ///     Detects any deleted, updated, and new data operations
     ///     Parses the default destination for that data operation
     /// Modifies `updates` and `data_operation_hashmap` in place:
-    /// Modifies `updates.new_status` with any validation errors found
-    /// Adds any Data Operation updates to `updates.data_operation_updates` that can be sent after the update task can't be cancelled
-    /// Adds any new Data Operation Clients to `updates.new_data_operation_clients` that can be sent after the update task can't be cancelled
-    /// Removes any deleted Data Operations from the `data_operation_hashmap` that can be applied after the update task can't be cancelled
+    ///     Modifies `updates.new_status` with any validation errors found
+    ///     Adds any Data Operation updates to `updates.data_operation_updates` that can be sent after the update task can't be cancelled
+    ///     Adds any new Data Operation Clients to `updates.new_asset_component_clients` that can be sent after the update task can't be cancelled
+    ///     Removes any deleted Data Operations from the `data_operation_hashmap` that can be applied after the update task can't be cancelled
     fn handle_data_operation_kind_updates<T: Clone + DataOperation + PartialEq>(
         &self,
-        data_operation_kind: DataOperationKind,
         data_operation_hashmap: &mut HashMap<
-            String,
-            (T, watch::Sender<DataOperationUpdateNotification>),
+            T::HashName,
+            watch::Sender<DataOperationUpdateNotification>,
         >,
         updated_asset: &Asset,
         updated_asset_data_operations: &[T],
-        updates: &mut AssetDataOperationUpdates,
+        updates: &mut AssetComponentUpdates,
     ) {
         // remove the data operations that are no longer present in the new asset definition.
         // This triggers deletion notification since this drops the update sender.
         data_operation_hashmap.retain(|data_operation_name, _| {
             updated_asset_data_operations
                 .iter()
-                .any(|data_operation| data_operation.name() == *data_operation_name)
+                .any(|data_operation| data_operation.hash_name() == data_operation_name)
         });
         // Get the new default data operation destinations and track whether they're different or not from the current one
-        let default_data_operation_destination_updated = match data_operation_kind {
+        let default_data_operation_destination_updated = match T::kind() {
             DataOperationKind::Dataset => {
                 updated_asset.default_datasets_destinations
                     != self
@@ -1283,25 +1591,35 @@ impl AssetClient {
             }
         };
 
-        let default_destinations_result = match data_operation_kind {
+        let default_destinations_result = match T::kind() {
             DataOperationKind::Dataset => {
                 destination_endpoint::Destination::new_dataset_destinations(
                     &updated_asset.default_datasets_destinations,
-                    &self.asset_ref.inbound_endpoint_name,
+                    &self.asset_ref,
+                    updated_asset.uuid.as_ref(),
+                    updated_asset.external_asset_id.as_ref(),
                     &self.connector_context,
                 )
             }
             DataOperationKind::Event => {
+                // TODO: To support default destinations on the event group in the future,
+                // we can create a hashmap of eventGroups to their default destinations here.
+                // However, any failures need to be reported only on an event that would actually
+                // use that bad configuration
                 destination_endpoint::Destination::new_event_stream_destinations(
                     &updated_asset.default_events_destinations,
-                    &self.asset_ref.inbound_endpoint_name,
+                    &self.asset_ref,
+                    updated_asset.uuid.as_ref(),
+                    updated_asset.external_asset_id.as_ref(),
                     &self.connector_context,
                 )
             }
             DataOperationKind::Stream => {
                 destination_endpoint::Destination::new_event_stream_destinations(
                     &updated_asset.default_streams_destinations,
-                    &self.asset_ref.inbound_endpoint_name,
+                    &self.asset_ref,
+                    updated_asset.uuid.as_ref(),
+                    updated_asset.external_asset_id.as_ref(),
                     &self.connector_context,
                 )
             }
@@ -1328,99 +1646,109 @@ impl AssetClient {
 
         // For all received data operations, check if the existing data operation needs an update or if a new one needs to be created
         for received_data_operation in updated_asset_data_operations {
-            let data_operation_definition = received_data_operation
-                .clone()
-                .into_data_operation_definition();
             // it already exists
-            if let Some((data_operation, data_operation_update_tx)) =
-                data_operation_hashmap.get_mut(received_data_operation.name())
+            if let Some(data_operation_update_tx) =
+                data_operation_hashmap.get(received_data_operation.hash_name())
             {
-                // if the default destination has changed, update all data operations. TODO: might be able to track whether a data operation uses a default to reduce updates needed here
-                // otherwise, only send an update if the data operation definition has changed
-                if default_data_operation_destination_updated
-                    || received_data_operation != data_operation
-                {
-                    // we need to make sure we have the updated definition for comparing next time
-                    *data_operation = received_data_operation.clone();
+                // TODO: To support default destinations on the event group in the future,
+                // we can check the previous event group default destinations hashmap here
+                // and overwrite the asset event default destination if it's present before
+                // sending the update.
+                // To support splitting updates for the eventGroup as a separate notification
+                // from updates on an event, that logic would need to be added here as well.
 
-                    // save update to send to the data operation after the task can't get cancelled
-                    updates.data_operation_updates.push((
-                        data_operation_update_tx.clone(),
-                        (
-                            data_operation_definition,
-                            default_data_operation_destinations.clone(),
-                            self.release_data_operation_notifications_tx.subscribe(),
-                        ),
-                    ));
-                } else {
-                    // TODO: copy over the existing data operation status for a new status report? (other bug)
-                }
+                // save update to send to the data operation after the task can't get cancelled
+                // Send an update whether the data operation changed or not, because the client needs to know the asset was updated at minimum
+                updates.data_operation_updates.push((
+                    data_operation_update_tx.clone(),
+                    DataOperationUpdateNotification {
+                        definition: received_data_operation.clone().into(),
+                        default_destinations: default_data_operation_destinations.clone(),
+                        default_destination_has_changed: default_data_operation_destination_updated,
+                        release_asset_component_notifications_rx: self
+                            .release_asset_component_notifications_tx
+                            .subscribe(),
+                    },
+                ));
             }
             // it needs to be created
             else {
-                let (data_operation_update_watcher_tx, data_operation_update_watcher_rx) =
-                    watch::channel((
-                        data_operation_definition.clone(),
-                        default_data_operation_destinations.clone(),
-                        self.release_data_operation_notifications_tx.subscribe(),
-                    ));
-                match DataOperationClient::new(
-                    data_operation_definition,
-                    data_operation_update_watcher_rx,
-                    &default_data_operation_destinations,
-                    self.asset_ref.clone(),
-                    self.status.clone(),
-                    self.specification.clone(),
-                    self.device_specification.clone(),
-                    self.device_status.clone(),
-                    self.connector_context.clone(),
-                ) {
-                    Ok(new_data_operation_client) => {
-                        // insert the data operation client into the hashmap so we can handle updates
-                        data_operation_hashmap.insert(
-                            received_data_operation.name().to_string(),
-                            (
-                                received_data_operation.clone(),
-                                data_operation_update_watcher_tx,
-                            ),
-                        );
+                // TODO: To support default destinations on the event group in the future,
+                // here we also need to determine whether to pass in the asset or eventGroup
+                // default event destination
 
-                        // save new data operation client to be sent on self.data_operation_creation_tx after the task can't get cancelled
-                        updates
-                            .new_data_operation_clients
-                            .push(new_data_operation_client);
-                    }
-                    Err(e) => {
-                        // Add the error to the status to be reported to ADR, and then continue to process
-                        // other data operations even if one isn't valid. Don't give this one to
-                        // the application since we can't forward data on it. If there's an update to the
-                        // definition, they'll get the create notification for it at that point if it's valid
-                        match data_operation_kind {
-                            DataOperationKind::Dataset => {
-                                DataOperationClient::update_dataset_status(
-                                    &mut updates.new_status,
-                                    received_data_operation.name(),
-                                    Err(e),
-                                );
-                            }
-                            DataOperationKind::Event => {
-                                DataOperationClient::update_event_status(
-                                    &mut updates.new_status,
-                                    received_data_operation.name(),
-                                    Err(e),
-                                );
-                            }
-                            DataOperationKind::Stream => {
-                                DataOperationClient::update_stream_status(
-                                    &mut updates.new_status,
-                                    received_data_operation.name(),
-                                    Err(e),
-                                );
-                            }
+                let data_operation_definition = received_data_operation.clone().into();
+                let (data_operation_update_watcher_tx, data_operation_update_watcher_rx) =
+                    watch::channel(DataOperationUpdateNotification {
+                        definition: data_operation_definition.clone(),
+                        default_destinations: default_data_operation_destinations.clone(),
+                        default_destination_has_changed: true,
+                        release_asset_component_notifications_rx: self
+                            .release_asset_component_notifications_tx
+                            .subscribe(),
+                    });
+                let (new_data_operation_client, data_operation_client_result) =
+                    DataOperationClient::new(
+                        data_operation_definition,
+                        data_operation_update_watcher_rx,
+                        &default_data_operation_destinations,
+                        self.asset_ref.clone(),
+                        self.status.clone(),
+                        self.specification.clone(),
+                        self.device_specification.clone(),
+                        self.device_status.clone(),
+                        self.connector_context.clone(),
+                    );
+                // insert the data operation client into the hashmap so we can handle updates
+                data_operation_hashmap.insert(
+                    received_data_operation.hash_name().clone(),
+                    data_operation_update_watcher_tx,
+                );
+                // save new data operation client to be sent on self.asset_component_creation_tx after the task can't get cancelled
+                updates
+                    .new_asset_component_clients
+                    .push(AssetComponentClient::DataOperation((
+                        new_data_operation_client,
+                        data_operation_client_result.clone(),
+                    )));
+
+                // If there were errors, report them to the status to be sent to ADR
+                if let Err(e) = data_operation_client_result {
+                    // Add the error to the status to be reported to ADR, and then continue to process
+                    // other data operations even if one isn't valid.
+                    match received_data_operation.data_operation_name() {
+                        DataOperationName::Dataset {
+                            name: ref dataset_name,
+                        } => {
+                            DataOperationClient::update_dataset_status(
+                                &mut updates.new_status,
+                                dataset_name,
+                                Err(e),
+                            );
                         }
-                        updates.status_updated = true;
+                        DataOperationName::Event {
+                            name: ref event_name,
+                            ref event_group_name,
+                        } => {
+                            DataOperationClient::update_event_status(
+                                &mut updates.new_status,
+                                event_group_name,
+                                event_name,
+                                Err(e),
+                            );
+                        }
+                        DataOperationName::Stream {
+                            name: ref stream_name,
+                        } => {
+                            DataOperationClient::update_stream_status(
+                                &mut updates.new_status,
+                                stream_name,
+                                Err(e),
+                            );
+                        }
                     }
-                };
+                    updates.status_updated = true;
+                }
             }
         }
     }
@@ -1429,7 +1757,7 @@ impl AssetClient {
     async fn handle_update(
         &mut self,
         updated_asset: Asset,
-    ) -> ClientNotification<DataOperationClient> {
+    ) -> ClientNotification<AssetComponentClient> {
         // lock the status write guard so that no other threads can modify the status while we update it
         let mut status_write_guard = self.status.write().await;
 
@@ -1444,7 +1772,7 @@ impl AssetClient {
                 Some(config)
             }
             None => {
-                // If the config is None, we need to create a new one to report along with the data operation status
+                // If the config is None, we need to create a new one to report along with the asset component statuses
                 Some(azure_device_registry::ConfigStatus {
                     version: updated_asset.version,
                     last_transition_time: Some(Utc::now()),
@@ -1454,38 +1782,42 @@ impl AssetClient {
         };
 
         // if there are any config errors when parsing the asset, collect them all so we can report them at once
-        // track all data_operations to update and save notifications for once the task can't be cancelled
-        let mut updates = AssetDataOperationUpdates {
+        // track all asset components to update and save notifications for once the task can't be cancelled
+        let mut updates = AssetComponentUpdates {
             new_status: adr_asset_status,
             status_updated: false,
             data_operation_updates: Vec::new(),
-            new_data_operation_clients: Vec::new(),
+            management_action_updates: Vec::new(),
+            new_asset_component_clients: Vec::new(),
         };
 
-        // Handle updates for each type of data operation
-        // make changes to copies of the data operation hashmaps so that this function is cancel safe
+        // Handle updates for each type of asset component
+        // make changes to copies of the asset component hashmaps so that this function is cancel safe
         let mut temp_dataset_hashmap = self.dataset_hashmap.clone();
         self.handle_data_operation_kind_updates(
-            DataOperationKind::Dataset,
             &mut temp_dataset_hashmap,
             &updated_asset,
             &updated_asset.datasets,
             &mut updates,
         );
         let mut temp_event_hashmap = self.event_hashmap.clone();
-        self.handle_data_operation_kind_updates(
-            DataOperationKind::Event,
+        self.handle_event_group_updates(
             &mut temp_event_hashmap,
             &updated_asset,
-            &updated_asset.events,
+            &updated_asset.event_groups,
             &mut updates,
         );
         let mut temp_stream_hashmap = self.stream_hashmap.clone();
         self.handle_data_operation_kind_updates(
-            DataOperationKind::Stream,
             &mut temp_stream_hashmap,
             &updated_asset,
             &updated_asset.streams,
+            &mut updates,
+        );
+        let mut temp_management_action_hashmap = self.management_action_hashmap.clone();
+        self.handle_management_action_updates(
+            &mut temp_management_action_hashmap,
+            &updated_asset.management_groups,
             &mut updates,
         );
 
@@ -1515,30 +1847,43 @@ impl AssetClient {
         let mut unlocked_specification = self.specification.write().unwrap(); // unwrap can't fail unless lock is poisoned
         *unlocked_specification = AssetSpecification::from(updated_asset);
 
-        // update data operation hashmaps now that this task can't be cancelled
+        // update asset component hashmaps now that this task can't be cancelled
         self.dataset_hashmap = temp_dataset_hashmap;
         self.event_hashmap = temp_event_hashmap;
         self.stream_hashmap = temp_stream_hashmap;
+        self.management_action_hashmap = temp_management_action_hashmap;
 
         // send all notifications associated with this asset update
         for (data_operation_update_tx, data_operation_update_notification) in
             updates.data_operation_updates
         {
             // send update to the data operation
-            let _ = data_operation_update_tx.send(data_operation_update_notification).inspect_err(|tokio::sync::watch::error::SendError((e_data_operation_definition, _,_))| {
+            let _ = data_operation_update_tx.send(data_operation_update_notification).inspect_err(|tokio::sync::watch::error::SendError(DataOperationUpdateNotification {definition, ..})| {
                 // TODO: should this trigger the DataOperationClient create flow, or is this just indicative of an application bug?
                 log::warn!(
-                    "Update received for data operation {} on asset {:?}, but DataOperationClient has been dropped",
-                    e_data_operation_definition.name(),
+                    "Update received for {} on asset {:?}, but DataOperationClient has been dropped",
+                    definition.name(),
                     self.asset_ref
                 );
             });
         }
-        for new_data_operation_client in updates.new_data_operation_clients {
+        for (management_action_update_tx, management_action_update_notification) in
+            updates.management_action_updates
+        {
+            // send update to the management action
+            let _ = management_action_update_tx.send(management_action_update_notification).inspect_err(|tokio::sync::watch::error::SendError(ManagementActionUpdateNotification {definition, ..})| {
+                log::warn!(
+                    "Update received for management action {} on asset {:?}, but ManagementActionClient has been dropped",
+                    definition.command_name(),
+                    self.asset_ref
+                );
+            });
+        }
+        for new_asset_component_client in updates.new_asset_component_clients {
             // error is not possible since the receiving side of the channel is owned by the AssetClient
             let _ = self
-                .data_operation_creation_tx
-                .send(new_data_operation_client);
+                .asset_component_creation_tx
+                .send(new_asset_component_client);
         }
 
         // Asset update has been fully processed, mark as seen.
@@ -1556,12 +1901,14 @@ impl AssetClient {
     /// The [`AssetClient`] should not be used after this point, and no more
     /// notifications will be received.
     ///
-    /// Returns [`ClientNotification::Created`] with a new [`DataOperationClient`] if a
-    /// new Data Operation has been created.
+    /// Returns [`ClientNotification::Created`] with a new [`AssetComponentClient`] if a new dataset, event, stream, or
+    /// management action has been created. Within the [`AssetComponentClient`] enum, the Client and any configuration
+    /// errors detected during creation are included. If there was an error detected, the [`AssetComponentClient`] should
+    /// not be used until an Ok update is received. The [`AssetComponentClient`] can be used to receive updates for the new component.
     ///
-    /// Receiving an update will also trigger update/deletion notifications for data operations that
-    /// are linked to this asset. To ensure the asset update is received before data operation notifications,
-    /// data operation notifications won't be released until this function is polled again after receiving an
+    /// Receiving an update will also trigger update/deletion notifications for asset components that
+    /// are linked to this asset. To ensure the asset update is received before asset component notifications,
+    /// asset component notifications won't be released until this function is polled again after receiving an
     /// update.
     ///
     /// # Cancel safety
@@ -1571,14 +1918,14 @@ impl AssetClient {
     ///
     /// # Panics
     /// If the specification mutex has been poisoned, which should not be possible
-    pub async fn recv_notification(&mut self) -> ClientNotification<DataOperationClient> {
-        // release any pending data_operation create/update notifications
-        self.release_data_operation_notifications_tx
+    pub async fn recv_notification(&mut self) -> ClientNotification<AssetComponentClient> {
+        // release any pending asset component create/update notifications
+        self.release_asset_component_notifications_tx
             .send_modify(|()| ());
         tokio::select! {
             biased;
             () = self.asset_deletion_token.cancelled() => {
-                log::debug!("Asset deletion token received, stopping asset update observation for {:?}", self.asset_ref);
+                log::info!("Asset deletion token received, stopping asset update observation for {:?}", self.asset_ref);
                 // unobserve as cleanup
                 // Spawn a new task to prevent a possible cancellation and ensure the deleted
                 // notification reaches the application.
@@ -1587,7 +1934,7 @@ impl AssetClient {
                         let connector_context_clone = self.connector_context.clone();
                         let asset_ref_clone = self.asset_ref.clone();
                         async move {
-                            Self::unobserve_asset(&connector_context_clone, &asset_ref_clone).await;
+                            Self::unobserve_asset(&connector_context_clone, &asset_ref_clone, true).await;
                         }
                     }
                 );
@@ -1612,7 +1959,7 @@ impl AssetClient {
                             let connector_context_clone = self.connector_context.clone();
                             let asset_ref_clone = self.asset_ref.clone();
                             async move {
-                                Self::unobserve_asset(&connector_context_clone, &asset_ref_clone).await;
+                                Self::unobserve_asset(&connector_context_clone, &asset_ref_clone, true).await;
                             }
                         }
                     );
@@ -1630,8 +1977,8 @@ impl AssetClient {
 
                 self.handle_update(updated_asset).await
             }
-            create_notification = self.data_operation_creation_rx.recv() => {
-                let Some(data_operation_client) = create_notification else {
+            create_notification = self.asset_component_creation_rx.recv() => {
+                let Some(asset_component_client) = create_notification else {
                     // unobserve as cleanup
                     // Spawn a new task to prevent a possible cancellation and ensure the deleted
                     // notification reaches the application.
@@ -1640,13 +1987,13 @@ impl AssetClient {
                             let connector_context_clone = self.connector_context.clone();
                             let asset_ref_clone = self.asset_ref.clone();
                             async move {
-                                Self::unobserve_asset(&connector_context_clone, &asset_ref_clone).await;
+                                Self::unobserve_asset(&connector_context_clone, &asset_ref_clone, true).await;
                             }
                         }
                     );
                     return ClientNotification::Deleted;
                 };
-                ClientNotification::Created(data_operation_client)
+                ClientNotification::Created(asset_component_client)
             },
         }
     }
@@ -1668,7 +2015,7 @@ impl AssetClient {
         (*self.status.read().await).clone()
     }
 
-    // Returns a clone of the current device specification
+    /// Returns a clone of the current device specification
     /// # Panics
     /// if the device specification mutex has been poisoned, which should not be possible
     #[must_use]
@@ -1676,9 +2023,7 @@ impl AssetClient {
         (*self.device_specification.read().unwrap()).clone()
     }
 
-    // Returns a clone of the current device status
-    /// # Panics
-    /// if the device status mutex has been poisoned, which should not be possible
+    /// Returns a clone of the current device status
     #[must_use]
     pub async fn device_status(&self) -> DeviceEndpointStatus {
         (*self.device_status.read().await).clone()
@@ -1726,7 +2071,11 @@ impl AssetClient {
     }
 
     /// Internal convenience function to unobserve from an asset's update notifications for cleanup
-    async fn unobserve_asset(connector_context: &Arc<ConnectorContext>, asset_ref: &AssetRef) {
+    async fn unobserve_asset(
+        connector_context: &Arc<ConnectorContext>,
+        asset_ref: &AssetRef,
+        is_asset_deleted: bool,
+    ) {
         // unobserve as cleanup
         let _ = Retry::spawn(
             RETRY_STRATEGY.map(tokio_retry2::strategy::jitter),
@@ -1737,7 +2086,7 @@ impl AssetClient {
                         asset_ref.device_name.clone(),
                         asset_ref.inbound_endpoint_name.clone(),
                         asset_ref.name.clone(),
-                        connector_context.default_timeout,
+                        connector_context.azure_device_registry_timeout,
                     )
                     // retry on network errors, otherwise don't retry on config/dev errors
                     .await
@@ -1746,12 +2095,45 @@ impl AssetClient {
         )
         .await
         .inspect_err(|e| {
-            log::error!("Failed to unobserve asset update notifications for {asset_ref:?} after retries: {e}");
+            // If this unobserve is happening because the asset has been deleted, the unobserve call isn't necessary and will likely return
+            // an error indicating that the asset can't be found. In the future, we may have a service change to allow us to not need to
+            // call unobserve in these cases to clean up our local state, but for now this call is needed and the error should be ignored.
+            if is_asset_deleted {
+                match e.kind() {
+                    azure_device_registry::ErrorKind::ServiceError(_) => {
+                        log::debug!("Expected failure unobserving asset update notifications for {asset_ref:?}. Since the asset has been deleted, this is expected and not an error if the error indicates that the asset is not found: {e}");
+                    },
+                    _ => {
+                        log::warn!("Failed to unobserve asset update notifications for deleted {asset_ref:?} after retries. If error indicates that the asset is not found, this is expected and not a true error: {e}");
+                    }
+                }
+            } else {
+                log::error!("Failed to unobserve asset update notifications for {asset_ref:?} after retries. If error indicates that the asset is not found, this may be expected and not a true error: {e}");
+            }
         });
     }
 }
 
-/// Errors that can be returned when reporting a message schema for a data operation
+/// Azure Device Registry Asset Component Client represents either a Dataset, Event,
+/// Stream, or Management Action Client
+#[allow(clippy::large_enum_variant)] // Large variants are mostly composed of already heap allocated data
+#[non_exhaustive]
+pub enum AssetComponentClient {
+    /// Azure Device Registry Data Operation Client represents either a Dataset, Event,
+    /// or Stream Client along with any configuration errors detected during creation
+    DataOperation((DataOperationClient, Result<(), AdrConfigError>)),
+    /// Azure Device Registry Management Action Client represents a Management Action Client
+    /// along with either any configuration error detected during creation or the initial
+    /// Management Action Executor
+    ManagementAction(
+        (
+            ManagementActionClient,
+            Result<ManagementActionExecutor, AdrConfigError>,
+        ),
+    ),
+}
+
+/// Errors that can be returned when reporting a message schema for an asset component
 #[derive(Error, Debug)]
 pub enum MessageSchemaError {
     /// An error occurred while putting the Schema in the Schema Registry
@@ -1762,25 +2144,6 @@ pub enum MessageSchemaError {
     AzureDeviceRegistryError(#[from] azure_device_registry::Error),
 }
 
-type DataOperationUpdateNotification = (
-    DataOperationDefinition,                     // new data operation definition
-    Vec<Arc<destination_endpoint::Destination>>, // new default data operation destinations
-    watch::Receiver<()>, // watch receiver for when the update notification should be released to the application
-);
-
-/// Notifications that can be received for a Data Operation
-pub enum DataOperationNotification {
-    /// Indicates that the Data Operation's definition has been updated in place
-    Updated,
-    /// Indicates that the Data Operation has been deleted.
-    Deleted,
-    /// Indicates that the Data Operation received an update, but the update was not valid.
-    /// The definition is still updated in place, but the [`DataOperationClient`] should not be used until
-    /// there is a new update, otherwise the out of date definition will be used for
-    /// sending data to the destination.
-    UpdatedInvalid,
-}
-
 /// Result of a schema modification attempt
 pub enum SchemaModifyResult {
     /// Indicates that the schema was reported successfully and status was modified
@@ -1789,22 +2152,114 @@ pub enum SchemaModifyResult {
     NotModified,
 }
 
-/// A cloneable status reporter for Data Operation status reporting.
+trait AssetComponentRef: std::fmt::Debug {
+    /// Gets the input needed to modify the status for this asset component
+    fn get_modify_input<'a>(
+        &self,
+        current_status: &'a adr_models::AssetStatus,
+    ) -> Option<Result<(), &'a AdrConfigError>>;
+
+    /// Internal function to report the status for this asset component
+    async fn internal_report_status(
+        &self,
+        connector_context: &Arc<ConnectorContext>,
+        asset_ref: &AssetRef,
+        adr_asset_status: adr_models::AssetStatus,
+        asset_status_write_guard: &mut adr_models::AssetStatus,
+        desired_asset_component_status: Result<(), AdrConfigError>,
+        log_identifier: &str,
+    ) -> Result<(), azure_device_registry::Error>;
+}
+
+/// A cloneable status reporter for Asset Component status reporting.
 ///
-/// This provides a way to report Data Operation status changes from outside the [`DataOperationClient`].
+/// This provides a way to report Asset Component status changes from outside the [`AssetComponentClient`].
+/// Each clone maintains its own independent version snapshot, allowing different tasks to work with
+/// different versions of the asset specification.
+#[allow(private_bounds)]
 #[derive(Debug, Clone)]
-pub struct DataOperationStatusReporter {
+pub struct AssetComponentStatusReporter<T: AssetComponentRef> {
     connector_context: Arc<ConnectorContext>,
     asset_status: Arc<tokio::sync::RwLock<adr_models::AssetStatus>>,
     asset_specification: Arc<std::sync::RwLock<AssetSpecification>>,
-    data_operation_ref: DataOperationRef,
+    health_sender: HealthReporterSender,
+    asset_component_ref: T,
     asset_ref: AssetRef,
+    snapshotted_version: u64,
 }
 
-impl DataOperationStatusReporter {
-    /// Used to conditionally report the data operation status and then updates the asset with the new status returned.
+// Allowing private bounds because the customer doesn't actually need to interface with T, and it should be private
+#[allow(private_bounds)]
+impl<T: AssetComponentRef> AssetComponentStatusReporter<T> {
+    /// This function is used to report the current runtime health event for the asset component.
     ///
-    /// The `modify` function is called with the current data operation status (if any) and should return:
+    /// NOTE: This will only report the health event to the service if needed, so it is
+    /// okay to call this function frequently. It is required to call this function any time
+    /// the health status changes to ensure that the service has the latest information.
+    /// If the health status does not change, the underlying client will report the last known
+    /// health event at the base connector `health_report_interval`'s frequency at minimum unless `pause_health_reporting` is called.
+    ///
+    /// The version used for reporting is the snapshotted version from the last call to
+    /// `refresh_health_version()` or `pause_and_refresh_health_version()`, not necessarily the current specification version.
+    pub fn report_health_event(&self, health_event: RuntimeHealthEvent) {
+        let (status, message, reason_code) = match health_event {
+            RuntimeHealthEvent::Available => (HealthStatus::Available, None, None),
+            RuntimeHealthEvent::Unavailable {
+                message,
+                reason_code,
+            } => (HealthStatus::Unavailable, message, reason_code),
+        };
+        let runtime_health = RuntimeHealth {
+            last_update_time: Utc::now(),
+            message,
+            reason_code,
+            status,
+            version: self.snapshotted_version,
+        };
+        if let Err(e) = self.health_sender.report(runtime_health) {
+            log::warn!(
+                "Failed to send health event for {:?}: {e}",
+                self.asset_component_ref
+            );
+        }
+    }
+
+    /// Pauses background health event reporting until a new event is reported.
+    /// This should be called when the component is updated to indicate that the previous health event may no longer be applicable.
+    pub fn pause_health_reporting(&self) {
+        if let Err(e) = self.health_sender.pause() {
+            log::warn!(
+                "Failed to pause health reporting for {:?}: {e}",
+                self.asset_component_ref
+            );
+        }
+    }
+
+    /// Snapshots the current asset specification version for use in future health events.
+    /// Call this when starting to use a new definition to "lock in" the version you're working with.
+    ///
+    /// # Panics
+    /// if the asset specification mutex has been poisoned, which should not be possible
+    pub fn refresh_health_version(&mut self) {
+        self.snapshotted_version = self
+            .asset_specification
+            .read()
+            .unwrap()
+            .version
+            .unwrap_or(0);
+    }
+
+    /// Combines `pause_health_reporting()` and `refresh_health_version()`.
+    /// Pauses background reporting AND snapshots the current asset specification version.
+    /// Useful when receiving an update in the same task that handles notifications.
+    pub fn pause_and_refresh_health_version(&mut self) {
+        self.pause_health_reporting();
+        self.refresh_health_version();
+    }
+
+    /// Used to conditionally report the asset component status and then updates the asset with the new status returned.
+    ///
+    /// The `modify` function is called with the current asset component status (if any) and should return:
     /// - `Some(new_status)` if the status should be updated and reported
     /// - `None` if no update is needed
     ///
@@ -1838,7 +2293,9 @@ impl DataOperationStatusReporter {
             let current_asset_status =
                 AssetClient::get_current_asset_status(&status_read_guard, cached_version);
 
-            let modify_input = self.get_modify_input(&current_asset_status);
+            let modify_input = self
+                .asset_component_ref
+                .get_modify_input(&current_asset_status);
 
             // We do not use the result since the status once we acquire the read lock might change
             // and we will have to re-evaluate
@@ -1854,8 +2311,8 @@ impl DataOperationStatusReporter {
         if cached_version != self.asset_specification.read().unwrap().version {
             // Our modify is no longer valid
             log::debug!(
-                "Asset specification is out-of-date for data operation {:?}; skipping modification",
-                self.data_operation_ref
+                "Asset specification is out-of-date for {:?}; skipping modification",
+                self.asset_component_ref
             );
             return Ok(ModifyResult::NotModified);
         }
@@ -1868,7 +2325,9 @@ impl DataOperationStatusReporter {
             AssetClient::get_current_asset_status(&status_write_guard, cached_version);
 
         let modify_result = {
-            let modify_input = self.get_modify_input(&current_asset_status);
+            let modify_input = self
+                .asset_component_ref
+                .get_modify_input(&current_asset_status);
 
             let Some(modify_result) = modify(modify_input) else {
                 // If no modification is needed, return Ok
@@ -1888,7 +2347,7 @@ impl DataOperationStatusReporter {
             }
             None => {
                 // If the config is None, we need to create a new one to report along with the
-                // data operations status
+                // asset component's status
                 Some(azure_device_registry::ConfigStatus {
                     version: cached_version,
                     last_transition_time: Some(Utc::now()),
@@ -1897,83 +2356,131 @@ impl DataOperationStatusReporter {
             }
         };
 
-        Self::internal_report_status(
-            &self.connector_context,
-            &self.asset_ref,
-            asset_status_to_report,
-            &mut status_write_guard,
-            &self.data_operation_ref,
-            modify_result,
-            "DataOperationStatusReporter::report_data_operation_status_if_modified",
-        )
-        .await?;
+        self.asset_component_ref
+            .internal_report_status(
+                &self.connector_context,
+                &self.asset_ref,
+                asset_status_to_report,
+                &mut status_write_guard,
+                modify_result,
+                "AssetComponentStatusReporter::report_asset_component_status_if_modified",
+            )
+            .await?;
 
         Ok(ModifyResult::Reported)
     }
+}
 
+/// Simplified notification for unsupported components since we don't need to differentiate between update types for them
+pub enum UnsupportedComponentNotification {
+    /// The component was updated
+    Updated,
+    /// The component was deleted
+    Deleted,
+}
+
+/// A trait to support handling all unsupported components in a generic way for the Connector Application
+pub trait UnsupportedComponentClient {
+    /// The type of the status reporter associated with this unsupported component, which will be used by the Connector Application to report status for this component in a generic way
+    #[allow(private_bounds)]
+    type StatusReporterType: AssetComponentRef;
+    /// Gets a generic status reporter for this unsupported component
+    fn get_status_reporter(&self) -> AssetComponentStatusReporter<Self::StatusReporterType>;
+    /// Returns whether the notification is Deleted or Updated, since for unsupported components we don't need to differentiate between update types
+    fn recv_notification(
+        &mut self,
+    ) -> impl std::future::Future<Output = UnsupportedComponentNotification> + Send;
+}
+
+/// A cloneable status reporter for Data Operation status reporting.
+///
+/// This provides a way to report Data Operation status changes from outside the [`DataOperationClient`].
+pub type DataOperationStatusReporter = AssetComponentStatusReporter<DataOperationRef>;
+
+impl AssetComponentRef for DataOperationRef {
     fn get_modify_input<'a>(
         &self,
         current_status: &'a adr_models::AssetStatus,
     ) -> Option<Result<(), &'a AdrConfigError>> {
-        match self.data_operation_ref.data_operation_kind {
-            DataOperationKind::Dataset => current_status
+        match self.data_operation_name {
+            DataOperationName::Dataset {
+                name: ref dataset_name,
+            } => current_status
                 .datasets
                 .as_ref()
                 .and_then(|datasets| {
-                    datasets.iter().find(|ds_status| {
-                        ds_status.name == self.data_operation_ref.data_operation_name
-                    })
+                    datasets
+                        .iter()
+                        .find(|ds_status| ds_status.name == *dataset_name)
                 })
                 .map(|ds_status| ds_status.error.as_ref().map_or(Ok(()), Err)),
-            DataOperationKind::Event => current_status
-                .events
+            DataOperationName::Event {
+                name: ref event_name,
+                ref event_group_name,
+            } => current_status
+                .event_groups
                 .as_ref()
-                .and_then(|events| {
-                    events.iter().find(|e_status| {
-                        e_status.name == self.data_operation_ref.data_operation_name
+                .and_then(|event_groups| {
+                    event_groups
+                        .iter()
+                        .find(|eg_status| eg_status.name == *event_group_name)
+                })
+                .and_then(|eg_status| {
+                    eg_status.events.as_ref().and_then(|events| {
+                        events.iter().find(|e_status| e_status.name == *event_name)
                     })
                 })
                 .map(|e_status| e_status.error.as_ref().map_or(Ok(()), Err)),
-            DataOperationKind::Stream => current_status
+            DataOperationName::Stream {
+                name: ref stream_name,
+            } => current_status
                 .streams
                 .as_ref()
                 .and_then(|streams| {
-                    streams.iter().find(|s_status| {
-                        s_status.name == self.data_operation_ref.data_operation_name
-                    })
+                    streams
+                        .iter()
+                        .find(|s_status| s_status.name == *stream_name)
                 })
                 .map(|s_status| s_status.error.as_ref().map_or(Ok(()), Err)),
         }
     }
 
     async fn internal_report_status(
+        &self,
         connector_context: &Arc<ConnectorContext>,
         asset_ref: &AssetRef,
         mut adr_asset_status: adr_models::AssetStatus,
         asset_status_write_guard: &mut adr_models::AssetStatus,
-        data_operation_ref: &DataOperationRef,
-        desired_data_operation_status: Result<(), AdrConfigError>,
+        desired_asset_component_status: Result<(), AdrConfigError>,
         log_identifier: &str,
     ) -> Result<(), azure_device_registry::Error> {
-        match data_operation_ref.data_operation_kind {
-            DataOperationKind::Dataset => DataOperationClient::update_dataset_status(
+        match self.data_operation_name {
+            DataOperationName::Dataset {
+                name: ref dataset_name,
+            } => DataOperationClient::update_dataset_status(
                 &mut adr_asset_status,
-                &data_operation_ref.data_operation_name,
-                desired_data_operation_status,
+                dataset_name,
+                desired_asset_component_status,
             ),
-            DataOperationKind::Event => DataOperationClient::update_event_status(
+            DataOperationName::Event {
+                name: ref event_name,
+                ref event_group_name,
+            } => DataOperationClient::update_event_status(
                 &mut adr_asset_status,
-                &data_operation_ref.data_operation_name,
-                desired_data_operation_status,
+                event_group_name,
+                event_name,
+                desired_asset_component_status,
             ),
-            DataOperationKind::Stream => DataOperationClient::update_stream_status(
+            DataOperationName::Stream {
+                name: ref stream_name,
+            } => DataOperationClient::update_stream_status(
                 &mut adr_asset_status,
-                &data_operation_ref.data_operation_name,
-                desired_data_operation_status,
+                stream_name,
+                desired_asset_component_status,
             ),
         }
 
-        log::debug!("Reporting data operation {data_operation_ref:?} status from app");
+        log::debug!("Reporting data operation {self:?} status from app");
 
         AssetStatusReporter::internal_report_status(
             adr_asset_status,
@@ -1984,6 +2491,50 @@ impl DataOperationStatusReporter {
         )
         .await
     }
+}
+
+impl UnsupportedComponentClient for DataOperationClient {
+    type StatusReporterType = DataOperationRef;
+    fn get_status_reporter(&self) -> AssetComponentStatusReporter<Self::StatusReporterType> {
+        self.get_status_reporter()
+    }
+
+    async fn recv_notification(&mut self) -> UnsupportedComponentNotification {
+        match self.recv_notification().await {
+            DataOperationNotification::Updated(_) | DataOperationNotification::AssetUpdated(_) => {
+                UnsupportedComponentNotification::Updated
+            }
+            DataOperationNotification::Deleted => UnsupportedComponentNotification::Deleted,
+        }
+    }
+}
+
+#[derive(Debug, Clone)]
+pub(crate) struct DataOperationUpdateNotification {
+    /// data operation definition from update
+    definition: DataOperationDefinition,
+    /// default data operation destinations from update
+    default_destinations: Vec<Arc<destination_endpoint::Destination>>,
+    /// whether default destinations have changed or not in this update
+    default_destination_has_changed: bool,
+    /// watch receiver for when the update notification should be released to the application
+    release_asset_component_notifications_rx: watch::Receiver<()>,
+}
+
+/// Notifications that can be received for a Data Operation
+pub enum DataOperationNotification {
+    /// Indicates that the Asset containing the Data Operation has been updated in place. If this is returned, it indicates that the Data Operation definition has not changed
+    /// If there was an error detected, it is included in the result, and must be reported by the application.
+    /// If an error is returned, the [`DataOperationClient`] should not be used until there is an Ok update
+    AssetUpdated(Result<(), AdrConfigError>),
+    /// Indicates that the Data Operation's definition has been updated in place.
+    /// This will only be returned if the Data Operation definition changed, which also implies that the Asset has been updated.
+    /// If the default destination or default config on the asset changed, the `AssetUpdated` variant will be returned.
+    /// If there was an error detected, it is included in the result, and must be reported by the application.
+    /// If an error is returned, the [`DataOperationClient`] should not be used until there is an Ok update
+    Updated(Result<(), AdrConfigError>),
+    /// Indicates that the Data Operation has been deleted.
+    Deleted,
 }
 
 /// Azure Device Registry Data Operation Client represents either a Dataset, Event,
@@ -2009,9 +2560,9 @@ pub struct DataOperationClient {
     #[getter(skip)]
     device_status: Arc<tokio::sync::RwLock<DeviceEndpointStatus>>,
     // Internally used fields
-    /// Internal [`Forwarder`] that handles forwarding data to the destination defined in the data operation definition
+    /// Internal [`DataOperationForwarder`] that handles forwarding data to the destination defined in the data operation definition if valid
     #[getter(skip)]
-    forwarder: destination_endpoint::Forwarder,
+    forwarder: DataOperationForwarder,
     #[getter(skip)]
     connector_context: Arc<ConnectorContext>,
     /// Asset reference for internal use
@@ -2021,9 +2572,58 @@ pub struct DataOperationClient {
     /// fully processed or not.
     #[getter(skip)]
     data_operation_update_watcher_rx: watch::Receiver<DataOperationUpdateNotification>,
+    /// Health reporter sender for sending health events
+    #[getter(skip)]
+    health_sender: HealthReporterSender,
+    /// Cancellation token for health reporting task - cancelled on deletion
+    #[getter(skip)]
+    health_cancellation_token: CancellationToken,
+}
+
+/// Creates a health reporter sender for a data operation.
+fn new_data_operation_health_sender(
+    connector_context: &Arc<ConnectorContext>,
+    data_operation_ref: &DataOperationRef,
+    cancellation_token: CancellationToken,
+) -> HealthReporterSender {
+    match &data_operation_ref.data_operation_name {
+        DataOperationName::Dataset { name } => connector_context
+            .azure_device_registry_client
+            .new_dataset_health_reporter(
+                AssetRef::from(data_operation_ref).into(),
+                name.clone(),
+                connector_context.azure_device_registry_timeout,
+                connector_context.health_report_interval,
+                cancellation_token,
+            ),
+        DataOperationName::Event {
+            name,
+            event_group_name,
+        } => connector_context
+            .azure_device_registry_client
+            .new_event_health_reporter(
+                AssetRef::from(data_operation_ref).into(),
+                event_group_name.clone(),
+                name.clone(),
+                connector_context.azure_device_registry_timeout,
+                connector_context.health_report_interval,
+                cancellation_token,
+            ),
+        DataOperationName::Stream { name } => connector_context
+            .azure_device_registry_client
+            .new_stream_health_reporter(
+                AssetRef::from(data_operation_ref).into(),
+                name.clone(),
+                connector_context.azure_device_registry_timeout,
+                connector_context.health_report_interval,
+                cancellation_token,
+            ),
+    }
 }
 
 impl DataOperationClient {
+    /// Data Operation Client will always be created, even if there are configuration errors
+    /// so that updates can be received to fix the configuration errors.
     #[allow(clippy::too_many_arguments)]
     pub(crate) fn new(
         definition: DataOperationDefinition,
@@ -2035,56 +2635,111 @@ impl DataOperationClient {
         device_specification: Arc<std::sync::RwLock<DeviceSpecification>>,
         device_status: Arc<tokio::sync::RwLock<DeviceEndpointStatus>>,
         connector_context: Arc<ConnectorContext>,
-    ) -> Result<Self, AdrConfigError> {
+    ) -> (Self, Result<(), AdrConfigError>) {
         // Create a new data_operation
-        let kind;
-        let forwarder = match definition {
+        let data_operation_ref = DataOperationRef {
+            data_operation_name: definition.name(),
+            asset_name: asset_ref.name.clone(),
+            device_name: asset_ref.device_name.clone(),
+            inbound_endpoint_name: asset_ref.inbound_endpoint_name.clone(),
+        };
+        // technically because these fields are under the lock, if they change, we won't update them unless there's a data operation update
+        // however, uuids will always be set and can't change and external ids can only change once from None to set, so this is acceptable
+        let (device_uuid, device_external_device_id) = {
+            let device_spec = device_specification.read().unwrap();
+            (
+                device_spec.uuid.clone(),
+                device_spec.external_device_id.clone(),
+            )
+        };
+        let (asset_uuid, asset_external_asset_id) = {
+            let asset_spec = asset_specification.read().unwrap();
+            (
+                asset_spec.uuid.clone(),
+                asset_spec.external_asset_id.clone(),
+            )
+        };
+        let forwarder_res = match definition {
             DataOperationDefinition::Dataset(ref dataset) => {
-                kind = DataOperationKind::Dataset;
                 destination_endpoint::Forwarder::new_dataset_forwarder(
-                    &dataset.destinations,
-                    &asset_ref.inbound_endpoint_name,
+                    dataset,
                     default_destinations,
+                    &asset_ref,
+                    device_uuid,
+                    device_external_device_id,
+                    asset_uuid.as_ref(),
+                    asset_external_asset_id.as_ref(),
                     connector_context.clone(),
                 )
             }
             DataOperationDefinition::Event(ref event) => {
-                kind = DataOperationKind::Event;
                 destination_endpoint::Forwarder::new_event_stream_forwarder(
                     &event.destinations,
-                    &asset_ref.inbound_endpoint_name,
                     default_destinations,
+                    &data_operation_ref,
+                    event.data_source.clone(),
+                    event.type_ref.clone(),
+                    device_uuid,
+                    device_external_device_id,
+                    asset_uuid.as_ref(),
+                    asset_external_asset_id.as_ref(),
                     connector_context.clone(),
                 )
             }
             DataOperationDefinition::Stream(ref stream) => {
-                kind = DataOperationKind::Stream;
                 destination_endpoint::Forwarder::new_event_stream_forwarder(
                     &stream.destinations,
-                    &asset_ref.inbound_endpoint_name,
                     default_destinations,
+                    &data_operation_ref,
+                    None,
+                    stream.type_ref.clone(),
+                    device_uuid,
+                    device_external_device_id,
+                    asset_uuid.as_ref(),
+                    asset_external_asset_id.as_ref(),
                     connector_context.clone(),
                 )
             }
-        }?;
-        Ok(Self {
-            data_operation_ref: DataOperationRef {
-                data_operation_name: definition.name().to_string(),
-                data_operation_kind: kind,
-                asset_name: asset_ref.name.clone(),
-                device_name: asset_ref.device_name.clone(),
-                inbound_endpoint_name: asset_ref.inbound_endpoint_name.clone(),
+        };
+        let health_cancellation_token = CancellationToken::new();
+        let health_sender = new_data_operation_health_sender(
+            &connector_context,
+            &data_operation_ref,
+            health_cancellation_token.clone(),
+        );
+        let (forwarder, res) = match forwarder_res {
+            Ok(forwarder) => (
+                DataOperationForwarder::Forwarder(Box::new(forwarder)),
+                Ok(()),
+            ),
+            Err(e) => {
+                log::warn!("Invalid destination for data_operation: {data_operation_ref:?} {e:?}");
+                (DataOperationForwarder::Error(e.clone()), Err(e))
+            }
+        };
+        (
+            Self {
+                data_operation_ref,
+                definition,
+                asset_status,
+                asset_specification,
+                device_specification,
+                device_status,
+                forwarder,
+                connector_context,
+                asset_ref,
+                data_operation_update_watcher_rx,
+                health_sender,
+                health_cancellation_token,
             },
-            asset_ref,
-            definition,
-            asset_status,
-            asset_specification,
-            device_specification,
-            device_status,
-            forwarder,
-            data_operation_update_watcher_rx,
-            connector_context,
-        })
+            res,
+        )
+    }
+
+    /// Returns the kind of data operation this client represents
+    #[must_use]
+    pub fn kind(&self) -> DataOperationKind {
+        self.definition.kind()
     }
 
     /// Used to conditionally report the message schema of a data operation as an existing schema reference
@@ -2297,7 +2952,7 @@ impl DataOperationClient {
                     .schema_registry_client
                     .put(
                         new_message_schema.clone(),
-                        self.connector_context.default_timeout,
+                        self.connector_context.schema_registry_timeout,
                     )
                     .await
                     .map_err(|e| {
@@ -2358,7 +3013,7 @@ impl DataOperationClient {
         connector_context: &Arc<ConnectorContext>,
         asset_ref: &AssetRef,
         data_operation_ref: &DataOperationRef,
-        forwarder: &mut destination_endpoint::Forwarder,
+        forwarder: &mut DataOperationForwarder,
         asset_status_to_report: adr_models::AssetStatus,
         status_write_guard: &mut adr_models::AssetStatus,
         message_schema_reference: &MessageSchemaReference,
@@ -2369,12 +3024,14 @@ impl DataOperationClient {
 
         // if data operation is already in the current status, then update the existing data operation with the new message schema
         // Otherwise if the data operation isn't present, or no data operations of that kind have been reported yet, then add it with the new message schema
-        match data_operation_ref.data_operation_kind {
-            DataOperationKind::Dataset => {
+        match data_operation_ref.data_operation_name {
+            DataOperationName::Dataset {
+                name: ref dataset_name,
+            } => {
                 if let Some(dataset_status) = new_status.datasets.as_mut().and_then(|datasets| {
                     datasets
                         .iter_mut()
-                        .find(|dataset| dataset.name == data_operation_ref.data_operation_name)
+                        .find(|dataset| dataset.name == *dataset_name)
                 }) {
                     // If the dataset already has a status, update the existing dataset with the new message schema
                     dataset_status.message_schema_reference =
@@ -2383,37 +3040,63 @@ impl DataOperationClient {
                     // If the dataset doesn't exist in the current status, then add it
                     new_status.datasets.get_or_insert_with(Vec::new).push(
                         adr_models::DatasetEventStreamStatus {
-                            name: data_operation_ref.data_operation_name.clone(),
+                            name: dataset_name.clone(),
                             message_schema_reference: Some(message_schema_reference.clone()),
                             error: None,
                         },
                     );
                 }
             }
-            DataOperationKind::Event => {
-                if let Some(event_status) = new_status.events.as_mut().and_then(|events| {
-                    events
-                        .iter_mut()
-                        .find(|event| event.name == data_operation_ref.data_operation_name)
-                }) {
-                    // If the event already has a status, update the existing event with the new message schema
-                    event_status.message_schema_reference = Some(message_schema_reference.clone());
+            DataOperationName::Event {
+                name: ref event_name,
+                ref event_group_name,
+            } => {
+                if let Some(event_group_status) =
+                    new_status.event_groups.as_mut().and_then(|event_groups| {
+                        event_groups
+                            .iter_mut()
+                            .find(|event_group| event_group.name == *event_group_name)
+                    })
+                {
+                    if let Some(event_status) =
+                        event_group_status.events.as_mut().and_then(|events| {
+                            events.iter_mut().find(|event| event.name == *event_name)
+                        })
+                    {
+                        // If the event already has a status, update the existing event with the new message schema
+                        event_status.message_schema_reference =
+                            Some(message_schema_reference.clone());
+                    } else {
+                        // If the event doesn't exist in the current status, then add it
+                        event_group_status.events.get_or_insert_with(Vec::new).push(
+                            adr_models::DatasetEventStreamStatus {
+                                name: event_name.clone(),
+                                message_schema_reference: Some(message_schema_reference.clone()),
+                                error: None,
+                            },
+                        );
+                    }
                 } else {
-                    // If the event doesn't exist in the current status, then add it
-                    new_status.events.get_or_insert_with(Vec::new).push(
-                        adr_models::DatasetEventStreamStatus {
-                            name: data_operation_ref.data_operation_name.clone(),
-                            message_schema_reference: Some(message_schema_reference.clone()),
-                            error: None,
+                    // If the event group doesn't exist in the current status, then add it
+                    new_status.event_groups.get_or_insert_with(Vec::new).push(
+                        adr_models::EventGroupStatus {
+                            name: event_group_name.clone(),
+                            events: Some(vec![adr_models::DatasetEventStreamStatus {
+                                name: event_name.clone(),
+                                message_schema_reference: Some(message_schema_reference.clone()),
+                                error: None,
+                            }]),
                         },
                     );
                 }
             }
-            DataOperationKind::Stream => {
+            DataOperationName::Stream {
+                name: ref stream_name,
+            } => {
                 if let Some(stream_status) = new_status.streams.as_mut().and_then(|streams| {
                     streams
                         .iter_mut()
-                        .find(|stream| stream.name == data_operation_ref.data_operation_name)
+                        .find(|stream| stream.name == *stream_name)
                 }) {
                     // If the stream already has a status, update the existing stream with the new message schema
                     stream_status.message_schema_reference = Some(message_schema_reference.clone());
@@ -2421,7 +3104,7 @@ impl DataOperationClient {
                     // If the stream doesn't exist in the current status, then add it
                     new_status.streams.get_or_insert_with(Vec::new).push(
                         adr_models::DatasetEventStreamStatus {
-                            name: data_operation_ref.data_operation_name.clone(),
+                            name: stream_name.clone(),
                             message_schema_reference: Some(message_schema_reference.clone()),
                             error: None,
                         },
@@ -2441,7 +3124,14 @@ impl DataOperationClient {
         )
         .await?;
 
-        forwarder.update_message_schema_reference(Some(message_schema_reference.clone()));
+        // CONSIDERATION: should we do this at the beginning and not allow the message schema reporting if there's no valid destination?
+        // For now, don't block reporting the message schema if there's no valid destination for more flexibility
+        match forwarder {
+            DataOperationForwarder::Forwarder(forwarder) => {
+                forwarder.update_message_schema_reference(Some(message_schema_reference.clone()));
+            }
+            DataOperationForwarder::Error(_) => {}
+        }
 
         Ok(())
     }
@@ -2450,32 +3140,44 @@ impl DataOperationClient {
         &self,
         asset_status: &'a adr_models::AssetStatus,
     ) -> Option<&'a adr_models::MessageSchemaReference> {
-        match self.data_operation_ref.data_operation_kind {
-            DataOperationKind::Dataset => asset_status
+        match self.data_operation_ref.data_operation_name {
+            DataOperationName::Dataset {
+                name: ref dataset_name,
+            } => asset_status
                 .datasets
                 .as_ref()
                 .and_then(|datasets| {
-                    datasets.iter().find(|ds_status| {
-                        ds_status.name == self.data_operation_ref.data_operation_name
-                    })
+                    datasets
+                        .iter()
+                        .find(|ds_status| ds_status.name == *dataset_name)
                 })
                 .and_then(|ds_status| ds_status.message_schema_reference.as_ref()),
-            DataOperationKind::Event => asset_status
-                .events
+            DataOperationName::Event {
+                name: ref event_name,
+                ref event_group_name,
+            } => asset_status
+                .event_groups
                 .as_ref()
-                .and_then(|events| {
-                    events.iter().find(|e_status| {
-                        e_status.name == self.data_operation_ref.data_operation_name
+                .and_then(|event_groups| {
+                    event_groups
+                        .iter()
+                        .find(|eg_status| eg_status.name == *event_group_name)
+                })
+                .and_then(|eg_status| {
+                    eg_status.events.as_ref().and_then(|events| {
+                        events.iter().find(|e_status| e_status.name == *event_name)
                     })
                 })
                 .and_then(|e_status| e_status.message_schema_reference.as_ref()),
-            DataOperationKind::Stream => asset_status
+            DataOperationName::Stream {
+                name: ref stream_name,
+            } => asset_status
                 .streams
                 .as_ref()
                 .and_then(|streams| {
-                    streams.iter().find(|s_status| {
-                        s_status.name == self.data_operation_ref.data_operation_name
-                    })
+                    streams
+                        .iter()
+                        .find(|s_status| s_status.name == *stream_name)
                 })
                 .and_then(|s_status| s_status.message_schema_reference.as_ref()),
         }
@@ -2483,13 +3185,17 @@ impl DataOperationClient {
 
     /// Used to send transformed data to the destination
     /// Returns once the message has been sent successfully
+    /// Use `forward_data_provide_protocol_specific_identifier` if it is desired to
+    /// provide a Protocol Specific Identifier to be used on the Cloud Event `source`
+    /// header used if the destination is `MQTT`. If this fn is used, the Cloud Event Header
+    /// will default to using either the device external device id or the device name.
     ///
     /// # Errors
     /// [`destination_endpoint::Error`] of kind [`MissingMessageSchema`](destination_endpoint::ErrorKind::MissingMessageSchema)
     /// if the [`MessageSchema`] has not been reported yet. This is required before forwarding any data
     ///
-    /// [`destination_endpoint::Error`] of kind [`DataValidationError`](destination_endpoint::ErrorKind::MqttTelemetryError)
-    /// if the [`Data`] isn't valid.
+    /// [`destination_endpoint::Error`] of kind [`ValidationError`](destination_endpoint::ErrorKind::ValidationError)
+    /// if the [`Data`] isn't valid or there isn't a valid destination configured for the data operation.
     ///
     /// [`destination_endpoint::Error`] of kind [`BrokerStateStoreError`](destination_endpoint::ErrorKind::BrokerStateStoreError)
     /// if the destination is `BrokerStateStore` and there are any errors setting the data with the service
@@ -2497,17 +3203,48 @@ impl DataOperationClient {
     /// [`destination_endpoint::Error`] of kind [`MqttTelemetryError`](destination_endpoint::ErrorKind::MqttTelemetryError)
     /// if the destination is `Mqtt` and there are any errors sending the message to the broker
     pub async fn forward_data(&self, data: Data) -> Result<(), destination_endpoint::Error> {
-        self.forwarder.send_data(data).await
+        self.forwarder.send_data(data, None).await
+    }
+
+    /// Used to send transformed data to the destination
+    /// Returns once the message has been sent successfully.
+    /// `protocol_specific_identifier` will be used on the Cloud Event
+    /// `source` header used if the destination is `MQTT`. If `forward_data` is used instead of this fn,
+    /// the Cloud Event Header will default to using either the device external device id or the device name.
+    /// The inbound endpoint address is a recommended value for this field.
+    ///
+    /// # Errors
+    /// [`destination_endpoint::Error`] of kind [`MissingMessageSchema`](destination_endpoint::ErrorKind::MissingMessageSchema)
+    /// if the [`MessageSchema`] has not been reported yet. This is required before forwarding any data
+    ///
+    /// [`destination_endpoint::Error`] of kind [`ValidationError`](destination_endpoint::ErrorKind::ValidationError)
+    /// if the [`Data`] isn't valid or there isn't a valid destination configured for the data operation.
+    ///
+    /// [`destination_endpoint::Error`] of kind [`BrokerStateStoreError`](destination_endpoint::ErrorKind::BrokerStateStoreError)
+    /// if the destination is `BrokerStateStore` and there are any errors setting the data with the service
+    ///
+    /// [`destination_endpoint::Error`] of kind [`MqttTelemetryError`](destination_endpoint::ErrorKind::MqttTelemetryError)
+    /// if the destination is `Mqtt` and there are any errors sending the message to the broker
+    pub async fn forward_data_provide_protocol_specific_identifier(
+        &self,
+        data: Data,
+        protocol_specific_identifier: &str,
+    ) -> Result<(), destination_endpoint::Error> {
+        self.forwarder
+            .send_data(data, Some(protocol_specific_identifier))
+            .await
     }
 
     /// Used to receive notifications about the Data Operation from the Azure Device Registry Service.
     ///
-    /// Returns [`DataOperationNotification::Updated`] if the Data Operation's definition has been updated in place.
+    /// Returns [`DataOperationNotification::DataOperationUpdated`] if the Data Operation's definition has been updated in place.
     ///
-    /// Returns [`DataOperationNotification::UpdatedInvalid`] if the Data Operation received an update, but the update was not valid.
-    /// The definition is still updated in place, but the [`DataOperationClient`] should not be used until
-    /// there is a new update, otherwise the out of date definition will be used for
-    /// sending data to the destination.
+    /// Returns [`DataOperationNotification::AssetUpdated`] if the Asset's definition has been updated in place, but there were no
+    /// changes to the Data Operation's definition.
+    ///
+    /// Returns either of the above with an `Err(AdrConfigError)` if the Data Operation/Asset received an update, but a config error
+    /// for the Data Operation was detected. The definition is still updated in place, but the [`DataOperationClient`] should not be
+    /// used until there is a new update because forwarding the data will not be possible.
     ///
     /// Returns [`DataOperationNotification::Deleted`] if the Data Operation has been deleted. The [`DataOperationClient`]
     /// should not be used after this point, and no more notifications will be received.
@@ -2526,122 +3263,145 @@ impl DataOperationClient {
             .await
             .is_err()
         {
+            // Cancel health reporting task on deletion
+            self.health_cancellation_token.cancel();
             return DataOperationNotification::Deleted;
         }
         // In case this function gets cancelled the next time it is called we will process the update again.
         self.data_operation_update_watcher_rx.mark_changed();
-        let (updated_data_operation, default_destinations, mut watch_receiver) =
-            self.data_operation_update_watcher_rx.borrow().clone();
+        let mut update_notification = self.data_operation_update_watcher_rx.borrow().clone();
 
         // wait until the update has been released. If the watch sender has been dropped, this means the Asset has been deleted/dropped
-        if watch_receiver.changed().await.is_err() {
+        if update_notification
+            .release_asset_component_notifications_rx
+            .changed()
+            .await
+            .is_err()
+        {
             self.data_operation_update_watcher_rx.mark_unchanged();
+            // Cancel health reporting task on deletion
+            self.health_cancellation_token.cancel();
             return DataOperationNotification::Deleted;
         }
+        let data_operation_changed = update_notification.definition != self.definition;
+        if !data_operation_changed && !update_notification.default_destination_has_changed {
+            // Asset only update, we don't need to recreate the forwarder
+            // Once the data_operation update has been processed we can mark the value in the watcher as seen
+            self.data_operation_update_watcher_rx.mark_unchanged();
+            // if nothing changed, but there was a destination error before, we need to return that error again since it still applies
+            let res = match &self.forwarder {
+                DataOperationForwarder::Forwarder(_) => Ok(()),
+                DataOperationForwarder::Error(e) => Err(e.clone()),
+            };
+            return DataOperationNotification::AssetUpdated(res);
+        }
+
+        // no await points beyond this point, so this is safe
+        self.definition = update_notification.definition;
+
         // create new forwarder, in case destination has changed
-        let forwarder_result = match updated_data_operation {
+        // technically because these fields are under the lock, if they change, we won't update them unless there's a data operation update
+        // however, uuids will always be set and can't change and external ids can only change once from None to set, so this is acceptable
+        let (device_uuid, device_external_device_id) = {
+            let device_spec = self.device_specification.read().unwrap();
+            (
+                device_spec.uuid.clone(),
+                device_spec.external_device_id.clone(),
+            )
+        };
+        let (asset_uuid, asset_external_asset_id) = {
+            let asset_spec = self.asset_specification.read().unwrap();
+            (
+                asset_spec.uuid.clone(),
+                asset_spec.external_asset_id.clone(),
+            )
+        };
+        let forwarder_result = match self.definition {
             DataOperationDefinition::Dataset(ref updated_dataset) => {
                 destination_endpoint::Forwarder::new_dataset_forwarder(
-                    &updated_dataset.destinations,
-                    &self.asset_ref.inbound_endpoint_name,
-                    &default_destinations,
+                    updated_dataset,
+                    &update_notification.default_destinations,
+                    &self.asset_ref,
+                    device_uuid,
+                    device_external_device_id,
+                    asset_uuid.as_ref(),
+                    asset_external_asset_id.as_ref(),
                     self.connector_context.clone(),
                 )
             }
             DataOperationDefinition::Event(ref updated_event) => {
                 destination_endpoint::Forwarder::new_event_stream_forwarder(
                     &updated_event.destinations,
-                    &self.asset_ref.inbound_endpoint_name,
-                    &default_destinations,
+                    &update_notification.default_destinations,
+                    &self.data_operation_ref,
+                    updated_event.data_source.clone(),
+                    updated_event.type_ref.clone(),
+                    device_uuid,
+                    device_external_device_id,
+                    asset_uuid.as_ref(),
+                    asset_external_asset_id.as_ref(),
                     self.connector_context.clone(),
                 )
             }
             DataOperationDefinition::Stream(ref updated_stream) => {
                 destination_endpoint::Forwarder::new_event_stream_forwarder(
                     &updated_stream.destinations,
-                    &self.asset_ref.inbound_endpoint_name,
-                    &default_destinations,
+                    &update_notification.default_destinations,
+                    &self.data_operation_ref,
+                    None,
+                    updated_stream.type_ref.clone(),
+                    device_uuid,
+                    device_external_device_id,
+                    asset_uuid.as_ref(),
+                    asset_external_asset_id.as_ref(),
                     self.connector_context.clone(),
                 )
             }
         };
         self.forwarder = match forwarder_result {
-            Ok(forwarder) => forwarder,
+            Ok(forwarder) => DataOperationForwarder::Forwarder(Box::new(forwarder)),
             Err(e) => {
-                log::error!(
+                log::warn!(
                     "Invalid data_operation destination for updated data_operation: {:?} {e:?}",
                     self.data_operation_ref
                 );
-
-                tokio::task::spawn({
-                    let asset_status_mutex_clone = self.asset_status.clone();
-                    let asset_specification_mutex_clone = self.asset_specification.clone();
-                    let data_operation_ref_clone = self.data_operation_ref.clone();
-                    let connector_context = self.connector_context.clone();
-                    let asset_ref = self.asset_ref.clone();
-                    async move {
-                        log::debug!(
-                            "Reporting data operation {data_operation_ref_clone:?} status from recv_notification"
-                        );
-                        let mut status_write_guard = asset_status_mutex_clone.write().await;
-                        let adr_version = asset_specification_mutex_clone.read().unwrap().version;
-                        let mut adr_asset_status =
-                            AssetClient::get_current_asset_status(&status_write_guard, adr_version)
-                                .into_owned();
-                        // Update the config status
-                        adr_asset_status.config = match adr_asset_status.config {
-                            Some(mut config) => {
-                                config.last_transition_time = Some(Utc::now());
-                                Some(config)
-                            }
-                            None => {
-                                // If the config is None, we need to create a new one to report along
-                                // with the data operations status
-                                Some(azure_device_registry::ConfigStatus {
-                                    version: adr_version,
-                                    last_transition_time: Some(Utc::now()),
-                                    ..Default::default()
-                                })
-                            }
-                        };
-                        if let Err(e) = DataOperationStatusReporter::internal_report_status(
-                            &connector_context,
-                            &asset_ref,
-                            adr_asset_status,
-                            &mut status_write_guard,
-                            &data_operation_ref_clone,
-                            Err(e),
-                            "DataOperationClient::recv_notification",
-                        )
-                        .await
-                        {
-                            log::error!(
-                                "Failed to report status for updated data_operation {data_operation_ref_clone:?}: {e}"
-                            );
-                        }
-                    }
-                });
-                // notify the application to not use this data_operation until a new update is received
-                self.definition = updated_data_operation;
-                self.data_operation_update_watcher_rx.mark_unchanged();
-                return DataOperationNotification::UpdatedInvalid;
+                DataOperationForwarder::Error(e)
             }
         };
-        self.definition = updated_data_operation;
         // Once the data_operation definition has been updated we can mark the value in the watcher as seen
         self.data_operation_update_watcher_rx.mark_unchanged();
-        DataOperationNotification::Updated
+        let res = match &self.forwarder {
+            DataOperationForwarder::Forwarder(_) => Ok(()),
+            DataOperationForwarder::Error(e) => Err(e.clone()),
+        };
+        if data_operation_changed {
+            DataOperationNotification::Updated(res)
+        } else {
+            DataOperationNotification::AssetUpdated(res)
+        }
     }
 
     /// Creates a new status reporter for this [`DataOperationClient`]
+    /// The reporter's version snapshot is initialized to the current asset specification version.
+    ///
+    /// # Panics
+    /// if the asset specification mutex has been poisoned, which should not be possible
     #[must_use]
     pub fn get_status_reporter(&self) -> DataOperationStatusReporter {
+        let snapshotted_version = self
+            .asset_specification
+            .read()
+            .unwrap()
+            .version
+            .unwrap_or(0);
         DataOperationStatusReporter {
             connector_context: self.connector_context.clone(),
             asset_status: self.asset_status.clone(),
             asset_specification: self.asset_specification.clone(),
-            data_operation_ref: self.data_operation_ref.clone(),
+            health_sender: self.health_sender.clone(),
+            asset_component_ref: self.data_operation_ref.clone(),
             asset_ref: self.asset_ref.clone(),
+            snapshotted_version,
         }
     }
 
@@ -2650,35 +3410,46 @@ impl DataOperationClient {
     #[must_use]
     pub async fn message_schema_reference(&self) -> Option<MessageSchemaReference> {
         // unwrap can't fail unless lock is poisoned
-        match self.data_operation_ref.data_operation_kind {
-            DataOperationKind::Dataset => self
+        match self.data_operation_ref.data_operation_name {
+            DataOperationName::Dataset {
+                name: ref dataset_name,
+            } => self
                 .asset_status
                 .read()
                 .await
                 .datasets
                 .as_ref()?
                 .iter()
-                .find(|dataset| dataset.name == self.data_operation_ref.data_operation_name)?
+                .find(|dataset| dataset.name == *dataset_name)?
                 .message_schema_reference
                 .clone(),
-            DataOperationKind::Event => self
+            DataOperationName::Event {
+                name: ref event_name,
+                ref event_group_name,
+            } => self
                 .asset_status
                 .read()
                 .await
+                .event_groups
+                .as_ref()?
+                .iter()
+                .find(|event_group| event_group.name == *event_group_name)?
                 .events
                 .as_ref()?
                 .iter()
-                .find(|event| event.name == self.data_operation_ref.data_operation_name)?
+                .find(|event| event.name == *event_name)?
                 .message_schema_reference
                 .clone(),
-            DataOperationKind::Stream => self
+            DataOperationName::Stream {
+                name: ref stream_name,
+            } => self
                 .asset_status
                 .read()
                 .await
                 .streams
                 .as_ref()?
                 .iter()
-                .find(|stream| stream.name == self.data_operation_ref.data_operation_name)?
+                .find(|stream| stream.name == *stream_name)?
                 .message_schema_reference
                 .clone(),
         }
@@ -2698,7 +3469,7 @@ impl DataOperationClient {
         (*self.asset_status.read().await).clone()
     }
 
-    // Returns a clone of the current device specification
+    /// Returns a clone of the current device specification
     /// # Panics
     /// if the device specification mutex has been poisoned, which should not be possible
     #[must_use]
@@ -2706,9 +3477,7 @@ impl DataOperationClient {
         (*self.device_specification.read().unwrap()).clone()
     }
 
-    // Returns a clone of the current device status
-    /// # Panics
-    /// if the device status mutex has been poisoned, which should not be possible
+    /// Returns a clone of the current device status
     #[must_use]
     pub async fn device_status(&self) -> DeviceEndpointStatus {
         (*self.device_status.read().await).clone()
@@ -2748,25 +3517,49 @@ impl DataOperationClient {
     /// Helper function to update the specific event status within the asset status
     fn update_event_status(
         asset_status_to_update: &mut adr_models::AssetStatus,
+        event_group_name: &str,
         event_name: &str,
         event_status: Result<(), AdrConfigError>,
     ) {
-        if let Some(curr_event_status) = asset_status_to_update
-            .events
+        if let Some(curr_event_group_status) = asset_status_to_update
+            .event_groups
             .as_mut()
-            .and_then(|events| events.iter_mut().find(|event| event.name == event_name))
+            .and_then(|event_groups| {
+                event_groups
+                    .iter_mut()
+                    .find(|event_group| event_group.name == event_group_name)
+            })
         {
-            // If the event already has a status, update the existing event with the new error
-            curr_event_status.error = event_status.err();
-        } else {
-            // If the event doesn't exist in the current status, then add it
-            asset_status_to_update
+            if let Some(curr_event_status) = curr_event_group_status
                 .events
+                .as_mut()
+                .and_then(|events| events.iter_mut().find(|event| event.name == event_name))
+            {
+                // If the event already has a status, update the existing event with the new error
+                curr_event_status.error = event_status.err();
+            } else {
+                // If the event doesn't exist in the current event group status, then add it
+                curr_event_group_status
+                    .events
+                    .get_or_insert_with(Vec::new)
+                    .push(adr_models::DatasetEventStreamStatus {
+                        name: event_name.to_string(),
+                        message_schema_reference: None,
+                        error: event_status.err(),
+                    });
+            }
+        } else {
+            // If the event group doesn't exist in the current status, then add it
+            asset_status_to_update
+                .event_groups
                 .get_or_insert_with(Vec::new)
-                .push(adr_models::DatasetEventStreamStatus {
-                    name: event_name.to_string(),
-                    message_schema_reference: None,
-                    error: event_status.err(),
+                .push(adr_models::EventGroupStatus {
+                    name: event_group_name.to_string(),
+                    events: Some(vec![adr_models::DatasetEventStreamStatus {
+                        name: event_name.to_string(),
+                        message_schema_reference: None,
+                        error: event_status.err(),
+                    }]),
                 });
         }
     }
@@ -2795,6 +3588,1026 @@ impl DataOperationClient {
                     error: stream_status.err(),
                 });
         }
+    }
+}
+
+impl Drop for DataOperationClient {
+    fn drop(&mut self) {
+        self.health_cancellation_token.cancel();
+    }
+}
+
+/// A cloneable status reporter for Management Action status reporting.
+///
+/// This provides a way to report Management Action status changes from outside the [`ManagementActionClient`].
+pub type ManagementActionStatusReporter = AssetComponentStatusReporter<ManagementActionRef>;
+
+impl AssetComponentRef for ManagementActionRef {
+    fn get_modify_input<'a>(
+        &self,
+        current_status: &'a adr_models::AssetStatus,
+    ) -> Option<Result<(), &'a AdrConfigError>> {
+        current_status
+            .management_groups
+            .as_ref()
+            .and_then(|management_groups| {
+                management_groups
+                    .iter()
+                    .find(|mg_status| mg_status.name == *self.management_group_name)
+            })
+            .and_then(|mg_status| {
+                mg_status.actions.as_ref().and_then(|actions| {
+                    actions
+                        .iter()
+                        .find(|a_status| a_status.name == *self.management_action_name)
+                })
+            })
+            .map(|a_status| a_status.error.as_ref().map_or(Ok(()), Err))
+    }
+
+    async fn internal_report_status(
+        &self,
+        connector_context: &Arc<ConnectorContext>,
+        asset_ref: &AssetRef,
+        mut adr_asset_status: adr_models::AssetStatus,
+        asset_status_write_guard: &mut adr_models::AssetStatus,
+        desired_asset_component_status: Result<(), AdrConfigError>,
+        log_identifier: &str,
+    ) -> Result<(), azure_device_registry::Error> {
+        ManagementActionClient::update_action_status(
+            &mut adr_asset_status,
+            &self.management_group_name,
+            &self.management_action_name,
+            desired_asset_component_status,
+        );
+
+        log::debug!("Reporting management action {self:?} status from app");
+
+        AssetStatusReporter::internal_report_status(
+            adr_asset_status,
+            connector_context,
+            asset_ref,
+            asset_status_write_guard,
+            log_identifier,
+        )
+        .await
+    }
+}
+
+impl UnsupportedComponentClient for ManagementActionClient {
+    type StatusReporterType = ManagementActionRef;
+    fn get_status_reporter(&self) -> AssetComponentStatusReporter<Self::StatusReporterType> {
+        self.get_status_reporter()
+    }
+
+    async fn recv_notification(&mut self) -> UnsupportedComponentNotification {
+        match self.recv_notification().await {
+            ManagementActionNotification::Updated(_)
+            | ManagementActionNotification::UpdatedWithNewExecutor(_)
+            | ManagementActionNotification::AssetUpdated(_) => {
+                UnsupportedComponentNotification::Updated
+            }
+            ManagementActionNotification::Deleted => UnsupportedComponentNotification::Deleted,
+        }
+    }
+}
+
+#[derive(Debug, Clone)]
+pub(crate) struct ManagementActionUpdateNotification {
+    /// management action definition from update
+    definition: ManagementActionSpecification,
+    /// watch receiver for when the update notification should be released to the application
+    release_asset_component_notifications_rx: watch::Receiver<()>,
+}
+
+/// Notifications that can be received for a Management Action
+#[allow(clippy::large_enum_variant)] // Large variants are mostly composed of already heap allocated data
+pub enum ManagementActionNotification {
+    /// Indicates that the Asset containing the Management Action has been updated in place. If this is returned,
+    /// it indicates that the Management Group/Action definition has not changed.
+    /// If there was an error detected, it is included in the result, and must be reported by the application.
+    /// If an error is returned, the [`ManagementActionClient`] should not be used until there is an Ok update
+    AssetUpdated(Result<(), AdrConfigError>),
+    /// Indicates that the Management Action's definition has been updated in place.
+    /// This will only be returned if the Management Group or Action definition has changed,
+    /// which implies that the Asset has also been updated.
+    /// If the default config on the asset changed, the `AssetUpdated` variant will be returned.
+    /// If there was an error detected, it is included in the result, and must be reported by the application.
+    /// If an error is returned, the [`ManagementActionClient`] should not be used until there is an Ok update
+    Updated(Result<(), AdrConfigError>),
+    /// Indicates that the Management Action's definition has been updated in place and the old executor no longer
+    /// can be used with the new definition. This will only be returned if the Management Group or Action
+    /// definition has changed, and that change requires a new executor to be created (e.g. topic change).
+    /// This changing also implies that the Asset has been updated.
+    /// If the topic for the executor has not changed, the `Updated` variant will be returned.
+    /// If there was an error detected, it is included in the result, and must be reported by the application.
+    /// If an error is returned, the [`ManagementActionClient`] should not be used until there is an Ok update.
+    UpdatedWithNewExecutor(Result<ManagementActionExecutor, AdrConfigError>),
+    /// Indicates that the Management Action has been deleted.
+    Deleted,
+}
+
+/// Enum to indicate whether the schema being reported is for a request or response
+#[derive(Debug)]
+enum ActionSchema {
+    Request,
+    Response,
+}
+
+/// Azure Device Registry Management Action Client represents a Management Action and its Management Group
+/// and includes additional functionality to report status, report message schemas, receive updates,
+/// and receive execution requests for the Management Action.
+pub struct ManagementActionClient {
+    /// Management action, management group, asset, device, and inbound endpoint names
+    management_action_ref: ManagementActionRef,
+    // Management Action and Management Group Definition
+    definition: ManagementActionSpecification,
+    /// Current status for the Asset
+    asset_status: Arc<tokio::sync::RwLock<adr_models::AssetStatus>>,
+    /// Current specification for the Asset
+    asset_specification: Arc<std::sync::RwLock<AssetSpecification>>,
+    /// Specification of the device that this management action is tied to
+    device_specification: Arc<std::sync::RwLock<DeviceSpecification>>,
+    /// Status of the device that this management action is tied to
+    device_status: Arc<tokio::sync::RwLock<DeviceEndpointStatus>>,
+    // Internally used fields
+    /// Any previously detected config status for the management action
+    previous_detected_config_status: Result<(), AdrConfigError>,
+    /// used to shutdown the current executor if the definition for it is no longer current
+    executor_shutdown_notifier: Option<Arc<Notify>>,
+    connector_context: Arc<ConnectorContext>,
+    /// Asset reference for internal use
+    asset_ref: AssetRef,
+    /// Internal watcher receiver that holds a snapshot of the latest update and whether it has been
+    /// fully processed or not.
+    management_action_update_watcher_rx: watch::Receiver<ManagementActionUpdateNotification>,
+    /// Health reporter sender for sending health events
+    health_sender: HealthReporterSender,
+    /// Cancellation token for health reporting task - cancelled on deletion
+    health_cancellation_token: CancellationToken,
+}
+
+impl ManagementActionClient {
+    #[allow(clippy::too_many_arguments)]
+    pub(crate) fn new(
+        definition: ManagementActionSpecification,
+        management_action_update_watcher_rx: watch::Receiver<ManagementActionUpdateNotification>,
+        asset_ref: AssetRef,
+        asset_status: Arc<tokio::sync::RwLock<adr_models::AssetStatus>>,
+        asset_specification: Arc<std::sync::RwLock<AssetSpecification>>,
+        device_specification: Arc<std::sync::RwLock<DeviceSpecification>>,
+        device_status: Arc<tokio::sync::RwLock<DeviceEndpointStatus>>,
+        connector_context: Arc<ConnectorContext>,
+    ) -> (Self, Result<ManagementActionExecutor, AdrConfigError>) {
+        // Create a new management_action
+        let management_action_ref = ManagementActionRef {
+            management_action_name: definition.name.clone(),
+            management_group_name: definition.management_group.name.clone(),
+            asset_name: asset_ref.name.clone(),
+            device_name: asset_ref.device_name.clone(),
+            inbound_endpoint_name: asset_ref.inbound_endpoint_name.clone(),
+        };
+        let health_cancellation_token = CancellationToken::new();
+        let health_sender = connector_context
+            .azure_device_registry_client
+            .new_management_action_health_reporter(
+                asset_ref.clone().into(),
+                management_action_ref.management_group_name.clone(),
+                management_action_ref.management_action_name.clone(),
+                connector_context.azure_device_registry_timeout,
+                connector_context.health_report_interval,
+                health_cancellation_token.clone(),
+            );
+        // create executor
+        let executor_res = management_action_executor::try_executor_topic_from_management_topics(
+            definition.topic.as_ref(),
+            definition.management_group.default_topic.as_ref(),
+        )
+        .and_then(|topic| {
+            ManagementActionExecutor::new(topic, &management_action_ref, &connector_context)
+        });
+
+        (
+            Self {
+                management_action_ref,
+                definition,
+                asset_status,
+                asset_specification,
+                device_specification,
+                device_status,
+                connector_context,
+                asset_ref,
+                management_action_update_watcher_rx,
+                previous_detected_config_status: executor_res
+                    .as_ref()
+                    .map(|_| ())
+                    .map_err(Clone::clone),
+                executor_shutdown_notifier: executor_res
+                    .as_ref()
+                    .ok()
+                    .map(ManagementActionExecutor::get_shutdown_notifier),
+                health_sender,
+                health_cancellation_token,
+            },
+            executor_res,
+        )
+    }
+
+    /// Used to conditionally report the request message schema of a management action as an existing schema reference
+    ///
+    /// The `modify` function is called with the current message schema reference (if any) and should return:
+    /// - `Some(new_message_schema_reference)` if the schema should be updated and reported
+    /// - `None` if no update is needed
+    ///
+    /// # Returns
+    /// - [`SchemaModifyResult::Reported`] if the schema was updated and successfully reported, containing the reported [`MessageSchemaReference`]
+    /// - [`SchemaModifyResult::NotModified`] if no modification was needed or the version changed during processing
+    ///
+    /// # Errors
+    /// [`MessageSchemaError`] of kind [`AzureDeviceRegistryError::AIOProtocolError`](azure_device_registry::ErrorKind::AIOProtocolError) if
+    /// there are any underlying errors from the AIO RPC protocol. This error will be retried
+    /// 10 times with exponential backoff and jitter and only returned if it still is failing.
+    ///
+    /// [`MessageSchemaError`] of kind [`AzureDeviceRegistryError::ServiceError`](azure_device_registry::ErrorKind::ServiceError) if an error is returned
+    /// by the Azure Device Registry service.
+    ///
+    /// # Panics
+    /// If the asset specification mutex has been poisoned, which should not be possible
+    pub async fn report_request_message_schema_reference_if_modified<F>(
+        &mut self,
+        modify: F,
+    ) -> Result<SchemaModifyResult, MessageSchemaError>
+    where
+        F: Fn(Option<&MessageSchemaReference>) -> Option<MessageSchemaReference>,
+    {
+        self.report_message_schema_reference_if_modified(ActionSchema::Request, modify)
+            .await
+    }
+
+    /// Used to conditionally report the response message schema of a management action as an existing schema reference
+    ///
+    /// The `modify` function is called with the current message schema reference (if any) and should return:
+    /// - `Some(new_message_schema_reference)` if the schema should be updated and reported
+    /// - `None` if no update is needed
+    ///
+    /// # Returns
+    /// - [`SchemaModifyResult::Reported`] if the schema was updated and successfully reported, containing the reported [`MessageSchemaReference`]
+    /// - [`SchemaModifyResult::NotModified`] if no modification was needed or the version changed during processing
+    ///
+    /// # Errors
+    /// [`MessageSchemaError`] of kind [`AzureDeviceRegistryError::AIOProtocolError`](azure_device_registry::ErrorKind::AIOProtocolError) if
+    /// there are any underlying errors from the AIO RPC protocol. This error will be retried
+    /// 10 times with exponential backoff and jitter and only returned if it still is failing.
+    ///
+    /// [`MessageSchemaError`] of kind [`AzureDeviceRegistryError::ServiceError`](azure_device_registry::ErrorKind::ServiceError) if an error is returned
+    /// by the Azure Device Registry service.
+    ///
+    /// # Panics
+    /// If the asset specification mutex has been poisoned, which should not be possible
+    pub async fn report_response_message_schema_reference_if_modified<F>(
+        &mut self,
+        modify: F,
+    ) -> Result<SchemaModifyResult, MessageSchemaError>
+    where
+        F: Fn(Option<&MessageSchemaReference>) -> Option<MessageSchemaReference>,
+    {
+        self.report_message_schema_reference_if_modified(ActionSchema::Response, modify)
+            .await
+    }
+
+    /// Used to conditionally report the request message schema of a management action
+    ///
+    /// The `modify` function is called with the current message schema reference (if any) and should return:
+    /// - `Some(new_message_schema)` if the schema should be updated and reported
+    /// - `None` if no update is needed
+    ///
+    /// # Returns
+    /// - [`SchemaModifyResult::Reported`] if the schema was updated and successfully reported, containing the reported [`MessageSchemaReference`]
+    /// - [`SchemaModifyResult::NotModified`] if no modification was needed or the version changed during processing
+    ///
+    /// # Errors
+    /// [`MessageSchemaError`] of kind [`SchemaRegistryError::InvalidRequestArgument`](schema_registry::ErrorKind::InvalidRequestArgument)
+    /// if the content of the [`MessageSchema`] is empty or there is an error building the request
+    ///
+    /// [`MessageSchemaError`] of kind [`SchemaRegistryError::ServiceError`](schema_registry::ErrorKind::ServiceError)
+    /// if there is an error returned by the Schema Registry Service. This error will be retried 10
+    /// times with exponential backoff and jitter if it is an internal error and only returned if
+    /// it still is failing.
+    ///
+    /// [`MessageSchemaError`] of kind [`AzureDeviceRegistryError::AIOProtocolError`](azure_device_registry::ErrorKind::AIOProtocolError) if
+    /// there are any underlying errors from the AIO RPC protocol. This error will be retried
+    /// 10 times with exponential backoff and jitter and only returned if it still is failing.
+    ///
+    /// [`MessageSchemaError`] of kind [`AzureDeviceRegistryError::ServiceError`](azure_device_registry::ErrorKind::ServiceError) if
+    /// an error is returned by the Azure Device Registry service.
+    ///
+    /// # Panics
+    /// If the asset specification mutex has been poisoned, which should not be possible
+    pub async fn report_request_message_schema_if_modified<F>(
+        &mut self,
+        modify: F,
+    ) -> Result<SchemaModifyResult, MessageSchemaError>
+    where
+        F: Fn(Option<&MessageSchemaReference>) -> Option<MessageSchema>,
+    {
+        self.report_message_schema_if_modified(ActionSchema::Request, modify)
+            .await
+    }
+
+    /// Used to conditionally report the response message schema of a management action
+    ///
+    /// The `modify` function is called with the current message schema reference (if any) and should return:
+    /// - `Some(new_message_schema)` if the schema should be updated and reported
+    /// - `None` if no update is needed
+    ///
+    /// # Returns
+    /// - [`SchemaModifyResult::Reported`] if the schema was updated and successfully reported, containing the reported [`MessageSchemaReference`]
+    /// - [`SchemaModifyResult::NotModified`] if no modification was needed or the version changed during processing
+    ///
+    /// # Errors
+    /// [`MessageSchemaError`] of kind [`SchemaRegistryError::InvalidRequestArgument`](schema_registry::ErrorKind::InvalidRequestArgument)
+    /// if the content of the [`MessageSchema`] is empty or there is an error building the request
+    ///
+    /// [`MessageSchemaError`] of kind [`SchemaRegistryError::ServiceError`](schema_registry::ErrorKind::ServiceError)
+    /// if there is an error returned by the Schema Registry Service. This error will be retried 10
+    /// times with exponential backoff and jitter if it is an internal error and only returned if
+    /// it still is failing.
+    ///
+    /// [`MessageSchemaError`] of kind [`AzureDeviceRegistryError::AIOProtocolError`](azure_device_registry::ErrorKind::AIOProtocolError) if
+    /// there are any underlying errors from the AIO RPC protocol. This error will be retried
+    /// 10 times with exponential backoff and jitter and only returned if it still is failing.
+    ///
+    /// [`MessageSchemaError`] of kind [`AzureDeviceRegistryError::ServiceError`](azure_device_registry::ErrorKind::ServiceError) if
+    /// an error is returned by the Azure Device Registry service.
+    ///
+    /// # Panics
+    /// If the asset specification mutex has been poisoned, which should not be possible
+    pub async fn report_response_message_schema_if_modified<F>(
+        &mut self,
+        modify: F,
+    ) -> Result<SchemaModifyResult, MessageSchemaError>
+    where
+        F: Fn(Option<&MessageSchemaReference>) -> Option<MessageSchema>,
+    {
+        self.report_message_schema_if_modified(ActionSchema::Response, modify)
+            .await
+    }
+
+    /// Used to receive notifications about the Management Action from the Azure Device Registry Service.
+    ///
+    /// Returns [`ManagementActionNotification::ManagementActionNewExecutor`] if the Management Group or Action's definition has been updated in place
+    /// and the definition change required a new executor to be created (e.g. topic change). If this is received, the old executor will be shut down,
+    /// but it can still be used to drain/complete any already received requests until it is dropped.
+    ///
+    /// Returns [`ManagementActionNotification::ManagementActionUpdated`] if the Management Group or Action's definition has been updated in place,
+    /// but the definition change did not require a new executor to be created.
+    ///
+    /// Returns [`ManagementActionNotification::AssetUpdated`] if the Asset's definition has been updated in place, but there were no
+    /// changes to the Management Group or Action's definition.
+    ///
+    /// Returns any of the above with an `Err(AdrConfigError)` if the Management Action/Asset received an update, but a config error
+    /// for the Management Action was detected. The definition is still updated in place, but the [`ManagementActionClient`] should not be
+    /// used until there is a new update because receiving requests will not be possible.
+    ///
+    /// Returns [`ManagementActionNotification::Deleted`] if the Management Action has been deleted. The [`ManagementActionClient`]
+    /// should not be used after this point, and no more notifications will be received. If this is received, the existing executor
+    /// will be shut down, but it can still be used to drain/complete any already received requests until it is dropped.
+    ///
+    /// # Panics
+    /// If the asset specification mutex has been poisoned, which should not be possible
+    ///
+    /// # Cancel safety
+    /// This method is cancel safe. If you use it as the event in a `tokio::select!` statement and some other branch
+    /// completes first, then it is guaranteed that no management action notifications will be lost, and the management action will not
+    /// be updated without a notification being returned.
+    pub async fn recv_notification(&mut self) -> ManagementActionNotification {
+        if self
+            .management_action_update_watcher_rx
+            .changed()
+            .await
+            .is_err()
+        {
+            // shut down the current executor if it exists
+            self.executor_shutdown_notifier
+                .as_ref()
+                .inspect(|notify| notify.notify_one());
+            // Cancel health reporting task on deletion
+            self.health_cancellation_token.cancel();
+            return ManagementActionNotification::Deleted;
+        }
+        // In case this function gets cancelled the next time it is called we will process the update again.
+        self.management_action_update_watcher_rx.mark_changed();
+        let mut update_notification = self.management_action_update_watcher_rx.borrow().clone();
+
+        // wait until the update has been released. If the watch sender has been dropped, this means the Asset has been deleted/dropped
+        if update_notification
+            .release_asset_component_notifications_rx
+            .changed()
+            .await
+            .is_err()
+        {
+            self.management_action_update_watcher_rx.mark_unchanged();
+            // shut down the current executor if it exists
+            self.executor_shutdown_notifier
+                .as_ref()
+                .inspect(|notify| notify.notify_one());
+            // Cancel health reporting task on deletion
+            self.health_cancellation_token.cancel();
+            return ManagementActionNotification::Deleted;
+        }
+        if update_notification.definition == self.definition {
+            // Asset only update, we don't need to recreate the executor
+            // Once the action update has been processed we can mark the value in the watcher as seen
+            self.management_action_update_watcher_rx.mark_unchanged();
+            // if nothing changed, but there was an executor error before, we need to return that error again since it still applies
+            return ManagementActionNotification::AssetUpdated(
+                self.previous_detected_config_status.clone(),
+            );
+        }
+
+        // TODO: need to take tokens into account here? If the tokens are required, then there shouldn't be any need to evaluate the topics replaced?
+        let new_topic = update_notification
+            .definition
+            .topic
+            .as_ref()
+            .or(update_notification
+                .definition
+                .management_group
+                .default_topic
+                .as_ref());
+        let old_topic = self.definition.topic.as_ref().or(self
+            .definition
+            .management_group
+            .default_topic
+            .as_ref());
+        if new_topic == old_topic {
+            // topic won't be changed, we don't need to recreate the executor
+            // update the definition in place
+            self.definition = update_notification.definition;
+            // Once the action update has been processed we can mark the value in the watcher as seen
+            self.management_action_update_watcher_rx.mark_unchanged();
+            // if nothing changed, but there was an executor error before, we need to return that error again since it still applies
+            return ManagementActionNotification::Updated(
+                self.previous_detected_config_status.clone(),
+            );
+        }
+
+        // no await points beyond this point, so this is safe
+        self.definition = update_notification.definition;
+
+        // shut down the current executor if it exists and create new executor, since topics have changed
+        self.executor_shutdown_notifier
+            .as_ref()
+            .inspect(|notify| notify.notify_one());
+        let executor_res = management_action_executor::try_executor_topic_from_management_topics(
+            self.definition.topic.as_ref(),
+            self.definition.management_group.default_topic.as_ref(),
+        )
+        .and_then(|topic| {
+            ManagementActionExecutor::new(
+                topic,
+                &self.management_action_ref,
+                &self.connector_context,
+            )
+        });
+
+        self.executor_shutdown_notifier = executor_res
+            .as_ref()
+            .ok()
+            .map(ManagementActionExecutor::get_shutdown_notifier);
+        self.previous_detected_config_status =
+            executor_res.as_ref().map(|_| ()).map_err(Clone::clone);
+
+        // Once the action definition has been updated we can mark the value in the watcher as seen
+        self.management_action_update_watcher_rx.mark_unchanged();
+        ManagementActionNotification::UpdatedWithNewExecutor(executor_res)
+    }
+
+    /// Creates a new status reporter for this [`ManagementActionClient`]
+    /// The reporter's version snapshot is initialized to the current asset specification version.
+    ///
+    /// # Panics
+    /// if the asset specification mutex has been poisoned, which should not be possible
+    #[must_use]
+    pub fn get_status_reporter(&self) -> ManagementActionStatusReporter {
+        let snapshotted_version = self
+            .asset_specification
+            .read()
+            .unwrap()
+            .version
+            .unwrap_or(0);
+        ManagementActionStatusReporter {
+            connector_context: self.connector_context.clone(),
+            asset_status: self.asset_status.clone(),
+            asset_specification: self.asset_specification.clone(),
+            health_sender: self.health_sender.clone(),
+            asset_component_ref: self.management_action_ref.clone(),
+            asset_ref: self.asset_ref.clone(),
+            snapshotted_version,
+        }
+    }
+
+    // ~~~~~~~ fns to get various fields ~~~~~~~
+
+    /// Returns a clone of this Management Action's Request [`MessageSchemaReference`] from
+    /// the `AssetStatus`, if it exists
+    #[must_use]
+    pub async fn request_message_schema_reference(&self) -> Option<MessageSchemaReference> {
+        self.asset_status
+            .read()
+            .await
+            .management_groups
+            .as_ref()?
+            .iter()
+            .find(|management_group| {
+                management_group.name == *self.management_action_ref.management_group_name
+            })?
+            .actions
+            .as_ref()?
+            .iter()
+            .find(|action| action.name == *self.management_action_ref.management_action_name)?
+            .request_message_schema_reference
+            .clone()
+    }
+
+    /// Returns a clone of this Management Action's Response [`MessageSchemaReference`] from
+    /// the `AssetStatus`, if it exists
+    #[must_use]
+    pub async fn response_message_schema_reference(&self) -> Option<MessageSchemaReference> {
+        self.asset_status
+            .read()
+            .await
+            .management_groups
+            .as_ref()?
+            .iter()
+            .find(|management_group| {
+                management_group.name == *self.management_action_ref.management_group_name
+            })?
+            .actions
+            .as_ref()?
+            .iter()
+            .find(|action| action.name == *self.management_action_ref.management_action_name)?
+            .response_message_schema_reference
+            .clone()
+    }
+
+    /// Management action, management group, asset, device, and inbound endpoint names
+    #[must_use]
+    pub fn management_action_ref(&self) -> &ManagementActionRef {
+        &self.management_action_ref
+    }
+
+    /// Management Action and Group Definitions
+    #[must_use]
+    pub fn definition(&self) -> &ManagementActionSpecification {
+        &self.definition
+    }
+
+    /// Returns a clone of the current asset specification
+    /// # Panics
+    /// if the asset specification mutex has been poisoned, which should not be possible
+    #[must_use]
+    pub fn asset_specification(&self) -> AssetSpecification {
+        (*self.asset_specification.read().unwrap()).clone()
+    }
+
+    /// Returns a clone of the current asset status, if it exists
+    #[must_use]
+    pub async fn asset_status(&self) -> adr_models::AssetStatus {
+        (*self.asset_status.read().await).clone()
+    }
+
+    /// Returns a clone of the current device specification
+    /// # Panics
+    /// if the device specification mutex has been poisoned, which should not be possible
+    #[must_use]
+    pub fn device_specification(&self) -> DeviceSpecification {
+        (*self.device_specification.read().unwrap()).clone()
+    }
+
+    /// Returns a clone of the current device status
+    #[must_use]
+    pub async fn device_status(&self) -> DeviceEndpointStatus {
+        (*self.device_status.read().await).clone()
+    }
+
+    // ~~~~~~ Internal fns ~~~~~~~
+
+    /// Helper function to update the specific event status within the asset status
+    fn update_action_status(
+        asset_status_to_update: &mut adr_models::AssetStatus,
+        management_group_name: &str,
+        action_name: &str,
+        action_status: Result<(), AdrConfigError>,
+    ) {
+        if let Some(curr_management_group_status) = asset_status_to_update
+            .management_groups
+            .as_mut()
+            .and_then(|management_groups| {
+                management_groups
+                    .iter_mut()
+                    .find(|management_group| management_group.name == management_group_name)
+            })
+        {
+            if let Some(curr_action_status) = curr_management_group_status
+                .actions
+                .as_mut()
+                .and_then(|actions| actions.iter_mut().find(|action| action.name == action_name))
+            {
+                // If the action already has a status, update the existing action with the new error
+                curr_action_status.error = action_status.err();
+            } else {
+                // If the action doesn't exist in the current management group status, then add it
+                curr_management_group_status
+                    .actions
+                    .get_or_insert_with(Vec::new)
+                    .push(adr_models::ActionStatus {
+                        name: action_name.to_string(),
+                        request_message_schema_reference: None,
+                        response_message_schema_reference: None,
+                        error: action_status.err(),
+                    });
+            }
+        } else {
+            // If the management group doesn't exist in the current status, then add it
+            asset_status_to_update
+                .management_groups
+                .get_or_insert_with(Vec::new)
+                .push(adr_models::ManagementGroupStatus {
+                    name: management_group_name.to_string(),
+                    actions: Some(vec![adr_models::ActionStatus {
+                        name: action_name.to_string(),
+                        request_message_schema_reference: None,
+                        response_message_schema_reference: None,
+                        error: action_status.err(),
+                    }]),
+                });
+        }
+    }
+
+    async fn report_message_schema_reference_if_modified<F>(
+        &mut self,
+        schema_side: ActionSchema,
+        modify: F,
+    ) -> Result<SchemaModifyResult, MessageSchemaError>
+    where
+        F: Fn(Option<&MessageSchemaReference>) -> Option<MessageSchemaReference>,
+    {
+        // Get the current version of the asset specification
+        let cached_version = self.asset_specification.read().unwrap().version;
+
+        {
+            // Get the current asset status
+            let status_read_guard = self.asset_status.read().await;
+            let current_asset_status =
+                AssetClient::get_current_asset_status(&status_read_guard, cached_version);
+
+            let modify_input =
+                self.get_schema_reference_modify_input(&current_asset_status, &schema_side);
+
+            match modify(modify_input) {
+                Some(_) => {
+                    // A modification was made, we proceed to report schema
+                }
+                None => {
+                    // No modification was made, so no need to report schema
+                    return Ok(SchemaModifyResult::NotModified);
+                }
+            }
+        };
+
+        // To modify, we need to acquire the write lock
+        let mut status_write_guard = self.asset_status.write().await;
+
+        // We can continue here because the asset status will not change. The specification might
+        // update but we will be reporting for an old version.
+
+        if cached_version != self.asset_specification.read().unwrap().version {
+            // Our modify is no longer valid
+            log::debug!(
+                "Reporting for an out-of-date asset specification from a Management Action client, will not modify"
+            );
+            return Ok(SchemaModifyResult::NotModified);
+        }
+
+        // Get the current asset status in case it has changed
+        let current_asset_status =
+            AssetClient::get_current_asset_status(&status_write_guard, cached_version);
+
+        let modify_input =
+            self.get_schema_reference_modify_input(&current_asset_status, &schema_side);
+
+        let Some(new_message_schema_reference) = modify(modify_input) else {
+            // No modification was made, so no need to report schema
+            return Ok(SchemaModifyResult::NotModified);
+        };
+
+        let mut asset_status_to_report = current_asset_status.into_owned();
+
+        asset_status_to_report.config = match asset_status_to_report.config {
+            Some(mut config) => {
+                config.last_transition_time = Some(Utc::now());
+                Some(config)
+            }
+            None => {
+                // If the config is None, we need to create a new one to report along with the asset status
+                Some(azure_device_registry::ConfigStatus {
+                    version: cached_version,
+                    last_transition_time: Some(Utc::now()),
+                    ..Default::default()
+                })
+            }
+        };
+
+        Self::internal_report_message_schema_reference(
+            &self.connector_context,
+            &self.asset_ref,
+            &self.management_action_ref,
+            // &mut self.forwarder,
+            asset_status_to_report,
+            &mut status_write_guard,
+            &new_message_schema_reference,
+            &schema_side,
+            &format!("ManagementActionClient::report_{schema_side:?}_message_schema_reference_if_modified"),
+        )
+        .await?;
+
+        Ok(SchemaModifyResult::Reported(new_message_schema_reference))
+    }
+
+    async fn report_message_schema_if_modified<F>(
+        &mut self,
+        schema_side: ActionSchema,
+        modify: F,
+    ) -> Result<SchemaModifyResult, MessageSchemaError>
+    where
+        F: Fn(Option<&MessageSchemaReference>) -> Option<MessageSchema>,
+    {
+        // Get the current version of the asset specification
+        let cached_version = self.asset_specification.read().unwrap().version;
+
+        {
+            // Get the current asset status
+            let status_read_guard = self.asset_status.read().await;
+            let current_asset_status =
+                AssetClient::get_current_asset_status(&status_read_guard, cached_version);
+
+            let modify_input =
+                self.get_schema_reference_modify_input(&current_asset_status, &schema_side);
+
+            if modify(modify_input).is_some() {
+                // A modification was made, we proceed to report schema
+            } else {
+                // No modification was made, so no need to report schema
+                return Ok(SchemaModifyResult::NotModified);
+            }
+        };
+
+        // To modify, we need to acquire the write lock
+        let mut status_write_guard = self.asset_status.write().await;
+
+        // We can continue here because the asset status will not change. The specification might
+        // update but we will be reporting for an old version.
+
+        if cached_version != self.asset_specification.read().unwrap().version {
+            // Our modify is no longer valid
+            log::debug!(
+                "Reporting for an out-of-date asset specification from a Management Action client, will not modify"
+            );
+            return Ok(SchemaModifyResult::NotModified);
+        }
+
+        // Get the current asset status in case it has changed
+        let current_asset_status =
+            AssetClient::get_current_asset_status(&status_write_guard, cached_version);
+
+        let modify_input =
+            self.get_schema_reference_modify_input(&current_asset_status, &schema_side);
+
+        let Some(new_message_schema) = modify(modify_input) else {
+            // No modification was made, so no need to report schema
+            return Ok(SchemaModifyResult::NotModified);
+        };
+
+        let mut asset_status_to_report = current_asset_status.into_owned();
+
+        asset_status_to_report.config = match asset_status_to_report.config {
+            Some(mut config) => {
+                config.last_transition_time = Some(Utc::now());
+                Some(config)
+            }
+            None => {
+                // If the config is None, we need to create a new one to report along with the asset status
+                Some(azure_device_registry::ConfigStatus {
+                    version: cached_version,
+                    last_transition_time: Some(Utc::now()),
+                    ..Default::default()
+                })
+            }
+        };
+
+        // First put the schema in the schema registry
+        let message_schema_reference = Retry::spawn(
+            RETRY_STRATEGY.map(tokio_retry2::strategy::jitter),
+            async || -> Result<schema_registry::Schema, RetryError<schema_registry::Error>> {
+                self.connector_context
+                    .schema_registry_client
+                    .put(
+                        new_message_schema.clone(),
+                        self.connector_context.schema_registry_timeout,
+                    )
+                    .await
+                    .map_err(|e| {
+                        match e.kind() {
+                            // network/retriable
+                            schema_registry::ErrorKind::AIOProtocolError(_) => {
+                                log::warn!(
+                                    "Reporting {schema_side:?} message schema failed for {:?}. Retrying: {e}",
+                                    self.management_action_ref
+                                );
+                                RetryError::transient(e)
+                            }
+                            schema_registry::ErrorKind::ServiceError(service_error) => {
+                                if let schema_registry::ErrorCode::InternalError =
+                                    service_error.code
+                                {
+                                    log::warn!(
+                                        "Reporting {schema_side:?} message schema failed for {:?}. Retrying: {e}",
+                                        self.management_action_ref
+                                    );
+                                    RetryError::transient(e)
+                                } else {
+                                    RetryError::permanent(e)
+                                }
+                            }
+                            // indicates an error in the provided message schema, return to caller so they can fix
+                            schema_registry::ErrorKind::InvalidRequestArgument(_) => {
+                                RetryError::permanent(e)
+                            }
+                        }
+                    })
+            },
+        )
+        .await
+        .map(|schema| MessageSchemaReference {
+            name: schema.name,
+            version: schema.version,
+            registry_namespace: schema.namespace,
+        })?;
+
+        Self::internal_report_message_schema_reference(
+            &self.connector_context,
+            &self.asset_ref,
+            &self.management_action_ref,
+            // &mut self.forwarder,
+            asset_status_to_report,
+            &mut status_write_guard,
+            &message_schema_reference,
+            &schema_side,
+            &format!("ManagementActionClient::report_{schema_side:?}_message_schema_if_modified"),
+        )
+        .await?;
+
+        Ok(SchemaModifyResult::Reported(message_schema_reference))
+    }
+
+    #[allow(clippy::too_many_arguments)]
+    async fn internal_report_message_schema_reference(
+        connector_context: &Arc<ConnectorContext>,
+        asset_ref: &AssetRef,
+        management_action_ref: &ManagementActionRef,
+        asset_status_to_report: adr_models::AssetStatus,
+        status_write_guard: &mut adr_models::AssetStatus,
+        message_schema_reference: &MessageSchemaReference,
+        schema_side: &ActionSchema,
+        log_identifier: &str,
+    ) -> Result<(), MessageSchemaError> {
+        // Use the provided asset_status_to_report instead of creating a new one
+        let mut new_status = asset_status_to_report;
+
+        // if management action is already in the current status, then update the existing management action with the new message schema
+        // Otherwise if the management action isn't present, or no management actions have been reported yet, then add it with the new message schema
+        if let Some(management_group_status) =
+            new_status
+                .management_groups
+                .as_mut()
+                .and_then(|management_groups| {
+                    management_groups.iter_mut().find(|management_group| {
+                        management_group.name == *management_action_ref.management_group_name
+                    })
+                })
+        {
+            if let Some(action_status) =
+                management_group_status
+                    .actions
+                    .as_mut()
+                    .and_then(|actions| {
+                        actions.iter_mut().find(|action| {
+                            action.name == *management_action_ref.management_action_name
+                        })
+                    })
+            {
+                // If the action already has a status, update the existing action with the new message schema
+                match schema_side {
+                    ActionSchema::Request => {
+                        action_status.request_message_schema_reference =
+                            Some(message_schema_reference.clone());
+                    }
+                    ActionSchema::Response => {
+                        action_status.response_message_schema_reference =
+                            Some(message_schema_reference.clone());
+                    }
+                }
+            } else {
+                // If the action doesn't exist in the current status, then add it
+                management_group_status
+                    .actions
+                    .get_or_insert_with(Vec::new)
+                    .push(adr_models::ActionStatus {
+                        name: management_action_ref.management_action_name.clone(),
+                        request_message_schema_reference: match schema_side {
+                            ActionSchema::Request => Some(message_schema_reference.clone()),
+                            ActionSchema::Response => None,
+                        },
+                        response_message_schema_reference: match schema_side {
+                            ActionSchema::Request => None,
+                            ActionSchema::Response => Some(message_schema_reference.clone()),
+                        },
+                        error: None,
+                    });
+            }
+        } else {
+            // If the management group doesn't exist in the current status, then add it
+            new_status
+                .management_groups
+                .get_or_insert_with(Vec::new)
+                .push(adr_models::ManagementGroupStatus {
+                    name: management_action_ref.management_group_name.clone(),
+                    actions: Some(vec![adr_models::ActionStatus {
+                        name: management_action_ref.management_action_name.clone(),
+                        request_message_schema_reference: match schema_side {
+                            ActionSchema::Request => Some(message_schema_reference.clone()),
+                            ActionSchema::Response => None,
+                        },
+                        response_message_schema_reference: match schema_side {
+                            ActionSchema::Request => None,
+                            ActionSchema::Response => Some(message_schema_reference.clone()),
+                        },
+                        error: None,
+                    }]),
+                });
+        }
+
+        // send status update to the service
+        log::debug!(
+            "Reporting management action {management_action_ref:?} {schema_side:?} message schema from app"
+        );
+        AssetStatusReporter::internal_report_status(
+            new_status,
+            connector_context,
+            asset_ref,
+            status_write_guard,
+            log_identifier,
+        )
+        .await?;
+
+        Ok(())
+    }
+
+    fn get_schema_reference_modify_input<'a>(
+        &self,
+        asset_status: &'a adr_models::AssetStatus,
+        schema_side: &ActionSchema,
+    ) -> Option<&'a adr_models::MessageSchemaReference> {
+        asset_status
+            .management_groups
+            .as_ref()
+            .and_then(|management_groups| {
+                management_groups.iter().find(|mg_status| {
+                    mg_status.name == *self.management_action_ref.management_group_name
+                })
+            })
+            .and_then(|mg_status| {
+                mg_status.actions.as_ref().and_then(|actions| {
+                    actions.iter().find(|a_status| {
+                        a_status.name == *self.management_action_ref.management_action_name
+                    })
+                })
+            })
+            .and_then(|a_status| match schema_side {
+                ActionSchema::Request => a_status.request_message_schema_reference.as_ref(),
+                ActionSchema::Response => a_status.response_message_schema_reference.as_ref(),
+            })
+    }
+}
+
+impl Drop for ManagementActionClient {
+    fn drop(&mut self) {
+        // shut down the current executor if it exists
+        self.executor_shutdown_notifier
+            .as_ref()
+            .inspect(|notify| notify.notify_one());
+        self.health_cancellation_token.cancel();
     }
 }
 
@@ -2830,39 +4643,75 @@ pub struct DeviceSpecification {
     pub version: Option<u64>,
 }
 
+/// Error type for [`DeviceSpecification::new()`]
+#[derive(Debug, Error)]
+pub(crate) enum DeviceSpecificationError {
+    /// The device specification is missing required fields (e.g., endpoints, inbound endpoint)
+    #[error("{0}")]
+    InvalidSpecification(String),
+    /// The credential mount path is missing for the required authentication mode
+    #[error("{0}")]
+    CredentialsMountPathMissing(String),
+}
+
 impl DeviceSpecification {
     pub(crate) fn new(
         device_specification: adr_models::Device,
         device_endpoint_credentials_mount_path: Option<&PathBuf>,
         inbound_endpoint_name: &str,
-    ) -> Result<Self, String> {
+    ) -> Result<Self, DeviceSpecificationError> {
         // convert the endpoints to the new format with only the one specified inbound endpoint
         // if the inbound endpoint isn't in the specification, return an error
-        let recvd_endpoints = device_specification
-            .endpoints
-            .ok_or("Endpoints not found on Device specification")?;
+        let recvd_endpoints = device_specification.endpoints.ok_or_else(|| {
+            DeviceSpecificationError::InvalidSpecification(
+                "Endpoints not found on Device specification".to_string(),
+            )
+        })?;
 
         let recvd_inbound = recvd_endpoints
             .inbound
             .get(inbound_endpoint_name)
             .cloned()
-            .ok_or("Inbound endpoint not found on Device specification")?;
+            .ok_or_else(|| {
+                DeviceSpecificationError::InvalidSpecification(
+                    "Inbound endpoint not found on Device specification".to_string(),
+                )
+            })?;
 
         // update authentication to include the full file path for the credentials
         let authentication = match recvd_inbound.authentication {
             adr_models::Authentication::Anonymous => Authentication::Anonymous,
             adr_models::Authentication::Certificate {
                 certificate_secret_name,
-            } => Authentication::Certificate {
-                certificate_path: device_endpoint_credentials_mount_path.expect("device_endpoint_credentials_mount_path must be present if Authentication is Certificate").as_path().join(certificate_secret_name),
-            },
+                intermediate_certificates_secret_name,
+                key_secret_name,
+            } => {
+                let credentials_mount = device_endpoint_credentials_mount_path
+                    .ok_or_else(|| DeviceSpecificationError::CredentialsMountPathMissing("device_endpoint_credentials_mount_path must be present if Authentication is Certificate".to_string()))?;
+                Authentication::Certificate {
+                    certificate_path: credentials_mount.as_path().join(certificate_secret_name),
+                    intermediate_certificates_path: intermediate_certificates_secret_name.map(
+                        |intermediate_cert_secret_name| {
+                            credentials_mount
+                                .as_path()
+                                .join(intermediate_cert_secret_name)
+                        },
+                    ),
+                    key_path: key_secret_name
+                        .map(|key_secret_name| credentials_mount.as_path().join(key_secret_name)),
+                }
+            }
             adr_models::Authentication::UsernamePassword {
                 password_secret_name,
                 username_secret_name,
-            } => Authentication::UsernamePassword {
-                password_path: device_endpoint_credentials_mount_path.expect("device_endpoint_credentials_mount_path must be present if Authentication is UsernamePassword").as_path().join(password_secret_name),
-                username_path: device_endpoint_credentials_mount_path.expect("device_endpoint_credentials_mount_path must be present if Authentication is UsernamePassword").as_path().join(username_secret_name),
-            },
+            } => {
+                let credentials_mount = device_endpoint_credentials_mount_path
+                    .ok_or_else(|| DeviceSpecificationError::CredentialsMountPathMissing("device_endpoint_credentials_mount_path must be present if Authentication is UsernamePassword".to_string()))?;
+                Authentication::UsernamePassword {
+                    password_path: credentials_mount.as_path().join(password_secret_name),
+                    username_path: credentials_mount.as_path().join(username_secret_name),
+                }
+            }
         };
 
         let endpoints = DeviceEndpoints {
@@ -2930,8 +4779,12 @@ pub enum Authentication {
     Anonymous,
     /// Represents authentication using a certificate.
     Certificate {
-        /// The 'certificateSecretName' Field.
+        /// The path to a file containing containing the client certificate in PEM format.
         certificate_path: PathBuf, // different from adr
+        /// The path to a file containing the combined intermediate certificates in PEM format (if any).
+        intermediate_certificates_path: Option<PathBuf>, // different from adr
+        /// The path to a file containing the private key in PEM or DER format.
+        key_path: Option<PathBuf>, // different from adr
     },
     /// Represents authentication using a username and password.
     UsernamePassword {
@@ -3035,8 +4888,6 @@ pub struct AssetSpecification {
     pub hardware_revision: Option<String>,
     /// The last time the asset has been modified.
     pub last_transition_time: Option<DateTime<Utc>>,
-    /// Array of management groups that are part of the asset. TODO: `ManagementGroupClient`
-    pub management_groups: Vec<adr_models::ManagementGroup>, // if None, we can represent as empty vec
     /// The name of the manufacturer.
     pub manufacturer: Option<String>,
     /// The URI of the manufacturer.
@@ -3076,7 +4927,6 @@ impl From<adr_models::Asset> for AssetSpecification {
             external_asset_id: value.external_asset_id,
             hardware_revision: value.hardware_revision,
             last_transition_time: value.last_transition_time,
-            management_groups: value.management_groups,
             manufacturer: value.manufacturer,
             manufacturer_uri: value.manufacturer_uri,
             model: value.model,
@@ -3089,25 +4939,183 @@ impl From<adr_models::Asset> for AssetSpecification {
     }
 }
 
+/// Represents the specification of a Management Action and its Management Group in the Azure Device Registry service.
+#[derive(Debug, Clone, PartialEq)]
+pub struct ManagementActionSpecification {
+    /// Configuration for the action.
+    pub action_configuration: Option<String>,
+    /// Type of the action.
+    pub action_type: adr_models::ActionType,
+    /// Name of the action.
+    pub name: String,
+    /// The target URI on which a client can invoke the specific action.
+    pub target_uri: String,
+    /// Response timeout for the action.
+    pub timeout_in_seconds: Option<u64>,
+    /// The MQTT topic path on which a client will receive the request for the action.
+    pub topic: Option<String>,
+    /// URI or type definition ID.
+    pub type_ref: Option<String>,
+    /// The Management Group this action belongs to.
+    pub management_group: ManagementGroupSpecification,
+    name_tuple: (String, String),
+}
+
+impl ManagementActionSpecification {
+    pub(crate) fn command_name(&self) -> String {
+        format!("{}::{}", self.management_group.name, self.name)
+    }
+
+    pub(crate) fn hash_name(&self) -> &(String, String) {
+        &self.name_tuple
+    }
+}
+
+impl
+    From<(
+        adr_models::ManagementGroup,
+        adr_models::ManagementGroupAction,
+    )> for ManagementActionSpecification
+{
+    fn from(
+        val: (
+            adr_models::ManagementGroup,
+            adr_models::ManagementGroupAction,
+        ),
+    ) -> Self {
+        ManagementActionSpecification {
+            name_tuple: (val.0.name.clone(), val.1.name.clone()),
+            action_configuration: val.1.action_configuration,
+            action_type: val.1.action_type,
+            target_uri: val.1.target_uri,
+            timeout_in_seconds: val.1.timeout_in_seconds,
+            topic: val.1.topic,
+            name: val.1.name,
+            type_ref: val.1.type_ref,
+            management_group: ManagementGroupSpecification {
+                default_timeout_in_seconds: val.0.default_timeout_in_seconds,
+                default_topic: val.0.default_topic,
+                management_group_configuration: val.0.management_group_configuration,
+                data_source: val.0.data_source,
+                name: val.0.name,
+                type_ref: val.0.type_ref,
+            },
+        }
+    }
+}
+
+/// Represents the specification of a Management Group in the Azure Device Registry service.
+#[derive(Debug, Clone, PartialEq)]
+pub struct ManagementGroupSpecification {
+    /// Reference to a data source for a given management group.
+    pub data_source: Option<String>,
+    /// Default response timeout for all actions that are part of the management group.
+    pub default_timeout_in_seconds: Option<u64>,
+    /// Default MQTT topic path on which a client will receive the request for all actions that are part of the management group.
+    pub default_topic: Option<String>,
+    /// Stringified JSON that contains connector-specific configuration for the management group.
+    pub management_group_configuration: Option<String>,
+    /// Name of the management group.
+    pub name: String,
+    /// URI or type definition ID.
+    pub type_ref: Option<String>,
+}
+
+/// Represents the specification of an Event and its Event Group in the Azure Device Registry service.
+#[derive(Debug, Clone, PartialEq)]
+pub struct EventSpecification {
+    /// Destinations for an event.
+    pub destinations: Vec<adr_models::EventStreamDestination>, // if None on generated model, we can represent as empty vec. Can currently only be length of 1
+    /// Stringified JSON that contains connector-specific configuration for the specific event.
+    pub event_configuration: Option<String>,
+    /// Reference to a data source for a given event.
+    pub data_source: Option<String>,
+    /// The name of the event.
+    pub name: String,
+    /// URI or type definition ID.
+    pub type_ref: Option<String>,
+    /// The Event Group this event belongs to.
+    pub event_group: EventGroupSpecification,
+    name_tuple: (String, String),
+}
+
+impl EventSpecification {
+    pub(crate) fn hash_name(&self) -> &(String, String) {
+        &self.name_tuple
+    }
+}
+
+impl From<(adr_models::EventGroup, adr_models::Event)> for EventSpecification {
+    fn from(val: (adr_models::EventGroup, adr_models::Event)) -> Self {
+        EventSpecification {
+            name_tuple: (val.0.name.clone(), val.1.name.clone()),
+            destinations: val.1.destinations,
+            event_configuration: val.1.event_configuration,
+            data_source: val.1.data_source,
+            name: val.1.name,
+            type_ref: val.1.type_ref,
+            event_group: EventGroupSpecification {
+                default_destinations: val.0.default_destinations,
+                event_group_configuration: val.0.event_group_configuration,
+                data_source: val.0.data_source,
+                name: val.0.name,
+                type_ref: val.0.type_ref,
+            },
+        }
+    }
+}
+
+/// Represents the specification of an Event Group in the Azure Device Registry service.
+#[derive(Debug, Clone, PartialEq)]
+pub struct EventGroupSpecification {
+    /// Default destinations for an event on this Event Group.
+    pub default_destinations: Vec<adr_models::EventStreamDestination>, // if None on generated model, we can represent as empty vec. Can currently only be length of 1
+    /// Stringified JSON that contains connector-specific configuration for the specific event group.
+    pub event_group_configuration: Option<String>,
+    /// The address of the notifier of the event in the asset (e.g. URL) so that a client can access the notifier on the asset.
+    pub data_source: Option<String>,
+    /// The name of the event group.
+    pub name: String,
+    /// URI or type definition ID.
+    pub type_ref: Option<String>,
+}
+
 /// Holds the `DataOperation`'s definition, regardless of the type
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, PartialEq)]
 pub enum DataOperationDefinition {
     /// Dataset definition
     Dataset(adr_models::Dataset),
     /// Event definition
-    Event(adr_models::Event),
+    Event(EventSpecification),
     /// Stream definition
     Stream(adr_models::Stream),
 }
 
 impl DataOperationDefinition {
-    /// Returns the name of the data operation
+    /// Returns the [`DataOperationName`] of the data operation
     #[must_use]
-    pub fn name(&self) -> &str {
+    pub fn name(&self) -> DataOperationName {
         match self {
-            DataOperationDefinition::Dataset(dataset) => &dataset.name,
-            DataOperationDefinition::Event(event) => &event.name,
-            DataOperationDefinition::Stream(stream) => &stream.name,
+            DataOperationDefinition::Dataset(dataset) => DataOperationName::Dataset {
+                name: dataset.name.clone(),
+            },
+            DataOperationDefinition::Event(event) => DataOperationName::Event {
+                name: event.name.clone(),
+                event_group_name: event.event_group.name.clone(),
+            },
+            DataOperationDefinition::Stream(stream) => DataOperationName::Stream {
+                name: stream.name.clone(),
+            },
+        }
+    }
+
+    /// Returns the [`DataOperationKind`] of the data operation definition
+    #[must_use]
+    pub fn kind(&self) -> DataOperationKind {
+        match self {
+            DataOperationDefinition::Dataset(_) => DataOperationKind::Dataset,
+            DataOperationDefinition::Event(_) => DataOperationKind::Event,
+            DataOperationDefinition::Stream(_) => DataOperationKind::Stream,
         }
     }
 }
@@ -3122,32 +5130,73 @@ impl DataOperationDefinition {
 /// Unlike directly implementing methods on the `DataOperationDefinition` enum,
 /// this trait allows individual data operation types (e.g., `Dataset`, `Event`, `Stream`)
 /// to define their own behavior while still conforming to a common interface.
-trait DataOperation {
-    fn name(&self) -> &str;
-    fn into_data_operation_definition(self) -> DataOperationDefinition;
+trait DataOperation: Into<DataOperationDefinition> {
+    type HashName: PartialEq + Eq + Hash + Clone + std::fmt::Debug;
+    fn kind() -> DataOperationKind;
+    fn hash_name(&self) -> &Self::HashName;
+    fn data_operation_name(&self) -> DataOperationName;
+}
+
+impl From<adr_models::Dataset> for DataOperationDefinition {
+    fn from(val: adr_models::Dataset) -> Self {
+        DataOperationDefinition::Dataset(val)
+    }
 }
 impl DataOperation for adr_models::Dataset {
-    fn name(&self) -> &str {
+    type HashName = String;
+    fn kind() -> DataOperationKind {
+        DataOperationKind::Dataset
+    }
+    fn hash_name(&self) -> &Self::HashName {
         &self.name
     }
-    fn into_data_operation_definition(self) -> DataOperationDefinition {
-        DataOperationDefinition::Dataset(self)
+    fn data_operation_name(&self) -> DataOperationName {
+        DataOperationName::Dataset {
+            name: self.name.clone(),
+        }
     }
 }
-impl DataOperation for adr_models::Event {
-    fn name(&self) -> &str {
-        &self.name
+
+impl From<EventSpecification> for DataOperationDefinition {
+    fn from(val: EventSpecification) -> Self {
+        DataOperationDefinition::Event(val)
     }
-    fn into_data_operation_definition(self) -> DataOperationDefinition {
-        DataOperationDefinition::Event(self)
+}
+
+impl DataOperation for EventSpecification {
+    type HashName = (String, String);
+    fn kind() -> DataOperationKind {
+        DataOperationKind::Event
+    }
+    fn hash_name(&self) -> &Self::HashName {
+        self.hash_name()
+    }
+
+    fn data_operation_name(&self) -> DataOperationName {
+        DataOperationName::Event {
+            name: self.name.clone(),
+            event_group_name: self.event_group.name.clone(),
+        }
+    }
+}
+
+impl From<adr_models::Stream> for DataOperationDefinition {
+    fn from(val: adr_models::Stream) -> Self {
+        DataOperationDefinition::Stream(val)
     }
 }
 impl DataOperation for adr_models::Stream {
-    fn name(&self) -> &str {
+    type HashName = String;
+    fn kind() -> DataOperationKind {
+        DataOperationKind::Stream
+    }
+    fn hash_name(&self) -> &Self::HashName {
         &self.name
     }
-    fn into_data_operation_definition(self) -> DataOperationDefinition {
-        DataOperationDefinition::Stream(self)
+    fn data_operation_name(&self) -> DataOperationName {
+        DataOperationName::Stream {
+            name: self.name.clone(),
+        }
     }
 }
 
@@ -3180,6 +5229,8 @@ mod tests {
     use test_case::test_case;
 
     use super::*;
+
+    const TEST_INBOUND_ENDPOINT_NAME: &str = "test_inbound_endpoint";
 
     #[test_case(None, 1, false, true; "new")]
     #[test_case(Some(azure_device_registry::ConfigStatus {
@@ -3328,5 +5379,289 @@ mod tests {
         } else {
             assert_eq!(new_status_base, DeviceEndpointStatus::default());
         }
+    }
+
+    #[test_case(
+        adr_models::Authentication::Anonymous,
+        None;
+        "anonymous"
+    )]
+    #[test_case(
+        adr_models::Authentication::Certificate {
+            certificate_secret_name: "cert.pem".to_string(),
+            intermediate_certificates_secret_name: None,
+            key_secret_name: None,
+        },
+        Some(PathBuf::from("/mnt/creds"));
+        "certificate"
+    )]
+    #[test_case(
+        adr_models::Authentication::UsernamePassword {
+            password_secret_name: "password".to_string(),
+            username_secret_name: "username".to_string(),
+        },
+        Some(PathBuf::from("/mnt/creds"));
+        "username_password"
+    )]
+    #[allow(clippy::needless_pass_by_value)]
+    fn new_device_specification_minimum(
+        authentication: adr_models::Authentication,
+        mount_path: Option<PathBuf>,
+    ) {
+        let device_specification = adr_models::Device {
+            attributes: HashMap::new(),
+            discovered_device_ref: None,
+            enabled: None,
+            endpoints: Some(adr_models::DeviceEndpoints {
+                inbound: HashMap::from([(
+                    TEST_INBOUND_ENDPOINT_NAME.to_string(),
+                    adr_models::InboundEndpoint {
+                        additional_configuration: None,
+                        address: "mqtt://test".to_string(),
+                        authentication,
+                        endpoint_type: "mqtt".to_string(),
+                        trust_settings: None,
+                        version: None,
+                    },
+                )]),
+                outbound: None,
+            }),
+            external_device_id: None,
+            last_transition_time: None,
+            manufacturer: None,
+            model: None,
+            operating_system: None,
+            operating_system_version: None,
+            uuid: None,
+            version: None,
+        };
+
+        let result = DeviceSpecification::new(
+            device_specification,
+            mount_path.as_ref(),
+            TEST_INBOUND_ENDPOINT_NAME,
+        );
+        assert!(result.is_ok());
+    }
+
+    #[test_case(
+        adr_models::Authentication::Anonymous,
+        None;
+        "anonymous"
+    )]
+    #[test_case(
+        adr_models::Authentication::Certificate {
+            certificate_secret_name: "cert.pem".to_string(),
+            intermediate_certificates_secret_name: Some("intermediate.pem".to_string()),
+            key_secret_name: Some("key.pem".to_string()),
+        },
+        Some(PathBuf::from("/mnt/creds"));
+        "certificate"
+    )]
+    #[test_case(
+        adr_models::Authentication::UsernamePassword {
+            password_secret_name: "password".to_string(),
+            username_secret_name: "username".to_string(),
+        },
+        Some(PathBuf::from("/mnt/creds"));
+        "username_password"
+    )]
+    #[allow(clippy::needless_pass_by_value)]
+    fn new_device_specification_maximum(
+        authentication: adr_models::Authentication,
+        mount_path: Option<PathBuf>,
+    ) {
+        let device_specification = adr_models::Device {
+            attributes: HashMap::from([
+                ("key1".to_string(), "value1".to_string()),
+                ("key2".to_string(), "value2".to_string()),
+            ]),
+            discovered_device_ref: Some("discovered-device-ref".to_string()),
+            enabled: Some(true),
+            endpoints: Some(adr_models::DeviceEndpoints {
+                inbound: HashMap::from([(
+                    TEST_INBOUND_ENDPOINT_NAME.to_string(),
+                    adr_models::InboundEndpoint {
+                        additional_configuration: Some(r#"{"key":"value"}"#.to_string()),
+                        address: "mqtt://test:1883".to_string(),
+                        authentication,
+                        endpoint_type: "mqtt".to_string(),
+                        trust_settings: Some(adr_models::TrustSettings {
+                            trust_list: Some("trust-list-secret".to_string()),
+                        }),
+                        version: Some("1.0".to_string()),
+                    },
+                )]),
+                outbound: Some(adr_models::OutboundEndpoints {
+                    assigned: HashMap::from([(
+                        "outbound1".to_string(),
+                        adr_models::OutboundEndpoint {
+                            address: "mqtt://test-outbound:1883".to_string(),
+                            endpoint_type: Some("mqtt".to_string()),
+                        },
+                    )]),
+                    unassigned: HashMap::new(),
+                }),
+            }),
+            external_device_id: Some("test-external-device".to_string()),
+            last_transition_time: Some(Utc::now()),
+            manufacturer: Some("test-manufacturer".to_string()),
+            model: Some("test-model".to_string()),
+            operating_system: Some("test-os".to_string()),
+            operating_system_version: Some("1.0".to_string()),
+            uuid: Some("uuid-1234".to_string()),
+            version: Some(1),
+        };
+
+        let result = DeviceSpecification::new(
+            device_specification,
+            mount_path.as_ref(),
+            TEST_INBOUND_ENDPOINT_NAME,
+        );
+        assert!(result.is_ok());
+    }
+
+    #[test]
+    fn new_device_specification_missing_endpoints() {
+        let device_specification = adr_models::Device {
+            attributes: HashMap::new(),
+            discovered_device_ref: None,
+            enabled: None,
+            endpoints: None,
+            external_device_id: None,
+            last_transition_time: None,
+            manufacturer: None,
+            model: None,
+            operating_system: None,
+            operating_system_version: None,
+            uuid: None,
+            version: None,
+        };
+
+        let result =
+            DeviceSpecification::new(device_specification, None, TEST_INBOUND_ENDPOINT_NAME)
+                .unwrap_err();
+
+        assert!(matches!(
+            result,
+            DeviceSpecificationError::InvalidSpecification(_)
+        ));
+    }
+
+    #[test]
+    fn new_device_specification_missing_inbound_endpoint() {
+        let device_specification = adr_models::Device {
+            attributes: HashMap::new(),
+            discovered_device_ref: None,
+            enabled: None,
+            endpoints: Some(adr_models::DeviceEndpoints {
+                inbound: HashMap::new(), // empty inbound endpoints
+                outbound: None,
+            }),
+            external_device_id: None,
+            last_transition_time: None,
+            manufacturer: None,
+            model: None,
+            operating_system: None,
+            operating_system_version: None,
+            uuid: None,
+            version: None,
+        };
+
+        let result =
+            DeviceSpecification::new(device_specification, None, TEST_INBOUND_ENDPOINT_NAME)
+                .unwrap_err();
+
+        assert!(matches!(
+            result,
+            DeviceSpecificationError::InvalidSpecification(_)
+        ));
+    }
+
+    #[test]
+    fn new_device_specification_missing_username_password_credentials() {
+        let device_specification = adr_models::Device {
+            attributes: HashMap::new(),
+            discovered_device_ref: None,
+            enabled: None,
+            endpoints: Some(adr_models::DeviceEndpoints {
+                inbound: HashMap::from([(
+                    TEST_INBOUND_ENDPOINT_NAME.to_string(),
+                    adr_models::InboundEndpoint {
+                        additional_configuration: None,
+                        address: "mqtt://test".to_string(),
+                        authentication: adr_models::Authentication::UsernamePassword {
+                            password_secret_name: "password".to_string(),
+                            username_secret_name: "username".to_string(),
+                        },
+                        endpoint_type: "mqtt".to_string(),
+                        trust_settings: None,
+                        version: None,
+                    },
+                )]),
+                outbound: None,
+            }),
+            external_device_id: None,
+            last_transition_time: None,
+            manufacturer: None,
+            model: None,
+            operating_system: None,
+            operating_system_version: None,
+            uuid: None,
+            version: None,
+        };
+
+        let result =
+            DeviceSpecification::new(device_specification, None, TEST_INBOUND_ENDPOINT_NAME)
+                .unwrap_err();
+
+        assert!(matches!(
+            result,
+            DeviceSpecificationError::CredentialsMountPathMissing(_)
+        ));
+    }
+
+    #[test]
+    fn new_device_specification_missing_certificate_credentials() {
+        let device_specification = adr_models::Device {
+            attributes: HashMap::new(),
+            discovered_device_ref: None,
+            enabled: None,
+            endpoints: Some(adr_models::DeviceEndpoints {
+                inbound: HashMap::from([(
+                    TEST_INBOUND_ENDPOINT_NAME.to_string(),
+                    adr_models::InboundEndpoint {
+                        additional_configuration: None,
+                        address: "mqtt://test".to_string(),
+                        authentication: adr_models::Authentication::Certificate {
+                            certificate_secret_name: "cert".to_string(),
+                            intermediate_certificates_secret_name: None,
+                            key_secret_name: None,
+                        },
+                        endpoint_type: "mqtt".to_string(),
+                        trust_settings: None,
+                        version: None,
+                    },
+                )]),
+                outbound: None,
+            }),
+            external_device_id: None,
+            last_transition_time: None,
+            manufacturer: None,
+            model: None,
+            operating_system: None,
+            operating_system_version: None,
+            uuid: None,
+            version: None,
+        };
+
+        let result =
+            DeviceSpecification::new(device_specification, None, TEST_INBOUND_ENDPOINT_NAME)
+                .unwrap_err();
+
+        assert!(matches!(
+            result,
+            DeviceSpecificationError::CredentialsMountPathMissing(_)
+        ));
     }
 }

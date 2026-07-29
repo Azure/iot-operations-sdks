@@ -5,16 +5,17 @@ using Azure.Iot.Operations.Protocol;
 
 namespace Azure.Iot.Operations.Services.StateStore
 {
-    public class StateStoreSetResponse : StateStoreResponse
+    public class StateStoreSetResponse : IStateStoreSetResponse
     {
-        /// <summary>
-        /// True if the set request executed successfully. False otherwise.
-        /// </summary>
-        public bool Success { get; internal set; }
+        /// <inheritdoc/>
+        public bool Success { get; }
+
+        /// <inheritdoc/>
+        public HybridLogicalClock? Version { get; set; }
 
         internal StateStoreSetResponse(HybridLogicalClock version, bool success)
-            : base(version)
         {
+            Version = version;
             Success = success;
         }
     }

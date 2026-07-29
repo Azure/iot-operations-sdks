@@ -128,10 +128,10 @@ namespace TestEnvoys.CustomTopicTokens
                 await this.telemetrySender.DisposeAsync().ConfigureAwait(false);
             }
 
-            public async ValueTask DisposeAsync(bool disposing)
+            public async ValueTask DisposeAsync(bool disposing, CancellationToken cancellationToken = default)
             {
-                await this.readCustomTopicTokenCommandExecutor.DisposeAsync(disposing).ConfigureAwait(false);
-                await this.telemetrySender.DisposeAsync(disposing).ConfigureAwait(false);
+                await this.readCustomTopicTokenCommandExecutor.DisposeAsync(disposing, cancellationToken).ConfigureAwait(false);
+                await this.telemetrySender.DisposeAsync(disposing, cancellationToken).ConfigureAwait(false);
             }
         }
 
@@ -157,18 +157,13 @@ namespace TestEnvoys.CustomTopicTokens
                 this.mqttClient = mqttClient;
 
                 this.readCustomTopicTokenCommandInvoker = new ReadCustomTopicTokenCommandInvoker(applicationContext, mqttClient);
+                this.telemetryReceiver = new TelemetryReceiver(applicationContext, mqttClient) { OnTelemetryReceived = this.ReceiveTelemetry };
+
                 if (topicTokenMap != null)
                 {
                     foreach (string topicTokenKey in topicTokenMap.Keys)
                     {
                         this.readCustomTopicTokenCommandInvoker.TopicTokenMap.TryAdd("ex:" + topicTokenKey, topicTokenMap[topicTokenKey]);
-                    }
-                }
-                this.telemetryReceiver = new TelemetryReceiver(applicationContext, mqttClient) { OnTelemetryReceived = this.ReceiveTelemetry };
-                if (topicTokenMap != null)
-                {
-                    foreach (string topicTokenKey in topicTokenMap.Keys)
-                    {
                         this.telemetryReceiver.TopicTokenMap.TryAdd("ex:" + topicTokenKey, topicTokenMap[topicTokenKey]);
                     }
                 }
@@ -226,13 +221,14 @@ namespace TestEnvoys.CustomTopicTokens
             }
 
             /// <summary>
-            /// Stop accepting telemetry for all telemetry receivers.
+            /// Stop accepting telemetry for all telemetry receivers and make all command invokers unsubscribe from command response topics.
             /// </summary>
             /// <param name="cancellationToken">Cancellation token.</param>
             public async Task StopAsync(CancellationToken cancellationToken = default)
             {
                 await Task.WhenAll(
-                    this.telemetryReceiver.StopAsync(cancellationToken)).ConfigureAwait(false);
+                    this.telemetryReceiver.StopAsync(cancellationToken),
+                    this.readCustomTopicTokenCommandInvoker.StopAsync(cancellationToken)).ConfigureAwait(false);
             }
 
             public async ValueTask DisposeAsync()
@@ -241,10 +237,10 @@ namespace TestEnvoys.CustomTopicTokens
                 await this.telemetryReceiver.DisposeAsync().ConfigureAwait(false);
             }
 
-            public async ValueTask DisposeAsync(bool disposing)
+            public async ValueTask DisposeAsync(bool disposing, CancellationToken cancellationToken = default)
             {
-                await this.readCustomTopicTokenCommandInvoker.DisposeAsync(disposing).ConfigureAwait(false);
-                await this.telemetryReceiver.DisposeAsync(disposing).ConfigureAwait(false);
+                await this.readCustomTopicTokenCommandInvoker.DisposeAsync(disposing, cancellationToken).ConfigureAwait(false);
+                await this.telemetryReceiver.DisposeAsync(disposing, cancellationToken).ConfigureAwait(false);
             }
         }
     }

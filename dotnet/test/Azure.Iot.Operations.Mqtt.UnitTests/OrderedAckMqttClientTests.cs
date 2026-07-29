@@ -196,7 +196,7 @@ public class OrderedAckMqttClientTests
                 .WithSubscriptionIdentifier(34)
                 .WithTopic("some/topic")
                 .WithTopicAlias(38)
-                .WithUserProperty("someUserPropertyKey", "someUserPropertyValue")
+                .WithUserProperty("someUserPropertyKey", System.Text.Encoding.UTF8.GetBytes("someUserPropertyValue"))
                 .Build();
 
         ushort expectedPacketId = 12;

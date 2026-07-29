@@ -2,7 +2,7 @@
 
 use std::collections::HashMap;
 
-use azure_iot_operations_mqtt::interface::ManagedClient;
+use azure_iot_operations_mqtt::session::SessionManagedClient;
 use azure_iot_operations_protocol::application::ApplicationContext;
 use azure_iot_operations_protocol::common::aio_protocol_error::AIOProtocolError;
 use azure_iot_operations_protocol::common::payload_serialize::PayloadSerialize;
@@ -31,6 +31,15 @@ impl ReadCounterResponseBuilder {
         self
     }
 
+    /// Cloud event for the response
+    pub fn cloud_event(
+        &mut self,
+        cloud_event: Option<rpc_command::executor::ResponseCloudEvent>,
+    ) -> &mut Self {
+        self.inner_builder.cloud_event(cloud_event);
+        self
+    }
+
     /// Payload of the response
     ///
     /// # Errors
@@ -54,25 +63,16 @@ impl ReadCounterResponseBuilder {
 }
 
 /// Command Executor for `readCounter`
-pub struct ReadCounterCommandExecutor<C>(
-    rpc_command::Executor<EmptyJson, ReadCounterResponsePayload, C>,
-)
-where
-    C: ManagedClient + Clone + Send + Sync + 'static,
-    C::PubReceiver: Send + Sync + 'static;
+pub struct ReadCounterCommandExecutor(rpc_command::Executor<EmptyJson, ReadCounterResponsePayload>);
 
-impl<C> ReadCounterCommandExecutor<C>
-where
-    C: ManagedClient + Clone + Send + Sync + 'static,
-    C::PubReceiver: Send + Sync + 'static,
-{
+impl ReadCounterCommandExecutor {
     /// Creates a new [`ReadCounterCommandExecutor`]
     ///
     /// # Panics
     /// If the DTDL that generated this code was invalid
     pub fn new(
         application_context: ApplicationContext,
-        client: C,
+        client: SessionManagedClient,
         options: &CommandExecutorOptions,
     ) -> Self {
         let mut executor_options_builder = rpc_command::executor::OptionsBuilder::default();

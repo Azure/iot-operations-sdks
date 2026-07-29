@@ -66,7 +66,12 @@ func (l Logger) Warn(ctx context.Context, m any, attrs ...slog.Attr) {
 	switch msg := m.(type) {
 	case error:
 		if a, ok := msg.(Attrs); ok {
-			l.Log(ctx, slog.LevelWarn, msg.Error(), append(a.Attrs(), attrs...)...)
+			l.Log(
+				ctx,
+				slog.LevelWarn,
+				msg.Error(),
+				append(a.Attrs(), attrs...)...,
+			)
 		} else {
 			l.Log(ctx, slog.LevelWarn, msg.Error(), attrs...)
 		}

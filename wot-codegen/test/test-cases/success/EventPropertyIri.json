@@ -1,0 +1,7 @@
+{
+  "success": true,
+  "commandLine": {
+    "things": [ "valid/EventPropertyIri.TM.json" ],
+    "lang": "none"
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "success": false,
+  "commandLine": {
+    "things": [ "invalidAioBinding/SchemaDefinitionArrayItemsObjectConst.TM.json" ],
+    "lang": "none"
+  },
+  "errors": [
+    {
+      "condition": "PropertyUnsupported",
+      "filename": "SchemaDefinitionArrayItemsObjectConst.TM.json",
+      "line": 18,
+      "cfLine": 0,
+      "crossRef": ""
+    }
+  ]
+}

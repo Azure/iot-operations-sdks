@@ -1,0 +1,21 @@
+<#@ template language="C#" linePragmas="false" #>
+<# // Copyright (c) Microsoft Corporation. #>
+<# // Licensed under the MIT License #>
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework><#=this.targetFramework#></TargetFramework>
+    <AnalysisLevel>latest-recommended</AnalysisLevel>
+    <Nullable>enable</Nullable>
+    <NoWarn>SA0001,SA1101,SA1633</NoWarn>
+  </PropertyGroup>
+
+  <ItemGroup>
+<# if (this.sdkProjPath != null) { #>
+    <ProjectReference Include="<#=this.sdkProjPath#>" />
+<# } else { #>
+    <PackageReference Include="<#=SdkPackageName#>" <#=this.sdkVersion != null ? $"Version=\"{this.sdkVersion}\" " : ""#>/>
+<# } #>
+  </ItemGroup>
+
+</Project>

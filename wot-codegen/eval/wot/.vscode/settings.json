@@ -1,0 +1,13 @@
+{
+  "json.schemaDownload.enable": true,
+  "json.schemas": [
+    {
+      "fileMatch": [ "**/*.TD.json" ],
+      "url": "../../schema/aio-td-json-schema.json"
+    },
+    {
+      "fileMatch": [ "**/*.TM.json" ],
+      "url": "../../schema/aio-tm-json-schema.json"
+    }
+  ]
+}

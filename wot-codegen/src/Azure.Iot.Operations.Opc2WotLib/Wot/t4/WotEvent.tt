@@ -1,0 +1,38 @@
+<#@ template language="C#" linePragmas="false" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ import namespace="System.Linq" #>
+<# // Copyright (c) Microsoft Corporation. #>
+<# // Licensed under the MIT License #>
+"<#=this.EventName#>": {
+<# if (this.uaVariable.BrowseNamespace != null) { #>
+  "dov:namespace": "<#=this.uaVariable.BrowseNamespace#>",
+<# } #>
+  "data": {
+<# this.PushIndent("    "); #>
+<#=this.dataSchema.TransformText()#>
+<# this.PopIndent(); #>
+  },
+<# if (this.uaVariable.IsPlaceholder) { #>
+  "dov:placeholder": true,
+<# } #>
+<# if (this.containedIn != null) { #>
+  "dov:containedIn": "<#=this.containedIn#>",
+<# } #>
+<# if (this.contains.Any()) { #>
+  "dov:contains": [ <#=string.Join(", ", this.contains.Select(c => $"\"{c}\""))#> ],
+<# } #>
+<# if (this.quantityKind != null) { #>
+  "qudt:hasQuantityKind": "<#=this.quantityKind#>",
+  "dov:withUnit": "properties/<#=this.EventName#>_EngineeringUnits",
+<# } #>
+  "forms": [
+    {
+<# if (this.inDescription) { #>
+      "href": "https://placeholder.example.com/endpoint",
+<# } #>
+      "contentType": "application/json",
+      "dov:topic": "opcua/<#=this.specName#>/<#=this.thingModelName#>/event/<#=this.EventName#>/{senderId}",
+      "op": "subscribeevent"
+    }
+  ]
+}

@@ -3,7 +3,7 @@
 
 //! Types and serialization/deserialization implementations for RESP3 protocol.
 
-use std::time::Duration;
+use std::{fmt::Display, time::Duration};
 
 use azure_iot_operations_protocol::common::payload_serialize::{
     DeserializationError, FormatIndicator, PayloadSerialize, SerializedPayload,
@@ -257,10 +257,10 @@ impl Response {
     const DELETE_RESPONSE_PREFIX: &'static [u8] = b":";
 
     fn parse_error(payload: &[u8]) -> Result<Vec<u8>, String> {
-        if let Some(err) = payload.strip_prefix(Self::RESPONSE_ERROR_PREFIX) {
-            if let Some(err_msg) = err.strip_suffix(Self::RESPONSE_SUFFIX) {
-                return Ok(err_msg.to_vec());
-            }
+        if let Some(err) = payload.strip_prefix(Self::RESPONSE_ERROR_PREFIX)
+            && let Some(err_msg) = err.strip_suffix(Self::RESPONSE_SUFFIX)
+        {
+            return Ok(err_msg.to_vec());
         }
         Err(format!("Invalid error response: {payload:?}"))
     }
@@ -278,12 +278,12 @@ impl PayloadSerialize for Response {
         content_type: Option<&String>,
         _format_indicator: &FormatIndicator,
     ) -> Result<Self, DeserializationError<String>> {
-        if let Some(content_type) = content_type {
-            if content_type != "application/octet-stream" {
-                return Err(DeserializationError::UnsupportedContentType(format!(
-                    "Invalid content type: '{content_type:?}'. Must be 'application/octet-stream'"
-                )));
-            }
+        if let Some(content_type) = content_type
+            && content_type != "application/octet-stream"
+        {
+            return Err(DeserializationError::UnsupportedContentType(format!(
+                "Invalid content type: '{content_type:?}'. Must be 'application/octet-stream'"
+            )));
         }
 
         match payload {
@@ -320,6 +320,19 @@ pub enum Operation {
     Del,
 }
 
+impl Display for Operation {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        match self {
+            Operation::Set(_) => {
+                write!(f, "SET")
+            }
+            Operation::Del => {
+                write!(f, "DELETE")
+            }
+        }
+    }
+}
+
 impl Operation {
     /// All delete notifications have identical bodies.
     const OPERATION_DELETE: &'static [u8] = b"*2\r\n$6\r\nNOTIFY\r\n$6\r\nDELETE\r\n";
@@ -340,12 +353,12 @@ impl PayloadSerialize for Operation {
         content_type: Option<&String>,
         _format_indicator: &FormatIndicator,
     ) -> Result<Self, DeserializationError<String>> {
-        if let Some(content_type) = content_type {
-            if content_type != "application/octet-stream" {
-                return Err(DeserializationError::UnsupportedContentType(format!(
-                    "Invalid content type: '{content_type:?}'. Must be 'application/octet-stream'"
-                )));
-            }
+        if let Some(content_type) = content_type
+            && content_type != "application/octet-stream"
+        {
+            return Err(DeserializationError::UnsupportedContentType(format!(
+                "Invalid content type: '{content_type:?}'. Must be 'application/octet-stream'"
+            )));
         }
         match payload {
             Operation::OPERATION_DELETE => Ok(Operation::Del),

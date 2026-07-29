@@ -1,0 +1,16 @@
+{
+  "success": false,
+  "commandLine": {
+    "things": [ "invalidAioBinding/EventDuplicateSchemaNamesEnumsDifferentValues.TM.json" ],
+    "lang": "none"
+  },
+  "errors": [
+    {
+      "condition": "Duplication",
+      "filename": "EventDuplicateSchemaNamesEnumsDifferentValues.TM.json",
+      "line": 14,
+      "cfLine": 32,
+      "crossRef": ""
+    }
+  ]
+}

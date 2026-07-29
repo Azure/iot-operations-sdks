@@ -1,0 +1,16 @@
+{
+  "success": false,
+  "commandLine": {
+    "things": [ "invalidAioBinding/NoTitle.TM.json" ],
+    "lang": "none"
+  },
+  "errors": [
+    {
+      "condition": "PropertyMissing",
+      "filename": "NoTitle.TM.json",
+      "line": 0,
+      "cfLine": 0,
+      "crossRef": ""
+    }
+  ]
+}

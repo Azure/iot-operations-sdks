@@ -1,0 +1,16 @@
+{
+  "success": false,
+  "commandLine": {
+    "things": [ "invalidAioBinding/ActionMemberOfMatchesPropertyGroup.TM.json" ],
+    "lang": "none"
+  },
+  "errors": [
+    {
+      "condition": "ItemNotFound",
+      "filename": "ActionMemberOfMatchesPropertyGroup.TM.json",
+      "line": 13,
+      "cfLine": 0,
+      "crossRef": ""
+    }
+  ]
+}

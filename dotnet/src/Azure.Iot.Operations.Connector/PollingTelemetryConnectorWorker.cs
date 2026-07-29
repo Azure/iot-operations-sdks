@@ -10,13 +10,40 @@ namespace Azure.Iot.Operations.Connector
 {
     public class PollingTelemetryConnectorWorker : ConnectorWorker
     {
-        private readonly Dictionary<string, Dictionary<string, Timer>> _assetsSamplingTimers = new();
         private readonly IDatasetSamplerFactory _datasetSamplerFactory;
 
-        public PollingTelemetryConnectorWorker(ApplicationContext applicationContext, ILogger<ConnectorWorker> logger, IMqttClient mqttClient, IDatasetSamplerFactory datasetSamplerFactory, IMessageSchemaProvider messageSchemaFactory, IAdrClientWrapperProvider adrClientFactory, IConnectorLeaderElectionConfigurationProvider? leaderElectionConfigurationProvider = null) : base(applicationContext, logger, mqttClient, messageSchemaFactory, adrClientFactory, leaderElectionConfigurationProvider)
+        public PollingTelemetryConnectorWorker(ApplicationContext applicationContext, ILogger<ConnectorWorker> logger, IMqttClient mqttClient, IDatasetSamplerFactory datasetSamplerFactory, IMessageSchemaProvider messageSchemaFactory, IAzureDeviceRegistryClientWrapperProvider adrClientFactory, IConnectorLeaderElectionConfigurationProvider? leaderElectionConfigurationProvider = null) : base(applicationContext, logger, mqttClient, messageSchemaFactory, adrClientFactory, leaderElectionConfigurationProvider)
         {
+            base.WhileDeviceIsAvailable = WhileDeviceAvailableAsync;
             base.WhileAssetIsAvailable = WhileAssetAvailableAsync;
             _datasetSamplerFactory = datasetSamplerFactory;
+        }
+
+        public async Task WhileDeviceAvailableAsync(DeviceAvailableEventArgs args, CancellationToken cancellationToken)
+        {
+            try
+            {
+                // Report device status is okay
+                _logger.LogInformation("Reporting device status as okay to Azure Device Registry service...");
+                await args.DeviceEndpointClient.GetAndUpdateDeviceStatusAsync((currentDeviceStatus) => {
+                    currentDeviceStatus.Config ??= new();
+                    currentDeviceStatus.Config.LastTransitionTime = DateTime.UtcNow;
+                    currentDeviceStatus.Config.Error = null;
+                    currentDeviceStatus.Endpoints ??= new();
+                    currentDeviceStatus.Endpoints.Inbound ??= new();
+                    if (!currentDeviceStatus.Endpoints.Inbound.ContainsKey(args.InboundEndpointName))
+                    {
+                        currentDeviceStatus.Endpoints.Inbound[args.InboundEndpointName] = new();
+                    }
+
+                    currentDeviceStatus.Endpoints.Inbound[args.InboundEndpointName].Error = null;
+                    return currentDeviceStatus;
+                }, true, null, cancellationToken);
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e, "Failed to report device status to Azure Device Registry service");
+            }
         }
 
         public async Task WhileAssetAvailableAsync(AssetAvailableEventArgs args, CancellationToken cancellationToken)
@@ -28,8 +55,7 @@ namespace Azure.Iot.Operations.Connector
                 return;
             }
 
-            Dictionary<string, Timer> datasetsTimers = new();
-            _assetsSamplingTimers[args.AssetName] = datasetsTimers;
+            Dictionary<string, Task> datasetsTimers = new();
             foreach (AssetDataset dataset in args.Asset.Datasets!)
             {
                 EndpointCredentials? credentials = null;
@@ -46,20 +72,11 @@ namespace Azure.Iot.Operations.Connector
 
                 _logger.LogInformation("Dataset with name {0} in asset with name {1} will be sampled once every {2} milliseconds", dataset.Name, args.AssetName, samplingInterval.TotalMilliseconds);
 
-                var datasetSamplingTimer = new Timer(async (state) =>
-                {
-                    try
-                    {
-                        byte[] sampledData = await datasetSampler.SampleDatasetAsync(dataset);
-                        await ForwardSampledDatasetAsync(args.DeviceName, args.InboundEndpointName, args.Asset, args.AssetName, dataset, sampledData);
-                    }
-                    catch (Exception e)
-                    {
-                        _logger.LogError(e, "Failed to sample the dataset");
-                    }
-                }, null, TimeSpan.FromSeconds(0), samplingInterval);
+                var datasetSamplingTimer = new PeriodicTimer(samplingInterval);
 
-                if (!datasetsTimers.TryAdd(dataset.Name, datasetSamplingTimer))
+                Task datasetSamplingTimerTask = RunTimerAsync(datasetSamplingTimer, datasetSampler, dataset, args, cancellationToken);
+
+                if (!datasetsTimers.TryAdd(dataset.Name, datasetSamplingTimerTask))
                 {
                     _logger.LogError("Failed to save dataset sampling timer for asset with name {} for dataset with name {}", args.AssetName, dataset.Name);
                 }
@@ -69,11 +86,213 @@ namespace Azure.Iot.Operations.Connector
             cancellationToken.WaitHandle.WaitOne();
 
             // Stop sampling all datasets in this asset now that the asset is unavailable
-            foreach (AssetDataset dataset in args.Asset.Datasets!)
+            await Task.WhenAll(datasetsTimers.Values);
+
+            _logger.LogInformation("Datasets in asset with name {AssetName} will no longer be periodically sampled now that the asset is unavailable", args.AssetName);
+        }
+
+        private async Task RunTimerAsync(PeriodicTimer timer, IDatasetSampler datasetSampler, AssetDataset dataset, AssetAvailableEventArgs args,  CancellationToken cancellationToken)
+        {
+            try
             {
-                _logger.LogInformation("Dataset with name {0} in asset with name {1} will no longer be periodically sampled", dataset.Name, args.AssetName);
-                _assetsSamplingTimers[args.AssetName][dataset.Name].Dispose();
+                while (await timer.WaitForNextTickAsync(cancellationToken))
+                {
+                    byte[] sampledData;
+                    try
+                    {
+                        sampledData = await datasetSampler.SampleDatasetAsync(dataset);
+                    }
+                    catch (Exception e)
+                    {
+                        _logger.LogError(e, "Failed to sample the dataset");
+
+                        try
+                        {
+                            string errorMessage = $"Unable to sample the device. Error message: {e.Message}";
+                            await args.DeviceEndpointClient.GetAndUpdateDeviceStatusAsync((currentDeviceStatus) => {
+                                currentDeviceStatus.Config ??= new ConfigStatus();
+                                currentDeviceStatus.Config.Error =
+                                    new ConfigError()
+                                    {
+                                        Message = errorMessage,
+                                    };
+                                currentDeviceStatus.Config.LastTransitionTime = DateTime.UtcNow;
+                                currentDeviceStatus.SetEndpointError(args.InboundEndpointName, new()
+                                {
+                                    Message = errorMessage,
+                                });
+                                return currentDeviceStatus;
+                            }, true, null, cancellationToken);
+                        }
+                        catch (Exception e2)
+                        {
+                            _logger.LogError(e2, "Failed to report device status to Azure Device Registry service");
+                        }
+
+                        try
+                        {
+                            _logger.LogInformation("Reporting device endpoint health as 'Unavailable' to Azure Device Registry service...");
+                            await args.DeviceEndpointClient.ReportRuntimeHealthAsync(
+                                new ConnectorRuntimeHealth()
+                                {
+                                    Status = HealthStatus.Unavailable,
+                                    Message = $"Failed to sample the dataset: {e.Message}"
+                                },
+                                cancellationToken: cancellationToken);
+                        }
+                        catch (Exception e3)
+                        {
+                            _logger.LogError(e3, "Failed to report device endpoint health as 'Unavailable' to Azure Device Registry service");
+                        }
+
+                        continue;
+                    }
+
+                    try
+                    {
+                        await args.AssetClient.ForwardSampledDatasetAsync(dataset, sampledData);
+
+                        try
+                        {
+                            // The dataset was sampled as expected, so report the asset status as okay
+                            _logger.LogInformation("Reporting asset status as okay to Azure Device Registry service...");
+                            await args.AssetClient.GetAndUpdateAssetStatusAsync(
+                                (currentAssetStatus) =>
+                                {
+                                    currentAssetStatus.Config ??= new();
+                                    currentAssetStatus.Config.Error = null;
+                                    currentAssetStatus.Config.LastTransitionTime = DateTime.UtcNow;
+                                    currentAssetStatus.UpdateDatasetStatus(new AssetDatasetEventStreamStatus()
+                                    {
+                                        Name = dataset.Name,
+                                        MessageSchemaReference = args.AssetClient.GetRegisteredDatasetMessageSchema(dataset.Name),
+                                        Error = null
+                                    });
+                                    return currentAssetStatus;
+                                },
+                                true,
+                                null,
+                                cancellationToken);
+                        }
+                        catch (Exception e2)
+                        {
+                            _logger.LogError(e2, "Failed to report asset status to Azure Device Registry service");
+                        }
+                    }
+                    catch (Exception e)
+                    {
+                        _logger.LogError(e, "Failed to forward the sampled dataset");
+
+                        try
+                        {
+                            string errorMessage = $"Unable to forward the sampled dataset. Error message: {e.Message}";
+                            await args.DeviceEndpointClient.GetAndUpdateDeviceStatusAsync((currentDeviceStatus) => {
+                                currentDeviceStatus.Config ??= new ConfigStatus();
+                                currentDeviceStatus.Config.Error =
+                                    new ConfigError()
+                                    {
+
+                                        Message = errorMessage
+                                    };
+                                currentDeviceStatus.Config.LastTransitionTime = DateTime.UtcNow;
+                                currentDeviceStatus.SetEndpointError(args.InboundEndpointName, new()
+                                {
+                                    Message = errorMessage,
+                                });
+                                return currentDeviceStatus;
+                            }, true, null, cancellationToken);
+                        }
+                        catch (Exception e2)
+                        {
+                            _logger.LogError(e2, "Failed to report device status to Azure Device Registry service");
+                        }
+
+                        try
+                        {
+                            _logger.LogInformation("Reporting device endpoint health as 'Unavailable' to Azure Device Registry service...");
+                            await args.DeviceEndpointClient.ReportRuntimeHealthAsync(
+                                new ConnectorRuntimeHealth()
+                                {
+                                    Status = HealthStatus.Unavailable,
+                                    Message = $"Failed to forward the dataset: {e.Message}"
+                                },
+                                cancellationToken: cancellationToken);
+                        }
+                        catch (Exception e3)
+                        {
+                            _logger.LogError(e3, "Failed to report device endpoint health as 'Unavailable' to Azure Device Registry service");
+                        }
+
+                        return;
+                    }
+
+                    try
+                    {
+                        // No errors were encountered while sampling or forwarding data for this device, so clear any error status
+                        // it may have had previously
+                        _logger.LogInformation("Reporting device status as okay to Azure Device Registry service...");
+                        await args.DeviceEndpointClient.GetAndUpdateDeviceStatusAsync((currentDeviceStatus) => {
+                            currentDeviceStatus.Config ??= new();
+                            currentDeviceStatus.Config.LastTransitionTime = DateTime.UtcNow;
+                            currentDeviceStatus.Config.Error = null;
+                            currentDeviceStatus.Endpoints ??= new();
+                            currentDeviceStatus.Endpoints.Inbound ??= new();
+                            if (!currentDeviceStatus.Endpoints.Inbound.ContainsKey(args.InboundEndpointName))
+                            {
+                                currentDeviceStatus.Endpoints.Inbound[args.InboundEndpointName] = new();
+                            }
+
+                            currentDeviceStatus.Endpoints.Inbound[args.InboundEndpointName].Error = null;
+
+                            return currentDeviceStatus;
+                        }, true, null, cancellationToken);
+                    }
+                    catch (Exception e)
+                    {
+                        _logger.LogError(e, "Failed to report device status to Azure Device Registry service");
+                    }
+
+                    try
+                    {
+                        _logger.LogInformation("Reporting device endpoint health as 'Available' to Azure Device Registry service...");
+                        await args.DeviceEndpointClient.ReportRuntimeHealthAsync(
+                            new ConnectorRuntimeHealth()
+                            {
+                                Status = HealthStatus.Available,
+                            },
+                            cancellationToken: cancellationToken);
+                    }
+                    catch (Exception e3)
+                    {
+                        _logger.LogError(e3, "Failed to report device endpoint health as 'Available' to Azure Device Registry service");
+                    }
+
+                    try
+                    {
+                        _logger.LogInformation("Reporting dataset health as 'Available' to Azure Device Registry service...");
+                        await args.AssetClient.ReportDatasetRuntimeHealthAsync(
+                            dataset.Name,
+                            new ConnectorRuntimeHealth()
+                            {
+                                Status = HealthStatus.Available,
+                            },
+                            cancellationToken: cancellationToken);
+                    }
+                    catch (Exception e3)
+                    {
+                        _logger.LogError(e3, "Failed to report dataset health as 'Available' to Azure Device Registry service");
+                    }
+                }
+            }
+            catch (OperationCanceledException)
+            {
+                // Expected when cancellation is requested. Complete the task gracefully
+            }
+            finally
+            {
+                timer.Dispose();
             }
         }
+
     }
 }

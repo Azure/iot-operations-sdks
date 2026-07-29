@@ -1,0 +1,16 @@
+{
+  "success": false,
+  "commandLine": {
+    "things": [ "invalidAioBinding/OptionalEventNotFound.TM.json" ],
+    "lang": "none"
+  },
+  "errors": [
+    {
+      "condition": "ItemNotFound",
+      "filename": "OptionalEventNotFound.TM.json",
+      "line": 9,
+      "cfLine": 15,
+      "crossRef": ""
+    }
+  ]
+}

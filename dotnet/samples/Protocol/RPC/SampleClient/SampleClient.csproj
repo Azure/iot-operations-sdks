@@ -1,0 +1,20 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Worker">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net9.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Microsoft.Extensions.Hosting" Version="8.0.0" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <ProjectReference Include="..\..\..\..\src\Azure.Iot.Operations.Mqtt\Azure.Iot.Operations.Mqtt.csproj" />
+	  <ProjectReference Include="..\..\TestThing\TestThing.csproj" />
+	  <ProjectReference Include="..\SampleServer\SampleServer.csproj" />
+	</ItemGroup>
+
+</Project>

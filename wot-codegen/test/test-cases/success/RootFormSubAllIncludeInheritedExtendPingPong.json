@@ -1,0 +1,11 @@
+{
+  "success": true,
+  "commandLine": {
+    "things": [
+      "valid/RootFormSubAllIncludeInheritedExtendNested.TM.json",
+      "valid/nested/NoRootFormButExtendAbove.TM.json",
+      "valid/EventWithUnitDataSchemaInteger.TM.json"
+    ],
+    "lang": "none"
+  }
+}

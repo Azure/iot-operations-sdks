@@ -61,7 +61,7 @@ internal sealed class Program
             Console.WriteLine("Successfully acquired lock. Now altering a shared resource in the State Store");
 
             string newValue = Guid.NewGuid().ToString();
-            StateStoreSetResponse setResponse = await stateStoreClient.SetAsync(
+            IStateStoreSetResponse setResponse = await stateStoreClient.SetAsync(
                 _sharedResourceKey,
                 newValue,
                 new StateStoreSetRequestOptions()
@@ -89,5 +89,8 @@ internal sealed class Program
 
         // nothing more to do while owning the lock, so release it
         await leasedLockClient.ReleaseLockAsync(null, null, cancellationToken).ConfigureAwait(false);
+
+        await stateStoreClient.StopAsync(cancellationToken).ConfigureAwait(false);
+        await leasedLockClient.StopAsync(cancellationToken).ConfigureAwait(false);
     }
 }

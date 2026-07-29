@@ -62,13 +62,15 @@ namespace Azure.Iot.Operations.Protocol.Telemetry
         /// </summary>
         public MqttPayloadFormatIndicator PayloadFormatIndicator { get; internal set; }
 
+        public ExtendedCloudEvent? CloudEvent { get; }
 
-        internal IncomingTelemetryMetadata(MqttApplicationMessage message, uint packetId, string? topicPattern = null)
+        internal IncomingTelemetryMetadata(MqttApplicationMessage message, uint packetId, string? topicPattern = null, string? topicNamespace = null)
         {
             UserData = [];
 
             ContentType = message.ContentType;
             PayloadFormatIndicator = message.PayloadFormatIndicator;
+            CloudEvent = message.GetCloudEvent();
 
             if (message.UserProperties != null)
             {
@@ -92,64 +94,22 @@ namespace Azure.Iot.Operations.Protocol.Telemetry
                 }
             }
 
-            TopicTokens = topicPattern != null ? MqttTopicProcessor.GetReplacementMap(topicPattern, message.Topic) : new Dictionary<string, string>();
+            if (topicPattern != null)
+            {
+                string fullTopicPattern = topicPattern;
+                if (topicNamespace != null)
+                {
+                    fullTopicPattern = topicNamespace + "/" + topicPattern;
+                }
+
+                TopicTokens = MqttTopicProcessor.GetReplacementMap(fullTopicPattern, message.Topic);
+            }
+            else
+            {
+                TopicTokens = new Dictionary<string, string>();
+            }
 
             PacketId = packetId;
-        }
-
-        public CloudEvent GetCloudEvent()
-        {
-            string safeGetUserProperty(string name)
-            {
-                return UserData.FirstOrDefault(
-                                p => p.Key.Equals(name.ToLowerInvariant(),
-                                StringComparison.OrdinalIgnoreCase)).Value ?? string.Empty;
-            }
-
-            string specVersion = safeGetUserProperty(nameof(CloudEvent.SpecVersion).ToLowerInvariant());
-
-
-            if (!specVersion.Equals("1.0", StringComparison.Ordinal))
-            {
-                throw new ArgumentException($"Could not parse cloud event from telemetry: Only version 1.0 supported. Version provided: {specVersion}");
-            }
-
-            string id = safeGetUserProperty(nameof(CloudEvent.Id));
-            if (string.IsNullOrEmpty(id))
-            {
-                throw new ArgumentException("Could not parse cloud event from telemetry: Cloud events must have an Id");
-            }
-
-            string sourceValue = safeGetUserProperty(nameof(CloudEvent.Source));
-            if (!Uri.TryCreate(sourceValue, UriKind.RelativeOrAbsolute, out Uri? source))
-            {
-                throw new ArgumentException("Could not parse cloud event from telemetry: Source must be a URI-Reference");
-            }
-
-            string type = safeGetUserProperty(nameof(CloudEvent.Type));
-            if (string.IsNullOrEmpty(type))
-            {
-                throw new ArgumentException("Could not parse cloud event from telemetry: Cloud events must specify a Type");
-            }
-
-            string subject = safeGetUserProperty(nameof(CloudEvent.Subject));
-            string dataSchema = safeGetUserProperty(nameof(CloudEvent.DataSchema));
-
-            string time = safeGetUserProperty(nameof(CloudEvent.Time));
-            DateTime _dateTime = DateTime.UtcNow;
-            if (!string.IsNullOrEmpty(time) && !DateTime.TryParse(time, CultureInfo.InvariantCulture, DateTimeStyles.AdjustToUniversal, out _dateTime))
-            {
-                throw new ArgumentException("Could not parse cloud event from telemetry: Cloud events time must be a valid RFC3339 date-time");
-            }
-
-            return new CloudEvent(source, type)
-            {
-                Id = id,
-                Time = _dateTime,
-                DataContentType = ContentType,
-                DataSchema = dataSchema,
-                Subject = subject,
-            };
         }
     }
 }

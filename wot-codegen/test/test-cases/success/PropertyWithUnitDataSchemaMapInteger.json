@@ -1,0 +1,7 @@
+{
+  "success": true,
+  "commandLine": {
+    "things": [ "valid/PropertyWithUnitDataSchemaMapInteger.TM.json" ],
+    "lang": "none"
+  }
+}

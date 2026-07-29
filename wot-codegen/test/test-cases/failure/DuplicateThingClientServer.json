@@ -1,0 +1,19 @@
+{
+  "success": false,
+  "commandLine": {
+    "things": [ ],
+    "clientThings": [ "valid/OneAction.TM.json" ],
+    "serverThings": [ "valid/OneAction.TM.json" ],
+    "schemas": [],
+    "lang": "none"
+  },
+  "errors": [
+    {
+      "condition": "ValuesInconsistent",
+      "filename": "",
+      "line": 0,
+      "cfLine": 0,
+      "crossRef": ""
+    }
+  ]
+}

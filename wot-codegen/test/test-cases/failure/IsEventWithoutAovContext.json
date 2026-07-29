@@ -1,0 +1,16 @@
+{
+  "success": false,
+  "commandLine": {
+    "things": [ "invalidAioBinding/IsEventWithoutAovContext.TM.json" ],
+    "lang": "none"
+  },
+  "errors": [
+    {
+      "condition": "PropertyInvalid",
+      "filename": "IsEventWithoutAovContext.TM.json",
+      "line": 8,
+      "cfLine": 2,
+      "crossRef": ""
+    }
+  ]
+}

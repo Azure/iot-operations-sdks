@@ -316,6 +316,10 @@
               {
                 "name": "SerializationError",
                 "enumValue": "SerializationError"
+              },
+              {
+                "name": "Unauthorized",
+                "enumValue": "Unauthorized"
               }
             ]
           }

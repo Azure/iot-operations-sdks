@@ -1,0 +1,559 @@
+[
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "qudt": "http://qudt.org/schema/qudt/",
+        "dov": "http://azure.com/DigitalOperations/vocab#"
+      }
+    ],
+    "@type": "Thing",
+    "title": "UA_Fictitious_Calculator_1",
+    "dov:typeRef": "org.opcfoundation.UA.Fictitious.Calculator_1",
+    "securityDefinitions": {
+      "basic_sc": {
+        "scheme": "basic",
+        "in": "header"
+      }
+    },
+    "security": "basic_sc",
+    "links": [
+      {
+        "rel": "type",
+        "href": "#title=UA_Fictitious_Calculator",
+        "type": "application/tm+json"
+      }
+    ],
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dov:topic": "opcua/UA.Fictitious/UA_Fictitious_Calculator_1/events/{senderId}",
+        "op": "subscribeallevents",
+        "href": "https://placeholder.example.com/endpoint"
+      },
+      {
+        "contentType": "application/json",
+        "dov:topic": "opcua/UA.Fictitious/UA_Fictitious_Calculator_1/properties/write",
+        "op": "writemultipleproperties",
+        "href": "https://placeholder.example.com/endpoint"
+      },
+      {
+        "contentType": "application/json",
+        "dov:topic": "opcua/UA.Fictitious/UA_Fictitious_Calculator_1/properties/read",
+        "op": "readallproperties",
+        "href": "https://placeholder.example.com/endpoint"
+      }
+    ],
+    "actions": {
+      "Multiply": {
+        "dov:namespace": "http://opcfoundation.org/UA/Fictitious/",
+        "input": {
+          "type": "object",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
+          "required": [ "Multiplier", "Multiplicand" ],
+          "properties": {
+            "Multiplier": {
+              "type": "number",
+              "minimum": -1.80e+308,
+              "maximum": 1.80e+308
+            },
+            "Multiplicand": {
+              "type": "number",
+              "minimum": -1.80e+308,
+              "maximum": 1.80e+308
+            }
+          }
+        },
+        "output": {
+          "type": "object",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
+          "required": [ "Product" ],
+          "properties": {
+            "Product": {
+              "type": "number",
+              "minimum": -1.80e+308,
+              "maximum": 1.80e+308
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/UA.Fictitious/UA_Fictitious_Calculator_1/action/Multiply",
+            "op": "invokeaction"
+          }
+        ]
+      }
+    },
+    "properties": {
+      "Alerts": {
+        "dov:namespace": "http://opcfoundation.org/UA/Fictitious/",
+        "type": "array",
+        "items": {
+          "title": "Alert",
+          "type": "object",
+          "dov:typeRef": "org.opcfoundation.UA.Fictitious.Alert",
+          "required": [ "StatusCode" ],
+          "properties": {
+            "StatusCode": {
+              "type": "integer",
+              "minimum": -2147483648,
+              "maximum": 2147483647
+            },
+            "Message": {
+              "type": "string"
+            }
+          }
+        },
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/UA.Fictitious/UA_Fictitious_Calculator_1/property/Alerts/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "BatteryStatus": {
+        "dov:namespace": "http://opcfoundation.org/UA/Fictitious/",
+        "type": "number",
+        "minimum": -1.80e+308,
+        "maximum": 1.80e+308,
+        "readOnly": true,
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/ElectricPotential",
+        "dov:withUnit": "properties/BatteryStatus_EngineeringUnits",
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/UA.Fictitious/UA_Fictitious_Calculator_1/property/BatteryStatus/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "OpCount": {
+        "dov:namespace": "http://opcfoundation.org/UA/Fictitious/",
+        "type": "integer",
+        "minimum": -2147483648,
+        "maximum": 2147483647,
+        "readOnly": true,
+        "dov:contains": [ "OpCount_DataValues" ],
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/UA.Fictitious/UA_Fictitious_Calculator_1/property/OpCount/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "OpCount_DataValues": {
+        "dov:namespace": "http://opcfoundation.org/UA/Fictitious/",
+        "type": "number",
+        "minimum": -1.80e+308,
+        "maximum": 1.80e+308,
+        "readOnly": false,
+        "dov:placeholder": true,
+        "dov:containedIn": "OpCount",
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/UA.Fictitious/UA_Fictitious_Calculator_1/property/OpCount_DataValues/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/UA.Fictitious/UA_Fictitious_Calculator_1/property/OpCount_DataValues/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "State": {
+        "dov:namespace": "http://opcfoundation.org/UA/Fictitious/",
+        "title": "OnOffState",
+        "dov:typeRef": "org.opcfoundation.UA.Fictitious.OnOffState",
+        "type": "integer",
+        "minimum": -2147483648,
+        "maximum": 2147483647,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/UA.Fictitious/UA_Fictitious_Calculator_1/property/State/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "BatteryStatus_EngineeringUnits": {
+        "description": "Unit designator for property with name BatteryStatus, expressed as a 2- or 3-character UN/ECE code",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/UA.Fictitious/UA_Fictitious_Calculator_1/property/BatteryStatus_EngineeringUnits/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+      "OpCount": {
+        "dov:namespace": "http://opcfoundation.org/UA/Fictitious/",
+        "data": {
+          "type": "integer",
+          "minimum": -2147483648,
+          "maximum": 2147483647
+        },
+        "dov:contains": [ "OpCount_DataValues" ],
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/UA.Fictitious/UA_Fictitious_Calculator_1/event/OpCount/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "OpCount_DataValues": {
+        "dov:namespace": "http://opcfoundation.org/UA/Fictitious/",
+        "data": {
+          "type": "number",
+          "minimum": -1.80e+308,
+          "maximum": 1.80e+308
+        },
+        "dov:placeholder": true,
+        "dov:containedIn": "OpCount",
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/UA.Fictitious/UA_Fictitious_Calculator_1/event/OpCount_DataValues/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "qudt": "http://qudt.org/schema/qudt/",
+        "dov": "http://azure.com/DigitalOperations/vocab#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "UA_Fictitious_Calculator",
+    "dov:typeRef": "org.opcfoundation.UA.Fictitious.Calculator",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=UA_Fictitious_Electronic_Device",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:typedReference",
+        "dov:refName": "AlternativeUse",
+        "dov:refType": "ConvertsTo",
+        "href": "#title=UA_Fictitious_Paperweight",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+      "OnOffState": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.Fictitious.OnOffState",
+        "const": {
+          "Off": 0,
+          "On": 1
+        },
+        "properties": {
+          "Off": {
+            "type": "integer"
+          },
+          "On": {
+            "type": "integer"
+          }
+        }
+      }
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dov:topic": "opcua/UA.Fictitious/UA_Fictitious_Calculator/events/{senderId}",
+        "op": "subscribeallevents"
+      },
+      {
+        "contentType": "application/json",
+        "dov:topic": "opcua/UA.Fictitious/UA_Fictitious_Calculator/properties/write",
+        "op": "writemultipleproperties"
+      },
+      {
+        "contentType": "application/json",
+        "dov:topic": "opcua/UA.Fictitious/UA_Fictitious_Calculator/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "tm:optional": [
+      "/actions/Multiply",
+      "/properties/Alerts",
+      "/properties/BatteryStatus",
+      "/properties/OpCount",
+      "/properties/OpCount_DataValues",
+      "/properties/State",
+      "/events/OpCount",
+      "/events/OpCount_DataValues"
+    ],
+    "actions": {
+      "Multiply": {
+        "dov:namespace": "http://opcfoundation.org/UA/Fictitious/",
+        "input": {
+          "type": "object",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
+          "required": [ "Multiplier", "Multiplicand" ],
+          "properties": {
+            "Multiplier": {
+              "type": "number",
+              "minimum": -1.80e+308,
+              "maximum": 1.80e+308
+            },
+            "Multiplicand": {
+              "type": "number",
+              "minimum": -1.80e+308,
+              "maximum": 1.80e+308
+            }
+          }
+        },
+        "output": {
+          "type": "object",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
+          "required": [ "Product" ],
+          "properties": {
+            "Product": {
+              "type": "number",
+              "minimum": -1.80e+308,
+              "maximum": 1.80e+308
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/UA.Fictitious/UA_Fictitious_Calculator/action/Multiply",
+            "op": "invokeaction"
+          }
+        ]
+      }
+    },
+    "properties": {
+      "Alerts": {
+        "dov:namespace": "http://opcfoundation.org/UA/Fictitious/",
+        "type": "array",
+        "items": {
+          "title": "Alert",
+          "type": "object",
+          "dov:typeRef": "org.opcfoundation.UA.Fictitious.Alert",
+          "required": [ "StatusCode" ],
+          "properties": {
+            "StatusCode": {
+              "type": "integer",
+              "minimum": -2147483648,
+              "maximum": 2147483647
+            },
+            "Message": {
+              "type": "string"
+            }
+          }
+        },
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/UA.Fictitious/UA_Fictitious_Calculator/property/Alerts/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "BatteryStatus": {
+        "dov:namespace": "http://opcfoundation.org/UA/Fictitious/",
+        "type": "number",
+        "minimum": -1.80e+308,
+        "maximum": 1.80e+308,
+        "readOnly": true,
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/ElectricPotential",
+        "dov:withUnit": "properties/BatteryStatus_EngineeringUnits",
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/UA.Fictitious/UA_Fictitious_Calculator/property/BatteryStatus/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "OpCount": {
+        "dov:namespace": "http://opcfoundation.org/UA/Fictitious/",
+        "type": "integer",
+        "minimum": -2147483648,
+        "maximum": 2147483647,
+        "readOnly": true,
+        "dov:contains": [ "OpCount_DataValues" ],
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/UA.Fictitious/UA_Fictitious_Calculator/property/OpCount/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "OpCount_DataValues": {
+        "dov:namespace": "http://opcfoundation.org/UA/Fictitious/",
+        "type": "number",
+        "minimum": -1.80e+308,
+        "maximum": 1.80e+308,
+        "readOnly": false,
+        "dov:placeholder": true,
+        "dov:containedIn": "OpCount",
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/UA.Fictitious/UA_Fictitious_Calculator/property/OpCount_DataValues/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/UA.Fictitious/UA_Fictitious_Calculator/property/OpCount_DataValues/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "State": {
+        "dov:namespace": "http://opcfoundation.org/UA/Fictitious/",
+        "title": "OnOffState",
+        "dov:typeRef": "org.opcfoundation.UA.Fictitious.OnOffState",
+        "type": "integer",
+        "minimum": -2147483648,
+        "maximum": 2147483647,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/UA.Fictitious/UA_Fictitious_Calculator/property/State/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "BatteryStatus_EngineeringUnits": {
+        "description": "Unit designator for property with name BatteryStatus, expressed as a 2- or 3-character UN/ECE code",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/UA.Fictitious/UA_Fictitious_Calculator/property/BatteryStatus_EngineeringUnits/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+      "OpCount": {
+        "dov:namespace": "http://opcfoundation.org/UA/Fictitious/",
+        "data": {
+          "type": "integer",
+          "minimum": -2147483648,
+          "maximum": 2147483647
+        },
+        "dov:contains": [ "OpCount_DataValues" ],
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/UA.Fictitious/UA_Fictitious_Calculator/event/OpCount/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "OpCount_DataValues": {
+        "dov:namespace": "http://opcfoundation.org/UA/Fictitious/",
+        "data": {
+          "type": "number",
+          "minimum": -1.80e+308,
+          "maximum": 1.80e+308
+        },
+        "dov:placeholder": true,
+        "dov:containedIn": "OpCount",
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/UA.Fictitious/UA_Fictitious_Calculator/event/OpCount_DataValues/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dov": "http://azure.com/DigitalOperations/vocab#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "UA_Fictitious_Electronic_Device",
+    "dov:typeRef": "org.opcfoundation.UA.Fictitious.Electronic-Device",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dov": "http://azure.com/DigitalOperations/vocab#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "UA_Fictitious_Paperweight",
+    "dov:typeRef": "org.opcfoundation.UA.Fictitious.Paperweight",
+    "links": [
+    ],
+    "schemaDefinitions": {
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dov": "http://azure.com/DigitalOperations/vocab#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "OpcUaCore_BaseObjectType",
+    "dov:typeRef": "org.opcfoundation.UA.BaseObjectType",
+    "links": [
+    ],
+    "schemaDefinitions": {
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
+  }
+]

@@ -1,0 +1,17 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema",
+  "title": "GetVersionInputArguments",
+  "description": "Input arguments for action 'getVersion'",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "groupId": {
+      "description": "Group identifier. Uses the default if not specified.",
+      "type": "string"
+    },
+    "versionId": {
+      "description": "Version identifier. Returns the default Version if not specified.",
+      "type": "string"
+    }
+  }
+}

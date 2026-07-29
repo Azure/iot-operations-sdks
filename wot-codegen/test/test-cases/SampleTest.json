@@ -1,0 +1,27 @@
+{
+  "success": false,
+  "commandLine": {
+    "things": [ "valid/Noop.TM.json" ],
+    "clientThings": [],
+    "serverThings": [],
+    "schemas": [],
+    "typeNamer": null,
+    "outDir": "",
+    "workingDir": "",
+    "namespaace": "",
+    "common": "",
+    "sdkPath": null,
+    "lang": "none",
+    "noProj": false,
+    "defaultImpl": false
+  },
+  "errors": [
+    {
+      "condition": "PropertyUnsupportedValue",
+      "filename": "OneAction.TM.json",
+      "line": 32,
+      "cfLine": 0,
+      "crossRef": ""
+    }
+  ]
+}

@@ -1,0 +1,16 @@
+{
+  "success": false,
+  "commandLine": {
+    "things": [ "invalidAioBinding/ThingEventGroupsWrongType.TM.json" ],
+    "lang": "none"
+  },
+  "errors": [
+    {
+      "condition": "JsonInvalid",
+      "filename": "ThingEventGroupsWrongType.TM.json",
+      "line": 9,
+      "cfLine": 0,
+      "crossRef": ""
+    }
+  ]
+}

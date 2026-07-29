@@ -1,0 +1,25 @@
+﻿// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using Azure.Iot.Operations.Protocol;
+
+namespace Azure.Iot.Operations.Connector
+{
+    public class AzureDeviceRegistryClientWrapperProvider : IAzureDeviceRegistryClientWrapperProvider
+    {
+        public static Func<IServiceProvider, IAzureDeviceRegistryClientWrapperProvider> Factory = service =>
+        {
+            return new AzureDeviceRegistryClientWrapperProvider();
+        };
+
+        public IAzureDeviceRegistryClientWrapper CreateAdrClientWrapper(ApplicationContext applicationContext, IMqttPubSubClient mqttPubSubClient)
+        {
+            return new AzureDeviceRegistryClientWrapper(applicationContext, mqttPubSubClient);
+        }
+    }
+}

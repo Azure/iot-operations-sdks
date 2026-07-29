@@ -1,0 +1,41 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema",
+  "title": "DiscoveredAssetManagementGroup",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [ "name" ],
+  "properties": {
+    "actions": {
+      "description": "Array of actions that are part of the management group. Each action can have an individual configuration.",
+      "type": "array", "items": { "$ref": "DiscoveredAssetManagementGroupAction.schema.json" }
+    },
+    "dataSource": {
+      "description": "Reference to a data source for a given management group.",
+      "type": "string"
+    },
+    "defaultTimeoutInSeconds": {
+      "description": "Default response timeout for all actions that are part of the management group.",
+      "type": "integer", "minimum": 0, "maximum": 9223372036854775807
+    },
+    "defaultTopic": {
+      "description": "Default MQTT topic path on which a client will receive the request for all actions that are part of the management group.",
+      "type": "string"
+    },
+    "lastUpdatedOn": {
+      "description": "Timestamp (in UTC) indicating when the management group was added or modified.",
+      "type": "string", "format": "date-time"
+    },
+    "managementGroupConfiguration": {
+      "description": "Stringified JSON that contains connector-specific configuration for the management group.",
+      "type": "string"
+    },
+    "name": {
+      "description": "Name of the management group.",
+      "type": "string"
+    },
+    "typeRef": {
+      "description": "URI or type definition ID.",
+      "type": "string"
+    }
+  }
+}

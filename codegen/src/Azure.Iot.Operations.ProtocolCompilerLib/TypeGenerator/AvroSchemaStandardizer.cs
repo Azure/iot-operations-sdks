@@ -74,7 +74,7 @@
                         names: schemaElt.GetProperty("symbols").EnumerateArray().Select(e => new CodeName(e.GetString()!)).ToArray()));
                     return new ReferenceType(schemaName!, genNamespace, isEnum: true);
                 case "map":
-                    return new MapType(GetSchemaType(schemaElt.GetProperty("values"), schemaTypes, genNamespace));
+                    return new MapType(GetSchemaType(schemaElt.GetProperty("values"), schemaTypes, genNamespace), false);
                 case "array":
                     return new ArrayType(GetSchemaType(schemaElt.GetProperty("items"), schemaTypes, genNamespace));
                 default:

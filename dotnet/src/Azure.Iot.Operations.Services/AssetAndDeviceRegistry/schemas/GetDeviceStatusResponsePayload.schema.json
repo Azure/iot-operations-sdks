@@ -1,0 +1,14 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema",
+  "title": "GetDeviceStatusResponsePayload",
+  "description": "Response containing the device status or error details if the status could not be retrieved.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [ "deviceStatus" ],
+  "properties": {
+    "deviceStatus": {
+      "description": "The device status, containing the specific inbound endpoint status as specified by the request.",
+      "$ref": "DeviceStatus.schema.json"
+    }
+  }
+}

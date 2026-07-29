@@ -1,0 +1,17 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema",
+  "title": "CreateGroupResponseSchema",
+  "description": "The Group entity.",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "_error": {
+      "description": "Error for the 'createGroup' Action.",
+      "$ref": "EdgeRegistryError.schema.json"
+    },
+    "_output": {
+      "description": "Output for the 'createGroup' Action.",
+      "$ref": "CreateGroupOutputArguments.schema.json"
+    }
+  }
+}

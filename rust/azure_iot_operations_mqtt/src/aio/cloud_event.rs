@@ -1,0 +1,1169 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+//! Cloud Event tools
+
+use std::{
+    fmt::{self, Display, Formatter},
+    str::FromStr,
+    time::SystemTime,
+};
+
+use chrono::{DateTime, SecondsFormat, Utc};
+use fluent_uri::{Uri, UriRef};
+use regex::Regex;
+use thiserror::Error;
+use uuid::Uuid;
+
+use crate::control_packet::PublishProperties;
+
+// ~~~~~~~~~~ Enum/fns/constants for validating/creating Cloud Event Fields ~~~~~~~~~~
+
+/// Default spec version for a `CloudEvent`. Compliant event producers MUST
+/// use a value of 1.0 when referring to this version of the specification.
+pub const DEFAULT_CLOUD_EVENT_SPEC_VERSION: &str = "1.0";
+
+/// Enum representing the cloud event fields.
+#[derive(Debug, Copy, Clone, PartialEq)]
+pub enum CloudEventFields {
+    /// Identifies the event. Producers MUST ensure that source + id is unique for each distinct event.
+    /// If a duplicate event is re-sent (e.g. due to a network error) it MAY have the same id.
+    /// Consumers MAY assume that Events with identical source and id are duplicates.
+    Id,
+    /// Identifies the context in which an event happened.
+    /// Often this will include information such as the type of the event source,
+    /// the organization publishing the event or the process that produced the event.
+    /// The exact syntax and semantics behind the data encoded in the URI is defined by the event producer.
+    Source,
+    /// The version of the `CloudEvents` specification which the event uses. This enables the
+    /// interpretation of the context. Compliant event producers MUST use a value of 1.0 when
+    /// referring to this version of the specification.
+    SpecVersion,
+    /// Describes the type of event related to the originating occurrence.
+    /// Often this attribute is used for routing, observability, policy enforcement, etc.
+    /// The format of this is producer defined and might include information such as the version of the type
+    EventType,
+    /// Identifies the subject of the event in the context of the event producer (identified by source).
+    /// In publish-subscribe scenarios, a subscriber will typically subscribe to events emitted by a source,
+    /// but the source identifier alone might not be sufficient as a qualifier for any specific event if the source context has internal sub-structure.
+    Subject,
+    /// Timestamp of when the occurrence happened.
+    /// If the time of the occurrence cannot be determined then this attribute MAY be set to some other time (such as the current time)
+    /// by the `CloudEvents` producer,
+    /// however all producers for the same source MUST be consistent in this respect.
+    Time,
+    ///  Content type of data value. This attribute enables data to carry any type of content,
+    ///  whereby format and encoding might differ from that of the chosen event format.
+    DataContentType,
+    ///  Identifies the schema that data adheres to.
+    ///  Incompatible changes to the schema SHOULD be reflected by a different URI.
+    DataSchema,
+}
+
+impl CloudEventFields {
+    /// Validates that the cloud event field is valid based on the spec version.
+    ///
+    /// # Errors
+    /// Returns a string containing the error message if either the field or spec version are invalid.
+    ///
+    /// # Panics
+    /// If any regex fails to compile which is impossible given that the regex is pre-defined.
+    pub fn validate(&self, value: &str, spec_version: &str) -> Result<(), String> {
+        if spec_version == "1.0" {
+            if value.is_empty() {
+                return Err(format!("{self} cannot be empty"));
+            }
+            match self {
+                CloudEventFields::Id
+                | CloudEventFields::SpecVersion
+                | CloudEventFields::EventType
+                | CloudEventFields::Subject => {}
+                CloudEventFields::Source => {
+                    // URI reference
+                    match UriRef::parse(value) {
+                        Ok(_) => {}
+                        Err(e) => {
+                            return Err(format!(
+                                "Invalid {self} value: {value}. Must adhere to RFC 3986 Section 4.1. Error: {e}"
+                            ));
+                        }
+                    }
+                }
+                CloudEventFields::DataSchema => {
+                    // URI
+                    match Uri::parse(value) {
+                        Ok(_) => {}
+                        Err(e) => {
+                            return Err(format!(
+                                "Invalid {self} value: {value}. Must adhere to RFC 3986 Section 4.3. Error: {e}"
+                            ));
+                        }
+                    }
+                }
+                CloudEventFields::Time => {
+                    // serializable as RFC3339
+                    match DateTime::parse_from_rfc3339(value) {
+                        Ok(_) => {}
+                        Err(e) => {
+                            return Err(format!(
+                                "Invalid {self} value: {value}. Must adhere to RFC 3339. Error: {e}"
+                            ));
+                        }
+                    }
+                }
+                CloudEventFields::DataContentType => {
+                    let rfc_2045_regex =
+                        Regex::new(r"^([-a-z]+)/([-a-z0-9.]+)(\+([-a-z0-9.]+))?(;.*)?$")
+                            .expect("Static regex string should not fail");
+
+                    if !rfc_2045_regex.is_match(value) {
+                        return Err(format!(
+                            "Invalid {self} value: {value}. Must adhere to RFC 2045"
+                        ));
+                    }
+                }
+            }
+        } else {
+            return Err(format!("Invalid spec version: {spec_version}"));
+        }
+        Ok(())
+    }
+}
+
+impl Display for CloudEventFields {
+    fn fmt(&self, f: &mut Formatter<'_>) -> fmt::Result {
+        match self {
+            CloudEventFields::SpecVersion => write!(f, "specversion"),
+            CloudEventFields::EventType => write!(f, "type"),
+            CloudEventFields::Source => write!(f, "source"),
+            CloudEventFields::Id => write!(f, "id"),
+            CloudEventFields::Subject => write!(f, "subject"),
+            CloudEventFields::Time => write!(f, "time"),
+            CloudEventFields::DataContentType => write!(f, "datacontenttype"),
+            CloudEventFields::DataSchema => write!(f, "dataschema"),
+        }
+    }
+}
+
+impl FromStr for CloudEventFields {
+    type Err = ();
+
+    fn from_str(s: &str) -> Result<Self, Self::Err> {
+        match s {
+            "id" => Ok(CloudEventFields::Id),
+            "source" => Ok(CloudEventFields::Source),
+            "specversion" => Ok(CloudEventFields::SpecVersion),
+            "type" => Ok(CloudEventFields::EventType),
+            "subject" => Ok(CloudEventFields::Subject),
+            "dataschema" => Ok(CloudEventFields::DataSchema),
+            "datacontenttype" => Ok(CloudEventFields::DataContentType),
+            "time" => Ok(CloudEventFields::Time),
+            _ => Err(()),
+        }
+    }
+}
+
+// ~~~~~~~~~~ Public CloudEvent struct and fns to convert to/from publishes ~~~~~~~~~~
+// ~~~~~~~~~~ Builder only used for creating a Cloud Event to send ~~~~~~~~~~
+
+/// Cloud Event struct.
+/// Note: if fields are modified after the [`CloudEvent`] has been built, there is no longer
+/// a guarantee that this is a valid cloud event.
+///
+/// Implements the `CloudEvents` spec 1.0 for generic MQTT messages.
+/// See [CloudEvents Spec](https://github.com/cloudevents/spec/blob/main/cloudevents/spec.md).
+#[derive(Builder, Clone, Debug)]
+#[builder(setter(into), build_fn(validate = "Self::validate"))]
+pub struct CloudEvent {
+    /// Identifies the context in which an event happened. Often this will include information such
+    /// as the type of the event source, the organization publishing the event or the process that
+    /// produced the event. The exact syntax and semantics behind the data encoded in the URI is
+    /// defined by the event producer.
+    pub source: String,
+    /// The version of the cloud events specification which the event uses. This enables the
+    /// interpretation of the context. Compliant event producers MUST use a value of 1.0 when
+    /// referring to this version of the specification.
+    #[builder(default = "DEFAULT_CLOUD_EVENT_SPEC_VERSION.to_string()")]
+    pub spec_version: String,
+    /// Contains a value describing the type of event related to the originating occurrence. Often
+    /// this attribute is used for routing, observability, policy enforcement, etc. The format of
+    /// this is producer defined and might include information such as the version of the type.
+    pub event_type: String,
+    /// Identifies the schema that data adheres to. Incompatible changes to the schema SHOULD be
+    /// reflected by a different URI.
+    #[builder(default = "None")]
+    pub data_schema: Option<String>,
+    /// Identifies the event. Producers MUST ensure that source + id is unique for each distinct
+    /// event. If a duplicate event is re-sent (e.g. due to a network error) it MAY have the same
+    /// id. Consumers MAY assume that Events with identical source and id are duplicates.
+    #[builder(default = "Uuid::new_v4().to_string()")]
+    pub id: String,
+    /// Timestamp of when the occurrence happened. If the time of the occurrence cannot be
+    /// determined then this attribute MAY be set to some other time (such as the current time) by
+    /// the cloud event producer, however all producers for the same source MUST be consistent in
+    /// this respect. In other words, either they all use the actual time of the occurrence or they
+    /// all use the same algorithm to determine the value used.
+    #[builder(default = "Some(DateTime::<Utc>::from(SystemTime::now()))")]
+    pub time: Option<DateTime<Utc>>,
+    /// Identifies the subject of the event in the context of the event producer (identified by
+    /// source). In publish-subscribe scenarios, a subscriber will typically subscribe to events
+    /// emitted by a source, but the source identifier alone might not be sufficient as a qualifier
+    /// for any specific event if the source context has internal sub-structure.
+    #[builder(default = "None")]
+    pub subject: Option<String>,
+    /// Content type of data value. This attribute enables data to carry any type of content,
+    /// whereby format and encoding might differ from that of the chosen event format.
+    #[builder(default = "None")]
+    pub data_content_type: Option<String>,
+}
+
+impl CloudEventBuilder {
+    fn validate(&self) -> Result<(), String> {
+        let mut spec_version = DEFAULT_CLOUD_EVENT_SPEC_VERSION.to_string();
+
+        if let Some(sv) = &self.spec_version {
+            CloudEventFields::SpecVersion.validate(sv, &spec_version)?;
+            spec_version.clone_from(sv);
+        }
+
+        if let Some(id) = &self.id {
+            CloudEventFields::Id.validate(id, &spec_version)?;
+        }
+
+        if let Some(source) = &self.source {
+            CloudEventFields::Source.validate(source, &spec_version)?;
+        }
+
+        if let Some(event_type) = &self.event_type {
+            CloudEventFields::EventType.validate(event_type, &spec_version)?;
+        }
+
+        if let Some(Some(subject)) = &self.subject {
+            CloudEventFields::Subject.validate(subject, &spec_version)?;
+        }
+
+        if let Some(Some(data_schema)) = &self.data_schema {
+            CloudEventFields::DataSchema.validate(data_schema, &spec_version)?;
+        }
+
+        if let Some(Some(data_content_type)) = &self.data_content_type {
+            CloudEventFields::DataContentType.validate(data_content_type, &spec_version)?;
+        }
+
+        // time does not need to be validated because converting it to an rfc3339 compliant string will always succeed
+
+        Ok(())
+    }
+}
+
+impl TryFrom<&PublishProperties> for CloudEvent {
+    type Error = CloudEventParseError;
+
+    /// Parse a [`CloudEvent`] from a Publish's [`PublishProperties`].
+    /// Note that this will return an error if the [`PublishProperties`] do not contain the required fields for a [`CloudEvent`].
+    ///
+    /// # Errors
+    /// [`CloudEventParseError`] if
+    ///     - the [`PublishProperties`] does not contain the required fields for a [`CloudEvent`].
+    ///     - any of the field values are not valid for a [`CloudEvent`].
+    fn try_from(
+        publish_properties: &PublishProperties,
+    ) -> Result<CloudEvent, CloudEventParseError> {
+        CloudEvent::try_from((
+            &publish_properties.user_properties,
+            publish_properties.content_type.as_deref(),
+        ))
+    }
+}
+
+impl TryFrom<(&Vec<(String, String)>, Option<&str>)> for CloudEvent {
+    type Error = CloudEventParseError;
+
+    /// Parse a [`CloudEvent`] from a Publish's user properties and content type.
+    /// Note that this will return an error if the arguments do not contain the required fields for a [`CloudEvent`].
+    ///
+    /// # Errors
+    /// [`CloudEventParseError`] if
+    ///     - the arguments do not contain the required fields for a [`CloudEvent`].
+    ///     - any of the field values are not valid for a [`CloudEvent`].
+    fn try_from(
+        (user_properties, content_type): (&Vec<(String, String)>, Option<&str>),
+    ) -> Result<CloudEvent, CloudEventParseError> {
+        // use builder so that all fields can be validated together
+        let mut received_cloud_event_builder = ReceivedCloudEventBuilder::default();
+        if let Some(content_type) = content_type {
+            received_cloud_event_builder.data_content_type(content_type.to_string());
+        }
+
+        for (key, value) in user_properties {
+            match CloudEventFields::from_str(key) {
+                Ok(CloudEventFields::Id) => {
+                    received_cloud_event_builder.id(value);
+                }
+                Ok(CloudEventFields::Source) => {
+                    received_cloud_event_builder.source(value);
+                }
+                Ok(CloudEventFields::SpecVersion) => {
+                    received_cloud_event_builder.spec_version(value);
+                }
+                Ok(CloudEventFields::EventType) => {
+                    received_cloud_event_builder.event_type(value);
+                }
+                Ok(CloudEventFields::Subject) => {
+                    received_cloud_event_builder.subject(Some(value.into()));
+                }
+                Ok(CloudEventFields::DataSchema) => {
+                    received_cloud_event_builder.data_schema(Some(value.into()));
+                }
+                Ok(CloudEventFields::Time) => {
+                    received_cloud_event_builder.builder_time(Some(value.into()));
+                }
+                _ => {}
+            }
+        }
+        let mut received_cloud_event = received_cloud_event_builder.build()?;
+        // now that everything is validated, update the time field to its correct typing
+        // NOTE: If the spec_version changes in the future, that may need to be taken into account here.
+        // For now, the builder validates spec version 1.0
+        if let Some(ref time_str) = received_cloud_event.builder_time {
+            let parsed_time = DateTime::parse_from_rfc3339(time_str)
+                .expect("Internal builder should have already caught this error");
+            let time = parsed_time.with_timezone(&Utc);
+            received_cloud_event.time = Some(time);
+        }
+        Ok(received_cloud_event.into())
+    }
+}
+
+/// Error when parsing a Cloud Event from a Publish
+#[derive(Debug, Error)]
+#[error(transparent)]
+pub struct CloudEventParseError(#[from] CloudEventParseErrorRepr);
+
+/// Error when parsing a Cloud Event from a Publish
+#[derive(Debug, Error)]
+enum CloudEventParseErrorRepr {
+    /// Missing required header
+    #[error("Missing required header: {0}")]
+    MissingHeader(&'static str),
+    /// Invalid header value
+    #[error("Invalid header value: {0}")]
+    ValidationError(String),
+}
+
+impl From<ReceivedCloudEventBuilderError> for CloudEventParseError {
+    fn from(value: ReceivedCloudEventBuilderError) -> Self {
+        match value {
+            ReceivedCloudEventBuilderError::UninitializedField(field_name) => {
+                CloudEventParseErrorRepr::MissingHeader(field_name).into()
+            }
+            ReceivedCloudEventBuilderError::ValidationError(err_msg) => {
+                CloudEventParseErrorRepr::ValidationError(err_msg).into()
+            }
+        }
+    }
+}
+
+impl From<CloudEvent> for Vec<(String, String)> {
+    /// Get [`CloudEvent`] as user properties for an MQTT publish
+    /// This fn ignores `data_content_type` so that it can be set separately if needed
+    fn from(value: CloudEvent) -> Self {
+        let mut headers = vec![
+            (CloudEventFields::Id.to_string(), value.id),
+            (CloudEventFields::Source.to_string(), value.source),
+            (
+                CloudEventFields::SpecVersion.to_string(),
+                value.spec_version,
+            ),
+            (CloudEventFields::EventType.to_string(), value.event_type),
+        ];
+        if let Some(subject) = value.subject {
+            headers.push((CloudEventFields::Subject.to_string(), subject));
+        }
+        if let Some(time) = value.time {
+            headers.push((
+                CloudEventFields::Time.to_string(),
+                time.to_rfc3339_opts(SecondsFormat::Secs, true),
+            ));
+        }
+        if let Some(data_schema) = value.data_schema {
+            headers.push((CloudEventFields::DataSchema.to_string(), data_schema));
+        }
+        headers
+    }
+}
+
+impl CloudEvent {
+    /// Set [`CloudEvent`] as user properties on a [`PublishProperties`] for an MQTT publish
+    /// Note that if `data_content_type` is `Some` on the [`CloudEvent`], the value will override
+    /// any `content_type` already set in the `PublishProperties`
+    #[must_use]
+    pub fn set_on_publish_properties(
+        self,
+        mut publish_properties: PublishProperties,
+    ) -> PublishProperties {
+        if let Some(ref data_content_type) = self.data_content_type {
+            publish_properties.content_type = Some(data_content_type.clone());
+        }
+        let mut headers = self.into();
+        publish_properties.user_properties.append(&mut headers);
+        publish_properties
+    }
+}
+
+impl Display for CloudEvent {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        write!(
+            f,
+            "CloudEvent {{ id: {id}, source: {source}, spec_version: {spec_version}, event_type: {event_type}, subject: {subject}, data_schema: {data_schema}, data_content_type: {data_content_type}, time: {time:?} }}",
+            id = self.id,
+            source = self.source,
+            spec_version = self.spec_version,
+            event_type = self.event_type,
+            subject = self.subject.as_deref().unwrap_or("None"),
+            data_schema = self.data_schema.as_deref().unwrap_or("None"),
+            data_content_type = self.data_content_type.as_deref().unwrap_or("None"),
+            time = self.time,
+        )
+    }
+}
+
+// ~~~~~~~~~~ Internal builder for validating received cloud events ~~~~~~~~~~
+/// Internal Cloud Event struct with validations for building a [`CloudEvent`] from received [`PublishProperties`].
+///
+/// Implements the cloud event spec 1.0.
+/// See [CloudEvents Spec](https://github.com/cloudevents/spec/blob/main/cloudevents/spec.md).
+#[derive(Builder, Clone)]
+#[builder(setter(into), build_fn(validate = "Self::validate"))]
+struct ReceivedCloudEvent {
+    /// Identifies the event. Producers MUST ensure that source + id is unique for each distinct
+    /// event. If a duplicate event is re-sent (e.g. due to a network error) it MAY have the same
+    /// id. Consumers MAY assume that Events with identical source and id are duplicates.
+    pub id: String,
+    /// Identifies the context in which an event happened. Often this will include information such
+    /// as the type of the event source, the organization publishing the event or the process that
+    /// produced the event. The exact syntax and semantics behind the data encoded in the URI is
+    /// defined by the event producer.
+    pub source: String,
+    /// The version of the cloud events specification which the event uses. This enables the
+    /// interpretation of the context. Compliant event producers MUST use a value of 1.0 when
+    /// referring to this version of the specification.
+    pub spec_version: String,
+    /// Contains a value describing the type of event related to the originating occurrence. Often
+    /// this attribute is used for routing, observability, policy enforcement, etc. The format of
+    /// this is producer defined and might include information such as the version of the type.
+    pub event_type: String,
+    /// Identifies the subject of the event in the context of the event producer (identified by
+    /// source). In publish-subscribe scenarios, a subscriber will typically subscribe to events
+    /// emitted by a source, but the source identifier alone might not be sufficient as a qualifier
+    /// for any specific event if the source context has internal sub-structure.
+    #[builder(default = "None")]
+    pub subject: Option<String>,
+    /// Identifies the schema that data adheres to. Incompatible changes to the schema SHOULD be
+    /// reflected by a different URI.
+    #[builder(default = "None")]
+    pub data_schema: Option<String>,
+    /// Content type of data value. This attribute enables data to carry any type of content,
+    /// whereby format and encoding might differ from that of the chosen event format.
+    #[builder(default = "None")]
+    pub data_content_type: Option<String>,
+    /// Timestamp of when the occurrence happened. If the time of the occurrence cannot be
+    /// determined then this attribute MAY be set to some other time (such as the current time) by
+    /// the cloud event producer, however all producers for the same source MUST be consistent in
+    /// this respect. In other words, either they all use the actual time of the occurrence or they
+    /// all use the same algorithm to determine the value used.
+    #[builder(setter(skip))]
+    pub time: Option<DateTime<Utc>>,
+    /// time as a string so that it can be validated during build
+    #[builder(default = "None")]
+    builder_time: Option<String>,
+}
+
+impl ReceivedCloudEventBuilder {
+    // now that spec version is known, all fields can be validated against that spec version
+    fn validate(&self) -> Result<(), String> {
+        let mut spec_version = DEFAULT_CLOUD_EVENT_SPEC_VERSION.to_string();
+
+        if let Some(sv) = &self.spec_version {
+            CloudEventFields::SpecVersion.validate(sv, &spec_version)?;
+            spec_version.clone_from(sv);
+        }
+
+        if let Some(id) = &self.id {
+            CloudEventFields::Id.validate(id, &spec_version)?;
+        }
+
+        if let Some(source) = &self.source {
+            CloudEventFields::Source.validate(source, &spec_version)?;
+        }
+
+        if let Some(event_type) = &self.event_type {
+            CloudEventFields::EventType.validate(event_type, &spec_version)?;
+        }
+
+        if let Some(Some(subject)) = &self.subject {
+            CloudEventFields::Subject.validate(subject, &spec_version)?;
+        }
+
+        if let Some(Some(data_schema)) = &self.data_schema {
+            CloudEventFields::DataSchema.validate(data_schema, &spec_version)?;
+        }
+
+        if let Some(Some(data_content_type)) = &self.data_content_type {
+            CloudEventFields::DataContentType.validate(data_content_type, &spec_version)?;
+        }
+
+        // only difference from sending side validation
+        if let Some(Some(builder_time)) = &self.builder_time {
+            CloudEventFields::Time.validate(builder_time, &spec_version)?;
+        }
+
+        Ok(())
+    }
+}
+
+impl From<ReceivedCloudEvent> for CloudEvent {
+    fn from(received: ReceivedCloudEvent) -> Self {
+        CloudEvent {
+            id: received.id,
+            source: received.source,
+            spec_version: received.spec_version,
+            event_type: received.event_type,
+            subject: received.subject,
+            data_schema: received.data_schema,
+            data_content_type: received.data_content_type,
+            time: received.time,
+        }
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use test_case::test_case;
+
+    use super::*;
+
+    #[test_case(CloudEventFields::SpecVersion; "cloud_event_spec_version")]
+    #[test_case(CloudEventFields::EventType; "cloud_event_type")]
+    #[test_case(CloudEventFields::Source; "cloud_event_source")]
+    #[test_case(CloudEventFields::Id; "cloud_event_id")]
+    #[test_case(CloudEventFields::Subject; "cloud_event_subject")]
+    #[test_case(CloudEventFields::Time; "cloud_event_time")]
+    #[test_case(CloudEventFields::DataContentType; "cloud_event_data_content_type")]
+    #[test_case(CloudEventFields::DataSchema; "cloud_event_data_schema")]
+    fn test_cloud_event_to_from_string(prop: CloudEventFields) {
+        assert_eq!(prop, CloudEventFields::from_str(&prop.to_string()).unwrap());
+    }
+
+    #[test]
+    fn test_cloud_event_validate_empty() {
+        CloudEventFields::Id
+            .validate("", DEFAULT_CLOUD_EVENT_SPEC_VERSION)
+            .unwrap_err();
+        CloudEventFields::Source
+            .validate("", DEFAULT_CLOUD_EVENT_SPEC_VERSION)
+            .unwrap_err();
+        CloudEventFields::SpecVersion
+            .validate("", DEFAULT_CLOUD_EVENT_SPEC_VERSION)
+            .unwrap_err();
+        CloudEventFields::EventType
+            .validate("", DEFAULT_CLOUD_EVENT_SPEC_VERSION)
+            .unwrap_err();
+        CloudEventFields::DataSchema
+            .validate("", DEFAULT_CLOUD_EVENT_SPEC_VERSION)
+            .unwrap_err();
+        CloudEventFields::Subject
+            .validate("", DEFAULT_CLOUD_EVENT_SPEC_VERSION)
+            .unwrap_err();
+        CloudEventFields::Time
+            .validate("", DEFAULT_CLOUD_EVENT_SPEC_VERSION)
+            .unwrap_err();
+        CloudEventFields::DataContentType
+            .validate("", DEFAULT_CLOUD_EVENT_SPEC_VERSION)
+            .unwrap_err();
+    }
+
+    #[test_case("aio://oven/sample", true; "absolute_uri")]
+    #[test_case("./bar", true; "uri_reference")]
+    #[test_case("::::", false; "not_uri_reference")]
+    fn test_cloud_event_validate_invalid_source(source: &str, expected: bool) {
+        assert_eq!(
+            CloudEventFields::Source
+                .validate(source, DEFAULT_CLOUD_EVENT_SPEC_VERSION)
+                .is_ok(),
+            expected
+        );
+    }
+
+    #[test_case("aio://oven/sample", true; "absolute_uri")]
+    #[test_case("./bar", false; "uri_reference")]
+    #[test_case("ht!tp://example.com", false; "invalid_uri")]
+    fn test_cloud_event_validate_data_schema(data_schema: &str, expected: bool) {
+        assert_eq!(
+            CloudEventFields::DataSchema
+                .validate(data_schema, DEFAULT_CLOUD_EVENT_SPEC_VERSION)
+                .is_ok(),
+            expected
+        );
+    }
+
+    #[test_case("application/json", true; "json")]
+    #[test_case("text/csv", true; "csv")]
+    #[test_case("application/avro", true; "avro")]
+    #[test_case("application/octet-stream", true; "dash_second_half")]
+    #[test_case("application/f0o", true; "number_second_half")]
+    #[test_case("application/f.o", true; "period_second_half")]
+    #[test_case("foo/bar+buzz", true; "plus_extra")]
+    #[test_case("f0o/json", false; "number_first_half")]
+    #[test_case("foo", false; "no_slash")]
+    #[test_case("foo/bar?buzz", false; "question_mark")]
+    #[test_case("application/json; charset=utf-8", true; "parameter")]
+    fn test_cloud_event_validate_data_content_type(data_content_type: &str, expected: bool) {
+        assert_eq!(
+            CloudEventFields::DataContentType
+                .validate(data_content_type, DEFAULT_CLOUD_EVENT_SPEC_VERSION)
+                .is_ok(),
+            expected
+        );
+    }
+
+    #[test]
+    fn test_cloud_event_validate_invalid_spec_version() {
+        CloudEventFields::Id.validate("id", "0.0").unwrap_err();
+    }
+
+    #[test]
+    fn test_try_from_publish_properties_success() {
+        let user_properties = vec![
+            ("id".to_string(), "test-event-123".to_string()),
+            ("source".to_string(), "aio://sensor/temperature".to_string()),
+            ("specversion".to_string(), "1.0".to_string()),
+            ("type".to_string(), "ms.aio.rpc.request".to_string()),
+            ("subject".to_string(), "sensor-01".to_string()),
+            ("time".to_string(), "2025-12-11T00:00:00Z".to_string()),
+            (
+                "dataschema".to_string(),
+                "https://example.com/schema".to_string(),
+            ),
+        ];
+
+        let publish_properties = PublishProperties {
+            user_properties,
+            content_type: Some("application/json".to_string()),
+            ..Default::default()
+        };
+
+        let cloud_event = CloudEvent::try_from(&publish_properties).unwrap();
+
+        assert_eq!(cloud_event.id, "test-event-123");
+        assert_eq!(cloud_event.source, "aio://sensor/temperature");
+        assert_eq!(cloud_event.spec_version, "1.0");
+        assert_eq!(cloud_event.event_type, "ms.aio.rpc.request");
+        assert_eq!(cloud_event.subject, Some("sensor-01".to_string()));
+        assert_eq!(
+            cloud_event.data_schema,
+            Some("https://example.com/schema".to_string())
+        );
+        assert_eq!(
+            cloud_event.data_content_type,
+            Some("application/json".to_string())
+        );
+        assert!(cloud_event.time.is_some());
+    }
+
+    #[test]
+    fn test_try_from_publish_properties_minimal_required_fields() {
+        let user_properties = vec![
+            ("id".to_string(), "minimal-event".to_string()),
+            ("source".to_string(), "aio://device/001".to_string()),
+            ("specversion".to_string(), "1.0".to_string()),
+            ("type".to_string(), "ms.aio.rpc.request".to_string()),
+        ];
+
+        let publish_properties = PublishProperties {
+            user_properties,
+            ..Default::default()
+        };
+
+        let cloud_event = CloudEvent::try_from(&publish_properties).unwrap();
+
+        assert_eq!(cloud_event.id, "minimal-event");
+        assert_eq!(cloud_event.source, "aio://device/001");
+        assert_eq!(cloud_event.spec_version, "1.0");
+        assert_eq!(cloud_event.event_type, "ms.aio.rpc.request");
+        assert_eq!(cloud_event.subject, None);
+        assert_eq!(cloud_event.data_schema, None);
+        assert_eq!(cloud_event.data_content_type, None);
+        assert_eq!(cloud_event.time, None);
+    }
+
+    #[test]
+    fn test_try_from_publish_properties_missing_source() {
+        // Missing 'source' field
+        let user_properties = vec![
+            ("id".to_string(), "test-event".to_string()),
+            ("specversion".to_string(), "1.0".to_string()),
+            ("type".to_string(), "test.event".to_string()),
+        ];
+
+        let publish_properties = PublishProperties {
+            user_properties,
+            ..Default::default()
+        };
+
+        let result = CloudEvent::try_from(&publish_properties);
+        assert!(result.is_err());
+        let error_msg = result.unwrap_err().to_string();
+        assert!(error_msg.contains("source"));
+    }
+
+    #[test]
+    fn test_try_from_publish_properties_missing_id() {
+        let user_properties = vec![
+            ("source".to_string(), "aio://device/001".to_string()),
+            ("specversion".to_string(), "1.0".to_string()),
+            ("type".to_string(), "ms.aio.rpc.request".to_string()),
+        ];
+
+        let publish_properties = PublishProperties {
+            user_properties,
+            ..Default::default()
+        };
+
+        let result = CloudEvent::try_from(&publish_properties);
+        assert!(result.is_err());
+        let error_msg = result.unwrap_err().to_string();
+        assert!(error_msg.contains("id"));
+    }
+
+    #[test]
+    fn test_try_from_publish_properties_missing_type() {
+        let user_properties = vec![
+            ("id".to_string(), "test-event".to_string()),
+            ("source".to_string(), "aio://device/001".to_string()),
+            ("specversion".to_string(), "1.0".to_string()),
+        ];
+
+        let publish_properties = PublishProperties {
+            user_properties,
+            ..Default::default()
+        };
+
+        let result = CloudEvent::try_from(&publish_properties);
+        assert!(result.is_err());
+        let error_msg = result.unwrap_err().to_string();
+        assert!(error_msg.contains("event_type"));
+    }
+
+    #[test]
+    fn test_try_from_user_properties_with_content_type() {
+        let user_properties = vec![
+            ("id".to_string(), "content-test".to_string()),
+            ("source".to_string(), "aio://sensor".to_string()),
+            ("specversion".to_string(), "1.0".to_string()),
+            ("type".to_string(), "ms.aio.rpc.request".to_string()),
+        ];
+
+        let content_type = Some("text/plain");
+
+        let cloud_event = CloudEvent::try_from((&user_properties, content_type)).unwrap();
+
+        assert_eq!(
+            cloud_event.data_content_type,
+            Some("text/plain".to_string())
+        );
+    }
+
+    #[test]
+    fn test_try_from_user_properties_without_content_type() {
+        let user_properties = vec![
+            ("id".to_string(), "no-content-type".to_string()),
+            ("source".to_string(), "aio://sensor".to_string()),
+            ("specversion".to_string(), "1.0".to_string()),
+            ("type".to_string(), "ms.aio.rpc.request".to_string()),
+        ];
+
+        let content_type = None;
+
+        let cloud_event = CloudEvent::try_from((&user_properties, content_type)).unwrap();
+
+        assert_eq!(cloud_event.data_content_type, None);
+    }
+
+    #[test]
+    fn test_try_from_datacontenttype_header_no_mqtt_content_type() {
+        let user_properties = vec![
+            ("id".to_string(), "header-content-type-test".to_string()),
+            ("source".to_string(), "aio://sensor".to_string()),
+            ("specversion".to_string(), "1.0".to_string()),
+            ("type".to_string(), "ms.aio.rpc.request".to_string()),
+            ("datacontenttype".to_string(), "application/xml".to_string()),
+        ];
+
+        let content_type = None;
+
+        let cloud_event = CloudEvent::try_from((&user_properties, content_type)).unwrap();
+
+        // datacontenttype header is ignored when no MQTT content type is present
+        assert_eq!(cloud_event.data_content_type, None);
+    }
+
+    #[test]
+    fn test_try_from_invalid_source() {
+        // Invalid source URI
+        let user_properties = vec![
+            ("id".to_string(), "invalid-source".to_string()),
+            ("source".to_string(), "::::invalid-uri".to_string()),
+            ("specversion".to_string(), "1.0".to_string()),
+            ("type".to_string(), "test.event".to_string()),
+        ];
+
+        let result = CloudEvent::try_from((&user_properties, None));
+        assert!(result.is_err());
+        let error_msg = result.unwrap_err().to_string();
+        assert!(error_msg.contains("source"));
+    }
+
+    #[test]
+    fn test_try_from_invalid_time_format() {
+        let user_properties = vec![
+            ("id".to_string(), "invalid-time".to_string()),
+            ("source".to_string(), "aio://device".to_string()),
+            ("specversion".to_string(), "1.0".to_string()),
+            ("type".to_string(), "test.event".to_string()),
+            ("time".to_string(), "not-a-valid-time".to_string()),
+        ];
+
+        let result = CloudEvent::try_from((&user_properties, None));
+        assert!(result.is_err());
+        let error_msg = result.unwrap_err().to_string();
+        assert!(error_msg.contains("time") || error_msg.contains("RFC 3339"));
+    }
+
+    #[test]
+    fn test_try_from_invalid_data_schema() {
+        let user_properties = vec![
+            ("id".to_string(), "invalid-schema".to_string()),
+            ("source".to_string(), "aio://device".to_string()),
+            ("specversion".to_string(), "1.0".to_string()),
+            ("type".to_string(), "test.event".to_string()),
+            (
+                "dataschema".to_string(),
+                "./relative-not-allowed".to_string(),
+            ),
+        ];
+
+        let result = CloudEvent::try_from((&user_properties, None));
+        assert!(result.is_err());
+        let error_msg = result.unwrap_err().to_string();
+        assert!(error_msg.contains("dataschema"));
+    }
+
+    #[test]
+    fn test_try_from_invalid_spec_version() {
+        let user_properties = vec![
+            ("id".to_string(), "invalid-version".to_string()),
+            ("source".to_string(), "aio://device".to_string()),
+            ("specversion".to_string(), "0.0".to_string()),
+            ("type".to_string(), "test.event".to_string()),
+        ];
+
+        let result = CloudEvent::try_from((&user_properties, None));
+        assert!(result.is_err());
+        let error_msg = result.unwrap_err().to_string();
+        assert!(error_msg.contains("spec version"));
+    }
+
+    #[test]
+    fn test_try_from_empty_required_fields() {
+        let user_properties = vec![
+            ("id".to_string(), String::new()),
+            ("source".to_string(), "aio://device".to_string()),
+            ("specversion".to_string(), "1.0".to_string()),
+            ("type".to_string(), "test.event".to_string()),
+        ];
+
+        let result = CloudEvent::try_from((&user_properties, None));
+        assert!(result.is_err());
+        let error_msg = result.unwrap_err().to_string();
+        assert!(error_msg.contains("id") && error_msg.contains("empty"));
+    }
+
+    #[test]
+    fn test_try_from_unknown_properties_ignored() {
+        let user_properties = vec![
+            ("id".to_string(), "ignore-unknown".to_string()),
+            ("source".to_string(), "aio://device".to_string()),
+            ("specversion".to_string(), "1.0".to_string()),
+            ("type".to_string(), "test.event".to_string()),
+            ("unknown_field".to_string(), "should-be-ignored".to_string()),
+            ("another_unknown".to_string(), "also-ignored".to_string()),
+        ];
+
+        let cloud_event = CloudEvent::try_from((&user_properties, None)).unwrap();
+
+        // Should successfully parse, ignoring unknown fields
+        assert_eq!(cloud_event.id, "ignore-unknown");
+        assert_eq!(cloud_event.source, "aio://device");
+    }
+
+    #[test]
+    fn test_cloud_event_to_user_properties() {
+        let cloud_event = CloudEventBuilder::default()
+            .id("test-conversion-123")
+            .source("aio://factory/line1")
+            .event_type("ms.aio.rpc.request")
+            .subject(Some("machine-05".to_string()))
+            .data_schema(Some("https://schema.example.com/telemetry".to_string()))
+            .build()
+            .unwrap();
+
+        let user_properties: Vec<(String, String)> = cloud_event.into();
+
+        // Verify all fields are present in user properties
+        assert!(user_properties.contains(&("id".to_string(), "test-conversion-123".to_string())));
+        assert!(
+            user_properties.contains(&("source".to_string(), "aio://factory/line1".to_string()))
+        );
+        assert!(user_properties.contains(&("specversion".to_string(), "1.0".to_string())));
+        assert!(user_properties.contains(&("type".to_string(), "ms.aio.rpc.request".to_string())));
+        assert!(user_properties.contains(&("subject".to_string(), "machine-05".to_string())));
+        assert!(user_properties.contains(&(
+            "dataschema".to_string(),
+            "https://schema.example.com/telemetry".to_string()
+        )));
+
+        // Check that time is included and properly formatted as RFC 3339
+        let time_property = user_properties.iter().find(|(k, _)| k == "time");
+        let (_, time_value) = time_property.unwrap();
+        // Verify it's a valid RFC 3339 timestamp
+        assert!(DateTime::parse_from_rfc3339(time_value).is_ok());
+    }
+
+    #[test]
+    fn test_cloud_event_to_user_properties_minimal() {
+        let cloud_event = CloudEventBuilder::default()
+            .id("minimal-conversion")
+            .source("aio://device/sensor")
+            .event_type("ms.aio.rpc.request")
+            .time(None::<DateTime<Utc>>) // Explicitly no time
+            .subject(None::<String>) // Explicitly no subject
+            .data_schema(None::<String>) // Explicitly no data schema
+            .build()
+            .unwrap();
+
+        let user_properties: Vec<(String, String)> = cloud_event.into();
+
+        // Verify required fields are present
+        assert!(user_properties.contains(&("id".to_string(), "minimal-conversion".to_string())));
+        assert!(
+            user_properties.contains(&("source".to_string(), "aio://device/sensor".to_string()))
+        );
+        assert!(user_properties.contains(&("specversion".to_string(), "1.0".to_string())));
+        assert!(user_properties.contains(&("type".to_string(), "ms.aio.rpc.request".to_string())));
+
+        // Verify optional fields are not present
+        assert!(!user_properties.iter().any(|(k, _)| k == "subject"));
+        assert!(!user_properties.iter().any(|(k, _)| k == "time"));
+        assert!(!user_properties.iter().any(|(k, _)| k == "dataschema"));
+
+        // data_content_type should not be in user properties (handled separately)
+        assert!(!user_properties.iter().any(|(k, _)| k == "datacontenttype"));
+    }
+
+    #[test]
+    fn test_set_on_publish_properties() {
+        let cloud_event = CloudEventBuilder::default()
+            .id("publish-properties-test")
+            .source("aio://sensor/temp")
+            .event_type("ms.aio.rpc.request")
+            .subject(Some("room-101".to_string()))
+            .build()
+            .unwrap();
+
+        let mut initial_properties = PublishProperties::default();
+        initial_properties
+            .user_properties
+            .push(("existing".to_string(), "property".to_string()));
+
+        let result_properties = cloud_event.set_on_publish_properties(initial_properties);
+
+        // Verify existing properties are preserved
+        assert!(
+            result_properties
+                .user_properties
+                .contains(&("existing".to_string(), "property".to_string()))
+        );
+
+        // Verify cloud event properties are added
+        assert!(
+            result_properties
+                .user_properties
+                .contains(&("id".to_string(), "publish-properties-test".to_string()))
+        );
+        assert!(
+            result_properties
+                .user_properties
+                .contains(&("source".to_string(), "aio://sensor/temp".to_string()))
+        );
+        assert!(
+            result_properties
+                .user_properties
+                .contains(&("type".to_string(), "ms.aio.rpc.request".to_string()))
+        );
+        assert!(
+            result_properties
+                .user_properties
+                .contains(&("subject".to_string(), "room-101".to_string()))
+        );
+
+        // Verify time is included and properly formatted
+        let time_property = result_properties
+            .user_properties
+            .iter()
+            .find(|(k, _)| k == "time");
+        let (_, time_value) = time_property.unwrap();
+        // Verify it's a valid RFC 3339 timestamp
+        assert!(DateTime::parse_from_rfc3339(time_value).is_ok());
+
+        // Content type should remain None since cloud event doesn't have data_content_type
+        assert_eq!(result_properties.content_type, None);
+    }
+
+    #[test]
+    fn test_set_on_publish_properties_overwrites_content_type() {
+        let cloud_event = CloudEventBuilder::default()
+            .id("content-type-test")
+            .source("aio://api/endpoint")
+            .event_type("ms.aio.rpc.request")
+            .data_content_type(Some("application/protobuf".to_string()))
+            .build()
+            .unwrap();
+
+        let initial_properties = PublishProperties {
+            content_type: Some("text/plain".to_string()),
+            user_properties: vec![("original".to_string(), "header".to_string())],
+            ..Default::default()
+        };
+
+        let result_properties = cloud_event.set_on_publish_properties(initial_properties);
+
+        // Verify content type is overwritten
+        assert_eq!(
+            result_properties.content_type,
+            Some("application/protobuf".to_string())
+        );
+
+        // Verify original user properties are preserved
+        assert!(
+            result_properties
+                .user_properties
+                .contains(&("original".to_string(), "header".to_string()))
+        );
+
+        // Verify cloud event properties are added
+        assert!(
+            result_properties
+                .user_properties
+                .contains(&("id".to_string(), "content-type-test".to_string()))
+        );
+
+        // data_content_type should NOT appear in user properties
+        assert!(
+            !result_properties
+                .user_properties
+                .iter()
+                .any(|(k, _)| k == "datacontenttype")
+        );
+    }
+
+    #[test]
+    fn test_set_on_publish_properties_preserves_existing_content_type() {
+        let cloud_event = CloudEventBuilder::default()
+            .id("no-overwrite-test")
+            .source("aio://device")
+            .event_type("ms.aio.rpc.request")
+            .data_content_type(None::<String>) // Explicitly no data content type
+            .build()
+            .unwrap();
+
+        let initial_properties = PublishProperties {
+            content_type: Some("application/json".to_string()),
+            ..Default::default()
+        };
+
+        let result_properties = cloud_event.set_on_publish_properties(initial_properties);
+
+        // Content type should remain unchanged since cloud event has no data_content_type
+        assert_eq!(
+            result_properties.content_type,
+            Some("application/json".to_string())
+        );
+    }
+
+    #[test]
+    fn test_cloud_event_round_trip_conversion() {
+        // Create a cloud event with all fields
+        let original_cloud_event = CloudEventBuilder::default()
+            .id("round-trip-test")
+            .source("aio://test/device")
+            .event_type("test.round.trip")
+            .subject(Some("test-subject".to_string()))
+            .data_schema(Some("https://test.schema.com".to_string()))
+            .data_content_type(Some("application/json".to_string()))
+            .build()
+            .unwrap();
+
+        // Convert to PublishProperties
+        let publish_properties = original_cloud_event
+            .clone()
+            .set_on_publish_properties(PublishProperties::default());
+
+        // Convert back to CloudEvent
+        let reconstructed_cloud_event = CloudEvent::try_from(&publish_properties).unwrap();
+
+        // Verify all fields match
+        assert_eq!(reconstructed_cloud_event.id, original_cloud_event.id);
+        assert_eq!(
+            reconstructed_cloud_event.source,
+            original_cloud_event.source
+        );
+        assert_eq!(
+            reconstructed_cloud_event.spec_version,
+            original_cloud_event.spec_version
+        );
+        assert_eq!(
+            reconstructed_cloud_event.event_type,
+            original_cloud_event.event_type
+        );
+        assert_eq!(
+            reconstructed_cloud_event.subject,
+            original_cloud_event.subject
+        );
+        assert_eq!(
+            reconstructed_cloud_event.data_schema,
+            original_cloud_event.data_schema
+        );
+        assert_eq!(
+            reconstructed_cloud_event.data_content_type,
+            original_cloud_event.data_content_type
+        );
+
+        // Verify time matches with some tolerance for precision loss during string conversion
+        // RFC 3339 format uses seconds precision, so we expect some microsecond/nanosecond loss
+        // Note: CloudEventBuilder::default() always sets time to Some(now), so both should be Some
+        match (original_cloud_event.time, reconstructed_cloud_event.time) {
+            (Some(original_time), Some(reconstructed_time)) => {
+                let time_diff = (original_time.timestamp() - reconstructed_time.timestamp()).abs();
+                assert!(
+                    time_diff <= 1,
+                    "Time difference too large: original={original_time:?}, reconstructed={reconstructed_time:?}"
+                );
+            }
+            _ => panic!(
+                "Time field mismatch: original={:?}, reconstructed={:?}",
+                original_cloud_event.time, reconstructed_cloud_event.time
+            ),
+        }
+    }
+}

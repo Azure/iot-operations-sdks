@@ -9,6 +9,6 @@
 },
 <# } #>
 "type": "object",
-"additionalProperties": {
+"dtv:additionalProperties": {
 <#=this.thingDescriber.GetTypeAndAddenda(this.dtMap.MapValue.Schema, 2)#>
 }<# this.PopIndent(); #>

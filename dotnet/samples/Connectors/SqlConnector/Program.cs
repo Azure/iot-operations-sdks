@@ -15,7 +15,7 @@ IHost host = Host.CreateDefaultBuilder(args)
         services.AddSingleton(SqlQualityAnalyzerDatasetSamplerProvider.Factory);
         services.AddSingleton(NoMessageSchemaProvider.Factory);
         services.AddSingleton(LeaderElectionConfigurationProvider.Factory);
-        services.AddSingleton<IAdrClientWrapperProvider>(AdrClientWrapperProvider.Factory);
+        services.AddSingleton<IAzureDeviceRegistryClientWrapperProvider>(AzureDeviceRegistryClientWrapperProvider.Factory);
         services.AddHostedService<PollingTelemetryConnectorWorker>();
     })
     .Build();

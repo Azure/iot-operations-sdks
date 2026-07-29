@@ -1,0 +1,34 @@
+{
+  "success": false,
+  "commandLine": {
+    "things": [
+      "invalidThing/ActionExtendsProperty.TM.json",
+      "invalidThing/PropertyExtendsEvent.TM.json",
+      "invalidThing/EventExtendsAction.TM.json"
+    ],
+    "lang": "none"
+  },
+  "errors": [
+    {
+      "condition": "Interminable",
+      "filename": "ActionExtendsProperty.TM.json",
+      "line": 11,
+      "cfLine": 0,
+      "crossRef": ""
+    },
+    {
+      "condition": "Interminable",
+      "filename": "PropertyExtendsEvent.TM.json",
+      "line": 11,
+      "cfLine": 0,
+      "crossRef": ""
+    },
+    {
+      "condition": "Interminable",
+      "filename": "EventExtendsAction.TM.json",
+      "line": 11,
+      "cfLine": 0,
+      "crossRef": ""
+    }
+  ]
+}

@@ -136,6 +136,25 @@
             return GetPrimitiveTypeFromJsonElement(rootElt, referencedElt, internalDefsKey, genNamespace, retriever);
         }
 
+        private bool TryGetNestedNullableJsonElement(ref JsonElement jsonElement)
+        {
+            if (jsonElement.TryGetProperty("anyOf", out JsonElement anyOfElt) && anyOfElt.ValueKind == JsonValueKind.Array)
+            {
+                if (anyOfElt[0].TryGetProperty("type", out JsonElement typeElt) && typeElt.GetString() == "null")
+                {
+                    jsonElement = anyOfElt[1];
+                    return true;
+                }
+                else if (anyOfElt[1].TryGetProperty("type", out typeElt) && typeElt.GetString() == "null")
+                {
+                    jsonElement = anyOfElt[0];
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
         private SchemaType GetPrimitiveTypeFromJsonElement(JsonElement rootElt, JsonElement schemaElt, string? internalDefsKey, CodeName genNamespace, Func<string, string> retriever)
         {
             switch (schemaElt.GetProperty("type").GetString())
@@ -143,7 +162,9 @@
                 case "array":
                     return new ArrayType(GetSchemaTypeFromJsonElement(rootElt, schemaElt.GetProperty("items"), internalDefsKey, genNamespace, retriever));
                 case "object":
-                    return new MapType(GetSchemaTypeFromJsonElement(rootElt, schemaElt.GetProperty("additionalProperties"), internalDefsKey, genNamespace, retriever));
+                    JsonElement typeAndAddendaElt = schemaElt.GetProperty("additionalProperties");
+                    bool nullValues = TryGetNestedNullableJsonElement(ref typeAndAddendaElt);
+                    return new MapType(GetSchemaTypeFromJsonElement(rootElt, typeAndAddendaElt, internalDefsKey, genNamespace, retriever), nullValues);
                 case "boolean":
                     return new BooleanType();
                 case "number":

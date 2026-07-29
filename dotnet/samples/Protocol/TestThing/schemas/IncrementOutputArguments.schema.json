@@ -1,0 +1,14 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema",
+  "title": "IncrementOutputArguments",
+  "description": "Output arguments for action 'increment'",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [ "CounterResponse" ],
+  "properties": {
+    "CounterResponse": {
+      "description": "The 'CounterResponse' Field.",
+      "type": "integer", "minimum": -2147483648, "maximum": 2147483647
+    }
+  }
+}

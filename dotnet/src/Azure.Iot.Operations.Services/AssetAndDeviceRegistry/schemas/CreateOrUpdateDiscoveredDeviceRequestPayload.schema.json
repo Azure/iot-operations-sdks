@@ -1,0 +1,14 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema",
+  "title": "CreateOrUpdateDiscoveredDeviceRequestPayload",
+  "description": "The request to create or update a discovered device.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [ "discoveredDeviceRequest" ],
+  "properties": {
+    "discoveredDeviceRequest": {
+      "description": "The 'discoveredDeviceRequest' Field.",
+      "$ref": "CreateOrUpdateDiscoveredDeviceRequestSchema.schema.json"
+    }
+  }
+}

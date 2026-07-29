@@ -8,7 +8,7 @@ use std::time::Duration;
 use azure_iot_operations_mqtt::session::{
     Session, SessionExitHandle, SessionManagedClient, SessionOptionsBuilder,
 };
-use azure_iot_operations_mqtt::MqttConnectionSettingsBuilder;
+use azure_iot_operations_mqtt::aio::connection_settings::MqttConnectionSettingsBuilder;
 use azure_iot_operations_protocol::application::ApplicationContextBuilder;
 use azure_iot_operations_protocol::common::payload_serialize::FormatIndicator;
 use custom_comm::common_types::custom_payload::CustomPayload;

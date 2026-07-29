@@ -1,0 +1,16 @@
+{
+  "success": false,
+  "commandLine": {
+    "things": [ "invalidAioBinding/EventStringConst.TM.json" ],
+    "lang": "none"
+  },
+  "errors": [
+    {
+      "condition": "PropertyUnsupported",
+      "filename": "EventStringConst.TM.json",
+      "line": 16,
+      "cfLine": 0,
+      "crossRef": ""
+    }
+  ]
+}

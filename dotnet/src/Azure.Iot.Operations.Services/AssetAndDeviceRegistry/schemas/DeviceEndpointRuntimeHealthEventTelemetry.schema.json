@@ -1,0 +1,14 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema",
+  "title": "DeviceEndpointRuntimeHealthEventTelemetry",
+  "description": "Telemetry event emitted for reporting the runtime health of the specific inbound endpoint as specified in the topic.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [ "deviceEndpointRuntimeHealthEvent" ],
+  "properties": {
+    "deviceEndpointRuntimeHealthEvent": {
+      "description": "Telemetry event emitted for reporting the runtime health of the specific inbound endpoint as specified in the topic.",
+      "$ref": "DeviceEndpointRuntimeHealthEventSchema.schema.json"
+    }
+  }
+}

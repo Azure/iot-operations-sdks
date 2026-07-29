@@ -41,7 +41,7 @@ public class LeasedLockClientIntegrationTests
         Assert.NotNull(getLockHolderResponse.LockHolder);
         Assert.Equal(holderId, getLockHolderResponse.LockHolder.GetString());
 
-        StateStoreSetResponse setResponse = await stateStoreClient.SetAsync(
+        IStateStoreSetResponse setResponse = await stateStoreClient.SetAsync(
             sharedResourceName,
             Guid.NewGuid().ToString(),
             new StateStoreSetRequestOptions()
@@ -87,6 +87,9 @@ public class LeasedLockClientIntegrationTests
         // Since the lock was just released, and no other process is aware of this lock,
         // there should be no lock holder.
         Assert.Null(getLockHolderResponse.LockHolder);
+
+        await stateStoreClient.StopAsync();
+        await leasedLockClient.StopAsync();
     }
 
     [Fact]
@@ -117,10 +120,13 @@ public class LeasedLockClientIntegrationTests
                 return initialValue;
             });
 
-        StateStoreGetResponse getResponse = await stateStoreClient.GetAsync(sharedResourceName);
+        IStateStoreGetResponse getResponse = await stateStoreClient.GetAsync(sharedResourceName);
 
         Assert.NotNull(getResponse.Value);
         Assert.Equal(updatedValue, getResponse.Value);
+
+        await stateStoreClient.StopAsync();
+        await leasedLockClient.StopAsync();
     }
 
     [Fact]
@@ -145,7 +151,7 @@ public class LeasedLockClientIntegrationTests
 
         Assert.True(acquireLockResponse.Success);
 
-        StateStoreSetResponse setResponse = await stateStoreClient.SetAsync(
+        IStateStoreSetResponse setResponse = await stateStoreClient.SetAsync(
             sharedResourceName,
             Guid.NewGuid().ToString(),
             new StateStoreSetRequestOptions()
@@ -181,6 +187,9 @@ public class LeasedLockClientIntegrationTests
             await leasedLockClient.ReleaseLockAsync(releaseLockOptions);
 
         Assert.True(releaseLockResponse.Success);
+
+        await stateStoreClient.StopAsync();
+        await leasedLockClient.StopAsync();
     }
 
     [Fact]
@@ -214,7 +223,7 @@ public class LeasedLockClientIntegrationTests
         Assert.NotEqual(firstFencingToken, secondFencingToken);
         Assert.True(secondFencingToken.CompareTo(firstFencingToken) > 0);
 
-        StateStoreSetResponse setResponse = await stateStoreClient.SetAsync(
+        IStateStoreSetResponse setResponse = await stateStoreClient.SetAsync(
             sharedResourceName,
             Guid.NewGuid().ToString(),
             new StateStoreSetRequestOptions()
@@ -223,6 +232,9 @@ public class LeasedLockClientIntegrationTests
             });
 
         Assert.True(setResponse.Success);
+
+        await stateStoreClient.StopAsync();
+        await leasedLockClient.StopAsync();
     }
 
     [Fact]
@@ -251,7 +263,7 @@ public class LeasedLockClientIntegrationTests
         Assert.NotNull(leasedLockClient.MostRecentAcquireLockResponse.FencingToken);
         HybridLogicalClock firstFencingToken = leasedLockClient.MostRecentAcquireLockResponse.FencingToken;
 
-        StateStoreSetResponse setResponse = await stateStoreClient.SetAsync(
+        IStateStoreSetResponse setResponse = await stateStoreClient.SetAsync(
             sharedResourceName,
             Guid.NewGuid().ToString(),
             new StateStoreSetRequestOptions()
@@ -304,6 +316,9 @@ public class LeasedLockClientIntegrationTests
 
         // The most recent fencing token should be equal to the final fencing token saved before disabling auto-renewal
         Assert.Equal(0, automaticallyRenewedFencingToken.CompareTo(leasedLockClient.MostRecentAcquireLockResponse.FencingToken));
+
+        await stateStoreClient.StopAsync();
+        await leasedLockClient.StopAsync();
     }
 
     [Fact]
@@ -386,6 +401,8 @@ public class LeasedLockClientIntegrationTests
 
         // The callback should no longer execute since this client unobserved the lock
         Assert.False(onCallbackExecuted.Task.IsCompleted);
+
+        await leasedLockClient.StopAsync();
     }
 
     [Fact]
@@ -448,6 +465,8 @@ public class LeasedLockClientIntegrationTests
         {
             // Expected result since the callback should not execute after unobserving the lock that was changed.
         }
+
+        await leasedLockClient.StopAsync();
     }
 
     [Fact]
@@ -473,6 +492,9 @@ public class LeasedLockClientIntegrationTests
             await leasedLockClient2.AcquireLockAsync(TimeSpan.FromSeconds(1), cancellationToken: new CancellationTokenSource(TimeSpan.FromMinutes(1)).Token);
 
         Assert.True(response2.Success);
+
+        await leasedLockClient1.StopAsync();
+        await leasedLockClient2.StopAsync();
     }
 
     [Fact]
@@ -506,10 +528,14 @@ public class LeasedLockClientIntegrationTests
                 return updatedValue;
             });
 
-        StateStoreGetResponse getResponse = await stateStoreClient.GetAsync(sharedResourceName);
+        IStateStoreGetResponse getResponse = await stateStoreClient.GetAsync(sharedResourceName);
 
         Assert.NotNull(getResponse.Value);
         Assert.Equal(updatedValue, getResponse.Value);
+
+        await leasedLockClient1.StopAsync();
+        await leasedLockClient2.StopAsync();
+        await stateStoreClient.StopAsync();
     }
 
     [Fact]
@@ -551,12 +577,16 @@ public class LeasedLockClientIntegrationTests
                 },
                 cancellationToken: cts.Token));
 
-        StateStoreGetResponse getResponse = await stateStoreClient.GetAsync(sharedResourceName);
+        IStateStoreGetResponse getResponse = await stateStoreClient.GetAsync(sharedResourceName);
 
         // Because the call to AcquireLockAndUpdateValueAsync never acquired the lock, the value
         // of the shared resource should still be equal to the initial value.
         Assert.NotNull(getResponse.Value);
         Assert.Equal(sharedResourceInitialValue, getResponse.Value);
+
+        await leasedLockClient1.StopAsync();
+        await leasedLockClient2.StopAsync();
+        await stateStoreClient.StopAsync();
     }
 
     [Fact]
@@ -574,7 +604,7 @@ public class LeasedLockClientIntegrationTests
         Assert.True(acquireLockResponse.Success);
 
         // set a value in the state store with the fencing token
-        StateStoreSetResponse setResponse = await stateStoreClient.SetAsync(
+        IStateStoreSetResponse setResponse = await stateStoreClient.SetAsync(
             sharedResourceName,
             Guid.NewGuid().ToString(),
             new StateStoreSetRequestOptions()
@@ -609,5 +639,8 @@ public class LeasedLockClientIntegrationTests
                     FencingToken = lowerVersionFencingToken,
                 }));
         Assert.Equal(ServiceError.FencingTokenLowerVersion, deleteException.Reason);
+
+        await leasedLockClient.StopAsync();
+        await stateStoreClient.StopAsync();
     }
 }

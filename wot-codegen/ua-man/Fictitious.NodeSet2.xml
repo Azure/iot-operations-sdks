@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<UANodeSet xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" LastModified="2025-11-08T00:00:00Z" xmlns="http://opcfoundation.org/UA/2011/03/UANodeSet.xsd">
+  <NamespaceUris>
+    <Uri>http://opcfoundation.org/UA/Fictitious/</Uri>
+  </NamespaceUris>
+  <Models>
+    <Model ModelUri="http://opcfoundation.org/UA/Fictitious/" XmlSchemaUri="http://opcfoundation.org/UA/2008/02/Types.xsd" Version="1.05.06" PublicationDate="2025-11-08T00:00:00Z" ModelVersion="1.5.6">
+      <RequiredModel ModelUri="http://opcfoundation.org/UA/" Version="1.05.02" PublicationDate="2022-10-01T00:00:00Z" />
+    </Model>
+  </Models>
+  <Aliases>
+    <Alias Alias="Int32">i=6</Alias>
+    <Alias Alias="Double">i=11</Alias>
+    <Alias Alias="String">i=12</Alias>
+    <Alias Alias="HasModellingRule">i=37</Alias>
+    <Alias Alias="HasTypeDefinition">i=40</Alias>
+    <Alias Alias="HasSubtype">i=45</Alias>
+    <Alias Alias="HasProperty">i=46</Alias>
+    <Alias Alias="HasComponent">i=47</Alias>
+    <Alias Alias="Argument">i=296</Alias>
+    <Alias Alias="EUInformation">i=887</Alias>
+  </Aliases>
+  <UAReferenceType NodeId="ns=1;i=601" BrowseName="1:ConvertsTo">
+  </UAReferenceType>
+  <UADataType NodeId="ns=1;i=63" BrowseName="1:OnOffState">
+    <Definition Name="1:OnOff">
+      <Field Name="Off" Value="0" />
+      <Field Name="On" Value="1" />
+    </Definition>
+  </UADataType>
+  <UAObject NodeId="ns=1;i=11012" BrowseName="1:Calculator_1">
+    <References>
+      <Reference ReferenceType="HasTypeDefinition">ns=1;i=1012</Reference>
+      <Reference ReferenceType="HasProperty">ns=1;i=6012</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=6010</Reference>
+      <Reference ReferenceType="HasProperty">ns=1;i=6032</Reference>
+      <Reference ReferenceType="HasProperty">ns=1;i=6006</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=7039</Reference>
+    </References>
+  </UAObject>
+  <UAObjectType NodeId="ns=1;i=1012" BrowseName="1:Calculator">
+    <References>
+      <Reference ReferenceType="HasSubtype" IsForward="false">ns=1;i=200</Reference>
+      <Reference ReferenceType="ns=1;i=601">ns=1;i=5016</Reference>
+      <Reference ReferenceType="HasProperty">ns=1;i=6012</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=6010</Reference>
+      <Reference ReferenceType="HasProperty">ns=1;i=6032</Reference>
+      <Reference ReferenceType="HasProperty">ns=1;i=6006</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=7039</Reference>
+    </References>
+  </UAObjectType>
+  <UADataType NodeId="ns=1;i=3003" BrowseName="1:Alert">
+    <Definition Name="1:AlertInfo">
+      <Field Name="StatusCode" DataType="Int32" />
+      <Field Name="Message" DataType="String" IsOptional="true"/>
+    </Definition>
+  </UADataType>
+  <UAVariable
+    NodeId="ns=1;i=6012"
+    BrowseName="1:PowerStatus"
+    SymbolicName="BatteryStatus"
+    ParentNodeId="ns=1;i=1012"
+    DataType="Double"
+    AccessLevel="1">
+    <References>
+      <Reference ReferenceType="HasProperty">ns=1;i=6139</Reference>
+    </References>
+  </UAVariable>
+  <UAVariable
+    NodeId="ns=1;i=6139"
+    BrowseName="EngineeringUnits"
+    ParentNodeId="ns=1;i=6012"
+    DataType="EUInformation">
+    <Value>
+      <uax:ExtensionObject xmlns:uax="http://opcfoundation.org/UA/2008/02/Types.xsd">
+        <uax:Body>
+          <uax:EUInformation>
+            <uax:NamespaceUri>
+              http://www.opcfoundation.org/UA/units/un/cefact
+            </uax:NamespaceUri>
+            <uax:UnitId>5655636</uax:UnitId>
+          </uax:EUInformation>
+        </uax:Body>
+      </uax:ExtensionObject>
+    </Value>
+  </UAVariable>
+  <UAVariable
+    NodeId="ns=1;i=6010"
+    BrowseName="1:OpCount"
+    ParentNodeId="ns=1;i=1012"
+    DataType="Int32"
+    AccessLevel="1">
+    <References>
+      <Reference ReferenceType="HasComponent">ns=1;i=6011</Reference>
+    </References>
+  </UAVariable>
+  <UAVariable
+    NodeId="ns=1;i=6011"
+    BrowseName="1:DataValues"
+    ParentNodeId="ns=1;i=6010"
+    DataType="Double"
+    AccessLevel="3">
+    <References>
+      <Reference ReferenceType="HasModellingRule">i=11508</Reference>
+    </References>
+  </UAVariable>
+  <UAVariable
+    NodeId="ns=1;i=6032"
+    BrowseName="1:State"
+    ParentNodeId="ns=1;i=1012"
+    DataType="ns=1;i=63">
+  </UAVariable>
+  <UAVariable
+    NodeId="ns=1;i=6006"
+    BrowseName="1:Alerts"
+    ParentNodeId="ns=1;i=1012"
+    DataType="ns=1;i=3003"
+    ValueRank="1">
+  </UAVariable>
+  <UAMethod NodeId="ns=1;i=7039" BrowseName="1:Multiply" ParentNodeId="ns=1;i=1012">
+    <References>
+      <Reference ReferenceType="HasProperty">ns=1;i=6384</Reference>
+      <Reference ReferenceType="HasProperty">ns=1;i=6385</Reference>
+    </References>
+  </UAMethod>
+  <UAVariable
+    NodeId="ns=1;i=6384"
+    BrowseName="InputArguments"
+    ParentNodeId="ns=1;i=7039"
+    DataType="Argument"
+    ValueRank="1"
+    ArrayDimensions="2">
+    <Value>
+      <uax:ListOfExtensionObject
+        xmlns:uax="http://opcfoundation.org/UA/2008/02/Types.xsd">
+        <uax:ExtensionObject>
+          <uax:Body>
+            <uax:Argument>
+              <uax:Name>Multiplier</uax:Name>
+              <uax:DataType><uax:Identifier>i=11</uax:Identifier></uax:DataType>
+            </uax:Argument>
+          </uax:Body>
+        </uax:ExtensionObject>
+        <uax:ExtensionObject>
+          <uax:Body>
+            <uax:Argument>
+              <uax:Name>Multiplicand</uax:Name>
+              <uax:DataType><uax:Identifier>i=11</uax:Identifier></uax:DataType>
+            </uax:Argument>
+          </uax:Body>
+        </uax:ExtensionObject>
+      </uax:ListOfExtensionObject>
+    </Value>
+  </UAVariable>
+  <UAVariable
+    NodeId="ns=1;i=6385"
+    BrowseName="OutputArguments"
+    ParentNodeId="ns=1;i=7039"
+    DataType="Argument"
+    ValueRank="1"
+    ArrayDimensions="1">
+    <Value>
+      <uax:ListOfExtensionObject
+        xmlns:uax="http://opcfoundation.org/UA/2008/02/Types.xsd">
+        <uax:ExtensionObject>
+          <uax:Body>
+            <uax:Argument>
+              <uax:Name>Product</uax:Name>
+              <uax:DataType><uax:Identifier>i=11</uax:Identifier></uax:DataType>
+            </uax:Argument>
+          </uax:Body>
+        </uax:ExtensionObject>
+      </uax:ListOfExtensionObject>
+    </Value>
+  </UAVariable>
+  <UAObjectType NodeId="ns=1;i=200" BrowseName="1:Electronic-Device" IsAbstract="true">
+    <References>
+      <Reference ReferenceType="HasSubtype" IsForward="false">i=58</Reference>
+    </References>
+  </UAObjectType>
+  <UAObjectType NodeId="ns=1;i=1003" BrowseName="1:Paperweight">
+  </UAObjectType>
+  <UAObject NodeId="ns=1;i=5016" BrowseName="1:AlternativeUse">
+    <References>
+      <Reference ReferenceType="HasTypeDefinition">ns=1;i=1003</Reference>
+    </References>
+  </UAObject>
+</UANodeSet>

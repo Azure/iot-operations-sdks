@@ -22,7 +22,7 @@ namespace Azure.Iot.Operations.Services.Test.Unit.StateStore.LeasedLock
 
             var fencingToken = new HybridLogicalClock();
             var expectedPreviousValue = new StateStoreValue("somePreviousValue");
-            StateStoreSetResponse setResponse = new StateStoreSetResponse(fencingToken, true);
+            IStateStoreSetResponse setResponse = new StateStoreSetResponse(fencingToken, true);
 
             mockStateStoreClient.Setup(
                 mock => mock.SetAsync(
@@ -73,7 +73,7 @@ namespace Azure.Iot.Operations.Services.Test.Unit.StateStore.LeasedLock
 
             var fencingToken = new HybridLogicalClock();
             var expectedPreviousValue = new StateStoreValue("somePreviousValue");
-            StateStoreSetResponse setResponse = new StateStoreSetResponse(null!, false);
+            IStateStoreSetResponse setResponse = new StateStoreSetResponse(null!, false);
 
             mockStateStoreClient.Setup(
                 mock => mock.SetAsync(
@@ -122,7 +122,7 @@ namespace Azure.Iot.Operations.Services.Test.Unit.StateStore.LeasedLock
             var leasedLockClient = new LeasedLockClient(mockStateStoreClient.Object, "someLockName", "someValue");
 
             var fencingToken = new HybridLogicalClock();
-            StateStoreSetResponse setResponse = new StateStoreSetResponse(fencingToken, true);
+            IStateStoreSetResponse setResponse = new StateStoreSetResponse(fencingToken, true);
 
             mockStateStoreClient.Setup(
                 mock => mock.SetAsync(
@@ -168,7 +168,7 @@ namespace Azure.Iot.Operations.Services.Test.Unit.StateStore.LeasedLock
 
             var fencingToken = new HybridLogicalClock();
             var expectedPreviousValue = new StateStoreValue("somePreviousValue");
-            StateStoreSetResponse setResponse = new StateStoreSetResponse(null!, false);
+            IStateStoreSetResponse setResponse = new StateStoreSetResponse(null!, false);
 
             mockStateStoreClient.Setup(
                 mock => mock.SetAsync(
@@ -210,7 +210,7 @@ namespace Azure.Iot.Operations.Services.Test.Unit.StateStore.LeasedLock
             var leasedLockClient = new LeasedLockClient(mockStateStoreClient.Object, "someLockName", "someValue");
 
             var expectedValue = new StateStoreValue("SomeCurrentValue");
-            StateStoreGetResponse getResponse = new StateStoreGetResponse(new HybridLogicalClock(), expectedValue);
+            IStateStoreGetResponse getResponse = new StateStoreGetResponse(new HybridLogicalClock(), expectedValue);
 
             mockStateStoreClient.Setup(
                 mock => mock.GetAsync(
@@ -233,7 +233,7 @@ namespace Azure.Iot.Operations.Services.Test.Unit.StateStore.LeasedLock
             using CancellationTokenSource tokenSource = new CancellationTokenSource();
             var leasedLockClient = new LeasedLockClient(mockStateStoreClient.Object, "someLockName", "someValue");
 
-            StateStoreDeleteResponse deleteResponse = new StateStoreDeleteResponse(1);
+            IStateStoreDeleteResponse deleteResponse = new StateStoreDeleteResponse(1);
 
             mockStateStoreClient.Setup(
                 mock => mock.DeleteAsync(
@@ -264,7 +264,7 @@ namespace Azure.Iot.Operations.Services.Test.Unit.StateStore.LeasedLock
             using CancellationTokenSource tokenSource = new CancellationTokenSource();
             var leasedLockClient = new LeasedLockClient(mockStateStoreClient.Object, "someLockName", "someValue");
 
-            StateStoreDeleteResponse deleteResponse = new StateStoreDeleteResponse(0);
+            IStateStoreDeleteResponse deleteResponse = new StateStoreDeleteResponse(0);
 
             mockStateStoreClient.Setup(
                 mock => mock.DeleteAsync(
@@ -295,7 +295,7 @@ namespace Azure.Iot.Operations.Services.Test.Unit.StateStore.LeasedLock
             using CancellationTokenSource tokenSource = new CancellationTokenSource();
             var leasedLockClient = new LeasedLockClient(mockStateStoreClient.Object, "someLockName", "someValue");
 
-            StateStoreDeleteResponse deleteResponse = new StateStoreDeleteResponse(1);
+            IStateStoreDeleteResponse deleteResponse = new StateStoreDeleteResponse(1);
 
             mockStateStoreClient.Setup(
                 mock => mock.DeleteAsync(
@@ -325,7 +325,7 @@ namespace Azure.Iot.Operations.Services.Test.Unit.StateStore.LeasedLock
             using CancellationTokenSource tokenSource = new CancellationTokenSource();
             var leasedLockClient = new LeasedLockClient(mockStateStoreClient.Object, "someLockName", "someValue");
 
-            StateStoreDeleteResponse deleteResponse = new StateStoreDeleteResponse(0);
+            IStateStoreDeleteResponse deleteResponse = new StateStoreDeleteResponse(0);
 
             mockStateStoreClient.Setup(
                 mock => mock.DeleteAsync(

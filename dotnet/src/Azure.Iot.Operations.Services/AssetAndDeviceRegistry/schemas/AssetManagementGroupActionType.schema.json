@@ -1,0 +1,11 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema",
+  "title": "AssetManagementGroupActionType",
+  "type": "string",
+  "description": "Type of the action.",
+  "enum": [
+    "Call",
+    "Read",
+    "Write"
+  ]
+}

@@ -1,0 +1,17 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema",
+  "title": "AnObjectSchema",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [ "alpha", "beta" ],
+  "properties": {
+    "alpha": {
+      "type": "string"
+    },
+    "beta": {
+      "type": "integer",
+      "minimum": -2147483648,
+      "maximum": 2147483647
+    }
+  }
+}

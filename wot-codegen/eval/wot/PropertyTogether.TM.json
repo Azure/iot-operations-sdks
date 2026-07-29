@@ -1,0 +1,185 @@
+{
+  "@context": [
+    "https://www.w3.org/2022/wot/td/v1.1",
+    { "dtv": "http://azure.com/DigitalTwins/dtmi#" }
+  ],
+  "@type": "tm:ThingModel",
+  "title": "PropertyTogether",
+  "links": [
+    {
+      "rel": "dtv:naming",
+      "href": "./PropertyTogether.SchemaNames.json",
+      "type": "application/json"
+    }
+  ],
+  "schemaDefinitions": {
+    "PropertyError": {
+      "description": "The requested property read/write could not be completed.",
+      "type": "object",
+      "dtv:errorMessage": "explanation",
+      "properties": {
+        "explanation": {
+          "type": "string"
+        },
+        "details": {
+          "type": "string"
+        }
+      }
+    },
+    "MultiWriteErrorRef": {
+      "title": "MultiWriteError",
+      "description": "The requested multiple property write could not be completed.",
+      "type": "object",
+      "dtv:errorMessage": "explanation",
+      "properties": {
+        "explanation": {
+          "type": "string"
+        },
+        "attemptedWriteCount": {
+          "type": "integer",
+          "minimum": -2147483648,
+          "maximum": 2147483647
+        },
+        "failedWriteCount": {
+          "type": "integer",
+          "minimum": -2147483648,
+          "maximum": 2147483647
+        }
+      }
+    }
+  },
+  "forms": [
+    {
+      "contentType": "application/json",
+      "additionalResponses": [
+        {
+          "success": false
+        }
+      ],
+      "dtv:topic": "test/PropertyTogether/write",
+      "op": "writemultipleproperties"
+    },
+    {
+      "contentType": "application/json",
+      "additionalResponses": [
+        {
+          "success": false
+        }
+      ],
+      "dtv:topic": "test/PropertyTogether/read",
+      "op": "readallproperties"
+    }
+  ],
+  "properties": {
+    "Alpha": {
+      "type": "integer",
+      "minimum": -2147483648,
+      "maximum": 2147483647,
+      "readOnly": true,
+      "forms": [
+        {
+          "op": "readproperty"
+        }
+      ]
+    },
+    "Beta": {
+      "type": "integer",
+      "minimum": -2147483648,
+      "maximum": 2147483647,
+      "readOnly": false,
+      "forms": [
+        {
+          "op": "writeproperty"
+        },
+        {
+          "op": "readproperty"
+        }
+      ]
+    },
+    "Gamma": {
+      "type": "integer",
+      "minimum": -2147483648,
+      "maximum": 2147483647,
+      "readOnly": true,
+      "forms": [
+        {
+          "additionalResponses": [
+            {
+              "success": false,
+              "schema": "PropertyError"
+            }
+          ],
+          "op": "readproperty"
+        }
+      ]
+    },
+    "Delta": {
+      "type": "integer",
+      "minimum": -2147483648,
+      "maximum": 2147483647,
+      "readOnly": false,
+      "forms": [
+        {
+          "additionalResponses": [
+            {
+              "success": false,
+              "schema": "PropertyError"
+            }
+          ],
+          "op": "writeproperty"
+        },
+        {
+          "additionalResponses": [
+            {
+              "success": false,
+              "schema": "PropertyError"
+            }
+          ],
+          "op": "readproperty"
+        }
+      ]
+    },
+    "Zeta": {
+      "type": "integer",
+      "minimum": -2147483648,
+      "maximum": 2147483647,
+      "readOnly": false,
+      "dtv:placeholder": true,
+      "forms": [
+        {
+          "op": "writeproperty"
+        },
+        {
+          "op": "readproperty"
+        }
+      ]
+    },
+    "Eta": {
+      "type": "integer",
+      "minimum": -2147483648,
+      "maximum": 2147483647,
+      "readOnly": false,
+      "dtv:placeholder": true,
+      "forms": [
+        {
+          "additionalResponses": [
+            {
+              "success": false,
+              "schema": "MultiWriteErrorRef"
+            }
+          ],
+          "op": "writeproperty"
+        },
+        {
+          "additionalResponses": [
+            {
+              "success": false,
+              "schema": "PropertyError"
+            }
+          ],
+          "op": "readproperty"
+        }
+      ]
+    }
+  }
+}

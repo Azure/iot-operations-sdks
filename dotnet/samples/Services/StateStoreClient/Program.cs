@@ -30,7 +30,7 @@ try
         PersistEntry = true
     };
 
-    StateStoreSetResponse setResponse =
+    IStateStoreSetResponse setResponse =
         await stateStoreClient.SetAsync(stateStoreKey, stateStoreValue, setOptions);
 
     if (setResponse.Success)
@@ -42,7 +42,7 @@ try
         Console.WriteLine($"Failed to set key {stateStoreKey} with value {stateStoreValue}");
     }
 
-    StateStoreGetResponse getResponse = await stateStoreClient.GetAsync(stateStoreKey!);
+    IStateStoreGetResponse getResponse = await stateStoreClient.GetAsync(stateStoreKey!);
 
     if (getResponse.Value != null)
     {
@@ -53,7 +53,7 @@ try
         Console.WriteLine($"The key {stateStoreKey} is not currently in the state store");
     }
 
-    StateStoreDeleteResponse deleteResponse = await stateStoreClient.DeleteAsync(stateStoreKey!);
+    IStateStoreDeleteResponse deleteResponse = await stateStoreClient.DeleteAsync(stateStoreKey!);
 
     if (deleteResponse.DeletedItemsCount == 1)
     {
@@ -66,6 +66,7 @@ try
 }
 finally
 {
+    await stateStoreClient.StopAsync();
     await stateStoreClient.DisposeAsync(true);
 }
 Console.WriteLine("The End");

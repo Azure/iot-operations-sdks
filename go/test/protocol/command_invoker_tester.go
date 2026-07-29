@@ -259,10 +259,18 @@ func getCommandInvoker(
 		)
 	} else {
 		if err == nil {
-			_, err = invoker.base.Invoke(context.Background(), *TestCaseDefaultInfo.Actions.InvokeCommand.GetRequestValue())
+			_, err = invoker.base.Invoke(
+				context.Background(),
+				*TestCaseDefaultInfo.Actions.InvokeCommand.GetRequestValue(),
+			)
 		}
 
-		require.Errorf(t, err, "Expected %s error, but no error returned when initializing CommandInvoker", catch.ErrorKind)
+		require.Errorf(
+			t,
+			err,
+			"Expected %s error, but no error returned when initializing CommandInvoker",
+			catch.ErrorKind,
+		)
 		CheckError(t, *catch, err)
 	}
 
@@ -341,7 +349,12 @@ func awaitInvocation(
 			}
 		}
 	} else {
-		require.Errorf(t, extResp.Error, "Expected %s error, but no error returned when awaiting CommandInvoker.Invoke()", actionAwaitInvocation.Catch.ErrorKind)
+		require.Errorf(
+			t,
+			extResp.Error,
+			"Expected %s error, but no error returned when awaiting CommandInvoker.Invoke()",
+			actionAwaitInvocation.Catch.ErrorKind,
+		)
 		CheckError(t, *actionAwaitInvocation.Catch, extResp.Error)
 	}
 }
@@ -370,7 +383,7 @@ func receiveResponse(
 	}
 
 	if actionReceiveResponse.FormatIndicator != nil {
-		payloadFormat := byte(*actionReceiveResponse.FormatIndicator)
+		payloadFormat := *actionReceiveResponse.FormatIndicator
 		props.PayloadFormat = &payloadFormat
 	}
 
@@ -440,7 +453,7 @@ func receiveResponse(
 	}
 
 	if actionReceiveResponse.Qos != nil {
-		response.QoS = byte(*actionReceiveResponse.Qos)
+		response.QoS = *actionReceiveResponse.Qos
 	}
 
 	stubBroker.ReceiveMessage(&response)

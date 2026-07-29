@@ -105,7 +105,7 @@ func SayHelloWithDelay(
 		envoy.HelloResponse{
 			Message: fmt.Sprintf(
 				"Hello %s after %s",
-				req.Payload.HelloRequest.Name,
+				req.Payload.Name,
 				req.Payload.Delay,
 			),
 		},

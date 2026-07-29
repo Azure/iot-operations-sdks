@@ -21,16 +21,16 @@ namespace Azure.Iot.Operations.Connector.UnitTests
             Environment.SetEnvironmentVariable(ConnectorFileMountSettings.ConnectorClientIdEnvVar, "someClientId");
         }
 
-        private class MockAdrClientFactory : IAdrClientWrapperProvider
+        private class MockAdrClientFactory : IAzureDeviceRegistryClientWrapperProvider
         {
-            private readonly IAdrClientWrapper _mockAdrClientWrapper;
+            private readonly IAzureDeviceRegistryClientWrapper _mockAdrClientWrapper;
 
-            public MockAdrClientFactory(IAdrClientWrapper mockAdrClientWrapper)
+            public MockAdrClientFactory(IAzureDeviceRegistryClientWrapper mockAdrClientWrapper)
             {
                 _mockAdrClientWrapper = mockAdrClientWrapper;
             }
 
-            public IAdrClientWrapper CreateAdrClientWrapper(ApplicationContext applicationContext, IMqttPubSubClient mqttPubSubClient)
+            public IAzureDeviceRegistryClientWrapper CreateAdrClientWrapper(ApplicationContext applicationContext, IMqttPubSubClient mqttPubSubClient)
             {
                 return _mockAdrClientWrapper;
             }
@@ -40,7 +40,7 @@ namespace Azure.Iot.Operations.Connector.UnitTests
         public async Task ConnectSingleDeviceSingleAssetSingleDatasetSingleDatapointSingleDestination()
         {
             MockMqttClient mockMqttClient = new MockMqttClient();
-            MockAdrClientWrapper mockAdrClientWrapper = new MockAdrClientWrapper();
+            MockAzureDeviceRegistryClientWrapper mockAdrClientWrapper = new MockAzureDeviceRegistryClientWrapper();
             IDatasetSamplerFactory mockDatasetSamplerFactory = new MockDatasetSamplerFactory();
             IMessageSchemaProvider messageSchemaProviderFactory = new MockMessageSchemaProvider();
             Mock<ILogger<PollingTelemetryConnectorWorker>> mockLogger = new Mock<ILogger<PollingTelemetryConnectorWorker>>();
@@ -87,7 +87,7 @@ namespace Azure.Iot.Operations.Connector.UnitTests
                                 Name = datasetName,
                                 DataPoints = new()
                                 {
-                                    new AssetDatasetDataPointSchemaElement()
+                                    new AssetDatasetDataPoint()
                                     {
                                         Name = "someDataPointName",
                                         DataSource = "someDataPointDataSource"
@@ -124,15 +124,14 @@ namespace Azure.Iot.Operations.Connector.UnitTests
 
             await assetTelemetryForwardedToBrokerTcs.Task.WaitAsync(TimeSpan.FromSeconds(3));
 
-            await worker.StopAsync(CancellationToken.None);
-            worker.Dispose();
+            await worker.StopAndDisposeAsync();
         }
 
         [Fact]
         public async Task ConnectSingleDeviceSingleAssetSingleDatasetSingleDataPointMultipleDestinations()
         {
             MockMqttClient mockMqttClient = new MockMqttClient();
-            MockAdrClientWrapper mockAdrClientWrapper = new MockAdrClientWrapper();
+            MockAzureDeviceRegistryClientWrapper mockAdrClientWrapper = new MockAzureDeviceRegistryClientWrapper();
             IDatasetSamplerFactory mockDatasetSamplerFactory = new MockDatasetSamplerFactory();
             IMessageSchemaProvider messageSchemaProviderFactory = new MockMessageSchemaProvider();
             Mock<ILogger<PollingTelemetryConnectorWorker>> mockLogger = new Mock<ILogger<PollingTelemetryConnectorWorker>>();
@@ -181,7 +180,7 @@ namespace Azure.Iot.Operations.Connector.UnitTests
                                 Name = datasetName,
                                 DataPoints = new()
                                 {
-                                    new AssetDatasetDataPointSchemaElement()
+                                    new AssetDatasetDataPoint()
                                     {
                                         Name = "someDataPointName",
                                         DataSource = "someDataPointDataSource"
@@ -233,15 +232,14 @@ namespace Azure.Iot.Operations.Connector.UnitTests
             await telemetryForwardedToMqttBrokerTcs.Task.WaitAsync(TimeSpan.FromSeconds(3));
             await stateStoreKeyForwardedTcs.Task.WaitAsync(TimeSpan.FromSeconds(3));
 
-            await worker.StopAsync(CancellationToken.None);
-            worker.Dispose();
+            await worker.StopAndDisposeAsync();
         }
 
         [Fact]
         public async Task ConnectSingleDeviceMultipleAssetsSingleDatasetSingleDatapointSingleDestination()
         {
             MockMqttClient mockMqttClient = new MockMqttClient();
-            MockAdrClientWrapper mockAdrClientWrapper = new MockAdrClientWrapper();
+            MockAzureDeviceRegistryClientWrapper mockAdrClientWrapper = new MockAzureDeviceRegistryClientWrapper();
             IDatasetSamplerFactory mockDatasetSamplerFactory = new MockDatasetSamplerFactory();
             IMessageSchemaProvider messageSchemaProviderFactory = new MockMessageSchemaProvider();
             Mock<ILogger<PollingTelemetryConnectorWorker>> mockLogger = new Mock<ILogger<PollingTelemetryConnectorWorker>>();
@@ -292,7 +290,7 @@ namespace Azure.Iot.Operations.Connector.UnitTests
                                 Name = datasetName,
                                 DataPoints = new()
                                 {
-                                    new AssetDatasetDataPointSchemaElement()
+                                    new AssetDatasetDataPoint()
                                     {
                                         Name = "someDataPointName",
                                         DataSource = "someDataPointDataSource"
@@ -339,15 +337,14 @@ namespace Azure.Iot.Operations.Connector.UnitTests
             await asset1TelemetryForwardedToBrokerTcs.Task.WaitAsync(TimeSpan.FromSeconds(3));
             await asset2TelemetryForwardedToBrokerTcs.Task.WaitAsync(TimeSpan.FromSeconds(3));
 
-            await worker.StopAsync(CancellationToken.None);
-            worker.Dispose();
+            await worker.StopAndDisposeAsync();
         }
 
         [Fact]
         public async Task ConnectMultipleDevicesSingleAssetSingleDatasetSingleDatapointSingleDestination()
         {
             MockMqttClient mockMqttClient = new MockMqttClient();
-            MockAdrClientWrapper mockAdrClientWrapper = new MockAdrClientWrapper();
+            MockAzureDeviceRegistryClientWrapper mockAdrClientWrapper = new MockAzureDeviceRegistryClientWrapper();
             IDatasetSamplerFactory mockDatasetSamplerFactory = new MockDatasetSamplerFactory();
             IMessageSchemaProvider messageSchemaProviderFactory = new MockMessageSchemaProvider();
             Mock<ILogger<PollingTelemetryConnectorWorker>> mockLogger = new Mock<ILogger<PollingTelemetryConnectorWorker>>();
@@ -414,7 +411,7 @@ namespace Azure.Iot.Operations.Connector.UnitTests
                                 Name = datasetName,
                                 DataPoints = new()
                                 {
-                                    new AssetDatasetDataPointSchemaElement()
+                                    new AssetDatasetDataPoint()
                                     {
                                         Name = "someDataPointName",
                                         DataSource = "someDataPointDataSource"
@@ -452,7 +449,7 @@ namespace Azure.Iot.Operations.Connector.UnitTests
                                 Name = datasetName,
                                 DataPoints = new()
                                 {
-                                    new AssetDatasetDataPointSchemaElement()
+                                    new AssetDatasetDataPoint()
                                     {
                                         Name = "someDataPointName",
                                         DataSource = "someDataPointDataSource"
@@ -497,15 +494,14 @@ namespace Azure.Iot.Operations.Connector.UnitTests
             await device1AssetTelemetryForwardedToBrokerTcs.Task.WaitAsync(TimeSpan.FromSeconds(3));
             await device2AssetTelemetryForwardedToBrokerTcs.Task.WaitAsync(TimeSpan.FromSeconds(3));
 
-            await worker.StopAsync(CancellationToken.None);
-            worker.Dispose();
+            await worker.StopAndDisposeAsync();
         }
 
         [Fact]
         public async Task DeletedAssetStopsSampling()
         {
             MockMqttClient mockMqttClient = new MockMqttClient();
-            MockAdrClientWrapper mockAdrClientWrapper = new MockAdrClientWrapper();
+            MockAzureDeviceRegistryClientWrapper mockAdrClientWrapper = new MockAzureDeviceRegistryClientWrapper();
             IDatasetSamplerFactory mockDatasetSamplerFactory = new MockDatasetSamplerFactory();
             IMessageSchemaProvider messageSchemaProviderFactory = new MockMessageSchemaProvider();
             Mock<ILogger<PollingTelemetryConnectorWorker>> mockLogger = new Mock<ILogger<PollingTelemetryConnectorWorker>>();
@@ -552,7 +548,7 @@ namespace Azure.Iot.Operations.Connector.UnitTests
                                 Name = datasetName,
                                 DataPoints = new()
                                 {
-                                    new AssetDatasetDataPointSchemaElement()
+                                    new AssetDatasetDataPoint()
                                     {
                                         Name = "someDataPointName",
                                         DataSource = "someDataPointDataSource"
@@ -599,15 +595,14 @@ namespace Azure.Iot.Operations.Connector.UnitTests
 
             await Assert.ThrowsAsync<TimeoutException>(async () => await assetTelemetryForwardedToBrokerTcs.Task.WaitAsync(TimeSpan.FromSeconds(3)));
 
-            await worker.StopAsync(CancellationToken.None);
-            worker.Dispose();
+            await worker.StopAndDisposeAsync();
         }
 
         [Fact]
         public async Task DeletedDeviceStopsSampling()
         {
             MockMqttClient mockMqttClient = new MockMqttClient();
-            MockAdrClientWrapper mockAdrClientWrapper = new MockAdrClientWrapper();
+            MockAzureDeviceRegistryClientWrapper mockAdrClientWrapper = new MockAzureDeviceRegistryClientWrapper();
             IDatasetSamplerFactory mockDatasetSamplerFactory = new MockDatasetSamplerFactory();
             IMessageSchemaProvider messageSchemaProviderFactory = new MockMessageSchemaProvider();
             Mock<ILogger<PollingTelemetryConnectorWorker>> mockLogger = new Mock<ILogger<PollingTelemetryConnectorWorker>>();
@@ -654,7 +649,7 @@ namespace Azure.Iot.Operations.Connector.UnitTests
                                 Name = datasetName,
                                 DataPoints = new()
                                 {
-                                    new AssetDatasetDataPointSchemaElement()
+                                    new AssetDatasetDataPoint()
                                     {
                                         Name = "someDataPointName",
                                         DataSource = "someDataPointDataSource"
@@ -701,15 +696,14 @@ namespace Azure.Iot.Operations.Connector.UnitTests
 
             await Assert.ThrowsAsync<TimeoutException>(async () => await assetTelemetryForwardedToBrokerTcs.Task.WaitAsync(TimeSpan.FromSeconds(3)));
 
-            await worker.StopAsync(CancellationToken.None);
-            worker.Dispose();
+            await worker.StopAndDisposeAsync();
         }
 
         [Fact]
         public async Task UpdatedAssetContinuesSampling()
         {
             MockMqttClient mockMqttClient = new MockMqttClient();
-            MockAdrClientWrapper mockAdrClientWrapper = new MockAdrClientWrapper();
+            MockAzureDeviceRegistryClientWrapper mockAdrClientWrapper = new MockAzureDeviceRegistryClientWrapper();
             IDatasetSamplerFactory mockDatasetSamplerFactory = new MockDatasetSamplerFactory();
             IMessageSchemaProvider messageSchemaProviderFactory = new MockMessageSchemaProvider();
             Mock<ILogger<PollingTelemetryConnectorWorker>> mockLogger = new Mock<ILogger<PollingTelemetryConnectorWorker>>();
@@ -757,7 +751,7 @@ namespace Azure.Iot.Operations.Connector.UnitTests
                                 Name = datasetName,
                                 DataPoints = new()
                                 {
-                                    new AssetDatasetDataPointSchemaElement()
+                                    new AssetDatasetDataPoint()
                                     {
                                         Name = "someDataPointName",
                                         DataSource = "someDataPointDataSource"
@@ -806,8 +800,7 @@ namespace Azure.Iot.Operations.Connector.UnitTests
 
             await asset2TelemetryForwardedToBrokerTcs.Task.WaitAsync(TimeSpan.FromSeconds(3));
 
-            await worker.StopAsync(CancellationToken.None);
-            worker.Dispose();
+            await worker.StopAndDisposeAsync();
         }
 
         [Fact]
@@ -818,7 +811,7 @@ namespace Azure.Iot.Operations.Connector.UnitTests
             IDatasetSamplerFactory mockDatasetSamplerFactory = new MockDatasetSamplerFactory(true);
 
             MockMqttClient mockMqttClient = new MockMqttClient();
-            MockAdrClientWrapper mockAdrClientWrapper = new MockAdrClientWrapper();
+            MockAzureDeviceRegistryClientWrapper mockAdrClientWrapper = new MockAzureDeviceRegistryClientWrapper();
             IMessageSchemaProvider messageSchemaProviderFactory = new MockMessageSchemaProvider();
             Mock<ILogger<PollingTelemetryConnectorWorker>> mockLogger = new Mock<ILogger<PollingTelemetryConnectorWorker>>();
             PollingTelemetryConnectorWorker worker = new PollingTelemetryConnectorWorker(new Protocol.ApplicationContext(), mockLogger.Object, mockMqttClient, mockDatasetSamplerFactory, messageSchemaProviderFactory, new MockAdrClientFactory(mockAdrClientWrapper));
@@ -864,7 +857,7 @@ namespace Azure.Iot.Operations.Connector.UnitTests
                                 Name = datasetName,
                                 DataPoints = new()
                                 {
-                                    new AssetDatasetDataPointSchemaElement()
+                                    new AssetDatasetDataPoint()
                                     {
                                         Name = "someDataPointName",
                                         DataSource = "someDataPointDataSource"
@@ -901,15 +894,14 @@ namespace Azure.Iot.Operations.Connector.UnitTests
 
             await assetTelemetryForwardedToBrokerTcs.Task.WaitAsync(TimeSpan.FromSeconds(3));
 
-            await worker.StopAsync(CancellationToken.None);
-            worker.Dispose();
+            await worker.StopAndDisposeAsync();
         }
 
         [Fact]
         public async Task DeletingSingleAssetDoesNotStopSamplingOfOtherAsset()
         {
             MockMqttClient mockMqttClient = new MockMqttClient();
-            MockAdrClientWrapper mockAdrClientWrapper = new MockAdrClientWrapper();
+            MockAzureDeviceRegistryClientWrapper mockAdrClientWrapper = new MockAzureDeviceRegistryClientWrapper();
             IDatasetSamplerFactory mockDatasetSamplerFactory = new MockDatasetSamplerFactory();
             IMessageSchemaProvider messageSchemaProviderFactory = new MockMessageSchemaProvider();
             Mock<ILogger<PollingTelemetryConnectorWorker>> mockLogger = new Mock<ILogger<PollingTelemetryConnectorWorker>>();
@@ -958,7 +950,7 @@ namespace Azure.Iot.Operations.Connector.UnitTests
                                 Name = datasetName,
                                 DataPoints = new()
                                 {
-                                    new AssetDatasetDataPointSchemaElement()
+                                    new AssetDatasetDataPoint()
                                     {
                                         Name = "someDataPointName",
                                         DataSource = "someDataPointDataSource"
@@ -996,7 +988,7 @@ namespace Azure.Iot.Operations.Connector.UnitTests
                                 Name = datasetName,
                                 DataPoints = new()
                                 {
-                                    new AssetDatasetDataPointSchemaElement()
+                                    new AssetDatasetDataPoint()
                                     {
                                         Name = "someDataPointName",
                                         DataSource = "someDataPointDataSource"
@@ -1051,15 +1043,14 @@ namespace Azure.Iot.Operations.Connector.UnitTests
             // asset 2 telemetry should still be flowing since the deleted asset was asset 1
             await asset2TelemetryForwardedToBrokerTcs.Task.WaitAsync(TimeSpan.FromSeconds(3));
 
-            await worker.StopAsync(CancellationToken.None);
-            worker.Dispose();
+            await worker.StopAndDisposeAsync();
         }
 
         [Fact]
         public async Task UnrelatedAssetDoesNotCrashConnector()
         {
             MockMqttClient mockMqttClient = new MockMqttClient();
-            MockAdrClientWrapper mockAdrClientWrapper = new MockAdrClientWrapper();
+            MockAzureDeviceRegistryClientWrapper mockAdrClientWrapper = new MockAzureDeviceRegistryClientWrapper();
             IDatasetSamplerFactory mockDatasetSamplerFactory = new MockDatasetSamplerFactory();
             IMessageSchemaProvider messageSchemaProviderFactory = new MockMessageSchemaProvider();
             Mock<ILogger<PollingTelemetryConnectorWorker>> mockLogger = new Mock<ILogger<PollingTelemetryConnectorWorker>>();
@@ -1087,7 +1078,7 @@ namespace Azure.Iot.Operations.Connector.UnitTests
                                 Name = datasetName,
                                 DataPoints = new()
                                 {
-                                    new AssetDatasetDataPointSchemaElement()
+                                    new AssetDatasetDataPoint()
                                     {
                                         Name = "someDataPointName",
                                         DataSource = "someDataPointDataSource"
@@ -1147,7 +1138,7 @@ namespace Azure.Iot.Operations.Connector.UnitTests
                                 Name = datasetName,
                                 DataPoints = new()
                                 {
-                                    new AssetDatasetDataPointSchemaElement()
+                                    new AssetDatasetDataPoint()
                                     {
                                         Name = "someDataPointName",
                                         DataSource = "someDataPointDataSource"
@@ -1184,8 +1175,7 @@ namespace Azure.Iot.Operations.Connector.UnitTests
 
             await assetTelemetryForwardedToBrokerTcs.Task.WaitAsync(TimeSpan.FromSeconds(3));
 
-            await worker.StopAsync(CancellationToken.None);
-            worker.Dispose();
+            await worker.StopAndDisposeAsync();
         }
 
         // User-provided callbacks may still be running after the connector worker cancels them. We need to check that the connector
@@ -1194,7 +1184,7 @@ namespace Azure.Iot.Operations.Connector.UnitTests
         public async Task ConnectorWaitsForUserCallbacksToComplete()
         {
             MockMqttClient mockMqttClient = new MockMqttClient();
-            MockAdrClientWrapper mockAdrClientWrapper = new MockAdrClientWrapper();
+            MockAzureDeviceRegistryClientWrapper mockAdrClientWrapper = new MockAzureDeviceRegistryClientWrapper();
             IDatasetSamplerFactory mockDatasetSamplerFactory = new MockDatasetSamplerFactory();
             IMessageSchemaProvider messageSchemaProviderFactory = new MockMessageSchemaProvider();
             Mock<ILogger<ConnectorWorker>> mockLogger = new Mock<ILogger<ConnectorWorker>>();
@@ -1289,7 +1279,7 @@ namespace Azure.Iot.Operations.Connector.UnitTests
                                 Name = datasetName,
                                 DataPoints = new()
                                 {
-                                    new AssetDatasetDataPointSchemaElement()
+                                    new AssetDatasetDataPoint()
                                     {
                                         Name = "someDataPointName",
                                         DataSource = "someDataPointDataSource"
@@ -1333,12 +1323,186 @@ namespace Azure.Iot.Operations.Connector.UnitTests
                 Assert.Fail("Timed out waiting for the \"WhileAssetIsAvailable\" callback to start");
             }
 
-            await worker.StopAsync(CancellationToken.None);
+            using CancellationTokenSource cts = new(TimeSpan.FromSeconds(30));
+            try
+            {
+                await worker.StopAsync(cts.Token);
+
+                // The user callbacks should each trigger the provided cancellation token and should end gracefully
+                try
+                {
+                    await cancellationTokenTriggeredInDeviceCallback.Task.WaitAsync(TimeSpan.FromSeconds(5));
+                    await cancellationTokenTriggeredInAssetCallback.Task.WaitAsync(TimeSpan.FromSeconds(5));
+                }
+                catch (TimeoutException)
+                {
+                    Assert.Fail("User-supplied callbacks did not get canceled as expected");
+                }
+
+                try
+                {
+                    await deviceCallbackEndedGracefully.Task.WaitAsync(TimeSpan.FromSeconds(5));
+                    await assetCallbackEndedGracefully.Task.WaitAsync(TimeSpan.FromSeconds(5));
+                }
+                catch (TimeoutException)
+                {
+                    Assert.Fail("User-supplied callbacks were cancelled as expected but weren't awaited");
+                }
+            }
+            finally
+            {
+                worker.Dispose();
+            }
+        }
+
+        [Fact]
+        public async Task ConnectorCancelsPreviousCallbacksWhenAssetIsUpdated()
+        {
+            MockMqttClient mockMqttClient = new MockMqttClient();
+            MockAzureDeviceRegistryClientWrapper mockAdrClientWrapper = new MockAzureDeviceRegistryClientWrapper();
+            IDatasetSamplerFactory mockDatasetSamplerFactory = new MockDatasetSamplerFactory();
+            IMessageSchemaProvider messageSchemaProviderFactory = new MockMessageSchemaProvider();
+            Mock<ILogger<ConnectorWorker>> mockLogger = new Mock<ILogger<ConnectorWorker>>();
+
+            // This test deliberately uses the base class ConnectorWorker so that it can check when the device/asset callbacks execute which can't be done with the PollingTelemetryConnectorWorker
+            ConnectorWorker worker = new ConnectorWorker(new Protocol.ApplicationContext(), mockLogger.Object, mockMqttClient, messageSchemaProviderFactory, new MockAdrClientFactory(mockAdrClientWrapper));
+
+            TaskCompletionSource deviceCallbackStarted = new();
+            TaskCompletionSource assetCallbackStarted = new();
+            TaskCompletionSource cancellationTokenTriggeredInDeviceCallback = new();
+            TaskCompletionSource cancellationTokenTriggeredInAssetCallback = new();
+            TaskCompletionSource deviceCallbackEndedGracefully = new();
+            TaskCompletionSource assetCallbackEndedGracefully = new();
+
+            worker.WhileDeviceIsAvailable += async (args, cancellationToken) =>
+            {
+                deviceCallbackStarted.TrySetResult();
+                try
+                {
+                    // cancellation token should trigger almost immediately
+                    await Task.Delay(TimeSpan.FromHours(24), cancellationToken);
+                }
+                catch (OperationCanceledException)
+                {
+                    // expected exception
+                    cancellationTokenTriggeredInDeviceCallback.TrySetResult();
+                }
+
+                // simulate the device task running longer than expected after cancellation
+                await Task.Delay(TimeSpan.FromSeconds(1));
+                deviceCallbackEndedGracefully.TrySetResult();
+            };
+
+            worker.WhileAssetIsAvailable += async (args, cancellationToken) =>
+            {
+                assetCallbackStarted.TrySetResult();
+                try
+                {
+                    // cancellation token should trigger almost immediately
+                    await Task.Delay(TimeSpan.FromHours(24), cancellationToken);
+                }
+                catch (OperationCanceledException)
+                {
+                    // expected exception
+                    cancellationTokenTriggeredInAssetCallback.TrySetResult();
+                }
+
+                assetCallbackEndedGracefully.TrySetResult();
+            };
+
+            Task workerTask = worker.StartAsync(CancellationToken.None);
+
+            string deviceName = Guid.NewGuid().ToString();
+            string inboundEndpointName = Guid.NewGuid().ToString();
+            string assetName = Guid.NewGuid().ToString();
+            string datasetName = Guid.NewGuid().ToString();
+
+            var device = new Device()
+            {
+                Endpoints = new()
+                {
+                    Inbound = new()
+                        {
+                            {
+                                inboundEndpointName,
+                                new()
+                                {
+                                    Address = "someEndpointAddress",
+                                }
+                            }
+                        }
+                }
+            };
+
+            mockAdrClientWrapper.SimulateDeviceChanged(new(deviceName, inboundEndpointName, ChangeType.Created, device));
+
+            string expectedMqttTopic = "some/asset/telemetry/topic";
+            var asset = new Asset()
+            {
+                DeviceRef = new()
+                {
+                    DeviceName = deviceName,
+                    EndpointName = inboundEndpointName,
+                },
+                Datasets = new()
+                    {
+                        {
+                            new AssetDataset()
+                            {
+                                Name = datasetName,
+                                DataPoints = new()
+                                {
+                                    new AssetDatasetDataPoint()
+                                    {
+                                        Name = "someDataPointName",
+                                        DataSource = "someDataPointDataSource"
+                                    }
+                                },
+                                Destinations = new()
+                                {
+                                    new DatasetDestination()
+                                    {
+                                        Target = DatasetTarget.Mqtt,
+                                        Configuration = new()
+                                        {
+                                            Topic = expectedMqttTopic,
+                                            Qos = QoS.Qos1
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+            };
+
+            mockAdrClientWrapper.SimulateAssetChanged(new(deviceName, inboundEndpointName, assetName, ChangeType.Created, asset));
+
+            // Wait until both the device and asset callbacks have started
+            try
+            {
+                await deviceCallbackStarted.Task.WaitAsync(TimeSpan.FromSeconds(5));
+            }
+            catch (TimeoutException)
+            {
+                Assert.Fail("Timed out waiting for the \"WhileDeviceIsAvailable\" callback to start");
+            }
+
+            try
+            {
+                await assetCallbackStarted.Task.WaitAsync(TimeSpan.FromSeconds(5));
+            }
+            catch (TimeoutException)
+            {
+                Assert.Fail("Timed out waiting for the \"WhileAssetIsAvailable\" callback to start");
+            }
+
+            // Simulate the asset getting updated to check if the previous asset-related callbacks are cancelled and started anew
+            asset.Datasets[0].Name = "some new dataset name";
+            mockAdrClientWrapper.SimulateAssetChanged(new(deviceName, inboundEndpointName, assetName, ChangeType.Updated, asset));
 
             // The user callbacks should each trigger the provided cancellation token and should end gracefully
             try
             {
-                await cancellationTokenTriggeredInDeviceCallback.Task.WaitAsync(TimeSpan.FromSeconds(5));
                 await cancellationTokenTriggeredInAssetCallback.Task.WaitAsync(TimeSpan.FromSeconds(5));
             }
             catch (TimeoutException)
@@ -1348,7 +1512,6 @@ namespace Azure.Iot.Operations.Connector.UnitTests
 
             try
             {
-                await deviceCallbackEndedGracefully.Task.WaitAsync(TimeSpan.FromSeconds(5));
                 await assetCallbackEndedGracefully.Task.WaitAsync(TimeSpan.FromSeconds(5));
             }
             catch (TimeoutException)
@@ -1356,7 +1519,8 @@ namespace Azure.Iot.Operations.Connector.UnitTests
                 Assert.Fail("User-supplied callbacks were cancelled as expected but weren't awaited");
             }
 
-            worker.Dispose();
+            await worker.StopAndDisposeAsync();
         }
+
     }
 }

@@ -1,0 +1,7 @@
+{
+  "success": true,
+  "commandLine": {
+    "things": [ "valid/RootFormWriteMultiIncludeInheritedWritableProperty.TM.json", "valid/PropertyWithUnitDataSchemaNumber.TM.json" ],
+    "lang": "none"
+  }
+}

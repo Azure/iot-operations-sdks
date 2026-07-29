@@ -111,7 +111,7 @@ func TestIterateRandomRemoval(t *testing.T) {
 
 	for _, tc := range testCases {
 		list := internal.NewAppendableListWithRemoval[int]()
-		var removalFuncs []func()
+		removalFuncs := make([]func(), 0, 10)
 
 		// append integers in the range [0, 10)
 		for i := range 10 {

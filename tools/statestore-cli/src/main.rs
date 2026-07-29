@@ -8,16 +8,15 @@ use std::time::Duration;
 use clap::{Parser, Subcommand};
 use env_logger::Builder;
 
+use azure_iot_operations_mqtt::aio::connection_settings::MqttConnectionSettingsBuilder;
 use azure_iot_operations_mqtt::session::{
-    Session, SessionConnectionMonitor, SessionExitHandle, SessionManagedClient,
-    SessionOptionsBuilder,
+    Session, SessionExitHandle, SessionManagedClient, SessionMonitor, SessionOptionsBuilder,
 };
-use azure_iot_operations_mqtt::MqttConnectionSettingsBuilder;
 use azure_iot_operations_protocol::application::{ApplicationContext, ApplicationContextBuilder};
 use azure_iot_operations_services::state_store::{self, SetOptions};
 
 const TOOL_NAME: &str = "statestore-cli";
-const TOOL_VERSION: &str = "0.0.1";
+const TOOL_VERSION: &str = "0.1.0";
 const TOOL_ABOUT_SHORT: &str = "Azure Device State Store CLI";
 const TOOL_ABOUT_LONG: &str = "Allows managing key/value pairs in the Azure State Store.";
 
@@ -106,7 +105,7 @@ async fn main() {
 
     // Create a session
     let connection_settings = MqttConnectionSettingsBuilder::default()
-        .client_id(format!("{}-{}", TOOL_NAME, TOOL_VERSION))
+        .client_id(format!("{TOOL_NAME}-{TOOL_VERSION}"))
         .hostname(args.hostname)
         .tcp_port(args.port)
         .keep_alive(Duration::from_secs(5))
@@ -130,7 +129,7 @@ async fn main() {
             let get_join_handle = tokio::task::spawn(state_store_get_value(
                 application_context.clone(),
                 session.create_managed_client(),
-                session.create_connection_monitor(),
+                session.create_session_monitor(),
                 session.create_exit_handle(),
                 key,
                 valuefile,
@@ -153,7 +152,7 @@ async fn main() {
             let set_join_handle = tokio::task::spawn(state_store_set_value(
                 application_context.clone(),
                 session.create_managed_client(),
-                session.create_connection_monitor(),
+                session.create_session_monitor(),
                 session.create_exit_handle(),
                 key,
                 actual_value,
@@ -167,7 +166,7 @@ async fn main() {
             let delete_join_handle = tokio::task::spawn(state_store_delete_key(
                 application_context.clone(),
                 session.create_managed_client(),
-                session.create_connection_monitor(),
+                session.create_session_monitor(),
                 session.create_exit_handle(),
                 key,
             ));
@@ -184,12 +183,11 @@ async fn main() {
 async fn state_store_get_value(
     context: ApplicationContext,
     client: SessionManagedClient,
-    connection_monitor: SessionConnectionMonitor,
+    connection_monitor: SessionMonitor,
     exit_handle: SessionExitHandle,
     key: String,
     valuefile: Option<String>,
 ) -> i32 {
-    let result;
     let state_store_key = key.as_bytes();
     let timeout = Duration::from_secs(10);
 
@@ -208,25 +206,22 @@ async fn state_store_get_value(
         .await
         .unwrap();
 
-    match get_response.response {
+    let result = match get_response.response {
         Some(response_body) => {
-            if valuefile.is_none() {
-                println!("{}", String::from_utf8(response_body).unwrap());
+            if let Some(vf) = valuefile {
+                fs::write(vf, response_body).expect("Could not open/write to file.");
             } else {
-                fs::write(valuefile.unwrap(), response_body)
-                    .expect("Could not open/write to file.");
+                println!("{}", String::from_utf8(response_body).unwrap());
             }
-            result = 0;
+            0
         }
-        None => {
-            result = 1;
-        }
+        None => 1,
     };
 
-    match exit_handle.try_exit().await {
+    match exit_handle.try_exit() {
         Ok(_exit_result) => {}
         Err(_exit_error) => {}
-    };
+    }
 
     result
 }
@@ -234,12 +229,11 @@ async fn state_store_get_value(
 async fn state_store_set_value(
     context: ApplicationContext,
     client: SessionManagedClient,
-    connection_monitor: SessionConnectionMonitor,
+    connection_monitor: SessionMonitor,
     exit_handle: SessionExitHandle,
     key: String,
     value: String,
 ) -> i32 {
-    let result;
     let state_store_key = key.as_bytes();
     let state_store_value = value.as_bytes();
     let timeout = Duration::from_secs(10);
@@ -268,15 +262,13 @@ async fn state_store_set_value(
         .await
         .unwrap();
 
-    result = match set_response.response {
-        true => 0,
-        false => 1,
-    };
+    // i32::from does false -> 0 and true -> 1, but we want to return 0 on success and 1 on failure, so we check if the response is false rather than true.
+    let result = i32::from(!set_response.response);
 
-    match exit_handle.try_exit().await {
+    match exit_handle.try_exit() {
         Ok(_exit_result) => {}
         Err(_exit_error) => {}
-    };
+    }
 
     result
 }
@@ -284,11 +276,10 @@ async fn state_store_set_value(
 async fn state_store_delete_key(
     context: ApplicationContext,
     client: SessionManagedClient,
-    connection_monitor: SessionConnectionMonitor,
+    connection_monitor: SessionMonitor,
     exit_handle: SessionExitHandle,
     key: String,
 ) -> i32 {
-    let result;
     let state_store_key = key.as_bytes();
     let timeout = Duration::from_secs(10);
 
@@ -307,12 +298,13 @@ async fn state_store_delete_key(
         .await
         .unwrap();
 
-    result = if delete_response.response == 1 { 0 } else { 1 };
+    // i32::from does false -> 0 and true -> 1, but we want to return 0 on success and 1 on failure, so we are evaluating a boolean where the failure case evaluates to true.
+    let result = i32::from(delete_response.response != 1);
 
-    match exit_handle.try_exit().await {
+    match exit_handle.try_exit() {
         Ok(_exit_result) => {}
         Err(_exit_error) => {}
-    };
+    }
 
     result
 }

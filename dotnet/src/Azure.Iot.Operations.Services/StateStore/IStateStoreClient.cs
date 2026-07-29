@@ -23,7 +23,7 @@ namespace Azure.Iot.Operations.Services.StateStore
         /// <param name="requestTimeout">The optional timeout for this request.</param>
         /// <param name="cancellationToken">Cancellation token.</param>
         /// <returns>The service response containing the current value of the key in the State Store.</returns>
-        Task<StateStoreGetResponse> GetAsync(StateStoreKey key, TimeSpan? requestTimeout = null, CancellationToken cancellationToken = default);
+        Task<IStateStoreGetResponse> GetAsync(StateStoreKey key, TimeSpan? requestTimeout = null, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Set the value of a key in the State Store.
@@ -34,7 +34,7 @@ namespace Azure.Iot.Operations.Services.StateStore
         /// <param name="requestTimeout">The optional timeout for this request.</param>
         /// <param name="cancellationToken">Cancellation token.</param>
         /// <returns>The service response detailing if the operation succeeded and (optionally) the previous value of this key.</returns>
-        Task<StateStoreSetResponse> SetAsync(StateStoreKey key, StateStoreValue value, StateStoreSetRequestOptions? options = null, TimeSpan? requestTimeout = null, CancellationToken cancellationToken = default);
+        Task<IStateStoreSetResponse> SetAsync(StateStoreKey key, StateStoreValue value, StateStoreSetRequestOptions? options = null, TimeSpan? requestTimeout = null, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Delete the provided key from the State Store.
@@ -44,7 +44,7 @@ namespace Azure.Iot.Operations.Services.StateStore
         /// <param name="requestTimeout">The request timeout.</param>
         /// <param name="cancellationToken">Cancellation token.</param>
         /// <returns>The details of the service response.</returns>
-        Task<StateStoreDeleteResponse> DeleteAsync(StateStoreKey key, StateStoreDeleteRequestOptions? options = null, TimeSpan? requestTimeout = null, CancellationToken cancellationToken = default);
+        Task<IStateStoreDeleteResponse> DeleteAsync(StateStoreKey key, StateStoreDeleteRequestOptions? options = null, TimeSpan? requestTimeout = null, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Begin receiving events each time the provided key is updated, deleted, or created. Events will be delivered
@@ -69,6 +69,28 @@ namespace Azure.Iot.Operations.Services.StateStore
         /// </remarks>
         Task UnobserveAsync(StateStoreKey key, TimeSpan? requestTimeout = null, CancellationToken cancellationToken = default);
 
+        /// <summary>
+        /// Make this client unsubscribe from any topics that it subscribed to.
+        /// </summary>
+        Task StopAsync(CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// Asynchronously dispose of this client and optionally dispose the underlying MQTT client
+        /// </summary>
+        /// <param name="disposing">If true, this client will also dispose the underlying MQTT client.</param>
+        /// <param name="cancellationToken">Cancellation token</param>
+        ValueTask DisposeAsync(bool disposing, CancellationToken cancellationToken);
+
+        /// <summary>
+        /// Asynchronously dispose of this client and optionally dispose the underlying MQTT client
+        /// </summary>
+        /// <param name="disposing">If true, this client will also dispose the underlying MQTT client.</param>
         ValueTask DisposeAsync(bool disposing);
+
+        /// <summary>
+        /// Asynchronously dispose this object, but not the underlying mqtt client.
+        /// </summary>
+        /// <param name="cancellationToken">Cancellation token</param>
+        ValueTask DisposeAsync(CancellationToken cancellationToken);
     }
 }

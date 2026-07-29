@@ -1,0 +1,16 @@
+{
+  "success": false,
+  "commandLine": {
+    "things": [ "invalidAioBinding/SchemaDefinitionObjectConstPropertyNumberBelowMin.TM.json" ],
+    "lang": "none"
+  },
+  "errors": [
+    {
+      "condition": "ValuesInconsistent",
+      "filename": "SchemaDefinitionObjectConstPropertyNumberBelowMin.TM.json",
+      "line": 18,
+      "cfLine": 14,
+      "crossRef": ""
+    }
+  ]
+}
