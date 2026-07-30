@@ -28,7 +28,7 @@ stateDiagram-v2
     }
 
     BothClosed --> Completed
-    Active --> Canceled: peer cancel or confirmed local cancel
+    Active --> Canceled: Canceled status sent or received
     Active --> TimedOut: exchange timeout
     Active --> Failed: local failure
 
@@ -186,9 +186,13 @@ matched to the tombstone, acknowledged, and ignored.
 
 ## 5. Invoker-Initiated Cancellation
 
-The cancellation request travels on the **command topic** and retains `$partition`; the `Canceled`
-status travels on the **response topic**. A lost `Canceled` is recovered by re-issuing the cancellation
-(a fresh index) and re-answering from terminal tombstone state.
+Cancellation is carried by a **`Canceled` status message** (`__stream=s:0`, `__stat=499`) — the
+initiating cancel and its confirmation are the *same* message, so a received `Canceled` always means
+the exchange is over. The invoker's travels on the **command topic** and therefore keeps `$partition`
+and the remaining timeout (`s:0:T`); the executor's answer travels on the **response topic**. The
+status index is `0` and carries no meaning here, since cancellation is exchange-scoped rather than
+about a received entry. A lost answer is recovered by re-issuing the cancellation — it is idempotent —
+and re-answering from terminal tombstone state.
 
 ```mermaid
 sequenceDiagram
@@ -203,20 +207,21 @@ sequenceDiagram
     B->>ES: request[0]
     ES->>EA: Deliver request[0]
     IA->>IS: Cancel
-    IS->>B: cancel<br/>__stream=c:1:cancel:T, $partition=P
-    B->>ES: cancel request
+    IS->>B: Canceled<br/>__stream=s:0:T, __stat=499, command topic, $partition=P
+    Note over IS: Local exchange becomes Canceled<br/>in-flight responses still reach the app<br/>until the peer's Canceled arrives
+    B->>ES: Canceled
     ES->>EA: Stop callback
     Note over ES: Local exchange becomes Canceled
-    ES->>B: Canceled<br/>__stream=s:1, __stat=499, response topic
+    ES->>B: Canceled<br/>__stream=s:0, __stat=499, response topic
 
     alt Canceled is delivered
         B->>IS: Canceled
     else Canceled expires at the broker
         Note over B: Canceled dropped before delivery
-        IS->>B: re-issue cancel<br/>__stream=c:2:cancel:T, $partition=P
-        B->>ES: cancel (re-issued)
+        IS->>B: re-issue Canceled<br/>__stream=s:0:T, __stat=499, $partition=P
+        B->>ES: Canceled (re-issued)
         Note over ES: Canceled tombstone re-answers
-        ES->>B: resend Canceled<br/>__stream=s:2, __stat=499
+        ES->>B: resend Canceled<br/>__stream=s:0, __stat=499
         B->>IS: Canceled
     end
 
@@ -226,9 +231,10 @@ sequenceDiagram
 
 ## 6. Executor-Initiated Cancellation
 
-This example starts after the executor has closed its response stream. The **response topic** still
-carries the cancellation request, and the **command topic** still carries the invoker's `Canceled`
-acknowledgement — control still flows after `last`.
+This example starts after the executor has closed its response stream. The executor's `Canceled`
+status travels on the **response topic** (no timeout field), and the invoker's answering `Canceled` —
+the same message form — travels on the **command topic** with `$partition` and the remaining timeout:
+control still flows after `last`.
 
 ```mermaid
 sequenceDiagram
@@ -245,20 +251,21 @@ sequenceDiagram
     B->>IS: last response
     Note over IS,ES: Response stream closed<br/>control still flows
     EA->>ES: Cancel
-    ES->>B: cancel<br/>__stream=c:1:cancel, response topic
-    B->>IS: cancel request
+    ES->>B: Canceled<br/>__stream=s:0, __stat=499, response topic
+    Note over ES: Local exchange becomes Canceled<br/>in-flight requests still reach the app<br/>until the peer's Canceled arrives
+    B->>IS: Canceled
     IS->>IA: Signal cancellation
     Note over IS: Stop request production<br/>local exchange becomes Canceled
-    IS->>B: Canceled<br/>__stream=s:1:T, __stat=499, command topic, $partition=P
+    IS->>B: Canceled<br/>__stream=s:0:T, __stat=499, command topic, $partition=P
 
     alt Canceled is delivered
         B->>ES: Canceled
     else Canceled expires at the broker
         Note over B: Canceled dropped before delivery
-        ES->>B: re-issue cancel<br/>__stream=c:2:cancel, response topic
-        B->>IS: cancel (re-issued)
+        ES->>B: re-issue Canceled<br/>__stream=s:0, __stat=499, response topic
+        B->>IS: Canceled (re-issued)
         Note over IS: Canceled tombstone re-answers
-        IS->>B: resend Canceled<br/>__stream=s:2:T, $partition=P
+        IS->>B: resend Canceled<br/>__stream=s:0:T, __stat=499, $partition=P
         B->>ES: Canceled
     end
 
@@ -326,12 +333,12 @@ sequenceDiagram
     ES->>EA: Deliver request[0]
     Note over IA,IS: Producing request[1] throws in the request pump
     Note over IS: Stop request publication<br/>local exchange faults with the error
-    Note over IS: No status for a fatal failure<br/>terminate the peer via best-effort cancellation
-    IS->>B: cancel<br/>__stream=c:1:cancel:T, $partition=P
-    B->>ES: cancel request
+    Note over IS: No status of its own for a fatal failure<br/>terminate the peer via best-effort cancellation
+    IS->>B: Canceled<br/>__stream=s:0:T, __stat=499, command topic, $partition=P
+    B->>ES: Canceled
     ES->>EA: Stop callback
     Note over ES: Local exchange becomes Canceled
-    ES->>B: Canceled<br/>__stream=s:1, __stat=499, response topic
+    ES->>B: Canceled<br/>__stream=s:0, __stat=499, response topic
     B->>IS: Canceled
     IS-->>IA: Exchange faulted with the request-pump error
     Note over IS,ES: Cancellation is best-effort<br/>the invoker faulted locally regardless of the ack
@@ -351,21 +358,19 @@ flowchart TD
     P["Incoming MQTT PUBLISH"] --> S{"__stream present?"}
     S -- "No" --> O["Route to another protocol handler"]
     S -- "Yes" --> T{"Exchange already terminal?"}
-    T -- "Yes" --> RC{"Re-issued cancel and<br/>state is Canceled?"}
+    T -- "Yes" --> RC{"Canceled 499 received and<br/>state is Canceled?"}
     RC -- "Yes" --> RA["Re-send Canceled"]
     RC -- "No" --> AI["Acknowledge and ignore"]
     T -- "No" --> TAG{"__stream tag"}
-    TAG -- "c : cancel" --> PC["Notify application<br/>send Canceled, enter Canceled"]
     TAG -- "c : last" --> HC["Close this data stream"]
     HC --> BC{"Both streams closed?"}
     BC -- "Yes" --> CO["Enter Completed"]
     BC -- "No" --> AC["Remain active<br/>control still flows"]
     TAG -- "s status" --> ST{"__stat code"}
-    ST -- "Canceled 499" --> CAN["Enter Canceled"]
+    ST -- "Canceled 499" --> CAN["Notify application<br/>send Canceled, stop production<br/>enter Canceled"]
     ST -- "4xx or 5xx" --> PE["Protocol error<br/>surface to app, end the exchange"]
     TAG -- "d data" --> D["Deduplicate by correlation, index, and timestamp<br/>deliver data entry"]
-    PC --> TS["Retain terminal tombstone"]
-    CAN --> TS
+    CAN --> TS["Retain terminal tombstone"]
     CO --> TS
     PE --> TS
 ```
@@ -373,27 +378,28 @@ flowchart TD
 ## 10. `__stream` Property Anatomy
 
 Every streaming PUBLISH carries a `__stream` user property whose value takes one of **three tagged
-forms**, chosen by a leading tag: **data** (`d`) for a stream entry, **control** (`c`) for a
-`last`/`cancel` signal, and **status** (`s`) for an outcome reported about a received message (details
-in the companion `__stat`). Because the form is tagged, a value only ever carries the fields that apply
-to it. Data and control messages share a single per-producer index counter; a status message's index
-instead names the **received** (peer's) message it reports on. The optional trailing timeout — the
-invoker's remaining exchange budget in whole seconds — appears **only on request-direction messages**
-(invoker → executor) and is omitted on the response direction, since the invoker sets it and cannot be
-recovered mid-stream. See [the ADR](0025-rpc-streaming.md#streaming-user-property) for the authoritative
-grammar.
+forms**, chosen by a leading tag: **data** (`d`) for a stream entry, **control** (`c`) whose only
+command word is `last`, and **status** (`s`) for an outcome — either an error about a received message
+or cancellation of the whole exchange — with the details in the companion `__stat`. Because the form is
+tagged, a value only ever carries the fields that apply to it. Data and control messages share a single
+per-producer index counter; a status message's index instead names the **received** (peer's) message it
+reports on, and is `0` and meaningless for cancellation, which is exchange-scoped. The optional trailing
+timeout — the invoker's remaining exchange budget in whole seconds — appears **only on request-direction
+messages** (invoker → executor) and is omitted on the response direction, since the invoker sets it and
+cannot be recovered mid-stream. See [the ADR](0025-rpc-streaming.md#streaming-user-property) for the
+authoritative grammar.
 
 ```mermaid
 flowchart TD
     V["__stream value"] --> TAG{"leading tag"}
 
     TAG -->|d| D["Data form<br/>d : index [ : timeout ]"]
-    TAG -->|c| C["Control form<br/>c : index : cancel/last [ : timeout ]"]
+    TAG -->|c| C["Control form<br/>c : index : last [ : timeout ]"]
     TAG -->|s| S["Status form<br/>s : index [ : timeout ]"]
 
     D --> DN["index = position in the producer stream<br/>data and control share one counter"]
-    C --> CN["index = position in the producer stream, same counter<br/>command = cancel or last"]
-    S --> SN["index = the received peer message this reports on<br/>outcome details carried in __stat"]
+    C --> CN["index = position in the producer stream, same counter<br/>last is the only command word"]
+    S --> SN["index = the received peer message this reports on<br/>0 and meaningless for exchange cancellation<br/>outcome details carried in __stat"]
 
     DN --> TN["optional timeout = exchange time remaining in seconds<br/>present on request-direction messages only, invoker to executor<br/>omitted on response-direction messages, executor to invoker"]
     CN --> TN
@@ -401,8 +407,9 @@ flowchart TD
 ```
 
 Concrete values — **request direction** (invoker → executor), timeout `T` present: `d:0:T` (data entry
-0), `c:2:cancel:T` (cancel at producer index 2), `s:1:T` (status about received response 1).
-**Response direction** (executor → invoker), timeout omitted: `d:0`, `c:7:last`, `s:3`.
+0), `c:2:last:T` (the request stream's final message at producer index 2), `s:1:T` (an error status
+about received response 1), `s:0:T` with `__stat` `499` (cancel the exchange). **Response direction**
+(executor → invoker), timeout omitted: `d:0`, `c:7:last`, `s:3`, `s:0`.
 
 ## Coverage
 
@@ -412,9 +419,9 @@ Concrete values — **request direction** (invoker → executor), timeout `T` pr
 | Invoker establishment | Full-duplex return semantics and early-response buffering |
 | Normal exchange | Interleaving, independent stream-close, control lifetime after `last` |
 | Timeout | Overall exchange budget from each side's start, no reset, both sides terminate locally with no wire status, tombstones |
-| Invoker cancellation | Command-topic affinity, re-issue, `Canceled` status |
-| Executor cancellation | Control after stream-close, request-direction `Canceled` |
+| Invoker cancellation | `Canceled` status on the command topic with `$partition`, one message both initiates and confirms, re-issue |
+| Executor cancellation | Cancellation after stream-close, invoker's answering `Canceled` on the command topic |
 | Protocol error | Terminal status about a violating message, ends the exchange for both sides |
 | Fatal failure | No status of its own, best-effort cancellation |
 | Packet classification | `__stream` tag routing, terminal precedence, late packets |
-| `__stream` anatomy | The three tagged value forms, shared data/control index counter, status `__stat`, request-direction-only timeout |
+| `__stream` anatomy | The three tagged value forms, shared data/control index counter, `last` as the only control word, status `__stat`, request-direction-only timeout |
