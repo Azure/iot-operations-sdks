@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+using System.Text;
 using Azure.Iot.Operations.Mqtt.Session;
 using Azure.Iot.Operations.Protocol.Streaming;
 using TestEnvoys;
@@ -8,7 +9,8 @@ using Xunit.Abstractions;
 
 namespace Azure.Iot.Operations.Protocol.IntegrationTests;
 
-// Minimal end-to-end POC for streaming RPC: ping-pong (1:1, immediate) and sort-array (buffer-all).
+// Minimal end-to-end POC for streaming RPC: ping-pong (1:1, immediate), sort-array (buffer-all),
+// and file transfer (short request stream, file streamed back line by line with a hash logged on both sides).
 public class StreamingPocTests(ITestOutputHelper output)
 {
     [CommandTopic("rpc/streaming/poc/asyncpingpong")]
@@ -35,6 +37,14 @@ public class StreamingPocTests(ITestOutputHelper output)
     private sealed class SortExecutor(ApplicationContext appContext, IMqttPubSubClient mqttClient)
         : StreamingCommandExecutor<string, string>(appContext, mqttClient, "sort", new Utf8JsonSerializer());
 
+    [CommandTopic("rpc/streaming/poc/filetransfer")]
+    private sealed class FileTransferInvoker(ApplicationContext appContext, IMqttPubSubClient mqttClient)
+        : StreamingCommandInvoker<string, string>(appContext, mqttClient, "filetransfer", new Utf8JsonSerializer());
+
+    [CommandTopic("rpc/streaming/poc/filetransfer")]
+    private sealed class FileTransferExecutor(ApplicationContext appContext, IMqttPubSubClient mqttClient)
+        : StreamingCommandExecutor<string, string>(appContext, mqttClient, "filetransfer", new Utf8JsonSerializer());
+
     private void Log(string message) =>
         output.WriteLine($"{DateTime.Now:HH:mm:ss.fff}  {message}");
 
@@ -44,6 +54,14 @@ public class StreamingPocTests(ITestOutputHelper output)
         Log(new string('=', 80));
         Log(message);
         Log(new string('=', 80));
+    }
+
+    // Frames an integrity line the same way, so the executor and invoker hashes are easy to spot and compare.
+    private void LogIntegrity(string message)
+    {
+        Log(new string('-', 80));
+        Log(message);
+        Log(new string('-', 80));
     }
 
     // Async ping-pong: each "ping i" request is answered with "pong i" immediately as it arrives.
@@ -250,5 +268,140 @@ public class StreamingPocTests(ITestOutputHelper output)
             await Task.Yield();
             yield return new StreamingExtendedRequest<string>(value.ToString());
         }
+    }
+
+    // File transfer: invoker sends a short request stream naming a repo file; executor hashes the file,
+    // logs the hash, then streams it back one line per response entry. The invoker re-hashes the lines it
+    // received once the response stream closes and logs that hash, so the two can be compared by eye.
+    private const string AdrRelativePath = "doc/dev/adr/0025-rpc-streaming.md";
+
+    // Set by the executor-side handler so the test can assert what was only logged for manual comparison.
+    private string? _executorFileHash;
+
+    [Fact]
+    public async Task FileTransfer()
+    {
+        LogScenario($"SCENARIO file transfer: invoker requests '{AdrRelativePath}'; executor hashes the file and logs the hash, then streams it back one line per entry; invoker re-hashes on stream close and logs it for manual comparison.");
+        ApplicationContext appContext = new();
+        await using MqttSessionClient executorClient = await ClientFactory.CreateSessionClientFromEnvAsync();
+        await using MqttSessionClient invokerClient = await ClientFactory.CreateSessionClientFromEnvAsync();
+
+        await using FileTransferExecutor executor = new(appContext, executorClient)
+        {
+            OnStreamingCommandReceived = FileTransferHandler,
+            Log = Log,
+        };
+        await executor.StartAsync();
+
+        await using FileTransferInvoker invoker = new(appContext, invokerClient)
+        {
+            Log = Log,
+        };
+
+        Guid correlationId = Guid.NewGuid();
+        Log($"invoking file transfer: '{AdrRelativePath}', correlationId={correlationId}");
+
+        // The file is streamed a line at a time, so the exchange budget has to cover hundreds of entries.
+        var (responses, _) = await invoker.InvokeStreamingCommandAsync(
+            FileRequestStream(AdrRelativePath),
+            new RequestStreamMetadata { CorrelationId = correlationId },
+            exchangeTimeout: TimeSpan.FromMinutes(5));
+
+        List<string> received = new();
+        await foreach (StreamingExtendedResponse<string> response in responses.Entries)
+        {
+            received.Add(response.Payload);
+        }
+
+        // The response stream has closed (`last` seen), so every line is in hand: hash it the same way the executor did.
+        string invokerHash = ComputeFnv1a64(received);
+        LogIntegrity($"INTEGRITY invoker : lines={received.Count} fnv1a64={invokerHash}");
+
+        Log($"exchange complete: invoker received {received.Count} line(s)");
+
+        Assert.NotEmpty(received);
+        Assert.NotNull(_executorFileHash);
+        Assert.Equal(_executorFileHash, invokerHash);
+    }
+
+    // A short request stream: the file to transfer, then the chunking mode the invoker wants.
+    private async IAsyncEnumerable<StreamingExtendedRequest<string>> FileRequestStream(string relativePath)
+    {
+        await Task.Yield();
+        yield return new StreamingExtendedRequest<string>(relativePath);
+        await Task.Yield();
+        yield return new StreamingExtendedRequest<string>("lines");
+    }
+
+    private (IAsyncEnumerable<StreamingExtendedResponse<string>> Responses, ResponseStreamMetadata Metadata) FileTransferHandler(
+        IStreamContext<ReceivedStreamingExtendedRequest<string>> requests,
+        RequestStreamMetadata requestMetadata,
+        IExchangeContext exchange) =>
+        (FileLineResponses(requests), new ResponseStreamMetadata());
+
+    private async IAsyncEnumerable<StreamingExtendedResponse<string>> FileLineResponses(
+        IStreamContext<ReceivedStreamingExtendedRequest<string>> requests)
+    {
+        // Buffer the (short) request stream first: entry 0 names the file, entry 1 selects the chunking mode.
+        List<string> requestEntries = new();
+        await foreach (ReceivedStreamingExtendedRequest<string> request in requests.Entries)
+        {
+            requestEntries.Add(request.Payload);
+        }
+
+        Log($"handler: request stream closed after {requestEntries.Count} entry(ies): [{string.Join(", ", requestEntries)}]");
+
+        string relativePath = requestEntries[0];
+        string mode = requestEntries.Count > 1 ? requestEntries[1] : "lines";
+        if (mode != "lines")
+        {
+            throw new InvalidOperationException($"Unsupported chunking mode '{mode}'; this POC only streams files line by line.");
+        }
+
+        string absolutePath = ResolveRepoFile(relativePath);
+        string[] lines = await File.ReadAllLinesAsync(absolutePath);
+
+        // Hash before sending so the invoker's hash of what it received can be compared against it.
+        string hash = ComputeFnv1a64(lines);
+        _executorFileHash = hash;
+        LogIntegrity($"INTEGRITY executor: file='{relativePath}' lines={lines.Length} fnv1a64={hash}");
+
+        foreach (string line in lines)
+        {
+            yield return new StreamingExtendedResponse<string>(line);
+        }
+    }
+
+    // FNV-1a 64-bit over the UTF-8 bytes of the lines joined by "\n". Not cryptographic; it is only here so both
+    // sides can run identical, dependency-free arithmetic over the same logical content for a manual eyeball check.
+    private static string ComputeFnv1a64(IEnumerable<string> lines)
+    {
+        const ulong OffsetBasis = 14695981039346656037;
+        const ulong Prime = 1099511628211;
+
+        ulong hash = OffsetBasis;
+        foreach (byte b in Encoding.UTF8.GetBytes(string.Join("\n", lines)))
+        {
+            hash ^= b;
+            hash *= Prime;
+        }
+
+        return hash.ToString("x16");
+    }
+
+    // Tests run out of bin/, so walk up from the test binary until the repo-relative path resolves.
+    private static string ResolveRepoFile(string relativePath)
+    {
+        string[] segments = relativePath.Split('/', StringSplitOptions.RemoveEmptyEntries);
+        for (DirectoryInfo? dir = new(AppContext.BaseDirectory); dir != null; dir = dir.Parent)
+        {
+            string candidate = Path.Combine(new[] { dir.FullName }.Concat(segments).ToArray());
+            if (File.Exists(candidate))
+            {
+                return candidate;
+            }
+        }
+
+        throw new FileNotFoundException($"Could not locate '{relativePath}' in any ancestor of '{AppContext.BaseDirectory}'.");
     }
 }
