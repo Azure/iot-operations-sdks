@@ -28,6 +28,6 @@ jobs:
     with:
       name: statestore-cli
       path: tools/statestore-cli
-      aio-sdks-registry: true
+      aio-sdks-registry: false
     secrets:
       aio-sdks-token: ${{ secrets.CARGO_REGISTRIES_AIO_SDKS_TOKEN }}

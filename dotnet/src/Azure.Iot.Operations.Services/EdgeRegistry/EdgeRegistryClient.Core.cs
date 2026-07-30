@@ -204,7 +204,7 @@ public sealed partial class EdgeRegistryClient : ICoreClient
     }
 
     /// <inheritdoc/>
-    public async Task<IReadOnlyList<Models.VersionXId>> ListVersionsAsync(GroupQuery groups, string? resourceType = null, string? resourceId = null, Models.Label? label = null, TimeSpan? timeout = null, CancellationToken cancellationToken = default)
+    public async Task<IReadOnlyList<Models.VersionXId>> ListVersionsAsync(GroupQuery groups, string? resourceType = null, string? resourceId = null, string? documentHash = null, Models.Label? label = null, TimeSpan? timeout = null, CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();
         ObjectDisposedException.ThrowIf(_disposed, this);
@@ -217,6 +217,7 @@ public sealed partial class EdgeRegistryClient : ICoreClient
             AllGroups = allGroups,
             ResourceType = resourceType,
             ResourceId = resourceId,
+            DocumentHash = documentHash,
             Label = label is null ? null : Converter.ToGenerated(label),
         };
 

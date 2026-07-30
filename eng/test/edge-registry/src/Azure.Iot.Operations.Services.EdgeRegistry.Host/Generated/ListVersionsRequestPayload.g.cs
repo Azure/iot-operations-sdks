@@ -10,7 +10,7 @@ using Azure.Iot.Operations.Services.EdgeRegistry.Host.Generated.Common;
 namespace Azure.Iot.Operations.Services.EdgeRegistry.Host.Generated
 {
     /// <summary>
-    /// Request payload for listing xRegistry Versions, optionally filtered by Group type, Group, Resource type, Resource, and/or label.
+    /// Request payload for listing xRegistry Versions, optionally filtered by Group type, Group, Resource type, Resource, document hash, and/or label.
     /// </summary>
     [System.CodeDom.Compiler.GeneratedCode("Azure.Iot.Operations.ProtocolCompilerLib", "1.0.0.0")]
     public partial class ListVersionsRequestPayload
@@ -50,6 +50,13 @@ namespace Azure.Iot.Operations.Services.EdgeRegistry.Host.Generated
         [JsonPropertyName("resourceId")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public string? ResourceId { get; set; } = default;
+
+        /// <summary>
+        /// If specified, only Versions with a document with this hash are listed.
+        /// </summary>
+        [JsonPropertyName("documentHash")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+        public string? DocumentHash { get; set; } = default;
 
         /// <summary>
         /// If specified, only Versions with this label are listed.

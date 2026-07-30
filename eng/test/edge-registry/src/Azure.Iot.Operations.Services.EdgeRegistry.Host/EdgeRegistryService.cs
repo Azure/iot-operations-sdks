@@ -9,7 +9,9 @@ using Azure.Iot.Operations.Mqtt.Session;
 using Azure.Iot.Operations.Protocol;
 using Azure.Iot.Operations.Protocol.RPC;
 using Azure.Iot.Operations.Services.EdgeRegistry.Host.Generated;
+using Azure.Iot.Operations.Services.EdgeRegistry.Host.Generated.Common;
 using RegistryVersion = Azure.Iot.Operations.Services.EdgeRegistry.Host.Generated.Version;
+using static Azure.Iot.Operations.Services.EdgeRegistry.Host.ExtensionStub;
 
 /// <summary>
 /// In-memory implementation of the core xRegistry surface (Group / Resource / Version) used by the
@@ -92,15 +94,22 @@ internal sealed class EdgeRegistryService : EdgeRegistry.Service
         }
     }
 
-    public override Task<ExtendedResponse<DeleteGroupOutputArguments>> DeleteGroupAsync(DeleteGroupInputArguments request, CommandRequestMetadata requestMetadata, CancellationToken cancellationToken)
+    // TODO: should return an error if the item isn't found or the expected epoch doesn't match.
+    public override Task<ExtendedResponse<EmptyJson>> DeleteGroupAsync(DeleteGroupInputArguments request, CommandRequestMetadata requestMetadata, CancellationToken cancellationToken)
     {
         string groupType = TopicToken(requestMetadata, GroupTypeToken);
         string groupId = request.GroupId ?? DefaultGroupId;
+        ulong? expectedEpoch = request.Options.ExpectedEpoch;
 
         lock (_gate)
         {
-            _groups.Remove((groupType, groupId));
-            return Task.FromResult(Ok(new DeleteGroupOutputArguments { DummyOutput = true }));
+            if (expectedEpoch is null
+                || (_groups.TryGetValue((groupType, groupId), out StoredGroup? group) && group.Epoch == expectedEpoch))
+            {
+                _groups.Remove((groupType, groupId));
+            }
+
+            return Task.FromResult(Ok(new EmptyJson()));
         }
     }
 
@@ -177,21 +186,27 @@ internal sealed class EdgeRegistryService : EdgeRegistry.Service
         }
     }
 
-    public override Task<ExtendedResponse<DeleteResourceOutputArguments>> DeleteResourceAsync(DeleteResourceInputArguments request, CommandRequestMetadata requestMetadata, CancellationToken cancellationToken)
+    // TODO: should return an error if the item isn't found or the expected epoch doesn't match.
+    public override Task<ExtendedResponse<EmptyJson>> DeleteResourceAsync(DeleteResourceInputArguments request, CommandRequestMetadata requestMetadata, CancellationToken cancellationToken)
     {
         string groupType = TopicToken(requestMetadata, GroupTypeToken);
         string resourceType = TopicToken(requestMetadata, ResourceTypeToken);
         string resourceId = TopicToken(requestMetadata, ResourceIdToken);
         string groupId = request.GroupId ?? DefaultGroupId;
+        ulong? expectedEpoch = request.Options.ExpectedEpoch;
 
         lock (_gate)
         {
             if (_groups.TryGetValue((groupType, groupId), out StoredGroup? group))
             {
-                group.Resources.Remove((resourceType, resourceId));
+                if (expectedEpoch is null
+                    || (group.Resources.TryGetValue((resourceType, resourceId), out StoredResource? resource) && resource.MetaEpoch == expectedEpoch))
+                {
+                    group.Resources.Remove((resourceType, resourceId));
+                }
             }
 
-            return Task.FromResult(Ok(new DeleteResourceOutputArguments { DummyOutput = true }));
+            return Task.FromResult(Ok(new EmptyJson()));
         }
     }
 
@@ -276,6 +291,15 @@ internal sealed class EdgeRegistryService : EdgeRegistry.Service
                             continue;
                         }
 
+                        if (request.DocumentHash is not null)
+                        {
+                            string? hash = version.Attributes.Document is null ? null : ComputeHash(version.Attributes.Document);
+                            if (!string.Equals(hash, request.DocumentHash, StringComparison.OrdinalIgnoreCase))
+                            {
+                                continue;
+                            }
+                        }
+
                         versions.Add(new VersionXid
                         {
                             GroupType = group.GroupType,
@@ -292,27 +316,29 @@ internal sealed class EdgeRegistryService : EdgeRegistry.Service
         }
     }
 
-    public override Task<ExtendedResponse<DeleteVersionOutputArguments>> DeleteVersionAsync(DeleteVersionInputArguments request, CommandRequestMetadata requestMetadata, CancellationToken cancellationToken)
+    // TODO: should return an error if the item isn't found or the expected epoch doesn't match.
+    public override Task<ExtendedResponse<EmptyJson>> DeleteVersionAsync(DeleteVersionInputArguments request, CommandRequestMetadata requestMetadata, CancellationToken cancellationToken)
     {
         string groupType = TopicToken(requestMetadata, GroupTypeToken);
         string resourceType = TopicToken(requestMetadata, ResourceTypeToken);
         string resourceId = TopicToken(requestMetadata, ResourceIdToken);
         string versionId = TopicToken(requestMetadata, VersionIdToken);
         string groupId = request.GroupId ?? DefaultGroupId;
+        ulong? expectedEpoch = request.Options.ExpectedEpoch;
 
         lock (_gate)
         {
             if (_groups.TryGetValue((groupType, groupId), out StoredGroup? group)
                 && group.Resources.TryGetValue((resourceType, resourceId), out StoredResource? resource))
             {
-                resource.Versions.RemoveAll(v => v.VersionId == versionId);
+                resource.Versions.RemoveAll(v => v.VersionId == versionId && (expectedEpoch is null || v.Epoch == expectedEpoch));
                 if (resource.DefaultVersionId == versionId)
                 {
                     resource.DefaultVersionId = resource.Versions.Count > 0 ? resource.Versions[^1].VersionId : string.Empty;
                 }
             }
 
-            return Task.FromResult(Ok(new DeleteVersionOutputArguments { DummyOutput = true }));
+            return Task.FromResult(Ok(new EmptyJson()));
         }
     }
 

@@ -4,6 +4,7 @@
 namespace Azure.Iot.Operations.Opc2WotLib
 {
     using System;
+    using System.Linq;
 
     public class SpecMapper
     {
@@ -11,12 +12,23 @@ namespace Azure.Iot.Operations.Opc2WotLib
         {
             Uri uri = new Uri(modelUri);
             string result = GetPrefixFromHost(uri.Host) + GetNameFromPath(uri.AbsolutePath);
-            return result == "UA" ? "OpcUaCore" : result;
+
+            if (result == "UA")
+            {
+                return "OpcUaCore";
+            }
+
+            return result.StartsWith("UA.", StringComparison.Ordinal) ? result.Substring("UA.".Length) : result;
         }
 
         public static string GetNameFromPath(string uriPath)
         {
-            return uriPath.Trim('/').Replace('/', '.');
+            // Drop purely-numeric path segments (e.g., the "2013/01" in dated legacy
+            // namespaces like http://www.OPCFoundation.org/UA/2013/01/ISA95) so that the
+            // derived spec name and type titles do not start with a digit.
+            return string.Join('.', uriPath
+                .Split('/', StringSplitOptions.RemoveEmptyEntries)
+                .Where(segment => !segment.All(char.IsDigit)));
         }
 
         public static string GetPrefixFromHost(string uriHost)

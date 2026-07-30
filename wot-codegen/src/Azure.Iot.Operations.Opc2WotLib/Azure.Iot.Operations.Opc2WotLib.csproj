@@ -27,6 +27,11 @@
       <LastGenOutput>WotDataSchemaArray.cs</LastGenOutput>
       <CustomToolNamespace>Azure.Iot.Operations.Opc2WotLib</CustomToolNamespace>
     </None>
+    <None Update="Wot\t4\WotDataSchemaEnum.tt">
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+      <LastGenOutput>WotDataSchemaEnum.cs</LastGenOutput>
+      <CustomToolNamespace>Azure.Iot.Operations.Opc2WotLib</CustomToolNamespace>
+    </None>
     <None Update="Wot\t4\WotDataSchemaObject.tt">
       <Generator>TextTemplatingFilePreprocessor</Generator>
       <LastGenOutput>WotDataSchemaObject.cs</LastGenOutput>
@@ -50,6 +55,11 @@
     <None Update="Wot\t4\WotThingCollection.tt">
       <Generator>TextTemplatingFilePreprocessor</Generator>
       <LastGenOutput>WotThingCollection.cs</LastGenOutput>
+      <CustomToolNamespace>Azure.Iot.Operations.Opc2WotLib</CustomToolNamespace>
+    </None>
+    <None Update="Wot\t4\WotDataTypeModel.tt">
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+      <LastGenOutput>WotDataTypeModel.cs</LastGenOutput>
       <CustomToolNamespace>Azure.Iot.Operations.Opc2WotLib</CustomToolNamespace>
     </None>
     <None Update="Wot\t4\WotThingDescription.tt">
@@ -84,6 +94,11 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>WotDataSchemaArray.tt</DependentUpon>
     </Compile>
+    <Compile Update="Wot\t4\WotDataSchemaEnum.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>WotDataSchemaEnum.tt</DependentUpon>
+    </Compile>
     <Compile Update="Wot\t4\WotDataSchemaObject.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
@@ -108,6 +123,11 @@
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>WotThingCollection.tt</DependentUpon>
+    </Compile>
+    <Compile Update="Wot\t4\WotDataTypeModel.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>WotDataTypeModel.tt</DependentUpon>
     </Compile>
     <Compile Update="Wot\t4\WotThingDescription.cs">
       <DesignTime>True</DesignTime>

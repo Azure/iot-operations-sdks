@@ -84,7 +84,7 @@ namespace Azure.Iot.Operations.Services.EdgeRegistry.Host.Generated
 
             public abstract Task<ExtendedResponse<ListSchemaVersionsOutputArguments>> ListSchemaVersionsAsync(ListSchemaVersionsInputArguments request, CommandRequestMetadata requestMetadata, CancellationToken cancellationToken);
 
-            public abstract Task<ExtendedResponse<DeleteSchemaVersionOutputArguments>> DeleteSchemaVersionAsync(DeleteSchemaVersionInputArguments request, CommandRequestMetadata requestMetadata, CancellationToken cancellationToken);
+            public abstract Task<ExtendedResponse<EmptyJson>> DeleteSchemaVersionAsync(DeleteSchemaVersionInputArguments request, CommandRequestMetadata requestMetadata, CancellationToken cancellationToken);
 
             /// <summary>
             /// Begin accepting command invocations for all command executors.
@@ -185,13 +185,12 @@ namespace Azure.Iot.Operations.Services.EdgeRegistry.Host.Generated
             {
                 try
                 {
-                    ExtendedResponse<DeleteSchemaVersionOutputArguments> extended = await this.DeleteSchemaVersionAsync(req.Request!, req.RequestMetadata!, cancellationToken);
+                    ExtendedResponse<EmptyJson> extended = await this.DeleteSchemaVersionAsync(req.Request!, req.RequestMetadata!, cancellationToken);
 
                     return new ExtendedResponse<DeleteSchemaVersionResponseSchema>
                     {
                         Response = new DeleteSchemaVersionResponseSchema
                         {
-                            DummyOutput = extended.Response.DummyOutput,
                         },
                         ResponseMetadata = extended.ResponseMetadata,
                     };

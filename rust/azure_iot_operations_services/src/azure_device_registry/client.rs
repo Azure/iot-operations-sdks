@@ -8,7 +8,10 @@
 use std::{collections::HashMap, sync::Arc, time::Duration};
 
 use azure_iot_operations_mqtt::{session::SessionManagedClient, token::AckToken};
-use azure_iot_operations_protocol::application::ApplicationContext;
+use azure_iot_operations_protocol::{
+    application::ApplicationContext,
+    common::dispatcher::{DispatchError, DispatchErrorKind, Dispatcher},
+};
 use derive_builder::Builder;
 use tokio::sync::Notify;
 
@@ -28,7 +31,6 @@ use crate::azure_device_registry::{
     device_discovery_gen::common_types::options as discovery_options_gen,
     device_discovery_gen::device_discovery_service::client as discovery_client_gen,
 };
-use crate::common::dispatcher::{DispatchError, DispatchErrorKind, Dispatcher};
 
 const DEVICE_NAME_TOPIC_TOKEN: &str = "deviceName";
 const DEVICE_NAME_RECEIVED_TOPIC_TOKEN: &str = "ex:deviceName";

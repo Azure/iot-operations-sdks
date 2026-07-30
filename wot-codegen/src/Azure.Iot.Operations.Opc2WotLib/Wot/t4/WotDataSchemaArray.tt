@@ -6,6 +6,9 @@
 <# if (this.description != null) { #>
 "description": "<#=this.description#>",
 <# } #>
+<# if (this.typeRef != null) { #>
+"dov:typeRef": "<#=this.typeRef#>",
+<# } #>
 "type": "array",
 "items": {
 <# this.PushIndent("  "); #>

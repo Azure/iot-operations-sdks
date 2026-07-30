@@ -48,11 +48,12 @@ public interface IThingDescriptionClient
     /// <summary>Lists the XIDs of Thing Description Versions matching the query, optionally filtered by Thing Description id and/or a single label.</summary>
     /// <param name="groups">The Groups to search; see <see cref="GroupSelector"/> for the available scopes.</param>
     /// <param name="thingDescriptionId">When set, restricts the results to this Thing Description.</param>
+    /// <param name="documentHash">When set, restricts the results to entities whose document has this hash.</param>
     /// <param name="label">When set, restricts the results to entities carrying this label.</param>
     /// <param name="timeout">The command timeout; when <see langword="null"/>, the client's default timeout is used.</param>
     /// <param name="cancellationToken">A token to cancel the operation.</param>
     /// <returns>A task whose result is the XIDs of the matching Thing Description Versions.</returns>
-    Task<IReadOnlyList<Models.ThingDescriptionVersionXid>> ListThingDescriptionVersionsAsync(GroupSelector groups, string? thingDescriptionId = null, Models.Label? label = null, TimeSpan? timeout = null, CancellationToken cancellationToken = default);
+    Task<IReadOnlyList<Models.ThingDescriptionVersionXid>> ListThingDescriptionVersionsAsync(GroupSelector groups, string? thingDescriptionId = null, string? documentHash = null, Models.Label? label = null, TimeSpan? timeout = null, CancellationToken cancellationToken = default);
 
     /// <summary>Deletes a specific Thing Description Version.</summary>
     /// <param name="groupId">The Thing Description Group. Use <see cref="GroupId.CloudDefault"/> for the cloud-default Group (the configured namespace).</param>

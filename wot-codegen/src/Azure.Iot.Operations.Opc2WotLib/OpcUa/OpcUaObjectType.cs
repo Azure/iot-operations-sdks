@@ -46,7 +46,7 @@ namespace Azure.Iot.Operations.Opc2WotLib
                 if (typeAndObjectOfReferences == null)
                 {
                     typeAndObjectOfReferences = References
-                        .Where(r => r.IsForward && (r.ReferenceType.NsIndex != 0 || r.ReferenceType.IsComponentReference))
+                        .Where(r => r.IsForward && (r.ReferenceType.NsIndex != 0 || r.ReferenceType.IsComponentReference || r.ReferenceType.IsAddInReference))
                         .Select(r => (r.ReferenceType, GetReferencedOpcUaNode(r.Target)))
                         .Where(t => t.Item2 is OpcUaObject)
                         .Select(t => (t.Item1, (OpcUaObject)t.Item2))

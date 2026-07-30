@@ -2,57 +2,57 @@
 
 gen=../../../src/Azure.Iot.Operations.ProtocolCompiler/bin/Debug/net9.0/Azure.Iot.Operations.ProtocolCompiler
 
-[[ -d ./CommandVariantsSample ]] && rm -r ./CommandVariantsSample
+[ -d ./CommandVariantsSample ] && rm -r ./CommandVariantsSample
 $gen --modelFile ../dtdl/CommandVariants.json --outDir ./CommandVariantsSample/command_variants_gen --lang rust --sdkPath ../../../../rust
 
-[[ -d ./CommandComplexSchemasSample ]] && rm -r ./CommandComplexSchemasSample
+[ -d ./CommandComplexSchemasSample ] && rm -r ./CommandComplexSchemasSample
 $gen --modelFile ../dtdl/CommandComplexSchemas.json --outDir ./CommandComplexSchemasSample/command_complex_schemas_gen --lang rust --sdkPath ../../../../rust
 
-[[ -d ./CommandRawSample ]] && rm -r ./CommandRawSample
+[ -d ./CommandRawSample ] && rm -r ./CommandRawSample
 $gen --modelFile ../dtdl/CommandRaw.json --outDir ./CommandRawSample/command_raw_gen --lang rust --sdkPath ../../../../rust
 
-[[ -d ./PropertySeparateSample ]] && rm -r ./PropertySeparateSample
+[ -d ./PropertySeparateSample ] && rm -r ./PropertySeparateSample
 $gen --modelFile ../dtdl/PropertySeparate.json --outDir ./PropertySeparateSample/property_separate_gen --lang rust --sdkPath ../../../../rust
 
-[[ -d ./PropertyTogetherSample ]] && rm -r ./PropertyTogetherSample
+[ -d ./PropertyTogetherSample ] && rm -r ./PropertyTogetherSample
 $gen --modelFile ../dtdl/PropertyTogether.json --outDir ./PropertyTogetherSample/property_together_gen --lang rust --sdkPath ../../../../rust
 
-[[ -d ./TelemetryAndCommandSample ]] && rm -r ./TelemetryAndCommandSample
+[ -d ./TelemetryAndCommandSample ] && rm -r ./TelemetryAndCommandSample
 $gen --modelFile ../dtdl/TelemetryAndCommand.json --outDir ./TelemetryAndCommandSample/telemetry_and_command_gen --lang rust --sdkPath ../../../../rust
 
-[[ -d ./TelemetryAndCommandSampleFromSchema ]] && rm -r ./TelemetryAndCommandSampleFromSchema
+[ -d ./TelemetryAndCommandSampleFromSchema ] && rm -r ./TelemetryAndCommandSampleFromSchema
 $gen --namespace TelemetryAndCommand --workingDir ../../TelemetryAndCommandSample/telemetry_and_command_gen/target/akri --outDir ./TelemetryAndCommandSampleFromSchema/telemetry_and_command_gen --lang rust --sdkPath ../../../../rust
 
-[[ -d ./TelemetryAndCommandSampleClientOnly ]] && rm -r ./TelemetryAndCommandSampleClientOnly
+[ -d ./TelemetryAndCommandSampleClientOnly ] && rm -r ./TelemetryAndCommandSampleClientOnly
 $gen --modelFile ../dtdl/TelemetryAndCommand.json --outDir ./TelemetryAndCommandSampleClientOnly/telemetry_and_command_gen --lang rust --sdkPath ../../../../rust --clientOnly
 
-[[ -d ./TelemetryAndCommandSampleServerOnly ]] && rm -r ./TelemetryAndCommandSampleServerOnly
+[ -d ./TelemetryAndCommandSampleServerOnly ] && rm -r ./TelemetryAndCommandSampleServerOnly
 $gen --modelFile ../dtdl/TelemetryAndCommand.json --outDir ./TelemetryAndCommandSampleServerOnly/telemetry_and_command_gen --lang rust --sdkPath ../../../../rust --serverOnly
 
-[[ -d ./TelemetryComplexSchemasSample ]] && rm -r ./TelemetryComplexSchemasSample
+[ -d ./TelemetryComplexSchemasSample ] && rm -r ./TelemetryComplexSchemasSample
 $gen --modelFile ../dtdl/TelemetryComplexSchemas.json --outDir ./TelemetryComplexSchemasSample/telemetry_complex_schemas_gen --lang rust --sdkPath ../../../../rust
 
-[[ -d ./TelemetryPrimitiveSchemasSample ]] && rm -r ./TelemetryPrimitiveSchemasSample
+[ -d ./TelemetryPrimitiveSchemasSample ] && rm -r ./TelemetryPrimitiveSchemasSample
 $gen --modelFile ../dtdl/TelemetryPrimitiveSchemas.json --outDir ./TelemetryPrimitiveSchemasSample/telemetry_primitive_schemas_gen --resolver ../dtdl/resolver.json --lang rust --sdkPath ../../../../rust
 
-[[ -d ./TelemetryRecursiveSchemasSample ]] && rm -r ./TelemetryRecursiveSchemasSample
+[ -d ./TelemetryRecursiveSchemasSample ] && rm -r ./TelemetryRecursiveSchemasSample
 $gen --modelFile ../dtdl/TelemetryRecursiveSchemas.json --outDir ./TelemetryRecursiveSchemasSample/telemetry_recursive_schemas_gen --lang rust --sdkPath ../../../../rust
 
-[[ -d ./TelemetryRawSingleSample ]] && rm -r ./TelemetryRawSingleSample
+[ -d ./TelemetryRawSingleSample ] && rm -r ./TelemetryRawSingleSample
 $gen --modelFile ../dtdl/TelemetryRawSingle.json --outDir ./TelemetryRawSingleSample/telemetry_raw_single_gen --lang rust --sdkPath ../../../../rust
 
-[[ -d ./TelemetryRawSeparateSample ]] && rm -r ./TelemetryRawSeparateSample
+[ -d ./TelemetryRawSeparateSample ] && rm -r ./TelemetryRawSeparateSample
 $gen --modelFile ../dtdl/TelemetryRawSeparate.json --outDir ./TelemetryRawSeparateSample/telemetry_raw_separate_gen --lang rust --sdkPath ../../../../rust
 
-[[ -d ./TelemetryAndCommandNestedRaw ]] && rm -r ./TelemetryAndCommandNestedRaw
+[ -d ./TelemetryAndCommandNestedRaw ] && rm -r ./TelemetryAndCommandNestedRaw
 $gen --modelFile ../dtdl/TelemetryAndCommand.json --outDir ./TelemetryAndCommandNestedRaw/telemetry_and_command_gen --lang rust --sdkPath ../../../../rust
 $gen --modelFile ../dtdl/CommandRaw.json --outDir ./TelemetryAndCommandNestedRaw/telemetry_and_command_gen/src/command_raw_gen --lang rust --noProj --sdkPath ../../../../rust
 
-[[ -d ./SharedComplexSchemasSample ]] && rm -r ./SharedComplexSchemasSample
+[ -d ./SharedComplexSchemasSample ] && rm -r ./SharedComplexSchemasSample
 $gen --modelFile ../dtdl/CommandComplexSchemas.json --outDir ./SharedComplexSchemasSample/shared_complex_schemas_gen --lang rust --sdkPath ../../../../rust --shared dtmi:sharedSchemas
 $gen --modelFile ../dtdl/TelemetryComplexSchemas.json --outDir ./SharedComplexSchemasSample/shared_complex_schemas_gen --lang rust --sdkPath ../../../../rust --shared dtmi:sharedSchemas
 
-[[ -d ./ComplexTypeSchemaSample ]] && rm -r ./ComplexTypeSchemaSample
+[ -d ./ComplexTypeSchemaSample ] && rm -r ./ComplexTypeSchemaSample
 mkdir ./ComplexTypeSchemaSample
 mkdir ./ComplexTypeSchemaSample/complex_type_schema_gen
 mkdir ./ComplexTypeSchemaSample/complex_type_schema_gen/target
