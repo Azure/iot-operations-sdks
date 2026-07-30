@@ -257,7 +257,7 @@ By maintaining RPC streaming as a separate communication pattern from normal RPC
 
 ### Illustrative .NET API
 
-The following C# sketches one possible implementation of the [conceptual model](#conceptual-model) above. It is illustrative only — the Rust and Go implementations will expose equivalent shapes idiomatically.
+The following C# sketches one possible implementation of the [conceptual model](#conceptual-model) above. It is illustrative only — the Rust implementation will expose equivalent shapes idiomatically.
 
 Two base classes define the pattern — `StreamingCommandInvoker` and `StreamingCommandExecutor` — reusing "extended" request/response types that pair each payload with its message metadata:
 
