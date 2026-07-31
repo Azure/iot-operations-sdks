@@ -5,7 +5,7 @@ using Azure.Iot.Operations.Connector;
 using Azure.Iot.Operations.Protocol;
 using EventDrivenTelemetryConnector;
 
-namespace EventDrivenConnectorTemplate
+namespace EventDrivenTelemetryConnectorTemplate
 {
     IHost host = Host.CreateDefaultBuilder(args)
         .ConfigureServices(services =>
