@@ -118,7 +118,7 @@ Because the 'command name' and 'nested error' fields can potentially apply to an
 > * The 'property name' field should indicate the actual programming-language-specific name of the argument, parameter, or property that is missing or invalid.
 > Since language conventions dictate casing rules, these values are expected to diverge across libraries, but only insofar as necessary to represent names in camelCase, PascalCase, or snake_case as appropriate.
 
-To illustrate the use of these error kinds, [Appendix 1](#appendix-1-error-conditions-in-the-c-sdk) tabulates the error conditions currently recognized by the C# SDK and indicates which error kind should be used to express the condition.
+To illustrate the use of these error kinds, [Appendix 1](#appendix-1-error-conditions-in-the-net-sdk) tabulates the error conditions currently recognized by the C# SDK and indicates which error kind should be used to express the condition.
 This table also indicates the C# exception type currently thrown for each error condition.
 
 ## Language-specific interpretations of error model
@@ -515,7 +515,7 @@ class AkriMqttException(RuntimeError):
 
 ## Appendices
 
-### Appendix 1: Error conditions in the C# SDK
+### Appendix 1: Error conditions in the NET SDK
 
 The following table maps from each currently recognized error condition to (a) the C# exception type currently thrown and (b) the proposed new error kind to be used for this condition:
 
