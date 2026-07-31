@@ -5,20 +5,17 @@ using Azure.Iot.Operations.Connector;
 using Azure.Iot.Operations.Protocol;
 using PollingTelemetryConnectorTemplate;
 
-namespace PollingTelemetryConnectorTemplate
+IHost host = Host.CreateDefaultBuilder(args)
+.ConfigureServices(services =>
 {
-    IHost host = Host.CreateDefaultBuilder(args)
-    .ConfigureServices(services =>
-    {
-        services.AddSingleton<ApplicationContext>();
-        services.AddSingleton(MqttSessionClientProvider.Factory);
-        services.AddSingleton(DatasetSamplerProvider.Factory);
-        services.AddSingleton(MessageSchemaProvider.Factory);
-        services.AddSingleton<IAzureDeviceRegistryClientWrapperProvider>(AzureDeviceRegistryClientWrapperProvider.Factory);
-        services.AddSingleton(LeaderElectionConfigurationProvider.Factory); // If no leader election is needed, delete this line
-        services.AddHostedService<PollingTelemetryConnectorWorker>();
-    })
-    .Build();
+    services.AddSingleton<ApplicationContext>();
+    services.AddSingleton(MqttSessionClientProvider.Factory);
+    services.AddSingleton(DatasetSamplerProvider.Factory);
+    services.AddSingleton(MessageSchemaProvider.Factory);
+    services.AddSingleton<IAzureDeviceRegistryClientWrapperProvider>(AzureDeviceRegistryClientWrapperProvider.Factory);
+    services.AddSingleton(LeaderElectionConfigurationProvider.Factory); // If no leader election is needed, delete this line
+    services.AddHostedService<PollingTelemetryConnectorWorker>();
+})
+.Build();
 
-    host.Run();
-}
+host.Run();
