@@ -3,7 +3,7 @@
 
 using Azure.Iot.Operations.Connector;
 
-namespace EventDrivenTelemetryConnector
+namespace EventDrivenConnectorTemplate
 {
     /// <summary>
     /// Factory that provides all leader election configurations for this connector.

@@ -5,7 +5,9 @@ using Azure.Iot.Operations.Connector;
 using Azure.Iot.Operations.Protocol;
 using PollingTelemetryConnectorTemplate;
 
-IHost host = Host.CreateDefaultBuilder(args)
+namespace PollingTelemetryConnectorTemplate
+{
+    IHost host = Host.CreateDefaultBuilder(args)
     .ConfigureServices(services =>
     {
         services.AddSingleton<ApplicationContext>();
@@ -18,4 +20,5 @@ IHost host = Host.CreateDefaultBuilder(args)
     })
     .Build();
 
-host.Run();
+    host.Run();
+}

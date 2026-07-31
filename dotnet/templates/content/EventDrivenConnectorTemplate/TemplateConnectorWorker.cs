@@ -4,7 +4,7 @@
 using Azure.Iot.Operations.Connector;
 using Azure.Iot.Operations.Protocol;
 
-namespace EventDrivenTelemetryConnector
+namespace EventDrivenConnectorTemplate
 {
     public class TemplateConnectorWorker : BackgroundService, IDisposable
     {
