@@ -32,8 +32,8 @@ This change is a wire protocol change, but we will not increase the version sinc
     - Remove InvocationException as an AIO Protocol Error kind.
 1. METL tests to update: `CommandExecutorUserCodeRaisesContentError_RespondsError`, `CommandInvokerResponseIndicatesInvocationError_ThrowsException`, and `CommandExecutorUserCodeRaisesContentErrorWithDetails_RespondsError`. Double check that the equivalent 500 scenario is already captured in METL before removing these.
 1. Documentation changes needed (for 422 and InvocationException)
-    - ./doc/reference/error-model.md#appendix-1-error-conditions-in-the-c-sdk
-    - ./doc/reference/command-errors.md
+    - https://github.com/Azure/iot-operations-sdks/blob/main/doc/reference/error-model.md#appendix-1-error-conditions-in-the-c-sdk
+    - https://github.com/Azure/iot-operations-sdks/blob/main/doc/reference/command-errors.md
 
 
 ## Open Questions:
