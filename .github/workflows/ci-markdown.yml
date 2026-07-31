@@ -68,7 +68,7 @@ jobs:
         run: npx --yes @puppeteer/browsers install "chrome@${CHROME_VERSION}" --path "$HOME/.cache/puppeteer"
 
       - name: Run linkspector
-        uses: umbrelladocs/action-linkspector@v1
+        uses: umbrelladocs/action-linkspector@v1.5.4
         with:
           config_file: .github/.linkspector.yml
           fail_on_error: true
