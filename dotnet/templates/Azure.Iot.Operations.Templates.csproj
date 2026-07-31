@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <PackageId>Azure.Iot.Operations.Templates</PackageId>
-    <PackageVersion>1.2.0</PackageVersion>
+    <PackageVersion>1.2.1</PackageVersion>
     <Title>Azure IoT Operations Templates</Title>
     <Authors>Microsoft</Authors>
     <Description>.NET project templates for creating Azure IoT Operations solutions</Description>
