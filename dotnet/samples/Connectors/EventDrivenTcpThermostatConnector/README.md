@@ -10,7 +10,7 @@ This sample demonstrates a connector that reacts to events sent to it by an asse
 
 ## Creating the sample
 
-This project was generated  from the [event driven telemetry connector](/dotnet/templates/content/EventDrivenConnectorTemplate/) template. 
+This project was generated from the [event driven telemetry connector](/dotnet/templates/content/EventDrivenConnectorTemplate/) template.
 
 For instructions on how to install the project template, see [the installation instructions](/dotnet/templates/README.md).
 
