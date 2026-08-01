@@ -14,6 +14,15 @@ echo "Environment variables:
 # Add a convenience alias for the aio-broker
 sudo sh -c 'echo 127.0.0.1 aio-broker >> /etc/hosts'
 
+echo "Waiting for cluster API to become available..."
+
+until kubectl get nodes >/dev/null 2>&1; do
+    echo "Cluster not ready yet..."
+    sleep 5
+done
+
+echo "Cluster is ready. Proceeding with restart."
+
 # Stop and start the cluster, so its in a fresh state
 k3d cluster stop
 k3d cluster start --wait
