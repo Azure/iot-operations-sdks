@@ -23,7 +23,8 @@ Users have expressed a desire to allow more than one request and/or more than on
 
  - Different payload shapes per command response/request
  - Chunking a single large payload across multiple stream messages
-   - Any stream message may be lost (message expiry or other circumstances), so a chunked payload could not be reliably reassembled.
+   - Any stream message may be lost (message expiry or other circumstances). This pattern surfaces entries as they arrive and does not verify that a stream was received in full, so it does not by itself reassemble a split payload.
+   - This is a scope boundary, not an impossibility: because every entry carries its index, a layer above can detect a gap and fail the whole transfer with a distinct error so the application re-requests it. Chunking is specified separately in [ADR 33](./0033-large-message-chunking-options.md).
  - Delivering streamed requests/responses in their **intended** order.
    - Any stream message may be lost, so entries are surfaced in the order received; reconstructing the intended order is left to the application.
  - Resuming an exchange after the **invoker** crashes or loses its session.

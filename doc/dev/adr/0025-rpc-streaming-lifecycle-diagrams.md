@@ -2,6 +2,7 @@
 
 > Supplementary, non-authoritative visual reference for [ADR 25: RPC Streaming](0025-rpc-streaming.md).
 > The ADR is the source of truth.
+> New to the pattern? Start with the [visual introduction](0025-rpc-streaming-overview-diagrams.md).
 
 ## 1. Shared Lifecycle
 
