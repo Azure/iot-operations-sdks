@@ -3,7 +3,13 @@
 
 //! Types for Azure IoT Operations Connectors.
 
-use std::{borrow::Cow, collections::HashMap, hash::Hash, path::PathBuf, sync::Arc};
+use std::{
+    borrow::Cow,
+    collections::HashMap,
+    hash::Hash,
+    path::{Component, Path, PathBuf},
+    sync::Arc,
+};
 
 use azure_iot_operations_services::{
     azure_device_registry::{
@@ -800,6 +806,10 @@ impl DeviceEndpointClient {
                             DeviceSpecificationError::CredentialsMountPathMissing(e_message) => {
                                 log::error!("Failed to apply device update for {:?}: {e_message}", self.device_endpoint_ref);
                                 let _ = self.connector_context.connector_restart_tx.try_send(e_message);
+                            },
+                            // Service-supplied data, so no restart. The previous valid specification is kept.
+                            DeviceSpecificationError::InvalidSecretName(secret_name) => {
+                                log::error!("Failed to apply device update for {:?}: credential secret name '{secret_name}' must be a relative path within the credentials mount", self.device_endpoint_ref);
                             },
                         }
                     }
@@ -4652,6 +4662,36 @@ pub(crate) enum DeviceSpecificationError {
     /// The credential mount path is missing for the required authentication mode
     #[error("{0}")]
     CredentialsMountPathMissing(String),
+    /// A credential secret name provided by the service isn't a relative path within the mount
+    #[error("credential secret name '{0}' must be a relative path within the credentials mount")]
+    InvalidSecretName(String),
+}
+
+/// Joins a service-supplied secret name onto the credentials mount.
+///
+/// The Akri connector contract defines the secret name as a relative path to append to the mount,
+/// which is a flat file name when unified `secretsync` is used and `{secret_name}/{secret_key}`
+/// when it isn't. Both are accepted; every segment must be a plain name so that the joined path
+/// cannot escape the mount via an absolute path or `..`.
+fn credential_path(
+    credentials_mount: &Path,
+    secret_name: &str,
+) -> Result<PathBuf, DeviceSpecificationError> {
+    let mut relative = PathBuf::new();
+    for component in Path::new(secret_name).components() {
+        let Component::Normal(segment) = component else {
+            return Err(DeviceSpecificationError::InvalidSecretName(
+                secret_name.to_string(),
+            ));
+        };
+        relative.push(segment);
+    }
+    if relative.as_os_str().is_empty() {
+        return Err(DeviceSpecificationError::InvalidSecretName(
+            secret_name.to_string(),
+        ));
+    }
+    Ok(credentials_mount.join(relative))
 }
 
 impl DeviceSpecification {
@@ -4689,16 +4729,17 @@ impl DeviceSpecification {
                 let credentials_mount = device_endpoint_credentials_mount_path
                     .ok_or_else(|| DeviceSpecificationError::CredentialsMountPathMissing("device_endpoint_credentials_mount_path must be present if Authentication is Certificate".to_string()))?;
                 Authentication::Certificate {
-                    certificate_path: credentials_mount.as_path().join(certificate_secret_name),
-                    intermediate_certificates_path: intermediate_certificates_secret_name.map(
-                        |intermediate_cert_secret_name| {
-                            credentials_mount
-                                .as_path()
-                                .join(intermediate_cert_secret_name)
-                        },
-                    ),
+                    certificate_path: credential_path(credentials_mount, &certificate_secret_name)?,
+                    intermediate_certificates_path: intermediate_certificates_secret_name
+                        .map(|intermediate_cert_secret_name| {
+                            credential_path(credentials_mount, &intermediate_cert_secret_name)
+                        })
+                        .transpose()?,
                     key_path: key_secret_name
-                        .map(|key_secret_name| credentials_mount.as_path().join(key_secret_name)),
+                        .map(|key_secret_name| {
+                            credential_path(credentials_mount, &key_secret_name)
+                        })
+                        .transpose()?,
                 }
             }
             adr_models::Authentication::UsernamePassword {
@@ -4708,8 +4749,8 @@ impl DeviceSpecification {
                 let credentials_mount = device_endpoint_credentials_mount_path
                     .ok_or_else(|| DeviceSpecificationError::CredentialsMountPathMissing("device_endpoint_credentials_mount_path must be present if Authentication is UsernamePassword".to_string()))?;
                 Authentication::UsernamePassword {
-                    password_path: credentials_mount.as_path().join(password_secret_name),
-                    username_path: credentials_mount.as_path().join(username_secret_name),
+                    password_path: credential_path(credentials_mount, &password_secret_name)?,
+                    username_path: credential_path(credentials_mount, &username_secret_name)?,
                 }
             }
         };
@@ -5619,6 +5660,176 @@ mod tests {
             result,
             DeviceSpecificationError::CredentialsMountPathMissing(_)
         ));
+    }
+
+    #[test_case(
+        adr_models::Authentication::Certificate {
+            certificate_secret_name: "../../etc/shadow".to_string(),
+            intermediate_certificates_secret_name: None,
+            key_secret_name: None,
+        };
+        "certificate_parent_traversal"
+    )]
+    #[test_case(
+        adr_models::Authentication::Certificate {
+            certificate_secret_name: "/etc/shadow".to_string(),
+            intermediate_certificates_secret_name: None,
+            key_secret_name: None,
+        };
+        "certificate_absolute"
+    )]
+    #[test_case(
+        adr_models::Authentication::Certificate {
+            certificate_secret_name: String::new(),
+            intermediate_certificates_secret_name: None,
+            key_secret_name: None,
+        };
+        "certificate_empty"
+    )]
+    #[test_case(
+        adr_models::Authentication::Certificate {
+            certificate_secret_name: "cert.pem".to_string(),
+            intermediate_certificates_secret_name: Some("../../etc/ca.pem".to_string()),
+            key_secret_name: None,
+        };
+        "intermediate_certificates_parent_traversal"
+    )]
+    #[test_case(
+        adr_models::Authentication::Certificate {
+            certificate_secret_name: "cert.pem".to_string(),
+            intermediate_certificates_secret_name: None,
+            key_secret_name: Some("..".to_string()),
+        };
+        "key_parent_dir"
+    )]
+    #[test_case(
+        adr_models::Authentication::UsernamePassword {
+            password_secret_name: "../../../var/run/secrets/token".to_string(),
+            username_secret_name: "username".to_string(),
+        };
+        "password_parent_traversal"
+    )]
+    #[test_case(
+        adr_models::Authentication::UsernamePassword {
+            password_secret_name: "password".to_string(),
+            username_secret_name: "/etc/passwd".to_string(),
+        };
+        "username_absolute"
+    )]
+    #[allow(clippy::needless_pass_by_value)]
+    fn new_device_specification_rejects_escaping_secret_names(
+        authentication: adr_models::Authentication,
+    ) {
+        let device_specification = adr_models::Device {
+            attributes: HashMap::new(),
+            discovered_device_ref: None,
+            enabled: None,
+            endpoints: Some(adr_models::DeviceEndpoints {
+                inbound: HashMap::from([(
+                    TEST_INBOUND_ENDPOINT_NAME.to_string(),
+                    adr_models::InboundEndpoint {
+                        additional_configuration: None,
+                        address: "mqtt://test".to_string(),
+                        authentication,
+                        endpoint_type: "mqtt".to_string(),
+                        trust_settings: None,
+                        version: None,
+                    },
+                )]),
+                outbound: None,
+            }),
+            external_device_id: None,
+            last_transition_time: None,
+            manufacturer: None,
+            model: None,
+            operating_system: None,
+            operating_system_version: None,
+            uuid: None,
+            version: None,
+        };
+
+        let result = DeviceSpecification::new(
+            device_specification,
+            Some(&PathBuf::from("/mnt/creds")),
+            TEST_INBOUND_ENDPOINT_NAME,
+        )
+        .unwrap_err();
+
+        assert!(matches!(
+            result,
+            DeviceSpecificationError::InvalidSecretName(_)
+        ));
+    }
+
+    /// Both credential mount layouts in the Akri connector contract must be accepted:
+    /// `{secret_name}/{secret_key}` without unified `secretsync`, and a flat file name with it.
+    #[test_case(
+        "rest-server-auth-creds/username",
+        "rest-server-auth-creds/password";
+        "nested_without_unified_secretsync"
+    )]
+    #[test_case(
+        "my-thermostat_my-rest-endpoint_username",
+        "my-thermostat_my-rest-endpoint_password";
+        "flat_with_unified_secretsync"
+    )]
+    fn new_device_specification_accepts_both_mount_layouts(
+        username_secret_name: &str,
+        password_secret_name: &str,
+    ) {
+        let device_specification = adr_models::Device {
+            attributes: HashMap::new(),
+            discovered_device_ref: None,
+            enabled: None,
+            endpoints: Some(adr_models::DeviceEndpoints {
+                inbound: HashMap::from([(
+                    TEST_INBOUND_ENDPOINT_NAME.to_string(),
+                    adr_models::InboundEndpoint {
+                        additional_configuration: None,
+                        address: "mqtt://test".to_string(),
+                        authentication: adr_models::Authentication::UsernamePassword {
+                            password_secret_name: password_secret_name.to_string(),
+                            username_secret_name: username_secret_name.to_string(),
+                        },
+                        endpoint_type: "mqtt".to_string(),
+                        trust_settings: None,
+                        version: None,
+                    },
+                )]),
+                outbound: None,
+            }),
+            external_device_id: None,
+            last_transition_time: None,
+            manufacturer: None,
+            model: None,
+            operating_system: None,
+            operating_system_version: None,
+            uuid: None,
+            version: None,
+        };
+
+        let result = DeviceSpecification::new(
+            device_specification,
+            Some(&PathBuf::from("/mnt/creds")),
+            TEST_INBOUND_ENDPOINT_NAME,
+        )
+        .unwrap();
+
+        let Authentication::UsernamePassword {
+            password_path,
+            username_path,
+        } = result.endpoints.inbound.authentication
+        else {
+            panic!("expected UsernamePassword authentication");
+        };
+        assert_eq!(
+            username_path,
+            PathBuf::from(format!("/mnt/creds/{username_secret_name}"))
+        );
+        assert_eq!(
+            password_path,
+            PathBuf::from(format!("/mnt/creds/{password_secret_name}"))
+        );
     }
 
     #[test]
