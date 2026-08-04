@@ -4736,9 +4736,7 @@ impl DeviceSpecification {
                         })
                         .transpose()?,
                     key_path: key_secret_name
-                        .map(|key_secret_name| {
-                            credential_path(credentials_mount, &key_secret_name)
-                        })
+                        .map(|key_secret_name| credential_path(credentials_mount, &key_secret_name))
                         .transpose()?,
                 }
             }
