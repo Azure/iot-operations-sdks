@@ -4,7 +4,7 @@
 using Azure.Iot.Operations.Connector;
 using Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models;
 
-namespace EventDrivenTelemetryConnector
+namespace EventDrivenTelemetryConnectorTemplate
 {
     /// <summary>
     /// The factory method for determining what message schema should be registered for and attached to each
