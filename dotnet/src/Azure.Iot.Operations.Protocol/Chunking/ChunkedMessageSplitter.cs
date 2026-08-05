@@ -26,6 +26,22 @@ internal class ChunkedMessageSplitter
     }
 
     /// <summary>
+    /// Splits a message into chunks if its payload exceeds the maximum chunk size, otherwise
+    /// returns the message unchanged.
+    /// </summary>
+    public static IReadOnlyList<MqttApplicationMessage> SplitIfNeeded(MqttApplicationMessage message)
+    {
+        ArgumentNullException.ThrowIfNull(message);
+
+        ChunkingOptions options = new();
+        int maxChunkSize = Utils.GetMaxChunkSize(ChunkingConstants.PlaceholderMaxPacketSize, options.StaticOverhead);
+
+        return message.Payload.Length <= maxChunkSize
+            ? [message]
+            : new ChunkedMessageSplitter(options).SplitMessage(message, ChunkingConstants.PlaceholderMaxPacketSize);
+    }
+
+    /// <summary>
     /// Splits a message into smaller chunks if necessary.
     /// </summary>
     /// <param name="message">The original message to split.</param>

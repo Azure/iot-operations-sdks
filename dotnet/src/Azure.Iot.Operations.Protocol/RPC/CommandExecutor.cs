@@ -620,12 +620,15 @@ namespace Azure.Iot.Operations.Protocol.RPC
 
             try
             {
-                MqttClientPublishResult pubAck = await _mqttClient.PublishAsync(responseMessage, CancellationToken.None).ConfigureAwait(false);
-                MqttClientPublishReasonCode pubReasonCode = pubAck.ReasonCode;
-                if (pubReasonCode != MqttClientPublishReasonCode.Success)
+                foreach (MqttApplicationMessage outgoing in ChunkedMessageSplitter.SplitIfNeeded(responseMessage))
                 {
-                    string correlationId = correlationData != null ? $"'{new Guid(correlationData)}'" : "unknown";
-                    Trace.TraceError($"The response to command {_commandName} with CorrelationId {correlationId} failed on topic '{topic}' with publishing reason code '{pubReasonCode}'");
+                    MqttClientPublishResult pubAck = await _mqttClient.PublishAsync(outgoing, CancellationToken.None).ConfigureAwait(false);
+                    MqttClientPublishReasonCode pubReasonCode = pubAck.ReasonCode;
+                    if (pubReasonCode != MqttClientPublishReasonCode.Success)
+                    {
+                        string correlationId = correlationData != null ? $"'{new Guid(correlationData)}'" : "unknown";
+                        Trace.TraceError($"The response to command {_commandName} with CorrelationId {correlationId} failed on topic '{topic}' with publishing reason code '{pubReasonCode}'");
+                    }
                 }
             }
             catch (Exception e)

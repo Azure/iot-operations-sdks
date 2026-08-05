@@ -38,6 +38,8 @@ namespace Azure.Iot.Operations.Protocol.RPC
         // used to track pending responses
         private readonly Dictionary<string, ResponsePromise> _requestIdMap;
 
+        private readonly ChunkBuffer _chunkBuffer = new(new ChunkingOptions());
+
         /// <summary>
         /// The topic token replacement map that this command invoker will use by default. Generally, this will include the token values
         /// for topic tokens such as "modelId" which should be the same for the duration of this command invoker's lifetime.
@@ -232,6 +234,33 @@ namespace Azure.Iot.Operations.Protocol.RPC
                     {
                         return;
                     }
+                }
+
+                // Response chunks all carry the same correlation data, so they are reassembled
+                // before any of the response handling below runs.
+                if (ChunkBuffer.IsChunk(args.ApplicationMessage))
+                {
+                    args.AutoAcknowledge = false;
+
+                    DateTime now = WallClock.UtcNow;
+                    ChunkBufferResult chunkResult = _chunkBuffer.AddChunk(
+                        args,
+                        now,
+                        now + TimeSpan.FromSeconds(Math.Max(1, args.ApplicationMessage.MessageExpiryInterval)));
+
+                    foreach (MqttApplicationMessageReceivedEventArgs chunk in chunkResult.ToAcknowledge)
+                    {
+                        await chunk.AcknowledgeAsync(CancellationToken.None).ConfigureAwait(false);
+                    }
+
+                    if (chunkResult.ReassembledMessage == null)
+                    {
+                        return;
+                    }
+
+                    // The reassembled message is synthetic, so nothing else will acknowledge it.
+                    args = chunkResult.ReassembledMessage;
+                    await args.AcknowledgeAsync(CancellationToken.None).ConfigureAwait(false);
                 }
 
                 args.AutoAcknowledge = true;
@@ -604,7 +633,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
 
                 try
                 {
-                    foreach (MqttApplicationMessage outgoing in SplitIfNeeded(requestMessage))
+                    foreach (MqttApplicationMessage outgoing in ChunkedMessageSplitter.SplitIfNeeded(requestMessage))
                     {
                         MqttClientPublishResult pubAck = await _mqttClient.PublishAsync(outgoing, cancellationToken).ConfigureAwait(false);
                         MqttClientPublishReasonCode pubReasonCode = pubAck.ReasonCode;
@@ -703,16 +732,6 @@ namespace Azure.Iot.Operations.Protocol.RPC
                     _requestIdMap.Remove(requestGuid.ToString());
                 }
             }
-        }
-
-        private static IReadOnlyList<MqttApplicationMessage> SplitIfNeeded(MqttApplicationMessage message)
-        {
-            ChunkingOptions options = new();
-            int maxChunkSize = Utils.GetMaxChunkSize(ChunkingConstants.PlaceholderMaxPacketSize, options.StaticOverhead);
-
-            return message.Payload.Length <= maxChunkSize
-                ? [message]
-                : new ChunkedMessageSplitter(options).SplitMessage(message, ChunkingConstants.PlaceholderMaxPacketSize);
         }
 
         /// <summary>

@@ -142,6 +142,104 @@ public class ChunkedCommandTests
         }
     }
 
+    [Fact]
+    public async Task LargeResponse_IsSplitByExecutor()
+    {
+        MockMqttPubSubClient executorMock = new();
+
+        await using EchoExecutor executor = new(new ApplicationContext(), executorMock)
+        {
+            RequestTopicPattern = "mock/echo",
+            OnCommandReceived = (request, ct) => Task.FromResult(new ExtendedResponse<string> { Response = LargePayload }),
+        };
+        await executor.StartAsync();
+
+        await executorMock.SimulateNewMessage(SmallRequestMessage());
+        await executorMock.SimulatedMessageAcknowledged();
+
+        Assert.True(executorMock.MessagesPublished.Count > 1, $"Expected a chunked response, got {executorMock.MessagesPublished.Count} message(s).");
+        Assert.All(executorMock.MessagesPublished, m => Assert.True(ChunkBuffer.IsChunk(m)));
+    }
+
+    [Fact]
+    public async Task LargeResponse_IsReassembledByInvoker()
+    {
+        MockMqttPubSubClient invokerMock = new();
+        MockMqttPubSubClient executorMock = new();
+
+        await using EchoExecutor executor = new(new ApplicationContext(), executorMock)
+        {
+            RequestTopicPattern = "mock/echo",
+            OnCommandReceived = (request, ct) => Task.FromResult(new ExtendedResponse<string> { Response = LargePayload }),
+        };
+        await executor.StartAsync();
+
+        await using EchoInvoker invoker = new(new ApplicationContext(), invokerMock) { RequestTopicPattern = "mock/echo" };
+
+        Task<ExtendedResponse<string>> invocation =
+            invoker.InvokeCommandAsync(LargePayload, commandTimeout: TimeSpan.FromSeconds(60));
+
+        int expectedRequestChunks = ExpectedChunkCount(LargePayload);
+        await WaitForPublishesAsync(invokerMock, expectedRequestChunks);
+
+        List<MqttApplicationMessage> requestChunks = [.. invokerMock.MessagesPublished];
+        foreach (MqttApplicationMessage chunk in requestChunks)
+        {
+            await executorMock.SimulateNewMessage(chunk);
+        }
+
+        await WaitForAllAcknowledgementsAsync(executorMock, requestChunks.Count);
+
+        foreach (MqttApplicationMessage responseChunk in executorMock.MessagesPublished)
+        {
+            await invokerMock.SimulateNewMessage(responseChunk);
+        }
+
+        ExtendedResponse<string> response = await invocation;
+
+        Assert.Equal(LargePayload, response.Response);
+        Assert.True(executorMock.MessagesPublished.Count > 1, "Expected the response to have been chunked.");
+    }
+
+    private static MqttApplicationMessage SmallRequestMessage()
+    {
+        Utf8JsonSerializer serializer = new();
+        SerializedPayloadContext payload = serializer.ToBytes(SmallPayload);
+
+        MqttApplicationMessage request = new("mock/echo")
+        {
+            Payload = payload.SerializedPayload,
+            ContentType = payload.ContentType,
+            PayloadFormatIndicator = (MqttPayloadFormatIndicator)payload.PayloadFormatIndicator,
+            CorrelationData = Guid.NewGuid().ToByteArray(),
+            MessageExpiryInterval = 30,
+            ResponseTopic = "mock/echo/response",
+        };
+
+        request.AddUserProperty(AkriSystemProperties.SourceId, Guid.NewGuid().ToString());
+        return request;
+    }
+
+    private static int ExpectedChunkCount(string payload)
+    {
+        long serializedLength = new Utf8JsonSerializer().ToBytes(payload).SerializedPayload.Length;
+        int maxChunkSize = Utils.GetMaxChunkSize(ChunkingConstants.PlaceholderMaxPacketSize, new ChunkingOptions().StaticOverhead);
+
+        return (int)Math.Ceiling(serializedLength / (double)maxChunkSize);
+    }
+
+    // The invoker publishes from an async method, so the chunks are not guaranteed to have landed
+    // by the time InvokeCommandAsync yields.
+    private static async Task WaitForPublishesAsync(MockMqttPubSubClient mock, int expectedCount)
+    {
+        using CancellationTokenSource timeout = new(TimeSpan.FromSeconds(30));
+
+        while (mock.MessagesPublished.Count < expectedCount)
+        {
+            await Task.Delay(10, timeout.Token);
+        }
+    }
+
     private static async Task<IReadOnlyList<MqttApplicationMessage>> PublishChunkedRequestAsync()
     {
         MockMqttPubSubClient invokerMock = new();
