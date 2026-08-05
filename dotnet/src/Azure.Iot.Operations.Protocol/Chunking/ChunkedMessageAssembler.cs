@@ -32,6 +32,21 @@ internal class ChunkedMessageAssembler
     public long CurrentBufferSize { get; private set; }
 
     /// <summary>
+    /// Gets the chunks received so far, for callers that must acknowledge them when a message is
+    /// abandoned instead of reassembled.
+    /// </summary>
+    public IReadOnlyCollection<MqttApplicationMessageReceivedEventArgs> ReceivedChunks
+    {
+        get
+        {
+            lock (_lock)
+            {
+                return _chunks.Values.ToList();
+            }
+        }
+    }
+
+    /// <summary>
     /// Initializes a new instance of the <see cref="ChunkedMessageAssembler"/> class.
     /// </summary>
     /// <param name="totalChunks">The total number of chunks expected (may be updated later).</param>

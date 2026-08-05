@@ -29,4 +29,13 @@ internal class ChunkingOptions
     /// A value of 0 or negative means no limit.
     /// </summary>
     public long ReassemblyBufferSizeLimit { get; set; } = 10 * 1024 * 1024; // 10 MB default
+
+    /// <summary>
+    /// Gets or sets the maximum number of chunks a single message may be split into.
+    /// </summary>
+    /// <remarks>
+    /// Bounds both reassembly memory and MQTT packet identifier consumption, since no chunk is
+    /// acknowledged until the whole message has been reassembled.
+    /// </remarks>
+    public int MaxChunkCount { get; set; } = 100;
 }

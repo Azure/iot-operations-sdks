@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+using Azure.Iot.Operations.Protocol.Chunking;
 using Azure.Iot.Operations.Protocol.Events;
 using Azure.Iot.Operations.Protocol.Models;
 using System;
@@ -33,6 +34,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
 
         private readonly ApplicationContext _applicationContext;
         private readonly ICommandResponseCache _commandResponseCache;
+        private readonly ChunkBuffer _chunkBuffer = new(new ChunkingOptions());
         private Dispatcher? _dispatcher;
         private bool _isRunning;
         private bool _hasSubscribed;
@@ -140,6 +142,27 @@ namespace Azure.Iot.Operations.Protocol.RPC
                     : null,
                         async () => { await args.AcknowledgeAsync(CancellationToken.None).ConfigureAwait(false); }).ConfigureAwait(false);
                     return;
+                }
+
+                // Chunks are reassembled before the response cache sees them, since every chunk of a
+                // request carries the same correlation data and would otherwise look like a duplicate.
+                if (ChunkBuffer.IsChunk(args.ApplicationMessage))
+                {
+                    ChunkBufferResult chunkResult = _chunkBuffer.AddChunk(args, messageReceivedTime, commandExpirationTime);
+
+                    foreach (MqttApplicationMessageReceivedEventArgs chunk in chunkResult.ToAcknowledge)
+                    {
+                        await chunk.AcknowledgeAsync(CancellationToken.None).ConfigureAwait(false);
+                    }
+
+                    if (chunkResult.ReassembledMessage == null)
+                    {
+                        return;
+                    }
+
+                    // Acknowledging the reassembled message acknowledges every chunk it was built from.
+                    args = chunkResult.ReassembledMessage;
+                    args.AutoAcknowledge = false;
                 }
 
                 // This validation is handled above, so assume a response topic is provided beyond this point.
