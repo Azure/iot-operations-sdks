@@ -33,4 +33,31 @@ internal static class ChunkingConstants
     /// This accounts for MQTT packet headers, topic name, and other metadata.
     /// </summary>
     public const int DefaultStaticOverhead = 1024;
+
+    /// <summary>
+    /// Stand-in for the broker-negotiated maximum packet size, which is not reachable from the
+    /// protocol envoys today.
+    /// </summary>
+    /// <remarks>
+    /// POC only. Deliberately conservative so it stays below any realistic broker limit. See gap
+    /// G1 in doc/dev/rpc-chunking-working-doc.md for what has to replace this.
+    /// </remarks>
+    public const int PlaceholderMaxPacketSize = 64 * 1024;
+
+    /// <summary>
+    /// User properties copied onto every chunk rather than the first one alone.
+    /// </summary>
+    /// <remarks>
+    /// Per ADR 0023 the first chunk carries the full property set and later chunks carry only what
+    /// is needed to deliver and reassemble the message. That means the broker routing properties,
+    /// so all chunks reach the same shared-subscription member and share the sender's backpressure
+    /// treatment, plus the protocol version, which the receiver validates on every chunk before
+    /// reassembly begins.
+    /// </remarks>
+    public static readonly string[] PerChunkUserProperties =
+    [
+        "$partition",
+        "$high_priority",
+        "__protVer",
+    ];
 }

@@ -31,10 +31,14 @@ internal class ChunkedMessageSplitter
     /// <param name="message">The original message to split.</param>
     /// <param name="maxPacketSize">The maximum packet size allowed.</param>
     /// <returns>A list of chunked messages.</returns>
-public IReadOnlyList<MqttApplicationMessage> SplitMessage(MqttApplicationMessage message, int maxPacketSize)
+    public IReadOnlyList<MqttApplicationMessage> SplitMessage(MqttApplicationMessage message, int maxPacketSize)
     {
         var maxChunkSize = ValidateAndGetMaxChunkSize(message, maxPacketSize);
         var (payload, totalChunks, messageId, checksum, userProperties) = PrepareChunkingMetadata(message, maxChunkSize);
+
+        var perChunkUserProperties = userProperties
+            .Where(p => ChunkingConstants.PerChunkUserProperties.Contains(p.Name, StringComparer.Ordinal))
+            .ToList();
 
         // Create chunks
         var chunks = new List<MqttApplicationMessage>(totalChunks);
@@ -42,7 +46,7 @@ public IReadOnlyList<MqttApplicationMessage> SplitMessage(MqttApplicationMessage
         for (var chunkIndex = 0; chunkIndex < totalChunks; chunkIndex++)
         {
             var chunkPayload = ChunkedMessageSplitter.ExtractChunkPayload(payload, chunkIndex, maxChunkSize);
-            var chunkMessage = ChunkedMessageSplitter.CreateChunk(message, chunkPayload, userProperties, messageId, chunkIndex, totalChunks, checksum);
+            var chunkMessage = ChunkedMessageSplitter.CreateChunk(message, chunkPayload, chunkIndex == 0 ? userProperties : perChunkUserProperties, messageId, chunkIndex, totalChunks, checksum);
             chunks.Add(chunkMessage);
         }
 

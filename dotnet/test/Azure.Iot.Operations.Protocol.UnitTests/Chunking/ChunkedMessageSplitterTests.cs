@@ -70,11 +70,16 @@ public class ChunkedMessageSplitterTests
         {
             var chunkProperty = chunk.UserProperties?.FirstOrDefault(p => p.Name == ChunkingConstants.ChunkUserProperty);
             Assert.NotNull(chunkProperty);
+        }
 
-            // Check that original properties are preserved
-            var originalProperty = chunk.UserProperties?.FirstOrDefault(p => p.Name == "originalProperty");
-            Assert.NotNull(originalProperty);
-            Assert.Equal("value", originalProperty!.Value);
+        // Per ADR 0023 only the first chunk carries the original user properties.
+        var originalProperty = chunks[0].UserProperties?.FirstOrDefault(p => p.Name == "originalProperty");
+        Assert.NotNull(originalProperty);
+        Assert.Equal("value", originalProperty!.Value);
+
+        foreach (var chunk in chunks.Skip(1))
+        {
+            Assert.DoesNotContain(chunk.UserProperties!, p => p.Name == "originalProperty");
         }
 
         // Verify the chunks contain all the original data
@@ -254,11 +259,18 @@ public class ChunkedMessageSplitterTests
 
             // Check subscription identifiers
             Assert.Equal(originalMessage.SubscriptionIdentifiers, chunk.SubscriptionIdentifiers);
+        }
 
-            // Check user properties (excluding the chunk property)
-            foreach (var originalProp in originalMessage.UserProperties!)
-                Assert.Contains(chunk.UserProperties!, p =>
-                    p.Name == originalProp.Name && p.Value == originalProp.Value);
+        // Per ADR 0023 the original user properties ride on the first chunk only.
+        foreach (var originalProp in originalMessage.UserProperties!)
+        {
+            Assert.Contains(chunks[0].UserProperties!, p =>
+                p.Name == originalProp.Name && p.Value == originalProp.Value);
+
+            foreach (var chunk in chunks.Skip(1))
+            {
+                Assert.DoesNotContain(chunk.UserProperties!, p => p.Name == originalProp.Name);
+            }
         }
     }
 

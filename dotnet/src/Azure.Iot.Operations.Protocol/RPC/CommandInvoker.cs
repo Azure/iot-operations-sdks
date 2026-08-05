@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+using Azure.Iot.Operations.Protocol.Chunking;
 using Azure.Iot.Operations.Protocol.Events;
 using Azure.Iot.Operations.Protocol.Models;
 using System;
@@ -603,18 +604,21 @@ namespace Azure.Iot.Operations.Protocol.RPC
 
                 try
                 {
-                    MqttClientPublishResult pubAck = await _mqttClient.PublishAsync(requestMessage, cancellationToken).ConfigureAwait(false);
-                    MqttClientPublishReasonCode pubReasonCode = pubAck.ReasonCode;
-                    if (pubReasonCode != MqttClientPublishReasonCode.Success)
+                    foreach (MqttApplicationMessage outgoing in SplitIfNeeded(requestMessage))
                     {
-                        throw new AkriMqttException($"Command '{_commandName}' invocation failed due to an unsuccessful publishing with the error code {pubReasonCode}.")
+                        MqttClientPublishResult pubAck = await _mqttClient.PublishAsync(outgoing, cancellationToken).ConfigureAwait(false);
+                        MqttClientPublishReasonCode pubReasonCode = pubAck.ReasonCode;
+                        if (pubReasonCode != MqttClientPublishReasonCode.Success)
                         {
-                            Kind = AkriMqttErrorKind.MqttError,
-                            IsShallow = false,
-                            IsRemote = false,
-                            CommandName = _commandName,
-                            CorrelationId = requestGuid,
-                        };
+                            throw new AkriMqttException($"Command '{_commandName}' invocation failed due to an unsuccessful publishing with the error code {pubReasonCode}.")
+                            {
+                                Kind = AkriMqttErrorKind.MqttError,
+                                IsShallow = false,
+                                IsRemote = false,
+                                CommandName = _commandName,
+                                CorrelationId = requestGuid,
+                            };
+                        }
                     }
                     Trace.TraceInformation($"Invoked command '{_commandName}' with correlation ID {requestGuid} to topic '{requestTopic}'");
                 }
@@ -699,6 +703,16 @@ namespace Azure.Iot.Operations.Protocol.RPC
                     _requestIdMap.Remove(requestGuid.ToString());
                 }
             }
+        }
+
+        private static IReadOnlyList<MqttApplicationMessage> SplitIfNeeded(MqttApplicationMessage message)
+        {
+            ChunkingOptions options = new();
+            int maxChunkSize = Utils.GetMaxChunkSize(ChunkingConstants.PlaceholderMaxPacketSize, options.StaticOverhead);
+
+            return message.Payload.Length <= maxChunkSize
+                ? [message]
+                : new ChunkedMessageSplitter(options).SplitMessage(message, ChunkingConstants.PlaceholderMaxPacketSize);
         }
 
         /// <summary>
