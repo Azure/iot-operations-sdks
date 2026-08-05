@@ -34,6 +34,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
         private readonly HashSet<string> _subscribedTopics;
 
         private readonly object _requestIdMapLock = new();
+        // used to track pending responses
         private readonly Dictionary<string, ResponsePromise> _requestIdMap;
 
         /// <summary>
