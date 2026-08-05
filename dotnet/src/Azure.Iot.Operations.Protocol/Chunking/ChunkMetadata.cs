@@ -11,9 +11,16 @@ namespace Azure.Iot.Operations.Protocol.Chunking;
 /// </summary>
 /// <remarks>
 /// Serialized into the <see cref="ChunkingConstants.ChunkUserProperty"/> user property as a
-/// colon-separated string, per ADR 0023:
-/// <c>messageId:chunkIndex:totalChunks:checksum</c> for the first chunk, and
-/// <c>messageId:chunkIndex</c> for every subsequent chunk.
+/// colon-separated string introduced by a tag that determines the form, mirroring the streaming
+/// protocol's <c>__stream</c> property:
+/// <code>
+/// chunk_metadata ::= head_chunk | data_chunk
+/// head_chunk     ::= "h" ":" message_id ":" chunk_index ":" total_chunks ":" checksum
+/// data_chunk     ::= "d" ":" message_id ":" chunk_index
+/// </code>
+/// A head chunk is always index 0 and is the only one carrying the message-level header, so a
+/// message only ever carries the fields that apply to it and the parser never has to infer the
+/// form from how many fields arrived.
 /// </remarks>
 internal sealed class ChunkMetadata
 {
@@ -76,11 +83,11 @@ internal sealed class ChunkMetadata
 
         if (TotalChunks == null)
         {
-            return string.Join(separator, MessageId, chunkIndex);
+            return string.Join(separator, ChunkingConstants.DataChunkTag, MessageId, chunkIndex);
         }
 
         string totalChunks = TotalChunks.Value.ToString(CultureInfo.InvariantCulture);
-        return string.Join(separator, MessageId, chunkIndex, totalChunks, Checksum);
+        return string.Join(separator, ChunkingConstants.HeadChunkTag, MessageId, chunkIndex, totalChunks, Checksum);
     }
 
     /// <summary>
@@ -100,38 +107,49 @@ internal sealed class ChunkMetadata
 
         string[] fields = value.Split(ChunkingConstants.ChunkFieldSeparator);
 
-        if (fields.Length is not (ChunkingConstants.FirstChunkFieldCount or ChunkingConstants.SubsequentChunkFieldCount))
+        // The leading tag alone determines the form, so each branch knows exactly which fields to
+        // expect rather than inferring them from how many arrived.
+        return fields[0] switch
         {
-            return false;
-        }
+            ChunkingConstants.HeadChunkTag => TryParseHeadChunk(fields, out metadata),
+            ChunkingConstants.DataChunkTag => TryParseDataChunk(fields, out metadata),
+            _ => false,
+        };
+    }
 
-        if (string.IsNullOrEmpty(fields[0])
-            || !int.TryParse(fields[1], NumberStyles.None, CultureInfo.InvariantCulture, out int chunkIndex))
-        {
-            return false;
-        }
+    private static bool TryParseHeadChunk(string[] fields, out ChunkMetadata? metadata)
+    {
+        metadata = null;
 
-        if (fields.Length == ChunkingConstants.SubsequentChunkFieldCount)
-        {
-            // Only the first chunk carries totalChunks and checksum, so index 0 must not use this form.
-            if (chunkIndex == 0)
-            {
-                return false;
-            }
-
-            metadata = CreateSubsequentChunk(fields[0], chunkIndex);
-            return true;
-        }
-
-        if (chunkIndex != 0
-            || !int.TryParse(fields[2], NumberStyles.None, CultureInfo.InvariantCulture, out int totalChunks)
+        if (fields.Length != ChunkingConstants.HeadChunkFieldCount
+            || string.IsNullOrEmpty(fields[1])
+            || !int.TryParse(fields[2], NumberStyles.None, CultureInfo.InvariantCulture, out int chunkIndex)
+            || chunkIndex != 0
+            || !int.TryParse(fields[3], NumberStyles.None, CultureInfo.InvariantCulture, out int totalChunks)
             || totalChunks < 1
-            || string.IsNullOrEmpty(fields[3]))
+            || string.IsNullOrEmpty(fields[4]))
         {
             return false;
         }
 
-        metadata = CreateFirstChunk(fields[0], totalChunks, fields[3]);
+        metadata = CreateFirstChunk(fields[1], totalChunks, fields[4]);
+        return true;
+    }
+
+    private static bool TryParseDataChunk(string[] fields, out ChunkMetadata? metadata)
+    {
+        metadata = null;
+
+        // Index 0 is the head chunk, which must use the head form.
+        if (fields.Length != ChunkingConstants.DataChunkFieldCount
+            || string.IsNullOrEmpty(fields[1])
+            || !int.TryParse(fields[2], NumberStyles.None, CultureInfo.InvariantCulture, out int chunkIndex)
+            || chunkIndex < 1)
+        {
+            return false;
+        }
+
+        metadata = CreateSubsequentChunk(fields[1], chunkIndex);
         return true;
     }
 }

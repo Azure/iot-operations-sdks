@@ -19,14 +19,26 @@ internal static class ChunkingConstants
     public const char ChunkFieldSeparator = ':';
 
     /// <summary>
-    /// Number of separated fields carried by a first chunk: messageId, chunkIndex, totalChunks, checksum.
+    /// Tag introducing a head chunk, the first chunk of a message, which additionally carries the
+    /// message-level header: <c>h:messageId:chunkIndex:totalChunks:checksum</c>.
     /// </summary>
-    public const int FirstChunkFieldCount = 4;
+    public const string HeadChunkTag = "h";
 
     /// <summary>
-    /// Number of separated fields carried by a subsequent chunk: messageId, chunkIndex.
+    /// Tag introducing a data chunk, any chunk after the first:
+    /// <c>d:messageId:chunkIndex</c>.
     /// </summary>
-    public const int SubsequentChunkFieldCount = 2;
+    public const string DataChunkTag = "d";
+
+    /// <summary>
+    /// Number of separated fields in a <see cref="HeadChunkTag"/> value.
+    /// </summary>
+    public const int HeadChunkFieldCount = 5;
+
+    /// <summary>
+    /// Number of separated fields in a <see cref="DataChunkTag"/> value.
+    /// </summary>
+    public const int DataChunkFieldCount = 3;
 
     /// <summary>
     /// Default static overhead value subtracted from the maximum packet size.

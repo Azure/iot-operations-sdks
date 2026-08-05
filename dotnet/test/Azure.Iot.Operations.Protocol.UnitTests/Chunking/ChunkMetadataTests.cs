@@ -11,23 +11,23 @@ public class ChunkMetadataTests
     private const string Checksum = "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855";
 
     [Fact]
-    public void Format_FirstChunk_EmitsAllFields()
+    public void Format_HeadChunk_IsTaggedAndCarriesTheHeader()
     {
         var metadata = ChunkMetadata.CreateFirstChunk(MessageId, 4, Checksum);
 
-        Assert.Equal($"{MessageId}:0:4:{Checksum}", metadata.Format());
+        Assert.Equal($"h:{MessageId}:0:4:{Checksum}", metadata.Format());
     }
 
     [Fact]
-    public void Format_SubsequentChunk_EmitsMessageIdAndIndexOnly()
+    public void Format_DataChunk_IsTaggedAndCarriesIndexOnly()
     {
         var metadata = ChunkMetadata.CreateSubsequentChunk(MessageId, 3);
 
-        Assert.Equal($"{MessageId}:3", metadata.Format());
+        Assert.Equal($"d:{MessageId}:3", metadata.Format());
     }
 
     [Fact]
-    public void TryParse_FirstChunk_RoundTrips()
+    public void TryParse_HeadChunk_RoundTrips()
     {
         var original = ChunkMetadata.CreateFirstChunk(MessageId, 4, Checksum);
 
@@ -39,7 +39,7 @@ public class ChunkMetadataTests
     }
 
     [Fact]
-    public void TryParse_SubsequentChunk_RoundTrips()
+    public void TryParse_DataChunk_RoundTrips()
     {
         var original = ChunkMetadata.CreateSubsequentChunk(MessageId, 3);
 
@@ -54,12 +54,21 @@ public class ChunkMetadataTests
     [InlineData(null)]
     [InlineData("")]
     [InlineData("only-one-field")]
-    [InlineData("id:0:4")]
-    [InlineData("id:0:4:checksum:extra")]
-    [InlineData(":1")]
-    [InlineData("id:notanumber")]
-    [InlineData("id:-1")]
-    [InlineData("id: 1")]
+    // Unknown, missing, or wrong-case tag.
+    [InlineData("x:id:1")]
+    [InlineData("id:1")]
+    [InlineData("D:id:1")]
+    [InlineData("H:id:0:4:checksum")]
+    // Right tag, wrong field count for that form.
+    [InlineData("d:id")]
+    [InlineData("d:id:1:extra")]
+    [InlineData("h:id:0:4")]
+    [InlineData("h:id:0:4:checksum:extra")]
+    // Malformed fields.
+    [InlineData("d::1")]
+    [InlineData("d:id:notanumber")]
+    [InlineData("d:id:-1")]
+    [InlineData("d:id: 1")]
     public void TryParse_MalformedValue_Fails(string? value)
     {
         Assert.False(ChunkMetadata.TryParse(value, out var parsed));
@@ -67,17 +76,17 @@ public class ChunkMetadataTests
     }
 
     [Fact]
-    public void TryParse_SubsequentChunkFormAtIndexZero_Fails()
+    public void TryParse_DataChunkAtIndexZero_Fails()
     {
-        // Index 0 must use the first-chunk form, which carries totalChunks and checksum.
-        Assert.False(ChunkMetadata.TryParse($"{MessageId}:0", out var parsed));
+        // Index 0 is the head chunk and must use the head form.
+        Assert.False(ChunkMetadata.TryParse($"d:{MessageId}:0", out var parsed));
         Assert.Null(parsed);
     }
 
     [Fact]
-    public void TryParse_FirstChunkFormAtNonZeroIndex_Fails()
+    public void TryParse_HeadChunkAtNonZeroIndex_Fails()
     {
-        Assert.False(ChunkMetadata.TryParse($"{MessageId}:1:4:{Checksum}", out var parsed));
+        Assert.False(ChunkMetadata.TryParse($"h:{MessageId}:1:4:{Checksum}", out var parsed));
         Assert.Null(parsed);
     }
 
@@ -86,14 +95,14 @@ public class ChunkMetadataTests
     [InlineData(-2)]
     public void TryParse_NonPositiveTotalChunks_Fails(int totalChunks)
     {
-        Assert.False(ChunkMetadata.TryParse($"{MessageId}:0:{totalChunks}:{Checksum}", out var parsed));
+        Assert.False(ChunkMetadata.TryParse($"h:{MessageId}:0:{totalChunks}:{Checksum}", out var parsed));
         Assert.Null(parsed);
     }
 
     [Fact]
     public void TryParse_EmptyChecksum_Fails()
     {
-        Assert.False(ChunkMetadata.TryParse($"{MessageId}:0:4:", out var parsed));
+        Assert.False(ChunkMetadata.TryParse($"h:{MessageId}:0:4:", out var parsed));
         Assert.Null(parsed);
     }
 }
