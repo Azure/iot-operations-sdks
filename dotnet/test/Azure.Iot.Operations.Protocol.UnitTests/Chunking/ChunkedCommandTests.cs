@@ -201,6 +201,29 @@ public class ChunkedCommandTests
         Assert.True(executorMock.MessagesPublished.Count > 1, "Expected the response to have been chunked.");
     }
 
+    [Fact]
+    public async Task ChunkedRequest_EveryChunkCarriesAPositiveExpiryWithinTheInvocationBudget()
+    {
+        MockMqttPubSubClient mock = new();
+        await using EchoInvoker invoker = new(new ApplicationContext(), mock) { RequestTopicPattern = "mock/echo" };
+
+        TimeSpan commandTimeout = TimeSpan.FromSeconds(10);
+
+        await Assert.ThrowsAsync<AkriMqttException>(
+            () => invoker.InvokeCommandAsync(LargePayload, commandTimeout: commandTimeout));
+
+        Assert.True(mock.MessagesPublished.Count > 1);
+
+        foreach (MqttApplicationMessage chunk in mock.MessagesPublished)
+        {
+            // Zero means "already expired" to the receiving envoy, so it must never go on the wire.
+            Assert.True(chunk.MessageExpiryInterval > 0);
+
+            // No chunk may outlive the invocation it belongs to.
+            Assert.True(chunk.MessageExpiryInterval <= (uint)commandTimeout.TotalSeconds);
+        }
+    }
+
     private static MqttApplicationMessage SmallRequestMessage()
     {
         Utf8JsonSerializer serializer = new();

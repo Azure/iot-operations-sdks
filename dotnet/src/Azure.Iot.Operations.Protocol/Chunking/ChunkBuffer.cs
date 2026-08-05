@@ -93,6 +93,13 @@ internal sealed class ChunkBuffer
     {
         ArgumentNullException.ThrowIfNull(args);
 
+        // Without an expiry there is no bound on how long a partial message could be retained.
+        if (args.ApplicationMessage.MessageExpiryInterval == 0)
+        {
+            Trace.TraceWarning($"Discarding chunk published without a message expiry interval on topic '{args.ApplicationMessage.Topic}'.");
+            return ChunkBufferResult.Discard([args]);
+        }
+
         string? metadataValue = args.ApplicationMessage.UserProperties?
             .FirstOrDefault(p => p.Name == ChunkingConstants.ChunkUserProperty)?.Value;
 

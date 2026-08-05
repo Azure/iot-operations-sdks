@@ -620,8 +620,28 @@ namespace Azure.Iot.Operations.Protocol.RPC
 
             try
             {
-                foreach (MqttApplicationMessage outgoing in ChunkedMessageSplitter.SplitIfNeeded(responseMessage))
+                IReadOnlyList<MqttApplicationMessage> outgoingMessages = ChunkedMessageSplitter.SplitIfNeeded(responseMessage);
+
+                // Each chunk's expiry is the budget still remaining when it is published, so no
+                // chunk outlives the command.
+                bool isChunked = outgoingMessages.Count > 1;
+                DateTime responseDeadline = WallClock.UtcNow + TimeSpan.FromSeconds(responseMessage.MessageExpiryInterval);
+
+                foreach (MqttApplicationMessage outgoing in outgoingMessages)
                 {
+                    if (isChunked)
+                    {
+                        uint remaining = Utils.RemainingExpirySeconds(responseDeadline, WallClock.UtcNow);
+                        if (remaining == 0)
+                        {
+                            string expiredCorrelationId = correlationData != null ? $"'{new Guid(correlationData)}'" : "unknown";
+                            Trace.TraceError($"Command '{_commandName}' with CorrelationId {expiredCorrelationId} expired while its chunked response was being published on topic '{topic}'. The remaining chunks will not be published.");
+                            return;
+                        }
+
+                        outgoing.MessageExpiryInterval = remaining;
+                    }
+
                     MqttClientPublishResult pubAck = await _mqttClient.PublishAsync(outgoing, CancellationToken.None).ConfigureAwait(false);
                     MqttClientPublishReasonCode pubReasonCode = pubAck.ReasonCode;
                     if (pubReasonCode != MqttClientPublishReasonCode.Success)

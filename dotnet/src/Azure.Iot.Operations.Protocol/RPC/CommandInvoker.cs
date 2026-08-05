@@ -246,7 +246,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
                     ChunkBufferResult chunkResult = _chunkBuffer.AddChunk(
                         args,
                         now,
-                        now + TimeSpan.FromSeconds(Math.Max(1, args.ApplicationMessage.MessageExpiryInterval)));
+                        now + TimeSpan.FromSeconds(args.ApplicationMessage.MessageExpiryInterval));
 
                     foreach (MqttApplicationMessageReceivedEventArgs chunk in chunkResult.ToAcknowledge)
                     {
@@ -633,8 +633,38 @@ namespace Azure.Iot.Operations.Protocol.RPC
 
                 try
                 {
-                    foreach (MqttApplicationMessage outgoing in ChunkedMessageSplitter.SplitIfNeeded(requestMessage))
+                    IReadOnlyList<MqttApplicationMessage> outgoingMessages = ChunkedMessageSplitter.SplitIfNeeded(requestMessage);
+
+                    // Each chunk's expiry is the budget still remaining when it is published, so
+                    // no chunk outlives the invocation and the broker is not asked to hold every
+                    // chunk for the full timeout.
+                    bool isChunked = outgoingMessages.Count > 1;
+                    DateTime invocationDeadline = WallClock.UtcNow + reifiedCommandTimeout;
+
+                    for (int chunkIndex = 0; chunkIndex < outgoingMessages.Count; chunkIndex++)
                     {
+                        MqttApplicationMessage outgoing = outgoingMessages[chunkIndex];
+
+                        if (isChunked)
+                        {
+                            uint remaining = Utils.RemainingExpirySeconds(invocationDeadline, WallClock.UtcNow);
+                            if (remaining == 0)
+                            {
+                                throw new AkriMqttException($"Command '{_commandName}' timed out while publishing chunk {chunkIndex} of {outgoingMessages.Count}.")
+                                {
+                                    Kind = AkriMqttErrorKind.Timeout,
+                                    IsShallow = false,
+                                    IsRemote = false,
+                                    TimeoutName = nameof(commandTimeout),
+                                    TimeoutValue = reifiedCommandTimeout,
+                                    CommandName = _commandName,
+                                    CorrelationId = requestGuid,
+                                };
+                            }
+
+                            outgoing.MessageExpiryInterval = remaining;
+                        }
+
                         MqttClientPublishResult pubAck = await _mqttClient.PublishAsync(outgoing, cancellationToken).ConfigureAwait(false);
                         MqttClientPublishReasonCode pubReasonCode = pubAck.ReasonCode;
                         if (pubReasonCode != MqttClientPublishReasonCode.Success)

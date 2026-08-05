@@ -193,6 +193,21 @@ public class ChunkBufferTests
         Assert.Contains(held, result.ToAcknowledge);
     }
 
+    [Fact]
+    public void AddChunk_ChunkWithoutMessageExpiry_IsDiscarded()
+    {
+        var chunks = Split(NewPayload(4096), maxPacketSize: 1124, staticOverhead: 1024);
+        var buffer = new ChunkBuffer(new ChunkingOptions());
+
+        chunks[0].MessageExpiryInterval = 0;
+        var args = Received(chunks[0]);
+
+        var result = buffer.AddChunk(args, Now, ExpiresAt);
+
+        Assert.Null(result.ReassembledMessage);
+        Assert.Same(args, Assert.Single(result.ToAcknowledge));
+    }
+
     private static byte[] NewPayload(int size)
     {
         var payload = new byte[size];
