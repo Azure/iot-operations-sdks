@@ -147,7 +147,7 @@ public class ChunkingPocTests(ITestOutputHelper output)
         await using EchoInvoker invoker = new(appContext, invokerClient);
 
         Log($"invoking with a {request.Length:N0} char request");
-        ExtendedResponse<string> response = await invoker.InvokeCommandAsync(request, commandTimeout: TimeSpan.FromMinutes(2));
+        ExtendedResponse<string> response = await invoker.InvokeCommandAsync(request, new CommandRequestMetadata(), commandTimeout: TimeSpan.FromMinutes(2));
 
         LogIntegrity($"INTEGRITY request : chars={request.Length:N0} fnv1a64={ComputeFnv1a64(request)}");
         LogIntegrity($"INTEGRITY received: chars={executorSaw?.Length ?? 0:N0} fnv1a64={(executorSaw == null ? "n/a" : ComputeFnv1a64(executorSaw))}");
@@ -184,7 +184,7 @@ public class ChunkingPocTests(ITestOutputHelper output)
 
         await using EchoInvoker invoker = new(appContext, invokerClient);
 
-        ExtendedResponse<string> response = await invoker.InvokeCommandAsync("give me a lot", commandTimeout: TimeSpan.FromMinutes(2));
+        ExtendedResponse<string> response = await invoker.InvokeCommandAsync("give me a lot", new CommandRequestMetadata(), commandTimeout: TimeSpan.FromMinutes(2));
 
         LogIntegrity($"INTEGRITY sent    : chars={expected.Length:N0} fnv1a64={ComputeFnv1a64(expected)}");
         LogIntegrity($"INTEGRITY received: chars={response.Response.Length:N0} fnv1a64={ComputeFnv1a64(response.Response)}");
@@ -217,7 +217,7 @@ public class ChunkingPocTests(ITestOutputHelper output)
 
         await using EchoInvoker invoker = new(appContext, invokerClient);
 
-        ExtendedResponse<string> response = await invoker.InvokeCommandAsync(request, commandTimeout: TimeSpan.FromMinutes(2));
+        ExtendedResponse<string> response = await invoker.InvokeCommandAsync(request, new CommandRequestMetadata(), commandTimeout: TimeSpan.FromMinutes(2));
 
         LogIntegrity($"INTEGRITY request : chars={request.Length:N0} fnv1a64={ComputeFnv1a64(request)}");
         LogIntegrity($"INTEGRITY response: chars={response.Response.Length:N0} fnv1a64={ComputeFnv1a64(response.Response)}");
@@ -249,7 +249,7 @@ public class ChunkingPocTests(ITestOutputHelper output)
         await using EchoInvoker invoker = new(appContext, invokerClient);
 
         const string request = "small enough to fit in one packet";
-        ExtendedResponse<string> response = await invoker.InvokeCommandAsync(request, commandTimeout: TimeSpan.FromSeconds(30));
+        ExtendedResponse<string> response = await invoker.InvokeCommandAsync(request, new CommandRequestMetadata(), commandTimeout: TimeSpan.FromSeconds(30));
 
         Assert.Equal(request, response.Response);
 
@@ -282,7 +282,7 @@ public class ChunkingPocTests(ITestOutputHelper output)
         await using EchoInvoker invoker = new(appContext, invokerClient);
 
         string request = BuildPayload(300_000);
-        ExtendedResponse<string> response = await invoker.InvokeCommandAsync(request, commandTimeout: TimeSpan.FromMinutes(2));
+        ExtendedResponse<string> response = await invoker.InvokeCommandAsync(request, new CommandRequestMetadata(), commandTimeout: TimeSpan.FromMinutes(2));
         Assert.Equal("ack", response.Response);
 
         List<string> chunkValues = observed
@@ -314,9 +314,14 @@ public class ChunkingPocTests(ITestOutputHelper output)
             m.UserProperties!.Single(p => p.Name == ChunkUserPropertyName).Value.StartsWith("h:", StringComparison.Ordinal));
         Assert.Contains(head.UserProperties!, p => p.Name == "__srcId");
 
+        // __ts is consumed by the executor to advance the application clock, so it has to survive
+        // reassembly: it rides on the head chunk, whose properties the reassembled message inherits.
+        Assert.Contains(head.UserProperties!, p => p.Name == "__ts");
+
         foreach (MqttApplicationMessage tail in observed.Where(m => m != head))
         {
             Assert.DoesNotContain(tail.UserProperties!, p => p.Name == "__srcId");
+            Assert.DoesNotContain(tail.UserProperties!, p => p.Name == "__ts");
             Assert.Contains(tail.UserProperties!, p => p.Name == "$partition");
             Assert.Contains(tail.UserProperties!, p => p.Name == "__protVer");
         }
@@ -362,7 +367,7 @@ public class ChunkingPocTests(ITestOutputHelper output)
 
         await using FileTransferInvoker invoker = new(appContext, invokerClient);
 
-        ExtendedResponse<string> response = await invoker.InvokeCommandAsync(AdrRelativePath, commandTimeout: TimeSpan.FromMinutes(2));
+        ExtendedResponse<string> response = await invoker.InvokeCommandAsync(AdrRelativePath, new CommandRequestMetadata(), commandTimeout: TimeSpan.FromMinutes(2));
 
         string invokerHash = ComputeFnv1a64(response.Response);
         LogIntegrity($"INTEGRITY invoker : chars={response.Response.Length:N0} fnv1a64={invokerHash}");
