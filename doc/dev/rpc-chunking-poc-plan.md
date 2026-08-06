@@ -301,9 +301,42 @@ total bytes in the control packet, and both CONNECT's and CONNACK's Maximum Pack
 that definition, so any compliant broker — the AIO broker, Mosquitto, EMQX, HiveMQ — counts the
 same bytes. There is no "this broker measures differently" case to defend against.
 
-What *is* universal, and what the safety margin actually exists for, is that the broker may add
-properties between publish and delivery. Principally the **subscription identifier** (§3.3.2.3.8),
-added when the matching subscription declared one, and one per matching subscription. So:
+What a server may alter when forwarding is equally well specified, and most of the packet is
+**required to survive untouched**:
+
+| Property | Normative statement |
+|---|---|
+| Payload Format Indicator | MUST send unaltered — \[MQTT-3.3.2-4\] |
+| Response Topic | MUST send unaltered — \[MQTT-3.3.2-15\] |
+| Correlation Data | MUST send unaltered — \[MQTT-3.3.2-16\] |
+| **User Properties** | MUST send **all** unaltered, **in order** — \[MQTT-3.3.2-17\], \[MQTT-3.3.2-18\] |
+| Content Type | MUST send unaltered — \[MQTT-3.3.2-20\] |
+
+**The user-property guarantee is what makes chunking viable at all.** `__chunk`, and the whole
+property set riding on the head chunk, are guaranteed to reach the subscriber verbatim.
+
+What can change, and by how much:
+
+| Change | Spec | Size effect |
+|---|---|---|
+| **Subscription identifier added** | \[MQTT-3.3.4-3\] | **+2 to +5 bytes each** |
+| **Topic alias** | \[MQTT-3.3.2-10\] | +3 on first use, then shrinks |
+| Message expiry interval decremented | \[MQTT-3.3.2-6\] | 0 — always 4 bytes when present |
+| QoS downgraded to the subscription maximum | \[MQTT-3.8.4-8\] | −2, the packet identifier is dropped |
+| DUP / RETAIN flags | — | 0, bits in the fixed header |
+| Packet identifier reassigned | — | 0 |
+
+Only two can *grow* the packet, and one of them is already closed here:
+
+* **Topic alias — closed.** `MqttClientOptions.TopicAliasMaximum` defaults to `0` and the
+  `MqttConnectionSettings` constructor never sets it. \[MQTT-3.3.2-10\] forbids the server sending an
+  alias above that value and \[MQTT-3.3.2-8\] forbids alias `0`, so the server cannot send one.
+* **Subscription identifier — the live vector.** Not one per message but one *per matching
+  subscription*: \[MQTT-3.3.4-3\] requires the server to include the identifiers for **all** matching
+  subscriptions when it sends a single copy. Overlapping wildcard subscriptions on one client each
+  contribute, which is why the margin is sized for about a dozen rather than one.
+
+So the asymmetry the safety margin exists for is:
 
 > Chunking sizes the packet it **publishes**, but the limit that decides whether a chunk survives
 > applies to the packet the subscriber **receives**.
