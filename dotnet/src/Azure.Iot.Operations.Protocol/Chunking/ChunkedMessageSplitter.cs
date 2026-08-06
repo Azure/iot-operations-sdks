@@ -27,87 +27,107 @@ internal class ChunkedMessageSplitter
     }
 
     /// <summary>
-    /// Splits a message into chunks if its payload exceeds the maximum chunk size, otherwise
-    /// returns the message unchanged.
+    /// Splits a message into chunks if the encoded packet would exceed the maximum packet size,
+    /// otherwise returns the message unchanged.
     /// </summary>
     public static IReadOnlyList<MqttApplicationMessage> SplitIfNeeded(MqttApplicationMessage message)
     {
         ArgumentNullException.ThrowIfNull(message);
 
-        ChunkingOptions options = new();
-        int maxChunkSize = Utils.GetMaxChunkSize(ChunkingConstants.PlaceholderMaxPacketSize, options.StaticOverhead);
+        int maxPacketSize = ChunkingConstants.PlaceholderMaxPacketSize;
 
-        return message.Payload.Length <= maxChunkSize
+        // Decided on the whole packet rather than the payload alone, since user properties are
+        // unbounded and count toward the broker's limit just as much as the body does.
+        return MqttPacketSizeEstimator.EstimatePublishSize(message) <= maxPacketSize
             ? [message]
-            : new ChunkedMessageSplitter(options).SplitMessage(message, ChunkingConstants.PlaceholderMaxPacketSize);
+            : new ChunkedMessageSplitter(new ChunkingOptions()).SplitMessage(message, maxPacketSize);
     }
 
     /// <summary>
-    /// Splits a message into smaller chunks if necessary.
+    /// Splits a message into a header chunk followed by data chunks.
     /// </summary>
     /// <param name="message">The original message to split.</param>
     /// <param name="maxPacketSize">The maximum packet size allowed.</param>
-    /// <returns>A list of chunked messages.</returns>
+    /// <returns>The chunked messages, starting with the header chunk.</returns>
+    /// <remarks>
+    /// Chunk 0 carries the full user property set and no payload; the payload is carried by chunks
+    /// 1..n, which bear only the properties needed to deliver and reassemble them. Quarantining the
+    /// unbounded, user-controlled properties in a single message means every data chunk has an
+    /// entirely SDK-controlled property set, whose overhead can be measured rather than guessed.
+    /// </remarks>
     public IReadOnlyList<MqttApplicationMessage> SplitMessage(MqttApplicationMessage message, int maxPacketSize)
-    {
-        var maxChunkSize = ValidateAndGetMaxChunkSize(message, maxPacketSize);
-        var (payload, totalChunks, messageId, checksum, userProperties) = PrepareChunkingMetadata(message, maxChunkSize);
-
-        var perChunkUserProperties = userProperties
-            .Where(p => ChunkingConstants.PerChunkUserProperties.Contains(p.Name, StringComparer.Ordinal))
-            .ToList();
-
-        // Create chunks
-        var chunks = new List<MqttApplicationMessage>(totalChunks);
-
-        for (var chunkIndex = 0; chunkIndex < totalChunks; chunkIndex++)
-        {
-            var chunkPayload = ChunkedMessageSplitter.ExtractChunkPayload(payload, chunkIndex, maxChunkSize);
-            var chunkMessage = ChunkedMessageSplitter.CreateChunk(message, chunkPayload, chunkIndex == 0 ? userProperties : perChunkUserProperties, messageId, chunkIndex, totalChunks, checksum);
-            chunks.Add(chunkMessage);
-        }
-
-        Trace.TraceInformation($"Chunking: split a {payload.Length} byte payload for topic '{message.Topic}' into {totalChunks} chunk(s) of at most {maxChunkSize} bytes as message '{messageId}'.");
-
-        return chunks;
-    }
-
-    private int ValidateAndGetMaxChunkSize(MqttApplicationMessage message, int maxPacketSize)
     {
         ArgumentNullException.ThrowIfNull(message);
         ArgumentOutOfRangeException.ThrowIfLessThan(maxPacketSize, 128); // minimum MQTT 5.0 protocol compliance.
 
-        // Calculate the maximum size for each chunk's payload
-        var maxChunkSize = Utils.GetMaxChunkSize(maxPacketSize, _options.StaticOverhead);
-        if (message.Payload.Length <= maxChunkSize)
-        {
-            throw new ArgumentException($"Message size {message.Payload.Length} is less than the maximum chunk size {maxChunkSize}.", nameof(message));
-        }
-
-        return maxChunkSize;
-    }
-
-    private (ReadOnlySequence<byte> Payload, int TotalChunks, string MessageId, string Checksum, List<MqttUserProperty> UserProperties)
-        PrepareChunkingMetadata(MqttApplicationMessage message, int maxChunkSize)
-    {
         var payload = message.Payload;
-        var totalChunks = (int)Math.Ceiling((double)payload.Length / maxChunkSize);
-
-        // Generate a unique message ID
         var messageId = Guid.NewGuid().ToString("D");
-
-        // Calculate checksum for the entire payload
         var checksum = ChecksumCalculator.CalculateChecksum(payload, _options.ChecksumAlgorithm);
 
-        // Create a copy of the user properties
         var userProperties = new List<MqttUserProperty>(message.UserProperties ?? Enumerable.Empty<MqttUserProperty>());
+        var perChunkUserProperties = userProperties
+            .Where(p => ChunkingConstants.PerChunkUserProperties.Contains(p.Name, StringComparer.Ordinal))
+            .ToList();
 
-        return (payload, totalChunks, messageId, checksum, userProperties);
+        var maxChunkSize = GetMaxDataChunkSize(message, perChunkUserProperties, messageId, maxPacketSize);
+        var dataChunks = (int)Math.Ceiling((double)payload.Length / maxChunkSize);
+        var totalChunks = dataChunks + 1;
+
+        var chunks = new List<MqttApplicationMessage>(totalChunks)
+        {
+            CreateChunk(message, ReadOnlySequence<byte>.Empty, userProperties, messageId, 0, totalChunks, checksum),
+        };
+
+        var headSize = MqttPacketSizeEstimator.EstimatePublishSize(chunks[0]);
+        if (headSize > maxPacketSize)
+        {
+            throw new ArgumentException(
+                $"The message's properties require {headSize} bytes, which exceeds the maximum packet size of {maxPacketSize}. Chunking cannot split properties across chunks.",
+                nameof(message));
+        }
+
+        for (var chunkIndex = 1; chunkIndex < totalChunks; chunkIndex++)
+        {
+            var chunkPayload = ExtractChunkPayload(payload, chunkIndex, maxChunkSize);
+            chunks.Add(CreateChunk(message, chunkPayload, perChunkUserProperties, messageId, chunkIndex, totalChunks, checksum));
+        }
+
+        Trace.TraceInformation($"Chunking: split a {payload.Length} byte payload for topic '{message.Topic}' into a header chunk plus {dataChunks} data chunk(s) of at most {maxChunkSize} bytes as message '{messageId}'.");
+
+        return chunks;
+    }
+
+    /// <summary>
+    /// Determines how much payload a data chunk can carry, by sizing an empty one.
+    /// </summary>
+    /// <remarks>
+    /// The widest chunk index the configured bound allows is used, because the index appears in the
+    /// chunk metadata and a later index encodes to a slightly longer value; the real chunk count is
+    /// not yet known at this point.
+    /// </remarks>
+    private int GetMaxDataChunkSize(
+        MqttApplicationMessage message,
+        List<MqttUserProperty> perChunkUserProperties,
+        string messageId,
+        int maxPacketSize)
+    {
+        var probe = CreateChunk(message, ReadOnlySequence<byte>.Empty, perChunkUserProperties, messageId, _options.MaxChunkCount, _options.MaxChunkCount, string.Empty);
+        var overhead = MqttPacketSizeEstimator.EstimatePublishSize(probe) + _options.StaticOverhead;
+
+        if (overhead >= maxPacketSize)
+        {
+            throw new ArgumentException(
+                $"A data chunk's own overhead is {overhead} bytes, leaving no room for payload within the maximum packet size of {maxPacketSize}.",
+                nameof(message));
+        }
+
+        return (int)(maxPacketSize - overhead);
     }
 
     private static ReadOnlySequence<byte> ExtractChunkPayload(ReadOnlySequence<byte> payload, int chunkIndex, int maxChunkSize)
     {
-        var chunkStart = (long)chunkIndex * maxChunkSize;
+        // Chunk 0 carries no payload, so data chunk n starts at offset (n - 1) * maxChunkSize.
+        var chunkStart = (long)(chunkIndex - 1) * maxChunkSize;
         var chunkLength = Math.Min(maxChunkSize, payload.Length - chunkStart);
         return payload.Slice(chunkStart, chunkLength);
     }

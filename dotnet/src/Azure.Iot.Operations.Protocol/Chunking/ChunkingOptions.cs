@@ -13,10 +13,15 @@ namespace Azure.Iot.Operations.Protocol.Chunking;
 internal class ChunkingOptions
 {
     /// <summary>
-    /// Gets or sets the static overhead value subtracted from the MQTT maximum packet size
-    /// to account for headers, topic names, and other metadata.
+    /// Gets or sets the safety margin, in bytes, left free in each data chunk on top of its
+    /// measured overhead.
     /// </summary>
-    public int StaticOverhead { get; set; } = ChunkingConstants.DefaultStaticOverhead;
+    /// <remarks>
+    /// A data chunk's overhead is measured rather than guessed, by sizing an empty chunk, but
+    /// <see cref="MqttPacketSizeEstimator"/> cannot perfectly predict how the underlying client
+    /// encodes a packet, so a small margin is kept.
+    /// </remarks>
+    public int StaticOverhead { get; set; } = ChunkingConstants.DefaultSafetyMargin;
 
     /// <summary>
     /// Gets or sets the checksum algorithm to use for message integrity verification.

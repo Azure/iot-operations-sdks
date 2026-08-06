@@ -179,8 +179,7 @@ public class ChunkedCommandTests
         Task<ExtendedResponse<string>> invocation =
             invoker.InvokeCommandAsync(LargePayload, commandTimeout: TimeSpan.FromSeconds(60));
 
-        int expectedRequestChunks = ExpectedChunkCount(LargePayload);
-        await WaitForPublishesAsync(invokerMock, expectedRequestChunks);
+        await WaitForAllChunksAsync(invokerMock);
 
         List<MqttApplicationMessage> requestChunks = [.. invokerMock.MessagesPublished];
         foreach (MqttApplicationMessage chunk in requestChunks)
@@ -243,22 +242,26 @@ public class ChunkedCommandTests
         return request;
     }
 
-    private static int ExpectedChunkCount(string payload)
-    {
-        long serializedLength = new Utf8JsonSerializer().ToBytes(payload).SerializedPayload.Length;
-        int maxChunkSize = Utils.GetMaxChunkSize(ChunkingConstants.PlaceholderMaxPacketSize, new ChunkingOptions().StaticOverhead);
-
-        return (int)Math.Ceiling(serializedLength / (double)maxChunkSize);
-    }
-
     // The invoker publishes from an async method, so the chunks are not guaranteed to have landed
-    // by the time InvokeCommandAsync yields.
-    private static async Task WaitForPublishesAsync(MockMqttPubSubClient mock, int expectedCount)
+    // by the time InvokeCommandAsync yields. The head chunk states how many there will be, so wait
+    // for it and then for the rest rather than predicting the count.
+    private static async Task WaitForAllChunksAsync(MockMqttPubSubClient mock)
     {
         using CancellationTokenSource timeout = new(TimeSpan.FromSeconds(30));
 
-        while (mock.MessagesPublished.Count < expectedCount)
+        while (true)
         {
+            MqttApplicationMessage? head = mock.MessagesPublished.FirstOrDefault();
+            string? chunkValue = head?.UserProperties?
+                .FirstOrDefault(p => p.Name == ChunkingConstants.ChunkUserProperty)?.Value;
+
+            if (ChunkMetadata.TryParse(chunkValue, out ChunkMetadata? metadata)
+                && metadata!.TotalChunks is int total
+                && mock.MessagesPublished.Count >= total)
+            {
+                return;
+            }
+
             await Task.Delay(10, timeout.Token);
         }
     }

@@ -314,6 +314,12 @@ public class ChunkingPocTests(ITestOutputHelper output)
             m.UserProperties!.Single(p => p.Name == ChunkUserPropertyName).Value.StartsWith("h:", StringComparison.Ordinal));
         Assert.Contains(head.UserProperties!, p => p.Name == "__srcId");
 
+        // The head chunk exists to carry properties, not payload. Quarantining the unbounded,
+        // user-controlled properties here is what lets every data chunk have a fully SDK-controlled
+        // property set, and therefore a measurable rather than guessed overhead.
+        Assert.Equal(0, head.Payload.Length);
+        Assert.All(observed.Where(m => m != head), m => Assert.True(m.Payload.Length > 0));
+
         // __ts is consumed by the executor to advance the application clock, so it has to survive
         // reassembly: it rides on the head chunk, whose properties the reassembled message inherits.
         Assert.Contains(head.UserProperties!, p => p.Name == "__ts");

@@ -13,6 +13,12 @@ public class ChunkBufferTests
     private static readonly DateTime Now = new(2026, 1, 1, 0, 0, 0, DateTimeKind.Utc);
     private static readonly DateTime ExpiresAt = Now.AddSeconds(10);
 
+    // Small enough to produce a handful of chunks from a modest payload. The splitter measures a
+    // data chunk's real overhead, so the payload budget is whatever is left after that plus the
+    // safety margin, rather than a number these tests can compute.
+    private const int TestMaxPacketSize = 1200;
+    private const int TestSafetyMargin = 16;
+
     [Fact]
     public void IsChunk_UnchunkedMessage_ReturnsFalse()
     {
@@ -27,16 +33,40 @@ public class ChunkBufferTests
     [Fact]
     public void IsChunk_ChunkedMessage_ReturnsTrue()
     {
-        var chunks = Split("payload that will need chunking"u8.ToArray(), maxPacketSize: 138, staticOverhead: 128);
+        var chunks = Split(NewPayload(4096));
 
         Assert.True(ChunkBuffer.IsChunk(chunks[0]));
+    }
+
+    [Fact]
+    public void Split_ProducesAHeaderChunkCarryingNoPayload()
+    {
+        var chunks = Split(NewPayload(4096), extraProperty: true);
+
+        Assert.True(chunks.Count > 2);
+        Assert.Equal(0, chunks[0].Payload.Length);
+        Assert.All(chunks.Skip(1), c => Assert.True(c.Payload.Length > 0));
+
+        // The header chunk is the one carrying the user's properties.
+        Assert.Contains(chunks[0].UserProperties!, p => p.Name == "originalProperty");
+        Assert.All(chunks.Skip(1), c => Assert.DoesNotContain(c.UserProperties!, p => p.Name == "originalProperty"));
+    }
+
+    [Fact]
+    public void Split_EveryChunkFitsWithinTheMaximumPacketSize()
+    {
+        var chunks = Split(NewPayload(4096), extraProperty: true);
+
+        Assert.All(chunks, c => Assert.True(
+            MqttPacketSizeEstimator.EstimatePublishSize(c) <= TestMaxPacketSize,
+            $"A chunk estimated at {MqttPacketSizeEstimator.EstimatePublishSize(c)} bytes exceeds {TestMaxPacketSize}."));
     }
 
     [Fact]
     public void AddChunk_AllChunksInOrder_ReassemblesPayload()
     {
         var payload = NewPayload(4096);
-        var chunks = Split(payload, maxPacketSize: 1124, staticOverhead: 1024);
+        var chunks = Split(payload);
         var buffer = new ChunkBuffer(new ChunkingOptions());
 
         Assert.True(chunks.Count > 1);
@@ -60,7 +90,7 @@ public class ChunkBufferTests
     public void AddChunk_ChunksOutOfOrder_ReassemblesPayload()
     {
         var payload = NewPayload(4096);
-        var chunks = Split(payload, maxPacketSize: 1124, staticOverhead: 1024);
+        var chunks = Split(payload);
         var buffer = new ChunkBuffer(new ChunkingOptions());
 
         ChunkBufferResult? result = null;
@@ -76,7 +106,7 @@ public class ChunkBufferTests
     [Fact]
     public void AddChunk_ReassembledMessage_StripsChunkPropertyAndKeepsOriginalProperties()
     {
-        var chunks = Split(NewPayload(4096), maxPacketSize: 1124, staticOverhead: 1024, extraProperty: true);
+        var chunks = Split(NewPayload(4096), extraProperty: true);
         var buffer = new ChunkBuffer(new ChunkingOptions());
 
         ChunkBufferResult? result = null;
@@ -93,7 +123,7 @@ public class ChunkBufferTests
     [Fact]
     public async Task AddChunk_AcknowledgingReassembledMessage_AcknowledgesEveryChunk()
     {
-        var chunks = Split(NewPayload(4096), maxPacketSize: 1124, staticOverhead: 1024);
+        var chunks = Split(NewPayload(4096));
         var buffer = new ChunkBuffer(new ChunkingOptions());
         var acknowledged = new List<int>();
 
@@ -118,6 +148,7 @@ public class ChunkBufferTests
         var message = new MqttApplicationMessage("test/topic")
         {
             Payload = new ReadOnlySequence<byte>(NewPayload(16)),
+            MessageExpiryInterval = 10u,
             UserProperties = [new MqttUserProperty(ChunkingConstants.ChunkUserProperty, "not-valid-metadata")]
         };
         var args = Received(message);
@@ -131,7 +162,7 @@ public class ChunkBufferTests
     [Fact]
     public void AddChunk_DuplicateChunk_DiscardsTheRedeliveryOnly()
     {
-        var chunks = Split(NewPayload(4096), maxPacketSize: 1124, staticOverhead: 1024);
+        var chunks = Split(NewPayload(4096));
         var buffer = new ChunkBuffer(new ChunkingOptions());
 
         Assert.Empty(buffer.AddChunk(Received(chunks[0]), Now, ExpiresAt).ToAcknowledge);
@@ -146,7 +177,7 @@ public class ChunkBufferTests
     [Fact]
     public void AddChunk_TooManyChunks_DiscardsMessage()
     {
-        var chunks = Split(NewPayload(4096), maxPacketSize: 1124, staticOverhead: 1024);
+        var chunks = Split(NewPayload(4096));
         var buffer = new ChunkBuffer(new ChunkingOptions { MaxChunkCount = 2 });
 
         Assert.True(chunks.Count > 2);
@@ -160,32 +191,36 @@ public class ChunkBufferTests
     [Fact]
     public void AddChunk_ExceedsReassemblyBufferLimit_DiscardsMessageAndReleasesHeldChunks()
     {
-        // Chunk payloads are maxPacketSize - staticOverhead = 100 bytes, so the second chunk
-        // is the one that crosses a 150 byte limit.
-        var chunks = Split(NewPayload(4096), maxPacketSize: 1124, staticOverhead: 1024);
-        var buffer = new ChunkBuffer(new ChunkingOptions { ReassemblyBufferSizeLimit = 150 });
+        var chunks = Split(NewPayload(4096));
 
-        var first = Received(chunks[0]);
+        // Room for the header chunk, which carries no payload, and one data chunk but not two.
+        long limit = chunks[1].Payload.Length + 1;
+        var buffer = new ChunkBuffer(new ChunkingOptions { ReassemblyBufferSizeLimit = limit });
+
+        var header = Received(chunks[0]);
+        Assert.Empty(buffer.AddChunk(header, Now, ExpiresAt).ToAcknowledge);
+
+        var first = Received(chunks[1]);
         Assert.Empty(buffer.AddChunk(first, Now, ExpiresAt).ToAcknowledge);
 
-        var second = Received(chunks[1]);
+        var second = Received(chunks[2]);
         var result = buffer.AddChunk(second, Now, ExpiresAt);
 
         Assert.Null(result.ReassembledMessage);
-        Assert.Equal([first, second], result.ToAcknowledge);
+        Assert.Equal([header, first, second], result.ToAcknowledge);
     }
 
     [Fact]
     public void AddChunk_PartialMessageExpires_AbandonsAndReturnsHeldChunks()
     {
-        var chunks = Split(NewPayload(4096), maxPacketSize: 1124, staticOverhead: 1024);
+        var chunks = Split(NewPayload(4096));
         var buffer = new ChunkBuffer(new ChunkingOptions());
 
         var held = Received(chunks[0]);
         Assert.Empty(buffer.AddChunk(held, Now, ExpiresAt).ToAcknowledge);
 
         // A later, unrelated chunk arrives after the first message's deadline.
-        var laterChunks = Split(NewPayload(4096), maxPacketSize: 1124, staticOverhead: 1024);
+        var laterChunks = Split(NewPayload(4096));
         var afterExpiry = ExpiresAt.AddSeconds(1);
         var result = buffer.AddChunk(Received(laterChunks[0]), afterExpiry, afterExpiry.AddSeconds(10));
 
@@ -196,7 +231,7 @@ public class ChunkBufferTests
     [Fact]
     public void AddChunk_ChunkWithoutMessageExpiry_IsDiscarded()
     {
-        var chunks = Split(NewPayload(4096), maxPacketSize: 1124, staticOverhead: 1024);
+        var chunks = Split(NewPayload(4096));
         var buffer = new ChunkBuffer(new ChunkingOptions());
 
         chunks[0].MessageExpiryInterval = 0;
@@ -215,13 +250,9 @@ public class ChunkBufferTests
         return payload;
     }
 
-    private static IReadOnlyList<MqttApplicationMessage> Split(
-        byte[] payload,
-        int maxPacketSize,
-        int staticOverhead,
-        bool extraProperty = false)
+    private static IReadOnlyList<MqttApplicationMessage> Split(byte[] payload, bool extraProperty = false)
     {
-        var splitter = new ChunkedMessageSplitter(new ChunkingOptions { StaticOverhead = staticOverhead });
+        var splitter = new ChunkedMessageSplitter(new ChunkingOptions { StaticOverhead = TestSafetyMargin });
         var message = new MqttApplicationMessage("test/topic")
         {
             Payload = new ReadOnlySequence<byte>(payload),
@@ -231,7 +262,7 @@ public class ChunkBufferTests
             UserProperties = extraProperty ? [new MqttUserProperty("originalProperty", "value")] : null
         };
 
-        return splitter.SplitMessage(message, maxPacketSize);
+        return splitter.SplitMessage(message, TestMaxPacketSize);
     }
 
     private static MqttApplicationMessageReceivedEventArgs Received(MqttApplicationMessage message, Action? onAcknowledge = null)

@@ -41,10 +41,9 @@ internal static class ChunkingConstants
     public const int DataChunkFieldCount = 3;
 
     /// <summary>
-    /// Default static overhead value subtracted from the maximum packet size.
-    /// This accounts for MQTT packet headers, topic name, and other metadata.
+    /// Default safety margin left free in each data chunk on top of its measured overhead.
     /// </summary>
-    public const int DefaultStaticOverhead = 1024;
+    public const int DefaultSafetyMargin = 64;
 
     /// <summary>
     /// Stand-in for the broker-negotiated maximum packet size, which is not reachable from the
