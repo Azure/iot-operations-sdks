@@ -276,6 +276,7 @@ impl MqttConnectionSettings {
             max_packet_identifier,
             publish_qos0_queue_size,
             publish_qos1_qos2_queue_size,
+            ..Default::default()
         };
 
         let ping_after =

@@ -3,6 +3,8 @@
 
 //! Types that define requests for an MQTT operation
 
+use tokio::sync::OwnedSemaphorePermit;
+
 use crate::azure_mqtt::buffer_pool::Shared;
 use crate::azure_mqtt::client::token::{
     acknowledgement::buffered::{PubAckToken, PubRecToken},
@@ -103,7 +105,7 @@ pub enum IncomingPublishAndToken<S>
 where
     S: Shared,
 {
-    QoS0(Publish<S>),
+    QoS0(Publish<S>, OwnedSemaphorePermit),
     QoS1(Publish<S>, PubAckToken<S>),
     QoS2(Publish<S>, PubRecToken<S>),
 }
