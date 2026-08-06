@@ -258,7 +258,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
                         return;
                     }
 
-                    // The reassembled message is synthetic, so nothing else will acknowledge it.
+                    // No chunk has been acknowledged yet; this one call fans out to all of them.
                     args = chunkResult.ReassembledMessage;
                     await args.AcknowledgeAsync(CancellationToken.None).ConfigureAwait(false);
                 }
