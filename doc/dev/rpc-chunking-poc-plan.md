@@ -20,6 +20,11 @@ production-grade packet-size negotiation, and fixing F3.
 ### 1.1 The earlier ADR
 
 [ADR 0023 — Large Message Chunking in MQTT Protocol](https://github.com/Azure/iot-operations-sdks/blob/maxim/chunking/doc/dev/adr/0023-large-message-chunking.md)
+
+> **Numbering:** the draft is `0023` on its branch, but `0023-property-support.md` (Codegen Support
+> for Property) already holds that number here, so the draft cannot land as-is. The next free number
+> is **0033**, which is also what ADR 25 points at when it defers chunking to
+> `0033-large-message-chunking-options.md`. References to "ADR 0023" below mean the chunking draft.
 (branch `maxim/chunking`, status *Proposed*) was largely agreed. It is **strong input but not
 binding**, because requirements changed after it was written — most importantly the decision to
 keep chunking inside the RPC envoys rather than under them.
@@ -335,6 +340,19 @@ Only two can *grow* the packet, and one of them is already closed here:
   subscription*: \[MQTT-3.3.4-3\] requires the server to include the identifiers for **all** matching
   subscriptions when it sends a single copy. Overlapping wildcard subscriptions on one client each
   contribute, which is why the margin is sized for about a dozen rather than one.
+
+  **This is not the executor count**, which is the natural misreading in an RPC context. Subscription
+  identifiers are scoped to the *receiving client's own session*: each subscriber gets its own
+  PUBLISH carrying only its own subscriptions' identifiers, so one executor's delivery never carries
+  another's. Shared subscriptions make the point sharper still — exactly one member of a
+  `$share` group receives each message, so adding executors reduces the messages each one sees
+  rather than inflating any packet. What actually multiplies the count is several envoys sharing a
+  single `MqttSessionClient` with topic filters that overlap, so that one delivered message matches
+  more than one of that connection's subscriptions.
+
+  Note the terminology collision: [shared-subscriptions.md](../reference/shared-subscriptions.md)
+  calls the `$share` prefix "the shared subscription identifier", which is unrelated to the MQTT 5
+  Subscription Identifier property discussed here. The ADR should not conflate them.
 
 So the asymmetry the safety margin exists for is:
 
