@@ -268,6 +268,81 @@ public class ChunkBufferTests
         Assert.Same(args, Assert.Single(result.DiscardedChunks));
     }
 
+    [Fact]
+    public void AddChunk_CustomChecksum_RoundTripsWhenBothEndsKnowIt()
+    {
+        var checksum = new Fnv1a64ChunkChecksum();
+        var payload = NewPayload(4096);
+
+        var splitter = new ChunkedMessageSplitter(new ChunkingOptions
+        {
+            StaticOverhead = TestSafetyMargin,
+            Checksum = checksum,
+        });
+        var chunks = splitter.SplitMessage(NewMessage(payload), TestMaxPacketSize);
+
+        // The head chunk names the algorithm, so a receiver that knows it can verify.
+        Assert.Contains($":{checksum.Id}:", ChunkValue(chunks[0]), StringComparison.Ordinal);
+
+        var buffer = new ChunkBuffer(new ChunkingOptions
+        {
+            ResolveChecksum = id => id == checksum.Id ? checksum : null,
+        });
+
+        ChunkBufferResult? result = null;
+        foreach (var chunk in chunks)
+        {
+            result = buffer.AddChunk(Received(chunk), Now, ExpiresAt);
+        }
+
+        Assert.NotNull(result!.ReassembledMessage);
+        Assert.Equal(payload, result.ReassembledMessage!.ApplicationMessage.Payload.ToArray());
+    }
+
+    [Fact]
+    public void AddChunk_ChecksumTheReceiverCannotResolve_DiscardsRatherThanMisverifying()
+    {
+        var splitter = new ChunkedMessageSplitter(new ChunkingOptions
+        {
+            StaticOverhead = TestSafetyMargin,
+            Checksum = new Fnv1a64ChunkChecksum(),
+        });
+        var chunks = splitter.SplitMessage(NewMessage(NewPayload(4096)), TestMaxPacketSize);
+
+        // A receiver knowing only the built-ins must refuse the message outright: verifying with
+        // the wrong algorithm would look exactly like data corruption.
+        var buffer = new ChunkBuffer(new ChunkingOptions());
+
+        var head = Received(chunks[0]);
+        var result = buffer.AddChunk(head, Now, ExpiresAt);
+
+        Assert.Null(result.ReassembledMessage);
+        Assert.Same(head, Assert.Single(result.DiscardedChunks));
+    }
+
+    private sealed class Fnv1a64ChunkChecksum : IChunkChecksum
+    {
+        public string Id => "fnv1a64";
+
+        public string Compute(ReadOnlySequence<byte> payload)
+        {
+            ulong hash = 14695981039346656037;
+            foreach (ReadOnlyMemory<byte> segment in payload)
+            {
+                foreach (byte b in segment.Span)
+                {
+                    hash ^= b;
+                    hash *= 1099511628211;
+                }
+            }
+
+            return hash.ToString("x16", System.Globalization.CultureInfo.InvariantCulture);
+        }
+    }
+
+    private static string? ChunkValue(MqttApplicationMessage message) =>
+        message.UserProperties?.FirstOrDefault(p => p.Name == ChunkingConstants.ChunkUserProperty)?.Value;
+
     private static byte[] NewPayload(int size)
     {
         var payload = new byte[size];
@@ -278,7 +353,11 @@ public class ChunkBufferTests
     private static IReadOnlyList<MqttApplicationMessage> Split(byte[] payload, bool extraProperty = false)
     {
         var splitter = new ChunkedMessageSplitter(new ChunkingOptions { StaticOverhead = TestSafetyMargin });
-        var message = new MqttApplicationMessage("test/topic")
+        return splitter.SplitMessage(NewMessage(payload, extraProperty), TestMaxPacketSize);
+    }
+
+    private static MqttApplicationMessage NewMessage(byte[] payload, bool extraProperty = false) =>
+        new("test/topic")
         {
             Payload = new ReadOnlySequence<byte>(payload),
             ResponseTopic = "test/response",
@@ -286,9 +365,6 @@ public class ChunkBufferTests
             MessageExpiryInterval = 10u,
             UserProperties = extraProperty ? [new MqttUserProperty("originalProperty", "value")] : null
         };
-
-        return splitter.SplitMessage(message, TestMaxPacketSize);
-    }
 
     private static MqttApplicationMessageReceivedEventArgs Received(MqttApplicationMessage message, Action? onAcknowledge = null)
     {

@@ -62,7 +62,7 @@ internal class ChunkedMessageSplitter
 
         var payload = message.Payload;
         var messageId = Guid.NewGuid().ToString("D");
-        var checksum = ChecksumCalculator.CalculateChecksum(payload, _options.ChecksumAlgorithm);
+        var checksum = _options.Checksum.Compute(payload);
 
         var userProperties = new List<MqttUserProperty>(message.UserProperties ?? Enumerable.Empty<MqttUserProperty>());
         var perChunkUserProperties = userProperties
@@ -75,7 +75,7 @@ internal class ChunkedMessageSplitter
 
         var chunks = new List<MqttApplicationMessage>(totalChunks)
         {
-            CreateChunk(message, ReadOnlySequence<byte>.Empty, userProperties, messageId, 0, totalChunks, checksum),
+            CreateChunk(message, ReadOnlySequence<byte>.Empty, userProperties, messageId, 0, totalChunks, _options.Checksum.Id, checksum),
         };
 
         var headSize = MqttPacketSizeCalculator.CalculatePublishSize(chunks[0]);
@@ -89,7 +89,7 @@ internal class ChunkedMessageSplitter
         for (var chunkIndex = 1; chunkIndex < totalChunks; chunkIndex++)
         {
             var chunkPayload = ExtractChunkPayload(payload, chunkIndex, maxChunkSize);
-            chunks.Add(CreateChunk(message, chunkPayload, perChunkUserProperties, messageId, chunkIndex, totalChunks, checksum));
+            chunks.Add(CreateChunk(message, chunkPayload, perChunkUserProperties, messageId, chunkIndex, totalChunks, _options.Checksum.Id, checksum));
         }
 
         Trace.TraceInformation($"Chunking: split a {payload.Length} byte payload for topic '{message.Topic}' into a header chunk plus {dataChunks} data chunk(s) of at most {maxChunkSize} bytes as message '{messageId}'.");
@@ -111,7 +111,7 @@ internal class ChunkedMessageSplitter
         string messageId,
         int maxPacketSize)
     {
-        var probe = CreateChunk(message, ReadOnlySequence<byte>.Empty, perChunkUserProperties, messageId, _options.MaxChunkCount, _options.MaxChunkCount, string.Empty);
+        var probe = CreateChunk(message, ReadOnlySequence<byte>.Empty, perChunkUserProperties, messageId, _options.MaxChunkCount, _options.MaxChunkCount, _options.Checksum.Id, string.Empty);
         var overhead = MqttPacketSizeCalculator.CalculatePublishSize(probe) + _options.StaticOverhead;
 
         if (overhead >= maxPacketSize)
@@ -139,11 +139,12 @@ internal class ChunkedMessageSplitter
         string messageId,
         int chunkIndex,
         int totalChunks,
+        string checksumId,
         string checksum)
     {
         // Create chunk metadata
         var metadata = chunkIndex == 0
-            ? ChunkMetadata.CreateFirstChunk(messageId, totalChunks, checksum)
+            ? ChunkMetadata.CreateFirstChunk(messageId, totalChunks, checksumId, checksum)
             : ChunkMetadata.CreateSubsequentChunk(messageId, chunkIndex);
 
         // Create user properties for this chunk

@@ -26,9 +26,9 @@ internal class ChecksumMismatchError : ChunkingException
     public long PayloadSize { get; }
 
     /// <summary>
-    /// Gets the checksum algorithm that was used.
+    /// Gets the identifier of the checksum algorithm that was used.
     /// </summary>
-    public ChunkingChecksumAlgorithm ChecksumAlgorithm { get; }
+    public string ChecksumAlgorithm { get; }
 
     /// <summary>
     /// Gets the total number of chunks that were reassembled.
@@ -42,7 +42,7 @@ internal class ChecksumMismatchError : ChunkingException
     /// <param name="expectedChecksum">The expected checksum from the first chunk.</param>
     /// <param name="actualChecksum">The actual checksum calculated from the reassembled payload.</param>
     /// <param name="payloadSize">The size of the reassembled payload.</param>
-    /// <param name="checksumAlgorithm">The checksum algorithm that was used.</param>
+    /// <param name="checksumAlgorithm">The identifier of the checksum algorithm that was used.</param>
     /// <param name="totalChunks">The total number of chunks that were reassembled.</param>
     /// <param name="innerException">The inner exception, if any.</param>
     public ChecksumMismatchError(
@@ -50,7 +50,7 @@ internal class ChecksumMismatchError : ChunkingException
         string expectedChecksum,
         string actualChecksum,
         long payloadSize,
-        ChunkingChecksumAlgorithm checksumAlgorithm,
+        string checksumAlgorithm,
         int totalChunks,
         Exception? innerException = null)
         : base(messageId,
@@ -61,7 +61,7 @@ internal class ChecksumMismatchError : ChunkingException
         ExpectedChecksum = expectedChecksum ?? throw new ArgumentNullException(nameof(expectedChecksum));
         ActualChecksum = actualChecksum ?? throw new ArgumentNullException(nameof(actualChecksum));
         PayloadSize = payloadSize;
-        ChecksumAlgorithm = checksumAlgorithm;
+        ChecksumAlgorithm = checksumAlgorithm ?? throw new ArgumentNullException(nameof(checksumAlgorithm));
         TotalChunks = totalChunks;
     }
 

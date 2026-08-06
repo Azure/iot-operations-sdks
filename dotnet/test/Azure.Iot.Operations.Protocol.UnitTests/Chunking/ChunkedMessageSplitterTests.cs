@@ -168,9 +168,7 @@ public class ChunkedMessageSplitterTests
 
         Assert.True(ChunkMetadata.TryParse(ChunkValue(chunks[0]), out var head));
 
-        var expected = ChecksumCalculator.CalculateChecksum(
-            new ReadOnlySequence<byte>(payload),
-            ChunkingChecksumAlgorithm.SHA256);
+        var expected = ChunkChecksums.Sha256.Compute(new ReadOnlySequence<byte>(payload));
 
         Assert.Equal(expected, head!.Checksum);
     }

@@ -23,7 +23,7 @@ internal class ChunkedMessageAssembler
     private readonly object _lock = new();
     private int _totalChunks;
     private string? _checksum;
-    private readonly ChunkingChecksumAlgorithm _checksumAlgorithm;
+    private IChunkChecksum? _checksumAlgorithm;
     private TimeSpan? _timeout;
 
     /// <summary>
@@ -64,11 +64,9 @@ internal class ChunkedMessageAssembler
     /// Initializes a new instance of the <see cref="ChunkedMessageAssembler"/> class.
     /// </summary>
     /// <param name="totalChunks">The total number of chunks expected (may be updated later).</param>
-    /// <param name="checksumAlgorithm">The algorithm to use for checksum verification.</param>
-    public ChunkedMessageAssembler(int totalChunks, ChunkingChecksumAlgorithm checksumAlgorithm)
+    public ChunkedMessageAssembler(int totalChunks)
     {
         _totalChunks = totalChunks;
-        _checksumAlgorithm = checksumAlgorithm;
     }
 
     /// <summary>
@@ -77,17 +75,19 @@ internal class ChunkedMessageAssembler
     public bool IsComplete => _totalChunks > 0 && _chunks.Count == _totalChunks;
 
     /// <summary>
-    /// Updates the metadata for this chunked message when the first chunk is received.
+    /// Updates the metadata for this chunked message when the head chunk is received.
     /// </summary>
     /// <param name="totalChunks">The total number of chunks expected.</param>
     /// <param name="checksum">The checksum of the complete message.</param>
+    /// <param name="checksumAlgorithm">The algorithm the sender used to produce the checksum.</param>
     /// <param name="timeout">The timeout duration extracted from MessageExpiryInterval.</param>
-    public void UpdateMetadata(int totalChunks, string? checksum, TimeSpan? timeout)
+    public void UpdateMetadata(int totalChunks, string? checksum, IChunkChecksum? checksumAlgorithm, TimeSpan? timeout)
     {
         lock (_lock)
         {
             _totalChunks = totalChunks;
             _checksum = checksum;
+            _checksumAlgorithm = checksumAlgorithm;
             _timeout = timeout;
         }
     }
@@ -165,8 +165,13 @@ internal class ChunkedMessageAssembler
                 // Verify the checksum if provided
                 if (!string.IsNullOrEmpty(_checksum))
                 {
-                    bool checksumValid = ChecksumCalculator.VerifyChecksum(reassembledPayload, _checksum, _checksumAlgorithm);
-                    if (!checksumValid)
+                    if (_checksumAlgorithm == null)
+                    {
+                        return false;
+                    }
+
+                    string actual = _checksumAlgorithm.Compute(reassembledPayload);
+                    if (!string.Equals(actual, _checksum, StringComparison.OrdinalIgnoreCase))
                     {
                         // Checksum verification failed
                         return false;

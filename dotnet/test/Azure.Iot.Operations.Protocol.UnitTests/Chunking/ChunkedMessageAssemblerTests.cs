@@ -19,7 +19,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests.Chunking
         public void Constructor_SetsProperties_Correctly()
         {
             // Arrange & Act
-            var assembler = new ChunkedMessageAssembler(5, ChunkingChecksumAlgorithm.SHA256);
+            var assembler = new ChunkedMessageAssembler(5);
 
             // Assert
             Assert.False(assembler.IsComplete);
@@ -29,7 +29,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests.Chunking
         public void AddChunk_ReturnsTrueForNewChunk_FalseForDuplicate()
         {
             // Arrange
-            var assembler = new ChunkedMessageAssembler(2, ChunkingChecksumAlgorithm.SHA256);
+            var assembler = new ChunkedMessageAssembler(2);
             var chunk0 = CreateMqttMessageEventArgs("payload1");
 
             // Act & Assert
@@ -41,7 +41,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests.Chunking
         public void IsComplete_ReturnsTrueWhenAllChunksReceived()
         {
             // Arrange
-            var assembler = new ChunkedMessageAssembler(2, ChunkingChecksumAlgorithm.SHA256);
+            var assembler = new ChunkedMessageAssembler(2);
             var chunk0 = CreateMqttMessageEventArgs("payload1");
             var chunk1 = CreateMqttMessageEventArgs("payload2");
 
@@ -57,7 +57,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests.Chunking
         public void TryReassemble_ReturnsFalseWhenNotComplete()
         {
             // Arrange
-            var assembler = new ChunkedMessageAssembler(2, ChunkingChecksumAlgorithm.SHA256);
+            var assembler = new ChunkedMessageAssembler(2);
             var chunk0 = CreateMqttMessageEventArgs("payload1");
 
             // Act
@@ -73,7 +73,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests.Chunking
         public void TryReassemble_ReturnsValidMessageWhenComplete()
         {
             // Arrange
-            var assembler = new ChunkedMessageAssembler(2, ChunkingChecksumAlgorithm.SHA256);
+            var assembler = new ChunkedMessageAssembler(2);
             var chunk0 = CreateMqttMessageEventArgs("payload1");
             var chunk1 = CreateMqttMessageEventArgs(" payload2");
 
@@ -108,10 +108,10 @@ namespace Azure.Iot.Operations.Protocol.UnitTests.Chunking
             var ros = new ReadOnlySequence<byte>(combinedBytes);
 
             // Calculate the actual checksum
-            var checksum = ChecksumCalculator.CalculateChecksum(ros, ChunkingChecksumAlgorithm.SHA256);
+            var checksum = ChunkChecksums.Sha256.Compute(ros);
 
-            var assembler = new ChunkedMessageAssembler(2, ChunkingChecksumAlgorithm.SHA256);
-            assembler.UpdateMetadata(2, checksum, null); // Set the correct checksum
+            var assembler = new ChunkedMessageAssembler(2);
+            assembler.UpdateMetadata(2, checksum, ChunkChecksums.Sha256, null); // Set the correct checksum
 
             var chunk0 = CreateMqttMessageEventArgs(payload1);
             var chunk1 = CreateMqttMessageEventArgs(payload2);
@@ -130,8 +130,8 @@ namespace Azure.Iot.Operations.Protocol.UnitTests.Chunking
         public void TryReassemble_ChecksumVerification_Failure()
         {
             // Arrange
-            var assembler = new ChunkedMessageAssembler(2, ChunkingChecksumAlgorithm.SHA256);
-            assembler.UpdateMetadata(2, "invalid-checksum", null); // Set incorrect checksum
+            var assembler = new ChunkedMessageAssembler(2);
+            assembler.UpdateMetadata(2, "invalid-checksum", ChunkChecksums.Sha256, null); // Set incorrect checksum
 
             var chunk0 = CreateMqttMessageEventArgs("payload1");
             var chunk1 = CreateMqttMessageEventArgs("payload2");
@@ -150,11 +150,11 @@ namespace Azure.Iot.Operations.Protocol.UnitTests.Chunking
         public void HasExpired_ReturnsTrueWhenTimeoutExceeded()
         {
             // Arrange
-            var assembler = new ChunkedMessageAssembler(2, ChunkingChecksumAlgorithm.SHA256);
+            var assembler = new ChunkedMessageAssembler(2);
             var shortTimeout = TimeSpan.FromMilliseconds(1);
 
             // Set timeout via metadata update
-            assembler.UpdateMetadata(2, "test-checksum", shortTimeout);
+            assembler.UpdateMetadata(2, "test-checksum", ChunkChecksums.Sha256, shortTimeout);
 
             // Act
             Thread.Sleep(10); // Ensure timeout is exceeded
@@ -168,11 +168,11 @@ namespace Azure.Iot.Operations.Protocol.UnitTests.Chunking
         public void HasExpired_ReturnsFalseWhenTimeoutNotExceeded()
         {
             // Arrange
-            var assembler = new ChunkedMessageAssembler(2, ChunkingChecksumAlgorithm.SHA256);
+            var assembler = new ChunkedMessageAssembler(2);
             var longTimeout = TimeSpan.FromMinutes(5);
 
             // Set timeout via metadata update
-            assembler.UpdateMetadata(2, "test-checksum", longTimeout);
+            assembler.UpdateMetadata(2, "test-checksum", ChunkChecksums.Sha256, longTimeout);
 
             // Act
             var result = assembler.HasExpired();
@@ -185,7 +185,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests.Chunking
         public void HasExpired_ReturnsFalseWhenNoTimeoutSet()
         {
             // Arrange
-            var assembler = new ChunkedMessageAssembler(2, ChunkingChecksumAlgorithm.SHA256);
+            var assembler = new ChunkedMessageAssembler(2);
 
             // Don't set any timeout via metadata update
 
@@ -200,7 +200,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests.Chunking
         public async Task AcknowledgeHandler_Calls_AcknowledgeAsync_On_All_Chunks()
         {
             // Arrange
-            var assembler = new ChunkedMessageAssembler(2, ChunkingChecksumAlgorithm.SHA256);
+            var assembler = new ChunkedMessageAssembler(2);
             var chunk0AckCount = false;
             var chunk1AckCount = false;
 

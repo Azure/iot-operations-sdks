@@ -447,7 +447,7 @@ Grammar, per §3.2 of the plan — the leading tag alone determines the parse:
 
 ```txt
 chunk_metadata ::= head_chunk | data_chunk
-head_chunk     ::= "h" ":" message_id ":" chunk_index ":" total_chunks ":" checksum
+head_chunk     ::= "h" ":" message_id ":" chunk_index ":" total_chunks ":" checksum_id ":" checksum
 data_chunk     ::= "d" ":" message_id ":" chunk_index
 ```
 

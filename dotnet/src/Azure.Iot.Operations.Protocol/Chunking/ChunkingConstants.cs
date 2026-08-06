@@ -33,7 +33,7 @@ internal static class ChunkingConstants
     /// <summary>
     /// Number of separated fields in a <see cref="HeadChunkTag"/> value.
     /// </summary>
-    public const int HeadChunkFieldCount = 5;
+    public const int HeadChunkFieldCount = 6;
 
     /// <summary>
     /// Number of separated fields in a <see cref="DataChunkTag"/> value.

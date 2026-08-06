@@ -141,7 +141,7 @@ internal sealed class ChunkBuffer
     {
         if (!_entries.TryGetValue(metadata.MessageId, out Entry? entry))
         {
-            entry = new Entry(new ChunkedMessageAssembler(0, _options.ChecksumAlgorithm), expiresAt);
+            entry = new Entry(new ChunkedMessageAssembler(0), expiresAt);
             _entries[metadata.MessageId] = entry;
         }
 
@@ -153,7 +153,16 @@ internal sealed class ChunkBuffer
                 return ChunkBufferResult.Discard(Remove(metadata.MessageId, entry, args));
             }
 
-            entry.Assembler.UpdateMetadata(totalChunks, metadata.Checksum, null);
+            // Verifying with anything other than the algorithm the sender used would report a
+            // mismatch indistinguishable from corruption, so an unknown one is refused outright.
+            IChunkChecksum? checksum = _options.ResolveChecksum(metadata.ChecksumId!);
+            if (checksum == null)
+            {
+                Trace.TraceWarning($"Discarding message '{metadata.MessageId}': its checksum algorithm '{metadata.ChecksumId}' is not one this endpoint can verify.");
+                return ChunkBufferResult.Discard(Remove(metadata.MessageId, entry, args));
+            }
+
+            entry.Assembler.UpdateMetadata(totalChunks, metadata.Checksum, checksum, null);
         }
 
         long chunkSize = args.ApplicationMessage.Payload.Length;

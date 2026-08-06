@@ -15,7 +15,7 @@ namespace Azure.Iot.Operations.Protocol.Chunking;
 /// protocol's <c>__stream</c> property:
 /// <code>
 /// chunk_metadata ::= head_chunk | data_chunk
-/// head_chunk     ::= "h" ":" message_id ":" chunk_index ":" total_chunks ":" checksum
+/// head_chunk     ::= "h" ":" message_id ":" chunk_index ":" total_chunks ":" checksum_id ":" checksum
 /// data_chunk     ::= "d" ":" message_id ":" chunk_index
 /// </code>
 /// A head chunk is always index 0 and is the only one carrying the message-level header, so a
@@ -24,11 +24,12 @@ namespace Azure.Iot.Operations.Protocol.Chunking;
 /// </remarks>
 internal sealed class ChunkMetadata
 {
-    private ChunkMetadata(string messageId, int chunkIndex, int? totalChunks, string? checksum)
+    private ChunkMetadata(string messageId, int chunkIndex, int? totalChunks, string? checksumId, string? checksum)
     {
         MessageId = messageId;
         ChunkIndex = chunkIndex;
         TotalChunks = totalChunks;
+        ChecksumId = checksumId;
         Checksum = checksum;
     }
 
@@ -48,6 +49,13 @@ internal sealed class ChunkMetadata
     public int? TotalChunks { get; }
 
     /// <summary>
+    /// Gets the identifier of the algorithm that produced <see cref="Checksum"/>, present only on
+    /// the first chunk. Without it a receiver configured differently from the sender would verify
+    /// with the wrong algorithm and report a mismatch indistinguishable from corruption.
+    /// </summary>
+    public string? ChecksumId { get; }
+
+    /// <summary>
     /// Gets the checksum of the complete message, present only on the first chunk.
     /// </summary>
     public string? Checksum { get; }
@@ -57,10 +65,11 @@ internal sealed class ChunkMetadata
     /// </summary>
     /// <param name="messageId">The unique message identifier.</param>
     /// <param name="totalChunks">The total number of chunks in the message.</param>
+    /// <param name="checksumId">The identifier of the algorithm that produced the checksum.</param>
     /// <param name="checksum">The checksum of the complete message.</param>
-    public static ChunkMetadata CreateFirstChunk(string messageId, int totalChunks, string checksum)
+    public static ChunkMetadata CreateFirstChunk(string messageId, int totalChunks, string checksumId, string checksum)
     {
-        return new ChunkMetadata(messageId, 0, totalChunks, checksum);
+        return new ChunkMetadata(messageId, 0, totalChunks, checksumId, checksum);
     }
 
     /// <summary>
@@ -70,7 +79,7 @@ internal sealed class ChunkMetadata
     /// <param name="chunkIndex">The index of this chunk in the sequence.</param>
     public static ChunkMetadata CreateSubsequentChunk(string messageId, int chunkIndex)
     {
-        return new ChunkMetadata(messageId, chunkIndex, null, null);
+        return new ChunkMetadata(messageId, chunkIndex, null, null, null);
     }
 
     /// <summary>
@@ -87,7 +96,7 @@ internal sealed class ChunkMetadata
         }
 
         string totalChunks = TotalChunks.Value.ToString(CultureInfo.InvariantCulture);
-        return string.Join(separator, ChunkingConstants.HeadChunkTag, MessageId, chunkIndex, totalChunks, Checksum);
+        return string.Join(separator, ChunkingConstants.HeadChunkTag, MessageId, chunkIndex, totalChunks, ChecksumId, Checksum);
     }
 
     /// <summary>
@@ -127,12 +136,13 @@ internal sealed class ChunkMetadata
             || chunkIndex != 0
             || !int.TryParse(fields[3], NumberStyles.None, CultureInfo.InvariantCulture, out int totalChunks)
             || totalChunks < 1
-            || string.IsNullOrEmpty(fields[4]))
+            || string.IsNullOrEmpty(fields[4])
+            || string.IsNullOrEmpty(fields[5]))
         {
             return false;
         }
 
-        metadata = CreateFirstChunk(fields[1], totalChunks, fields[4]);
+        metadata = CreateFirstChunk(fields[1], totalChunks, fields[4], fields[5]);
         return true;
     }
 

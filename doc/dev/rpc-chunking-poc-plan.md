@@ -213,7 +213,7 @@ property, so the parser never infers the shape from how many fields arrived:
 
 ```txt
 chunk_metadata ::= head_chunk | data_chunk
-head_chunk     ::= "h" ":" message_id ":" chunk_index ":" total_chunks ":" checksum
+head_chunk     ::= "h" ":" message_id ":" chunk_index ":" total_chunks ":" checksum_id ":" checksum
 data_chunk     ::= "d" ":" message_id ":" chunk_index
 ```
 
@@ -222,11 +222,12 @@ data_chunk     ::= "d" ":" message_id ":" chunk_index
 | `message_id` | UUID, 8-4-4-4-12 | Identifies the message being reassembled. Present on every chunk. |
 | `chunk_index` | uint | Position within the message. Always `0` on a head chunk. |
 | `total_chunks` | uint, `>= 1` | Number of chunks the message was split into, counting the head chunk. Head chunk only. |
-| `checksum` | SHA-256, lowercase hex | Over the whole reassembled payload. Head chunk only. |
+| `checksum_id` | token | Names the algorithm that produced `checksum`, so the receiver verifies with the one the sender used. Head chunk only. |
+| `checksum` | lowercase hex | Over the whole reassembled payload. Head chunk only. |
 
 Examples:
 
-* `h:8ac7a0e4-1b3d-4f9a-9a3f-0d2f6c5b7e11:0:4:e3b0c442...` — the head chunk of a four-chunk
+* `h:8ac7a0e4-1b3d-4f9a-9a3f-0d2f6c5b7e11:0:4:sha256:e3b0c442...` — the head chunk of a four-chunk
   message, i.e. one header chunk plus three data chunks.
 * `d:8ac7a0e4-1b3d-4f9a-9a3f-0d2f6c5b7e11:3` — its final chunk.
 
@@ -765,9 +766,35 @@ These feed directly into the ADR's open questions (working doc, Part 3).
 
    **For the ADR:** specify that the checksum is an integrity check against implementation error,
    explicitly not a security mechanism, so that no one later mistakes it for one or feels obliged to
-   keep it cryptographic. Leave the algorithm as a measured choice per language, and note that the
-   enum already carries `MD5` alongside `SHA256` with a CA5351 suppression — a suppression that only
-   ever made sense because this was never a security control in the first place.
+   keep it cryptographic. Leave the algorithm as a measured choice per language.
+
+### 3.7 Settled — the checksum is a strategy, and names itself on the wire
+
+Since the right algorithm is a measured, per-deployment choice rather than a fixed one (§5 question
+6), `ChecksumCalculator` and its `ChunkingChecksumAlgorithm` enum were replaced by an
+`IChunkChecksum` strategy: an `Id` and a `Compute`. `ChunkingOptions.Checksum` selects the one used
+when splitting.
+
+**The identifier had to go on the wire for this to be safe.** The receiver previously verified with
+*its own* configured algorithm rather than the sender's, so a sender on MD5 and a receiver on
+SHA-256 produced a mismatch that `TryReassemble` reported as a plain failure — message discarded,
+caller timed out, nothing indicating a configuration difference rather than corruption. That
+landmine already existed with the two-value enum; making the algorithm pluggable would have
+multiplied it. The head chunk now carries `checksum_id`, and `ChunkingOptions.ResolveChecksum` maps
+it back to an implementation. An identifier the receiver cannot resolve **discards the message with
+a distinct log line** rather than guessing, because verifying with the wrong algorithm reports a
+mismatch indistinguishable from data corruption.
+
+`MD5` was dropped rather than ported. Nothing ever selected it, and it existed only behind a CA5351
+suppression for broken cryptography — a suppression that only made sense because this was never a
+security control. Anyone wanting it back can now implement it in a dozen lines without touching the
+SDK.
+
+**Caveat for the ADR:** a custom `IChunkChecksum` is only usable where every participant can compute
+it. A bespoke .NET implementation is meaningless to a Rust executor, so the realistic use is
+selecting from a *registered, specified* set to suit the hardware — not injecting arbitrary code.
+The wire identifier is what makes that selection detectable instead of silent, and the ADR should
+define the set and its identifiers.
 
 ---
 

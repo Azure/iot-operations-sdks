@@ -1,6 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+using System;
+
 namespace Azure.Iot.Operations.Protocol.Chunking;
 
 /// <summary>
@@ -26,9 +28,17 @@ internal class ChunkingOptions
     public int StaticOverhead { get; set; } = ChunkingConstants.DefaultSafetyMargin;
 
     /// <summary>
-    /// Gets or sets the checksum algorithm to use for message integrity verification.
+    /// Gets or sets the checksum used when splitting a message. Its
+    /// <see cref="IChunkChecksum.Id"/> travels on the head chunk.
     /// </summary>
-    public ChunkingChecksumAlgorithm ChecksumAlgorithm { get; set; } = ChunkingChecksumAlgorithm.SHA256;
+    public IChunkChecksum Checksum { get; set; } = ChunkChecksums.Sha256;
+
+    /// <summary>
+    /// Gets or sets the lookup used when reassembling, mapping the identifier on the head chunk to
+    /// an implementation. Returning null discards the message rather than verifying it with the
+    /// wrong algorithm. Replace this to accept a custom <see cref="IChunkChecksum"/>.
+    /// </summary>
+    public Func<string, IChunkChecksum?> ResolveChecksum { get; set; } = ChunkChecksums.Resolve;
 
     /// <summary>
     /// Gets or sets the maximum total size (in bytes) of all chunk payloads that can be buffered
