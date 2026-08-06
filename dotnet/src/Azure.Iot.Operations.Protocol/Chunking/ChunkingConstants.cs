@@ -41,7 +41,9 @@ internal static class ChunkingConstants
     public const int DataChunkFieldCount = 3;
 
     /// <summary>
-    /// Default safety margin left free in each data chunk on top of its measured overhead.
+    /// Default safety margin left free in each data chunk on top of its calculated overhead.
+    /// Sized to absorb roughly a dozen broker-added subscription identifiers, each costing at most
+    /// five bytes.
     /// </summary>
     public const int DefaultSafetyMargin = 64;
 

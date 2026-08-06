@@ -222,8 +222,12 @@ measurement is an upper bound for every index that can actually occur.
 allowance (1024 bytes) it used to be. It is *not* covering arithmetic error — the calculation is
 exact, and pinned byte-for-byte against the MQTT client's own encoder by
 `MqttPacketSizeCalculatorTests`, so an encoding change in a client upgrade fails the build rather
-than silently overflowing a packet. The margin is headroom against the broker accounting for a
-packet slightly differently than the client encodes it, which chunking cannot observe.
+than silently overflowing a packet. It covers what the **broker adds between publish and delivery**:
+chunking sizes the packet it publishes, but the limit that decides whether a chunk survives applies
+to the packet the subscriber receives, which carries a subscription identifier per matching
+subscription that declared one. A packet too large to deliver is discarded silently, so this margin
+is what stops a chunk sized to the limit from vanishing and stalling reassembly. See §3.6 of the
+plan.
 
 Against a 64 KiB limit this yields a measured budget of **~65,165–65,251 bytes** per data chunk,
 compared with the flat `65536 − 1024 = 64512` of the previous guess. The variation is real: request

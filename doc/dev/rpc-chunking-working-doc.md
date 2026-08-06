@@ -187,7 +187,7 @@ Per language:
 
 | # | Gap | Notes |
 |---|---|---|
-| **G1** | Negotiated max packet size unreachable by envoys (all 3 languages) | .NET's existing check also uses the wrong field and ignores property overhead. |
+| **G1** | Negotiated max packet size unreachable by envoys (all 3 languages) | .NET's existing check also uses the wrong field and ignores property overhead — it compares payload length against the **CONNECT** maximum (what this client will accept) rather than the whole packet against the **CONNACK** maximum (what the broker will accept). **Also:** the limit chunking needs is the negotiated maximum *minus what the broker adds on delivery*, chiefly subscription identifiers — see §3.6 of the POC plan. Sizing to exactly the negotiated limit gets chunks silently discarded. |
 | **G2** | No chunk metadata on the wire | Needs new `__` reserved user properties plus parsing on both sides. Also worth resolving the `__invId` asymmetry — .NET sends it, Rust and Go do not. |
 | **G3** | Packet size estimation is hard | Topic, correlation data, response topic and all user properties count. In Rust the wire packet is built by a bespoke buffer not exposed through the API. Expect reserved headroom plus a resize-and-retry fallback. **Update: largely closed in .NET.** Sizing a PUBLISH turned out to be exact arithmetic over the MQTT 5 encoding — see §3.5 of the POC plan — so no resize-and-retry is needed there. Rust and Go still need to confirm the same is reachable. |
 | **G4** | Cache blowup | See Part 2. Reassembled multi-MB payloads land in a 10 MB process-wide budget, and the default configuration is the un-evictable one. |

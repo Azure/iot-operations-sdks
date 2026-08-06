@@ -18,8 +18,11 @@ internal class ChunkingOptions
     /// </summary>
     /// <remarks>
     /// <see cref="MqttPacketSizeCalculator"/> is exact, so this is not covering arithmetic error.
-    /// It is headroom against the broker accounting for a packet slightly differently than the
-    /// client encodes it, which chunking cannot observe.
+    /// It is headroom for what the broker adds between publish and delivery: chunking sizes the
+    /// packet it publishes, but the limit that matters is on the packet the subscriber receives,
+    /// which carries a subscription identifier for each matching subscription that declared one.
+    /// A packet too large to deliver is discarded silently, so the margin is what keeps a chunk
+    /// sized to the limit from vanishing and stalling reassembly.
     /// </remarks>
     public int StaticOverhead { get; set; } = ChunkingConstants.DefaultSafetyMargin;
 

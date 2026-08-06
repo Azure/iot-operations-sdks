@@ -280,8 +280,7 @@ upper bound.
 the size calculation is exact, and is pinned byte-for-byte against the MQTT client's own encoder by
 `MqttPacketSizeCalculatorTests` across the cases where the two could plausibly disagree — the
 omit-when-default property rules, variable byte integer boundaries, UTF-8 width, and subscription
-identifiers. The margin is headroom against the *broker* accounting for a packet slightly
-differently than the client encodes it, which chunking cannot observe.
+identifiers. What the margin actually covers is §3.6.
 
 **Related change: the trigger is now the whole packet, not the payload.** `SplitIfNeeded` compares
 `MqttPacketSizeCalculator.CalculatePublishSize(message)` against the limit. A broker's maximum applies
@@ -294,6 +293,35 @@ roughly 1% more payload per chunk. For a 1 MB transfer that is 17 messages where
 
 **Not addressed:** the calculated size is still checked against a *hardcoded* limit rather than the
 broker's negotiated maximum. G1 remains open; what is now closed is how to divide a known limit.
+
+### 3.6 The packet published and the packet delivered are not the same size
+
+Packet size accounting is **not** broker-specific. MQTT 5 §2.1.4 defines the packet size as the
+total bytes in the control packet, and both CONNECT's and CONNACK's Maximum Packet Size reference
+that definition, so any compliant broker — the AIO broker, Mosquitto, EMQX, HiveMQ — counts the
+same bytes. There is no "this broker measures differently" case to defend against.
+
+What *is* universal, and what the safety margin actually exists for, is that the broker may add
+properties between publish and delivery. Principally the **subscription identifier** (§3.3.2.3.8),
+added when the matching subscription declared one, and one per matching subscription. So:
+
+> Chunking sizes the packet it **publishes**, but the limit that decides whether a chunk survives
+> applies to the packet the subscriber **receives**.
+
+This matters more than a few bytes suggests, because of \[MQTT-3.1.2-25\]: where a packet is too
+large to send to a client, the server **must discard it and behave as if it had completed sending**.
+A silently dropped chunk is the worst failure mode chunking has — reassembly never completes and the
+caller sees only a timeout, with nothing indicating chunking was involved.
+
+**Not currently reachable in this SDK:** the envoys subscribe with a bare topic filter and never set
+`MqttClientSubscribeOptions.SubscriptionIdentifier`, so nothing is added on delivery today. The
+margin is defending a latent hazard, not an active one — but it becomes active the moment anything
+subscribes with an identifier, and 64 bytes absorbs roughly a dozen of them at up to five bytes each.
+
+**For the ADR:** the negotiated limit that chunking needs is therefore not simply "the broker's
+maximum packet size." It is that maximum *minus what the broker will add on delivery*. A design that
+plumbs G1 through without accounting for this would size chunks to exactly the limit and have them
+dropped.
 
 ### 3.4 No protocol version bump in the POC
 
@@ -626,6 +654,18 @@ Beyond the §5 questions, the phases surfaced these:
 5. **A chunking trigger must test the encoded packet size, not the payload length.** The broker's
    limit applies to the whole PUBLISH. Testing the payload alone lets a moderate payload with a
    large property set through, to be rejected on the wire.
+6. **Sizing is exact, and it is not broker-specific — but publish size ≠ delivery size.** See §3.6.
+   The asymmetry is the thing the ADR has to carry across all three languages, because the failure
+   it causes is a silent drop rather than an error.
+7. **The pre-existing `.NET ValidateMessageSize` check is wrong in two ways**, both now visible next
+   to a correct implementation. `OrderedAckMqttClient.ValidateMessageSize` compares
+   `message.Payload.Length` (payload only) against `_maximumPacketSize`, which it takes from the
+   **CONNECT** options — the maximum this client is willing to *accept*, not what the broker will
+   let it *send*. The value it should use, CONNACK's maximum, is already captured into
+   `MqttClientConnectResult.MaximumPacketSize` and then ignored. `GetMaximumPacketSize()` is
+   documented as "the maximum packet size that this client can send," which is not what it returns.
+   Left alone deliberately: it sits in `Azure.Iot.Operations.Mqtt`, outside the POC's blast radius,
+   and tightening it is a behaviour change that belongs with the G1 work.
 
 Findings 1 and 3 both have an answer in the streaming ADR — see §7.
 
