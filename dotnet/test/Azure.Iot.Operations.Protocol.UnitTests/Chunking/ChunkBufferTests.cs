@@ -229,6 +229,31 @@ public class ChunkBufferTests
     }
 
     [Fact]
+    public void AddChunk_ExpirySweepCoincidesWithReassembly_StillReturnsTheAbandonedChunks()
+    {
+        var buffer = new ChunkBuffer(new ChunkingOptions());
+
+        // A message that will stall, held with a nearer deadline than the one that completes.
+        var stalled = Split(NewPayload(4096));
+        var orphan = Received(stalled[0]);
+        Assert.Empty(buffer.AddChunk(orphan, Now, Now.AddSeconds(10)).ToAcknowledge);
+
+        // A second message, all but its final chunk arriving before the first message expires.
+        var completing = Split(NewPayload(4096));
+        DateTime farDeadline = Now.AddSeconds(60);
+        for (int i = 0; i < completing.Count - 1; i++)
+        {
+            Assert.Empty(buffer.AddChunk(Received(completing[i]), Now, farDeadline).ToAcknowledge);
+        }
+
+        // The final chunk both sweeps the stalled message and completes this one.
+        var result = buffer.AddChunk(Received(completing[^1]), Now.AddSeconds(11), farDeadline);
+
+        Assert.NotNull(result.ReassembledMessage);
+        Assert.Contains(orphan, result.ToAcknowledge);
+    }
+
+    [Fact]
     public void AddChunk_ChunkWithoutMessageExpiry_IsDiscarded()
     {
         var chunks = Split(NewPayload(4096));
