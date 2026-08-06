@@ -265,7 +265,7 @@ This splits the problem in two, and each half becomes easy:
 
 * A data chunk's property set is now **entirely SDK-controlled**, so its overhead can be *measured*
   rather than guessed — `GetMaxDataChunkSize` builds an empty probe chunk, sizes it with
-  `MqttPacketSizeEstimator`, and subtracts. The chunk size is correct by construction.
+  `MqttPacketSizeCalculator`, and subtracts. The chunk size is correct by construction.
 * The unbounded, user-controlled part is confined to a single message, whose size merely has to be
   *checked*. It has to fit in one packet anyway — properties cannot be split across chunks — so if
   it does not fit, the message is undeliverable and the splitter says so instead of emitting an
@@ -276,10 +276,15 @@ index appears in `__chunk` and a larger index encodes longer, while the real chu
 known until the chunk size is. Using the widest possible index resolves that circularity with an
 upper bound.
 
-`StaticOverhead` survives only as a 64-byte **safety margin** against imprecision in the estimator.
+`StaticOverhead` survives only as a 64-byte **safety margin**. It is not covering arithmetic error:
+the size calculation is exact, and is pinned byte-for-byte against the MQTT client's own encoder by
+`MqttPacketSizeCalculatorTests` across the cases where the two could plausibly disagree — the
+omit-when-default property rules, variable byte integer boundaries, UTF-8 width, and subscription
+identifiers. The margin is headroom against the *broker* accounting for a packet slightly
+differently than the client encodes it, which chunking cannot observe.
 
 **Related change: the trigger is now the whole packet, not the payload.** `SplitIfNeeded` compares
-`MqttPacketSizeEstimator.EstimatePublishSize(message)` against the limit. A broker's maximum applies
+`MqttPacketSizeCalculator.CalculatePublishSize(message)` against the limit. A broker's maximum applies
 to the entire PUBLISH, so a moderate payload with a large property set could previously pass a
 payload-only check and then be rejected on the wire.
 
@@ -287,7 +292,7 @@ payload-only check and then be rejected on the wire.
 against a 64 KiB limit the measured budget is 65,165–65,251 bytes versus the flat 64,512 before, so
 roughly 1% more payload per chunk. For a 1 MB transfer that is 17 messages where there were 16.
 
-**Not addressed:** the estimator is still checked against a *hardcoded* limit rather than the
+**Not addressed:** the calculated size is still checked against a *hardcoded* limit rather than the
 broker's negotiated maximum. G1 remains open; what is now closed is how to divide a known limit.
 
 ### 3.4 No protocol version bump in the POC
@@ -554,11 +559,11 @@ include the header chunk:
 
 Implements §3.5. Changes:
 
-* **New `MqttPacketSizeEstimator`** — walks the MQTT 5 PUBLISH encoding (fixed header, variable-byte
+* **New `MqttPacketSizeCalculator`** — walks the MQTT 5 PUBLISH encoding (fixed header, variable-byte
   remaining length, topic, packet identifier, each property present, payload) and returns the
-  encoded size. Deliberately excludes subscription identifiers, which a broker sets on delivery and
-  a publisher never sets.
-* **`SplitIfNeeded` now triggers on estimated packet size**, not payload length.
+  encoded size. Exact, not approximate: `MqttPacketSizeCalculatorTests` pins it byte-for-byte
+  against the MQTT client's own serializer across 22 cases.
+* **`SplitIfNeeded` now triggers on calculated packet size**, not payload length.
 * **`SplitMessage` emits a header chunk** at index 0 carrying the full property set and no payload,
   then data chunks at 1..n. `ExtractChunkPayload` offsets by `(chunkIndex - 1)`.
 * **`GetMaxDataChunkSize` measures** a data chunk's overhead with a probe chunk instead of assuming
@@ -570,8 +575,8 @@ Implements §3.5. Changes:
 * `ChunkedMessageAssembler` needed **no change**: `TryReassemble` already iterated all indices
   writing each payload, so a zero-length chunk 0 simply contributes nothing.
 
-Verified: solution builds with 0 warnings; Protocol unit suite 379 passed / 2 pre-existing skips
-(81 chunking tests, including a new `MqttPacketSizeEstimatorTests`); all 6 integration tests pass
+Verified: solution builds with 0 warnings; Protocol unit suite 401 passed / 2 pre-existing skips
+(103 chunking tests, including a new `MqttPacketSizeCalculatorTests`); all 6 integration tests pass
 against mosquitto.
 
 ---
@@ -581,10 +586,12 @@ against mosquitto.
 These feed directly into the ADR's open questions (working doc, Part 3).
 
 1. Is packet-size estimation tractable in practice, or is resize-and-retry unavoidable? (G3)
-   **Largely answered — see §3.5.** Estimation is tractable *provided* the thing being estimated is
-   under your control. Splitting the message so that data chunks carry only SDK-set properties makes
-   their size exactly measurable, and quarantines the unbounded part into one message that only
-   needs a bounds check. What remains open is obtaining the real limit (G1), not dividing it.
+   **Answered — see §3.5.** Not merely tractable: it is *exact*. Sizing an MQTT 5 PUBLISH is
+   straightforward arithmetic over the encoding, and a test pins it byte-for-byte against the
+   client's own serializer, so resize-and-retry is unnecessary. The condition is that the thing
+   being sized is under your control — which is what the header chunk arranges, by giving data
+   chunks a property set the SDK sets in full. What remains open is obtaining the real limit (G1),
+   not dividing it.
 2. What does peak memory actually look like during reassembly of a large payload?
 3. Does `$partition` on later chunks genuinely preserve shared-subscription routing?
 4. Does per-chunk overhead justify colon-separated over JSON? (§3.2)

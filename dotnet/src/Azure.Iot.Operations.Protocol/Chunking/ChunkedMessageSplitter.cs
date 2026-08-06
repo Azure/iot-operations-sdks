@@ -38,7 +38,7 @@ internal class ChunkedMessageSplitter
 
         // Decided on the whole packet rather than the payload alone, since user properties are
         // unbounded and count toward the broker's limit just as much as the body does.
-        return MqttPacketSizeEstimator.EstimatePublishSize(message) <= maxPacketSize
+        return MqttPacketSizeCalculator.CalculatePublishSize(message) <= maxPacketSize
             ? [message]
             : new ChunkedMessageSplitter(new ChunkingOptions()).SplitMessage(message, maxPacketSize);
     }
@@ -78,7 +78,7 @@ internal class ChunkedMessageSplitter
             CreateChunk(message, ReadOnlySequence<byte>.Empty, userProperties, messageId, 0, totalChunks, checksum),
         };
 
-        var headSize = MqttPacketSizeEstimator.EstimatePublishSize(chunks[0]);
+        var headSize = MqttPacketSizeCalculator.CalculatePublishSize(chunks[0]);
         if (headSize > maxPacketSize)
         {
             throw new ArgumentException(
@@ -112,7 +112,7 @@ internal class ChunkedMessageSplitter
         int maxPacketSize)
     {
         var probe = CreateChunk(message, ReadOnlySequence<byte>.Empty, perChunkUserProperties, messageId, _options.MaxChunkCount, _options.MaxChunkCount, string.Empty);
-        var overhead = MqttPacketSizeEstimator.EstimatePublishSize(probe) + _options.StaticOverhead;
+        var overhead = MqttPacketSizeCalculator.CalculatePublishSize(probe) + _options.StaticOverhead;
 
         if (overhead >= maxPacketSize)
         {

@@ -14,12 +14,12 @@ internal class ChunkingOptions
 {
     /// <summary>
     /// Gets or sets the safety margin, in bytes, left free in each data chunk on top of its
-    /// measured overhead.
+    /// calculated overhead.
     /// </summary>
     /// <remarks>
-    /// A data chunk's overhead is measured rather than guessed, by sizing an empty chunk, but
-    /// <see cref="MqttPacketSizeEstimator"/> cannot perfectly predict how the underlying client
-    /// encodes a packet, so a small margin is kept.
+    /// <see cref="MqttPacketSizeCalculator"/> is exact, so this is not covering arithmetic error.
+    /// It is headroom against the broker accounting for a packet slightly differently than the
+    /// client encodes it, which chunking cannot observe.
     /// </remarks>
     public int StaticOverhead { get; set; } = ChunkingConstants.DefaultSafetyMargin;
 

@@ -58,8 +58,8 @@ public class ChunkBufferTests
         var chunks = Split(NewPayload(4096), extraProperty: true);
 
         Assert.All(chunks, c => Assert.True(
-            MqttPacketSizeEstimator.EstimatePublishSize(c) <= TestMaxPacketSize,
-            $"A chunk estimated at {MqttPacketSizeEstimator.EstimatePublishSize(c)} bytes exceeds {TestMaxPacketSize}."));
+            MqttPacketSizeCalculator.CalculatePublishSize(c) <= TestMaxPacketSize,
+            $"A chunk of {MqttPacketSizeCalculator.CalculatePublishSize(c)} bytes exceeds {TestMaxPacketSize}."));
     }
 
     [Fact]

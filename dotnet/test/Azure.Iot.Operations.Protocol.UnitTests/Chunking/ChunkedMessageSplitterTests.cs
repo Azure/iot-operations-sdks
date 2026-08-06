@@ -85,8 +85,8 @@ public class ChunkedMessageSplitterTests
         var chunks = Split(NewPayload(4096), properties);
 
         Assert.All(chunks, c => Assert.True(
-            MqttPacketSizeEstimator.EstimatePublishSize(c) <= MaxPacketSize,
-            $"A chunk estimated at {MqttPacketSizeEstimator.EstimatePublishSize(c)} bytes exceeds {MaxPacketSize}."));
+            MqttPacketSizeCalculator.CalculatePublishSize(c) <= MaxPacketSize,
+            $"A chunk of {MqttPacketSizeCalculator.CalculatePublishSize(c)} bytes exceeds {MaxPacketSize}."));
     }
 
     [Fact]
@@ -208,7 +208,7 @@ public class ChunkedMessageSplitterTests
         var message = NewMessage(payload, properties);
 
         Assert.True(payload.Length < ChunkingConstants.PlaceholderMaxPacketSize);
-        Assert.True(MqttPacketSizeEstimator.EstimatePublishSize(message) > ChunkingConstants.PlaceholderMaxPacketSize);
+        Assert.True(MqttPacketSizeCalculator.CalculatePublishSize(message) > ChunkingConstants.PlaceholderMaxPacketSize);
 
         var result = ChunkedMessageSplitter.SplitIfNeeded(message);
 

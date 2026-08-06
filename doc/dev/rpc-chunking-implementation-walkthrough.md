@@ -30,7 +30,7 @@ flowchart LR
         N2["ChunkMetadata<br/>Format / TryParse"]
         N3["ChunkBuffer<br/>AddChunk, bounds, expiry"]
         N4["ChunkedMessageAssembler<br/>hold chunks, concatenate, checksum"]
-        N5["MqttPacketSizeEstimator<br/>EstimatePublishSize"]
+        N5["MqttPacketSizeCalculator<br/>CalculatePublishSize"]
         N6["ChunkingOptions / Constants / Utils"]
     end
 
@@ -138,7 +138,7 @@ always was.
 ```csharp
 int maxPacketSize = ChunkingConstants.PlaceholderMaxPacketSize;
 
-return MqttPacketSizeEstimator.EstimatePublishSize(message) <= maxPacketSize
+return MqttPacketSizeCalculator.CalculatePublishSize(message) <= maxPacketSize
     ? [message]
     : new ChunkedMessageSplitter(new ChunkingOptions()).SplitMessage(message, maxPacketSize);
 ```
@@ -146,7 +146,7 @@ return MqttPacketSizeEstimator.EstimatePublishSize(message) <= maxPacketSize
 The test is on the **encoded packet size, not the payload length**. A broker's maximum applies to
 the whole PUBLISH, and user properties are unbounded and user-controlled, so a modest payload with a
 large property set can exceed the limit while a payload-only check waves it through.
-`MqttPacketSizeEstimator.EstimatePublishSize` walks the MQTT 5 PUBLISH encoding — fixed header,
+`MqttPacketSizeCalculator.CalculatePublishSize` walks the MQTT 5 PUBLISH encoding — fixed header,
 variable-byte remaining length, topic, packet identifier, each property present, and the payload —
 and returns the byte count. At or below the limit the original message is returned in a one-element
 list and **nothing downstream changes**, which is what keeps the ordinary path byte-identical.
@@ -208,7 +208,7 @@ Everything else — `__ts`, `__srcId`, `__invId`, cloud events, application meta
 ```csharp
 var probe = CreateChunk(message, ReadOnlySequence<byte>.Empty, perChunkUserProperties,
                         messageId, _options.MaxChunkCount, _options.MaxChunkCount, string.Empty);
-var overhead = MqttPacketSizeEstimator.EstimatePublishSize(probe) + _options.StaticOverhead;
+var overhead = MqttPacketSizeCalculator.CalculatePublishSize(probe) + _options.StaticOverhead;
 
 return (int)(maxPacketSize - overhead);
 ```
@@ -218,8 +218,12 @@ index encodes to a longer string, but the chunk count is not known until the chu
 probe sidesteps it by using `MaxChunkCount` — the widest index the configuration permits — so the
 measurement is an upper bound for every index that can actually occur.
 
-`StaticOverhead` survives only as a small **safety margin** (64 bytes) covering imprecision in the
-estimator, rather than as the whole allowance (1024 bytes) it used to be.
+`StaticOverhead` survives only as a small **safety margin** (64 bytes), rather than as the whole
+allowance (1024 bytes) it used to be. It is *not* covering arithmetic error — the calculation is
+exact, and pinned byte-for-byte against the MQTT client's own encoder by
+`MqttPacketSizeCalculatorTests`, so an encoding change in a client upgrade fails the build rather
+than silently overflowing a packet. The margin is headroom against the broker accounting for a
+packet slightly differently than the client encodes it, which chunking cannot observe.
 
 Against a 64 KiB limit this yields a measured budget of **~65,165–65,251 bytes** per data chunk,
 compared with the flat `65536 − 1024 = 64512` of the previous guess. The variation is real: request

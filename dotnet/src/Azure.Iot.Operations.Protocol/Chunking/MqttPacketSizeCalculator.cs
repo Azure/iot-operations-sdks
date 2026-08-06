@@ -8,15 +8,16 @@ using System.Text;
 namespace Azure.Iot.Operations.Protocol.Chunking;
 
 /// <summary>
-/// Estimates the encoded size of an MQTT 5 PUBLISH packet.
+/// Calculates the encoded size of an MQTT 5 PUBLISH packet.
 /// </summary>
 /// <remarks>
 /// Chunking has to decide against the size of the whole packet rather than the payload alone,
 /// because user properties are unbounded and count toward the broker's limit just as much as the
-/// body does. This is an estimate: the underlying client may encode a little differently, so
-/// callers should keep a safety margin (see <see cref="ChunkingOptions.StaticOverhead"/>).
+/// body does. The result is exact, not approximate: every field is sized per the MQTT 5 encoding,
+/// and <c>MqttPacketSizeCalculatorTests</c> pins it byte-for-byte against the MQTT client's own
+/// serializer so that a client upgrade which changed the encoding would fail the build.
 /// </remarks>
-internal static class MqttPacketSizeEstimator
+internal static class MqttPacketSizeCalculator
 {
     private const int PacketTypeBytes = 1;
     private const int PropertyIdBytes = 1;
@@ -24,9 +25,9 @@ internal static class MqttPacketSizeEstimator
     private const int PacketIdentifierBytes = 2;
 
     /// <summary>
-    /// Estimates the total encoded size, in bytes, of the PUBLISH packet carrying this message.
+    /// Calculates the total encoded size, in bytes, of the PUBLISH packet carrying this message.
     /// </summary>
-    public static long EstimatePublishSize(MqttApplicationMessage message)
+    public static long CalculatePublishSize(MqttApplicationMessage message)
     {
         ArgumentNullException.ThrowIfNull(message);
 
@@ -37,7 +38,7 @@ internal static class MqttPacketSizeEstimator
             variableHeader += PacketIdentifierBytes;
         }
 
-        long properties = EstimateProperties(message);
+        long properties = CalculateProperties(message);
         variableHeader += VariableByteIntegerSize(properties) + properties;
 
         long remainingLength = variableHeader + message.Payload.Length;
@@ -45,7 +46,7 @@ internal static class MqttPacketSizeEstimator
         return PacketTypeBytes + VariableByteIntegerSize(remainingLength) + remainingLength;
     }
 
-    private static long EstimateProperties(MqttApplicationMessage message)
+    private static long CalculateProperties(MqttApplicationMessage message)
     {
         long size = 0;
 
@@ -79,8 +80,15 @@ internal static class MqttPacketSizeEstimator
             size += PropertyIdBytes + LengthPrefixBytes + Utf8ByteCount(message.ContentType);
         }
 
-        // Subscription identifiers are set by the broker on delivery, never by a publisher, so they
-        // are deliberately not counted here.
+        // A broker sets these on delivery and a publisher never does, so they are absent from the
+        // messages chunking sizes. Counted anyway, so the result is exact for any message.
+        if (message.SubscriptionIdentifiers != null)
+        {
+            foreach (uint subscriptionIdentifier in message.SubscriptionIdentifiers)
+            {
+                size += PropertyIdBytes + VariableByteIntegerSize(subscriptionIdentifier);
+            }
+        }
 
         if (message.UserProperties != null)
         {
