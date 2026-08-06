@@ -19,10 +19,10 @@ internal sealed class ChunkBufferResult
 
     private ChunkBufferResult(
         MqttApplicationMessageReceivedEventArgs? reassembledMessage,
-        IReadOnlyList<MqttApplicationMessageReceivedEventArgs> toAcknowledge)
+        IReadOnlyList<MqttApplicationMessageReceivedEventArgs> discardedChunks)
     {
         ReassembledMessage = reassembledMessage;
-        ToAcknowledge = toAcknowledge;
+        DiscardedChunks = discardedChunks;
     }
 
     /// <summary>
@@ -34,9 +34,10 @@ internal sealed class ChunkBufferResult
     public MqttApplicationMessageReceivedEventArgs? ReassembledMessage { get; }
 
     /// <summary>
-    /// Gets the chunks the caller must acknowledge, because the buffer will not retain them.
+    /// Gets the chunks the buffer has thrown away and no longer holds. They will never form a
+    /// message, but the caller must still acknowledge them or they will stall the ack stream.
     /// </summary>
-    public IReadOnlyList<MqttApplicationMessageReceivedEventArgs> ToAcknowledge { get; }
+    public IReadOnlyList<MqttApplicationMessageReceivedEventArgs> DiscardedChunks { get; }
 
     /// <summary>
     /// The chunk was stored and more are expected. It must not be acknowledged yet.
@@ -44,19 +45,19 @@ internal sealed class ChunkBufferResult
     public static ChunkBufferResult Incomplete { get; } = new(null, None);
 
     /// <summary>
-    /// A message was reassembled. Any <paramref name="toAcknowledge"/> are unrelated chunks the
-    /// buffer released while handling this one, typically from a message that expired.
+    /// A message was reassembled. Any <paramref name="discardedChunks"/> are unrelated chunks the
+    /// buffer threw away while handling this one, typically from a message that expired.
     /// </summary>
     public static ChunkBufferResult Reassembled(
         MqttApplicationMessageReceivedEventArgs message,
-        IReadOnlyList<MqttApplicationMessageReceivedEventArgs>? toAcknowledge = null)
+        IReadOnlyList<MqttApplicationMessageReceivedEventArgs>? discardedChunks = null)
     {
-        return new ChunkBufferResult(message, toAcknowledge ?? None);
+        return new ChunkBufferResult(message, discardedChunks ?? None);
     }
 
-    public static ChunkBufferResult Discard(IReadOnlyList<MqttApplicationMessageReceivedEventArgs> toAcknowledge)
+    public static ChunkBufferResult Discard(IReadOnlyList<MqttApplicationMessageReceivedEventArgs> discardedChunks)
     {
-        return new ChunkBufferResult(null, toAcknowledge);
+        return new ChunkBufferResult(null, discardedChunks);
     }
 }
 
@@ -126,7 +127,7 @@ internal sealed class ChunkBuffer
                 return result;
             }
 
-            abandoned.AddRange(result.ToAcknowledge);
+            abandoned.AddRange(result.DiscardedChunks);
             return result.ReassembledMessage != null
                 ? ChunkBufferResult.Reassembled(result.ReassembledMessage, abandoned)
                 : ChunkBufferResult.Discard(abandoned);
@@ -198,9 +199,9 @@ internal sealed class ChunkBuffer
         _entries.Remove(messageId);
         _bufferedBytes -= entry.Assembler.CurrentBufferSize;
 
-        List<MqttApplicationMessageReceivedEventArgs> toAcknowledge = [.. entry.Assembler.ReceivedChunks];
-        toAcknowledge.Add(args);
-        return toAcknowledge;
+        List<MqttApplicationMessageReceivedEventArgs> discarded = [.. entry.Assembler.ReceivedChunks];
+        discarded.Add(args);
+        return discarded;
     }
 
     private List<MqttApplicationMessageReceivedEventArgs> SweepExpired(DateTime now)

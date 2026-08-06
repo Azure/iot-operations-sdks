@@ -281,7 +281,7 @@ if (ChunkBuffer.IsChunk(args.ApplicationMessage))
 {
     ChunkBufferResult chunkResult = _chunkBuffer.AddChunk(args, messageReceivedTime, commandExpirationTime);
 
-    foreach (MqttApplicationMessageReceivedEventArgs chunk in chunkResult.ToAcknowledge)
+    foreach (MqttApplicationMessageReceivedEventArgs discarded in chunkResult.DiscardedChunks)
     {
         await chunk.AcknowledgeAsync(CancellationToken.None).ConfigureAwait(false);
     }
@@ -342,10 +342,12 @@ Points worth internalising:
 * **Out-of-order tolerant.** The entry is created by whichever chunk arrives first;
   `ChunkedMessageAssembler.IsComplete` is `_totalChunks > 0 && _chunks.Count == _totalChunks`, so a
   data chunk arriving before the head chunk simply waits for the count to be learned.
-* **`ChunkBufferResult` carries an ack list.** Every unhappy exit hands back the affected chunks so
-  the caller can acknowledge them. Nothing is ever left unacknowledged — important because
-  `OrderedAckMqttClient` serialises acks, so one stuck chunk would block every later ack on that
-  client.
+* **`ChunkBufferResult` carries a discard list.** Every unhappy exit hands back the affected chunks
+  so the caller can acknowledge them. They will never form a message, but nothing may be left
+  unacknowledged — `OrderedAckMqttClient` serialises acks, so one stuck chunk would block every
+  later ack on that client. The list is named `DiscardedChunks` rather than for the obligation it
+  creates, so that acknowledging them does not read like a second acknowledgement of the
+  reassembled message.
 * **Bounds are enforced here**, not at the edges: `MaxChunkCount` (100) and
   `ReassemblyBufferSizeLimit` (10 MB across *all* in-flight messages).
 * **Expiry is a lazy sweep**, run on each add rather than by a background timer, so there is nothing

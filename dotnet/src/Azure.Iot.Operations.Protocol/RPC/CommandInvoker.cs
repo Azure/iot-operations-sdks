@@ -248,9 +248,9 @@ namespace Azure.Iot.Operations.Protocol.RPC
                         now,
                         now + TimeSpan.FromSeconds(args.ApplicationMessage.MessageExpiryInterval));
 
-                    foreach (MqttApplicationMessageReceivedEventArgs chunk in chunkResult.ToAcknowledge)
+                    foreach (MqttApplicationMessageReceivedEventArgs discarded in chunkResult.DiscardedChunks)
                     {
-                        await chunk.AcknowledgeAsync(CancellationToken.None).ConfigureAwait(false);
+                        await discarded.AcknowledgeAsync(CancellationToken.None).ConfigureAwait(false);
                     }
 
                     if (chunkResult.ReassembledMessage == null)

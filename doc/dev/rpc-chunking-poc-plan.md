@@ -497,7 +497,7 @@ out to all of them, so the POC gets **correct deferred acks for free**:
 **§3.1 is withdrawn** — ack-per-chunk is not being used, so the one shortcut that was actually
 *wrong* is gone from the POC.
 
-`ChunkBufferResult.ToAcknowledge` exists to preserve this invariant on the unhappy paths: whenever
+`ChunkBufferResult.DiscardedChunks` exists to preserve this invariant on the unhappy paths: whenever
 the buffer drops a partial message (malformed metadata, duplicate, over a limit, or expired) it
 hands the affected chunks back so the executor can acknowledge them. Nothing is left unacknowledged,
 which matters because `OrderedAckMqttClient` serializes acks — one stuck chunk would block every

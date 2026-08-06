@@ -76,13 +76,13 @@ public class ChunkBufferTests
             var partial = buffer.AddChunk(Received(chunks[i]), Now, ExpiresAt);
 
             Assert.Null(partial.ReassembledMessage);
-            Assert.Empty(partial.ToAcknowledge);
+            Assert.Empty(partial.DiscardedChunks);
         }
 
         var result = buffer.AddChunk(Received(chunks[^1]), Now, ExpiresAt);
 
         Assert.NotNull(result.ReassembledMessage);
-        Assert.Empty(result.ToAcknowledge);
+        Assert.Empty(result.DiscardedChunks);
         Assert.Equal(payload, result.ReassembledMessage!.ApplicationMessage.Payload.ToArray());
     }
 
@@ -156,7 +156,7 @@ public class ChunkBufferTests
         var result = buffer.AddChunk(args, Now, ExpiresAt);
 
         Assert.Null(result.ReassembledMessage);
-        Assert.Same(args, Assert.Single(result.ToAcknowledge));
+        Assert.Same(args, Assert.Single(result.DiscardedChunks));
     }
 
     [Fact]
@@ -165,13 +165,13 @@ public class ChunkBufferTests
         var chunks = Split(NewPayload(4096));
         var buffer = new ChunkBuffer(new ChunkingOptions());
 
-        Assert.Empty(buffer.AddChunk(Received(chunks[0]), Now, ExpiresAt).ToAcknowledge);
+        Assert.Empty(buffer.AddChunk(Received(chunks[0]), Now, ExpiresAt).DiscardedChunks);
 
         var redelivery = Received(chunks[0]);
         var result = buffer.AddChunk(redelivery, Now, ExpiresAt);
 
         Assert.Null(result.ReassembledMessage);
-        Assert.Same(redelivery, Assert.Single(result.ToAcknowledge));
+        Assert.Same(redelivery, Assert.Single(result.DiscardedChunks));
     }
 
     [Fact]
@@ -185,7 +185,7 @@ public class ChunkBufferTests
         var result = buffer.AddChunk(Received(chunks[0]), Now, ExpiresAt);
 
         Assert.Null(result.ReassembledMessage);
-        Assert.Single(result.ToAcknowledge);
+        Assert.Single(result.DiscardedChunks);
     }
 
     [Fact]
@@ -198,16 +198,16 @@ public class ChunkBufferTests
         var buffer = new ChunkBuffer(new ChunkingOptions { ReassemblyBufferSizeLimit = limit });
 
         var header = Received(chunks[0]);
-        Assert.Empty(buffer.AddChunk(header, Now, ExpiresAt).ToAcknowledge);
+        Assert.Empty(buffer.AddChunk(header, Now, ExpiresAt).DiscardedChunks);
 
         var first = Received(chunks[1]);
-        Assert.Empty(buffer.AddChunk(first, Now, ExpiresAt).ToAcknowledge);
+        Assert.Empty(buffer.AddChunk(first, Now, ExpiresAt).DiscardedChunks);
 
         var second = Received(chunks[2]);
         var result = buffer.AddChunk(second, Now, ExpiresAt);
 
         Assert.Null(result.ReassembledMessage);
-        Assert.Equal([header, first, second], result.ToAcknowledge);
+        Assert.Equal([header, first, second], result.DiscardedChunks);
     }
 
     [Fact]
@@ -217,7 +217,7 @@ public class ChunkBufferTests
         var buffer = new ChunkBuffer(new ChunkingOptions());
 
         var held = Received(chunks[0]);
-        Assert.Empty(buffer.AddChunk(held, Now, ExpiresAt).ToAcknowledge);
+        Assert.Empty(buffer.AddChunk(held, Now, ExpiresAt).DiscardedChunks);
 
         // A later, unrelated chunk arrives after the first message's deadline.
         var laterChunks = Split(NewPayload(4096));
@@ -225,7 +225,7 @@ public class ChunkBufferTests
         var result = buffer.AddChunk(Received(laterChunks[0]), afterExpiry, afterExpiry.AddSeconds(10));
 
         Assert.Null(result.ReassembledMessage);
-        Assert.Contains(held, result.ToAcknowledge);
+        Assert.Contains(held, result.DiscardedChunks);
     }
 
     [Fact]
@@ -236,21 +236,21 @@ public class ChunkBufferTests
         // A message that will stall, held with a nearer deadline than the one that completes.
         var stalled = Split(NewPayload(4096));
         var orphan = Received(stalled[0]);
-        Assert.Empty(buffer.AddChunk(orphan, Now, Now.AddSeconds(10)).ToAcknowledge);
+        Assert.Empty(buffer.AddChunk(orphan, Now, Now.AddSeconds(10)).DiscardedChunks);
 
         // A second message, all but its final chunk arriving before the first message expires.
         var completing = Split(NewPayload(4096));
         DateTime farDeadline = Now.AddSeconds(60);
         for (int i = 0; i < completing.Count - 1; i++)
         {
-            Assert.Empty(buffer.AddChunk(Received(completing[i]), Now, farDeadline).ToAcknowledge);
+            Assert.Empty(buffer.AddChunk(Received(completing[i]), Now, farDeadline).DiscardedChunks);
         }
 
         // The final chunk both sweeps the stalled message and completes this one.
         var result = buffer.AddChunk(Received(completing[^1]), Now.AddSeconds(11), farDeadline);
 
         Assert.NotNull(result.ReassembledMessage);
-        Assert.Contains(orphan, result.ToAcknowledge);
+        Assert.Contains(orphan, result.DiscardedChunks);
     }
 
     [Fact]
@@ -265,7 +265,7 @@ public class ChunkBufferTests
         var result = buffer.AddChunk(args, Now, ExpiresAt);
 
         Assert.Null(result.ReassembledMessage);
-        Assert.Same(args, Assert.Single(result.ToAcknowledge));
+        Assert.Same(args, Assert.Single(result.DiscardedChunks));
     }
 
     private static byte[] NewPayload(int size)
