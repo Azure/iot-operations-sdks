@@ -18,11 +18,10 @@ internal class ChunkingOptions
     /// </summary>
     /// <remarks>
     /// <see cref="MqttPacketSizeCalculator"/> is exact, so this is not covering arithmetic error.
-    /// It is headroom for what the broker adds between publish and delivery: chunking sizes the
-    /// packet it publishes, but the limit that matters is on the packet the subscriber receives,
-    /// which carries a subscription identifier for each matching subscription that declared one.
-    /// A packet too large to deliver is discarded silently, so the margin is what keeps a chunk
-    /// sized to the limit from vanishing and stalling reassembly.
+    /// It anticipates what a broker may add between publish and delivery, chiefly a subscription
+    /// identifier per matching subscription, since a packet too large to deliver is discarded
+    /// silently and a vanished chunk stalls reassembly. Nothing consumes it today: the SDK sets no
+    /// subscription identifiers and no topic aliases, so publish and delivery sizes are equal.
     /// </remarks>
     public int StaticOverhead { get; set; } = ChunkingConstants.DefaultSafetyMargin;
 

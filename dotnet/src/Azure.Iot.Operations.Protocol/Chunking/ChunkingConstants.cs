@@ -42,8 +42,9 @@ internal static class ChunkingConstants
 
     /// <summary>
     /// Default safety margin left free in each data chunk on top of its calculated overhead.
-    /// Sized to absorb roughly a dozen broker-added subscription identifiers, each costing at most
-    /// five bytes.
+    /// Nothing consumes it today: no production code sets subscription identifiers and topic
+    /// aliases are disabled, so a published packet and its delivery are the same size. It is a
+    /// round number rather than a derived bound - see §3.6 of doc/dev/rpc-chunking-poc-plan.md.
     /// </summary>
     public const int DefaultSafetyMargin = 64;
 

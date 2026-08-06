@@ -338,8 +338,7 @@ Only two can *grow* the packet, and one of them is already closed here:
   alias above that value and \[MQTT-3.3.2-8\] forbids alias `0`, so the server cannot send one.
 * **Subscription identifier — the live vector.** Not one per message but one *per matching
   subscription*: \[MQTT-3.3.4-3\] requires the server to include the identifiers for **all** matching
-  subscriptions when it sends a single copy. Overlapping wildcard subscriptions on one client each
-  contribute, which is why the margin is sized for about a dozen rather than one.
+  subscriptions when it sends a single copy.
 
   **This is not the executor count**, which is the natural misreading in an RPC context. Subscription
   identifiers are scoped to the *receiving client's own session*: each subscriber gets its own
@@ -353,6 +352,46 @@ Only two can *grow* the packet, and one of them is already closed here:
   Note the terminology collision: [shared-subscriptions.md](../reference/shared-subscriptions.md)
   calls the `$share` prefix "the shared subscription identifier", which is unrelated to the MQTT 5
   Subscription Identifier property discussed here. The ADR should not conflate them.
+
+#### How big should the margin actually be?
+
+The honest answer is that `DefaultSafetyMargin = 64` is a round number, not a derived bound, and the
+evidence says so in both directions.
+
+**Sharing one connection is common.** `AdrBaseService` alone puts 16 envoys on a single client (9
+command executors, 7 telemetry senders), and a typical connector runs 20+ once state store, schema
+registry and leader election are added. So the premise of "many subscriptions on one session" is
+not hypothetical.
+
+**Their filters do not overlap.** Every envoy in a service resolves the same topic tokens and
+differs only by command name — `rpc/command-samples/client-1/readCounter` versus `.../increment`
+versus `.../reset` — so exactly one subscription matches any given publish. Overlap *is* reachable,
+because `MqttTopicProcessor.ResolveTopic` substitutes `+` for any token left unresolved, so an
+executor subscribing with an unresolved `{executorId}` would take `rpc/command-samples/+/+` and
+shadow all of its siblings. Nothing in the SDK does this today.
+
+**And nothing sets subscription identifiers at all.** `MqttClientSubscribeOptions.SubscriptionIdentifier`
+is plumbed through the model layer but never assigned outside unit tests, so the broker adds none.
+Combined with topic aliases being disabled, **a published packet and its delivery are currently the
+same size**, and the margin protects against nothing that exists.
+
+| Case | Identifiers on one delivery | Bytes needed |
+|---|---|---|
+| Today | 0 | 0 |
+| If identifiers were enabled, with the current topic design | 1 | ≤ 5 |
+| Pathological: 20-envoy connector, wildcard filters overlapping | 20 | ~100 |
+
+So 64 is roughly thirteen times what the realistic case needs and still short of the pathological
+one. It is not a bound in either direction.
+
+**For the ADR:** a fixed byte margin is the wrong shape for this. The correct allowance is a
+function of how many of the connection's subscriptions can match a given topic, which the splitter
+cannot see from where it sits. The defensible position is an explicit invariant rather than a
+constant — *the SDK does not use subscription identifiers, therefore publish size equals delivery
+size* — with the requirement that anything enabling them must subtract their worst case from the
+chunk budget rather than trusting a margin to absorb it. Keeping 64 in the POC costs 0.1% of a
+64 KiB packet and buys a little insulation from the assumption being wrong; it should not survive
+into the design as a derived number, because it is not one.
 
 So the asymmetry the safety margin exists for is:
 
