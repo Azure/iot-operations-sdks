@@ -263,6 +263,8 @@ namespace Azure.Iot.Operations.Protocol.RPC
                     await args.AcknowledgeAsync(CancellationToken.None).ConfigureAwait(false);
                 }
 
+                // At this point, we have a complete response message (reassembled if it was chunked or original if it was not chunked).
+                // We can now process the response.
                 args.AutoAcknowledge = true;
                 if (MqttTopicProcessor.DoesTopicMatchFilter(args.ApplicationMessage.Topic, responsePromise.ResponseTopic))
                 {
@@ -514,19 +516,19 @@ namespace Azure.Iot.Operations.Protocol.RPC
 
             Guid requestGuid = metadata?.CorrelationId ?? Guid.NewGuid();
 
-            TimeSpan reifiedCommandTimeout = commandTimeout ?? DefaultCommandTimeout;
+            TimeSpan effectiveCommandTimeout = commandTimeout ?? DefaultCommandTimeout;
 
             // Rounding up to the nearest second
-            reifiedCommandTimeout = TimeSpan.FromSeconds(Math.Ceiling(reifiedCommandTimeout.TotalSeconds));
+            effectiveCommandTimeout = TimeSpan.FromSeconds(Math.Ceiling(effectiveCommandTimeout.TotalSeconds));
 
-            if (reifiedCommandTimeout < MinimumCommandTimeout)
+            if (effectiveCommandTimeout < MinimumCommandTimeout)
             {
-                throw AkriMqttException.GetArgumentInvalidException("commandTimeout", nameof(commandTimeout), reifiedCommandTimeout, $"commandTimeout must be at least {MinimumCommandTimeout}");
+                throw AkriMqttException.GetArgumentInvalidException("commandTimeout", nameof(commandTimeout), effectiveCommandTimeout, $"commandTimeout must be at least {MinimumCommandTimeout}");
             }
 
-            if (reifiedCommandTimeout.TotalSeconds > uint.MaxValue)
+            if (effectiveCommandTimeout.TotalSeconds > uint.MaxValue)
             {
-                throw AkriMqttException.GetArgumentInvalidException("commandTimeout", nameof(commandTimeout), reifiedCommandTimeout, $"commandTimeout cannot be larger than {uint.MaxValue} seconds");
+                throw AkriMqttException.GetArgumentInvalidException("commandTimeout", nameof(commandTimeout), effectiveCommandTimeout, $"commandTimeout cannot be larger than {uint.MaxValue} seconds");
             }
 
             if (_requestIdMap.ContainsKey(requestGuid.ToString()))
@@ -579,7 +581,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
                 {
                     ResponseTopic = responseTopic,
                     CorrelationData = requestGuid.ToByteArray(),
-                    MessageExpiryInterval = (uint)reifiedCommandTimeout.TotalSeconds,
+                    MessageExpiryInterval = (uint)effectiveCommandTimeout.TotalSeconds,
                 };
 
                 string? clientId = _mqttClient.ClientId;
@@ -639,7 +641,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
                     // no chunk outlives the invocation and the broker is not asked to hold every
                     // chunk for the full timeout.
                     bool isChunked = outgoingMessages.Count > 1;
-                    DateTime invocationDeadline = WallClock.UtcNow + reifiedCommandTimeout;
+                    DateTime invocationDeadline = WallClock.UtcNow + effectiveCommandTimeout;
 
                     for (int chunkIndex = 0; chunkIndex < outgoingMessages.Count; chunkIndex++)
                     {
@@ -656,7 +658,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
                                     IsShallow = false,
                                     IsRemote = false,
                                     TimeoutName = nameof(commandTimeout),
-                                    TimeoutValue = reifiedCommandTimeout,
+                                    TimeoutValue = effectiveCommandTimeout,
                                     CommandName = _commandName,
                                     CorrelationId = requestGuid,
                                 };
@@ -697,7 +699,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
                 ExtendedResponse<TResp> extendedResponse;
                 try
                 {
-                    extendedResponse = await WallClock.WaitAsync(responsePromise.CompletionSource.Task, reifiedCommandTimeout, cancellationToken).ConfigureAwait(false);
+                    extendedResponse = await WallClock.WaitAsync(responsePromise.CompletionSource.Task, effectiveCommandTimeout, cancellationToken).ConfigureAwait(false);
                     if (responsePromise.CompletionSource.Task.IsFaulted)
                     {
                         throw responsePromise.CompletionSource.Task.Exception?.InnerException
@@ -721,7 +723,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
                         IsShallow = false,
                         IsRemote = false,
                         TimeoutName = nameof(commandTimeout),
-                        TimeoutValue = reifiedCommandTimeout,
+                        TimeoutValue = effectiveCommandTimeout,
                         CommandName = _commandName,
                         CorrelationId = requestGuid,
                     };

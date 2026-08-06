@@ -39,33 +39,34 @@ internal static class ChecksumCalculator
 
     private static byte[] CalculateHashBytes(ReadOnlySequence<byte> data, ChunkingChecksumAlgorithm algorithm)
     {
-        using HashAlgorithm hashAlgorithm = CreateHashAlgorithm(algorithm);
-
         if (data.IsSingleSegment)
         {
-            return hashAlgorithm.ComputeHash(data.FirstSpan.ToArray());
+            return algorithm switch
+            {
+#pragma warning disable CA5351 // Not a security control: the checksum guards against reassembly bugs, not tampering.
+                ChunkingChecksumAlgorithm.MD5 => MD5.HashData(data.FirstSpan),
+#pragma warning restore CA5351
+                ChunkingChecksumAlgorithm.SHA256 => SHA256.HashData(data.FirstSpan),
+                _ => throw new ArgumentOutOfRangeException(nameof(algorithm), algorithm, null)
+            };
         }
 
-        // Process multiple segments
-        hashAlgorithm.Initialize();
+        using IncrementalHash hashAlgorithm = IncrementalHash.CreateHash(HashAlgorithmNameFor(algorithm));
 
         foreach (ReadOnlyMemory<byte> segment in data)
         {
-            hashAlgorithm.TransformBlock(segment.Span.ToArray(), 0, segment.Length, null, 0);
+            hashAlgorithm.AppendData(segment.Span);
         }
 
-        hashAlgorithm.TransformFinalBlock([], 0, 0);
-        return hashAlgorithm.Hash!;
+        return hashAlgorithm.GetHashAndReset();
     }
 
-    private static HashAlgorithm CreateHashAlgorithm(ChunkingChecksumAlgorithm algorithm)
+    private static HashAlgorithmName HashAlgorithmNameFor(ChunkingChecksumAlgorithm algorithm)
     {
         return algorithm switch
         {
-#pragma warning disable CA5351
-            ChunkingChecksumAlgorithm.MD5 => MD5.Create(),
-#pragma warning restore CA5351
-            ChunkingChecksumAlgorithm.SHA256 => SHA256.Create(),
+            ChunkingChecksumAlgorithm.MD5 => HashAlgorithmName.MD5,
+            ChunkingChecksumAlgorithm.SHA256 => HashAlgorithmName.SHA256,
             _ => throw new ArgumentOutOfRangeException(nameof(algorithm), algorithm, null)
         };
     }

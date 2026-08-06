@@ -716,6 +716,58 @@ These feed directly into the ADR's open questions (working doc, Part 3).
 5. How badly does the ordered-ack path degrade under correctly deferred end-of-message acks, now
    that Phase 1 has them?
 6. Is SHA-256 over multi-MB payloads a meaningful cost on constrained hardware?
+   **Partly answered, and the question turned out to be aimed at the wrong thing.**
+
+   The premise behind asking was that the checksum is cryptographic and therefore expensive, and
+   that TLS makes cryptographic strength unnecessary anyway. The second half is right but stronger
+   than stated: **the checksum is not a security control at all**, with or without TLS. It rides in
+   `__chunk`, an unauthenticated plaintext user property, alongside the payload it describes.
+   Anyone able to alter the payload can recompute the checksum to match. TLS is what provides
+   integrity against tampering; this can never contribute to it.
+
+   What the checksum is actually for is narrower than it looks, because the structure already
+   catches most failures: a missing chunk fails `IsComplete`, ordering is fixed by index, a
+   duplicate index is rejected, messages cannot mix because the buffer is keyed on `messageId`, and
+   bit corruption is caught by TCP and by the TLS MAC. What remains is **splitter and assembler
+   bugs** — an off-by-one in the payload slicing produces a complete, well-formed, wrong payload —
+   and **cross-language mismatch**, where a Rust or Go implementation splits differently. That is
+   worth keeping a check for, and it needs no cryptographic strength.
+
+   The performance argument for switching, however, does not survive measurement. Over a 10 MB
+   payload on x64:
+
+   | | Time | Allocated |
+   |---|---|---|
+   | SHA-256 | 4.97 ms | 0 |
+   | FNV-1a 64 | 9.36 ms | 0 |
+   | MD5 | 17.02 ms | 0 |
+   | CRC32, table driven, byte at a time | 20.13 ms | 0 |
+
+   SHA-256 is the **fastest** of these, because the hardware SHA extensions process 64-byte blocks
+   while a byte-at-a-time CRC loop manages roughly one byte per cycle. Swapping to a "simpler"
+   algorithm would have made it two to four times slower. The ranking is a property of the
+   implementation and the CPU, not of the algorithms: a slicing-by-8 CRC32, or the SSE4.2 CRC32
+   instruction, would beat all of these, and on an ARM device without crypto extensions SHA-256
+   would lose badly. So the honest answer is that this must be measured **on the target hardware**,
+   and that the choice is a performance decision rather than a security one.
+
+   **What the measurement did find** was a real cost that had nothing to do with the algorithm.
+   `ChecksumCalculator` copied the entire payload before hashing it — `data.FirstSpan.ToArray()` on
+   the single-segment path and a per-segment `ToArray()` otherwise. For a 10 MB message that is a
+   10 MB allocation straight onto the large object heap, on both the sending and receiving side,
+   purely to compute a hash. Replacing it with the one-shot span APIs and `IncrementalHash` halved
+   the time and removed the allocation entirely:
+
+   | 10 MB | Time | Allocated |
+   |---|---|---|
+   | Before | 10.02 ms | 10,241 KB |
+   | After | 4.97 ms | 0 KB |
+
+   **For the ADR:** specify that the checksum is an integrity check against implementation error,
+   explicitly not a security mechanism, so that no one later mistakes it for one or feels obliged to
+   keep it cryptographic. Leave the algorithm as a measured choice per language, and note that the
+   enum already carries `MD5` alongside `SHA256` with a CA5351 suppression — a suppression that only
+   ever made sense because this was never a security control in the first place.
 
 ---
 
