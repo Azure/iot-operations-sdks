@@ -167,8 +167,11 @@ internal sealed class ChunkBuffer
 
         if (!entry.Assembler.IsComplete)
         {
+            Trace.TraceInformation($"Chunking: buffered chunk {metadata.ChunkIndex} of message '{metadata.MessageId}', {entry.Assembler.ReceivedChunkCount} chunk(s) held, {_bufferedBytes} byte(s) buffered in total.");
             return ChunkBufferResult.Incomplete;
         }
+
+        int chunkCount = entry.Assembler.ReceivedChunkCount;
 
         _entries.Remove(metadata.MessageId);
         _bufferedBytes -= entry.Assembler.CurrentBufferSize;
@@ -179,7 +182,9 @@ internal sealed class ChunkBuffer
             return ChunkBufferResult.Discard([.. entry.Assembler.ReceivedChunks]);
         }
 
-        return ChunkBufferResult.Reassembled(reassembled!);
+        Trace.TraceInformation($"Chunking: reassembled message '{metadata.MessageId}' from {chunkCount} chunk(s) into {reassembled!.ApplicationMessage.Payload.Length} byte(s).");
+
+        return ChunkBufferResult.Reassembled(reassembled);
     }
 
     private List<MqttApplicationMessageReceivedEventArgs> Remove(string messageId, Entry entry, MqttApplicationMessageReceivedEventArgs args)

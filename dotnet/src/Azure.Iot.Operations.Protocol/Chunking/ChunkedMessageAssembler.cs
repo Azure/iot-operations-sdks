@@ -32,6 +32,20 @@ internal class ChunkedMessageAssembler
     public long CurrentBufferSize { get; private set; }
 
     /// <summary>
+    /// Gets the number of chunks received so far.
+    /// </summary>
+    public int ReceivedChunkCount
+    {
+        get
+        {
+            lock (_lock)
+            {
+                return _chunks.Count;
+            }
+        }
+    }
+
+    /// <summary>
     /// Gets the chunks received so far, for callers that must acknowledge them when a message is
     /// abandoned instead of reassembled.
     /// </summary>

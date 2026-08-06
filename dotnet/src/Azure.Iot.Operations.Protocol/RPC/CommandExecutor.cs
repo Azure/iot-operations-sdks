@@ -627,8 +627,10 @@ namespace Azure.Iot.Operations.Protocol.RPC
                 bool isChunked = outgoingMessages.Count > 1;
                 DateTime responseDeadline = WallClock.UtcNow + TimeSpan.FromSeconds(responseMessage.MessageExpiryInterval);
 
-                foreach (MqttApplicationMessage outgoing in outgoingMessages)
+                for (int chunkIndex = 0; chunkIndex < outgoingMessages.Count; chunkIndex++)
                 {
+                    MqttApplicationMessage outgoing = outgoingMessages[chunkIndex];
+
                     if (isChunked)
                     {
                         uint remaining = Utils.RemainingExpirySeconds(responseDeadline, WallClock.UtcNow);
@@ -640,6 +642,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
                         }
 
                         outgoing.MessageExpiryInterval = remaining;
+                        Trace.TraceInformation($"Command '{_commandName}': publishing response chunk {chunkIndex + 1}/{outgoingMessages.Count} ({outgoing.Payload.Length} bytes, expiry {remaining}s) on topic '{topic}'.");
                     }
 
                     MqttClientPublishResult pubAck = await _mqttClient.PublishAsync(outgoing, CancellationToken.None).ConfigureAwait(false);

@@ -663,6 +663,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
                             }
 
                             outgoing.MessageExpiryInterval = remaining;
+                            Trace.TraceInformation($"Command '{_commandName}': publishing request chunk {chunkIndex + 1}/{outgoingMessages.Count} ({outgoing.Payload.Length} bytes, expiry {remaining}s) with correlation ID {requestGuid}.");
                         }
 
                         MqttClientPublishResult pubAck = await _mqttClient.PublishAsync(outgoing, cancellationToken).ConfigureAwait(false);

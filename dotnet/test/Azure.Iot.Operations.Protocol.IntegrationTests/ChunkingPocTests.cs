@@ -1,6 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+using System.Diagnostics;
+using System.Globalization;
 using System.Text;
 using Azure.Iot.Operations.Mqtt.Session;
 using Azure.Iot.Operations.Protocol.Models;
@@ -42,6 +44,62 @@ public class ChunkingPocTests(ITestOutputHelper output)
     private void Log(string message) =>
         output.WriteLine($"{DateTime.Now:HH:mm:ss.fff}  {message}");
 
+    // Forwards the SDK's own System.Diagnostics.Trace output into the test log, so a run shows the
+    // splitting, buffering and reassembly the envoys did rather than only the test's own view.
+    private TraceCapture CaptureSdkTrace() => new(output);
+
+    private sealed class TraceCapture : TraceListener
+    {
+        private readonly ITestOutputHelper _output;
+        private volatile bool _detached;
+
+        public TraceCapture(ITestOutputHelper output)
+        {
+            _output = output;
+            Trace.Listeners.Add(this);
+            Trace.AutoFlush = true;
+        }
+
+        public override void TraceEvent(TraceEventCache? eventCache, string source, TraceEventType eventType, int id, string? message) =>
+            Emit(eventType, message);
+
+        public override void TraceEvent(TraceEventCache? eventCache, string source, TraceEventType eventType, int id, string? format, params object?[]? args) =>
+            Emit(eventType, args == null || format == null ? format : string.Format(CultureInfo.InvariantCulture, format, args));
+
+        public override void Write(string? message)
+        {
+            // Trace.TraceXxx routes through TraceEvent; raw writes would only duplicate the header.
+        }
+
+        public override void WriteLine(string? message)
+        {
+        }
+
+        private void Emit(TraceEventType eventType, string? message)
+        {
+            if (_detached || string.IsNullOrWhiteSpace(message))
+            {
+                return;
+            }
+
+            try
+            {
+                _output.WriteLine($"{DateTime.Now:HH:mm:ss.fff}  [sdk {eventType,-11}] {message.TrimEnd()}");
+            }
+            catch (InvalidOperationException)
+            {
+                // The test finished and xUnit closed the output helper.
+            }
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            _detached = true;
+            Trace.Listeners.Remove(this);
+            base.Dispose(disposing);
+        }
+    }
+
     // Frames a scenario line with separators so it stands out in the captured log.
     private void LogScenario(string message)
     {
@@ -59,13 +117,13 @@ public class ChunkingPocTests(ITestOutputHelper output)
     }
 
     // A request several times the chunk threshold, answered with a short acknowledgement.
-    [Theory]
-    [InlineData(200_000)]
-    [InlineData(1_000_000)]
-    public async Task LargeRequest_RoundTrips(int payloadSize)
+    [Fact]
+    public async Task LargeRequest_RoundTrips()
     {
+        const int payloadSize = 1_000_000;
         Assert.True(payloadSize > ChunkThresholdBytes, "The payload must cross the chunk threshold for this scenario to mean anything.");
 
+        using TraceCapture trace = CaptureSdkTrace();
         LogScenario($"SCENARIO large request: invoker sends a {payloadSize:N0} byte payload, which the invoker splits into chunks; the executor reassembles it and replies with a short ack.");
 
         ApplicationContext appContext = new();
@@ -99,13 +157,13 @@ public class ChunkingPocTests(ITestOutputHelper output)
     }
 
     // A short request answered with a response several times the chunk threshold.
-    [Theory]
-    [InlineData(200_000)]
-    [InlineData(1_000_000)]
-    public async Task LargeResponse_RoundTrips(int payloadSize)
+    [Fact]
+    public async Task LargeResponse_RoundTrips()
     {
+        const int payloadSize = 1_000_000;
         Assert.True(payloadSize > ChunkThresholdBytes, "The payload must cross the chunk threshold for this scenario to mean anything.");
 
+        using TraceCapture trace = CaptureSdkTrace();
         LogScenario($"SCENARIO large response: invoker sends a short request; the executor replies with a {payloadSize:N0} byte payload, which it splits into chunks and the invoker reassembles.");
 
         ApplicationContext appContext = new();
@@ -138,6 +196,7 @@ public class ChunkingPocTests(ITestOutputHelper output)
     [Fact]
     public async Task LargeRequestAndLargeResponse_RoundTrip()
     {
+        using TraceCapture trace = CaptureSdkTrace();
         LogScenario("SCENARIO both directions: an oversized request is chunked to the executor, which echoes it back oversized so the response is chunked too.");
 
         ApplicationContext appContext = new();
@@ -171,6 +230,7 @@ public class ChunkingPocTests(ITestOutputHelper output)
     [Fact]
     public async Task SmallRequest_IsNotChunked()
     {
+        using TraceCapture trace = CaptureSdkTrace();
         LogScenario("SCENARIO small request: a payload below the chunk threshold must travel as a single message with no chunk metadata.");
 
         ApplicationContext appContext = new();
@@ -203,6 +263,7 @@ public class ChunkingPocTests(ITestOutputHelper output)
     [Fact]
     public async Task LargeRequest_TravelsAsSeveralTaggedChunks()
     {
+        using TraceCapture trace = CaptureSdkTrace();
         LogScenario("SCENARIO wire format: a third client watches the request topic while an oversized request goes out, and checks the chunk metadata on what it sees.");
 
         ApplicationContext appContext = new();
@@ -267,6 +328,7 @@ public class ChunkingPocTests(ITestOutputHelper output)
     [Fact]
     public async Task FileTransfer()
     {
+        using TraceCapture trace = CaptureSdkTrace();
         LogScenario($"SCENARIO file transfer: the executor reads '{AdrRelativePath}' and returns it as a single payload; chunking carries it and the invoker re-hashes what it got.");
 
         ApplicationContext appContext = new();

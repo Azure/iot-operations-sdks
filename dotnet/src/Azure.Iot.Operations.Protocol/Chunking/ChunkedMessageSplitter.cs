@@ -5,6 +5,7 @@ using Azure.Iot.Operations.Protocol.Models;
 using System;
 using System.Buffers;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 
 namespace Azure.Iot.Operations.Protocol.Chunking;
@@ -65,6 +66,8 @@ internal class ChunkedMessageSplitter
             var chunkMessage = ChunkedMessageSplitter.CreateChunk(message, chunkPayload, chunkIndex == 0 ? userProperties : perChunkUserProperties, messageId, chunkIndex, totalChunks, checksum);
             chunks.Add(chunkMessage);
         }
+
+        Trace.TraceInformation($"Chunking: split a {payload.Length} byte payload for topic '{message.Topic}' into {totalChunks} chunk(s) of at most {maxChunkSize} bytes as message '{messageId}'.");
 
         return chunks;
     }
