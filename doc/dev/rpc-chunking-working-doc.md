@@ -4,6 +4,11 @@
 > **Purpose:** Capture the review of the current RPC implementation and the .NET caching/dedupe
 > machinery, so that the chunking design (and the eventual ADR) starts from verified facts rather
 > than assumptions.
+> **Update:** a working .NET POC now exists and is taken here as the presumed direction — see
+> [rpc-chunking-poc-plan.md](rpc-chunking-poc-plan.md) for the decisions and
+> [rpc-chunking-implementation-walkthrough.md](rpc-chunking-implementation-walkthrough.md) for the
+> code. Sections below carry **Settled by the POC** notes where it has answered a question this
+> document originally raised. Everything not so marked is still open.
 
 ## Background
 
@@ -123,6 +128,13 @@ Three assumptions are load-bearing today and all three break:
 3. **`MessageExpiryInterval` is the single clock** driving broker TTL, executor handler timeout,
    *and* dedupe cache lifetime.
 
+> **Settled by the POC (3).** The single clock is split in two on the send side, borrowing the model
+> from ADR 25: the *invocation budget* is a deadline held by the sender, and each chunk's
+> `MessageExpiryInterval` is whatever remains of it when that chunk is published. No chunk outlives
+> the invocation, and the broker is not asked to hold every chunk for the full timeout. The receive
+> side still derives its reassembly deadline from the message expiry, which ADR 25 explicitly
+> rejects — §7.3 of the plan proposes a countdown field instead.
+
 ## 1.4 The layering problem (G1)
 
 The negotiated maximum packet size is not reachable from any envoy, in any language.
@@ -188,13 +200,13 @@ Per language:
 | # | Gap | Notes |
 |---|---|---|
 | **G1** | Negotiated max packet size unreachable by envoys (all 3 languages) | .NET's existing check also uses the wrong field and ignores property overhead — it compares payload length against the **CONNECT** maximum (what this client will accept) rather than the whole packet against the **CONNACK** maximum (what the broker will accept). **Also:** the limit chunking needs is the negotiated maximum *minus what the broker adds on delivery*, chiefly subscription identifiers — see §3.6 of the POC plan. Sizing to exactly the negotiated limit gets chunks silently discarded. |
-| **G2** | No chunk metadata on the wire | Needs new `__` reserved user properties plus parsing on both sides. Also worth resolving the `__invId` asymmetry — .NET sends it, Rust and Go do not. |
-| **G3** | Packet size estimation is hard | Topic, correlation data, response topic and all user properties count. In Rust the wire packet is built by a bespoke buffer not exposed through the API. Expect reserved headroom plus a resize-and-retry fallback. **Update: largely closed in .NET.** Sizing a PUBLISH turned out to be exact arithmetic over the MQTT 5 encoding — see §3.5 of the POC plan — so no resize-and-retry is needed there. Rust and Go still need to confirm the same is reachable. |
-| **G4** | Cache blowup | See Part 2. Reassembled multi-MB payloads land in a 10 MB process-wide budget, and the default configuration is the un-evictable one. |
-| **G5** | Packet ID exhaustion | Rust has an explicit `PkidPool`; exhaustion returns `None` and the session loop **blocks** (backpressure, no error). .NET and Go delegate to MQTTnet/paho with no repo-level policy. Combined with delayed acks this is a real risk for large N. |
-| **G6** | New error kinds | `AIOProtocolErrorKind` is a plain enum with **no `#[non_exhaustive]`** — adding `IncompleteChunk` is a Rust breaking change. `AkriMqttErrorKind` and Go's `errors.Kind` absorb a new value more cheaply. Cheapest cross-language option is reusing `PayloadInvalid` (→ 400) or `HeaderMissing`/`HeaderInvalid`, at the cost of diagnostics. |
+| **G2** | No chunk metadata on the wire | Needs new `__` reserved user properties plus parsing on both sides. Also worth resolving the `__invId` asymmetry — .NET sends it, Rust and Go do not. **Settled by the POC** for .NET: a single `__chunk` property, colon-separated and introduced by a tag so the form determines the parse — `h:messageId:index:total:checksumId:checksum` for the head chunk, `d:messageId:index` for the rest. The `__invId` asymmetry is untouched. |
+| **G3** | Packet size estimation is hard | Topic, correlation data, response topic and all user properties count. In Rust the wire packet is built by a bespoke buffer not exposed through the API. Expect reserved headroom plus a resize-and-retry fallback. **Settled by the POC in .NET:** sizing a PUBLISH is exact arithmetic over the MQTT 5 encoding, pinned byte-for-byte against the client's own serializer, so no resize-and-retry is needed — see §3.5 of the plan. Rust and Go still need to confirm the same is reachable. |
+| **G4** | Cache blowup | See Part 2. Reassembled multi-MB payloads land in a 10 MB process-wide budget, and the default configuration is the un-evictable one. **Unchanged by the POC:** reassembly is now separately bounded (`MaxChunkCount` 100, `ReassemblyBufferSizeLimit` 10 MB across all in-flight messages), but the *reassembled* payload still enters the response cache exactly as a large unchunked one would, so this gap stands. |
+| **G5** | Packet ID exhaustion | Rust has an explicit `PkidPool`; exhaustion returns `None` and the session loop **blocks** (backpressure, no error). .NET and Go delegate to MQTTnet/paho with no repo-level policy. Combined with delayed acks this is a real risk for large N. **Partly addressed by the POC:** `MaxChunkCount` caps a single message at 100 chunks, well short of the 65535 ceiling, but the bound is a constant rather than derived from the negotiated receive maximum. |
+| **G6** | New error kinds | `AIOProtocolErrorKind` is a plain enum with **no `#[non_exhaustive]`** — adding `IncompleteChunk` is a Rust breaking change. `AkriMqttErrorKind` and Go's `errors.Kind` absorb a new value more cheaply. Cheapest cross-language option is reusing `PayloadInvalid` (→ 400) or `HeaderMissing`/`HeaderInvalid`, at the cost of diagnostics. **Still open** — the POC defines the exception types but never throws them, deliberately deferring the decision. |
 | **G7** | No backchannel to cancel a chunked *response* | Unsubscribe does not signal the peer, and "no matching subscribers" is unreliable (not treated as an error in Rust, may not be sent at all). Accepted and to be documented. |
-| **G8** | Delayed-ack window widens | No chunk may be acked until the reassembled payload reaches the user, or a crash mid-reassembly silently loses data. Interacts with .NET's `ExecutionDispatcher` (ordered process-then-ack, default concurrency 10 per client id) and `OrderedAckMqttClient`'s strict ack ordering, where an unacked chunk blocks all subsequent ACKs. |
+| **G8** | Delayed-ack window widens | No chunk may be acked until the reassembled payload reaches the user, or a crash mid-reassembly silently loses data. Interacts with .NET's `ExecutionDispatcher` (ordered process-then-ack, default concurrency 10 per client id) and `OrderedAckMqttClient`'s strict ack ordering, where an unacked chunk blocks all subsequent ACKs. **Settled by the POC, and cheaper than expected:** retaining each chunk's received event args makes correct deferred acknowledgement fall out for free — acknowledging the reassembled message fans out to every chunk it was built from, so a crash mid-transfer redelivers all of them. Worth checking Rust and Go can do the same before assuming this is expensive there. |
 
 ## 1.6 Cross-language divergence to reconcile first
 
@@ -306,6 +318,12 @@ accumulate response chunks per correlation ID, most naturally a `ChunkBuffer` fi
 `ResponsePromise`. At that point the value becomes all per-invocation state, so `_pendingInvocations`
 survives the change, `_pendingResponses` narrows slightly, and `_inFlightRequestMap` gets *more*
 wrong. Deferred — not worth a rename until we touch the file for chunking.
+
+> **Superseded by the POC.** That caveat assumed a buffer per invocation. The POC gives each envoy a
+> single `ChunkBuffer` instead, which is simpler and mirrors the executor exactly: the buffer keys on
+> `messageId`, which is globally unique, so concurrent invocations sharing one buffer cannot collide.
+> `ResponsePromise` therefore never grows the extra state, and the argument for `_pendingInvocations`
+> over `_pendingResponses` disappears with it. Still worth renaming; the choice is now free.
 
 ## 2.3 Layer 2 — Executor `CommandResponseCache`
 
@@ -607,12 +625,12 @@ Assert:  the second delivery is acknowledged within a bounded time
 
 | Current assumption | What chunking does to it |
 |---|---|
-| Key = (response topic, correlation data) | Every chunk shares both → all N chunks collide on one key. Chunk 2 looks like a duplicate of chunk 1 and gets swallowed by the cache-hit path. |
-| Cached value = one complete response payload | A reassembled multi-MB payload now sits in a 10 MB process-wide budget. |
-| Un-evictable non-idempotent entries (F2) | Deliberate, but exactly the path that pins large payloads until expiry. |
-| Expiry = `MessageExpiryInterval` | A chunked transfer takes longer; the window must cover reassembly of all N chunks, not one round trip. |
-| Duplicate → re-publish cached response | Now means re-publishing *all N chunks*, with no way for the invoker to say "stop" (G7). |
-| Handler failure leaks an entry (F3) | Chunking adds many new failure modes — missing chunk, expired chunk, partial reassembly — so many more ways to orphan a placeholder and wedge the dispatcher. |
+| Key = (response topic, correlation data) | Every chunk shares both → all N chunks collide on one key. Chunk 2 looks like a duplicate of chunk 1 and gets swallowed by the cache-hit path. **Resolved by placing the buffer above the cache (§2.8).** |
+| Cached value = one complete response payload | A reassembled multi-MB payload now sits in a 10 MB process-wide budget. **Still true** — see G4. |
+| Un-evictable non-idempotent entries (F2) | Deliberate, but exactly the path that pins large payloads until expiry. **Still true.** |
+| Expiry = `MessageExpiryInterval` | A chunked transfer takes longer; the window must cover reassembly of all N chunks, not one round trip. **Partly addressed:** the sender now spends a single invocation budget across all chunks, so the total is bounded, but the executor still derives its reassembly deadline from the message expiry. |
+| Duplicate → re-publish cached response | Now means re-publishing *all N chunks*, with no way for the invoker to say "stop" (G7). **Still true** — the POC routes the cached-response replay through the same splitter, so a replayed large response is chunked again. |
+| Handler failure leaks an entry (F3) | Chunking adds many new failure modes — missing chunk, expired chunk, partial reassembly — so many more ways to orphan a placeholder and wedge the dispatcher. **Mitigated but not fixed:** those failure modes are now handled inside the buffer, *before* the cache is touched, so none of them can orphan a placeholder. F3 remains reachable through the three original paths. |
 
 ## 2.8 F3 becomes a happy-path deadlock under chunking
 
@@ -661,37 +679,92 @@ bug remains reachable through the three failure paths in §2.6.
 > stalls after chunk 0 recreates F3's exact shape in new code: an entry with no deadline that
 > nothing reclaims.
 
+> **Settled by the POC.** This is what was built. `ChunkBuffer` sits exactly at that hook in both
+> envoys, so the cache only ever sees whole messages and the deadlock above is unreachable. The
+> bounds warned about in the note are enforced from the first commit: `MaxChunkCount`,
+> `ReassemblyBufferSizeLimit`, and a deadline **supplied by the caller** rather than derived inside
+> the buffer. That last point turned out to matter — the buffer cannot derive its own deadline
+> safely, because the first chunk to *arrive* need not be the head chunk and so may carry no
+> message-level metadata at all. Had it tried, a message whose head chunk was lost would have
+> reproduced F3's shape precisely. F3 itself remains unfixed.
+
 See [rpc-chunking-poc-plan.md](rpc-chunking-poc-plan.md) for the POC scope built on this.
 
 ---
 
 # Part 3 — Proposed next steps
 
-1. **Design `ChunkBuffer` first**, and share it between RPC and telemetry. Both the existing TODO
-   comments and the meeting discussion point that way, and telemetry will need it later.
+1. ~~**Design `ChunkBuffer` first**~~ — **done in the POC.** It is deliberately free of RPC concepts:
+   keyed on `messageId` rather than correlation data, so telemetry can share it later. The
+   telemetry-specific caveat still stands — `HasExpired()` returns `false` when no timeout is set,
+   which is safe for RPC because it mandates `MessageExpiryInterval`, and is not safe for telemetry.
 2. **Plumb the negotiated max packet size to the envoys** as a separate, self-contained change
    (G1). Three different insertion points per language; land this before the chunking protocol so
-   the protocol can assume it exists.
+   the protocol can assume it exists. **Still open, and the POC sharpened the requirement:** the
+   usable limit is the negotiated maximum *minus what the broker adds on delivery*, chiefly a
+   subscription identifier per matching subscription. Sizing to exactly the negotiated value gets
+   chunks silently discarded (\[MQTT-3.1.2-25\]). See §3.6 of the plan.
 3. **Fix .NET `ValidateMessageSize`** to use the CONNACK value and account for full packet size —
-   a latent bug independent of chunking.
+   a latent bug independent of chunking. **Still open**, but there is now a correct implementation
+   next to it to copy from: `MqttPacketSizeCalculator` sizes the whole packet exactly, and the POC
+   records both defects as finding 7 of the plan.
 4. **Reconcile dedupe-cache semantics** across the three languages (§1.6) before writing the spec,
-   otherwise the METL tests in `eng/test/test-cases/Protocol/` cannot be written.
+   otherwise the METL tests in `eng/test/test-cases/Protocol/` cannot be written. **Still open** —
+   the POC is .NET only and does not touch this.
 5. **Fix F3** (§2.6) — orphaned cache placeholder wedges the dispatcher and blocks ACKs. A real
-   hang, independent of chunking. Add the two repro tests with the fix.
+   hang, independent of chunking. Add the two repro tests with the fix. **Still open.** The POC's
+   layering keeps chunking off that path (§2.8) but does not repair it.
 6. **Rename `_requestIdMap`** (§2.2) when the invoker is touched for chunking, once the final shape
-   of the per-invocation state is known.
-7. **Write the ADR.** Next number is 0033, following
-   [0031-backpressure-bypass.md](adr/0031-backpressure-bypass.md). Also update
-   [rpc-protocol.md](../reference/rpc-protocol.md) (which already promises streaming "soon") and
-   [protocol-versioning.md](../reference/protocol-versioning.md) for the 2.0 bump.
+   of the per-invocation state is known. **Now decidable, and the deciding argument has gone:** the
+   POC gives each envoy *one* `ChunkBuffer` rather than one per invocation, because `messageId` is
+   globally unique, so `ResponsePromise` never grew the extra state that motivated
+   `_pendingInvocations`. `_pendingResponses` is now as accurate.
+7. **Write the ADR.** Next number is **0033**, following
+   [0031-backpressure-bypass.md](adr/0031-backpressure-bypass.md) — note the chunking draft on the
+   `maxim/chunking` branch is numbered 0023, which is already taken by
+   [0023-property-support.md](adr/0023-property-support.md), and 0033 is what ADR 25 points at. Also
+   update [rpc-protocol.md](../reference/rpc-protocol.md) (which already promises streaming "soon")
+   and [protocol-versioning.md](../reference/protocol-versioning.md) for the 2.0 bump.
 
 ## Open questions for the ADR
 
-* Chunk metadata schema — index + count only, or also total byte length and a per-message id?
-* Does the chunk count go on every chunk, or only the first?
-* Does the executor reject up front when chunk count exceeds a locally acceptable bound
-  (packet-ID and memory protection, G5)?
-* How is `MessageExpiryInterval` distributed across N chunks — same value on each, or a decreasing
-  countdown as discussed for streaming?
-* Which existing error kind absorbs incomplete-chunk failures, versus taking the Rust breaking
-  change (G6)?
+Taking the POC's choices as the presumed direction, these are now proposals rather than questions:
+
+* ~~Chunk metadata schema — index + count only, or also total byte length and a per-message id?~~
+  **Proposed:** a per-message id, index, total count, and a checksum with the identifier of the
+  algorithm that produced it. No total byte length — it is redundant once the payload is
+  reassembled, and the checksum already detects a short result. Colon-separated rather than JSON,
+  since it rides on every chunk.
+* ~~Does the chunk count go on every chunk, or only the first?~~ **Proposed:** only the head chunk,
+  with a leading tag (`h` / `d`) so the parser never infers the shape from how many fields arrived.
+  Out-of-order delivery is fine: whichever chunk arrives first creates the entry, and completion is
+  simply "count known and all indices present".
+* ~~Does the executor reject up front when chunk count exceeds a locally acceptable bound?~~
+  **Proposed:** yes — `MaxChunkCount`, checked the moment the head chunk names the total, discarding
+  the message and releasing every chunk held for it. The POC uses a constant; the bound should
+  eventually derive from the negotiated receive maximum (G5).
+* ~~How is `MessageExpiryInterval` distributed across N chunks — same value on each, or a decreasing
+  countdown?~~ **Proposed:** decreasing. Each chunk carries the invocation budget still remaining
+  when it is published, so no chunk outlives the invocation. This departs from ADR 0023, which said
+  the same value on each, and follows ADR 25 instead. The unresolved half is the *receive* side —
+  §7.3 of the plan proposes carrying the countdown in `__chunk` so the executor stops deriving its
+  reassembly deadline from the message expiry, which ADR 25 explicitly rejects.
+* **Still genuinely open:** which existing error kind absorbs incomplete-chunk failures, versus
+  taking the Rust breaking change (G6). The POC defines `ChunkTimeoutError`,
+  `BufferLimitExceededError` and `ChecksumMismatchError` but never throws them, so today a failed
+  reassembly surfaces only as a caller timeout with nothing implicating chunking.
+
+### New questions the POC raised
+
+* **Should the header chunk be in the spec, or the overhead constant?** The POC devotes chunk 0 to
+  properties and no payload, which is what makes a data chunk's overhead measurable rather than
+  guessed. If the ADR specifies an overhead allowance instead, the three languages will each pick a
+  different number.
+* **Is the checksum's purpose stated plainly enough?** It guards against implementation error — a
+  slicing bug producing a complete but wrong payload, or two languages disagreeing about the split.
+  It is **not** a security control and cannot become one, since it travels unauthenticated beside
+  the payload it describes. The algorithm is a performance choice to be measured per target, not a
+  cryptographic one.
+* **Does a chunked response need to be cacheable at all?** The POC routes cached-response replay
+  through the splitter, so a replayed multi-MB response is re-chunked and re-sent in full, with no
+  way for the invoker to decline it (G7).
