@@ -48,6 +48,5 @@
         }
     },
     "onCreateCommand": ".devcontainer/onCreateCommand.sh",
-    "postCreateCommand": ".devcontainer/postCreateCommand.sh",
-    "postStartCommand": ".devcontainer/postStartCommand.sh"
+    "postCreateCommand": ".devcontainer/postCreateCommand.sh"
 }
