@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+using Azure.Iot.Operations.Protocol.Chunking;
 using Azure.Iot.Operations.Protocol.Events;
 using Azure.Iot.Operations.Protocol.Models;
 using System;
@@ -34,7 +35,10 @@ namespace Azure.Iot.Operations.Protocol.RPC
         private readonly HashSet<string> _subscribedTopics;
 
         private readonly object _requestIdMapLock = new();
+        // used to track pending responses
         private readonly Dictionary<string, ResponsePromise> _requestIdMap;
+
+        private readonly ChunkBuffer _chunkBuffer = new(new ChunkingOptions());
 
         /// <summary>
         /// The topic token replacement map that this command invoker will use by default. Generally, this will include the token values
@@ -232,6 +236,35 @@ namespace Azure.Iot.Operations.Protocol.RPC
                     }
                 }
 
+                // Response chunks all carry the same correlation data, so they are reassembled
+                // before any of the response handling below runs.
+                if (ChunkBuffer.IsChunk(args.ApplicationMessage))
+                {
+                    args.AutoAcknowledge = false;
+
+                    DateTime now = WallClock.UtcNow;
+                    ChunkBufferResult chunkResult = _chunkBuffer.AddChunk(
+                        args,
+                        now,
+                        now + TimeSpan.FromSeconds(args.ApplicationMessage.MessageExpiryInterval));
+
+                    foreach (MqttApplicationMessageReceivedEventArgs discarded in chunkResult.DiscardedChunks)
+                    {
+                        await discarded.AcknowledgeAsync(CancellationToken.None).ConfigureAwait(false);
+                    }
+
+                    if (chunkResult.ReassembledMessage == null)
+                    {
+                        return;
+                    }
+
+                    // No chunk has been acknowledged yet; this one call fans out to all of them.
+                    args = chunkResult.ReassembledMessage;
+                    await args.AcknowledgeAsync(CancellationToken.None).ConfigureAwait(false);
+                }
+
+                // At this point, we have a complete response message (reassembled if it was chunked or original if it was not chunked).
+                // We can now process the response.
                 args.AutoAcknowledge = true;
                 if (MqttTopicProcessor.DoesTopicMatchFilter(args.ApplicationMessage.Topic, responsePromise.ResponseTopic))
                 {
@@ -483,19 +516,19 @@ namespace Azure.Iot.Operations.Protocol.RPC
 
             Guid requestGuid = metadata?.CorrelationId ?? Guid.NewGuid();
 
-            TimeSpan reifiedCommandTimeout = commandTimeout ?? DefaultCommandTimeout;
+            TimeSpan effectiveCommandTimeout = commandTimeout ?? DefaultCommandTimeout;
 
             // Rounding up to the nearest second
-            reifiedCommandTimeout = TimeSpan.FromSeconds(Math.Ceiling(reifiedCommandTimeout.TotalSeconds));
+            effectiveCommandTimeout = TimeSpan.FromSeconds(Math.Ceiling(effectiveCommandTimeout.TotalSeconds));
 
-            if (reifiedCommandTimeout < MinimumCommandTimeout)
+            if (effectiveCommandTimeout < MinimumCommandTimeout)
             {
-                throw AkriMqttException.GetArgumentInvalidException("commandTimeout", nameof(commandTimeout), reifiedCommandTimeout, $"commandTimeout must be at least {MinimumCommandTimeout}");
+                throw AkriMqttException.GetArgumentInvalidException("commandTimeout", nameof(commandTimeout), effectiveCommandTimeout, $"commandTimeout must be at least {MinimumCommandTimeout}");
             }
 
-            if (reifiedCommandTimeout.TotalSeconds > uint.MaxValue)
+            if (effectiveCommandTimeout.TotalSeconds > uint.MaxValue)
             {
-                throw AkriMqttException.GetArgumentInvalidException("commandTimeout", nameof(commandTimeout), reifiedCommandTimeout, $"commandTimeout cannot be larger than {uint.MaxValue} seconds");
+                throw AkriMqttException.GetArgumentInvalidException("commandTimeout", nameof(commandTimeout), effectiveCommandTimeout, $"commandTimeout cannot be larger than {uint.MaxValue} seconds");
             }
 
             if (_requestIdMap.ContainsKey(requestGuid.ToString()))
@@ -548,7 +581,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
                 {
                     ResponseTopic = responseTopic,
                     CorrelationData = requestGuid.ToByteArray(),
-                    MessageExpiryInterval = (uint)reifiedCommandTimeout.TotalSeconds,
+                    MessageExpiryInterval = (uint)effectiveCommandTimeout.TotalSeconds,
                 };
 
                 string? clientId = _mqttClient.ClientId;
@@ -602,18 +635,52 @@ namespace Azure.Iot.Operations.Protocol.RPC
 
                 try
                 {
-                    MqttClientPublishResult pubAck = await _mqttClient.PublishAsync(requestMessage, cancellationToken).ConfigureAwait(false);
-                    MqttClientPublishReasonCode pubReasonCode = pubAck.ReasonCode;
-                    if (pubReasonCode != MqttClientPublishReasonCode.Success)
+                    IReadOnlyList<MqttApplicationMessage> outgoingMessages = ChunkedMessageSplitter.SplitIfNeeded(requestMessage);
+
+                    // Each chunk's expiry is the budget still remaining when it is published, so
+                    // no chunk outlives the invocation and the broker is not asked to hold every
+                    // chunk for the full timeout.
+                    bool isChunked = outgoingMessages.Count > 1;
+                    DateTime invocationDeadline = WallClock.UtcNow + effectiveCommandTimeout;
+
+                    for (int chunkIndex = 0; chunkIndex < outgoingMessages.Count; chunkIndex++)
                     {
-                        throw new AkriMqttException($"Command '{_commandName}' invocation failed due to an unsuccessful publishing with the error code {pubReasonCode}.")
+                        MqttApplicationMessage outgoing = outgoingMessages[chunkIndex];
+
+                        if (isChunked)
                         {
-                            Kind = AkriMqttErrorKind.MqttError,
-                            IsShallow = false,
-                            IsRemote = false,
-                            CommandName = _commandName,
-                            CorrelationId = requestGuid,
-                        };
+                            uint remaining = Utils.RemainingExpirySeconds(invocationDeadline, WallClock.UtcNow);
+                            if (remaining == 0)
+                            {
+                                throw new AkriMqttException($"Command '{_commandName}' timed out while publishing chunk {chunkIndex} of {outgoingMessages.Count}.")
+                                {
+                                    Kind = AkriMqttErrorKind.Timeout,
+                                    IsShallow = false,
+                                    IsRemote = false,
+                                    TimeoutName = nameof(commandTimeout),
+                                    TimeoutValue = effectiveCommandTimeout,
+                                    CommandName = _commandName,
+                                    CorrelationId = requestGuid,
+                                };
+                            }
+
+                            outgoing.MessageExpiryInterval = remaining;
+                            Trace.TraceInformation($"Command '{_commandName}': publishing request chunk {chunkIndex + 1}/{outgoingMessages.Count} ({outgoing.Payload.Length} bytes, expiry {remaining}s) with correlation ID {requestGuid}.");
+                        }
+
+                        MqttClientPublishResult pubAck = await _mqttClient.PublishAsync(outgoing, cancellationToken).ConfigureAwait(false);
+                        MqttClientPublishReasonCode pubReasonCode = pubAck.ReasonCode;
+                        if (pubReasonCode != MqttClientPublishReasonCode.Success)
+                        {
+                            throw new AkriMqttException($"Command '{_commandName}' invocation failed due to an unsuccessful publishing with the error code {pubReasonCode}.")
+                            {
+                                Kind = AkriMqttErrorKind.MqttError,
+                                IsShallow = false,
+                                IsRemote = false,
+                                CommandName = _commandName,
+                                CorrelationId = requestGuid,
+                            };
+                        }
                     }
                     Trace.TraceInformation($"Invoked command '{_commandName}' with correlation ID {requestGuid} to topic '{requestTopic}'");
                 }
@@ -632,7 +699,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
                 ExtendedResponse<TResp> extendedResponse;
                 try
                 {
-                    extendedResponse = await WallClock.WaitAsync(responsePromise.CompletionSource.Task, reifiedCommandTimeout, cancellationToken).ConfigureAwait(false);
+                    extendedResponse = await WallClock.WaitAsync(responsePromise.CompletionSource.Task, effectiveCommandTimeout, cancellationToken).ConfigureAwait(false);
                     if (responsePromise.CompletionSource.Task.IsFaulted)
                     {
                         throw responsePromise.CompletionSource.Task.Exception?.InnerException
@@ -656,7 +723,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
                         IsShallow = false,
                         IsRemote = false,
                         TimeoutName = nameof(commandTimeout),
-                        TimeoutValue = reifiedCommandTimeout,
+                        TimeoutValue = effectiveCommandTimeout,
                         CommandName = _commandName,
                         CorrelationId = requestGuid,
                     };

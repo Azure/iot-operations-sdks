@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+using Azure.Iot.Operations.Protocol.Chunking;
 using Azure.Iot.Operations.Protocol.Events;
 using Azure.Iot.Operations.Protocol.Models;
 using System;
@@ -33,6 +34,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
 
         private readonly ApplicationContext _applicationContext;
         private readonly ICommandResponseCache _commandResponseCache;
+        private readonly ChunkBuffer _chunkBuffer = new(new ChunkingOptions());
         private Dispatcher? _dispatcher;
         private bool _isRunning;
         private bool _hasSubscribed;
@@ -140,6 +142,27 @@ namespace Azure.Iot.Operations.Protocol.RPC
                     : null,
                         async () => { await args.AcknowledgeAsync(CancellationToken.None).ConfigureAwait(false); }).ConfigureAwait(false);
                     return;
+                }
+
+                // Chunks are reassembled before the response cache sees them, since every chunk of a
+                // request carries the same correlation data and would otherwise look like a duplicate.
+                if (ChunkBuffer.IsChunk(args.ApplicationMessage))
+                {
+                    ChunkBufferResult chunkResult = _chunkBuffer.AddChunk(args, messageReceivedTime, commandExpirationTime);
+
+                    foreach (MqttApplicationMessageReceivedEventArgs discarded in chunkResult.DiscardedChunks)
+                    {
+                        await discarded.AcknowledgeAsync(CancellationToken.None).ConfigureAwait(false);
+                    }
+
+                    if (chunkResult.ReassembledMessage == null)
+                    {
+                        return;
+                    }
+
+                    // Acknowledging the reassembled message acknowledges every chunk it was built from.
+                    args = chunkResult.ReassembledMessage;
+                    args.AutoAcknowledge = false;
                 }
 
                 // This validation is handled above, so assume a response topic is provided beyond this point.
@@ -597,12 +620,38 @@ namespace Azure.Iot.Operations.Protocol.RPC
 
             try
             {
-                MqttClientPublishResult pubAck = await _mqttClient.PublishAsync(responseMessage, CancellationToken.None).ConfigureAwait(false);
-                MqttClientPublishReasonCode pubReasonCode = pubAck.ReasonCode;
-                if (pubReasonCode != MqttClientPublishReasonCode.Success)
+                IReadOnlyList<MqttApplicationMessage> outgoingMessages = ChunkedMessageSplitter.SplitIfNeeded(responseMessage);
+
+                // Each chunk's expiry is the budget still remaining when it is published, so no
+                // chunk outlives the command.
+                bool isChunked = outgoingMessages.Count > 1;
+                DateTime responseDeadline = WallClock.UtcNow + TimeSpan.FromSeconds(responseMessage.MessageExpiryInterval);
+
+                for (int chunkIndex = 0; chunkIndex < outgoingMessages.Count; chunkIndex++)
                 {
-                    string correlationId = correlationData != null ? $"'{new Guid(correlationData)}'" : "unknown";
-                    Trace.TraceError($"The response to command {_commandName} with CorrelationId {correlationId} failed on topic '{topic}' with publishing reason code '{pubReasonCode}'");
+                    MqttApplicationMessage outgoing = outgoingMessages[chunkIndex];
+
+                    if (isChunked)
+                    {
+                        uint remaining = Utils.RemainingExpirySeconds(responseDeadline, WallClock.UtcNow);
+                        if (remaining == 0)
+                        {
+                            string expiredCorrelationId = correlationData != null ? $"'{new Guid(correlationData)}'" : "unknown";
+                            Trace.TraceError($"Command '{_commandName}' with CorrelationId {expiredCorrelationId} expired while its chunked response was being published on topic '{topic}'. The remaining chunks will not be published.");
+                            return;
+                        }
+
+                        outgoing.MessageExpiryInterval = remaining;
+                        Trace.TraceInformation($"Command '{_commandName}': publishing response chunk {chunkIndex + 1}/{outgoingMessages.Count} ({outgoing.Payload.Length} bytes, expiry {remaining}s) on topic '{topic}'.");
+                    }
+
+                    MqttClientPublishResult pubAck = await _mqttClient.PublishAsync(outgoing, CancellationToken.None).ConfigureAwait(false);
+                    MqttClientPublishReasonCode pubReasonCode = pubAck.ReasonCode;
+                    if (pubReasonCode != MqttClientPublishReasonCode.Success)
+                    {
+                        string correlationId = correlationData != null ? $"'{new Guid(correlationData)}'" : "unknown";
+                        Trace.TraceError($"The response to command {_commandName} with CorrelationId {correlationId} failed on topic '{topic}' with publishing reason code '{pubReasonCode}'");
+                    }
                 }
             }
             catch (Exception e)
