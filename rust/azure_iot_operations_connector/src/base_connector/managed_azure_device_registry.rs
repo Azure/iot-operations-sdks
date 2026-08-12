@@ -594,6 +594,9 @@ impl DeviceEndpointClientCreationObservation {
                 .map_err(|e| match e {
                     DeviceSpecificationError::InvalidSpecification(_)
                     | DeviceSpecificationError::InvalidSecretName(_) => {
+                        // NOTE: Invalid definitions retry indefinitely to match malformed-response handling.
+                        // Stale endpoints stop only when ADR returns a permanent error or the process restarts.
+                        // This holds the single creation slot; revisit before supporting multiple endpoints.
                         log::warn!(
                             "Invalid device definition for {device_endpoint_ref:?}. Retrying: {e}"
                         );
@@ -813,7 +816,7 @@ impl DeviceEndpointClient {
                                 log::error!("Failed to apply device update for {:?}: {e_message}", self.device_endpoint_ref);
                                 let _ = self.connector_context.connector_restart_tx.try_send(e_message);
                             },
-                            // Service-supplied data, so no restart. The previous valid specification is kept.
+                            // Drop malformed updates so later valid updates can recover the existing client.
                             DeviceSpecificationError::InvalidSecretName(secret_name) => {
                                 log::error!("Failed to apply device update for {:?}: credential secret name '{secret_name}' must be a relative path within the credentials mount", self.device_endpoint_ref);
                             },
@@ -4673,16 +4676,12 @@ pub(crate) enum DeviceSpecificationError {
     InvalidSecretName(String),
 }
 
-/// Joins a service-supplied secret name onto the credentials mount.
-///
-/// The Akri connector contract defines the secret name as a relative path to append to the mount,
-/// which is a flat file name when unified `secretsync` is used and `{secret_name}/{secret_key}`
-/// when it isn't. Both are accepted; every segment must be a plain name so that the joined path
-/// cannot escape the mount via an absolute path or `..`.
+/// Joins a service-supplied relative secret path onto the credentials mount.
 fn credential_path(
     credentials_mount: &Path,
     secret_name: &str,
 ) -> Result<PathBuf, DeviceSpecificationError> {
+    // This guarantees lexical containment only; the platform-provided mount and symlinks remain trusted.
     let mut relative = PathBuf::new();
     for component in Path::new(secret_name).components() {
         let Component::Normal(segment) = component else {
