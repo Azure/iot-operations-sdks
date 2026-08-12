@@ -40,22 +40,8 @@ install-prerequisites()
     fi
 
     # install k3d
-    # The install script queries GitHub for the latest k3d release, which can
-    # fail intermittently (e.g. HTTP 503), so retry before giving up.
     if ! which k3d; then
-        for attempt in 1 2 3; do
-            if wget -q -O - https://raw.githubusercontent.com/k3d-io/k3d/main/install.sh | bash; then
-                break
-            fi
-
-            if [[ $attempt == 3 ]]; then
-                echo "Failed to install k3d after $attempt attempts"
-                exit 1
-            fi
-
-            echo "Failed to install k3d, retrying in $((attempt * 10)) seconds..."
-            sleep $((attempt * 10))
-        done
+        wget -q -O - https://raw.githubusercontent.com/k3d-io/k3d/main/install.sh | bash
     fi
 
     # install helm
