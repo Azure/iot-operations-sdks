@@ -597,7 +597,7 @@ impl DeviceEndpointClientCreationObservation {
                         // NOTE: Invalid definitions retry indefinitely to match malformed-response handling.
                         // Stale endpoints stop only when ADR returns a permanent error or the process restarts.
                         // This holds the single creation slot; revisit before supporting multiple endpoints.
-                        log::warn!(
+                        log::error!(
                             "Invalid device definition for {device_endpoint_ref:?}. Retrying: {e}"
                         );
                         RetryError::transient(DeviceDefinitionError::Specification(e))
