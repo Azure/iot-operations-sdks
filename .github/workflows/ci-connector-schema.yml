@@ -29,13 +29,13 @@ jobs:
       run: wget https://json.schemastore.org/aio-connector-metadata-11.0-preview.json -O ./connector-metadata-schema.json
 
     - name: Validate JSON with Glob
-      uses: nhalstead/validate-json-action@v0.1.10
+      uses: nhalstead/validate-json-action@v0.1.12
       with:
         schema: ./connector-metadata-schema.json
         jsons: ./doc/akri_connector/example-connector-metadata.json,./doc/akri_connector/minimal-example-connector-metadata.json
 
     - name: Validate JSON with Glob
-      uses: nhalstead/validate-json-action@v0.1.10
+      uses: nhalstead/validate-json-action@v0.1.12
       with:
         schema: ./connector-metadata-schema.json
         jsons: ./dotnet/samples/Connectors/EventDrivenTcpThermostatConnector/connector-metadata.json,./dotnet/samples/Connectors/SqlConnector/connector-metadata.json,./dotnet/samples/Connectors/PollingRestThermostatConnector/connector-metadata.json,./dotnet/samples/Connectors/ManagementActionConnector/connector-metadata.json
