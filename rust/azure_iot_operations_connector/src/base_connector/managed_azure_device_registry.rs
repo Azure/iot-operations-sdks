@@ -446,14 +446,22 @@ impl DeviceEndpointStatusReporter {
     }
 }
 
+#[derive(Debug, Error)]
+enum DeviceDefinitionError {
+    #[error(transparent)]
+    AzureDeviceRegistry(Box<azure_device_registry::Error>),
+    #[error(transparent)]
+    Specification(#[from] DeviceSpecificationError),
+}
+
 /// An Observation for device endpoint creation events that uses
 /// multiple underlying clients to get full device endpoint information.
 pub struct DeviceEndpointClientCreationObservation {
     connector_context: Arc<ConnectorContext>,
     device_endpoint_create_observation:
         deployment_artifacts::azure_device_registry::DeviceEndpointCreateObservation,
-    /// Flag to track if device creation is in progress
-    pending_device_creation: bool,
+    /// Whether an initial device creation attempt is in progress
+    initial_device_creation_in_progress: bool,
     /// Channels for sending and receiving completed device endpoint clients
     /// This is used to ensure that we only process one device creation at a time
     device_completion_rx: mpsc::Receiver<Option<DeviceEndpointClient>>,
@@ -485,7 +493,7 @@ impl DeviceEndpointClientCreationObservation {
         Ok(Self {
             connector_context,
             device_endpoint_create_observation,
-            pending_device_creation: false,
+            initial_device_creation_in_progress: false,
             device_completion_rx,
             device_completion_tx,
         })
@@ -502,19 +510,18 @@ impl DeviceEndpointClientCreationObservation {
             tokio::select! {
                 // Check for completed device creation
                 Some(device_client_option) = self.device_completion_rx.recv() => {
-                    self.pending_device_creation = false;
+                    self.initial_device_creation_in_progress = false;
                     if let Some(device_client) = device_client_option {
                         return device_client;
                     }
-                    // If device_client_option is None, creation failed, continue loop
                 },
                 // Get new device creation notifications only if not already processing one
-                create_notification = self.device_endpoint_create_observation.recv_notification(), if !self.pending_device_creation => {
+                create_notification = self.device_endpoint_create_observation.recv_notification(), if !self.initial_device_creation_in_progress => {
                     let (device_endpoint_ref, asset_create_observation) =
                         create_notification.expect("Device Endpoint Create Observation should never return None because the device_endpoint_create_observation struct holds the sending side of the channel");
 
                     // Start device creation task
-                    self.pending_device_creation = true;
+                    self.initial_device_creation_in_progress = true;
                     let connector_context = self.connector_context.clone();
                     let device_completion_tx = self.device_completion_tx.clone();
 
@@ -525,7 +532,6 @@ impl DeviceEndpointClientCreationObservation {
                             asset_create_observation,
                         ).await;
 
-                        // Always send the result (Some or None) to unblock the receiver
                         let _ = device_completion_tx.send(device_client).await;
                     });
                 }
@@ -556,16 +562,16 @@ impl DeviceEndpointClientCreationObservation {
         }).await {
             Ok(device_update_observation) => device_update_observation,
             Err(e) => {
-              log::error!("Dropping device endpoint create notification: {device_endpoint_ref:?}. Failed to observe for device update notifications after retries: {e}");
-              return None;
+                log::error!("Dropping device endpoint create notification: {device_endpoint_ref:?}. Failed to observe for device update notifications after retries: {e}");
+                return None;
             },
         };
 
-        // Get the device definition
-        let device = match Retry::spawn(
+        // Get and validate the device definition
+        let specification = Retry::spawn(
             RETRY_STRATEGY.map(tokio_retry2::strategy::jitter),
-            async || -> Result<adr_models::Device, RetryError<azure_device_registry::Error>> {
-                connector_context
+            async || -> Result<DeviceSpecification, RetryError<DeviceDefinitionError>> {
+                let device = connector_context
                     .azure_device_registry_client
                     .get_device(
                         device_endpoint_ref.device_name.clone(),
@@ -573,16 +579,45 @@ impl DeviceEndpointClientCreationObservation {
                         connector_context.azure_device_registry_timeout,
                     )
                     .await
-                    .map_err(|e| adr_error_into_retry_error(e, "Get Device Definition"))
+                    .map_err(|e| {
+                        device_definition_error_into_retry_error(e, "Get Device Definition")
+                    })?;
+
+                DeviceSpecification::new(
+                    device,
+                    connector_context
+                        .connector_artifacts
+                        .device_endpoint_credentials_mount
+                        .as_ref(),
+                    &device_endpoint_ref.inbound_endpoint_name,
+                )
+                .map_err(|e| match e {
+                    DeviceSpecificationError::InvalidSpecification(_)
+                    | DeviceSpecificationError::InvalidSecretName(_) => {
+                        log::warn!(
+                            "Invalid device definition for {device_endpoint_ref:?}. Retrying: {e}"
+                        );
+                        RetryError::transient(DeviceDefinitionError::Specification(e))
+                    }
+                    DeviceSpecificationError::CredentialsMountPathMissing(_) => {
+                        RetryError::permanent(DeviceDefinitionError::Specification(e))
+                    }
+                })
             },
         )
-        .await
-        {
-            Ok(device) => device,
+        .await;
+        let specification = match specification {
+            Ok(specification) => specification,
             Err(e) => {
                 log::error!(
                     "Dropping device endpoint create notification: {device_endpoint_ref:?}. Failed to get Device definition after retries: {e}"
                 );
+                if let DeviceDefinitionError::Specification(
+                    DeviceSpecificationError::CredentialsMountPathMissing(e_message),
+                ) = e
+                {
+                    let _ = connector_context.connector_restart_tx.try_send(e_message);
+                }
                 // unobserve as cleanup
                 DeviceEndpointClient::unobserve_device(
                     &connector_context,
@@ -624,35 +659,14 @@ impl DeviceEndpointClientCreationObservation {
             }
         };
 
-        // turn the device definition into a DeviceEndpointClient
-        match DeviceEndpointClient::new(
-            device,
+        Some(DeviceEndpointClient::new(
+            specification,
             device_status,
-            device_endpoint_ref.clone(),
+            device_endpoint_ref,
             device_endpoint_update_observation,
             asset_create_observation,
-            connector_context.clone(),
-        ) {
-            Ok(managed_device) => Some(managed_device),
-            Err(e) => {
-                // the device definition didn't include the inbound_endpoint, so it likely no longer exists
-                // TODO: This won't be a possible failure point in the future once the service returns errors
-                log::error!(
-                    "Dropping device endpoint create notification: {device_endpoint_ref:?}. {e}"
-                );
-                if let DeviceSpecificationError::CredentialsMountPathMissing(e_message) = e {
-                    let _ = connector_context.connector_restart_tx.try_send(e_message);
-                }
-                // unobserve as cleanup
-                DeviceEndpointClient::unobserve_device(
-                    &connector_context,
-                    &device_endpoint_ref,
-                    false,
-                )
-                .await;
-                None
-            }
-        }
+            connector_context,
+        ))
     }
 }
 
@@ -693,14 +707,13 @@ pub struct DeviceEndpointClient {
 }
 impl DeviceEndpointClient {
     pub(crate) fn new(
-        device: adr_models::Device,
+        specification: DeviceSpecification,
         device_status: adr_models::DeviceStatus,
         device_endpoint_ref: DeviceEndpointRef,
         device_update_observation: azure_device_registry::DeviceUpdateObservation,
         asset_create_observation: deployment_artifacts::azure_device_registry::AssetCreateObservation,
         connector_context: Arc<ConnectorContext>,
-        // TODO: This won't need to return an error once the service properly sends errors if the endpoint doesn't exist
-    ) -> Result<Self, DeviceSpecificationError> {
+    ) -> Self {
         let (asset_completion_tx, asset_completion_rx) = mpsc::unbounded_channel();
 
         let health_cancellation_token = CancellationToken::new();
@@ -716,15 +729,8 @@ impl DeviceEndpointClient {
                 connector_context.health_report_interval,
                 health_cancellation_token.clone(),
             );
-        Ok(DeviceEndpointClient {
-            specification: Arc::new(std::sync::RwLock::new(DeviceSpecification::new(
-                device,
-                connector_context
-                    .connector_artifacts
-                    .device_endpoint_credentials_mount
-                    .as_ref(),
-                &device_endpoint_ref.inbound_endpoint_name,
-            )?)),
+        DeviceEndpointClient {
+            specification: Arc::new(std::sync::RwLock::new(specification)),
             status: Arc::new(tokio::sync::RwLock::new(DeviceEndpointStatus::new(
                 device_status,
                 &device_endpoint_ref.inbound_endpoint_name,
@@ -738,7 +744,7 @@ impl DeviceEndpointClient {
             asset_completion_rx,
             asset_completion_tx,
             connector_context,
-        })
+        }
     }
 
     /// Used to receive notifications related to the Device/Inbound Endpoint
@@ -5260,6 +5266,28 @@ fn adr_error_into_retry_error(
             // ShutdownError isn't possible for this fn to return
             unreachable!()
         }
+    }
+}
+
+fn device_definition_error_into_retry_error(
+    e: azure_device_registry::Error,
+    operation_for_log: &str,
+) -> RetryError<DeviceDefinitionError> {
+    match adr_error_into_retry_error(e, operation_for_log) {
+        RetryError::Permanent(e) => {
+            RetryError::permanent(DeviceDefinitionError::AzureDeviceRegistry(Box::new(e)))
+        }
+        RetryError::Transient {
+            err,
+            retry_after: Some(retry_after),
+        } => RetryError::retry_after(
+            DeviceDefinitionError::AzureDeviceRegistry(Box::new(err)),
+            retry_after,
+        ),
+        RetryError::Transient {
+            err,
+            retry_after: None,
+        } => RetryError::transient(DeviceDefinitionError::AzureDeviceRegistry(Box::new(err))),
     }
 }
 
