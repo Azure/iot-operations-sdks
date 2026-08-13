@@ -1,9 +1,8 @@
-# ADR 34: State Store SCAN API
+# ADR 34: State Store Filter Keys API
 
 ## Context
 
-Broker ADR 0092, "DSS Scan and MGET"
-(`Azure-MQ/docs-dev/adr/dmqtt/0092-DSS-scan-mget.md`), defines the State Store
+Broker ADR 0092, "DSS Scan and MGET" , defines the State Store
 `SCAN` protocol and selects cursor-based pagination. A response contains one
 page of matching keys and, unless the scan is complete, a continuation token
 for the next request.
@@ -44,8 +43,8 @@ also add public API that must be maintained.
 
 Keeping the token internal still supports lazy paging. Token access can be
 added later without breaking existing applications, but cannot be removed
-after becoming public. Without token access, a scan restarts after an
-application restart.
+after becoming public. Without token access, a filter-keys operation restarts
+after an application restart.
 
 The `redis-rs` crate exposes async SCAN through
 [`AsyncCommands::scan`](https://docs.rs/redis/latest/redis/trait.AsyncCommands.html#method.scan)
@@ -69,29 +68,29 @@ the broker does not return a continuation token.
 Conceptually:
 
 ```rust
-pub struct ScanPager<'a> {
+pub struct FilterKeysPager<'a> {
     // Private pagination state.
 }
 
 impl Client {
-    pub fn scan(
+    pub fn filter_keys(
         &self,
         pattern: Vec<u8>,
         timeout: Duration,
-    ) -> Result<ScanPager<'_>, Error> {
+    ) -> Result<FilterKeysPager<'_>, Error> {
         // ...
     }
 }
 
-impl ScanPager<'_> {
+impl FilterKeysPager<'_> {
     pub async fn next(&mut self) -> Result<Option<Vec<Vec<u8>>>, Error> {
         // ...
     }
 }
 
-let mut scan = client.scan(pattern, timeout)?;
+let mut pager = client.filter_keys(pattern, timeout)?;
 
-while let Some(keys) = scan.next().await? {
+while let Some(keys) = pager.next().await? {
      // Process this page of keys.
 }
 ```
@@ -110,14 +109,26 @@ until the broker returns its continuation token in the current response. An
 inherent async `next()` method supports this directly, without an external
 stream or async-iterator dependency.
 
+Implementing `Stream` would also opt this API into the broader `StreamExt`
+combinator model, including operations such as `filter` and `map`. These
+capabilities do not add much value to this operation because each response
+already contains only keys matching the requested pattern, and
+continuation-token dependencies require page requests to remain serial. An
+inherent async `next()` keeps the API focused on the required page-at-a-time
+behavior.
+
 The object keeps the client reference, pattern, timeout, current token, and
 completion state. It cannot outlive the State Store client.
 
 ### Keep continuation tokens internal
 
 The pagination object keeps and forwards the continuation token internally. It
-does not expose the token. After an application restart, a scan starts again
-from the beginning. This is an accepted limitation.
+does not expose the token. After an application restart, a filter-keys
+operation starts again from the beginning. This is accepted because the API is
+intended to provide bounded, page-at-a-time processing. Applications that
+restart may process matching keys again, while the SDK avoids exposing
+persistence and recovery semantics that could be added later without breaking
+the initial API.
 
 ## Consequences
 
