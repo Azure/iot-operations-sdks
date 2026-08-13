@@ -11,6 +11,7 @@ namespace Azure.Iot.Operations.Opc2WotLib.UnitTests
     public class HasAddInLinkTests
     {
         private const string ModelUri = "http://opcfoundation.org/UA/AddInTest/";
+        private const string ReferencingModelUri = "http://opcfoundation.org/UA/ReferenceOrderTest/";
 
         // Minimal, self-contained OPC UA nodeset. The base-type chain terminates locally
         // (no HasSubtype to a core ns=0 type), so the core Opc.Ua nodeset is not required.
@@ -59,6 +60,50 @@ namespace Azure.Iot.Operations.Opc2WotLib.UnitTests
             </UANodeSet>
             """;
 
+        private const string ReferencingNodeset = """
+            <?xml version="1.0" encoding="utf-8" ?>
+            <UANodeSet xmlns="http://opcfoundation.org/UA/2011/03/UANodeSet.xsd">
+              <NamespaceUris>
+                <Uri>http://opcfoundation.org/UA/ReferenceOrderTest/</Uri>
+                <Uri>http://opcfoundation.org/UA/ReferencedModel/</Uri>
+              </NamespaceUris>
+              <Models>
+                <Model ModelUri="http://opcfoundation.org/UA/ReferenceOrderTest/" Version="1.0.0">
+                  <RequiredModel ModelUri="http://opcfoundation.org/UA/ReferencedModel/" Version="1.0.0" />
+                </Model>
+              </Models>
+              <Aliases>
+                <Alias Alias="HasComponent">i=47</Alias>
+              </Aliases>
+              <UAObjectType NodeId="ns=1;i=1" BrowseName="1:ContainerType">
+                <References>
+                  <Reference ReferenceType="HasComponent">ns=2;i=100</Reference>
+                </References>
+              </UAObjectType>
+            </UANodeSet>
+            """;
+
+        private const string ReferencedNodeset = """
+            <?xml version="1.0" encoding="utf-8" ?>
+            <UANodeSet xmlns="http://opcfoundation.org/UA/2011/03/UANodeSet.xsd">
+              <NamespaceUris>
+                <Uri>http://opcfoundation.org/UA/ReferencedModel/</Uri>
+              </NamespaceUris>
+              <Models>
+                <Model ModelUri="http://opcfoundation.org/UA/ReferencedModel/" Version="1.0.0" />
+              </Models>
+              <Aliases>
+                <Alias Alias="HasTypeDefinition">i=40</Alias>
+              </Aliases>
+              <UAObjectType NodeId="ns=1;i=2" BrowseName="1:ModuleType" />
+              <UAObject NodeId="ns=1;i=100" BrowseName="1:Module">
+                <References>
+                  <Reference ReferenceType="HasTypeDefinition">ns=1;i=2</Reference>
+                </References>
+              </UAObject>
+            </UANodeSet>
+            """;
+
         [Fact]
         public void HasAddInReference_IsPreservedAsWotLink()
         {
@@ -84,6 +129,29 @@ namespace Azure.Iot.Operations.Opc2WotLib.UnitTests
 
             JsonElement? componentLink = FindLinkByRefName(links, "Diagnostics");
             Assert.True(componentLink.HasValue, "HasComponent child 'Diagnostics' must be emitted as a WoT link.");
+        }
+
+        [Fact]
+        public void ReferencedModel_CanBeLoadedAfterReferencingModel()
+        {
+            OpcUaGraph graph = new OpcUaGraph();
+            graph.AddNodeset(ReferencingNodeset);
+            graph.AddNodeset(ReferencedNodeset);
+
+            WotThingCollection collection = new WotThingCollection(
+                graph,
+                graph.GetOpcUaModelInfo(ReferencingModelUri),
+                new LinkRelRuleEngine(),
+                integrate: false,
+                inheritVars: false,
+                includeTDs: false);
+
+            using JsonDocument doc = JsonDocument.Parse(collection.TransformText());
+            JsonElement container = doc.RootElement.EnumerateArray()
+                .Single(t => t.GetProperty("title").GetString()!.EndsWith("ContainerType", System.StringComparison.Ordinal));
+            JsonElement link = Assert.Single(container.GetProperty("links").EnumerateArray().Select(l => l.Clone()));
+
+            Assert.Equal("./ReferencedModel.TM.json#title=ReferencedModel_ModuleType", link.GetProperty("href").GetString());
         }
 
         private static JsonElement GetThingByTitleSuffix(string titleSuffix)

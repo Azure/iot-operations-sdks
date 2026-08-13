@@ -1,3 +1,47 @@
+# OPC UA NodeSet converter
+
+The `Azure.Iot.Operations.Opc2Wot` tool converts OPC UA NodeSet files into W3C WoT Thing Model collections. The repository provides PowerShell and Bash wrappers for regenerating the OPC UA companion models maintained in the sibling [Azure/smd](https://github.com/Azure/smd) repository.
+
+By default, both wrappers expect this sibling repository layout:
+
+```text
+<root>/
+  iot-operations-sdks/
+  UA-Nodeset/
+  smd/
+```
+
+The default output is non-integrated: generated Thing Models retain relative references to other generated TM files. Pass the integration option only when each output file must be self-contained.
+
+## Generate OPC UA Thing Models
+
+PowerShell:
+
+```powershell
+.\generate_opcua_tms.ps1 `
+  -InputRoot C:\ode\UA-Nodeset `
+  -OutputDir C:\ode\smd\models
+```
+
+Bash:
+
+```bash
+bash ./generate_opcua_tms.sh \
+  --input-root ../../UA-Nodeset \
+  --output-dir ../../smd/models
+```
+
+Both wrappers recursively process `*.NodeSet2.xml` below the input root. By default, they omit the UA-Nodeset demo, test, and example-only inputs that are not published to SMD. Use `-IncludeNonPublished` or `--include-non-published` to include them. Include the complete set of required NodeSets so inherited types, cross-model links, and referenced VariableTypes can be resolved.
+
+Optional converter flags:
+
+| PowerShell | Bash | Behavior |
+| --- | --- | --- |
+| `-Integrate` | `--integrate` | Integrate referenced models into each output file. |
+| `-InheritVars` | `--inherit-vars` | Add `dov:includeInherited` to applicable root forms. |
+| `-IncludeTDs` | `--include-tds` | Include Thing Descriptions in generated collections. |
+| `-IncludeNonPublished` | `--include-non-published` | Include UA-Nodeset demo, test, and example-only models. |
+
 # Protocol compiler
 
 The `Azure.IoT.Operations.ProtocolCompiler` accepts one or more WoT Thing Model files as input, and it outputs specializations of the AIO SDK client and server classes in the requested programming language.

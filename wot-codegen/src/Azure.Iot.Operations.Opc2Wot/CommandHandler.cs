@@ -89,6 +89,8 @@ namespace Azure.Iot.Operations.Opc2Wot
                 }
             }
 
+            inputFiles.Sort((left, right) => StringComparer.OrdinalIgnoreCase.Compare(left.FullName, right.FullName));
+
             if (inputFiles.Count == 0)
             {
                 AddUnlocatableError(ErrorCondition.ItemNotFound, $"No files match the given glob pattern(s): {string.Join(", ", options.NodeSetsSpec)}", errorLog);
