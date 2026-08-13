@@ -20,6 +20,10 @@ pub(crate) enum Request {
     Get {
         key: Vec<u8>,
     },
+    Scan {
+        pattern: Vec<u8>,
+        continuation_token: Option<Vec<u8>>,
+    },
     Del {
         key: Vec<u8>,
     },
@@ -77,6 +81,10 @@ impl PayloadSerialize for Request {
                     options,
                 } => serialize_set(&key, &value, &options),
                 Request::Get { key } => serialize_get(&key),
+                Request::Scan {
+                    pattern,
+                    continuation_token,
+                } => serialize_scan(&pattern, continuation_token.as_deref()),
                 Request::KeyNotify { key, options } => serialize_key_notify(&key, &options),
                 Request::Del { key } => serialize_del(&key),
                 Request::VDel { key, value } => serialize_v_del(&key, &value),
@@ -187,6 +195,18 @@ fn serialize_get(key: &[u8]) -> Vec<u8> {
     builder.get_buffer()
 }
 
+/// Builds a RESP3 payload to `SCAN(pattern[, continuation_token])`
+fn serialize_scan(pattern: &[u8], continuation_token: Option<&[u8]>) -> Vec<u8> {
+    let mut builder = RequestBufferBuilder::new();
+    builder.append_array_number(if continuation_token.is_some() { 3 } else { 2 });
+    builder.append_argument(b"SCAN");
+    builder.append_argument(pattern);
+    if let Some(continuation_token) = continuation_token {
+        builder.append_argument(continuation_token);
+    }
+    builder.get_buffer()
+}
+
 /// Builds a RESP3 payload to `DEL(key)`
 fn serialize_del(key: &[u8]) -> Vec<u8> {
     let mut builder = RequestBufferBuilder::new();
@@ -229,6 +249,111 @@ fn serialize_key_notify(key: &[u8], options: &KeyNotifyOptions) -> Vec<u8> {
 
 // ----------------------- Response Types -----------------------
 
+struct ResponseParser<'a> {
+    payload: &'a [u8],
+    index: usize,
+}
+
+impl<'a> ResponseParser<'a> {
+    fn new(payload: &'a [u8]) -> Self {
+        Self { payload, index: 0 }
+    }
+
+    fn read_length(&mut self, prefix: u8) -> Result<usize, String> {
+        if self.payload.get(self.index) != Some(&prefix) {
+            return Err(format!(
+                "Expected RESP3 prefix {:?} at byte {}: {:?}",
+                char::from(prefix),
+                self.index,
+                self.payload
+            ));
+        }
+        self.index += 1;
+
+        let remaining = self
+            .payload
+            .get(self.index..)
+            .ok_or_else(|| format!("Invalid RESP3 payload: {:?}", self.payload))?;
+        let (length, digits) = get_numeric(remaining)?;
+        if digits == 0 {
+            return Err(format!("Missing RESP3 length: {:?}", self.payload));
+        }
+
+        let length_end = self
+            .index
+            .checked_add(digits)
+            .ok_or_else(|| format!("RESP3 length overflow: {:?}", self.payload))?;
+        let header_end = length_end
+            .checked_add(2)
+            .ok_or_else(|| format!("RESP3 header overflow: {:?}", self.payload))?;
+        if self.payload.get(length_end..header_end) != Some(b"\r\n") {
+            return Err(format!("Invalid RESP3 length terminator: {:?}", self.payload));
+        }
+
+        self.index = header_end;
+        Ok(length)
+    }
+
+    fn read_array_length(&mut self) -> Result<usize, String> {
+        self.read_length(b'*')
+    }
+
+    fn read_bulk_string(&mut self) -> Result<Vec<u8>, String> {
+        let length = self.read_length(b'$')?;
+        let value_end = self
+            .index
+            .checked_add(length)
+            .ok_or_else(|| format!("RESP3 value length overflow: {:?}", self.payload))?;
+        let element_end = value_end
+            .checked_add(2)
+            .ok_or_else(|| format!("RESP3 value length overflow: {:?}", self.payload))?;
+        if self.payload.get(value_end..element_end) != Some(b"\r\n") {
+            return Err(format!("Invalid RESP3 value terminator: {:?}", self.payload));
+        }
+
+        let value = self.payload[self.index..value_end].to_vec();
+        self.index = element_end;
+        Ok(value)
+    }
+
+    fn is_complete(&self) -> bool {
+        self.index == self.payload.len()
+    }
+}
+
+fn parse_scan(payload: &[u8]) -> Result<Response, String> {
+    let mut parser = ResponseParser::new(payload);
+    let response_length = parser.read_array_length()?;
+    if !(1..=2).contains(&response_length) {
+        return Err(format!(
+            "SCAN response must contain one or two elements: {payload:?}"
+        ));
+    }
+
+    let key_count = parser.read_array_length()?;
+    let mut keys = Vec::new();
+    for _ in 0..key_count {
+        keys.push(parser.read_bulk_string()?);
+    }
+
+    let continuation_token = if response_length == 2 {
+        Some(parser.read_bulk_string()?)
+    } else {
+        None
+    };
+
+    if !parser.is_complete() {
+        return Err(format!(
+            "Unexpected trailing bytes in SCAN response: {payload:?}"
+        ));
+    }
+
+    Ok(Response::KeysScanned {
+        keys,
+        continuation_token,
+    })
+}
+
 #[derive(Clone, Debug, PartialEq)]
 pub(crate) enum Response {
     /// Successful `Set` response
@@ -237,6 +362,11 @@ pub(crate) enum Response {
     Value(Vec<u8>),
     /// Successful `Del` or `VDel` response. Specifies the number of keys deleted
     ValuesDeleted(i64),
+    /// Successful `Scan` response, containing one page of keys and an optional continuation token
+    KeysScanned {
+        keys: Vec<Vec<u8>>,
+        continuation_token: Option<Vec<u8>>,
+    },
     /// 'Set' or `VDel` not applied because of conditions provided
     NotApplied,
     /// Key not found for `Get`, `Del`, or `VDel` or parameters caused the operation to not be applied for `Set` or `VDel`
@@ -296,6 +426,7 @@ impl PayloadSerialize for Response {
             _ if payload.starts_with(Self::RESPONSE_LENGTH_PREFIX) => Ok(Response::Value(
                 parse_value(payload, Self::RESPONSE_LENGTH_PREFIX)?,
             )),
+            _ if payload.starts_with(b"*") => Ok(parse_scan(payload)?),
             _ if payload.starts_with(Self::DELETE_RESPONSE_PREFIX) => {
                 match parse_numeric(payload, Self::DELETE_RESPONSE_PREFIX)?.try_into() {
                     Ok(n) => Ok(Response::ValuesDeleted(n)),
@@ -506,6 +637,38 @@ mod tests {
         );
     }
 
+    #[test]
+    fn test_scan_response_final_page() {
+        assert_eq!(
+            Response::deserialize(
+                b"*1\r\n*2\r\n$4\r\nkey1\r\n$4\r\nkey2\r\n",
+                Some(&"application/octet-stream".to_string()),
+                &FormatIndicator::UnspecifiedBytes,
+            )
+            .unwrap(),
+            Response::KeysScanned {
+                keys: vec![b"key1".to_vec(), b"key2".to_vec()],
+                continuation_token: None,
+            }
+        );
+    }
+
+    #[test]
+    fn test_scan_response_empty_page_with_binary_continuation_token() {
+        assert_eq!(
+            Response::deserialize(
+                b"*2\r\n*0\r\n$3\r\n\x00\xffx\r\n",
+                Some(&"application/octet-stream".to_string()),
+                &FormatIndicator::UnspecifiedBytes,
+            )
+            .unwrap(),
+            Response::KeysScanned {
+                keys: vec![],
+                continuation_token: Some(vec![0, 255, b'x']),
+            }
+        );
+    }
+
     #[test_case(b"1"; "too short")]
     #[test_case(b"11\r\nhello world\r\n"; "no $ on get response")]
     #[test_case(b"$11hello world\r\n"; "missing first newline")]
@@ -523,6 +686,14 @@ mod tests {
     #[test_case(b"+"; "OK response too short")]
     #[test_case(b"OK\r\n"; "OK response doesn't start with plus sign")]
     #[test_case(b"+OK"; "OK response doesn't end with newline")]
+    #[test_case(b"*0\r\n"; "scan response has no elements")]
+    #[test_case(b"*3\r\n*0\r\n$1\r\na\r\n$1\r\nb\r\n"; "scan response has too many elements")]
+    #[test_case(b"*1\r\n$0\r\n\r\n"; "scan keys are not an array")]
+    #[test_case(b"*1\r\n*1\r\n$4\r\nkey\r\n"; "scan key length is inaccurate")]
+    #[test_case(b"*2\r\n*0\r\n"; "scan continuation token is missing")]
+    #[test_case(b"*1\r\n*0\r\ntrailing"; "scan response has trailing bytes")]
+    #[test_case(b"*1\r\n*-1\r\n"; "scan keys array is null")]
+    #[test_case(b"*1\r\n*1\r\n$-1\r\n"; "scan key is null")]
 
     fn test_response_deserialization_failures(payload: &[u8]) {
         assert!(
@@ -611,6 +782,38 @@ mod tests {
             .unwrap(),
             SerializedPayload {
                 payload: b"*2\r\n$3\r\nGET\r\n$7\r\ntestkey\r\n".to_vec(),
+                content_type: "application/octet-stream".to_string(),
+                format_indicator: FormatIndicator::UnspecifiedBytes,
+            }
+        );
+    }
+
+    #[test]
+    fn test_serialize_scan_without_continuation_token() {
+        assert_eq!(
+            Request::serialize(Request::Scan {
+                pattern: b"key*".to_vec(),
+                continuation_token: None,
+            })
+            .unwrap(),
+            SerializedPayload {
+                payload: b"*2\r\n$4\r\nSCAN\r\n$4\r\nkey*\r\n".to_vec(),
+                content_type: "application/octet-stream".to_string(),
+                format_indicator: FormatIndicator::UnspecifiedBytes,
+            }
+        );
+    }
+
+    #[test]
+    fn test_serialize_scan_with_binary_continuation_token() {
+        assert_eq!(
+            Request::serialize(Request::Scan {
+                pattern: b"key*".to_vec(),
+                continuation_token: Some(vec![0, 255, b'x']),
+            })
+            .unwrap(),
+            SerializedPayload {
+                payload: b"*3\r\n$4\r\nSCAN\r\n$4\r\nkey*\r\n$3\r\n\x00\xffx\r\n".to_vec(),
                 content_type: "application/octet-stream".to_string(),
                 format_indicator: FormatIndicator::UnspecifiedBytes,
             }

@@ -59,6 +59,48 @@ impl KeyObservation {
     // that was observed where the receiver was dropped and a key that was never observed
 }
 
+/// A caller-driven, page-at-a-time scan of the State Store.
+///
+/// Call [`ScanPager::next`] to request each page. The continuation token is managed internally,
+/// and the pager cannot outlive the [`Client`] that created it.
+pub struct ScanPager<'a> {
+    client: &'a Client,
+    pattern: Vec<u8>,
+    timeout: Duration,
+    continuation_token: Option<Vec<u8>>,
+    complete: bool,
+}
+
+impl ScanPager<'_> {
+    /// Requests the next page of keys from the State Store.
+    ///
+    /// Returns `Ok(Some(keys))` for each page, including an empty page, and `Ok(None)` after the
+    /// final page has been returned. Each call makes at most one request. If a request fails, the
+    /// continuation token is unchanged, so the application may retry the call.
+    ///
+    /// # Errors
+    /// Returns the same errors as the underlying State Store request.
+    pub async fn next(&mut self) -> Result<Option<Vec<Vec<u8>>>, Error> {
+        if self.complete {
+            return Ok(None);
+        }
+
+        let (keys, continuation_token) = self
+            .client
+            .scan_page(
+                self.pattern.clone(),
+                self.continuation_token.clone(),
+                self.timeout,
+            )
+            .await?;
+
+        self.complete = continuation_token.is_none();
+        self.continuation_token = continuation_token;
+
+        Ok(Some(keys))
+    }
+}
+
 /// State Store Client Options struct
 #[derive(Builder, Clone)]
 #[builder(setter(into))]
@@ -286,6 +328,84 @@ impl Client {
                 _ => Err(()),
             },
         )
+    }
+
+    /// Creates a caller-driven scan for keys matching `pattern`.
+    ///
+    /// Creating the pager does not contact the State Store. Each call to [`ScanPager::next`]
+    /// requests one page, using the continuation token returned with the previous page. The
+    /// continuation token is managed internally and is not returned to the application.
+    ///
+    /// `pattern` is a glob-style pattern. For example, `*` matches every key and `key*` matches
+    /// keys beginning with `key`.
+    ///
+    /// # Arguments
+    /// * `pattern` - Glob-style pattern used by the State Store to match keys.
+    /// * `timeout` - Maximum time to wait for each page response, rounded up to the nearest
+    ///   second.
+    ///
+    /// # Errors
+    /// Returns an [`InvalidArgument`](ErrorKind::InvalidArgument) error if `pattern` is empty or
+    /// `timeout` is zero or exceeds `u32::MAX` seconds after rounding up.
+    pub fn scan(&self, pattern: Vec<u8>, timeout: Duration) -> Result<ScanPager<'_>, Error> {
+        if pattern.is_empty() {
+            return Err(Error(ErrorKind::InvalidArgument(
+                "pattern is empty".to_string(),
+            )));
+        }
+
+        let timeout_seconds = timeout
+            .as_secs()
+            .saturating_add(u64::from(timeout.subsec_nanos() != 0));
+        if timeout_seconds == 0 {
+            return Err(Error(ErrorKind::InvalidArgument(
+                "Timeout must not be 0".to_string(),
+            )));
+        }
+        if timeout_seconds > u64::from(u32::MAX) {
+            return Err(Error(ErrorKind::InvalidArgument(
+                "Timeout in seconds must be less than or equal to u32::max to be used as message_expiry_interval".to_string(),
+            )));
+        }
+
+        Ok(ScanPager {
+            client: self,
+            pattern,
+            timeout,
+            continuation_token: None,
+            complete: false,
+        })
+    }
+
+    async fn scan_page(
+        &self,
+        pattern: Vec<u8>,
+        continuation_token: Option<Vec<u8>>,
+        timeout: Duration,
+    ) -> Result<(Vec<Vec<u8>>, Option<Vec<u8>>), Error> {
+        let request = rpc_command::invoker::RequestBuilder::default()
+            .payload(state_store::resp3::Request::Scan {
+                pattern,
+                continuation_token,
+            })
+            .map_err(|e| ErrorKind::SerializationError(e.to_string()))? // this can't fail
+            .timeout(timeout)
+            .build()
+            .map_err(|e| ErrorKind::InvalidArgument(e.to_string()))?;
+        state_store::convert_response(
+            self.invoker
+                .invoke(request)
+                .await
+                .map_err(ErrorKind::from)?,
+            |payload| match payload {
+                state_store::resp3::Response::KeysScanned {
+                    keys,
+                    continuation_token,
+                } => Ok((keys, continuation_token)),
+                _ => Err(()),
+            },
+        )
+        .map(|response| response.response)
     }
 
     /// Deletes a key from the State Store Service
@@ -742,6 +862,47 @@ mod tests {
     }
 
     #[tokio::test]
+    async fn test_scan_empty_pattern() {
+        let session = create_session();
+        let session_monitor = session.create_session_monitor();
+        let managed_client = session.create_managed_client();
+        let state_store_client = super::Client::new(
+            ApplicationContextBuilder::default().build().unwrap(),
+            managed_client,
+            session_monitor,
+            super::ClientOptionsBuilder::default().build().unwrap(),
+        )
+        .unwrap();
+
+        assert!(matches!(
+            state_store_client.scan(vec![], Duration::from_secs(1)),
+            Err(Error(ErrorKind::InvalidArgument(_)))
+        ));
+    }
+
+    #[tokio::test]
+    async fn test_scan_creates_initial_pager_without_requesting_a_page() {
+        let session = create_session();
+        let session_monitor = session.create_session_monitor();
+        let managed_client = session.create_managed_client();
+        let state_store_client = super::Client::new(
+            ApplicationContextBuilder::default().build().unwrap(),
+            managed_client,
+            session_monitor,
+            super::ClientOptionsBuilder::default().build().unwrap(),
+        )
+        .unwrap();
+
+        let pager = state_store_client
+            .scan(b"key*".to_vec(), Duration::from_secs(1))
+            .unwrap();
+        assert_eq!(pager.pattern, b"key*");
+        assert_eq!(pager.timeout, Duration::from_secs(1));
+        assert!(pager.continuation_token.is_none());
+        assert!(!pager.complete);
+    }
+
+    #[tokio::test]
     async fn test_del_empty_key() {
         let session = create_session();
         let session_monitor = session.create_session_monitor();
@@ -870,6 +1031,32 @@ mod tests {
         assert!(matches!(
             response.unwrap_err(),
             Error(ErrorKind::InvalidArgument(_))
+        ));
+    }
+
+    #[tokio::test]
+    async fn test_scan_invalid_timeout() {
+        let session = create_session();
+        let session_monitor = session.create_session_monitor();
+        let managed_client = session.create_managed_client();
+        let state_store_client = super::Client::new(
+            ApplicationContextBuilder::default().build().unwrap(),
+            managed_client,
+            session_monitor,
+            super::ClientOptionsBuilder::default().build().unwrap(),
+        )
+        .unwrap();
+
+        assert!(matches!(
+            state_store_client.scan(b"key*".to_vec(), Duration::ZERO),
+            Err(Error(ErrorKind::InvalidArgument(_)))
+        ));
+        assert!(matches!(
+            state_store_client.scan(
+                b"key*".to_vec(),
+                Duration::from_secs(u64::from(u32::MAX)) + Duration::from_nanos(1),
+            ),
+            Err(Error(ErrorKind::InvalidArgument(_)))
         ));
     }
 
