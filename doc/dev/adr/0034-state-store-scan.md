@@ -68,21 +68,21 @@ the broker does not return a continuation token.
 Conceptually:
 
 ```rust
-pub struct FilterKeysPager<'a> {
+pub struct FilterKeysPager<'client> {
     // Private pagination state.
 }
 
 impl Client {
-    pub fn filter_keys(
-        &self,
+    pub fn filter_keys<'client>(
+        &'client self,
         pattern: Vec<u8>,
         timeout: Duration,
-    ) -> Result<FilterKeysPager<'_>, Error> {
+    ) -> Result<FilterKeysPager<'client>, Error> {
         // ...
     }
 }
 
-impl FilterKeysPager<'_> {
+impl<'client> FilterKeysPager<'client> {
     pub async fn next(&mut self) -> Result<Option<Vec<Vec<u8>>>, Error> {
         // ...
     }
@@ -118,7 +118,8 @@ inherent async `next()` keeps the API focused on the required page-at-a-time
 behavior.
 
 The object keeps the client reference, pattern, timeout, current token, and
-completion state. It cannot outlive the State Store client.
+completion state. The pager is valid only while the State Store client remains
+alive.
 
 ### Keep continuation tokens internal
 
