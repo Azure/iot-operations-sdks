@@ -89,7 +89,11 @@ namespace Azure.Iot.Operations.Opc2Wot
                 }
             }
 
-            inputFiles.Sort((left, right) => StringComparer.OrdinalIgnoreCase.Compare(left.FullName, right.FullName));
+            inputFiles.Sort((left, right) =>
+            {
+                int comparison = StringComparer.OrdinalIgnoreCase.Compare(left.FullName, right.FullName);
+                return comparison != 0 ? comparison : StringComparer.Ordinal.Compare(left.FullName, right.FullName);
+            });
 
             if (inputFiles.Count == 0)
             {

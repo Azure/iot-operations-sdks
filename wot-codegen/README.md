@@ -19,8 +19,8 @@ PowerShell:
 
 ```powershell
 .\generate_opcua_tms.ps1 `
-  -InputRoot C:\ode\UA-Nodeset `
-  -OutputDir C:\ode\smd\models
+  -InputRoot C:\code\UA-Nodeset `
+  -OutputDir C:\code\smd\models
 ```
 
 Bash:
