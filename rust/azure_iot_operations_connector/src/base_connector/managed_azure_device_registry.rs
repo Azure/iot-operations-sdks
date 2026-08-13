@@ -3,7 +3,13 @@
 
 //! Types for Azure IoT Operations Connectors.
 
-use std::{borrow::Cow, collections::HashMap, hash::Hash, path::PathBuf, sync::Arc};
+use std::{
+    borrow::Cow,
+    collections::HashMap,
+    hash::Hash,
+    path::{Component, Path, PathBuf},
+    sync::Arc,
+};
 
 use azure_iot_operations_services::{
     azure_device_registry::{
@@ -440,14 +446,22 @@ impl DeviceEndpointStatusReporter {
     }
 }
 
+#[derive(Debug, Error)]
+enum DeviceDefinitionError {
+    #[error(transparent)]
+    AzureDeviceRegistry(Box<azure_device_registry::Error>),
+    #[error(transparent)]
+    Specification(#[from] DeviceSpecificationError),
+}
+
 /// An Observation for device endpoint creation events that uses
 /// multiple underlying clients to get full device endpoint information.
 pub struct DeviceEndpointClientCreationObservation {
     connector_context: Arc<ConnectorContext>,
     device_endpoint_create_observation:
         deployment_artifacts::azure_device_registry::DeviceEndpointCreateObservation,
-    /// Flag to track if device creation is in progress
-    pending_device_creation: bool,
+    /// Whether an initial device creation attempt is in progress
+    initial_device_creation_in_progress: bool,
     /// Channels for sending and receiving completed device endpoint clients
     /// This is used to ensure that we only process one device creation at a time
     device_completion_rx: mpsc::Receiver<Option<DeviceEndpointClient>>,
@@ -479,7 +493,7 @@ impl DeviceEndpointClientCreationObservation {
         Ok(Self {
             connector_context,
             device_endpoint_create_observation,
-            pending_device_creation: false,
+            initial_device_creation_in_progress: false,
             device_completion_rx,
             device_completion_tx,
         })
@@ -496,19 +510,18 @@ impl DeviceEndpointClientCreationObservation {
             tokio::select! {
                 // Check for completed device creation
                 Some(device_client_option) = self.device_completion_rx.recv() => {
-                    self.pending_device_creation = false;
+                    self.initial_device_creation_in_progress = false;
                     if let Some(device_client) = device_client_option {
                         return device_client;
                     }
-                    // If device_client_option is None, creation failed, continue loop
                 },
                 // Get new device creation notifications only if not already processing one
-                create_notification = self.device_endpoint_create_observation.recv_notification(), if !self.pending_device_creation => {
+                create_notification = self.device_endpoint_create_observation.recv_notification(), if !self.initial_device_creation_in_progress => {
                     let (device_endpoint_ref, asset_create_observation) =
                         create_notification.expect("Device Endpoint Create Observation should never return None because the device_endpoint_create_observation struct holds the sending side of the channel");
 
                     // Start device creation task
-                    self.pending_device_creation = true;
+                    self.initial_device_creation_in_progress = true;
                     let connector_context = self.connector_context.clone();
                     let device_completion_tx = self.device_completion_tx.clone();
 
@@ -519,7 +532,6 @@ impl DeviceEndpointClientCreationObservation {
                             asset_create_observation,
                         ).await;
 
-                        // Always send the result (Some or None) to unblock the receiver
                         let _ = device_completion_tx.send(device_client).await;
                     });
                 }
@@ -550,16 +562,16 @@ impl DeviceEndpointClientCreationObservation {
         }).await {
             Ok(device_update_observation) => device_update_observation,
             Err(e) => {
-              log::error!("Dropping device endpoint create notification: {device_endpoint_ref:?}. Failed to observe for device update notifications after retries: {e}");
-              return None;
+                log::error!("Dropping device endpoint create notification: {device_endpoint_ref:?}. Failed to observe for device update notifications after retries: {e}");
+                return None;
             },
         };
 
-        // Get the device definition
-        let device = match Retry::spawn(
+        // Get and validate the device definition
+        let specification = Retry::spawn(
             RETRY_STRATEGY.map(tokio_retry2::strategy::jitter),
-            async || -> Result<adr_models::Device, RetryError<azure_device_registry::Error>> {
-                connector_context
+            async || -> Result<DeviceSpecification, RetryError<DeviceDefinitionError>> {
+                let device = connector_context
                     .azure_device_registry_client
                     .get_device(
                         device_endpoint_ref.device_name.clone(),
@@ -567,16 +579,48 @@ impl DeviceEndpointClientCreationObservation {
                         connector_context.azure_device_registry_timeout,
                     )
                     .await
-                    .map_err(|e| adr_error_into_retry_error(e, "Get Device Definition"))
+                    .map_err(|e| {
+                        device_definition_error_into_retry_error(e, "Get Device Definition")
+                    })?;
+
+                DeviceSpecification::new(
+                    device,
+                    connector_context
+                        .connector_artifacts
+                        .device_endpoint_credentials_mount
+                        .as_ref(),
+                    &device_endpoint_ref.inbound_endpoint_name,
+                )
+                .map_err(|e| match e {
+                    DeviceSpecificationError::InvalidSpecification(_)
+                    | DeviceSpecificationError::InvalidSecretName(_) => {
+                        // NOTE: Invalid definitions retry indefinitely to match malformed-response handling.
+                        // Stale endpoints stop only when ADR returns a permanent error or the process restarts.
+                        // This holds the single creation slot; revisit before supporting multiple endpoints.
+                        log::error!(
+                            "Invalid device definition for {device_endpoint_ref:?}. Retrying: {e}"
+                        );
+                        RetryError::transient(DeviceDefinitionError::Specification(e))
+                    }
+                    DeviceSpecificationError::CredentialsMountPathMissing(_) => {
+                        RetryError::permanent(DeviceDefinitionError::Specification(e))
+                    }
+                })
             },
         )
-        .await
-        {
-            Ok(device) => device,
+        .await;
+        let specification = match specification {
+            Ok(specification) => specification,
             Err(e) => {
                 log::error!(
                     "Dropping device endpoint create notification: {device_endpoint_ref:?}. Failed to get Device definition after retries: {e}"
                 );
+                if let DeviceDefinitionError::Specification(
+                    DeviceSpecificationError::CredentialsMountPathMissing(e_message),
+                ) = e
+                {
+                    let _ = connector_context.connector_restart_tx.try_send(e_message);
+                }
                 // unobserve as cleanup
                 DeviceEndpointClient::unobserve_device(
                     &connector_context,
@@ -618,35 +662,14 @@ impl DeviceEndpointClientCreationObservation {
             }
         };
 
-        // turn the device definition into a DeviceEndpointClient
-        match DeviceEndpointClient::new(
-            device,
+        Some(DeviceEndpointClient::new(
+            specification,
             device_status,
-            device_endpoint_ref.clone(),
+            device_endpoint_ref,
             device_endpoint_update_observation,
             asset_create_observation,
-            connector_context.clone(),
-        ) {
-            Ok(managed_device) => Some(managed_device),
-            Err(e) => {
-                // the device definition didn't include the inbound_endpoint, so it likely no longer exists
-                // TODO: This won't be a possible failure point in the future once the service returns errors
-                log::error!(
-                    "Dropping device endpoint create notification: {device_endpoint_ref:?}. {e}"
-                );
-                if let DeviceSpecificationError::CredentialsMountPathMissing(e_message) = e {
-                    let _ = connector_context.connector_restart_tx.try_send(e_message);
-                }
-                // unobserve as cleanup
-                DeviceEndpointClient::unobserve_device(
-                    &connector_context,
-                    &device_endpoint_ref,
-                    false,
-                )
-                .await;
-                None
-            }
-        }
+            connector_context,
+        ))
     }
 }
 
@@ -687,14 +710,13 @@ pub struct DeviceEndpointClient {
 }
 impl DeviceEndpointClient {
     pub(crate) fn new(
-        device: adr_models::Device,
+        specification: DeviceSpecification,
         device_status: adr_models::DeviceStatus,
         device_endpoint_ref: DeviceEndpointRef,
         device_update_observation: azure_device_registry::DeviceUpdateObservation,
         asset_create_observation: deployment_artifacts::azure_device_registry::AssetCreateObservation,
         connector_context: Arc<ConnectorContext>,
-        // TODO: This won't need to return an error once the service properly sends errors if the endpoint doesn't exist
-    ) -> Result<Self, DeviceSpecificationError> {
+    ) -> Self {
         let (asset_completion_tx, asset_completion_rx) = mpsc::unbounded_channel();
 
         let health_cancellation_token = CancellationToken::new();
@@ -710,15 +732,8 @@ impl DeviceEndpointClient {
                 connector_context.health_report_interval,
                 health_cancellation_token.clone(),
             );
-        Ok(DeviceEndpointClient {
-            specification: Arc::new(std::sync::RwLock::new(DeviceSpecification::new(
-                device,
-                connector_context
-                    .connector_artifacts
-                    .device_endpoint_credentials_mount
-                    .as_ref(),
-                &device_endpoint_ref.inbound_endpoint_name,
-            )?)),
+        DeviceEndpointClient {
+            specification: Arc::new(std::sync::RwLock::new(specification)),
             status: Arc::new(tokio::sync::RwLock::new(DeviceEndpointStatus::new(
                 device_status,
                 &device_endpoint_ref.inbound_endpoint_name,
@@ -732,7 +747,7 @@ impl DeviceEndpointClient {
             asset_completion_rx,
             asset_completion_tx,
             connector_context,
-        })
+        }
     }
 
     /// Used to receive notifications related to the Device/Inbound Endpoint
@@ -800,6 +815,10 @@ impl DeviceEndpointClient {
                             DeviceSpecificationError::CredentialsMountPathMissing(e_message) => {
                                 log::error!("Failed to apply device update for {:?}: {e_message}", self.device_endpoint_ref);
                                 let _ = self.connector_context.connector_restart_tx.try_send(e_message);
+                            },
+                            // Drop malformed updates so later valid updates can recover the existing client.
+                            DeviceSpecificationError::InvalidSecretName(secret_name) => {
+                                log::error!("Failed to apply device update for {:?}: credential secret name '{secret_name}' must be a relative path within the credentials mount", self.device_endpoint_ref);
                             },
                         }
                     }
@@ -4652,6 +4671,32 @@ pub(crate) enum DeviceSpecificationError {
     /// The credential mount path is missing for the required authentication mode
     #[error("{0}")]
     CredentialsMountPathMissing(String),
+    /// A credential secret name provided by the service isn't a relative path within the mount
+    #[error("credential secret name '{0}' must be a relative path within the credentials mount")]
+    InvalidSecretName(String),
+}
+
+/// Joins a service-supplied relative secret path onto the credentials mount.
+fn credential_path(
+    credentials_mount: &Path,
+    secret_name: &str,
+) -> Result<PathBuf, DeviceSpecificationError> {
+    // This guarantees lexical containment only; the platform-provided mount and symlinks remain trusted.
+    let mut relative = PathBuf::new();
+    for component in Path::new(secret_name).components() {
+        let Component::Normal(segment) = component else {
+            return Err(DeviceSpecificationError::InvalidSecretName(
+                secret_name.to_string(),
+            ));
+        };
+        relative.push(segment);
+    }
+    if relative.as_os_str().is_empty() {
+        return Err(DeviceSpecificationError::InvalidSecretName(
+            secret_name.to_string(),
+        ));
+    }
+    Ok(credentials_mount.join(relative))
 }
 
 impl DeviceSpecification {
@@ -4689,16 +4734,15 @@ impl DeviceSpecification {
                 let credentials_mount = device_endpoint_credentials_mount_path
                     .ok_or_else(|| DeviceSpecificationError::CredentialsMountPathMissing("device_endpoint_credentials_mount_path must be present if Authentication is Certificate".to_string()))?;
                 Authentication::Certificate {
-                    certificate_path: credentials_mount.as_path().join(certificate_secret_name),
-                    intermediate_certificates_path: intermediate_certificates_secret_name.map(
-                        |intermediate_cert_secret_name| {
-                            credentials_mount
-                                .as_path()
-                                .join(intermediate_cert_secret_name)
-                        },
-                    ),
+                    certificate_path: credential_path(credentials_mount, &certificate_secret_name)?,
+                    intermediate_certificates_path: intermediate_certificates_secret_name
+                        .map(|intermediate_cert_secret_name| {
+                            credential_path(credentials_mount, &intermediate_cert_secret_name)
+                        })
+                        .transpose()?,
                     key_path: key_secret_name
-                        .map(|key_secret_name| credentials_mount.as_path().join(key_secret_name)),
+                        .map(|key_secret_name| credential_path(credentials_mount, &key_secret_name))
+                        .transpose()?,
                 }
             }
             adr_models::Authentication::UsernamePassword {
@@ -4708,8 +4752,8 @@ impl DeviceSpecification {
                 let credentials_mount = device_endpoint_credentials_mount_path
                     .ok_or_else(|| DeviceSpecificationError::CredentialsMountPathMissing("device_endpoint_credentials_mount_path must be present if Authentication is UsernamePassword".to_string()))?;
                 Authentication::UsernamePassword {
-                    password_path: credentials_mount.as_path().join(password_secret_name),
-                    username_path: credentials_mount.as_path().join(username_secret_name),
+                    password_path: credential_path(credentials_mount, &password_secret_name)?,
+                    username_path: credential_path(credentials_mount, &username_secret_name)?,
                 }
             }
         };
@@ -5224,6 +5268,28 @@ fn adr_error_into_retry_error(
     }
 }
 
+fn device_definition_error_into_retry_error(
+    e: azure_device_registry::Error,
+    operation_for_log: &str,
+) -> RetryError<DeviceDefinitionError> {
+    match adr_error_into_retry_error(e, operation_for_log) {
+        RetryError::Permanent(e) => {
+            RetryError::permanent(DeviceDefinitionError::AzureDeviceRegistry(Box::new(e)))
+        }
+        RetryError::Transient {
+            err,
+            retry_after: Some(retry_after),
+        } => RetryError::retry_after(
+            DeviceDefinitionError::AzureDeviceRegistry(Box::new(err)),
+            retry_after,
+        ),
+        RetryError::Transient {
+            err,
+            retry_after: None,
+        } => RetryError::transient(DeviceDefinitionError::AzureDeviceRegistry(Box::new(err))),
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use test_case::test_case;
@@ -5619,6 +5685,176 @@ mod tests {
             result,
             DeviceSpecificationError::CredentialsMountPathMissing(_)
         ));
+    }
+
+    #[test_case(
+        adr_models::Authentication::Certificate {
+            certificate_secret_name: "../../etc/shadow".to_string(),
+            intermediate_certificates_secret_name: None,
+            key_secret_name: None,
+        };
+        "certificate_parent_traversal"
+    )]
+    #[test_case(
+        adr_models::Authentication::Certificate {
+            certificate_secret_name: "/etc/shadow".to_string(),
+            intermediate_certificates_secret_name: None,
+            key_secret_name: None,
+        };
+        "certificate_absolute"
+    )]
+    #[test_case(
+        adr_models::Authentication::Certificate {
+            certificate_secret_name: String::new(),
+            intermediate_certificates_secret_name: None,
+            key_secret_name: None,
+        };
+        "certificate_empty"
+    )]
+    #[test_case(
+        adr_models::Authentication::Certificate {
+            certificate_secret_name: "cert.pem".to_string(),
+            intermediate_certificates_secret_name: Some("../../etc/ca.pem".to_string()),
+            key_secret_name: None,
+        };
+        "intermediate_certificates_parent_traversal"
+    )]
+    #[test_case(
+        adr_models::Authentication::Certificate {
+            certificate_secret_name: "cert.pem".to_string(),
+            intermediate_certificates_secret_name: None,
+            key_secret_name: Some("..".to_string()),
+        };
+        "key_parent_dir"
+    )]
+    #[test_case(
+        adr_models::Authentication::UsernamePassword {
+            password_secret_name: "../../../var/run/secrets/token".to_string(),
+            username_secret_name: "username".to_string(),
+        };
+        "password_parent_traversal"
+    )]
+    #[test_case(
+        adr_models::Authentication::UsernamePassword {
+            password_secret_name: "password".to_string(),
+            username_secret_name: "/etc/passwd".to_string(),
+        };
+        "username_absolute"
+    )]
+    #[allow(clippy::needless_pass_by_value)]
+    fn new_device_specification_rejects_escaping_secret_names(
+        authentication: adr_models::Authentication,
+    ) {
+        let device_specification = adr_models::Device {
+            attributes: HashMap::new(),
+            discovered_device_ref: None,
+            enabled: None,
+            endpoints: Some(adr_models::DeviceEndpoints {
+                inbound: HashMap::from([(
+                    TEST_INBOUND_ENDPOINT_NAME.to_string(),
+                    adr_models::InboundEndpoint {
+                        additional_configuration: None,
+                        address: "mqtt://test".to_string(),
+                        authentication,
+                        endpoint_type: "mqtt".to_string(),
+                        trust_settings: None,
+                        version: None,
+                    },
+                )]),
+                outbound: None,
+            }),
+            external_device_id: None,
+            last_transition_time: None,
+            manufacturer: None,
+            model: None,
+            operating_system: None,
+            operating_system_version: None,
+            uuid: None,
+            version: None,
+        };
+
+        let result = DeviceSpecification::new(
+            device_specification,
+            Some(&PathBuf::from("/mnt/creds")),
+            TEST_INBOUND_ENDPOINT_NAME,
+        )
+        .unwrap_err();
+
+        assert!(matches!(
+            result,
+            DeviceSpecificationError::InvalidSecretName(_)
+        ));
+    }
+
+    /// Both credential mount layouts in the Akri connector contract must be accepted:
+    /// `{secret_name}/{secret_key}` without unified `secretsync`, and a flat file name with it.
+    #[test_case(
+        "rest-server-auth-creds/username",
+        "rest-server-auth-creds/password";
+        "nested_without_unified_secretsync"
+    )]
+    #[test_case(
+        "my-thermostat_my-rest-endpoint_username",
+        "my-thermostat_my-rest-endpoint_password";
+        "flat_with_unified_secretsync"
+    )]
+    fn new_device_specification_accepts_both_mount_layouts(
+        username_secret_name: &str,
+        password_secret_name: &str,
+    ) {
+        let device_specification = adr_models::Device {
+            attributes: HashMap::new(),
+            discovered_device_ref: None,
+            enabled: None,
+            endpoints: Some(adr_models::DeviceEndpoints {
+                inbound: HashMap::from([(
+                    TEST_INBOUND_ENDPOINT_NAME.to_string(),
+                    adr_models::InboundEndpoint {
+                        additional_configuration: None,
+                        address: "mqtt://test".to_string(),
+                        authentication: adr_models::Authentication::UsernamePassword {
+                            password_secret_name: password_secret_name.to_string(),
+                            username_secret_name: username_secret_name.to_string(),
+                        },
+                        endpoint_type: "mqtt".to_string(),
+                        trust_settings: None,
+                        version: None,
+                    },
+                )]),
+                outbound: None,
+            }),
+            external_device_id: None,
+            last_transition_time: None,
+            manufacturer: None,
+            model: None,
+            operating_system: None,
+            operating_system_version: None,
+            uuid: None,
+            version: None,
+        };
+
+        let result = DeviceSpecification::new(
+            device_specification,
+            Some(&PathBuf::from("/mnt/creds")),
+            TEST_INBOUND_ENDPOINT_NAME,
+        )
+        .unwrap();
+
+        let Authentication::UsernamePassword {
+            password_path,
+            username_path,
+        } = result.endpoints.inbound.authentication
+        else {
+            panic!("expected UsernamePassword authentication");
+        };
+        assert_eq!(
+            username_path,
+            PathBuf::from(format!("/mnt/creds/{username_secret_name}"))
+        );
+        assert_eq!(
+            password_path,
+            PathBuf::from(format!("/mnt/creds/{password_secret_name}"))
+        );
     }
 
     #[test]
