@@ -50,7 +50,7 @@ pub struct VersionAttributes {
     #[builder(default = "None")]
     pub content_type: Option<String>,
 
-    /// Format identifier of the Version document (resource-type-specific, e.g. `JsonSchema/draft-07`, `JSON-LD/1.1`).
+    /// Format identifier of the Version document (resource-type-specific, e.g. `JsonSchema/draft-07`, `JsonLD/1.1`).
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]
     pub format: Option<String>,

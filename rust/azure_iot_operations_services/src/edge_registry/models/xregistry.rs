@@ -343,7 +343,7 @@ pub struct CoreVersionEntity {
     pub ancestor: String,
     /// The media type of the entity as defined by RFC9110.
     pub content_type: Option<String>,
-    /// Identifies what the Version represents (e.g. `JsonSchema/draft-07`, `JSON-LD/1.1`).
+    /// Identifies what the Version represents (e.g. `JsonSchema/draft-07`, `JsonLD/1.1`).
     pub format: Option<String>,
     /// When format validation is enabled, indicates whether the server has validated that the
     /// Version conforms to the rules defined by its `format` attribute.
@@ -468,7 +468,7 @@ pub struct CoreVersionAttributes {
     pub ancestor: Option<String>,
     /// Content type of the Version document.
     pub content_type: Option<String>,
-    /// Format identifier of the Version document (resource-type-specific, e.g. `JsonSchema/draft-07`, `JSON-LD/1.1`).
+    /// Format identifier of the Version document (resource-type-specific, e.g. `JsonSchema/draft-07`, `JsonLD/1.1`).
     pub format: Option<String>,
     /// Base64-encoded document content for the Version. The interpretation (schema, thing description, thing model, etc.) is determined by the Resource type.
     pub document: Option<Bytes>,
