@@ -11,6 +11,6 @@ namespace Azure.Iot.Operations.Services.EdgeRegistry.Host.Generated
     public static class ThingDescriptionFormat
     {
         /// <summary>JSON-LD 1.1 format</summary>
-        public const string JsonLd11 = "JSON-LD/1.1";
+        public const string JsonLd11 = "JsonLD/1.1";
     }
 }

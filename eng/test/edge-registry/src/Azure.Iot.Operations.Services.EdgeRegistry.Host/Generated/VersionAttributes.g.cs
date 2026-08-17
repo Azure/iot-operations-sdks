@@ -66,7 +66,7 @@ namespace Azure.Iot.Operations.Services.EdgeRegistry.Host.Generated
         public string? ContentType { get; set; } = default;
 
         /// <summary>
-        /// Format identifier of the Version document (resource-type-specific, e.g. `JsonSchema/draft-07`, `JSON-LD/1.1`).
+        /// Format identifier of the Version document (resource-type-specific, e.g. `JsonSchema/draft-07`, `JsonLD/1.1`).
         /// </summary>
         [JsonPropertyName("format")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
