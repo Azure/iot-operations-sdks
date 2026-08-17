@@ -42,6 +42,7 @@ impl Error {
 
 /// Represents the kinds of errors that occur in the Azure IoT Operations Edge Registry implementation.
 #[derive(Debug, Error)]
+#[non_exhaustive]
 pub enum ErrorKind {
     /// An error occurred in the AIO Protocol. See [`AIOProtocolError`] for more information.
     #[error(transparent)]
