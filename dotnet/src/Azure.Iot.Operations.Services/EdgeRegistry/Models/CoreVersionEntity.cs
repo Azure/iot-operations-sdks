@@ -79,7 +79,7 @@ public class CoreVersionEntity
     public string? ContentType { get; set; }
 
     /// <summary>
-    /// Identifies what the Version represents (e.g. `JsonSchema/draft-07`, `JSON-LD/1.1`).
+    /// Identifies what the Version represents (e.g. `JsonSchema/draft-07`, `JsonLD/1.1`).
     /// </summary>
     public string? Format { get; set; }
 

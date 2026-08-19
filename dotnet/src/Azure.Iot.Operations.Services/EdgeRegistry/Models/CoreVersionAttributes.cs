@@ -44,7 +44,7 @@ public class CoreVersionAttributes
     public string? ContentType { get; set; }
 
     /// <summary>
-    /// Format identifier of the Version document (resource-type-specific, e.g. `JsonSchema/draft-07`, `JSON-LD/1.1`).
+    /// Format identifier of the Version document (resource-type-specific, e.g. `JsonSchema/draft-07`, `JsonLD/1.1`).
     /// </summary>
     public string? Format { get; set; }
 

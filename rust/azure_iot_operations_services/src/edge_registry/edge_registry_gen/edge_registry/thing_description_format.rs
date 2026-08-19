@@ -3,4 +3,4 @@
 // Non-exhaustive supported WoT TD formats
 
 /// JSON-LD 1.1 format
-pub const JSON_LD11: &str = "JSON-LD/1.1";
+pub const JSON_LD11: &str = "JsonLD/1.1";
