@@ -17,7 +17,7 @@ mod client;
 /// Serialization and deserialization implementations for resp3 state store payloads
 mod resp3;
 
-pub use client::{Client, ClientOptions, ClientOptionsBuilder, KeyObservation, ScanPager};
+pub use client::{Client, ClientOptions, ClientOptionsBuilder, FilterKeysPager, KeyObservation};
 pub use resp3::{Operation, SetCondition, SetOptions};
 
 /// User Property Key for a [`HybridLogicalClock`] fencing token used to protect the object of the request from conflicting updates.

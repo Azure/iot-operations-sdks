@@ -287,7 +287,10 @@ impl<'a> ResponseParser<'a> {
             .checked_add(2)
             .ok_or_else(|| format!("RESP3 header overflow: {:?}", self.payload))?;
         if self.payload.get(length_end..header_end) != Some(b"\r\n") {
-            return Err(format!("Invalid RESP3 length terminator: {:?}", self.payload));
+            return Err(format!(
+                "Invalid RESP3 length terminator: {:?}",
+                self.payload
+            ));
         }
 
         self.index = header_end;
@@ -308,7 +311,10 @@ impl<'a> ResponseParser<'a> {
             .checked_add(2)
             .ok_or_else(|| format!("RESP3 value length overflow: {:?}", self.payload))?;
         if self.payload.get(value_end..element_end) != Some(b"\r\n") {
-            return Err(format!("Invalid RESP3 value terminator: {:?}", self.payload));
+            return Err(format!(
+                "Invalid RESP3 value terminator: {:?}",
+                self.payload
+            ));
         }
 
         let value = self.payload[self.index..value_end].to_vec();
