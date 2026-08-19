@@ -87,7 +87,7 @@ impl FilterKeysPager<'_> {
     /// [`struct@Error`] of kind [`UnexpectedPayload`](ErrorKind::UnexpectedPayload) if the State Store returns a response that isn't valid for this request
     ///
     /// [`struct@Error`] of kind [`AIOProtocolError`](ErrorKind::AIOProtocolError) if there are any underlying errors from [`rpc_command::Invoker::invoke`]
-    pub async fn next(&mut self) -> Result<Option<Vec<Vec<u8>>>,Error>{
+    pub async fn next(&mut self) -> Result<Option<Vec<Vec<u8>>>, Error> {
         if self.complete {
             return Ok(None);
         }
@@ -102,26 +102,27 @@ impl FilterKeysPager<'_> {
             .build()
             .map_err(|e| ErrorKind::InvalidArgument(e.to_string()))?;
 
-        let response = self.client
-                .invoker
-                .invoke(request)
-                .await
-                .map_err(ErrorKind::from)?;
-            
-        let (keys, continuation_token) = state_store::convert_response(response, |payload| match payload {
+        let response = self
+            .client
+            .invoker
+            .invoke(request)
+            .await
+            .map_err(ErrorKind::from)?;
 
+        let (keys, continuation_token) =
+            state_store::convert_response(response, |payload| match payload {
                 state_store::resp3::Response::KeysScanned {
                     keys,
                     continuation_token,
                 } => Ok((keys, continuation_token)),
                 _ => Err(()),
-        })?.response;
+            })?
+            .response;
 
-    self.complete = continuation_token.is_none();   
-    self.continuation_token = continuation_token;
+        self.complete = continuation_token.is_none();
+        self.continuation_token = continuation_token;
 
-    Ok(Some(keys))
-
+        Ok(Some(keys))
     }
 }
 
