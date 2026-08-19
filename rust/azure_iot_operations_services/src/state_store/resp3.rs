@@ -297,10 +297,6 @@ impl<'a> ResponseParser<'a> {
         Ok(length)
     }
 
-    fn read_array_length(&mut self) -> Result<usize, String> {
-        self.read_length(b'*')
-    }
-
     fn read_bulk_string(&mut self) -> Result<Vec<u8>, String> {
         let length = self.read_length(b'$')?;
         let value_end = self
@@ -329,14 +325,14 @@ impl<'a> ResponseParser<'a> {
 
 fn parse_scan(payload: &[u8]) -> Result<Response, String> {
     let mut parser = ResponseParser::new(payload);
-    let response_length = parser.read_array_length()?;
+    let response_length = parser.read_length(b'*')?;
     if !(1..=2).contains(&response_length) {
         return Err(format!(
             "SCAN response must contain one or two elements: {payload:?}"
         ));
     }
 
-    let key_count = parser.read_array_length()?;
+    let key_count = parser.read_length(b'*')?;
     let mut keys = Vec::new();
     for _ in 0..key_count {
         keys.push(parser.read_bulk_string()?);
