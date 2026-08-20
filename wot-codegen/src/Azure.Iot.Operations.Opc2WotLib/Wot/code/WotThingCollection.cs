@@ -11,6 +11,8 @@ namespace Azure.Iot.Operations.Opc2WotLib
     {
         public WotThingCollection(OpcUaGraph opcUaGraph, OpcUaModelInfo modelInfo, LinkRelRuleEngine linkRelRuleEngine, bool integrate, bool inheritVars, bool includeTDs)
         {
+            opcUaGraph.ResolveReferences();
+
             string specName = SpecMapper.GetSpecNameFromUri(modelInfo.ModelUri);
             this.ThingDescriptions = includeTDs ? modelInfo.NodeIdToObjectMap.Values.Where(o => !modelInfo.ReferencedObjectNodeIds.Contains(o.NodeId)).Select(o => new WotThingDescription(specName, o)).ToList() : new();
 

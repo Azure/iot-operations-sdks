@@ -56,7 +56,9 @@ namespace Azure.Iot.Operations.Opc2WotLib
             }
 
             List<OpcUaVariableType> variableTypes = uaObjectType.VariableRecords.Values
-                .Select(r => r.UaVariable.CustomVariableType)
+                .Select(r => r.UaVariable)
+                .Where(v => v.CanUseVariableTypeSchemaReference)
+                .Select(v => v.VariableTypeDefinition)
                 .Where(vt => vt != null)
                 .Cast<OpcUaVariableType>()
                 .Distinct()
@@ -100,8 +102,8 @@ namespace Azure.Iot.Operations.Opc2WotLib
         private static string? GetVariableTypeSchemaName(OpcUaVariable variable, Dictionary<OpcUaVariableType, string> schemaNames)
         {
             return variable.CanUseVariableTypeSchemaReference &&
-                variable.CustomVariableType != null &&
-                schemaNames.TryGetValue(variable.CustomVariableType, out string? schemaName)
+                variable.VariableTypeDefinition != null &&
+                schemaNames.TryGetValue(variable.VariableTypeDefinition, out string? schemaName)
                 ? schemaName
                 : null;
         }
