@@ -123,7 +123,7 @@
         "ThingModelFormat": {
             "type": "object",
             "const": {
-                "JsonLD11": "JSON-LD/1.1"
+                "JsonLD11": "JsonLD/1.1"
             },
             "description": "Non-exhaustive supported WoT TM formats",
             "properties": {

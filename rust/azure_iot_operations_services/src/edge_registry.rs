@@ -23,7 +23,7 @@ pub use client::Client;
 // modules are private), so the identifier is ambiguous.
 // TODO: consider generating the format identifiers into separate namespaces to avoid this ambiguity.
 /// JSON-LD 1.1 format.
-const JSON_LD11: &str = "JSON-LD/1.1";
+const JSON_LD11: &str = "JsonLD/1.1";
 
 // ~~~~~~~~~~~~~~~~~~~SDK Created Structs~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -42,6 +42,7 @@ impl Error {
 
 /// Represents the kinds of errors that occur in the Azure IoT Operations Edge Registry implementation.
 #[derive(Debug, Error)]
+#[non_exhaustive]
 pub enum ErrorKind {
     /// An error occurred in the AIO Protocol. See [`AIOProtocolError`] for more information.
     #[error(transparent)]

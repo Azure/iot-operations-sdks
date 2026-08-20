@@ -123,7 +123,7 @@ namespace Azure.Iot.Operations.Services.EdgeRegistry.Generated
         public string? ContentType { get; set; } = default;
 
         /// <summary>
-        /// Identifies what the Version represents (e.g. `JsonSchema/draft-07`, `JSON-LD/1.1`).
+        /// Identifies what the Version represents (e.g. `JsonSchema/draft-07`, `JsonLD/1.1`).
         /// </summary>
         [JsonPropertyName("format")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
