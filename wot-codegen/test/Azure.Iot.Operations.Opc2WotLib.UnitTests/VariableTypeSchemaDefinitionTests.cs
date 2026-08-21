@@ -625,6 +625,7 @@ namespace Azure.Iot.Operations.Opc2WotLib.UnitTests
                 Assert.Equal(JsonValueKind.Object, doc.RootElement.ValueKind);
                 JsonElement catalog = doc.RootElement;
                 Assert.Equal("VariableTypeOnly_OnlyType", catalog.GetProperty("title").GetString());
+                Assert.EndsWith(".OnlyType", catalog.GetProperty("dov:typeRef").GetString(), StringComparison.Ordinal);
                 Assert.True(catalog.GetProperty("schemaDefinitions").TryGetProperty("OnlyType", out _));
             }
             finally

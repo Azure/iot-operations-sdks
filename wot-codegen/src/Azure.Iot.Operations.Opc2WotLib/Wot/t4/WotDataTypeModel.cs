@@ -32,7 +32,13 @@ namespace Azure.Iot.Operations.Opc2WotLib
             this.Write(this.ToStringHelper.ToStringWithCulture(this.id));
             this.Write("\",\r\n  \"title\": \"");
             this.Write(this.ToStringHelper.ToStringWithCulture(this.thingName));
-            this.Write("\",\r\n  \"links\": [\r\n  ],\r\n  \"schemaDefinitions\": {\r\n");
+            this.Write("\",\r\n");
+ if (this.typeRef != null) {
+            this.Write("  \"dov:typeRef\": \"");
+            this.Write(this.ToStringHelper.ToStringWithCulture(this.typeRef));
+            this.Write("\",\r\n");
+ }
+            this.Write("  \"links\": [\r\n  ],\r\n  \"schemaDefinitions\": {\r\n");
  int ix1 = 1; foreach (KeyValuePair<string, WotDataSchema> schemaDefinition in this.schemaDefinitions) { 
             this.Write("    \"");
             this.Write(this.ToStringHelper.ToStringWithCulture(schemaDefinition.Key));
