@@ -519,10 +519,10 @@ namespace Azure.Iot.Operations.Opc2WotLib.UnitTests
                 Assert.False(errorLog.HasErrors);
                 Assert.Empty(errorLog.Warnings);
                 FileInfo outputFile = Assert.Single(outputDir.GetFiles("*.TM.json"));
+                Assert.Equal("DataTypeOnly_OnlyEnum.TM.json", outputFile.Name);
                 using JsonDocument doc = JsonDocument.Parse(File.ReadAllText(outputFile.FullName));
-                Assert.True(Assert.Single(doc.RootElement.EnumerateArray().Select(t => t.Clone()))
-                    .GetProperty("schemaDefinitions")
-                    .TryGetProperty("OnlyEnum", out _));
+                Assert.Equal(JsonValueKind.Object, doc.RootElement.ValueKind);
+                Assert.True(doc.RootElement.GetProperty("schemaDefinitions").TryGetProperty("OnlyEnum", out _));
             }
             finally
             {

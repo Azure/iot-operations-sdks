@@ -21,21 +21,21 @@ namespace Azure.Iot.Operations.Opc2WotLib
                 Dictionary<string, Dictionary<OpcUaNodeId, OpcUaObjectType>> closure = ModelInfoCloser.ComputeClosure(modelInfo);
                 this.ThingModels = closure.SelectMany(kvp => kvp.Value.Values.Select(ot => new WotThingModel(SpecMapper.GetSpecNameFromUri(kvp.Key), ot, linkRelRuleEngine, isIntegrated: true, inheritVars: inheritVars))).ToList();
                 this.DataTypeModels = opcUaGraph.GetRequiredModelClosure(modelInfo)
-                    .Select(requiredModel => new WotDataTypeModel(SpecMapper.GetSpecNameFromUri(requiredModel.ModelUri), requiredModel.NodeIdToDataTypeMap.Values))
+                    .Select(requiredModel => new WotDataTypeModel(requiredModel.ModelUri, SpecMapper.GetSpecNameFromUri(requiredModel.ModelUri), requiredModel.NodeIdToDataTypeMap.Values))
                     .Where(dtm => dtm.HasSchemaDefinitions)
                     .ToList();
                 this.VariableTypeModels = opcUaGraph.GetRequiredModelClosure(modelInfo)
-                    .Select(requiredModel => new WotDataTypeModel(SpecMapper.GetSpecNameFromUri(requiredModel.ModelUri), requiredModel.NodeIdToVariableTypeMap.Values))
+                    .Select(requiredModel => new WotDataTypeModel(requiredModel.ModelUri, SpecMapper.GetSpecNameFromUri(requiredModel.ModelUri), requiredModel.NodeIdToVariableTypeMap.Values))
                     .Where(vtm => vtm.HasSchemaDefinitions)
                     .ToList();
             }
             else
             {
                 this.ThingModels = modelInfo.NodeIdToObjectTypeMap.Values.Select(ot => new WotThingModel(specName, ot, linkRelRuleEngine, isIntegrated: false, inheritVars: inheritVars)).ToList();
-                this.DataTypeModels = new List<WotDataTypeModel> { new WotDataTypeModel(specName, modelInfo.NodeIdToDataTypeMap.Values) }
+                this.DataTypeModels = new List<WotDataTypeModel> { new WotDataTypeModel(modelInfo.ModelUri, specName, modelInfo.NodeIdToDataTypeMap.Values) }
                     .Where(dtm => dtm.HasSchemaDefinitions)
                     .ToList();
-                this.VariableTypeModels = new List<WotDataTypeModel> { new WotDataTypeModel(specName, modelInfo.NodeIdToVariableTypeMap.Values) }
+                this.VariableTypeModels = new List<WotDataTypeModel> { new WotDataTypeModel(modelInfo.ModelUri, specName, modelInfo.NodeIdToVariableTypeMap.Values) }
                     .Where(vtm => vtm.HasSchemaDefinitions)
                     .ToList();
             }
@@ -48,5 +48,13 @@ namespace Azure.Iot.Operations.Opc2WotLib
         public List<WotDataTypeModel> DataTypeModels { get; }
 
         public List<WotDataTypeModel> VariableTypeModels { get; }
+
+        public IEnumerable<WotThingDocument> GetDocuments()
+        {
+            return this.ThingDescriptions.Select(td => WotThingDocument.Create(td.FileName, td.TransformText()))
+                .Concat(this.ThingModels.Select(tm => WotThingDocument.Create(tm.FileName, tm.TransformText())))
+                .Concat(this.DataTypeModels.SelectMany(dtm => dtm.GetDocuments()))
+                .Concat(this.VariableTypeModels.SelectMany(vtm => vtm.GetDocuments()));
+        }
     }
 }

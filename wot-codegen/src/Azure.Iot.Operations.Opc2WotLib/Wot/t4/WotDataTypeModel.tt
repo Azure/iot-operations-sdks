@@ -11,6 +11,7 @@
     }
   ],
   "@type": "tm:ThingModel",
+  "id": "<#=this.id#>",
   "title": "<#=this.thingName#>",
   "links": [
   ],

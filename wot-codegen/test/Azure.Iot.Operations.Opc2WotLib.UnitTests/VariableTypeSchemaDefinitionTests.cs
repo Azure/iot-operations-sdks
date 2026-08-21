@@ -620,9 +620,11 @@ namespace Azure.Iot.Operations.Opc2WotLib.UnitTests
                 Assert.False(errorLog.HasErrors);
                 Assert.Empty(errorLog.Warnings);
                 FileInfo outputFile = Assert.Single(outputDir.GetFiles("*.TM.json"));
+                Assert.Equal("VariableTypeOnly_OnlyType.TM.json", outputFile.Name);
                 using JsonDocument doc = JsonDocument.Parse(File.ReadAllText(outputFile.FullName));
-                JsonElement catalog = Assert.Single(doc.RootElement.EnumerateArray().Select(t => t.Clone()));
-                Assert.Equal("VariableTypeOnly_VariableTypes", catalog.GetProperty("title").GetString());
+                Assert.Equal(JsonValueKind.Object, doc.RootElement.ValueKind);
+                JsonElement catalog = doc.RootElement;
+                Assert.Equal("VariableTypeOnly_OnlyType", catalog.GetProperty("title").GetString());
                 Assert.True(catalog.GetProperty("schemaDefinitions").TryGetProperty("OnlyType", out _));
             }
             finally
