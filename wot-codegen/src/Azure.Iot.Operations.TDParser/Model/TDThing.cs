@@ -208,12 +208,12 @@ namespace Azure.Iot.Operations.TDParser.Model
                 {
                     yield return item;
                 }
-                if (Id != null)
+            }
+            if (Id != null)
+            {
+                foreach (ITraversable item in Id.Traverse())
                 {
-                    foreach (ITraversable item in Id.Traverse())
-                    {
-                        yield return item;
-                    }
+                    yield return item;
                 }
             }
             if (Description != null)
