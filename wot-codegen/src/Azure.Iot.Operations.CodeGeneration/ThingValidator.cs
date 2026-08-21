@@ -120,12 +120,22 @@ namespace Azure.Iot.Operations.CodeGeneration
                 return false;
             }
 
-            if ((isDescription || this.requireThingModelForms) &&
-                (!TryValidateCrossFormConsistency(thing.Forms, thing.Actions)
-                || !TryValidateCrossFormConsistency(thing.Forms, thing.Properties, resolvingThing, validateReferences)
-                || !TryValidateCrossFormConsistency(thing.Forms, thing.Events, resolvingThing, validateReferences)))
+            if (isDescription || this.requireThingModelForms)
             {
-                hasError = true;
+                if (!TryValidateCrossFormConsistency(thing.Forms, thing.Actions))
+                {
+                    hasError = true;
+                }
+
+                if (!TryValidateCrossFormConsistency(thing.Forms, thing.Properties, resolvingThing, validateReferences))
+                {
+                    hasError = true;
+                }
+
+                if (!TryValidateCrossFormConsistency(thing.Forms, thing.Events, resolvingThing, validateReferences))
+                {
+                    hasError = true;
+                }
             }
 
             if (!TryValidateThingPropertyNames(thing.PropertyNames))
