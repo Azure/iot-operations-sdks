@@ -59,6 +59,73 @@ impl KeyObservation {
     // that was observed where the receiver was dropped and a key that was never observed
 }
 
+/// A caller-driven, page-at-a-time filter of State Store keys.
+///
+/// Call [`FilterKeysPager::next`] to request each page. The continuation token is managed
+/// internally, and the pager cannot outlive the [`Client`] that created it.
+pub struct FilterKeysPager<'a> {
+    client: &'a Client,
+    pattern: Vec<u8>,
+    timeout: Duration,
+    continuation_token: Option<Vec<u8>>,
+    complete: bool,
+}
+
+impl FilterKeysPager<'_> {
+    /// Requests the next page of keys from the State Store.
+    ///
+    /// Returns `Ok(Some(keys))` for each page, including an empty page, and `Ok(None)` after the
+    /// final page has been returned. Each call makes at most one request. If a request fails, the
+    /// continuation token is unchanged, so the application may retry the call.
+    ///
+    /// # Errors
+    /// [`struct@Error`] of kind [`InvalidArgument`](ErrorKind::InvalidArgument) if the `timeout`
+    /// the pager was created with is zero or > `u32::max`
+    ///
+    /// [`struct@Error`] of kind [`ServiceError`](ErrorKind::ServiceError) if the State Store returns an Error response
+    ///
+    /// [`struct@Error`] of kind [`UnexpectedPayload`](ErrorKind::UnexpectedPayload) if the State Store returns a response that isn't valid for this request
+    ///
+    /// [`struct@Error`] of kind [`AIOProtocolError`](ErrorKind::AIOProtocolError) if there are any underlying errors from [`rpc_command::Invoker::invoke`]
+    pub async fn next(&mut self) -> Result<Option<Vec<Vec<u8>>>, Error> {
+        if self.complete {
+            return Ok(None);
+        }
+
+        let request = rpc_command::invoker::RequestBuilder::default()
+            .payload(state_store::resp3::Request::Scan {
+                pattern: self.pattern.clone(),
+                continuation_token: self.continuation_token.clone(),
+            })
+            .map_err(|e| ErrorKind::SerializationError(e.to_string()))? // this can't fail
+            .timeout(self.timeout)
+            .build()
+            .map_err(|e| ErrorKind::InvalidArgument(e.to_string()))?;
+
+        let response = self
+            .client
+            .invoker
+            .invoke(request)
+            .await
+            .map_err(ErrorKind::from)?;
+
+        let (keys, continuation_token) =
+            state_store::convert_response(response, |payload| match payload {
+                state_store::resp3::Response::KeysScanned {
+                    keys,
+                    continuation_token,
+                } => Ok((keys, continuation_token)),
+                _ => Err(()),
+            })?
+            .response;
+
+        self.complete = continuation_token.is_none();
+        self.continuation_token = continuation_token;
+
+        Ok(Some(keys))
+    }
+}
+
 /// State Store Client Options struct
 #[derive(Builder, Clone)]
 #[builder(setter(into))]
@@ -286,6 +353,60 @@ impl Client {
                 _ => Err(()),
             },
         )
+    }
+
+    /// Creates a caller-driven filter for keys matching `pattern`.
+    ///
+    /// Creating the pager does not contact the State Store. Each call to
+    /// [`FilterKeysPager::next`] requests one page, using the continuation token returned with the
+    /// previous page. The continuation token is managed internally and is not returned to the
+    /// application.
+    ///
+    /// `pattern` is a glob-style pattern. For example, `*` matches every key and `key*` matches
+    /// keys beginning with `key`.
+    ///
+    /// # Examples
+    /// ```no_run
+    /// # use std::time::Duration;
+    /// # use azure_iot_operations_services::state_store::{Client, Error};
+    /// # async fn example(client: &Client) -> Result<(), Error> {
+    /// let mut pager = client.filter_keys(b"key*".to_vec(), Duration::from_secs(10))?;
+    ///
+    /// while let Some(keys) = pager.next().await? {
+    ///     for key in keys {
+    ///         println!("{}", String::from_utf8_lossy(&key));
+    ///     }
+    /// }
+    /// # Ok(())
+    /// # }
+    /// ```
+    ///
+    /// # Arguments
+    /// * `pattern` - Glob-style pattern used by the State Store to match keys.
+    /// * `timeout` - Maximum time to wait for each page response, rounded up to the nearest
+    ///   second. It is validated when a page is requested, so an invalid `timeout` is reported by
+    ///   the first call to [`FilterKeysPager::next`].
+    ///
+    /// # Errors
+    /// [`struct@Error`] of kind [`InvalidArgument`](ErrorKind::InvalidArgument) if the `pattern` is empty
+    pub fn filter_keys(
+        &self,
+        pattern: Vec<u8>,
+        timeout: Duration,
+    ) -> Result<FilterKeysPager<'_>, Error> {
+        if pattern.is_empty() {
+            return Err(Error(ErrorKind::InvalidArgument(
+                "pattern is empty".to_string(),
+            )));
+        }
+
+        Ok(FilterKeysPager {
+            client: self,
+            pattern,
+            timeout,
+            continuation_token: None,
+            complete: false,
+        })
     }
 
     /// Deletes a key from the State Store Service
@@ -742,6 +863,47 @@ mod tests {
     }
 
     #[tokio::test]
+    async fn test_filter_keys_empty_pattern() {
+        let session = create_session();
+        let session_monitor = session.create_session_monitor();
+        let managed_client = session.create_managed_client();
+        let state_store_client = super::Client::new(
+            ApplicationContextBuilder::default().build().unwrap(),
+            managed_client,
+            session_monitor,
+            super::ClientOptionsBuilder::default().build().unwrap(),
+        )
+        .unwrap();
+
+        assert!(matches!(
+            state_store_client.filter_keys(vec![], Duration::from_secs(1)),
+            Err(Error(ErrorKind::InvalidArgument(_)))
+        ));
+    }
+
+    #[tokio::test]
+    async fn test_filter_keys_creates_initial_pager_without_requesting_a_page() {
+        let session = create_session();
+        let session_monitor = session.create_session_monitor();
+        let managed_client = session.create_managed_client();
+        let state_store_client = super::Client::new(
+            ApplicationContextBuilder::default().build().unwrap(),
+            managed_client,
+            session_monitor,
+            super::ClientOptionsBuilder::default().build().unwrap(),
+        )
+        .unwrap();
+
+        let pager = state_store_client
+            .filter_keys(b"key*".to_vec(), Duration::from_secs(1))
+            .unwrap();
+        assert_eq!(pager.pattern, b"key*");
+        assert_eq!(pager.timeout, Duration::from_secs(1));
+        assert!(pager.continuation_token.is_none());
+        assert!(!pager.complete);
+    }
+
+    #[tokio::test]
     async fn test_del_empty_key() {
         let session = create_session();
         let session_monitor = session.create_session_monitor();
@@ -870,6 +1032,55 @@ mod tests {
         assert!(matches!(
             response.unwrap_err(),
             Error(ErrorKind::InvalidArgument(_))
+        ));
+    }
+
+    #[tokio::test]
+    async fn test_filter_keys_zero_timeout() {
+        let session = create_session();
+        let session_monitor = session.create_session_monitor();
+        let managed_client = session.create_managed_client();
+        let state_store_client = super::Client::new(
+            ApplicationContextBuilder::default().build().unwrap(),
+            managed_client,
+            session_monitor,
+            super::ClientOptionsBuilder::default().build().unwrap(),
+        )
+        .unwrap();
+
+        // The timeout is validated when a page is requested, not when the pager is created.
+        let mut pager = state_store_client
+            .filter_keys(b"key*".to_vec(), Duration::ZERO)
+            .unwrap();
+        assert!(matches!(
+            pager.next().await,
+            Err(Error(ErrorKind::InvalidArgument(_)))
+        ));
+    }
+
+    #[tokio::test]
+    async fn test_filter_keys_timeout_too_large() {
+        let session = create_session();
+        let session_monitor = session.create_session_monitor();
+        let managed_client = session.create_managed_client();
+        let state_store_client = super::Client::new(
+            ApplicationContextBuilder::default().build().unwrap(),
+            managed_client,
+            session_monitor,
+            super::ClientOptionsBuilder::default().build().unwrap(),
+        )
+        .unwrap();
+
+        // The timeout is validated when a page is requested, not when the pager is created.
+        let mut pager = state_store_client
+            .filter_keys(
+                b"key*".to_vec(),
+                Duration::from_secs(u64::from(u32::MAX)) + Duration::from_nanos(1),
+            )
+            .unwrap();
+        assert!(matches!(
+            pager.next().await,
+            Err(Error(ErrorKind::InvalidArgument(_)))
         ));
     }
 
