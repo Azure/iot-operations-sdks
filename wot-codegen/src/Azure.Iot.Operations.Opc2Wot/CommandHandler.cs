@@ -122,41 +122,23 @@ namespace Azure.Iot.Operations.Opc2Wot
                 statusReceiver?.Invoke("Skipping validation of Thing Model references in links because '--integrate' option is not set.", false);
             }
 
+            Dictionary<string, WotThingDocument> documentsByFileName = new(StringComparer.Ordinal);
             foreach (string modelUri in opcUaGraph.GetModelUris())
             {
-                errorLog.ClearRegistrations();
-
                 WotThingCollection thingCollection = new WotThingCollection(opcUaGraph, opcUaGraph.GetOpcUaModelInfo(modelUri), linkRelRuleEngine, options.Integrate, options.InheritVars, options.IncludeTDs);
-
-                string thingText = thingCollection.TransformText();
-
-                string outFileName = $"{SpecMapper.GetSpecNameFromUri(modelUri)}.TM.json";
-                string outFilePath = Path.Combine(options.OutputDir.FullName, outFileName);
-
-                ValidateThing(thingText, errorLog, outFileName, validateReferences: options.Integrate);
-
-                List<string> thingTypes = new();
-                if (thingCollection.ThingDescriptions.Any())
+                foreach (WotThingDocument document in thingCollection.GetDocuments())
                 {
-                    thingTypes.Add("Thing Descriptions");
-                }
-                if (thingCollection.ThingModels.Any())
-                {
-                    thingTypes.Add("Thing Models");
-                }
-                if (thingCollection.DataTypeModels.Any())
-                {
-                    thingTypes.Add("DataType Models");
-                }
-                if (thingCollection.VariableTypeModels.Any())
-                {
-                    thingTypes.Add("VariableType Models");
-                }
-
-                if (thingCollection.ThingDescriptions.Any() || thingCollection.ThingModels.Any() || thingCollection.DataTypeModels.Any() || thingCollection.VariableTypeModels.Any())
-                {
-                    statusReceiver?.Invoke($"Writing {string.Join(" and ", thingTypes)} for '{modelUri}' to '{outFileName}'", false);
-                    File.WriteAllText(outFilePath, thingText);
+                    if (documentsByFileName.TryGetValue(document.FileName, out WotThingDocument? existingDocument))
+                    {
+                        if (existingDocument.Text != document.Text)
+                        {
+                            AddUnlocatableError(ErrorCondition.Duplication, $"Multiple Thing Models would be written to '{document.FileName}' with different content.", errorLog);
+                        }
+                    }
+                    else
+                    {
+                        documentsByFileName.Add(document.FileName, document);
+                    }
                 }
             }
 
@@ -165,40 +147,68 @@ namespace Azure.Iot.Operations.Opc2Wot
                 return errorLog;
             }
 
+            errorLog.ClearRegistrations();
+            ValidateThings(documentsByFileName.Values, errorLog, validateReferences: options.Integrate);
             errorLog.CheckForDuplicatesInThings();
+
+            if (errorLog.HasErrors)
+            {
+                return errorLog;
+            }
+
+            foreach (WotThingDocument document in documentsByFileName.Values.OrderBy(d => d.FileName, StringComparer.Ordinal))
+            {
+                statusReceiver?.Invoke($"Writing Thing document to '{document.FileName}'", false);
+                File.WriteAllText(Path.Combine(options.OutputDir.FullName, document.FileName), document.Text);
+            }
 
             return errorLog;
         }
 
-        private static void ValidateThing(string thingText, ErrorLog errorLog, string outFileName, bool validateReferences)
+        private static void ValidateThings(IEnumerable<WotThingDocument> documents, ErrorLog errorLog, bool validateReferences)
         {
-            byte[] thingBytes = Encoding.UTF8.GetBytes(thingText);
-            ErrorReporter errorReporter = new ErrorReporter(errorLog, outFileName, thingBytes);
-            ThingValidator thingValidator = new ThingValidator(errorReporter);
+            List<(TDThing Thing, ErrorReporter ErrorReporter)> parsedThings = new();
 
-            List<TDThing> things;
-            try
+            foreach (WotThingDocument document in documents)
             {
-                things = TDParser.Parse(thingBytes);
-            }
-            catch (Exception ex)
-            {
-                errorReporter.ReportJsonException(ex);
-                return;
-            }
+                byte[] thingBytes = Encoding.UTF8.GetBytes(document.Text);
+                ErrorReporter errorReporter = new ErrorReporter(errorLog, document.FileName, thingBytes);
 
-            Dictionary<string, TDThing> titleToThingMap = things.ToDictionary(t => t.Title!.Value.Value, t => t);
-
-            foreach (TDThing thing in things)
-            {
-                HashSet<SerializationFormat> serializationFormats = new();
-                if (thingValidator.TryValidateThing(new IntegralResolvingThing(thing, errorReporter, titleToThingMap), serializationFormats, validateReferences))
+                try
                 {
-                    errorReporter.RegisterNameOfThing(thing.Title!.Value.Value, thing.Title!.TokenIndex);
+                    parsedThings.AddRange(TDParser.Parse(thingBytes).Select(thing => (thing, errorReporter)));
+                }
+                catch (Exception ex)
+                {
+                    errorReporter.ReportJsonException(ex);
                 }
             }
 
-            thingValidator.ValidateThingCollection(things, null);
+            Dictionary<string, TDThing> hrefToThingMap = new(StringComparer.Ordinal);
+            foreach ((TDThing thing, _) in parsedThings)
+            {
+                if (thing.Title != null)
+                {
+                    hrefToThingMap.TryAdd($"#{TDValues.HrefTitlePrefix}{thing.Title.Value.Value}", thing);
+                }
+
+                if (thing.Id != null)
+                {
+                    hrefToThingMap.TryAdd(thing.Id.Value.Value, thing);
+                }
+            }
+
+            foreach ((TDThing thing, ErrorReporter errorReporter) in parsedThings)
+            {
+                ThingValidator thingValidator = new ThingValidator(errorReporter, requireThingModelForms: false);
+                HashSet<SerializationFormat> serializationFormats = new();
+                if (thingValidator.TryValidateThing(new IntegralResolvingThing(thing, errorReporter, hrefToThingMap), serializationFormats, validateReferences))
+                {
+                    errorReporter.RegisterNameOfThing(thing.Title!.Value.Value, thing.Title!.TokenIndex);
+                }
+
+                thingValidator.ValidateThingCollection(new List<TDThing> { thing }, null);
+            }
         }
 
         private static void DisplayErrors(ErrorLog errorLog)

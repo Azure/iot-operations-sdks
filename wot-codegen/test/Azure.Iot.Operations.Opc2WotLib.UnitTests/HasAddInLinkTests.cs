@@ -3,9 +3,17 @@
 
 namespace Azure.Iot.Operations.Opc2WotLib.UnitTests
 {
+    using System;
+    using System.IO;
+    using System.Collections.Generic;
     using System.Linq;
+    using System.Text;
     using System.Text.Json;
+    using Azure.Iot.Operations.CodeGeneration;
+    using Azure.Iot.Operations.Opc2Wot;
     using Azure.Iot.Operations.Opc2WotLib;
+    using Azure.Iot.Operations.TDParser;
+    using Azure.Iot.Operations.TDParser.Model;
     using Xunit;
 
     public class HasAddInLinkTests
@@ -151,7 +159,132 @@ namespace Azure.Iot.Operations.Opc2WotLib.UnitTests
                 .Single(t => t.GetProperty("title").GetString()!.EndsWith("ContainerType", System.StringComparison.Ordinal));
             JsonElement link = Assert.Single(container.GetProperty("links").EnumerateArray().Select(l => l.Clone()));
 
-            Assert.Equal("./ReferencedModel.TM.json#title=ReferencedModel_ModuleType", link.GetProperty("href").GetString());
+            string href = link.GetProperty("href").GetString()!;
+            Assert.True(Uri.TryCreate(href, UriKind.Absolute, out _));
+            Assert.Equal("http://opcfoundation.org/UA/ReferencedModel/#ReferencedModel_ModuleType", href);
+        }
+
+        [Fact]
+        public void CommandHandler_WritesStandaloneThingModelsWithIdBasedReferences()
+        {
+            string sandboxPath = Path.Combine(Path.GetTempPath(), $"Opc2WotThingModelOutputTests_{Guid.NewGuid():N}");
+            DirectoryInfo sandbox = Directory.CreateDirectory(sandboxPath);
+
+            try
+            {
+                string referencingPath = Path.Combine(sandbox.FullName, "Referencing.NodeSet2.xml");
+                string referencedPath = Path.Combine(sandbox.FullName, "Referenced.NodeSet2.xml");
+                File.WriteAllText(referencingPath, ReferencingNodeset);
+                File.WriteAllText(referencedPath, ReferencedNodeset);
+                DirectoryInfo outputDir = new DirectoryInfo(Path.Combine(sandbox.FullName, "out"));
+
+                OptionContainer options = new OptionContainer
+                {
+                    NodeSetsSpec = new[] { referencingPath, referencedPath },
+                    OutputDir = outputDir,
+                    Integrate = false,
+                    InheritVars = false,
+                    IncludeTDs = false,
+                };
+
+                var errorLog = CommandHandler.ConvertSpecs(options, (_, _) => { });
+
+                Assert.False(errorLog.HasErrors);
+                Assert.Equal(
+                    new[] { "ReferenceOrderTest_ContainerType.TM.json", "ReferencedModel_ModuleType.TM.json" },
+                    outputDir.GetFiles("*.TM.json").Select(f => f.Name).OrderBy(n => n, StringComparer.Ordinal));
+
+                using JsonDocument containerDocument = JsonDocument.Parse(
+                    File.ReadAllText(Path.Combine(outputDir.FullName, "ReferenceOrderTest_ContainerType.TM.json")));
+                using JsonDocument moduleDocument = JsonDocument.Parse(
+                    File.ReadAllText(Path.Combine(outputDir.FullName, "ReferencedModel_ModuleType.TM.json")));
+
+                Assert.Equal(JsonValueKind.Object, containerDocument.RootElement.ValueKind);
+                Assert.Equal(JsonValueKind.Object, moduleDocument.RootElement.ValueKind);
+
+                string moduleId = moduleDocument.RootElement.GetProperty("id").GetString()!;
+                string linkHref = Assert.Single(
+                    containerDocument.RootElement.GetProperty("links").EnumerateArray().Select(link => link.Clone()))
+                    .GetProperty("href")
+                    .GetString()!;
+
+                Assert.True(Uri.TryCreate(moduleId, UriKind.Absolute, out _));
+                Assert.Equal(moduleId, linkHref);
+            }
+            finally
+            {
+                sandbox.Delete(recursive: true);
+            }
+        }
+
+        [Fact]
+        public void StandaloneThingModel_PreservesLiteralJsonCharacters()
+        {
+            WotThingDocument document = WotThingDocument.Create(
+                "Test.TM.json",
+                """{"links":[{"dov:refName":"<Node>","type":"application/tm+json"}]}""");
+
+            Assert.Contains("\"dov:refName\": \"<Node>\"", document.Text);
+            Assert.Contains("\"type\": \"application/tm+json\"", document.Text);
+            Assert.DoesNotContain(@"\u003C", document.Text);
+            Assert.DoesNotContain(@"\u002B", document.Text);
+        }
+
+        [Fact]
+        public void StandaloneThingModel_OmitsProtocolForms()
+        {
+            const string thingText = """
+                {
+                  "forms": [{ "op": "readallproperties" }],
+                  "actions": { "Run": { "forms": [{ "op": "invokeaction" }] } },
+                  "properties": { "Status": { "forms": [{ "op": "readproperty" }] } },
+                  "events": { "Changed": { "forms": [{ "op": "subscribeevent" }] } }
+                }
+                """;
+
+            WotThingDocument thingModel = WotThingDocument.Create("Test.TM.json", thingText);
+            WotThingDocument thingDescription = WotThingDocument.Create("Test.TD.json", thingText);
+
+            Assert.DoesNotContain("\"forms\"", thingModel.Text);
+            Assert.Contains("\"forms\"", thingDescription.Text);
+        }
+
+        [Fact]
+        public void ThingValidator_AcceptsAffordancesWithoutFormsInThingModel()
+        {
+            const string thingText = """
+                {
+                  "@context": [
+                    "https://www.w3.org/2022/wot/td/v1.1",
+                    { "dov": "http://azure.com/DigitalOperations/vocab#" }
+                  ],
+                  "@type": "tm:ThingModel",
+                  "title": "FormFreeModel",
+                  "properties": {
+                    "Status": {
+                      "type": "string",
+                      "readOnly": true
+                    }
+                  }
+                }
+                """;
+            byte[] thingBytes = Encoding.UTF8.GetBytes(thingText);
+            ErrorLog errorLog = new(string.Empty);
+            ErrorReporter errorReporter = new(errorLog, "FormFreeModel.TM.json", thingBytes);
+            TDThing thing = Assert.Single(TDParser.Parse(thingBytes));
+            Dictionary<string, TDThing> hrefToThingMap = new()
+            {
+                ["#title=FormFreeModel"] = thing,
+            };
+            ThingValidator validator = new(errorReporter, requireThingModelForms: false);
+
+            bool isValid = validator.TryValidateThing(
+                new IntegralResolvingThing(thing, errorReporter, hrefToThingMap),
+                new HashSet<SerializationFormat>(),
+                validateReferences: false);
+
+            Assert.True(isValid, string.Join(System.Environment.NewLine, errorLog.Errors.Select(error => error.Message)));
+            Assert.False(errorLog.HasErrors);
         }
 
         private static JsonElement GetThingByTitleSuffix(string titleSuffix)
