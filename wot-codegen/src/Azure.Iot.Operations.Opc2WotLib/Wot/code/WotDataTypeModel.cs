@@ -28,7 +28,7 @@ namespace Azure.Iot.Operations.Opc2WotLib
             this.thingName = WotUtil.LegalizeName("VariableTypes", specName);
 
             Dictionary<OpcUaVariableType, string> schemaNames = WotVariableTypeSchema.GetSchemaNames(
-                variableTypes.Where(vt => !vt.IsDeprecated && vt.DefiningModel.ModelUri != OpcUaGraph.OpcUaCoreModelUri));
+                variableTypes.Where(vt => vt.IsSchemaEligible));
 
             this.schemaDefinitions = schemaNames
                 .OrderBy(kvp => kvp.Value, StringComparer.Ordinal)
