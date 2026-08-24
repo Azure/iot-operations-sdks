@@ -13,6 +13,7 @@ namespace Azure.Iot.Operations.Opc2WotLib
 
         private string specName;
         private string thingName;
+        private string id;
         private string typeRef;
         private bool isIntegrated;
         private bool inheritVars;
@@ -33,6 +34,7 @@ namespace Azure.Iot.Operations.Opc2WotLib
         {
             this.specName = specName;
             this.thingName = WotUtil.LegalizeName(uaObjectType.DiscriminatedEffectiveName, specName);
+            this.id = WotUtil.GetThingModelId(uaObjectType.DefiningModel.ModelUri, this.thingName);
             this.typeRef = uaObjectType.GetTypeRef();
             this.isIntegrated = isIntegrated;
             this.inheritVars = inheritVars;
@@ -99,6 +101,8 @@ namespace Azure.Iot.Operations.Opc2WotLib
             this.areUnitsInUse = unitfulPropertyNames.Any();
         }
 
+        public string FileName => $"{this.thingName}.TM.json";
+
         private static string? GetVariableTypeSchemaName(OpcUaVariable variable, Dictionary<OpcUaVariableType, string> schemaNames)
         {
             return variable.CanUseVariableTypeSchemaReference &&
@@ -111,9 +115,8 @@ namespace Azure.Iot.Operations.Opc2WotLib
         private string GetModelRef(OpcUaObjectType sourceObjectType, OpcUaObjectType targetObjectType)
         {
             string targetSpecName = SpecMapper.GetSpecNameFromUri(targetObjectType.DefiningModel.ModelUri);
-
-            string fileRef = isIntegrated || ReferenceEquals(sourceObjectType.DefiningModel, targetObjectType.DefiningModel) ? string.Empty : $"./{targetSpecName}.TM.json";
-            return $"{fileRef}#title={WotUtil.LegalizeName(targetObjectType.DiscriminatedEffectiveName, targetSpecName)}";
+            string targetThingName = WotUtil.LegalizeName(targetObjectType.DiscriminatedEffectiveName, targetSpecName);
+            return WotUtil.GetThingModelId(targetObjectType.DefiningModel.ModelUri, targetThingName);
         }
 
         private LinkInfo GetLinkInfo(OpcUaObjectType sourceObjectType, OpcUaNodeId referenceTypeNodeId, OpcUaObject targetObject, LinkRelRuleEngine linkRelRuleEngine)
