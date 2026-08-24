@@ -11,6 +11,7 @@ namespace Azure.Iot.Operations.TDParser.Model
     {
         public const string ContextName = "@context";
         public const string TypeName = "@type";
+        public const string IdName = "id";
         public const string TitleName = TDCommon.TitleName;
         public const string DescriptionName = TDCommon.DescriptionName;
         public const string LinksName = "links";
@@ -37,6 +38,7 @@ namespace Azure.Iot.Operations.TDParser.Model
         {
             ContextName,
             TypeName,
+            IdName,
             TitleName,
             DescriptionName,
             LinksName,
@@ -63,6 +65,8 @@ namespace Azure.Iot.Operations.TDParser.Model
         public ArrayTracker<TDContextSpecifier>? Context { get; set; }
 
         public ValueTracker<StringHolder>? Type { get; set; }
+
+        public ValueTracker<StringHolder>? Id { get; set; }
 
         public ValueTracker<StringHolder>? Title { get; set; }
 
@@ -118,6 +122,7 @@ namespace Azure.Iot.Operations.TDParser.Model
             {
                 return Context == other.Context &&
                        Type == other.Type &&
+                       Id == other.Id &&
                        Title == other.Title &&
                        Description == other.Description &&
                        Links == other.Links &&
@@ -141,7 +146,7 @@ namespace Azure.Iot.Operations.TDParser.Model
 
         public override int GetHashCode()
         {
-            return (Context, Type, Title, Description, Links, SchemaDefinitions, Forms, Optional, Actions, Properties, Events, SecurityDefinitions, Security, IsComposite, IsEvent, TypeRef, Metadata, PropertyGroups, EventGroups, ActionGroups).GetHashCode();
+            return (Context, Type, Id, Title, Description, Links, SchemaDefinitions, Forms, Optional, Actions, Properties, Events, SecurityDefinitions, Security, IsComposite, IsEvent, TypeRef, Metadata, PropertyGroups, EventGroups, ActionGroups).GetHashCode();
         }
 
         public static bool operator ==(TDThing? left, TDThing? right)
@@ -200,6 +205,13 @@ namespace Azure.Iot.Operations.TDParser.Model
             if (Title != null)
             {
                 foreach (ITraversable item in Title.Traverse())
+                {
+                    yield return item;
+                }
+            }
+            if (Id != null)
+            {
+                foreach (ITraversable item in Id.Traverse())
                 {
                     yield return item;
                 }
@@ -349,6 +361,9 @@ namespace Azure.Iot.Operations.TDParser.Model
                         break;
                     case TypeName:
                         thing.Type = ValueTracker<StringHolder>.Deserialize(ref reader, TypeName);
+                        break;
+                    case IdName:
+                        thing.Id = ValueTracker<StringHolder>.Deserialize(ref reader, IdName);
                         break;
                     case TitleName:
                         thing.Title = ValueTracker<StringHolder>.Deserialize(ref reader, TitleName);
