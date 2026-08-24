@@ -266,7 +266,7 @@ impl Session {
         // CONSIDER: user properties from being supported on SessionOptions or ConnectionSettings
         let user_properties = if let Some(features) = options.aio_broker_features {
             let mut user_properties =
-                vec![("metriccategory".to_string(), "aiosdk-rust".to_string())];
+                vec![("metriccategory".to_string(), features.metric_category)];
             if features.persistence {
                 user_properties.push(("aio-persistence".to_string(), true.to_string()));
             }
