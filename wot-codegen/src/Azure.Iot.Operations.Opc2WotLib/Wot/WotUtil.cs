@@ -4,6 +4,7 @@
 namespace Azure.Iot.Operations.Opc2WotLib
 {
     using System;
+    using System.Linq;
     using System.Text.RegularExpressions;
 
     public static class WotUtil
@@ -15,14 +16,18 @@ namespace Azure.Iot.Operations.Opc2WotLib
             return $"{legalPrefix}{legalName}";
         }
 
-        public static string GetThingModelId(string modelUri, string thingName)
+        public static string GetTypeRef(string namespaceUri, string typeName)
         {
-            UriBuilder uriBuilder = new UriBuilder(modelUri)
-            {
-                Fragment = Uri.EscapeDataString(thingName),
-            };
+            Uri uri = new Uri(namespaceUri);
+            string reversedHost = string.Join('.', uri.Host.Split('.').Reverse());
+            string path = uri.AbsolutePath.Trim('/').Replace('/', '.');
+            string prefix = string.IsNullOrEmpty(path) ? reversedHost : $"{reversedHost}.{path}";
+            return $"{prefix}.{typeName}";
+        }
 
-            return uriBuilder.Uri.AbsoluteUri;
+        public static string GetThingModelId(string typeRef)
+        {
+            return $"urn:{typeRef}";
         }
 
         private static string Capitalize(string str)

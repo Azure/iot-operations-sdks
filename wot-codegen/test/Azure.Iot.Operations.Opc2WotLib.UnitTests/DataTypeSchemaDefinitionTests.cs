@@ -522,7 +522,12 @@ namespace Azure.Iot.Operations.Opc2WotLib.UnitTests
                 Assert.Equal("DataTypeOnly_OnlyEnum.TM.json", outputFile.Name);
                 using JsonDocument doc = JsonDocument.Parse(File.ReadAllText(outputFile.FullName));
                 Assert.Equal(JsonValueKind.Object, doc.RootElement.ValueKind);
+                Assert.Equal("urn:org.opcfoundation.UA.DataTypeOnly.OnlyEnum", doc.RootElement.GetProperty("id").GetString());
+                Assert.Equal("DataTypeOnly_OnlyEnum", doc.RootElement.GetProperty("title").GetString());
                 Assert.EndsWith(".OnlyEnum", doc.RootElement.GetProperty("dov:typeRef").GetString(), StringComparison.Ordinal);
+                Assert.Equal(
+                    $"urn:{doc.RootElement.GetProperty("dov:typeRef").GetString()}",
+                    doc.RootElement.GetProperty("id").GetString());
                 Assert.True(doc.RootElement.GetProperty("schemaDefinitions").TryGetProperty("OnlyEnum", out _));
             }
             finally

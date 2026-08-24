@@ -112,6 +112,22 @@ namespace Azure.Iot.Operations.Opc2WotLib.UnitTests
             </UANodeSet>
             """;
 
+        private const string DuplicateTypeNameNodeset = """
+            <?xml version="1.0" encoding="utf-8" ?>
+            <UANodeSet xmlns="http://opcfoundation.org/UA/2011/03/UANodeSet.xsd">
+              <NamespaceUris>
+                <Uri>http://opcfoundation.org/UA/DuplicateTypeName/</Uri>
+              </NamespaceUris>
+              <Models>
+                <Model ModelUri="http://opcfoundation.org/UA/DuplicateTypeName/" Version="1.0.0" />
+              </Models>
+              <Aliases>
+              </Aliases>
+              <UAObjectType NodeId="ns=1;i=1" BrowseName="ModuleType" />
+              <UAObjectType NodeId="ns=1;i=2" BrowseName="ModuleType" />
+            </UANodeSet>
+            """;
+
         [Fact]
         public void HasAddInReference_IsPreservedAsWotLink()
         {
@@ -161,7 +177,39 @@ namespace Azure.Iot.Operations.Opc2WotLib.UnitTests
 
             string href = link.GetProperty("href").GetString()!;
             Assert.True(Uri.TryCreate(href, UriKind.Absolute, out _));
-            Assert.Equal("http://opcfoundation.org/UA/ReferencedModel/#ReferencedModel_ModuleType", href);
+            Assert.Equal("urn:org.opcfoundation.UA.ReferencedModel.ModuleType", href);
+        }
+
+        [Fact]
+        public void DuplicateTypeNames_HaveMatchingUniqueIdsAndTypeRefs()
+        {
+            OpcUaGraph graph = new OpcUaGraph();
+            graph.AddNodeset(DuplicateTypeNameNodeset);
+
+            WotThingCollection collection = new WotThingCollection(
+                graph,
+                graph.GetOpcUaModelInfo("http://opcfoundation.org/UA/DuplicateTypeName/"),
+                new LinkRelRuleEngine(),
+                integrate: false,
+                inheritVars: false,
+                includeTDs: false);
+
+            using JsonDocument doc = JsonDocument.Parse(collection.TransformText());
+            JsonElement[] models = doc.RootElement.EnumerateArray()
+                .OrderBy(model => model.GetProperty("title").GetString(), StringComparer.Ordinal)
+                .Select(model => model.Clone())
+                .ToArray();
+
+            Assert.Equal(
+                new[]
+                {
+                    "org.opcfoundation.UA.DuplicateTypeName.ModuleType_1",
+                    "org.opcfoundation.UA.DuplicateTypeName.ModuleType_2",
+                },
+                models.Select(model => model.GetProperty("dov:typeRef").GetString()));
+            Assert.Equal(
+                models.Select(model => $"urn:{model.GetProperty("dov:typeRef").GetString()}"),
+                models.Select(model => model.GetProperty("id").GetString()));
         }
 
         [Fact]
@@ -209,6 +257,11 @@ namespace Azure.Iot.Operations.Opc2WotLib.UnitTests
                     .GetString()!;
 
                 Assert.True(Uri.TryCreate(moduleId, UriKind.Absolute, out _));
+                Assert.Equal("urn:org.opcfoundation.UA.ReferencedModel.ModuleType", moduleId);
+                Assert.Equal("ReferencedModel_ModuleType", moduleDocument.RootElement.GetProperty("title").GetString());
+                Assert.Equal(
+                    $"urn:{moduleDocument.RootElement.GetProperty("dov:typeRef").GetString()}",
+                    moduleId);
                 Assert.Equal(moduleId, linkHref);
             }
             finally
