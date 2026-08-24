@@ -125,6 +125,7 @@ namespace Azure.Iot.Operations.Opc2WotLib.UnitTests
               </Aliases>
               <UAObjectType NodeId="ns=1;i=1" BrowseName="ModuleType" />
               <UAObjectType NodeId="ns=1;i=2" BrowseName="ModuleType" />
+              <UAObjectType NodeId="ns=1;i=3" BrowseName="ModuleType_2" />
             </UANodeSet>
             """;
 
@@ -141,7 +142,9 @@ namespace Azure.Iot.Operations.Opc2WotLib.UnitTests
             string rel = addInLink.Value.GetProperty("rel").GetString()!;
             Assert.StartsWith("dov:", rel);
             string href = addInLink.Value.GetProperty("href").GetString()!;
-            Assert.Contains("IdentificationType", href);
+            Assert.Equal(
+                WotUtil.GetThingModelId(WotUtil.GetTypeRef(ModelUri, "IdentificationType")),
+                href);
         }
 
         [Fact]
@@ -177,7 +180,9 @@ namespace Azure.Iot.Operations.Opc2WotLib.UnitTests
 
             string href = link.GetProperty("href").GetString()!;
             Assert.True(Uri.TryCreate(href, UriKind.Absolute, out _));
-            Assert.Equal("urn:org.opcfoundation.UA.ReferencedModel.ModuleType", href);
+            Assert.Equal(
+                WotUtil.GetThingModelId(WotUtil.GetTypeRef("http://opcfoundation.org/UA/ReferencedModel/", "ModuleType")),
+                href);
         }
 
         [Fact]
@@ -200,13 +205,8 @@ namespace Azure.Iot.Operations.Opc2WotLib.UnitTests
                 .Select(model => model.Clone())
                 .ToArray();
 
-            Assert.Equal(
-                new[]
-                {
-                    "org.opcfoundation.UA.DuplicateTypeName.ModuleType_1",
-                    "org.opcfoundation.UA.DuplicateTypeName.ModuleType_2",
-                },
-                models.Select(model => model.GetProperty("dov:typeRef").GetString()));
+            Assert.Equal(3, models.Length);
+            Assert.Equal(3, models.Select(model => model.GetProperty("dov:typeRef").GetString()).Distinct().Count());
             Assert.Equal(
                 models.Select(model => $"urn:{model.GetProperty("dov:typeRef").GetString()}"),
                 models.Select(model => model.GetProperty("id").GetString()));
@@ -257,7 +257,9 @@ namespace Azure.Iot.Operations.Opc2WotLib.UnitTests
                     .GetString()!;
 
                 Assert.True(Uri.TryCreate(moduleId, UriKind.Absolute, out _));
-                Assert.Equal("urn:org.opcfoundation.UA.ReferencedModel.ModuleType", moduleId);
+                Assert.Equal(
+                    WotUtil.GetThingModelId(WotUtil.GetTypeRef("http://opcfoundation.org/UA/ReferencedModel/", "ModuleType")),
+                    moduleId);
                 Assert.Equal("ReferencedModel_ModuleType", moduleDocument.RootElement.GetProperty("title").GetString());
                 Assert.Equal(
                     $"urn:{moduleDocument.RootElement.GetProperty("dov:typeRef").GetString()}",
