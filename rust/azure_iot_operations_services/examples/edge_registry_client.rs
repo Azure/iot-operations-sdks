@@ -3,23 +3,25 @@
 
 //! Command-line client for Thing Models and Thing Descriptions in Edge Registry.
 
-use std::fs;
-use std::io::{self, Write};
-use std::path::{Path, PathBuf};
-use std::str::FromStr;
-use std::time::Duration;
+use std::{
+    fs,
+    io::{self, Write},
+    path::{Path, PathBuf},
+    str::FromStr,
+    time::Duration,
+};
 
-use azure_iot_operations_mqtt::aio::connection_settings::MqttConnectionSettingsBuilder;
-use azure_iot_operations_mqtt::session::{
-    Session, SessionErrorKind, SessionExitHandle, SessionOptionsBuilder,
+use azure_iot_operations_mqtt::{
+    aio::connection_settings::MqttConnectionSettingsBuilder,
+    session::{Session, SessionErrorKind, SessionExitHandle, SessionOptionsBuilder},
 };
 use azure_iot_operations_protocol::application::ApplicationContextBuilder;
-use azure_iot_operations_services::edge_registry::models::{
-    DeleteOptions, ThingDescriptionFormat, ThingDescriptionVersionAttributesBuilder,
-    ThingModelFormat, ThingModelVersionAttributesBuilder, VersionXId,
-};
 use azure_iot_operations_services::edge_registry::{
     self, Client, GetVersionId, GroupId, GroupSelection, Label,
+    models::{
+        DeleteOptions, ThingDescriptionFormat, ThingDescriptionVersionAttributesBuilder,
+        ThingModelFormat, ThingModelVersionAttributesBuilder, VersionXId,
+    },
 };
 use bytes::Bytes;
 use clap::{Parser, Subcommand, ValueEnum};
@@ -27,6 +29,7 @@ use env_logger::{Builder, Env};
 
 const TIMEOUT: Duration = Duration::from_secs(10);
 
+// Embedded documents make it easy to seed usable WoT data without external files.
 const DEMO_THING_MODEL_ID: &str = "sample-thermostat";
 const DEMO_THING_MODEL: &str = r#"{
   "@context": "https://www.w3.org/2022/wot/td/v1.1",
@@ -118,10 +121,6 @@ enum Command {
         /// Only list versions carrying this label, expressed as KEY=VALUE.
         #[arg(long)]
         label: Option<LabelArgument>,
-
-        /// Emit machine-readable JSON.
-        #[arg(long)]
-        json: bool,
     },
 
     /// Delete a specific document version.
@@ -187,7 +186,7 @@ impl FromStr for LabelArgument {
 #[tokio::main(flavor = "current_thread")]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
     let cli = Cli::parse();
-    let add_document = read_add_document(&cli.command)?;
+    let add_document = read_add_document_if_needed(&cli.command)?;
 
     Builder::from_env(Env::default().default_filter_or("warn"))
         .format_timestamp(None)
@@ -225,7 +224,8 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     }
 }
 
-fn read_add_document(command: &Command) -> Result<Option<Vec<u8>>, io::Error> {
+// Reads the WoT document when requested by an add command.
+fn read_add_document_if_needed(command: &Command) -> Result<Option<Vec<u8>>, io::Error> {
     let Command::Add { file, .. } = command else {
         return Ok(None);
     };
@@ -238,6 +238,7 @@ fn read_add_document(command: &Command) -> Result<Option<Vec<u8>>, io::Error> {
     })
 }
 
+// Runs the requested command and closes its Edge Registry session.
 async fn run_command(
     client: Client,
     command: Command,
@@ -249,6 +250,7 @@ async fn run_command(
     result
 }
 
+// Dispatches a parsed CLI command to its Edge Registry operation.
 async fn execute_command(
     client: &Client,
     command: Command,
@@ -272,7 +274,6 @@ async fn execute_command(
             resource_id,
             document_hash,
             label,
-            json,
         } => {
             list_documents(
                 client,
@@ -280,7 +281,6 @@ async fn execute_command(
                 resource_id,
                 document_hash,
                 label.map(|argument| argument.0),
-                json,
             )
             .await?;
         }
@@ -298,6 +298,7 @@ async fn execute_command(
     Ok(())
 }
 
+// Adds a WoT document as a new version of the selected resource.
 async fn add_document_version(
     client: &Client,
     kind: ResourceKind,
@@ -324,6 +325,7 @@ async fn add_document_version(
     Ok(())
 }
 
+// Retrieves a WoT document and writes it to the requested destination.
 async fn get_document(
     client: &Client,
     kind: ResourceKind,
@@ -362,13 +364,13 @@ async fn get_document(
     Ok(())
 }
 
+// Lists WoT document versions matching the requested filters.
 async fn list_documents(
     client: &Client,
     kind: ResourceKind,
     resource_id: Option<String>,
     document_hash: Option<String>,
     label: Option<Label>,
-    json: bool,
 ) -> Result<(), edge_registry::Error> {
     let versions = match kind {
         ResourceKind::ThingModel => {
@@ -395,48 +397,31 @@ async fn list_documents(
         }
     };
 
-    print_versions(&versions, json);
+    print_versions(&versions);
     Ok(())
 }
 
-fn print_versions(versions: &[VersionXId<u64>], json: bool) {
-    if json {
-        let value: Vec<_> = versions
-            .iter()
-            .map(|version| {
-                serde_json::json!({
-                    "groupType": version.group_type,
-                    "groupId": version.group_id,
-                    "resourceType": version.resource_type,
-                    "resourceId": version.resource_id,
-                    "versionId": version.version_id,
-                })
+// Prints listed versions in a stable, machine-readable format.
+fn print_versions(versions: &[VersionXId<u64>]) {
+    let value: Vec<_> = versions
+        .iter()
+        .map(|version| {
+            serde_json::json!({
+                "groupType": version.group_type,
+                "groupId": version.group_id,
+                "resourceType": version.resource_type,
+                "resourceId": version.resource_id,
+                "versionId": version.version_id,
             })
-            .collect();
-        println!(
-            "{}",
-            serde_json::to_string_pretty(&value).expect("JSON values are serializable")
-        );
-        return;
-    }
-
-    if versions.is_empty() {
-        println!("No versions found.");
-        return;
-    }
-
+        })
+        .collect();
     println!(
-        "{:<24} {:<24} {:<30} {:>10}",
-        "GROUP TYPE", "GROUP ID", "RESOURCE ID", "VERSION"
+        "{}",
+        serde_json::to_string_pretty(&value).expect("JSON values are serializable")
     );
-    for version in versions {
-        println!(
-            "{:<24} {:<24} {:<30} {:>10}",
-            version.group_type, version.group_id, version.resource_id, version.version_id
-        );
-    }
 }
 
+// Deletes a specific version of the selected WoT resource.
 async fn delete_document(
     client: &Client,
     kind: ResourceKind,
@@ -479,12 +464,14 @@ async fn delete_document(
     Ok(())
 }
 
+// Seeds one Thing Model and one Thing Description for immediate experimentation.
 async fn seed_demo(client: &Client) -> Result<(), edge_registry::Error> {
     seed_thing_model(client).await?;
     seed_thing_description(client).await?;
     Ok(())
 }
 
+// Seeds the built-in Thing Model unless an identical version already exists.
 async fn seed_thing_model(client: &Client) -> Result<(), edge_registry::Error> {
     let document = DEMO_THING_MODEL.as_bytes();
     let versions = client
@@ -524,6 +511,7 @@ async fn seed_thing_model(client: &Client) -> Result<(), edge_registry::Error> {
     Ok(())
 }
 
+// Seeds the built-in Thing Description unless an identical version already exists.
 async fn seed_thing_description(client: &Client) -> Result<(), edge_registry::Error> {
     let document = DEMO_THING_DESCRIPTION.as_bytes();
     let versions = client
@@ -567,6 +555,7 @@ async fn seed_thing_description(client: &Client) -> Result<(), edge_registry::Er
     Ok(())
 }
 
+// Creates a Thing Model version from raw WoT document bytes.
 async fn create_thing_model(
     client: &Client,
     resource_id: String,
@@ -591,6 +580,7 @@ async fn create_thing_model(
         .await
 }
 
+// Creates a Thing Description version from raw WoT document bytes.
 async fn create_thing_description(
     client: &Client,
     resource_id: String,
@@ -615,6 +605,7 @@ async fn create_thing_description(
         .await
 }
 
+// Requests graceful shutdown and forces shutdown when the server is unavailable.
 fn exit_session(exit_handle: &SessionExitHandle) {
     if let Err(error) = exit_handle.try_exit() {
         log::warn!("Graceful session exit failed: {error}; forcing session exit");
@@ -668,7 +659,7 @@ mod tests {
             file: PathBuf::from("does-not-exist.json"),
         };
 
-        let error = read_add_document(&command).expect_err("missing file should fail");
+        let error = read_add_document_if_needed(&command).expect_err("missing file should fail");
         assert!(error.to_string().contains("does-not-exist.json"));
     }
 
