@@ -260,20 +260,20 @@ impl<'a> ResponseParser<'a> {
     }
 
     fn read_length(&mut self, prefix: u8) -> Result<usize, String> {
-        if self.payload.get(self.index) != Some(&prefix) {
-            return Err(format!(
-                "Expected RESP3 prefix {:?} at byte {}: {:?}",
-                char::from(prefix),
-                self.index,
-                self.payload
-            ));
-        }
-        self.index += 1;
-
         let remaining = self
             .payload
             .get(self.index..)
-            .ok_or_else(|| format!("Invalid RESP3 payload: {:?}", self.payload))?;
+            .and_then(|remaining| remaining.strip_prefix(&[prefix]))
+            .ok_or_else(|| {
+                format!(
+                    "Expected RESP3 prefix {:?} at byte {}: {:?}",
+                    char::from(prefix),
+                    self.index,
+                    self.payload
+                )
+            })?;
+        self.index += 1;
+
         let (length, digits) = get_numeric(remaining)?;
         if digits == 0 {
             return Err(format!("Missing RESP3 length: {:?}", self.payload));
@@ -323,39 +323,6 @@ impl<'a> ResponseParser<'a> {
     }
 }
 
-fn parse_scan(payload: &[u8]) -> Result<Response, String> {
-    let mut parser = ResponseParser::new(payload);
-    let response_length = parser.read_length(b'*')?;
-    if !(1..=2).contains(&response_length) {
-        return Err(format!(
-            "SCAN response must contain one or two elements: {payload:?}"
-        ));
-    }
-
-    let key_count = parser.read_length(b'*')?;
-    let mut keys = Vec::new();
-    for _ in 0..key_count {
-        keys.push(parser.read_bulk_string()?);
-    }
-
-    let continuation_token = if response_length == 2 {
-        Some(parser.read_bulk_string()?)
-    } else {
-        None
-    };
-
-    if !parser.is_complete() {
-        return Err(format!(
-            "Unexpected trailing bytes in SCAN response: {payload:?}"
-        ));
-    }
-
-    Ok(Response::KeysScanned {
-        keys,
-        continuation_token,
-    })
-}
-
 #[derive(Clone, Debug, PartialEq)]
 pub(crate) enum Response {
     /// Successful `Set` response
@@ -387,6 +354,40 @@ impl Response {
     const RESPONSE_KEY_NOT_FOUND: &'static [u8] = b":0\r\n";
     const RESPONSE_LENGTH_PREFIX: &'static [u8] = b"$";
     const DELETE_RESPONSE_PREFIX: &'static [u8] = b":";
+    const SCAN_RESPONSE_PREFIX: u8 = b'*';
+
+    fn parse_scan(payload: &[u8]) -> Result<Response, String> {
+        let mut parser = ResponseParser::new(payload);
+        let response_length = parser.read_length(Self::SCAN_RESPONSE_PREFIX)?;
+        if !(1..=2).contains(&response_length) {
+            return Err(format!(
+                "SCAN response must contain one or two elements: {payload:?}"
+            ));
+        }
+
+        let key_count = parser.read_length(Self::SCAN_RESPONSE_PREFIX)?;
+        let mut keys = Vec::new();
+        for _ in 0..key_count {
+            keys.push(parser.read_bulk_string()?);
+        }
+
+        let continuation_token = if response_length == 2 {
+            Some(parser.read_bulk_string()?)
+        } else {
+            None
+        };
+
+        if !parser.is_complete() {
+            return Err(format!(
+                "Unexpected trailing bytes in SCAN response: {payload:?}"
+            ));
+        }
+
+        Ok(Response::KeysScanned {
+            keys,
+            continuation_token,
+        })
+    }
 
     fn parse_error(payload: &[u8]) -> Result<Vec<u8>, String> {
         if let Some(err) = payload.strip_prefix(Self::RESPONSE_ERROR_PREFIX)
@@ -428,7 +429,9 @@ impl PayloadSerialize for Response {
             _ if payload.starts_with(Self::RESPONSE_LENGTH_PREFIX) => Ok(Response::Value(
                 parse_value(payload, Self::RESPONSE_LENGTH_PREFIX)?,
             )),
-            _ if payload.starts_with(b"*") => Ok(parse_scan(payload)?),
+            _ if payload.starts_with(&[Self::SCAN_RESPONSE_PREFIX]) => {
+                Ok(Self::parse_scan(payload)?)
+            }
             _ if payload.starts_with(Self::DELETE_RESPONSE_PREFIX) => {
                 match parse_numeric(payload, Self::DELETE_RESPONSE_PREFIX)?.try_into() {
                     Ok(n) => Ok(Response::ValuesDeleted(n)),
@@ -651,6 +654,22 @@ mod tests {
             Response::KeysScanned {
                 keys: vec![b"key1".to_vec(), b"key2".to_vec()],
                 continuation_token: None,
+            }
+        );
+    }
+
+    #[test]
+    fn test_scan_response_page_with_continuation_token() {
+        assert_eq!(
+            Response::deserialize(
+                b"*2\r\n*2\r\n$4\r\nkey1\r\n$4\r\nkey2\r\n$4\r\n1;1;\r\n",
+                Some(&"application/octet-stream".to_string()),
+                &FormatIndicator::UnspecifiedBytes,
+            )
+            .unwrap(),
+            Response::KeysScanned {
+                keys: vec![b"key1".to_vec(), b"key2".to_vec()],
+                continuation_token: Some(b"1;1;".to_vec()),
             }
         );
     }

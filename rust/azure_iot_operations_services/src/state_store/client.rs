@@ -80,7 +80,7 @@ impl FilterKeysPager<'_> {
     ///
     /// # Errors
     /// [`struct@Error`] of kind [`InvalidArgument`](ErrorKind::InvalidArgument) if the `timeout`
-    /// the pager was created with is zero or > `u32::max`
+    /// that the pager was created with is zero or > `u32::MAX`
     ///
     /// [`struct@Error`] of kind [`ServiceError`](ErrorKind::ServiceError) if the State Store returns an Error response
     ///
