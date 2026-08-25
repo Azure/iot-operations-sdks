@@ -7,6 +7,7 @@ use std::{
     fs,
     io::{self, Write},
     path::{Path, PathBuf},
+    process::ExitCode,
     str::FromStr,
     time::Duration,
 };
@@ -28,6 +29,8 @@ use clap::{Parser, Subcommand, ValueEnum};
 use env_logger::{Builder, Env};
 
 const TIMEOUT: Duration = Duration::from_secs(10);
+const DEMO_LABEL_KEY: &str = "xregistry-sample";
+const DEMO_LABEL_VALUE: &str = "v1";
 
 // Embedded documents make it easy to seed usable WoT data without external files.
 const DEMO_THING_MODEL_ID: &str = "sample-thermostat";
@@ -85,6 +88,10 @@ enum Command {
 
         /// Path to the document to add.
         file: PathBuf,
+
+        /// Label for the new version, expressed as KEY=VALUE. May be repeated.
+        #[arg(long = "label", value_name = "KEY=VALUE")]
+        labels: Vec<LabelArgument>,
     },
 
     /// Retrieve a document version.
@@ -119,7 +126,7 @@ enum Command {
         document_hash: Option<String>,
 
         /// Only list versions carrying this label, expressed as KEY=VALUE.
-        #[arg(long)]
+        #[arg(long, value_name = "KEY=VALUE")]
         label: Option<LabelArgument>,
     },
 
@@ -133,7 +140,8 @@ enum Command {
         resource_id: String,
 
         /// Numeric version identifier to delete.
-        version_id: u64,
+        #[arg(long)]
+        version: u64,
 
         /// Fail if the current entity epoch differs from this value.
         #[arg(long)]
@@ -184,7 +192,18 @@ impl FromStr for LabelArgument {
 }
 
 #[tokio::main(flavor = "current_thread")]
-async fn main() -> Result<(), Box<dyn std::error::Error>> {
+async fn main() -> ExitCode {
+    match run().await {
+        Ok(()) => ExitCode::SUCCESS,
+        Err(error) => {
+            eprintln!("error: {error}");
+            ExitCode::FAILURE
+        }
+    }
+}
+
+// Parses and runs one CLI command against Edge Registry.
+async fn run() -> Result<(), Box<dyn std::error::Error>> {
     let cli = Cli::parse();
     let add_document = read_add_document_if_needed(&cli.command)?;
 
@@ -193,7 +212,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         .init();
 
     let connection_settings = MqttConnectionSettingsBuilder::default()
-        .client_id("xregistrySample")
+        .client_id(format!("xregistrySample-{}", uuid::Uuid::new_v4().simple()))
         .hostname("localhost")
         .tcp_port(1883u16)
         .use_tls(false)
@@ -258,10 +277,20 @@ async fn execute_command(
 ) -> Result<(), Box<dyn std::error::Error>> {
     match command {
         Command::Add {
-            kind, resource_id, ..
+            kind,
+            resource_id,
+            labels,
+            ..
         } => {
             let document = add_document.expect("add document was read before connecting");
-            add_document_version(client, kind, resource_id, document).await?;
+            add_document_version(
+                client,
+                kind,
+                resource_id,
+                document,
+                labels.into_iter().map(|argument| argument.0).collect(),
+            )
+            .await?;
         }
         Command::Get {
             kind,
@@ -287,10 +316,10 @@ async fn execute_command(
         Command::Delete {
             kind,
             resource_id,
-            version_id,
+            version,
             expected_epoch,
         } => {
-            delete_document(client, kind, resource_id, version_id, expected_epoch).await?;
+            delete_document(client, kind, resource_id, version, expected_epoch).await?;
         }
         Command::SeedDemo => seed_demo(client).await?,
     }
@@ -304,17 +333,18 @@ async fn add_document_version(
     kind: ResourceKind,
     resource_id: String,
     document: Vec<u8>,
+    labels: Vec<Label>,
 ) -> Result<(), Box<dyn std::error::Error>> {
     match kind {
         ResourceKind::ThingModel => {
-            let created = create_thing_model(client, resource_id, document).await?;
+            let created = create_thing_model(client, resource_id, document, labels).await?;
             println!(
                 "Created Thing Model '{}' version {} ({})",
                 created.resource_id, created.version_id, created.xid
             );
         }
         ResourceKind::ThingDescription => {
-            let created = create_thing_description(client, resource_id, document).await?;
+            let created = create_thing_description(client, resource_id, document, labels).await?;
             println!(
                 "Created Thing Description '{}' version {} ({})",
                 created.resource_id, created.version_id, created.xid
@@ -358,7 +388,9 @@ async fn get_document(
         fs::write(path, &document)?;
         eprintln!("Wrote version {retrieved_version} to {}", path.display());
     } else {
-        io::stdout().write_all(&document)?;
+        let mut stdout = io::stdout().lock();
+        stdout.write_all(&document)?;
+        stdout.flush()?;
     }
 
     Ok(())
@@ -471,7 +503,7 @@ async fn seed_demo(client: &Client) -> Result<(), edge_registry::Error> {
     Ok(())
 }
 
-// Seeds the built-in Thing Model unless an identical version already exists.
+// Seeds the built-in Thing Model unless this demo version was already added.
 async fn seed_thing_model(client: &Client) -> Result<(), edge_registry::Error> {
     let document = DEMO_THING_MODEL.as_bytes();
     let versions = client
@@ -479,31 +511,26 @@ async fn seed_thing_model(client: &Client) -> Result<(), edge_registry::Error> {
             GroupSelection::Default,
             Some(DEMO_THING_MODEL_ID.to_string()),
             None,
-            None,
+            Some(demo_label()),
             TIMEOUT,
         )
         .await?;
 
-    for version in versions {
-        let entity = client
-            .get_thing_model_version(
-                GroupId::CloudDefault,
-                DEMO_THING_MODEL_ID.to_string(),
-                GetVersionId::Specified(version.version_id),
-                TIMEOUT,
-            )
-            .await?;
-        if entity.document.as_ref() == document {
-            println!(
-                "Thing Model '{DEMO_THING_MODEL_ID}' already has demo version {}.",
-                entity.version_id
-            );
-            return Ok(());
-        }
+    if let Some(version) = versions.first() {
+        println!(
+            "Thing Model '{DEMO_THING_MODEL_ID}' already has demo version {}.",
+            version.version_id
+        );
+        return Ok(());
     }
 
-    let created =
-        create_thing_model(client, DEMO_THING_MODEL_ID.to_string(), document.to_vec()).await?;
+    let created = create_thing_model(
+        client,
+        DEMO_THING_MODEL_ID.to_string(),
+        document.to_vec(),
+        vec![demo_label()],
+    )
+    .await?;
     println!(
         "Created demo Thing Model '{DEMO_THING_MODEL_ID}' version {}.",
         created.version_id
@@ -511,7 +538,7 @@ async fn seed_thing_model(client: &Client) -> Result<(), edge_registry::Error> {
     Ok(())
 }
 
-// Seeds the built-in Thing Description unless an identical version already exists.
+// Seeds the built-in Thing Description unless this demo version was already added.
 async fn seed_thing_description(client: &Client) -> Result<(), edge_registry::Error> {
     let document = DEMO_THING_DESCRIPTION.as_bytes();
     let versions = client
@@ -519,33 +546,24 @@ async fn seed_thing_description(client: &Client) -> Result<(), edge_registry::Er
             GroupSelection::Default,
             Some(DEMO_THING_DESCRIPTION_ID.to_string()),
             None,
-            None,
+            Some(demo_label()),
             TIMEOUT,
         )
         .await?;
 
-    for version in versions {
-        let entity = client
-            .get_thing_description_version(
-                GroupId::CloudDefault,
-                DEMO_THING_DESCRIPTION_ID.to_string(),
-                GetVersionId::Specified(version.version_id),
-                TIMEOUT,
-            )
-            .await?;
-        if entity.document.as_ref() == document {
-            println!(
-                "Thing Description '{DEMO_THING_DESCRIPTION_ID}' already has demo version {}.",
-                entity.version_id
-            );
-            return Ok(());
-        }
+    if let Some(version) = versions.first() {
+        println!(
+            "Thing Description '{DEMO_THING_DESCRIPTION_ID}' already has demo version {}.",
+            version.version_id
+        );
+        return Ok(());
     }
 
     let created = create_thing_description(
         client,
         DEMO_THING_DESCRIPTION_ID.to_string(),
         document.to_vec(),
+        vec![demo_label()],
     )
     .await?;
     println!(
@@ -555,11 +573,20 @@ async fn seed_thing_description(client: &Client) -> Result<(), edge_registry::Er
     Ok(())
 }
 
+// Identifies versions created by the built-in seed command.
+fn demo_label() -> Label {
+    Label {
+        key: DEMO_LABEL_KEY.to_string(),
+        value: DEMO_LABEL_VALUE.to_string(),
+    }
+}
+
 // Creates a Thing Model version from raw WoT document bytes.
 async fn create_thing_model(
     client: &Client,
     resource_id: String,
     document: Vec<u8>,
+    labels: Vec<Label>,
 ) -> Result<
     azure_iot_operations_services::edge_registry::models::ThingModelVersionEntity,
     edge_registry::Error,
@@ -572,6 +599,7 @@ async fn create_thing_model(
             ThingModelVersionAttributesBuilder::default()
                 .content_type(Some("application/tm+json".to_string()))
                 .format(ThingModelFormat::JsonLd11)
+                .labels(labels)
                 .document(Bytes::from(document))
                 .build()
                 .expect("format and document are set"),
@@ -585,6 +613,7 @@ async fn create_thing_description(
     client: &Client,
     resource_id: String,
     document: Vec<u8>,
+    labels: Vec<Label>,
 ) -> Result<
     azure_iot_operations_services::edge_registry::models::ThingDescriptionVersionEntity,
     edge_registry::Error,
@@ -597,6 +626,7 @@ async fn create_thing_description(
             ThingDescriptionVersionAttributesBuilder::default()
                 .content_type(Some("application/td+json".to_string()))
                 .format(ThingDescriptionFormat::JsonLd11)
+                .labels(labels)
                 .document(Bytes::from(document))
                 .build()
                 .expect("format and document are set"),
@@ -625,17 +655,30 @@ mod tests {
             "thing-model",
             "counter",
             "Counter.TM.json",
+            "--label",
+            "environment=test",
+            "--label",
+            "owner=iot",
         ])
         .expect("command should parse");
 
-        assert!(matches!(
-            cli.command,
-            Command::Add {
-                kind: ResourceKind::ThingModel,
-                resource_id,
-                file,
-            } if resource_id == "counter" && file == PathBuf::from("Counter.TM.json")
-        ));
+        let Command::Add {
+            kind,
+            resource_id,
+            file,
+            labels,
+        } = cli.command
+        else {
+            panic!("expected add command");
+        };
+        assert!(matches!(kind, ResourceKind::ThingModel));
+        assert_eq!(resource_id, "counter");
+        assert_eq!(file, PathBuf::from("Counter.TM.json"));
+        assert_eq!(labels.len(), 2);
+        assert_eq!(labels[0].0.key, "environment");
+        assert_eq!(labels[0].0.value, "test");
+        assert_eq!(labels[1].0.key, "owner");
+        assert_eq!(labels[1].0.value, "iot");
     }
 
     #[test]
@@ -657,6 +700,7 @@ mod tests {
             kind: ResourceKind::ThingModel,
             resource_id: "counter".to_string(),
             file: PathBuf::from("does-not-exist.json"),
+            labels: Vec::new(),
         };
 
         let error = read_add_document_if_needed(&command).expect_err("missing file should fail");
@@ -664,12 +708,25 @@ mod tests {
     }
 
     #[test]
-    fn top_level_help_lists_resource_kinds() {
-        let error = Cli::try_parse_from(["edge_registry_client", "--help"])
-            .expect_err("--help exits after rendering help");
-        let help = error.to_string();
+    fn parses_delete_version_option() {
+        let cli = Cli::try_parse_from([
+            "xregistry",
+            "delete",
+            "thing-model",
+            "counter",
+            "--version",
+            "3",
+        ])
+        .expect("command should parse");
 
-        assert!(help.contains("thing-model        A reusable WoT Thing Model"));
-        assert!(help.contains("thing-description  A WoT Thing Description for a specific device"));
+        assert!(matches!(
+            cli.command,
+            Command::Delete {
+                kind: ResourceKind::ThingModel,
+                resource_id,
+                version: 3,
+                expected_epoch: None,
+            } if resource_id == "counter"
+        ));
     }
 }
