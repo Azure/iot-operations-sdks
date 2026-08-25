@@ -28,7 +28,7 @@ namespace Azure.Iot.Operations.Opc2WotLib
         {
             this.dataSchema = variableTypeSchemaName != null
                 ? new WotDataSchemaReference(variableTypeSchemaName)
-                : WotDataSchema.Create(uaVariable.EffectiveDataType, uaVariable.EffectiveValueRank, uaVariable.EffectiveDataTypeSource, uaVariable.Description, Enumerable.Empty<OpcUaNodeId>(), uaVariable.CustomVariableType);
+                : WotDataSchema.Create(uaVariable.EffectiveDataType, uaVariable.EffectiveValueRank, uaVariable.EffectiveDataTypeSource, uaVariable.Description, Enumerable.Empty<OpcUaNodeId>(), uaVariable.SchemaTypeReference);
             this.browseNamespace = uaVariable.BrowseNamespace;
             this.isPlaceholder = uaVariable.IsPlaceholder;
             this.specName = specName;

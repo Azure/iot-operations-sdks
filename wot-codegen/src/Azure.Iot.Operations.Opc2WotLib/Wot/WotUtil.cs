@@ -3,6 +3,7 @@
 
 namespace Azure.Iot.Operations.Opc2WotLib
 {
+    using System;
     using System.Text.RegularExpressions;
 
     public static class WotUtil
@@ -12,6 +13,16 @@ namespace Azure.Iot.Operations.Opc2WotLib
             string legalPrefix = prefix == string.Empty ? string.Empty : Capitalize(Regex.Replace($"{prefix}_", "[^a-zA-Z0-9]+", "_", RegexOptions.CultureInvariant));
             string legalName = Capitalize(Regex.Replace(name, "[^a-zA-Z0-9]+", "_", RegexOptions.CultureInvariant));
             return $"{legalPrefix}{legalName}";
+        }
+
+        public static string GetThingModelId(string modelUri, string thingName)
+        {
+            UriBuilder uriBuilder = new UriBuilder(modelUri)
+            {
+                Fragment = Uri.EscapeDataString(thingName),
+            };
+
+            return uriBuilder.Uri.AbsoluteUri;
         }
 
         private static string Capitalize(string str)

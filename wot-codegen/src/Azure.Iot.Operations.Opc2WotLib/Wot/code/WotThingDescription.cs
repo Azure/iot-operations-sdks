@@ -43,10 +43,13 @@ namespace Azure.Iot.Operations.Opc2WotLib
             this.areUnitsInUse = unitfulPropertyNames.Any();
         }
 
+        public string FileName => $"{this.thingName}.TD.json";
+
         private string GetModelRef(OpcUaObject sourceObject, OpcUaObjectType targetObjectType)
         {
             string targetSpecName = SpecMapper.GetSpecNameFromUri(targetObjectType.DefiningModel.ModelUri);
-            return $"#title={WotUtil.LegalizeName(targetObjectType.DiscriminatedEffectiveName, targetSpecName)}";
+            string targetThingName = WotUtil.LegalizeName(targetObjectType.DiscriminatedEffectiveName, targetSpecName);
+            return WotUtil.GetThingModelId(targetObjectType.DefiningModel.ModelUri, targetThingName);
         }
     }
 }
