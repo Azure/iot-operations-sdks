@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-//! Command-line client for Thing Models and Thing Descriptions in Edge Registry.
+//! Command-line client for Schemas, Thing Models, and Thing Descriptions in Edge Registry.
 
 use std::{
     fs,
@@ -20,8 +20,9 @@ use azure_iot_operations_protocol::application::ApplicationContextBuilder;
 use azure_iot_operations_services::edge_registry::{
     self, Client, GetVersionId, GroupId, GroupSelection, Label,
     models::{
-        DeleteOptions, ThingDescriptionFormat, ThingDescriptionVersionAttributesBuilder,
-        ThingModelFormat, ThingModelVersionAttributesBuilder, VersionXId,
+        DeleteOptions, SchemaFormat, SchemaVersionAttributesBuilder, ThingDescriptionFormat,
+        ThingDescriptionVersionAttributesBuilder, ThingModelFormat,
+        ThingModelVersionAttributesBuilder, VersionXId,
     },
 };
 use bytes::Bytes;
@@ -66,8 +67,8 @@ const DEMO_THING_DESCRIPTION: &str = r#"{
 #[derive(Debug, Parser)]
 #[command(
     version,
-    about = "Manage WoT documents in Azure IoT Operations Edge Registry",
-    after_help = "Resource kinds:\n  thing-model        A reusable WoT Thing Model\n  thing-description  A WoT Thing Description for a specific device",
+    about = "Manage documents in Azure IoT Operations Edge Registry",
+    after_help = "Resource kinds:\n  schema             A JSON Schema Draft-07 document\n  thing-model        A reusable WoT Thing Model\n  thing-description  A WoT Thing Description for a specific device",
     arg_required_else_help = true
 )]
 struct Cli {
@@ -79,7 +80,7 @@ struct Cli {
 enum Command {
     /// Add a new document version, creating the resource if necessary.
     Add {
-        /// Kind of `WoT` document to add.
+        /// Kind of document to add.
         #[arg(value_enum)]
         kind: ResourceKind,
 
@@ -96,7 +97,7 @@ enum Command {
 
     /// Retrieve a document version.
     Get {
-        /// Kind of `WoT` document to retrieve.
+        /// Kind of document to retrieve.
         #[arg(value_enum)]
         kind: ResourceKind,
 
@@ -114,7 +115,7 @@ enum Command {
 
     /// List document versions.
     List {
-        /// Kind of `WoT` document to list.
+        /// Kind of document to list.
         #[arg(value_enum)]
         kind: ResourceKind,
 
@@ -132,7 +133,7 @@ enum Command {
 
     /// Delete a specific document version.
     Delete {
-        /// Kind of `WoT` document to delete.
+        /// Kind of document to delete.
         #[arg(value_enum)]
         kind: ResourceKind,
 
@@ -154,6 +155,9 @@ enum Command {
 
 #[derive(Clone, Copy, Debug, ValueEnum)]
 enum ResourceKind {
+    #[value(name = "schema")]
+    Schema,
+
     #[value(name = "thing-model", alias = "model", alias = "tm")]
     ThingModel,
 
@@ -164,6 +168,7 @@ enum ResourceKind {
 impl ResourceKind {
     const fn name(self) -> &'static str {
         match self {
+            Self::Schema => "schema",
             Self::ThingModel => "thing-model",
             Self::ThingDescription => "thing-description",
         }
@@ -243,7 +248,7 @@ async fn run() -> Result<(), Box<dyn std::error::Error>> {
     }
 }
 
-// Reads the WoT document when requested by an add command.
+// Reads the document when requested by an add command.
 fn read_add_document_if_needed(command: &Command) -> Result<Option<Vec<u8>>, io::Error> {
     let Command::Add { file, .. } = command else {
         return Ok(None);
@@ -327,7 +332,7 @@ async fn execute_command(
     Ok(())
 }
 
-// Adds a WoT document as a new version of the selected resource.
+// Adds a document as a new version of the selected resource.
 async fn add_document_version(
     client: &Client,
     kind: ResourceKind,
@@ -336,6 +341,13 @@ async fn add_document_version(
     labels: Vec<Label>,
 ) -> Result<(), Box<dyn std::error::Error>> {
     match kind {
+        ResourceKind::Schema => {
+            let created = create_schema(client, resource_id, document, labels).await?;
+            println!(
+                "Created Schema '{}' version {} ({})",
+                created.resource_id, created.version_id, created.xid
+            );
+        }
         ResourceKind::ThingModel => {
             let created = create_thing_model(client, resource_id, document, labels).await?;
             println!(
@@ -355,7 +367,7 @@ async fn add_document_version(
     Ok(())
 }
 
-// Retrieves a WoT document and writes it to the requested destination.
+// Retrieves a document and writes it to the requested destination.
 async fn get_document(
     client: &Client,
     kind: ResourceKind,
@@ -365,6 +377,12 @@ async fn get_document(
 ) -> Result<(), Box<dyn std::error::Error>> {
     let version_id = version.map_or(GetVersionId::ResourceDefault, GetVersionId::Specified);
     let (document, retrieved_version) = match kind {
+        ResourceKind::Schema => {
+            let entity = client
+                .get_schema_version(GroupId::CloudDefault, resource_id, version_id, TIMEOUT)
+                .await?;
+            (entity.document, entity.version_id)
+        }
         ResourceKind::ThingModel => {
             let entity = client
                 .get_thing_model_version(GroupId::CloudDefault, resource_id, version_id, TIMEOUT)
@@ -396,7 +414,7 @@ async fn get_document(
     Ok(())
 }
 
-// Lists WoT document versions matching the requested filters.
+// Lists document versions matching the requested filters.
 async fn list_documents(
     client: &Client,
     kind: ResourceKind,
@@ -405,6 +423,17 @@ async fn list_documents(
     label: Option<Label>,
 ) -> Result<(), edge_registry::Error> {
     let versions = match kind {
+        ResourceKind::Schema => {
+            client
+                .list_schema_versions(
+                    GroupSelection::Default,
+                    resource_id,
+                    document_hash,
+                    label,
+                    TIMEOUT,
+                )
+                .await?
+        }
         ResourceKind::ThingModel => {
             client
                 .list_thing_model_versions(
@@ -464,6 +493,17 @@ async fn delete_document(
     let options = DeleteOptions { expected_epoch };
     let deleted_resource_id = resource_id.clone();
     match kind {
+        ResourceKind::Schema => {
+            client
+                .delete_schema_version(
+                    GroupId::CloudDefault,
+                    resource_id,
+                    version_id,
+                    options,
+                    TIMEOUT,
+                )
+                .await?;
+        }
         ResourceKind::ThingModel => {
             client
                 .delete_thing_model_version(
@@ -581,6 +621,33 @@ fn demo_label() -> Label {
     }
 }
 
+// Creates a JSON Schema Draft-07 version from raw document bytes.
+async fn create_schema(
+    client: &Client,
+    resource_id: String,
+    document: Vec<u8>,
+    labels: Vec<Label>,
+) -> Result<
+    azure_iot_operations_services::edge_registry::models::SchemaVersionEntity,
+    edge_registry::Error,
+> {
+    client
+        .create_schema_version(
+            GroupId::CloudDefault,
+            resource_id,
+            Vec::new(),
+            SchemaVersionAttributesBuilder::default()
+                .content_type(Some("application/schema+json".to_string()))
+                .format(SchemaFormat::JsonSchemaDraft07)
+                .labels(labels)
+                .document(Bytes::from(document))
+                .build()
+                .expect("format and document are set"),
+            TIMEOUT,
+        )
+        .await
+}
+
 // Creates a Thing Model version from raw WoT document bytes.
 async fn create_thing_model(
     client: &Client,
@@ -679,6 +746,30 @@ mod tests {
         assert_eq!(labels[0].0.value, "test");
         assert_eq!(labels[1].0.key, "owner");
         assert_eq!(labels[1].0.value, "iot");
+    }
+
+    #[test]
+    fn parses_schema_command() {
+        let cli = Cli::try_parse_from([
+            "xregistry",
+            "add",
+            "schema",
+            "temperature-event",
+            "temperature.schema.json",
+        ])
+        .expect("command should parse");
+
+        assert!(matches!(
+            cli.command,
+            Command::Add {
+                kind: ResourceKind::Schema,
+                resource_id,
+                file,
+                labels,
+            } if resource_id == "temperature-event"
+                && file == PathBuf::from("temperature.schema.json")
+                && labels.is_empty()
+        ));
     }
 
     #[test]
