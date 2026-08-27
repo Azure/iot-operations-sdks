@@ -624,6 +624,7 @@ public class StreamingPocTests(ITestOutputHelper output)
     private const int OpenUsdArtefactSizeBytes = 256 * 1024;
     private const int OpenUsdChunkSizeBytes = 8 * 1024;
     private const int OpenUsdRandomSeed = 20240516;
+    private const int OpenUsdLogCharacterLimit = 256;
 
     [Fact]
     public async Task OpenUsdArtefactDownload()
@@ -636,13 +637,13 @@ public class StreamingPocTests(ITestOutputHelper output)
         await using OpenUsdExecutor executor = new(appContext, executorClient)
         {
             OnStreamingCommandReceived = OpenUsdHandler,
-            Log = Log,
+            Log = LogOpenUsd,
         };
         await executor.StartAsync();
 
         await using OpenUsdInvoker invoker = new(appContext, invokerClient)
         {
-            Log = Log,
+            Log = LogOpenUsd,
         };
 
         byte[] expectedArtefact = GenerateOpenUsdArtefact();
@@ -667,6 +668,11 @@ public class StreamingPocTests(ITestOutputHelper output)
         // reconstruct the artefact, with no application-level chunk-numbering scheme required.
         Assert.Equal(expectedArtefact, reconstructedArtefact);
     }
+
+    private void LogOpenUsd(string message) =>
+        Log(message.Length <= OpenUsdLogCharacterLimit
+            ? message
+            : $"{message[..(OpenUsdLogCharacterLimit - 3)]}...");
 
     private (IAsyncEnumerable<StreamingExtendedResponse<string>> Responses, ResponseStreamMetadata Metadata) OpenUsdHandler(
         IStreamContext<ReceivedStreamingExtendedRequest<string>> requests,
