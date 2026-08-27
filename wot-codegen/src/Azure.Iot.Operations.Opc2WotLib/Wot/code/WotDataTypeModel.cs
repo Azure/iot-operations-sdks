@@ -22,7 +22,7 @@ namespace Azure.Iot.Operations.Opc2WotLib
             this.modelUri = modelUri;
             this.specName = specName;
             this.thingName = WotUtil.LegalizeName("DataTypes", specName);
-            this.id = WotUtil.GetThingModelId(modelUri, this.thingName);
+            this.id = WotUtil.GetThingModelId(WotUtil.GetTypeRef(modelUri, "DataTypes"));
             this.typeRef = null;
 
             List<OpcUaDataType> includedDataTypes = dataTypes
@@ -40,7 +40,7 @@ namespace Azure.Iot.Operations.Opc2WotLib
             this.modelUri = modelUri;
             this.specName = specName;
             this.thingName = WotUtil.LegalizeName("VariableTypes", specName);
-            this.id = WotUtil.GetThingModelId(modelUri, this.thingName);
+            this.id = WotUtil.GetThingModelId(WotUtil.GetTypeRef(modelUri, "VariableTypes"));
             this.typeRef = null;
 
             Dictionary<OpcUaVariableType, string> schemaNames = WotVariableTypeSchema.GetSchemaNames(
@@ -76,8 +76,8 @@ namespace Azure.Iot.Operations.Opc2WotLib
             this.modelUri = modelUri;
             this.specName = string.Empty;
             this.thingName = thingName;
-            this.id = WotUtil.GetThingModelId(modelUri, thingName);
             this.typeRef = typeRef;
+            this.id = WotUtil.GetThingModelId(this.typeRef);
             this.schemaDefinitions = schemaDefinitions;
             this.schemaTypeRefs = new Dictionary<string, string>(StringComparer.Ordinal);
         }

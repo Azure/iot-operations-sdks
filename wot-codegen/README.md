@@ -1,6 +1,6 @@
 # OPC UA NodeSet converter
 
-The `Azure.Iot.Operations.Opc2Wot` tool converts OPC UA NodeSet files into standalone W3C WoT Thing Model documents. Each model is written to `<ShortOpcUaName>_<Type>.TM.json`, links between models use the target model's absolute `id`, and protocol-specific `forms` are omitted from Thing Models. The repository provides PowerShell and Bash wrappers for regenerating the OPC UA companion models maintained in the sibling [Azure/smd](https://github.com/Azure/smd) repository.
+The `Azure.Iot.Operations.Opc2Wot` tool converts OPC UA NodeSet files into standalone W3C WoT Thing Model documents. Each model is written to `<ShortOpcUaName>_<Type>.TM.json`, while its absolute `id` is the `dov:typeRef` prefixed with `urn:` (for example, `urn:org.opcfoundation.UA.MTConnect.v2.OptionalStopSubClassType`). Links between models use the target model's absolute `id`, and protocol-specific `forms` are omitted from Thing Models. The repository provides PowerShell and Bash wrappers for regenerating the OPC UA companion models maintained in the sibling [Azure/smd](https://github.com/Azure/smd) repository.
 
 By default, both wrappers expect this sibling repository layout:
 
