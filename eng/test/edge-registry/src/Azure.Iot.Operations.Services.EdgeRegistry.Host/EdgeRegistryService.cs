@@ -186,6 +186,57 @@ internal sealed class EdgeRegistryService : EdgeRegistry.Service
         }
     }
 
+    internal void UpsertExtensionVersion(string groupType, string groupId, string resourceType, string resourceId, IReadOnlyList<Label> labels, string versionId, VersionAttributes versionAttributes)
+    {
+        lock (_gate)
+        {
+            DateTime now = DateTime.UtcNow;
+            StoredGroup group = GetOrCreateGroup(groupType, groupId, now);
+
+            if (!group.Resources.TryGetValue((resourceType, resourceId), out StoredResource? resource))
+            {
+                ResourceMetaAttributes meta = new() { Labels = CloneLabels(labels), Extensions = new Dictionary<string, byte[]>() };
+                resource = new StoredResource(resourceType, resourceId, meta, new Dictionary<string, byte[]>(), now);
+                group.Resources[(resourceType, resourceId)] = resource;
+            }
+            else
+            {
+                resource.Meta.Labels = CloneLabels(labels);
+                resource.ModifiedAt = now;
+                resource.MetaEpoch++;
+            }
+
+            resource.Versions.RemoveAll(v => v.VersionId == versionId);
+            resource.Versions.Add(new StoredVersion(versionId, versionAttributes, now));
+            resource.DefaultVersionId = versionId;
+            group.ModifiedAt = now;
+        }
+    }
+
+    internal void DeleteExtensionVersion(string groupType, string groupId, string resourceType, string resourceId, string versionId)
+    {
+        lock (_gate)
+        {
+            if (!_groups.TryGetValue((groupType, groupId), out StoredGroup? group)
+                || !group.Resources.TryGetValue((resourceType, resourceId), out StoredResource? resource)
+                || resource.Versions.RemoveAll(v => v.VersionId == versionId) == 0)
+            {
+                return;
+            }
+
+            if (resource.Versions.Count == 0)
+            {
+                group.Resources.Remove((resourceType, resourceId));
+            }
+            else if (resource.DefaultVersionId == versionId)
+            {
+                resource.DefaultVersionId = resource.Versions[^1].VersionId;
+            }
+
+            group.ModifiedAt = DateTime.UtcNow;
+        }
+    }
+
     // TODO: should return an error if the item isn't found or the expected epoch doesn't match.
     public override Task<ExtendedResponse<EmptyJson>> DeleteResourceAsync(DeleteResourceInputArguments request, CommandRequestMetadata requestMetadata, CancellationToken cancellationToken)
     {
@@ -372,7 +423,9 @@ internal sealed class EdgeRegistryService : EdgeRegistry.Service
     {
         if (allGroups)
         {
-            return _groups.Values;
+            return groupType is null
+                ? _groups.Values
+                : _groups.Values.Where(g => g.GroupType == groupType);
         }
 
         string effectiveGroupId = groupId ?? DefaultGroupId;
@@ -482,7 +535,7 @@ internal sealed class EdgeRegistryService : EdgeRegistry.Service
         return counts;
     }
 
-    private static List<Label> CloneLabels(List<Label> labels)
+    private static List<Label> CloneLabels(IEnumerable<Label> labels)
         => labels.Select(l => new Label { Key = l.Key, Value = l.Value }).ToList();
 
     private static Dictionary<string, byte[]> CloneExtensions(Dictionary<string, byte[]> extensions)

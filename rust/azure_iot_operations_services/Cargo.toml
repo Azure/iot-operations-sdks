@@ -101,5 +101,9 @@ name = "schema_registry_client"
 required-features = ["schema_registry"]
 
 [[example]]
+name = "edge_registry_client"
+required-features = ["edge_registry"]
+
+[[example]]
 name = "lock_client"
 required-features = ["leased_lock"]
