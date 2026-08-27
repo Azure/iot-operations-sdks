@@ -881,6 +881,37 @@ impl Client {
 
     // ~~~~~~~~~~~~~~~~~ Schema extension APIs ~~~~~~~~~~~~~~~~~~~~~
 
+    /// List the XIDs of the xRegistry Schemas matching the provided constraints.
+    ///
+    /// # Arguments
+    /// * `groups` - Which Schema Groups to list across: [`All`](GroupSelection::All), the
+    ///   [`Default`](GroupSelection::Default) (cloud default) Group, or a specific
+    ///   [`GroupId`](GroupSelection::GroupId).
+    /// * `label` - If provided, only Schemas carrying this [`Label`] are listed.
+    /// * `timeout` - The duration until the client stops waiting for a response to the request, it is rounded up to the nearest second.
+    ///
+    /// Returns the [`ResourceXId`]s of the Schemas matching the constraints.
+    ///
+    /// # Errors
+    /// See [`Client::list_resources`].
+    pub async fn list_schemas(
+        &self,
+        groups: GroupSelection,
+        label: Option<Label>,
+        timeout: Duration,
+    ) -> Result<Vec<ResourceXId>, Error> {
+        self.list_resources(
+            GroupQuery::GroupType {
+                group_type: SCHEMA_GROUP_TYPE.to_string(),
+                groups,
+            },
+            Some(SCHEMA_RESOURCE_TYPE.to_string()),
+            label,
+            timeout,
+        )
+        .await
+    }
+
     /// Create a new xRegistry Schema Version entity under the specified Schema. The parent Schema is
     /// implicitly created if it doesn't already exist.
     ///
@@ -981,37 +1012,6 @@ impl Client {
             .map_err(ErrorKind::from)?
             .map_err(ErrorKind::from)?;
         Ok(response.payload.into())
-    }
-
-    /// List the XIDs of the xRegistry Schemas matching the provided constraints.
-    ///
-    /// # Arguments
-    /// * `groups` - Which Schema Groups to list across: [`All`](GroupSelection::All), the
-    ///   [`Default`](GroupSelection::Default) (cloud default) Group, or a specific
-    ///   [`GroupId`](GroupSelection::GroupId).
-    /// * `label` - If provided, only Schemas carrying this [`Label`] are listed.
-    /// * `timeout` - The duration until the client stops waiting for a response to the request, it is rounded up to the nearest second.
-    ///
-    /// Returns the [`ResourceXId`]s of the Schemas matching the constraints.
-    ///
-    /// # Errors
-    /// See [`Client::list_resources`].
-    pub async fn list_schemas(
-        &self,
-        groups: GroupSelection,
-        label: Option<Label>,
-        timeout: Duration,
-    ) -> Result<Vec<ResourceXId>, Error> {
-        self.list_resources(
-            GroupQuery::GroupType {
-                group_type: SCHEMA_GROUP_TYPE.to_string(),
-                groups,
-            },
-            Some(SCHEMA_RESOURCE_TYPE.to_string()),
-            label,
-            timeout,
-        )
-        .await
     }
 
     /// List the XIDs of the xRegistry Schema Versions matching the provided constraints.
@@ -1125,6 +1125,37 @@ impl Client {
 
     // ~~~~~~~~~~~~~~~~~ Thing Description extension APIs ~~~~~~~~~~~~~~~~~~~~~
 
+    /// List the XIDs of the xRegistry Thing Descriptions matching the provided constraints.
+    ///
+    /// # Arguments
+    /// * `groups` - Which Thing Description Groups to list across: [`All`](GroupSelection::All),
+    ///   the [`Default`](GroupSelection::Default) (cloud default) Group, or a specific
+    ///   [`GroupId`](GroupSelection::GroupId).
+    /// * `label` - If provided, only Thing Descriptions carrying this [`Label`] are listed.
+    /// * `timeout` - The duration until the client stops waiting for a response to the request, it is rounded up to the nearest second.
+    ///
+    /// Returns the [`ResourceXId`]s of the Thing Descriptions matching the constraints.
+    ///
+    /// # Errors
+    /// See [`Client::list_resources`].
+    pub async fn list_thing_descriptions(
+        &self,
+        groups: GroupSelection,
+        label: Option<Label>,
+        timeout: Duration,
+    ) -> Result<Vec<ResourceXId>, Error> {
+        self.list_resources(
+            GroupQuery::GroupType {
+                group_type: THING_DESCRIPTION_GROUP_TYPE.to_string(),
+                groups,
+            },
+            Some(THING_DESCRIPTION_RESOURCE_TYPE.to_string()),
+            label,
+            timeout,
+        )
+        .await
+    }
+
     /// Create a new xRegistry Thing Description Version entity under the specified Thing Description. The
     /// parent Thing Description is implicitly created if it doesn't already exist.
     ///
@@ -1225,37 +1256,6 @@ impl Client {
             .map_err(ErrorKind::from)?
             .map_err(ErrorKind::from)?;
         Ok(response.payload.into())
-    }
-
-    /// List the XIDs of the xRegistry Thing Descriptions matching the provided constraints.
-    ///
-    /// # Arguments
-    /// * `groups` - Which Thing Description Groups to list across: [`All`](GroupSelection::All),
-    ///   the [`Default`](GroupSelection::Default) (cloud default) Group, or a specific
-    ///   [`GroupId`](GroupSelection::GroupId).
-    /// * `label` - If provided, only Thing Descriptions carrying this [`Label`] are listed.
-    /// * `timeout` - The duration until the client stops waiting for a response to the request, it is rounded up to the nearest second.
-    ///
-    /// Returns the [`ResourceXId`]s of the Thing Descriptions matching the constraints.
-    ///
-    /// # Errors
-    /// See [`Client::list_resources`].
-    pub async fn list_thing_descriptions(
-        &self,
-        groups: GroupSelection,
-        label: Option<Label>,
-        timeout: Duration,
-    ) -> Result<Vec<ResourceXId>, Error> {
-        self.list_resources(
-            GroupQuery::GroupType {
-                group_type: THING_DESCRIPTION_GROUP_TYPE.to_string(),
-                groups,
-            },
-            Some(THING_DESCRIPTION_RESOURCE_TYPE.to_string()),
-            label,
-            timeout,
-        )
-        .await
     }
 
     /// List the XIDs of xRegistry Thing Description Versions matching the provided constraints.
@@ -1369,6 +1369,37 @@ impl Client {
 
     // ~~~~~~~~~~~~~~~~~ Thing Model extension APIs ~~~~~~~~~~~~~~~~~~~~~
 
+    /// List the XIDs of the xRegistry Thing Models matching the provided constraints.
+    ///
+    /// # Arguments
+    /// * `groups` - Which Thing Model Groups to list across: [`All`](GroupSelection::All), the
+    ///   [`Default`](GroupSelection::Default) (cloud default) Group, or a specific
+    ///   [`GroupId`](GroupSelection::GroupId).
+    /// * `label` - If provided, only Thing Models carrying this [`Label`] are listed.
+    /// * `timeout` - The duration until the client stops waiting for a response to the request, it is rounded up to the nearest second.
+    ///
+    /// Returns the [`ResourceXId`]s of the Thing Models matching the constraints.
+    ///
+    /// # Errors
+    /// See [`Client::list_resources`].
+    pub async fn list_thing_models(
+        &self,
+        groups: GroupSelection,
+        label: Option<Label>,
+        timeout: Duration,
+    ) -> Result<Vec<ResourceXId>, Error> {
+        self.list_resources(
+            GroupQuery::GroupType {
+                group_type: THING_MODEL_GROUP_TYPE.to_string(),
+                groups,
+            },
+            Some(THING_MODEL_RESOURCE_TYPE.to_string()),
+            label,
+            timeout,
+        )
+        .await
+    }
+
     /// Create a new xRegistry Thing Model Version entity under the specified Thing Model. The parent
     /// Thing Model is implicitly created if it doesn't already exist.
     ///
@@ -1469,37 +1500,6 @@ impl Client {
             .map_err(ErrorKind::from)?
             .map_err(ErrorKind::from)?;
         Ok(response.payload.into())
-    }
-
-    /// List the XIDs of the xRegistry Thing Models matching the provided constraints.
-    ///
-    /// # Arguments
-    /// * `groups` - Which Thing Model Groups to list across: [`All`](GroupSelection::All), the
-    ///   [`Default`](GroupSelection::Default) (cloud default) Group, or a specific
-    ///   [`GroupId`](GroupSelection::GroupId).
-    /// * `label` - If provided, only Thing Models carrying this [`Label`] are listed.
-    /// * `timeout` - The duration until the client stops waiting for a response to the request, it is rounded up to the nearest second.
-    ///
-    /// Returns the [`ResourceXId`]s of the Thing Models matching the constraints.
-    ///
-    /// # Errors
-    /// See [`Client::list_resources`].
-    pub async fn list_thing_models(
-        &self,
-        groups: GroupSelection,
-        label: Option<Label>,
-        timeout: Duration,
-    ) -> Result<Vec<ResourceXId>, Error> {
-        self.list_resources(
-            GroupQuery::GroupType {
-                group_type: THING_MODEL_GROUP_TYPE.to_string(),
-                groups,
-            },
-            Some(THING_MODEL_RESOURCE_TYPE.to_string()),
-            label,
-            timeout,
-        )
-        .await
     }
 
     /// List the XIDs of xRegistry Thing Model Versions matching the provided constraints.
