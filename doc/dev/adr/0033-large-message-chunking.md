@@ -1,14 +1,5 @@
 # ADR 33: Large Message Chunking
 
-> **Status:** Draft.
-> Supersedes the unmerged draft numbered *ADR 23 — Large Message Chunking in MQTT Protocol*
-> (branch `maxim/chunking`); `0023` is already taken by
-> [0023-property-support.md](./0023-property-support.md).
-> Backed by a .NET POC — decisions and their derivations are in
-> [rpc-chunking-poc-plan.md](../rpc-chunking-poc-plan.md), the code walkthrough in
-> [rpc-chunking-implementation-walkthrough.md](../rpc-chunking-implementation-walkthrough.md), and
-> the review that preceded it in [rpc-chunking-working-doc.md](../rpc-chunking-working-doc.md).
-
 ## Context
 
 A broker advertises a Maximum Packet Size in CONNACK, and MQTT 5 §2.1.4 counts the **whole PUBLISH**
@@ -16,13 +7,8 @@ against it — topic, properties and payload, not just payload. AIO RPC payloads
 limit, and today such an invocation simply fails, leaving each application to invent its own
 fragmentation.
 
-An earlier draft put chunking in an `IMqttPubSubClient` decorator. That is rejected: chunks bypass
-correlation, the response cache and dedupe. Chunking belongs **inside the RPC envoys**, above the
-cache, so codegen and correlation keep working unchanged.
-
 Scope is RPC request and response. Telemetry chunking is deferred. Streaming is a separate mechanism
-([ADR 25](https://github.com/Azure/iot-operations-sdks/blob/maxim/streaming-adr-2/doc/dev/adr/0025-rpc-streaming.md)),
-which lists chunking as a non-requirement.
+([ADR XX](https://github.com/Azure/iot-operations-sdks/blob/maxim/streaming-adr-2/doc/dev/adr/0025-rpc-streaming.md)).
 
 ## Decision
 
@@ -43,8 +29,9 @@ One reserved user property, `__chunk` ([ADR 4](./0004-reserved-user-properties.m
 and introduced by a tag so the parser never infers the shape from the field count:
 
 ```txt
-chunk_metadata ::= head_chunk | data_chunk
+chunk_metadata ::= head_chunk | property_chunk | data_chunk
 head_chunk     ::= "h" ":" message_id ":" chunk_index ":" total_chunks ":" checksum_id ":" checksum
+property_chunk ::= "p" ":" message_id ":" chunk_index
 data_chunk     ::= "d" ":" message_id ":" chunk_index
 ```
 
@@ -52,24 +39,41 @@ data_chunk     ::= "d" ":" message_id ":" chunk_index
 |---|---|---|
 | `message_id` | UUID, 8-4-4-4-12 | every chunk |
 | `chunk_index` | uint, `0` on the head chunk | every chunk |
-| `total_chunks` | uint `>= 1`, counting the head chunk | head chunk only |
+| `total_chunks` | uint `>= 1`, counting every chunk of the message | head chunk only |
 | `checksum_id` | token naming the algorithm | head chunk only |
 | `checksum` | lowercase hex over the reassembled payload | head chunk only |
 
 Index `0` must use the head form and the head form must be index `0`; either violation is a parse
-failure. Colon-separated rather than JSON because it rides on every chunk. Out-of-order delivery is
-fine — whichever chunk arrives first creates the entry, and completion is "total known and all
-indices present".
+failure. Property chunks occupy the indices immediately after the header and data chunks follow
+them, so each chunk's role is known from its own tag and needs no boundary marker on the header.
+Colon-separated rather than JSON because it rides on every chunk. Out-of-order delivery is fine —
+whichever chunk arrives first creates the entry, and completion is "total known and all indices
+present".
 
-### 3. The head chunk carries properties, not payload
+### 3. Chunk roles
 
-Chunk 0 carries the full user property set and **zero payload**. Chunks 1..n carry payload plus only
-the properties reassembly and routing need (`$partition`, `$high_priority`, `__protVer`).
+Each chunk carries exactly one kind of thing:
 
-This is what makes the chunk size *measurable* instead of guessed. A data chunk's property set is
-entirely SDK-controlled, so its overhead is computed exactly; the unbounded, caller-controlled part
-is confined to one message that merely has to fit in one packet — it cannot be split across chunks
-anyway, so a property set that does not fit is an undeliverable message and is reported as one.
+| Chunk | Tag | Carries | Count |
+|---|---|---|---|
+| Header | `h` | message-level metadata only — total, checksum identifier, checksum. No payload, no user properties | exactly one, at index `0` |
+| Property | `p` | a slice of the message's user property set | zero or more |
+| Data | `d` | a slice of the payload | zero or more |
+
+Every chunk additionally carries what routing and validation need on each packet — `$partition`,
+`$high_priority`, `__protVer` and `__chunk` itself. The message's user properties are the
+concatenation, in index order, of those carried by the property chunks; its payload is the
+concatenation, in index order, of the data chunks.
+
+This is what makes each chunk's size *measurable* instead of guessed. Every chunk type has a
+property set the SDK authors in full, so its overhead is obtained by sizing an empty probe of that
+type rather than by trusting arithmetic over arbitrary caller input — the place where a size
+function goes wrong, and where the penalty is a silently discarded packet rather than an exception.
+
+Splitting the property set is safe in a way splitting the payload is not: properties reassemble as a
+**set union** ordered by chunk index, not a byte splice, so how a sender packs them need not match
+how another implementation would. Only a single name/value pair that cannot fit in one packet makes
+a message undeliverable, and that is reported as such.
 
 The alternative — a per-implementation overhead constant — is rejected. It cannot be both safe and
 efficient, and three languages would pick three different numbers.
@@ -105,8 +109,8 @@ envoys use, so the baseline above is a default, not a guarantee. The allowance i
 
 Rejected alternatives: a byte-valued `ReservedDeliveryOverheadBytes`, which is an underivable and
 unauditable number of exactly the kind §3 removed for property overhead; and a fixed safety margin,
-which is not a bound in either direction — 64 bytes is thirteen times what a realistic deployment
-needs and still short of a pathological one.
+which is a bound in neither direction — any round number large enough to look reassuring is still
+wasteful for the common case and short of the pathological one.
 
 Known limitation: the quantity belongs to the **receiver** and is applied by the **sender**, which
 cannot observe it, so this is a deployment-wide declaration rather than a per-peer fact. Making it
@@ -132,7 +136,7 @@ SHA-256 is the fastest of the obvious candidates because of the hardware SHA ext
 
 ### 6. Timeouts — two clocks
 
-Following ADR 25 rather than the earlier draft:
+Following ADR 25:
 
 | Clock | Scope | Rule |
 |---|---|---|
@@ -155,8 +159,8 @@ the payload crosses the chunking threshold.
 
 ### 7. Bounds
 
-The buffer is bounded from the first line of code, or a message that stalls after one chunk becomes
-an entry nothing reclaims:
+The buffer is bounded from the outset, or a message that stalls after one chunk becomes an entry
+nothing reclaims:
 
 * a maximum chunk count per message, checked the moment the head chunk names the total, discarding
   the message and releasing every chunk held for it — eventually derived from the negotiated receive
@@ -169,22 +173,43 @@ an entry nothing reclaims:
 No chunk is acknowledged until the reassembled message has been handed to the user, or a crash
 mid-reassembly silently loses data. Retaining each chunk's delivery context makes acknowledging the
 reassembled message fan out to every chunk it was built from, so redelivery replays the whole
-message. This proved cheap in .NET; Rust and Go should confirm before assuming otherwise.
+message. This is cheap wherever the client exposes that context; an implementation that cannot
+retain it has to track the outstanding acknowledgements itself.
 
 ### 9. Versioning and configuration
 
 * RPC wire protocol bumps to **2.0**. Chunking is implied by the version — no feature negotiation,
   no opt-out. A 2.0 implementation that rejects chunked messages is non-compliant.
 * Chunking is **automatic and opaque**: no user-facing chunk-size knob and no enable/disable
-  setting. The earlier draft's configuration setting is dropped.
+  setting.
 * QoS is preserved across all chunks, and all chunks use the same topic.
+
+## Alternatives Considered
+
+**Chunking below the envoys, as a decorator over the MQTT client**, splitting on publish and
+reassembling on receive so the RPC layer never knows. Rejected, because each of these is invisible
+from the transport layer:
+
+* **Protocol version.** Chunking is part of the RPC wire protocol and has to be gated on it, but the
+  version is an RPC-level user property the transport does not see. A 1.0 legacy path would be
+  impossible to express.
+* **Invocation budget.** A chunk's expiry is the budget remaining when it is published (§6). Only
+  the envoy holds that; a decorator sees one already-flattened `MessageExpiryInterval`.
+* **Acknowledgement.** Deferring the ack until the handler has run is envoy policy. A decorator
+  would have to fabricate a delivery context whose acknowledgement fans out to every chunk,
+  reimplementing envoy behaviour underneath the envoy.
+* **Scope.** The decorator wraps a connection shared with every other envoy and with the
+  application, so chunking could not be confined to RPC traffic.
+
+Sizing is genuinely easier at that layer, sitting next to the encoded packet, but it does not
+outweigh the above.
 
 ## Open questions
 
 1. **Error kinds.** Which existing kind absorbs incomplete-chunk, checksum-mismatch and
    buffer-limit failures, versus adding new ones — `AIOProtocolErrorKind` is not `#[non_exhaustive]`,
    so a new variant is a Rust breaking change. Reusing `PayloadInvalid` or `HeaderInvalid` is
-   cheapest and costs diagnostics. Until this is settled, a failed reassembly surfaces only as a
+   cheapest and costs diagnostics. Without a distinct kind, a failed reassembly surfaces as a plain
    caller timeout with nothing implicating chunking.
 2. **Should a chunked response be cacheable at all?** A cached-response replay is re-chunked and
    re-sent in full, with no way for the invoker to decline it (there is no mid-transfer backchannel).
@@ -200,8 +225,8 @@ message. This proved cheap in .NET; Rust and Go should confirm before assuming o
 
 * Payloads above the broker limit become deliverable through the ordinary command API, with no
   application-level fragmentation and no change to codegen output.
-* One extra message per chunked transfer (the header chunk), repaid in part by a larger and provably
-  correct payload budget per data chunk.
+* Two extra messages per chunked transfer in the common case — the header chunk and one property
+  chunk — repaid in part by a larger and provably correct payload budget per data chunk.
 * The delayed-ack window widens to the whole transfer, interacting with ordered acknowledgement and
   the executor's dispatcher concurrency.
 * Failures inside a transfer are, until open question 1 is settled, indistinguishable from a plain
