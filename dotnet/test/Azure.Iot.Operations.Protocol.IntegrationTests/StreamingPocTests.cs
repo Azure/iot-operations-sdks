@@ -45,6 +45,38 @@ public class StreamingPocTests(ITestOutputHelper output)
     private sealed class FileTransferExecutor(ApplicationContext appContext, IMqttPubSubClient mqttClient)
         : StreamingCommandExecutor<string, string>(appContext, mqttClient, "filetransfer", new Utf8JsonSerializer());
 
+    [CommandTopic("rpc/streaming/poc/browse")]
+    private sealed class BrowseInvoker(ApplicationContext appContext, IMqttPubSubClient mqttClient)
+        : StreamingCommandInvoker<string, string>(appContext, mqttClient, "browse", new Utf8JsonSerializer());
+
+    [CommandTopic("rpc/streaming/poc/browse")]
+    private sealed class BrowseExecutor(ApplicationContext appContext, IMqttPubSubClient mqttClient)
+        : StreamingCommandExecutor<string, string>(appContext, mqttClient, "browse", new Utf8JsonSerializer());
+
+    [CommandTopic("rpc/streaming/poc/historicread")]
+    private sealed class HistoricReadInvoker(ApplicationContext appContext, IMqttPubSubClient mqttClient)
+        : StreamingCommandInvoker<string, string>(appContext, mqttClient, "historicread", new Utf8JsonSerializer());
+
+    [CommandTopic("rpc/streaming/poc/historicread")]
+    private sealed class HistoricReadExecutor(ApplicationContext appContext, IMqttPubSubClient mqttClient)
+        : StreamingCommandExecutor<string, string>(appContext, mqttClient, "historicread", new Utf8JsonSerializer());
+
+    [CommandTopic("rpc/streaming/poc/wottd")]
+    private sealed class WotTdInvoker(ApplicationContext appContext, IMqttPubSubClient mqttClient)
+        : StreamingCommandInvoker<string, string>(appContext, mqttClient, "wottd", new Utf8JsonSerializer());
+
+    [CommandTopic("rpc/streaming/poc/wottd")]
+    private sealed class WotTdExecutor(ApplicationContext appContext, IMqttPubSubClient mqttClient)
+        : StreamingCommandExecutor<string, string>(appContext, mqttClient, "wottd", new Utf8JsonSerializer());
+
+    [CommandTopic("rpc/streaming/poc/openusd")]
+    private sealed class OpenUsdInvoker(ApplicationContext appContext, IMqttPubSubClient mqttClient)
+        : StreamingCommandInvoker<string, string>(appContext, mqttClient, "openusd", new Utf8JsonSerializer());
+
+    [CommandTopic("rpc/streaming/poc/openusd")]
+    private sealed class OpenUsdExecutor(ApplicationContext appContext, IMqttPubSubClient mqttClient)
+        : StreamingCommandExecutor<string, string>(appContext, mqttClient, "openusd", new Utf8JsonSerializer());
+
     private void Log(string message) =>
         output.WriteLine($"{DateTime.Now:HH:mm:ss.fff}  {message}");
 
@@ -370,6 +402,305 @@ public class StreamingPocTests(ITestOutputHelper output)
         {
             yield return new StreamingExtendedResponse<string>(line);
         }
+    }
+
+    // Incremental OPC UA browse: a single request names the address space; the executor doesn't wait to
+    // enumerate the whole space, it streams each discovered node back as soon as it's found, so the invoker
+    // gets fast feedback and never has to hold the entire (potentially huge) address space in memory at once.
+    [Theory]
+    [InlineData(20)]
+    public async Task IncrementalOpcUaBrowse(int nodeCount)
+    {
+        LogScenario($"SCENARIO incremental OPC UA browse: invoker requests the address space; executor streams {nodeCount} discovered node(s) back one at a time as it finds them, instead of buffering the whole space first.");
+        ApplicationContext appContext = new();
+        await using MqttSessionClient executorClient = await ClientFactory.CreateSessionClientFromEnvAsync();
+        await using MqttSessionClient invokerClient = await ClientFactory.CreateSessionClientFromEnvAsync();
+
+        await using BrowseExecutor executor = new(appContext, executorClient)
+        {
+            OnStreamingCommandReceived = BrowseHandler,
+            Log = Log,
+        };
+        await executor.StartAsync();
+
+        await using BrowseInvoker invoker = new(appContext, invokerClient)
+        {
+            Log = Log,
+        };
+
+        Guid correlationId = Guid.NewGuid();
+        Log($"invoking browse: address space with {nodeCount} node(s), correlationId={correlationId}");
+
+        // Doc's desired SDK experience: a single plain request in, a directly awaitable-foreach stream of plain items out.
+        DateTime requestSentAt = DateTime.UtcNow;
+        List<string> received = new();
+        TimeSpan? firstNodeLatency = null;
+        await foreach (string node in invoker.ExecuteStreamingAsync(
+            nodeCount.ToString(),
+            new RequestStreamMetadata { CorrelationId = correlationId }))
+        {
+            firstNodeLatency ??= DateTime.UtcNow - requestSentAt;
+            received.Add(node);
+        }
+
+        Log($"exchange complete: invoker received {received.Count} node(s); first node arrived after {firstNodeLatency?.TotalMilliseconds:F0} ms, well before the full browse finished");
+
+        Assert.Equal(nodeCount, received.Count);
+        for (int i = 0; i < nodeCount; i++)
+        {
+            // Ordering guarantee: nodes must arrive in the same order the executor discovered/emitted them.
+            Assert.Equal($"ns=2;s=Node{i}", received[i]);
+        }
+    }
+
+    private (IAsyncEnumerable<StreamingExtendedResponse<string>> Responses, ResponseStreamMetadata Metadata) BrowseHandler(
+        IStreamContext<ReceivedStreamingExtendedRequest<string>> requests,
+        RequestStreamMetadata requestMetadata,
+        IExchangeContext exchange) =>
+        (BrowseResponses(requests), new ResponseStreamMetadata());
+
+    private async IAsyncEnumerable<StreamingExtendedResponse<string>> BrowseResponses(
+        IStreamContext<ReceivedStreamingExtendedRequest<string>> requests)
+    {
+        int nodeCount = 0;
+        await foreach (ReceivedStreamingExtendedRequest<string> request in requests.Entries)
+        {
+            nodeCount = int.Parse(request.Payload);
+        }
+
+        for (int i = 0; i < nodeCount; i++)
+        {
+            // Simulates real discovery latency: each node is "found" on the server as time passes,
+            // rather than all being known up front, which is exactly why buffer-then-return doesn't fit.
+            await Task.Delay(10);
+            string node = $"ns=2;s=Node{i}";
+            Log($"handler: discovered {node}, streaming it immediately");
+            yield return new StreamingExtendedResponse<string>(node);
+        }
+    }
+
+    // Historic read / backfilling: a single request names the desired range; the executor streams every
+    // record it produces back in strict emission order, so a consumer recovering from an outage gets exactly
+    // the records the historian produced, in the same order, without waiting for the whole range to be read.
+    [Theory]
+    [InlineData(500)]
+    public async Task HistoricReadBackfill(int recordCount)
+    {
+        LogScenario($"SCENARIO historic read / backfilling: invoker requests a historical range after an outage; executor streams {recordCount} record(s) back in the same order they were produced, with no gaps or reordering.");
+        ApplicationContext appContext = new();
+        await using MqttSessionClient executorClient = await ClientFactory.CreateSessionClientFromEnvAsync();
+        await using MqttSessionClient invokerClient = await ClientFactory.CreateSessionClientFromEnvAsync();
+
+        await using HistoricReadExecutor executor = new(appContext, executorClient)
+        {
+            OnStreamingCommandReceived = HistoricReadHandler,
+            Log = Log,
+        };
+        await executor.StartAsync();
+
+        await using HistoricReadInvoker invoker = new(appContext, invokerClient)
+        {
+            Log = Log,
+        };
+
+        Guid correlationId = Guid.NewGuid();
+        Log($"invoking historic read: {recordCount} record(s), correlationId={correlationId}");
+
+        List<string> received = new();
+        await foreach (string record in invoker.ExecuteStreamingAsync(
+            recordCount.ToString(),
+            new RequestStreamMetadata { CorrelationId = correlationId },
+            exchangeTimeout: TimeSpan.FromMinutes(2)))
+        {
+            received.Add(record);
+        }
+
+        Log($"exchange complete: invoker received {received.Count} record(s), backfill recovered without gaps");
+
+        Assert.Equal(recordCount, received.Count);
+        for (int i = 0; i < recordCount; i++)
+        {
+            // No record dropped, duplicated, or reordered during the backfill.
+            Assert.Equal($"record {i} @2024-01-01T00:{i / 60:D2}:{i % 60:D2}Z", received[i]);
+        }
+    }
+
+    private (IAsyncEnumerable<StreamingExtendedResponse<string>> Responses, ResponseStreamMetadata Metadata) HistoricReadHandler(
+        IStreamContext<ReceivedStreamingExtendedRequest<string>> requests,
+        RequestStreamMetadata requestMetadata,
+        IExchangeContext exchange) =>
+        (HistoricReadResponses(requests), new ResponseStreamMetadata());
+
+    private async IAsyncEnumerable<StreamingExtendedResponse<string>> HistoricReadResponses(
+        IStreamContext<ReceivedStreamingExtendedRequest<string>> requests)
+    {
+        int recordCount = 0;
+        await foreach (ReceivedStreamingExtendedRequest<string> request in requests.Entries)
+        {
+            recordCount = int.Parse(request.Payload);
+        }
+
+        Log($"handler: replaying {recordCount} historian record(s) in original order");
+        for (int i = 0; i < recordCount; i++)
+        {
+            yield return new StreamingExtendedResponse<string>($"record {i} @2024-01-01T00:{i / 60:D2}:{i % 60:D2}Z");
+        }
+    }
+
+    // W3C WoT TD streaming: a single request asks for the discovered Thing Descriptions; the executor streams
+    // each TD document back as it's discovered on the network, rather than waiting for the whole catalog of
+    // devices to be enumerated and materialized into one large response first.
+    [Theory]
+    [InlineData(15)]
+    public async Task WotThingDescriptionStreaming(int thingCount)
+    {
+        LogScenario($"SCENARIO W3C WoT TD streaming: invoker asks for discovered Thing Descriptions; executor streams {thingCount} TD document(s) back as each device is discovered, instead of materializing the whole catalog first.");
+        ApplicationContext appContext = new();
+        await using MqttSessionClient executorClient = await ClientFactory.CreateSessionClientFromEnvAsync();
+        await using MqttSessionClient invokerClient = await ClientFactory.CreateSessionClientFromEnvAsync();
+
+        await using WotTdExecutor executor = new(appContext, executorClient)
+        {
+            OnStreamingCommandReceived = WotTdHandler,
+            Log = Log,
+        };
+        await executor.StartAsync();
+
+        await using WotTdInvoker invoker = new(appContext, invokerClient)
+        {
+            Log = Log,
+        };
+
+        Guid correlationId = Guid.NewGuid();
+        Log($"invoking WoT TD discovery: {thingCount} thing(s), correlationId={correlationId}");
+
+        List<string> received = new();
+        await foreach (string td in invoker.ExecuteStreamingAsync(
+            thingCount.ToString(),
+            new RequestStreamMetadata { CorrelationId = correlationId }))
+        {
+            received.Add(td);
+        }
+
+        Log($"exchange complete: invoker received {received.Count} Thing Description(s)");
+
+        Assert.Equal(thingCount, received.Count);
+        for (int i = 0; i < thingCount; i++)
+        {
+            string expectedTd = $"{{\"id\":\"urn:thing:{i}\",\"title\":\"Thing {i}\"}}";
+            // Payload fidelity: each TD document arrives whole and unmodified, one per entry.
+            Assert.Equal(expectedTd, received[i]);
+        }
+    }
+
+    private (IAsyncEnumerable<StreamingExtendedResponse<string>> Responses, ResponseStreamMetadata Metadata) WotTdHandler(
+        IStreamContext<ReceivedStreamingExtendedRequest<string>> requests,
+        RequestStreamMetadata requestMetadata,
+        IExchangeContext exchange) =>
+        (WotTdResponses(requests), new ResponseStreamMetadata());
+
+    private async IAsyncEnumerable<StreamingExtendedResponse<string>> WotTdResponses(
+        IStreamContext<ReceivedStreamingExtendedRequest<string>> requests)
+    {
+        int thingCount = 0;
+        await foreach (ReceivedStreamingExtendedRequest<string> request in requests.Entries)
+        {
+            thingCount = int.Parse(request.Payload);
+        }
+
+        for (int i = 0; i < thingCount; i++)
+        {
+            // Simulates each device announcing itself on the network at its own pace.
+            await Task.Delay(10);
+            string td = $"{{\"id\":\"urn:thing:{i}\",\"title\":\"Thing {i}\"}}";
+            Log($"handler: discovered Thing Description {td}");
+            yield return new StreamingExtendedResponse<string>(td);
+        }
+    }
+
+    // OpenUSD artefact download: invoker requests a large engineering artefact; the executor chunks it and
+    // streams the chunks back in order, and the invoker reconstructs the exact original bytes purely from
+    // chunk order and content, with no bespoke chunking protocol layered on top of the SDK's streaming.
+    private const int OpenUsdArtefactSizeBytes = 256 * 1024;
+    private const int OpenUsdChunkSizeBytes = 8 * 1024;
+    private const int OpenUsdRandomSeed = 20240516;
+
+    [Fact]
+    public async Task OpenUsdArtefactDownload()
+    {
+        LogScenario($"SCENARIO OpenUSD artefact download: invoker requests a {OpenUsdArtefactSizeBytes}-byte artefact; executor streams it back in {OpenUsdChunkSizeBytes}-byte chunks; invoker reconstructs the exact original bytes from chunk order alone.");
+        ApplicationContext appContext = new();
+        await using MqttSessionClient executorClient = await ClientFactory.CreateSessionClientFromEnvAsync();
+        await using MqttSessionClient invokerClient = await ClientFactory.CreateSessionClientFromEnvAsync();
+
+        await using OpenUsdExecutor executor = new(appContext, executorClient)
+        {
+            OnStreamingCommandReceived = OpenUsdHandler,
+            Log = Log,
+        };
+        await executor.StartAsync();
+
+        await using OpenUsdInvoker invoker = new(appContext, invokerClient)
+        {
+            Log = Log,
+        };
+
+        byte[] expectedArtefact = GenerateOpenUsdArtefact();
+
+        Guid correlationId = Guid.NewGuid();
+        Log($"invoking OpenUSD artefact download: {expectedArtefact.Length} byte(s), correlationId={correlationId}");
+
+        using MemoryStream reconstructed = new();
+        await foreach (string chunkBase64 in invoker.ExecuteStreamingAsync(
+            "artefact.usdz",
+            new RequestStreamMetadata { CorrelationId = correlationId },
+            exchangeTimeout: TimeSpan.FromMinutes(2)))
+        {
+            byte[] chunk = Convert.FromBase64String(chunkBase64);
+            reconstructed.Write(chunk, 0, chunk.Length);
+        }
+
+        byte[] reconstructedArtefact = reconstructed.ToArray();
+        Log($"exchange complete: invoker reconstructed {reconstructedArtefact.Length} byte(s) from streamed chunks");
+
+        // Payload fidelity: chunk boundaries plus chunk ordering are enough to deterministically
+        // reconstruct the artefact, with no application-level chunk-numbering scheme required.
+        Assert.Equal(expectedArtefact, reconstructedArtefact);
+    }
+
+    private (IAsyncEnumerable<StreamingExtendedResponse<string>> Responses, ResponseStreamMetadata Metadata) OpenUsdHandler(
+        IStreamContext<ReceivedStreamingExtendedRequest<string>> requests,
+        RequestStreamMetadata requestMetadata,
+        IExchangeContext exchange) =>
+        (OpenUsdChunkResponses(requests), new ResponseStreamMetadata());
+
+    private async IAsyncEnumerable<StreamingExtendedResponse<string>> OpenUsdChunkResponses(
+        IStreamContext<ReceivedStreamingExtendedRequest<string>> requests)
+    {
+        string artefactName = string.Empty;
+        await foreach (ReceivedStreamingExtendedRequest<string> request in requests.Entries)
+        {
+            artefactName = request.Payload;
+        }
+
+        byte[] artefact = GenerateOpenUsdArtefact();
+        Log($"handler: streaming artefact '{artefactName}' ({artefact.Length} bytes) in {OpenUsdChunkSizeBytes}-byte chunks");
+
+        for (int offset = 0; offset < artefact.Length; offset += OpenUsdChunkSizeBytes)
+        {
+            int length = Math.Min(OpenUsdChunkSizeBytes, artefact.Length - offset);
+            string chunk = Convert.ToBase64String(artefact, offset, length);
+            yield return new StreamingExtendedResponse<string>(chunk);
+        }
+    }
+
+    // Deterministic pseudo-random "artefact" bytes, generated identically on both sides from a fixed seed
+    // so the test can assert exact byte-for-byte reconstruction without shipping a real binary fixture.
+    private static byte[] GenerateOpenUsdArtefact()
+    {
+        byte[] artefact = new byte[OpenUsdArtefactSizeBytes];
+        new Random(OpenUsdRandomSeed).NextBytes(artefact);
+        return artefact;
     }
 
     // FNV-1a 64-bit over the UTF-8 bytes of the lines joined by "\n". Not cryptographic; it is only here so both

@@ -4,6 +4,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Threading.Channels;
 using System.Threading.Tasks;
@@ -163,6 +164,53 @@ namespace Azure.Iot.Operations.Protocol.Streaming
             ResponseStreamContext<StreamingExtendedResponse<TResp>> responseContext =
                 new(responses, Task.FromResult(new ResponseStreamMetadata()));
             return (responseContext, exchangeContext);
+        }
+
+        /// <summary>
+        /// Invoke a streaming command for the common request-response-streaming shape: a single plain request in,
+        /// a directly awaitable-foreach stream of plain response payloads out. This is a thin convenience wrapper
+        /// over <see cref="InvokeStreamingCommandAsync"/> for callers who don't need a request stream, per-entry
+        /// metadata, or the exchange context - e.g.:
+        /// <code>
+        /// await foreach (var item in invoker.ExecuteStreamingAsync(request))
+        /// {
+        ///     await ProcessAsync(item);
+        /// }
+        /// </code>
+        /// Callers that need to stream multiple requests, inspect response metadata, or drive cancellation should
+        /// use <see cref="InvokeStreamingCommandAsync"/> directly instead.
+        /// </summary>
+        /// <param name="request">The single request payload to send.</param>
+        /// <param name="streamMetadata">The metadata for the request stream as a whole.</param>
+        /// <param name="additionalTopicTokenMap">Topic tokens to substitute in the request topic.</param>
+        /// <param name="exchangeTimeout">The total time budget for the whole exchange. A configurable default applies when null.</param>
+        /// <param name="cancellationToken">Cancellation token for both sending the request and reading the response stream.</param>
+        /// <returns>The response payloads, in the order the executor emitted them.</returns>
+        public async IAsyncEnumerable<TResp> ExecuteStreamingAsync(
+            TReq request,
+            RequestStreamMetadata? streamMetadata = null,
+            Dictionary<string, string>? additionalTopicTokenMap = null,
+            TimeSpan? exchangeTimeout = null,
+            [EnumeratorCancellation] CancellationToken cancellationToken = default)
+        {
+            (IResponseStreamContext<StreamingExtendedResponse<TResp>> responses, IExchangeContext _) = await InvokeStreamingCommandAsync(
+                SingleRequestEntryStream(request),
+                streamMetadata,
+                additionalTopicTokenMap,
+                exchangeTimeout,
+                cancellationToken);
+
+            await foreach (StreamingExtendedResponse<TResp> response in responses.Entries.WithCancellation(cancellationToken))
+            {
+                yield return response.Payload;
+            }
+        }
+
+        // Wraps a single plain request as the one-entry request stream that InvokeStreamingCommandAsync requires.
+        private static async IAsyncEnumerable<StreamingExtendedRequest<TReq>> SingleRequestEntryStream(TReq request)
+        {
+            await Task.Yield();
+            yield return new StreamingExtendedRequest<TReq>(request);
         }
 
         // Publishes the request stream: each entry as a `d:<index>` message, then a closing `last`.
