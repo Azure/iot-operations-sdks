@@ -26,7 +26,7 @@ use bytes::Bytes;
 use env_logger::Builder;
 
 const TIMEOUT: Duration = Duration::from_secs(10);
-const LIST_RETRY_ATTEMPTS: u32 = 30;
+const LIST_RETRY_TIMEOUT: Duration = Duration::from_secs(30);
 const LIST_RETRY_DELAY: Duration = Duration::from_secs(1);
 const SCHEMA_V1: &str = r#"{"$schema":"http://json-schema.org/draft-07/schema#","type":"object","properties":{"temperature":{"type":"number"}}}"#;
 const SCHEMA_V2: &str = r#"{"$schema":"http://json-schema.org/draft-07/schema#","type":"object","properties":{"temperature":{"type":"number"},"humidity":{"type":"number"}}}"#;
@@ -147,34 +147,44 @@ async fn retry_list<T, F, Fut, P>(
     mut operation: F,
     mut is_complete: P,
     incomplete_message: &'static str,
+    retry_timeout: Duration,
 ) -> Result<T, Box<dyn Error>>
 where
     F: FnMut() -> Fut,
     Fut: Future<Output = Result<T, edge_registry::Error>>,
     P: FnMut(&T) -> bool,
 {
-    for attempt in 1..=LIST_RETRY_ATTEMPTS {
-        match operation().await {
-            Ok(value) if is_complete(&value) => return Ok(value),
-            Ok(_) if attempt == LIST_RETRY_ATTEMPTS => {
-                return Err(io::Error::other(incomplete_message).into());
+    let mut attempt = 1;
+    let result = tokio::time::timeout(retry_timeout, async {
+        loop {
+            match operation().await {
+                Ok(value) if is_complete(&value) => return Ok(value),
+                Ok(_) => {
+                    log::warn!(
+                        "List request returned incomplete registry state (attempt {attempt})"
+                    );
+                }
+                Err(error) if is_retryable_list_error(&error) => {
+                    log::warn!(
+                        "List request failed during registry reconciliation (attempt {attempt}): {error}"
+                    );
+                }
+                Err(error) => return Err(error),
             }
-            Ok(_) => {
-                log::warn!(
-                    "List request returned incomplete registry state (attempt {attempt}/{LIST_RETRY_ATTEMPTS})"
-                );
-                tokio::time::sleep(LIST_RETRY_DELAY).await;
-            }
-            Err(error) if attempt < LIST_RETRY_ATTEMPTS && is_retryable_list_error(&error) => {
-                log::warn!(
-                    "List request failed during registry reconciliation (attempt {attempt}/{LIST_RETRY_ATTEMPTS}): {error}"
-                );
-                tokio::time::sleep(LIST_RETRY_DELAY).await;
-            }
-            Err(error) => return Err(error.into()),
+
+            attempt += 1;
+            tokio::time::sleep(LIST_RETRY_DELAY).await;
+        }
+    })
+    .await;
+
+    match result {
+        Ok(Ok(value)) => Ok(value),
+        Ok(Err(error)) => Err(error.into()),
+        Err(_) => {
+            Err(io::Error::other(format!("{incomplete_message} within {retry_timeout:?}")).into())
         }
     }
-    unreachable!("the retry loop always returns on its final attempt")
 }
 
 async fn resource_list_demo(client: &Client) -> Result<(), Box<dyn Error>> {
@@ -242,6 +252,7 @@ async fn resource_list_demo(client: &Client) -> Result<(), Box<dyn Error>> {
                     .any(|xid| xid.version_id == second.version_id)
         },
         "created Schema Versions were not listed",
+        LIST_RETRY_TIMEOUT,
     )
     .await?;
 
@@ -249,6 +260,7 @@ async fn resource_list_demo(client: &Client) -> Result<(), Box<dyn Error>> {
         || client.list_schemas(GroupSelection::Default, Some(schema_label.clone()), TIMEOUT),
         |schemas| schemas.iter().any(|xid| xid.resource_id == schema_id),
         "labeled Schema was not listed",
+        LIST_RETRY_TIMEOUT,
     )
     .await?;
 
@@ -287,6 +299,7 @@ async fn resource_list_demo(client: &Client) -> Result<(), Box<dyn Error>> {
                 .any(|xid| xid.resource_id == thing_description_id)
         },
         "labeled Thing Description was not listed",
+        LIST_RETRY_TIMEOUT,
     )
     .await?;
 
@@ -319,9 +332,31 @@ async fn resource_list_demo(client: &Client) -> Result<(), Box<dyn Error>> {
                 .any(|xid| xid.resource_id == thing_model_id)
         },
         "labeled Thing Model was not listed",
+        LIST_RETRY_TIMEOUT,
     )
     .await?;
 
     log::info!("Listed Thing Description {thing_description_id} and Thing Model {thing_model_id}");
     Ok(())
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[tokio::test]
+    async fn retry_list_stops_at_overall_timeout() {
+        let result = retry_list(
+            || async { Ok::<bool, edge_registry::Error>(false) },
+            |is_complete| *is_complete,
+            "resource was not listed",
+            Duration::from_millis(20),
+        )
+        .await;
+
+        assert_eq!(
+            result.unwrap_err().to_string(),
+            "resource was not listed within 20ms"
+        );
+    }
 }
