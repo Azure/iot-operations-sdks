@@ -259,15 +259,23 @@ impl From<client_gen::Label> for Label {
 /// The label key under which the original, pre-derivation identifier is recorded by
 /// [`derive_resource_id`].
 ///
-/// A lookup filters on this key with the original identifier as the value, not the derived
-/// Resource identifier.
+/// The label belongs on the Resource, and a lookup filters on this key with the original
+/// identifier as the value, not the derived Resource identifier.
 pub const ORIGINAL_ID_LABEL_KEY: &str = "originalid";
 
 /// Derives a conforming Resource identifier from an arbitrary identifier, recording the original
 /// in `labels` under [`ORIGINAL_ID_LABEL_KEY`].
 ///
+/// The derived identifier is the lowercase hex SHA-256 of `original_id`. It is always 64 characters
+/// drawn from `[0-9a-f]`, which satisfies both the xRegistry identifier rules and the stricter
+/// cloud rules.
+///
 /// Any existing [`ORIGINAL_ID_LABEL_KEY`] entry is replaced, so repeated calls against the same
 /// `labels` do not accumulate duplicates.
+///
+/// # Errors
+/// [`struct@Error`] of kind [`ValidationError`](ErrorKind::ValidationError) if `original_id` is
+/// empty. `labels` is left untouched in that case.
 ///
 /// # Example
 /// ```
@@ -275,68 +283,92 @@ pub const ORIGINAL_ID_LABEL_KEY: &str = "originalid";
 /// #     ORIGINAL_ID_LABEL_KEY, derive_resource_id,
 /// # };
 /// let mut labels = vec![];
-/// let resource_id = derive_resource_id("urn:azureiot:aio:dev:ep:opcua:asset:td.g", &mut labels);
+/// let resource_id = derive_resource_id("urn:azureiot:aio:dev:ep:opcua:asset:td.g", &mut labels)?;
 ///
 /// assert_eq!(resource_id.len(), 64);
 /// assert_eq!(labels[0].key, ORIGINAL_ID_LABEL_KEY);
 /// assert_eq!(labels[0].value, "urn:azureiot:aio:dev:ep:opcua:asset:td.g");
+/// # Ok::<(), azure_iot_operations_services::edge_registry::Error>(())
 /// ```
-#[must_use]
-pub fn derive_resource_id(original_id: &str, labels: &mut Vec<Label>) -> String {
+pub fn derive_resource_id(original_id: &str, labels: &mut Vec<Label>) -> Result<String, Error> {
+    if original_id.is_empty() {
+        return Err(ErrorKind::ValidationError("original_id must not be empty".to_string()).into());
+    }
+
     labels.retain(|label| label.key != ORIGINAL_ID_LABEL_KEY);
     labels.push(Label {
         key: ORIGINAL_ID_LABEL_KEY.to_string(),
         value: original_id.to_string(),
     });
 
-    HEXLOWER.encode(&Sha256::digest(original_id.as_bytes()))
+    Ok(HEXLOWER.encode(&Sha256::digest(original_id.as_bytes())))
 }
 
 #[cfg(test)]
 mod tests {
+    use test_case::test_case;
+
     use super::*;
 
-    /// Pins the derivation to `xregistry_core::compute_document_hash` in the Edge Registry
-    /// service. Every SDK must produce this value for identifiers to be reproducible across
-    /// implementations.
+    /// Pins the derivation to the hash the Edge Registry service computes. Every SDK must produce
+    /// this value for identifiers to be reproducible across implementations.
     #[test]
     fn derives_lowercase_sha256_hex() {
         assert_eq!(
-            derive_resource_id("test-document", &mut vec![]),
+            derive_resource_id("test-document", &mut vec![]).unwrap(),
             "b72686d533cb3987150ab6455021dfed113a2a538d7421c8ef40cbdf02543831"
         );
     }
 
-    #[test]
-    fn derived_identifier_conforms_to_the_cloud_naming_rules() {
-        for original_id in [
-            "a",
-            "urn:azureiot:aio:dev:ep:opcua:asset:td.g",
-            &"x".repeat(512),
-        ] {
-            let resource_id = derive_resource_id(original_id, &mut vec![]);
+    #[test_case("a"; "single character")]
+    #[test_case("urn:azureiot:aio:dev:ep:opcua:asset:td.g"; "wot identifier")]
+    #[test_case(&"x".repeat(512); "longer than an xregistry identifier")]
+    fn derived_identifier_conforms_to_the_cloud_naming_rules(original_id: &str) {
+        let resource_id = derive_resource_id(original_id, &mut vec![]).unwrap();
 
-            assert_eq!(resource_id.len(), 64);
-            assert!(
-                resource_id
-                    .chars()
-                    .all(|c| c.is_ascii_lowercase() || c.is_ascii_digit())
-            );
-        }
+        assert_eq!(resource_id.len(), 64);
+        assert!(
+            resource_id
+                .chars()
+                .all(|c| c.is_ascii_lowercase() || c.is_ascii_digit())
+        );
     }
 
     #[test]
     fn derivation_is_deterministic() {
         assert_eq!(
-            derive_resource_id("some-id", &mut vec![]),
-            derive_resource_id("some-id", &mut vec![])
+            derive_resource_id("some-id", &mut vec![]).unwrap(),
+            derive_resource_id("some-id", &mut vec![]).unwrap()
         );
+    }
+
+    #[test]
+    fn distinct_identifiers_derive_distinct_resource_ids() {
+        assert_ne!(
+            derive_resource_id("some-id", &mut vec![]).unwrap(),
+            derive_resource_id("some-other-id", &mut vec![]).unwrap()
+        );
+    }
+
+    #[test]
+    fn rejects_an_empty_identifier_without_touching_the_labels() {
+        let mut labels = vec![Label {
+            key: "first".to_string(),
+            value: "1".to_string(),
+        }];
+
+        match derive_resource_id("", &mut labels) {
+            Err(e) => assert!(matches!(e.kind(), ErrorKind::ValidationError(_))),
+            Ok(id) => panic!("expected a validation error, got {id}"),
+        }
+        assert_eq!(labels.len(), 1);
+        assert_eq!(labels[0].key, "first");
     }
 
     #[test]
     fn records_the_original_id_verbatim() {
         let mut labels = vec![];
-        let _ = derive_resource_id("Some:Original@Id_", &mut labels);
+        derive_resource_id("Some:Original@Id_", &mut labels).unwrap();
 
         assert_eq!(labels.len(), 1);
         assert_eq!(labels[0].key, ORIGINAL_ID_LABEL_KEY);
@@ -349,7 +381,7 @@ mod tests {
             key: ORIGINAL_ID_LABEL_KEY.to_string(),
             value: "stale".to_string(),
         }];
-        let _ = derive_resource_id("current", &mut labels);
+        derive_resource_id("current", &mut labels).unwrap();
 
         assert_eq!(labels.len(), 1);
         assert_eq!(labels[0].value, "current");
@@ -367,7 +399,7 @@ mod tests {
                 value: "2".to_string(),
             },
         ];
-        let _ = derive_resource_id("some-id", &mut labels);
+        derive_resource_id("some-id", &mut labels).unwrap();
 
         assert_eq!(labels.len(), 3);
         assert_eq!(labels[0].key, "first");
