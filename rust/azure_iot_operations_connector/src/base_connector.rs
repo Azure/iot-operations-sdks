@@ -105,10 +105,10 @@ pub struct Options {
     #[builder(default = "Duration::from_secs(5)")]
     filemount_debounce_duration: Duration,
 
-    /// Value for the `metriccategory` that is used to categorize the internal traffic between 
-    /// the connector and other AIO services - Broker, Schema Registry, DSS. 
+    /// Value for the `metriccategory` that is used to categorize the internal traffic between
+    /// the connector and other AIO services - Broker, Schema Registry, DSS.
     /// See https://learn.microsoft.com/en-us/azure/iot-operations/reference/observability-metrics-mqtt-broker#category for details.
-    #[builder(default = "\"aiosdk-rust\".to_string()", setter(into))]
+    #[builder(default = "\"aiosdk-rust-connector\".to_string()", setter(into))]
     metric_category: String,
 
     /// Reconnect policy used by the MQTT Session.
