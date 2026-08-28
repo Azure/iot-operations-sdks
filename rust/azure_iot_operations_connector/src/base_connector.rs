@@ -107,7 +107,7 @@ pub struct Options {
 
     /// Value for the `metriccategory` that is used to categorize the internal traffic between
     /// the connector and other AIO services - Broker, Schema Registry, DSS.
-    /// See https://learn.microsoft.com/en-us/azure/iot-operations/reference/observability-metrics-mqtt-broker#category for details.
+    /// See <https://learn.microsoft.com/en-us/azure/iot-operations/reference/observability-metrics-mqtt-broker#category> for details.
     #[builder(default = "\"aiosdk-rust-connector\".to_string()", setter(into))]
     metric_category: String,
 
