@@ -271,7 +271,7 @@ pub const ORIGINAL_ID_LABEL_KEY: &str = "originalid";
 /// alphanumeric. Every other identifier is hashed, yielding the lowercase hex SHA-256 of
 /// `original_id`. A hashed identifier is always 64 characters drawn from `[0-9a-f]`, which
 /// satisfies both the xRegistry identifier rules and the stricter cloud rules.
-/// 
+///
 /// An identical [`ORIGINAL_ID_LABEL_KEY`] entry is never duplicated, while entries recording a
 /// *different* identifier are left in place.
 ///
@@ -313,7 +313,8 @@ pub fn derive_resource_id(
         HEXLOWER.encode(&Sha256::digest(original_id.as_bytes()))
     };
 
-    resource_labels.retain(|label| !(label.key == ORIGINAL_ID_LABEL_KEY && label.value == original_id));
+    resource_labels
+        .retain(|label| !(label.key == ORIGINAL_ID_LABEL_KEY && label.value == original_id));
     resource_labels.push(Label {
         key: ORIGINAL_ID_LABEL_KEY.to_string(),
         value: original_id,
