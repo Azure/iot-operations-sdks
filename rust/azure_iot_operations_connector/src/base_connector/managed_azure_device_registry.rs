@@ -2932,7 +2932,7 @@ impl DataOperationClient {
     /// - [`SchemaModifyResult::NotModified`] if no modification was needed or the version changed during processing
     ///
     /// # Errors
-    /// [`XRegistryMessageSchemaError`] of kind [`EdgeRegistryError::InvalidRequestArgument`](edge_registry::ErrorKind::ValidationError)
+    /// [`XRegistryMessageSchemaError`] of kind [`EdgeRegistryError::ValidationError`](edge_registry::ErrorKind::ValidationError)
     /// if the document of the [`XRegistryMessageSchema`] is empty or there is an error building the request
     ///
     /// [`XRegistryMessageSchemaError`] of kind [`EdgeRegistryError::ServiceError`](edge_registry::ErrorKind::ServiceError)
@@ -4130,7 +4130,7 @@ impl ManagementActionClient {
     /// - [`SchemaModifyResult::NotModified`] if no modification was needed or the version changed during processing
     ///
     /// # Errors
-    /// [`XRegistryMessageSchemaError`] of kind [`EdgeRegistryError::InvalidRequestArgument`](edge_registry::ErrorKind::ValidationError)
+    /// [`XRegistryMessageSchemaError`] of kind [`EdgeRegistryError::ValidationError`](edge_registry::ErrorKind::ValidationError)
     /// if the document of the [`XRegistryMessageSchema`] is empty or there is an error building the request
     ///
     /// [`XRegistryMessageSchemaError`] of kind [`EdgeRegistryError::ServiceError`](edge_registry::ErrorKind::ServiceError)
@@ -4173,7 +4173,7 @@ impl ManagementActionClient {
     /// - [`SchemaModifyResult::NotModified`] if no modification was needed or the version changed during processing
     ///
     /// # Errors
-    /// [`XRegistryMessageSchemaError`] of kind [`EdgeRegistryError::InvalidRequestArgument`](edge_registry::ErrorKind::ValidationError)
+    /// [`XRegistryMessageSchemaError`] of kind [`EdgeRegistryError::ValidationError`](edge_registry::ErrorKind::ValidationError)
     /// if the document of the [`XRegistryMessageSchema`] is empty or there is an error building the request
     ///
     /// [`XRegistryMessageSchemaError`] of kind [`EdgeRegistryError::ServiceError`](edge_registry::ErrorKind::ServiceError)

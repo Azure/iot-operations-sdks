@@ -99,6 +99,10 @@ fn create_output_schema(data: &Data) -> Result<MessageSchema, SchemaGenerationEr
 ///
 /// # Errors
 /// Returns a [`XRegistrySchemaGenerationError`] if there is an error during the transformation or schema generation.
+///
+/// # Panics
+/// Panics if the schema id generated from `default_schema_id` is an empty string. Not possible because this at minimum
+/// returns `:::`
 pub fn create_xregistry_schema(
     data: &Data,
     data_operation_ref: &DataOperationRef,
@@ -128,7 +132,7 @@ pub fn create_xregistry_schema(
 ///   information is available to derive the type of the field.
 ///
 /// # Errors
-/// Returns a [`SchemaGenerationError`] if there is an error during the transformation or schema generation.
+/// Returns a [`XRegistrySchemaGenerationError`] if there is an error during the transformation or schema generation.
 pub fn create_schema_version_attributes(
     data: &Data,
 ) -> Result<SchemaVersionAttributes, XRegistrySchemaGenerationError> {
