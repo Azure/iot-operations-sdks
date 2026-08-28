@@ -3,9 +3,12 @@
 
 //! Processor for generating [`MessageSchema`] for the JSON payload defined in a [`Data`].
 
-use azure_iot_operations_services::edge_registry::models::{
-    SchemaFormat, SchemaVersionAttributes, SchemaVersionAttributesBuilder,
-    SchemaVersionAttributesBuilderError,
+use azure_iot_operations_services::edge_registry::{
+    derive_resource_id,
+    models::{
+        SchemaFormat, SchemaVersionAttributes, SchemaVersionAttributesBuilder,
+        SchemaVersionAttributesBuilderError,
+    },
 };
 use azure_iot_operations_services::schema_registry::{Format, SchemaType};
 use serde_json::{self, Value};
@@ -105,9 +108,8 @@ pub fn create_xregistry_schema(
     // of an error if necessary.
     let schema_version_attributes = create_schema_version_attributes(data)?;
     let desired_schema_id = default_schema_id(data_operation_ref);
-    let schema_labels = vec![];
-    // TODO: run derive_resource_id once it's available
-    let actual_schema_id = desired_schema_id; // derive_resource_id(desired_schema_id, &mut schema_labels);
+    let (actual_schema_id, schema_labels) = derive_resource_id(desired_schema_id, vec![])
+        .expect("default_schema_id can't return an empty String");
     XRegistryMessageSchemaBuilder::default()
         .schema_id(actual_schema_id)
         .version(schema_version_attributes)
