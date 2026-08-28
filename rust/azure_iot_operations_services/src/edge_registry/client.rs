@@ -27,6 +27,9 @@ use crate::edge_registry::{
     GroupSelection, Label,
 };
 
+/// User property key for the metric category.
+const METRIC_CATEGORY_USER_PROPERTY: &str = "metriccategory";
+
 // Topic token keys for the xRegistry command topics.
 const GROUP_TYPE_TOPIC_TOKEN: &str = "groupType";
 const RESOURCE_TYPE_TOPIC_TOKEN: &str = "resourceType";
@@ -48,6 +51,8 @@ const THING_MODEL_RESOURCE_TYPE: &str = client_gen::THING_MODEL_RESOURCE_TYPE;
 #[allow(clippy::struct_field_names)]
 #[derive(Clone)]
 pub struct Client {
+    // Metric category for the client to attach to all requests.
+    metric_category: Option<String>,
     // Generic xRegistry command invokers.
     create_group_command_invoker: Arc<client_gen::CreateGroupActionInvoker>,
     get_group_command_invoker: Arc<client_gen::GetGroupActionInvoker>,
@@ -97,6 +102,7 @@ impl Client {
             .expect("Statically generated options should not fail.");
 
         Self {
+            metric_category: client.metric_category().map(str::to_string),
             create_group_command_invoker: Arc::new(client_gen::CreateGroupActionInvoker::new(
                 application_context.clone(),
                 client.clone(),
@@ -281,6 +287,7 @@ impl Client {
             .payload(payload)
             .map_err(ErrorKind::from)?
             .topic_tokens(Self::group_topic_tokens(group_type))
+            .custom_user_data(self.metric_custom_user_data())
             .timeout(timeout)
             .build()
             .map_err(ErrorKind::from)?;
@@ -325,6 +332,7 @@ impl Client {
             .payload(payload)
             .map_err(ErrorKind::from)?
             .topic_tokens(Self::group_topic_tokens(group_type))
+            .custom_user_data(self.metric_custom_user_data())
             .timeout(timeout)
             .build()
             .map_err(ErrorKind::from)?;
@@ -361,6 +369,7 @@ impl Client {
     ) -> Result<Vec<String>, Error> {
         let request = client_gen::ListGroupsRequestBuilder::default()
             .topic_tokens(Self::group_topic_tokens(group_type))
+            .custom_user_data(self.metric_custom_user_data())
             .timeout(timeout)
             .build()
             .map_err(ErrorKind::from)?;
@@ -407,6 +416,7 @@ impl Client {
             .payload(payload)
             .map_err(ErrorKind::from)?
             .topic_tokens(Self::group_topic_tokens(group_type))
+            .custom_user_data(self.metric_custom_user_data())
             .timeout(timeout)
             .build()
             .map_err(ErrorKind::from)?;
@@ -473,6 +483,7 @@ impl Client {
                 resource_type,
                 resource_id,
             ))
+            .custom_user_data(self.metric_custom_user_data())
             .timeout(timeout)
             .build()
             .map_err(ErrorKind::from)?;
@@ -526,6 +537,7 @@ impl Client {
                 resource_type,
                 resource_id,
             ))
+            .custom_user_data(self.metric_custom_user_data())
             .timeout(timeout)
             .build()
             .map_err(ErrorKind::from)?;
@@ -578,6 +590,7 @@ impl Client {
         let request = client_gen::ListResourcesRequestBuilder::default()
             .payload(payload)
             .map_err(ErrorKind::from)?
+            .custom_user_data(self.metric_custom_user_data())
             .timeout(timeout)
             .build()
             .map_err(ErrorKind::from)?;
@@ -632,6 +645,7 @@ impl Client {
                 resource_type,
                 resource_id,
             ))
+            .custom_user_data(self.metric_custom_user_data())
             .timeout(timeout)
             .build()
             .map_err(ErrorKind::from)?;
@@ -696,6 +710,7 @@ impl Client {
                 resource_type,
                 resource_id,
             ))
+            .custom_user_data(self.metric_custom_user_data())
             .timeout(timeout)
             .build()
             .map_err(ErrorKind::from)?;
@@ -751,6 +766,7 @@ impl Client {
                 resource_type,
                 resource_id,
             ))
+            .custom_user_data(self.metric_custom_user_data())
             .timeout(timeout)
             .build()
             .map_err(ErrorKind::from)?;
@@ -809,6 +825,7 @@ impl Client {
         let request = client_gen::ListVersionsRequestBuilder::default()
             .payload(payload)
             .map_err(ErrorKind::from)?
+            .custom_user_data(self.metric_custom_user_data())
             .timeout(timeout)
             .build()
             .map_err(ErrorKind::from)?;
@@ -867,6 +884,7 @@ impl Client {
                 resource_id,
                 version_id,
             ))
+            .custom_user_data(self.metric_custom_user_data())
             .timeout(timeout)
             .build()
             .map_err(ErrorKind::from)?;
@@ -950,6 +968,7 @@ impl Client {
                 SCHEMA_ID_TOPIC_TOKEN,
                 schema_id,
             ))
+            .custom_user_data(self.metric_custom_user_data())
             .timeout(timeout)
             .build()
             .map_err(ErrorKind::from)?;
@@ -1001,6 +1020,7 @@ impl Client {
                 SCHEMA_ID_TOPIC_TOKEN,
                 schema_id,
             ))
+            .custom_user_data(self.metric_custom_user_data())
             .timeout(timeout)
             .build()
             .map_err(ErrorKind::from)?;
@@ -1059,6 +1079,7 @@ impl Client {
         let request = client_gen::ListSchemaVersionsRequestBuilder::default()
             .payload(payload)
             .map_err(ErrorKind::from)?
+            .custom_user_data(self.metric_custom_user_data())
             .timeout(timeout)
             .build()
             .map_err(ErrorKind::from)?;
@@ -1111,6 +1132,7 @@ impl Client {
                 schema_id,
                 version_id,
             ))
+            .custom_user_data(self.metric_custom_user_data())
             .timeout(timeout)
             .build()
             .map_err(ErrorKind::from)?;
@@ -1194,6 +1216,7 @@ impl Client {
                 THING_DESCRIPTION_ID_TOPIC_TOKEN,
                 thing_description_id,
             ))
+            .custom_user_data(self.metric_custom_user_data())
             .timeout(timeout)
             .build()
             .map_err(ErrorKind::from)?;
@@ -1245,6 +1268,7 @@ impl Client {
                 THING_DESCRIPTION_ID_TOPIC_TOKEN,
                 thing_description_id,
             ))
+            .custom_user_data(self.metric_custom_user_data())
             .timeout(timeout)
             .build()
             .map_err(ErrorKind::from)?;
@@ -1303,6 +1327,7 @@ impl Client {
         let request = client_gen::ListThingDescriptionVersionsRequestBuilder::default()
             .payload(payload)
             .map_err(ErrorKind::from)?
+            .custom_user_data(self.metric_custom_user_data())
             .timeout(timeout)
             .build()
             .map_err(ErrorKind::from)?;
@@ -1355,6 +1380,7 @@ impl Client {
                 thing_description_id,
                 version_id,
             ))
+            .custom_user_data(self.metric_custom_user_data())
             .timeout(timeout)
             .build()
             .map_err(ErrorKind::from)?;
@@ -1438,6 +1464,7 @@ impl Client {
                 THING_MODEL_ID_TOPIC_TOKEN,
                 thing_model_id,
             ))
+            .custom_user_data(self.metric_custom_user_data())
             .timeout(timeout)
             .build()
             .map_err(ErrorKind::from)?;
@@ -1489,6 +1516,7 @@ impl Client {
                 THING_MODEL_ID_TOPIC_TOKEN,
                 thing_model_id,
             ))
+            .custom_user_data(self.metric_custom_user_data())
             .timeout(timeout)
             .build()
             .map_err(ErrorKind::from)?;
@@ -1547,6 +1575,7 @@ impl Client {
         let request = client_gen::ListThingModelVersionsRequestBuilder::default()
             .payload(payload)
             .map_err(ErrorKind::from)?
+            .custom_user_data(self.metric_custom_user_data())
             .timeout(timeout)
             .build()
             .map_err(ErrorKind::from)?;
@@ -1599,6 +1628,7 @@ impl Client {
                 thing_model_id,
                 version_id,
             ))
+            .custom_user_data(self.metric_custom_user_data())
             .timeout(timeout)
             .build()
             .map_err(ErrorKind::from)?;
@@ -1722,6 +1752,18 @@ impl Client {
     }
 
     // ~~~~~~~~~~~~~~~~~ Helpers ~~~~~~~~~~~~~~~~~~~~~
+
+    /// Returns custom user data with the metric category if set.
+    fn metric_custom_user_data(&self) -> Vec<(String, String)> {
+        let mut custom_user_data = vec![];
+        if let Some(metric_category) = &self.metric_category {
+            custom_user_data.push((
+                METRIC_CATEGORY_USER_PROPERTY.to_string(),
+                metric_category.clone(),
+            ));
+        }
+        custom_user_data
+    }
 
     /// Builds the topic tokens for a Group-scoped request.
     fn group_topic_tokens(group_type: String) -> HashMap<String, String> {
