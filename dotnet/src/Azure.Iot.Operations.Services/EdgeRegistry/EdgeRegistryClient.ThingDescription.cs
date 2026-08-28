@@ -49,6 +49,19 @@ public sealed partial class EdgeRegistryClient : IThingDescriptionClient
     }
 
     /// <inheritdoc/>
+    public Task<IReadOnlyList<Models.ResourceXId>> ListThingDescriptionsAsync(
+        GroupSelector groups,
+        Models.Label? label = null,
+        TimeSpan? timeout = null,
+        CancellationToken cancellationToken = default)
+        => ListResourcesAsync(
+            GroupQuery.WithinGroupType(Generated.Constants.ThingDescriptionGroupType, groups),
+            Generated.Constants.ThingDescriptionResourceType,
+            label,
+            timeout,
+            cancellationToken);
+
+    /// <inheritdoc/>
     public async Task<IReadOnlyList<Models.ThingDescriptionVersionXid>> ListThingDescriptionVersionsAsync(GroupSelector groups, string? thingDescriptionId = null, string? documentHash = null, Models.Label? label = null, TimeSpan? timeout = null, CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();

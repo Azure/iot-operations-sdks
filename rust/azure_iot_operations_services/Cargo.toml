@@ -40,6 +40,7 @@ edge_registry = [
   "time",
   "uuid",
   "bytes",
+  "sha2",
 ]
 azure_device_registry = [
   "azure_iot_operations_protocol/internal-utils",
@@ -66,6 +67,7 @@ tokio-util = { workspace = true, optional = true }
 data-encoding = "2.5"
 serde = { workspace = true, features = ["derive"], optional = true }
 serde_json = { workspace = true, optional = true }
+sha2 = { workspace = true, optional = true }
 chrono = { workspace = true, features = ["serde", "clock"], optional = true }
 iso8601-duration = { workspace = true, features = ["serde", "chrono"], optional = true }
 base64 = { version = "0.22.1", optional = true }
@@ -99,6 +101,10 @@ required-features = ["state_store"]
 [[example]]
 name = "schema_registry_client"
 required-features = ["schema_registry"]
+
+[[example]]
+name = "edge_registry_client"
+required-features = ["edge_registry"]
 
 [[example]]
 name = "lock_client"
