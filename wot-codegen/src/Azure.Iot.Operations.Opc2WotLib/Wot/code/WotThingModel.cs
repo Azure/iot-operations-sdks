@@ -34,8 +34,8 @@ namespace Azure.Iot.Operations.Opc2WotLib
         {
             this.specName = specName;
             this.thingName = WotUtil.LegalizeName(uaObjectType.DiscriminatedEffectiveName, specName);
-            this.id = WotUtil.GetThingModelId(uaObjectType.DefiningModel.ModelUri, this.thingName);
             this.typeRef = uaObjectType.GetTypeRef();
+            this.id = WotUtil.GetThingModelId(this.typeRef);
             this.isIntegrated = isIntegrated;
             this.inheritVars = inheritVars;
 
@@ -44,7 +44,7 @@ namespace Azure.Iot.Operations.Opc2WotLib
             this.isComposite = !isTypeDefinition && !this.isEvent && !uaObjectType.IsAbstract;
 
             this.baseModelRefs = uaObjectType.BaseModels
-                .Select(node => GetModelRef(uaObjectType, node))
+                .Select(GetModelRef)
                 .ToHashSet();
             this.linkInfos = uaObjectType.TypeAndObjectOfReferences
                 .Where(t => t.Item1.NsIndex != 0 || t.Item1.IsComponentReference || t.Item1.IsAddInReference)
@@ -112,17 +112,15 @@ namespace Azure.Iot.Operations.Opc2WotLib
                 : null;
         }
 
-        private string GetModelRef(OpcUaObjectType sourceObjectType, OpcUaObjectType targetObjectType)
+        private string GetModelRef(OpcUaObjectType targetObjectType)
         {
-            string targetSpecName = SpecMapper.GetSpecNameFromUri(targetObjectType.DefiningModel.ModelUri);
-            string targetThingName = WotUtil.LegalizeName(targetObjectType.DiscriminatedEffectiveName, targetSpecName);
-            return WotUtil.GetThingModelId(targetObjectType.DefiningModel.ModelUri, targetThingName);
+            return WotUtil.GetThingModelId(targetObjectType.GetTypeRef());
         }
 
         private LinkInfo GetLinkInfo(OpcUaObjectType sourceObjectType, OpcUaNodeId referenceTypeNodeId, OpcUaObject targetObject, LinkRelRuleEngine linkRelRuleEngine)
         {
             OpcUaObjectType targetObjectType = (OpcUaObjectType)targetObject.GetReferencedOpcUaNode(targetObject.HasTypeDefinitionNodeId!);
-            string targetModelRef = GetModelRef(sourceObjectType, targetObjectType);
+            string targetModelRef = GetModelRef(targetObjectType);
 
             if (referenceTypeNodeId.NsIndex != 0)
             {

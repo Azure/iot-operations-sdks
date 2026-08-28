@@ -44,6 +44,18 @@ public interface ISchemaRegistryClient
     /// <returns>A task whose result is the requested <see cref="Models.SchemaVersion"/>.</returns>
     Task<Models.SchemaVersion> GetSchemaVersionAsync(GroupId groupId, string schemaId, GetSchemaVersionId versionId, TimeSpan? timeout = null, CancellationToken cancellationToken = default);
 
+    /// <summary>Lists the XIDs of Schemas matching the query, optionally filtered by a single label.</summary>
+    /// <param name="groups">The Schema Groups to search; see <see cref="GroupSelector"/> for the available scopes.</param>
+    /// <param name="label">When set, restricts the results to Schemas carrying this label.</param>
+    /// <param name="timeout">The command timeout; when <see langword="null"/>, the client's default timeout is used.</param>
+    /// <param name="cancellationToken">A token to cancel the operation.</param>
+    /// <returns>A task whose result is the XIDs of the matching Schemas.</returns>
+    Task<IReadOnlyList<Models.ResourceXId>> ListSchemasAsync(
+        GroupSelector groups,
+        Models.Label? label = null,
+        TimeSpan? timeout = null,
+        CancellationToken cancellationToken = default);
+
     /// <summary>Lists the XIDs of Schema Versions matching the query, optionally filtered by Schema id and/or a single label.</summary>
     /// <param name="groups">The Groups to search; see <see cref="GroupSelector"/> for the available scopes.</param>
     /// <param name="schemaId">When set, restricts the results to this Schema.</param>

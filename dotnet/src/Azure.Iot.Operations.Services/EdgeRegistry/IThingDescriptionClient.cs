@@ -45,6 +45,18 @@ public interface IThingDescriptionClient
     /// <returns>A task whose result is the requested <see cref="Models.ThingDescriptionVersion"/>.</returns>
     Task<Models.ThingDescriptionVersion> GetThingDescriptionVersionAsync(GroupId groupId, string thingDescriptionId, GetThingDescriptionVersionId versionId, TimeSpan? timeout = null, CancellationToken cancellationToken = default);
 
+    /// <summary>Lists the XIDs of Thing Descriptions matching the query, optionally filtered by a single label.</summary>
+    /// <param name="groups">The Thing Description Groups to search; see <see cref="GroupSelector"/> for the available scopes.</param>
+    /// <param name="label">When set, restricts the results to Thing Descriptions carrying this label.</param>
+    /// <param name="timeout">The command timeout; when <see langword="null"/>, the client's default timeout is used.</param>
+    /// <param name="cancellationToken">A token to cancel the operation.</param>
+    /// <returns>A task whose result is the XIDs of the matching Thing Descriptions.</returns>
+    Task<IReadOnlyList<Models.ResourceXId>> ListThingDescriptionsAsync(
+        GroupSelector groups,
+        Models.Label? label = null,
+        TimeSpan? timeout = null,
+        CancellationToken cancellationToken = default);
+
     /// <summary>Lists the XIDs of Thing Description Versions matching the query, optionally filtered by Thing Description id and/or a single label.</summary>
     /// <param name="groups">The Groups to search; see <see cref="GroupSelector"/> for the available scopes.</param>
     /// <param name="thingDescriptionId">When set, restricts the results to this Thing Description.</param>

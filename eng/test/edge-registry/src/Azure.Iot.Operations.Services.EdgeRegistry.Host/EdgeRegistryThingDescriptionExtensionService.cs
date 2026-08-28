@@ -21,10 +21,12 @@ internal sealed class EdgeRegistryThingDescriptionExtensionService : EdgeRegistr
     private const string ThingDescriptionIdToken = "ex:thingDescriptionId";
 
     private readonly ExtensionVersionStore<CreateThingDescriptionVersionAttributes> _store = new(a => a.Labels, a => a.Document);
+    private readonly EdgeRegistryService _coreService;
 
-    public EdgeRegistryThingDescriptionExtensionService(ApplicationContext applicationContext, MqttSessionClient mqttClient)
+    public EdgeRegistryThingDescriptionExtensionService(ApplicationContext applicationContext, MqttSessionClient mqttClient, EdgeRegistryService coreService)
         : base(applicationContext, mqttClient)
     {
+        _coreService = coreService;
     }
 
     public override Task<ExtendedResponse<CreateThingDescriptionVersionOutputArguments>> CreateThingDescriptionVersionAsync(CreateThingDescriptionVersionInputArguments request, CommandRequestMetadata requestMetadata, CancellationToken cancellationToken)
@@ -32,6 +34,14 @@ internal sealed class EdgeRegistryThingDescriptionExtensionService : EdgeRegistr
         string thingDescriptionId = TopicToken(requestMetadata, ThingDescriptionIdToken);
         string groupId = request.GroupId ?? DefaultGroupId;
         var version = _store.CreateVersion(groupId, thingDescriptionId, request.ThingDescriptionLabels, request);
+        _coreService.UpsertExtensionVersion(
+            GroupType,
+            groupId,
+            ResourceType,
+            thingDescriptionId,
+            request.ThingDescriptionLabels,
+            version.VersionId.ToString(CultureInfo.InvariantCulture),
+            ToCoreVersionAttributes(request.Name, request.Description, request.Documentation, request.Icon, request.Labels, request.Ancestor, request.ContentType, request.Format, request.Document, request.Extensions));
         return Task.FromResult(Ok(ToEntity(groupId, thingDescriptionId, version)));
     }
 
@@ -72,7 +82,11 @@ internal sealed class EdgeRegistryThingDescriptionExtensionService : EdgeRegistr
         string thingDescriptionId = TopicToken(requestMetadata, ThingDescriptionIdToken);
         ulong versionId = ulong.Parse(TopicToken(requestMetadata, VersionIdToken), CultureInfo.InvariantCulture);
         string groupId = request.GroupId ?? DefaultGroupId;
-        _store.DeleteVersion(groupId, thingDescriptionId, versionId, request.Options.ExpectedEpoch);
+        if (_store.DeleteVersion(groupId, thingDescriptionId, versionId, request.Options.ExpectedEpoch))
+        {
+            _coreService.DeleteExtensionVersion(GroupType, groupId, ResourceType, thingDescriptionId, versionId.ToString(CultureInfo.InvariantCulture));
+        }
+
         return Task.FromResult(Ok(new EmptyJson()));
     }
 
