@@ -3,10 +3,18 @@
 
 //! Processor for generating [`MessageSchema`] for the JSON payload defined in a [`Data`].
 
+use azure_iot_operations_services::edge_registry::models::{
+    SchemaFormat, SchemaVersionAttributes, SchemaVersionAttributesBuilder,
+    SchemaVersionAttributesBuilderError,
+};
 use azure_iot_operations_services::schema_registry::{Format, SchemaType};
 use serde_json::{self, Value};
 
-use crate::{Data, MessageSchema, MessageSchemaBuilder, MessageSchemaBuilderError};
+use crate::{
+    Data, DataOperationRef, MessageSchema, MessageSchemaBuilder, MessageSchemaBuilderError,
+    XRegistryMessageSchema, XRegistryMessageSchemaBuilder, XRegistryMessageSchemaBuilderError,
+    default_schema_id,
+};
 
 /// An error that occurred during the schema generation of data.
 #[derive(Debug, thiserror::Error)]
@@ -25,6 +33,24 @@ enum SchemaGenerationErrorRepr {
     Schema(#[from] MessageSchemaBuilderError),
 }
 
+/// An error that occurred during the schema generation of data.
+#[derive(Debug, thiserror::Error)]
+#[error("{repr}")]
+pub struct XRegistrySchemaGenerationError {
+    #[source]
+    repr: XRegistrySchemaGenerationErrorRepr,
+}
+
+/// Inner representation of a [`XRegistrySchemaGenerationError`].
+#[derive(Debug, thiserror::Error)]
+enum XRegistrySchemaGenerationErrorRepr {
+    #[error(transparent)]
+    Serde(#[from] serde_json::Error),
+    #[error(transparent)]
+    Schema(#[from] SchemaVersionAttributesBuilderError),
+    #[error(transparent)]
+    MessageSchema(#[from] XRegistryMessageSchemaBuilderError),
+}
 /// Returns a new [`MessageSchema`] that describes it.
 ///
 /// # Limitations
@@ -50,6 +76,90 @@ pub fn create_schema(data: &Data) -> Result<MessageSchema, SchemaGenerationError
 /// Returns an error if the transformation or schema generation cannot be made.
 /// Input data will not be modified.
 fn create_output_schema(data: &Data) -> Result<MessageSchema, SchemaGenerationErrorRepr> {
+    // Create a MessageSchema from the output JSON schema
+    let output_message_schema = MessageSchemaBuilder::default()
+        .schema_content(create_output_schema_string(data)?)
+        .format(Format::JsonSchemaDraft07)
+        .schema_type(SchemaType::MessageSchema)
+        .build()?;
+
+    Ok(output_message_schema)
+}
+
+/// Returns a new [`XRegistryMessageSchema`] that describes it, generating a generic schema id.
+///
+/// # Limitations
+/// - Cannot correctly interpret enums as it derives the schema only from JSON payload provided.
+/// - Similarly, optionality of fields cannot be inferred correctly in the schema.
+/// - Fields that are set to `null` in the input JSON will be set to `true` in the schema, as no
+///   information is available to derive the type of the field.
+///
+/// # Errors
+/// Returns a [`XRegistrySchemaGenerationError`] if there is an error during the transformation or schema generation.
+pub fn create_xregistry_schema(
+    data: &Data,
+    data_operation_ref: &DataOperationRef,
+) -> Result<XRegistryMessageSchema, XRegistrySchemaGenerationError> {
+    // NOTE: We delegate to a function here that modifies the data in place so that the entire
+    // `data` struct does not need to be reallocated, while also being able to return it as part
+    // of an error if necessary.
+    let schema_version_attributes = create_schema_version_attributes(data)?;
+    let desired_schema_id = default_schema_id(data_operation_ref);
+    let schema_labels = vec![];
+    // TODO: run derive_resource_id once it's available
+    let actual_schema_id = desired_schema_id; // derive_resource_id(desired_schema_id, &mut schema_labels);
+    XRegistryMessageSchemaBuilder::default()
+        .schema_id(actual_schema_id)
+        .version(schema_version_attributes)
+        .schema_labels(schema_labels)
+        .build()
+        .map_err(|e| XRegistrySchemaGenerationError { repr: e.into() })
+}
+
+/// Returns a new [`SchemaVersionAttributes`] that describes it, leaving the caller to determine the schema id,
+/// group id, and schema labels.
+///
+/// # Limitations
+/// - Cannot correctly interpret enums as it derives the schema only from JSON payload provided.
+/// - Similarly, optionality of fields cannot be inferred correctly in the schema.
+/// - Fields that are set to `null` in the input JSON will be set to `true` in the schema, as no
+///   information is available to derive the type of the field.
+///
+/// # Errors
+/// Returns a [`SchemaGenerationError`] if there is an error during the transformation or schema generation.
+pub fn create_schema_version_attributes(
+    data: &Data,
+) -> Result<SchemaVersionAttributes, XRegistrySchemaGenerationError> {
+    // NOTE: We delegate to a function here that modifies the data in place so that the entire
+    // `data` struct does not need to be reallocated, while also being able to return it as part
+    // of an error if necessary.
+    match create_output_schema_version_attributes(data) {
+        Ok(message_schema) => Ok(message_schema),
+        Err(e) => Err(XRegistrySchemaGenerationError { repr: e }),
+    }
+}
+
+/// Generates a new [`SchemaVersionAttributes`] that describes the data.
+///
+/// Returns an error if the transformation or schema generation cannot be made.
+/// Input data will not be modified.
+fn create_output_schema_version_attributes(
+    data: &Data,
+) -> Result<SchemaVersionAttributes, XRegistrySchemaGenerationErrorRepr> {
+    // Create a SchemaVersionAttributes from the output JSON schema
+    let schema_version_attributes = SchemaVersionAttributesBuilder::default()
+        .document(create_output_schema_string(data)?.into())
+        .format(SchemaFormat::JsonSchemaDraft07)
+        .build()?;
+
+    Ok(schema_version_attributes)
+}
+
+/// Generates a new Schema document that describes the data.
+///
+/// Returns an error if the transformation or schema generation cannot be made.
+/// Input data will not be modified.
+fn create_output_schema_string(data: &Data) -> Result<String, serde_json::Error> {
     // Parse the input JSON from bytes
     let output_json: Value = serde_json::from_slice(&data.payload)?;
 
@@ -59,14 +169,8 @@ fn create_output_schema(data: &Data) -> Result<MessageSchema, SchemaGenerationEr
         metadata.examples = vec![];
     }
 
-    // Create a MessageSchema from the output JSON schema
-    let output_message_schema = MessageSchemaBuilder::default()
-        .schema_content(serde_json::to_string(&output_root_schema)?)
-        .format(Format::JsonSchemaDraft07)
-        .schema_type(SchemaType::MessageSchema)
-        .build()?;
-
-    Ok(output_message_schema)
+    // Create the output JSON schema
+    serde_json::to_string(&output_root_schema)
 }
 
 #[cfg(test)]

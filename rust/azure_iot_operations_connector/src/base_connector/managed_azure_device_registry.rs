@@ -17,6 +17,7 @@ use azure_iot_operations_services::{
         health_reporter::HealthReporterSender,
         models::{self as adr_models, Asset, DeviceRef},
     },
+    edge_registry::{self, models::VersionXId},
     schema_registry,
 };
 use chrono::{DateTime, Utc};
@@ -31,7 +32,7 @@ use tokio_util::sync::CancellationToken;
 
 use crate::{
     AdrConfigError, Data, DataOperationKind, DataOperationName, DataOperationRef,
-    ManagementActionRef, MessageSchema, MessageSchemaReference,
+    ManagementActionRef, MessageSchema, MessageSchemaReference, XRegistryMessageSchema,
     base_connector::ConnectorContext,
     deployment_artifacts::{
         self,
@@ -2152,12 +2153,23 @@ pub enum AssetComponentClient {
     ),
 }
 
-/// Errors that can be returned when reporting a message schema for an asset component
+/// Errors that can be returned when reporting a message schema to the Schema Registry for an asset component
 #[derive(Error, Debug)]
 pub enum MessageSchemaError {
     /// An error occurred while putting the Schema in the Schema Registry
     #[error(transparent)]
     PutSchemaError(#[from] schema_registry::Error),
+    /// An error occurred while reporting the Schema to the Azure Device Registry Service.
+    #[error(transparent)]
+    AzureDeviceRegistryError(#[from] azure_device_registry::Error),
+}
+
+/// Errors that can be returned when reporting a message schema to the edge registry for an asset component
+#[derive(Error, Debug)]
+pub enum XRegistryMessageSchemaError {
+    /// An error occurred while putting the Schema in the Edge Registry
+    #[error(transparent)]
+    CreateSchemaError(#[from] edge_registry::Error),
     /// An error occurred while reporting the Schema to the Azure Device Registry Service.
     #[error(transparent)]
     AzureDeviceRegistryError(#[from] azure_device_registry::Error),
@@ -2867,7 +2879,10 @@ impl DataOperationClient {
         Ok(SchemaModifyResult::Reported(new_message_schema_reference))
     }
 
-    /// Used to conditionally report the message schema of a data operation
+    /// Used to conditionally report the message schema of a data operation to the Schema Registry and Azure Device Registry.
+    ///
+    /// NOTE: If your deployment of AIO has the Edge Registry Service, `report_xregistry_message_schema_if_modified`
+    /// should be used instead.
     ///
     /// The `modify` function is called with the current message schema reference (if any) and should return:
     /// - `Some(new_message_schema)` if the schema should be updated and reported
@@ -2901,6 +2916,59 @@ impl DataOperationClient {
     ) -> Result<SchemaModifyResult, MessageSchemaError>
     where
         F: Fn(Option<&MessageSchemaReference>) -> Option<MessageSchema>,
+    {
+        self.internal_report_message_schema_if_modified(modify, Self::put_message_schema)
+            .await
+    }
+
+    /// Used to conditionally report the message schema of a data operation to the Edge Registry and Azure Device Registry.
+    ///
+    /// The `modify` function is called with the current message schema reference (if any) and should return:
+    /// - `Some(new_xregistry_message_schema)` if the schema should be updated and reported
+    /// - `None` if no update is needed
+    ///
+    /// # Returns
+    /// - [`SchemaModifyResult::Reported`] if the schema was updated and successfully reported, containing the reported [`MessageSchemaReference`]
+    /// - [`SchemaModifyResult::NotModified`] if no modification was needed or the version changed during processing
+    ///
+    /// # Errors
+    /// [`XRegistryMessageSchemaError`] of kind [`EdgeRegistryError::InvalidRequestArgument`](edge_registry::ErrorKind::ValidationError)
+    /// if the document of the [`XRegistryMessageSchema`] is empty or there is an error building the request
+    ///
+    /// [`XRegistryMessageSchemaError`] of kind [`EdgeRegistryError::ServiceError`](edge_registry::ErrorKind::ServiceError)
+    /// if there is an error returned by the Edge Registry Service. This error will be retried 10
+    /// times with exponential backoff and jitter if it is an internal error and only returned if
+    /// it still is failing.
+    ///
+    /// [`XRegistryMessageSchemaError`] of kind [`AzureDeviceRegistryError::AIOProtocolError`](azure_device_registry::ErrorKind::AIOProtocolError) if
+    /// there are any underlying errors from the AIO RPC protocol. This error will be retried
+    /// 10 times with exponential backoff and jitter and only returned if it still is failing.
+    ///
+    /// [`XRegistryMessageSchemaError`] of kind [`AzureDeviceRegistryError::ServiceError`](azure_device_registry::ErrorKind::ServiceError) if
+    /// an error is returned by the Azure Device Registry service.
+    ///
+    /// # Panics
+    /// If the asset specification mutex has been poisoned, which should not be possible
+    pub async fn report_xregistry_message_schema_if_modified<F>(
+        &mut self,
+        modify: F,
+    ) -> Result<SchemaModifyResult, XRegistryMessageSchemaError>
+    where
+        F: Fn(Option<&MessageSchemaReference>) -> Option<XRegistryMessageSchema>,
+    {
+        self.internal_report_message_schema_if_modified(modify, Self::put_xregistry_message_schema)
+            .await
+    }
+
+    async fn internal_report_message_schema_if_modified<F, RegF, RegErr, MS, MSErr>(
+        &mut self,
+        modify: F,
+        put_schema: RegF,
+    ) -> Result<SchemaModifyResult, MSErr>
+    where
+        F: Fn(Option<&MessageSchemaReference>) -> Option<MS>,
+        RegF: AsyncFn(&Self, &MS) -> Result<MessageSchemaReference, RegErr>,
+        MSErr: From<RegErr> + From<azure_device_registry::Error>,
     {
         // Get the current version of the asset specification
         let cached_version = self.asset_specification.read().unwrap().version;
@@ -2964,7 +3032,28 @@ impl DataOperationClient {
         };
 
         // First put the schema in the schema registry
-        let message_schema_reference = Retry::spawn(
+        let message_schema_reference = put_schema(self, &new_message_schema).await?;
+
+        Self::internal_report_message_schema_reference(
+            &self.connector_context,
+            &self.asset_ref,
+            &self.data_operation_ref,
+            &mut self.forwarder,
+            asset_status_to_report,
+            &mut status_write_guard,
+            &message_schema_reference,
+            "DataOperationClient::report_message_schema_if_modified",
+        )
+        .await?;
+
+        Ok(SchemaModifyResult::Reported(message_schema_reference))
+    }
+
+    async fn put_message_schema(
+        &self,
+        new_message_schema: &MessageSchema,
+    ) -> Result<MessageSchemaReference, schema_registry::Error> {
+        Retry::spawn(
             RETRY_STRATEGY.map(tokio_retry2::strategy::jitter),
             async || -> Result<schema_registry::Schema, RetryError<schema_registry::Error>> {
                 self.connector_context
@@ -3010,21 +3099,65 @@ impl DataOperationClient {
             name: schema.name,
             version: schema.version,
             registry_namespace: schema.namespace,
-        })?;
+        })
+    }
 
-        Self::internal_report_message_schema_reference(
-            &self.connector_context,
-            &self.asset_ref,
-            &self.data_operation_ref,
-            &mut self.forwarder,
-            asset_status_to_report,
-            &mut status_write_guard,
-            &message_schema_reference,
-            "DataOperationClient::report_message_schema_if_modified",
+    async fn put_xregistry_message_schema(
+        &self,
+        new_message_schema: &XRegistryMessageSchema,
+    ) -> Result<MessageSchemaReference, edge_registry::Error> {
+        let schema_version_entity = Retry::spawn(
+            RETRY_STRATEGY.map(tokio_retry2::strategy::jitter),
+            async || -> Result<edge_registry::models::SchemaVersionEntity, RetryError<edge_registry::Error>> {
+                self.connector_context
+                    .edge_registry_client
+                    .create_schema_version(
+                        new_message_schema.group_id.clone(),
+                        new_message_schema.schema_id.clone(),
+                        new_message_schema.schema_labels.clone(),
+                        new_message_schema.version.clone(),
+                        self.connector_context.edge_registry_timeout,
+                    )
+                    .await
+                    .map_err(|e| {
+                        match e.kind() {
+                            // network/retriable
+                            edge_registry::ErrorKind::AIOProtocolError(_) => {
+                                log::warn!(
+                                    "Reporting message schema failed for {:?}. Retrying: {e}",
+                                    self.data_operation_ref
+                                );
+                                RetryError::transient(e)
+                            }
+                            edge_registry::ErrorKind::ServiceError(service_error) => {
+                                if let 500 =
+                                    service_error.code
+                                {
+                                    log::warn!(
+                                        "Reporting message schema failed for {:?}. Retrying: {e}",
+                                        self.data_operation_ref
+                                    );
+                                    RetryError::transient(e)
+                                } else {
+                                    RetryError::permanent(e)
+                                }
+                            }
+                            // indicates an error in the provided message schema or an unknown error, return to caller so they can fix
+                            // edge_registry::ErrorKind::ValidationError(_) |
+                            _ => {
+                                RetryError::permanent(e)
+                            }
+                        }
+                    })
+            },
         )
         .await?;
-
-        Ok(SchemaModifyResult::Reported(message_schema_reference))
+        Ok(MessageSchemaReference {
+            name: schema_version_entity.resource_id,
+            version: schema_version_entity.version_id.to_string(),
+            registry_namespace: VersionXId::<String>::try_from(schema_version_entity.xid.as_str())?
+                .group_id,
+        })
     }
 
     #[allow(clippy::too_many_arguments)]
@@ -3037,7 +3170,7 @@ impl DataOperationClient {
         status_write_guard: &mut adr_models::AssetStatus,
         message_schema_reference: &MessageSchemaReference,
         log_identifier: &str,
-    ) -> Result<(), MessageSchemaError> {
+    ) -> Result<(), azure_device_registry::Error> {
         // Use the provided asset_status_to_report instead of creating a new one
         let mut new_status = asset_status_to_report;
 
@@ -3894,7 +4027,10 @@ impl ManagementActionClient {
             .await
     }
 
-    /// Used to conditionally report the request message schema of a management action
+    /// Used to conditionally report the request message schema of a management action to the Schema Registry and Azure Device Registry.
+    ///
+    /// NOTE: If your deployment of AIO has the Edge Registry Service, `report_request_xregistry_message_schema_if_modified`
+    /// should be used instead.
     ///
     /// The `modify` function is called with the current message schema reference (if any) and should return:
     /// - `Some(new_message_schema)` if the schema should be updated and reported
@@ -3929,11 +4065,18 @@ impl ManagementActionClient {
     where
         F: Fn(Option<&MessageSchemaReference>) -> Option<MessageSchema>,
     {
-        self.report_message_schema_if_modified(ActionSchema::Request, modify)
-            .await
+        self.report_message_schema_if_modified(
+            ActionSchema::Request,
+            modify,
+            Self::put_message_schema,
+        )
+        .await
     }
 
-    /// Used to conditionally report the response message schema of a management action
+    /// Used to conditionally report the response message schema of a management action to the Schema Registry and Azure Device Registry.
+    ///
+    /// NOTE: If your deployment of AIO has the Edge Registry Service, `report_response_xregistry_message_schema_if_modified`
+    /// should be used instead.
     ///
     /// The `modify` function is called with the current message schema reference (if any) and should return:
     /// - `Some(new_message_schema)` if the schema should be updated and reported
@@ -3968,8 +4111,98 @@ impl ManagementActionClient {
     where
         F: Fn(Option<&MessageSchemaReference>) -> Option<MessageSchema>,
     {
-        self.report_message_schema_if_modified(ActionSchema::Response, modify)
-            .await
+        self.report_message_schema_if_modified(
+            ActionSchema::Response,
+            modify,
+            Self::put_message_schema,
+        )
+        .await
+    }
+
+    /// Used to conditionally report the request message schema of a management action to the Edge Registry and Azure Device Registry.
+    ///
+    /// The `modify` function is called with the current message schema reference (if any) and should return:
+    /// - `Some(new_xregistry_message_schema)` if the schema should be updated and reported
+    /// - `None` if no update is needed
+    ///
+    /// # Returns
+    /// - [`SchemaModifyResult::Reported`] if the schema was updated and successfully reported, containing the reported [`MessageSchemaReference`]
+    /// - [`SchemaModifyResult::NotModified`] if no modification was needed or the version changed during processing
+    ///
+    /// # Errors
+    /// [`XRegistryMessageSchemaError`] of kind [`EdgeRegistryError::InvalidRequestArgument`](edge_registry::ErrorKind::ValidationError)
+    /// if the document of the [`XRegistryMessageSchema`] is empty or there is an error building the request
+    ///
+    /// [`XRegistryMessageSchemaError`] of kind [`EdgeRegistryError::ServiceError`](edge_registry::ErrorKind::ServiceError)
+    /// if there is an error returned by the Edge Registry Service. This error will be retried 10
+    /// times with exponential backoff and jitter if it is an internal error and only returned if
+    /// it still is failing.
+    ///
+    /// [`XRegistryMessageSchemaError`] of kind [`AzureDeviceRegistryError::AIOProtocolError`](azure_device_registry::ErrorKind::AIOProtocolError) if
+    /// there are any underlying errors from the AIO RPC protocol. This error will be retried
+    /// 10 times with exponential backoff and jitter and only returned if it still is failing.
+    ///
+    /// [`XRegistryMessageSchemaError`] of kind [`AzureDeviceRegistryError::ServiceError`](azure_device_registry::ErrorKind::ServiceError) if
+    /// an error is returned by the Azure Device Registry service.
+    ///
+    /// # Panics
+    /// If the asset specification mutex has been poisoned, which should not be possible
+    pub async fn report_request_xregistry_message_schema_if_modified<F>(
+        &mut self,
+        modify: F,
+    ) -> Result<SchemaModifyResult, XRegistryMessageSchemaError>
+    where
+        F: Fn(Option<&MessageSchemaReference>) -> Option<XRegistryMessageSchema>,
+    {
+        self.report_message_schema_if_modified(
+            ActionSchema::Request,
+            modify,
+            Self::put_xregistry_message_schema,
+        )
+        .await
+    }
+
+    /// Used to conditionally report the response message schema of a management action to the Edge Registry and Azure Device Registry.
+    ///
+    /// The `modify` function is called with the current message schema reference (if any) and should return:
+    /// - `Some(new_xregistry_message_schema)` if the schema should be updated and reported
+    /// - `None` if no update is needed
+    ///
+    /// # Returns
+    /// - [`SchemaModifyResult::Reported`] if the schema was updated and successfully reported, containing the reported [`MessageSchemaReference`]
+    /// - [`SchemaModifyResult::NotModified`] if no modification was needed or the version changed during processing
+    ///
+    /// # Errors
+    /// [`XRegistryMessageSchemaError`] of kind [`EdgeRegistryError::InvalidRequestArgument`](edge_registry::ErrorKind::ValidationError)
+    /// if the document of the [`XRegistryMessageSchema`] is empty or there is an error building the request
+    ///
+    /// [`XRegistryMessageSchemaError`] of kind [`EdgeRegistryError::ServiceError`](edge_registry::ErrorKind::ServiceError)
+    /// if there is an error returned by the Edge Registry Service. This error will be retried 10
+    /// times with exponential backoff and jitter if it is an internal error and only returned if
+    /// it still is failing.
+    ///
+    /// [`XRegistryMessageSchemaError`] of kind [`AzureDeviceRegistryError::AIOProtocolError`](azure_device_registry::ErrorKind::AIOProtocolError) if
+    /// there are any underlying errors from the AIO RPC protocol. This error will be retried
+    /// 10 times with exponential backoff and jitter and only returned if it still is failing.
+    ///
+    /// [`XRegistryMessageSchemaError`] of kind [`AzureDeviceRegistryError::ServiceError`](azure_device_registry::ErrorKind::ServiceError) if
+    /// an error is returned by the Azure Device Registry service.
+    ///
+    /// # Panics
+    /// If the asset specification mutex has been poisoned, which should not be possible
+    pub async fn report_response_xregistry_message_schema_if_modified<F>(
+        &mut self,
+        modify: F,
+    ) -> Result<SchemaModifyResult, XRegistryMessageSchemaError>
+    where
+        F: Fn(Option<&MessageSchemaReference>) -> Option<XRegistryMessageSchema>,
+    {
+        self.report_message_schema_if_modified(
+            ActionSchema::Response,
+            modify,
+            Self::put_xregistry_message_schema,
+        )
+        .await
     }
 
     /// Used to receive notifications about the Management Action from the Azure Device Registry Service.
@@ -4354,13 +4587,16 @@ impl ManagementActionClient {
         Ok(SchemaModifyResult::Reported(new_message_schema_reference))
     }
 
-    async fn report_message_schema_if_modified<F>(
+    async fn report_message_schema_if_modified<F, RegF, RegErr, MS, MSErr>(
         &mut self,
         schema_side: ActionSchema,
         modify: F,
-    ) -> Result<SchemaModifyResult, MessageSchemaError>
+        put_schema: RegF,
+    ) -> Result<SchemaModifyResult, MSErr>
     where
-        F: Fn(Option<&MessageSchemaReference>) -> Option<MessageSchema>,
+        F: Fn(Option<&MessageSchemaReference>) -> Option<MS>,
+        RegF: AsyncFn(&Self, &ActionSchema, &MS) -> Result<MessageSchemaReference, RegErr>,
+        MSErr: From<RegErr> + From<azure_device_registry::Error>,
     {
         // Get the current version of the asset specification
         let cached_version = self.asset_specification.read().unwrap().version;
@@ -4426,7 +4662,30 @@ impl ManagementActionClient {
         };
 
         // First put the schema in the schema registry
-        let message_schema_reference = Retry::spawn(
+        let message_schema_reference = put_schema(self, &schema_side, &new_message_schema).await?;
+
+        Self::internal_report_message_schema_reference(
+            &self.connector_context,
+            &self.asset_ref,
+            &self.management_action_ref,
+            // &mut self.forwarder,
+            asset_status_to_report,
+            &mut status_write_guard,
+            &message_schema_reference,
+            &schema_side,
+            &format!("ManagementActionClient::report_{schema_side:?}_message_schema_if_modified"),
+        )
+        .await?;
+
+        Ok(SchemaModifyResult::Reported(message_schema_reference))
+    }
+
+    async fn put_message_schema(
+        &self,
+        schema_side: &ActionSchema,
+        new_message_schema: &MessageSchema,
+    ) -> Result<MessageSchemaReference, schema_registry::Error> {
+        Retry::spawn(
             RETRY_STRATEGY.map(tokio_retry2::strategy::jitter),
             async || -> Result<schema_registry::Schema, RetryError<schema_registry::Error>> {
                 self.connector_context
@@ -4472,22 +4731,66 @@ impl ManagementActionClient {
             name: schema.name,
             version: schema.version,
             registry_namespace: schema.namespace,
-        })?;
+        })
+    }
 
-        Self::internal_report_message_schema_reference(
-            &self.connector_context,
-            &self.asset_ref,
-            &self.management_action_ref,
-            // &mut self.forwarder,
-            asset_status_to_report,
-            &mut status_write_guard,
-            &message_schema_reference,
-            &schema_side,
-            &format!("ManagementActionClient::report_{schema_side:?}_message_schema_if_modified"),
+    async fn put_xregistry_message_schema(
+        &self,
+        schema_side: &ActionSchema,
+        new_message_schema: &XRegistryMessageSchema,
+    ) -> Result<MessageSchemaReference, edge_registry::Error> {
+        let schema_version_entity = Retry::spawn(
+            RETRY_STRATEGY.map(tokio_retry2::strategy::jitter),
+            async || -> Result<edge_registry::models::SchemaVersionEntity, RetryError<edge_registry::Error>> {
+                self.connector_context
+                    .edge_registry_client
+                    .create_schema_version(
+                        new_message_schema.group_id.clone(),
+                        new_message_schema.schema_id.clone(),
+                        new_message_schema.schema_labels.clone(),
+                        new_message_schema.version.clone(),
+                        self.connector_context.edge_registry_timeout,
+                    )
+                    .await
+                    .map_err(|e| {
+                        match e.kind() {
+                            // network/retriable
+                            edge_registry::ErrorKind::AIOProtocolError(_) => {
+                                log::warn!(
+                                    "Reporting {schema_side:?} message schema failed for {:?}. Retrying: {e}",
+                                    self.management_action_ref
+                                );
+                                RetryError::transient(e)
+                            }
+                            edge_registry::ErrorKind::ServiceError(service_error) => {
+                                if let 500 =
+                                    service_error.code
+                                {
+                                    log::warn!(
+                                        "Reporting {schema_side:?} message schema failed for {:?}. Retrying: {e}",
+                                        self.management_action_ref
+                                    );
+                                    RetryError::transient(e)
+                                } else {
+                                    RetryError::permanent(e)
+                                }
+                            }
+                            // indicates an error in the provided message schema or an unknown error, return to caller so they can fix
+                            // edge_registry::ErrorKind::ValidationError(_) |
+                            _ => {
+                                RetryError::permanent(e)
+                            }
+                        }
+                    })
+            },
         )
         .await?;
-
-        Ok(SchemaModifyResult::Reported(message_schema_reference))
+        Ok(MessageSchemaReference {
+            name: schema_version_entity.resource_id,
+            version: schema_version_entity.version_id.to_string(),
+            registry_namespace: VersionXId::<String>::try_from(schema_version_entity.xid.as_str())?
+                .group_id,
+        })
     }
 
     #[allow(clippy::too_many_arguments)]
@@ -4500,7 +4803,7 @@ impl ManagementActionClient {
         message_schema_reference: &MessageSchemaReference,
         schema_side: &ActionSchema,
         log_identifier: &str,
-    ) -> Result<(), MessageSchemaError> {
+    ) -> Result<(), azure_device_registry::Error> {
         // Use the provided asset_status_to_report instead of creating a new one
         let mut new_status = asset_status_to_report;
 

@@ -7,9 +7,12 @@
 
 use std::fmt::Display;
 
+use derive_builder::Builder;
+
 use azure_iot_operations_protocol::common::hybrid_logical_clock::HybridLogicalClock;
 use azure_iot_operations_services::{
     azure_device_registry,
+    edge_registry::{GroupId, Label, models::SchemaVersionAttributes},
     schema_registry::{PutSchemaRequest, PutSchemaRequestBuilder, PutSchemaRequestBuilderError},
 };
 
@@ -33,6 +36,43 @@ pub type AdrConfigError = azure_device_registry::ConfigError;
 pub type MessageSchemaBuilder = PutSchemaRequestBuilder;
 /// Error type for [`MessageSchemaBuilder`]
 pub type MessageSchemaBuilderError = PutSchemaRequestBuilderError;
+
+/// Message Schema to send to the Edge Registry Service in the xRegistry format
+#[derive(Debug, Clone, Builder, PartialEq, Eq)]
+pub struct XRegistryMessageSchema {
+    /// The groupId to store the schema under. Defaults to `GroupId::CloudDefault`.
+    #[builder(default = "GroupId::CloudDefault")]
+    group_id: GroupId,
+    /// The schemaId to store the version under. Should be validated with
+    /// [`derive_resource_id`](azure_iot_operations_services::edge_registry::derive_resource_id) to ensure it is a valid resource id.
+    schema_id: String,
+    /// Queryable key/value pairs to be added to the parent Schema.
+    #[builder(default)]
+    schema_labels: Vec<Label>,
+    /// The Attributes used to create the Schema Version
+    version: SchemaVersionAttributes,
+}
+
+/// Creates a schema id that will be unique for the given data operation.
+/// Must be validated with [`derive_resource_id`](azure_iot_operations_services::edge_registry::derive_resource_id)
+/// turn it into a valid resource id.
+#[must_use]
+pub fn default_schema_id(data_operation_ref: &DataOperationRef) -> String {
+    let data_operation_name = match &data_operation_ref.data_operation_name {
+        DataOperationName::Dataset { name } => format!("dataset:{name}"),
+        DataOperationName::Event {
+            name,
+            event_group_name,
+        } => format!("event:{event_group_name}:{name}"),
+        DataOperationName::Stream { name } => format!("stream:{name}"),
+    };
+    format!(
+        "{}:{}:{}:{data_operation_name}",
+        data_operation_ref.device_name,
+        data_operation_ref.inbound_endpoint_name,
+        data_operation_ref.asset_name,
+    )
+}
 
 /// Struct format for data sent to the destination
 #[derive(Debug, Clone, PartialEq)]

@@ -12,7 +12,7 @@ use azure_iot_operations_mqtt::session::{
 use azure_iot_operations_protocol::application::ApplicationContext;
 use azure_iot_operations_services::{
     azure_device_registry::{self, health_reporter::ReportInterval},
-    schema_registry, state_store,
+    edge_registry, schema_registry, state_store,
 };
 use derive_builder::Builder;
 use managed_azure_device_registry::DeviceEndpointClientCreationObservation;
@@ -50,6 +50,8 @@ pub(crate) struct ConnectorContext {
     debounce_duration: Duration,
     /// Timeout for Azure Device Registry operations
     pub(crate) azure_device_registry_timeout: Duration,
+    /// Timeout for Edge Registry operations
+    pub(crate) edge_registry_timeout: Duration,
     /// Timeout for Schema Registry operations
     pub(crate) schema_registry_timeout: Duration,
     /// Timeout for State Store operations
@@ -60,6 +62,7 @@ pub(crate) struct ConnectorContext {
     azure_device_registry_client: azure_device_registry::Client,
     pub(crate) state_store_client: Arc<state_store::Client>,
     schema_registry_client: schema_registry::Client,
+    edge_registry_client: edge_registry::Client,
     /// Channel for signaling that the connector requires a restart
     pub(crate) connector_restart_tx: mpsc::Sender<String>,
 }
@@ -87,6 +90,9 @@ pub struct Options {
     /// Timeout for Azure Device Registry operations
     #[builder(default = "Duration::from_secs(10)")]
     azure_device_registry_timeout: Duration,
+    /// Timeout for Edge Registry operations
+    #[builder(default = "Duration::from_secs(30)")]
+    edge_registry_timeout: Duration,
     // NOTE (2025-09-12): Schema Registry has an issue with scale causing throttling,
     // so this value has been set very high. This is probably not ideal.
     /// Timeout for Schema Registry operations
@@ -156,7 +162,13 @@ impl BaseConnector {
         )
         .map_err(|e| e.to_string())?;
 
-        // Create Schema Registry Client
+        // Create Edge Registry Client
+        let edge_registry_client = edge_registry::Client::new(
+            application_context.clone(),
+            &session.create_managed_client(),
+        );
+
+        // Create legacy Schema Registry Client
         let schema_registry_client = schema_registry::Client::new(
             application_context.clone(),
             &session.create_managed_client(),
@@ -177,6 +189,7 @@ impl BaseConnector {
             connector_context: Arc::new(ConnectorContext {
                 debounce_duration: base_connector_options.filemount_debounce_duration,
                 azure_device_registry_timeout: base_connector_options.azure_device_registry_timeout,
+                edge_registry_timeout: base_connector_options.edge_registry_timeout,
                 schema_registry_timeout: base_connector_options.schema_registry_timeout,
                 state_store_timeout: base_connector_options.state_store_timeout,
                 health_report_interval: base_connector_options.health_report_interval,
@@ -185,6 +198,7 @@ impl BaseConnector {
                 connector_artifacts,
                 azure_device_registry_client,
                 schema_registry_client,
+                edge_registry_client,
                 state_store_client: Arc::new(state_store_client),
                 connector_restart_tx,
             }),

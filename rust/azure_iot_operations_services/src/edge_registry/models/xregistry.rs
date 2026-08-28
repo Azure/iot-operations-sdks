@@ -12,12 +12,12 @@ use std::collections::HashMap;
 use bytes::Bytes;
 use chrono::{DateTime, Utc};
 
-use crate::edge_registry::Label;
 use crate::edge_registry::edge_registry_gen::common_types::b64::{self};
-use crate::edge_registry::edge_registry_gen::edge_registry::client as client_gen;
+use crate::edge_registry::edge_registry_gen::edge_registry::client::{self as client_gen};
 use crate::edge_registry::models::{
     extensions_from_gen, extensions_to_gen, labels_from_gen, labels_to_gen,
 };
+use crate::edge_registry::{Error, ErrorKind, Label};
 
 // ~~~~~~~~~~~~~~~~~~~Shared value types~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -161,6 +161,41 @@ impl From<client_gen::VersionXid> for VersionXId<String> {
             resource_type: value.resource_type,
             resource_id: value.resource_id,
             version_id: value.version_id,
+        }
+    }
+}
+
+impl TryFrom<&str> for VersionXId<String> {
+    type Error = Error;
+
+    fn try_from(s: &str) -> Result<Self, Self::Error> {
+        let trimmed = s.trim_start_matches('/');
+        let parts: Vec<&str> = trimmed.split('/').collect();
+
+        // Reject non-root XIDs that contain empty path segments (e.g. "/a//b", "/schemagroups/").
+        let parts_slice = parts.as_slice();
+        if parts_slice != [""] && parts.iter().any(|p| p.is_empty()) {
+            return Err(ErrorKind::ValidationError(format!(
+                "Invalid Version XID format (empty path segment): {s}"
+            ))
+            .into());
+        }
+        match parts_slice {
+            [
+                group_type,
+                group_id,
+                resource_type,
+                resource_id,
+                "versions",
+                version_id,
+            ] => Ok(VersionXId {
+                group_type: (*group_type).to_string(),
+                group_id: (*group_id).to_string(),
+                resource_type: (*resource_type).to_string(),
+                resource_id: (*resource_id).to_string(),
+                version_id: (*version_id).to_string(),
+            }),
+            _ => Err(ErrorKind::ValidationError(format!("Invalid Version XID format: {s}")).into()),
         }
     }
 }
