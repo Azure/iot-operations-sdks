@@ -45,6 +45,18 @@ public interface IThingModelClient
     /// <returns>A task whose result is the requested <see cref="Models.ThingModelVersion"/>.</returns>
     Task<Models.ThingModelVersion> GetThingModelVersionAsync(GroupId groupId, string thingModelId, GetThingModelVersionId versionId, TimeSpan? timeout = null, CancellationToken cancellationToken = default);
 
+    /// <summary>Lists the XIDs of Thing Models matching the query, optionally filtered by a single label.</summary>
+    /// <param name="groups">The Thing Model Groups to search; see <see cref="GroupSelector"/> for the available scopes.</param>
+    /// <param name="label">When set, restricts the results to Thing Models carrying this label.</param>
+    /// <param name="timeout">The command timeout; when <see langword="null"/>, the client's default timeout is used.</param>
+    /// <param name="cancellationToken">A token to cancel the operation.</param>
+    /// <returns>A task whose result is the XIDs of the matching Thing Models.</returns>
+    Task<IReadOnlyList<Models.ResourceXId>> ListThingModelsAsync(
+        GroupSelector groups,
+        Models.Label? label = null,
+        TimeSpan? timeout = null,
+        CancellationToken cancellationToken = default);
+
     /// <summary>Lists the XIDs of Thing Model Versions matching the query, optionally filtered by Thing Model id and/or a single label.</summary>
     /// <param name="groups">The Groups to search; see <see cref="GroupSelector"/> for the available scopes.</param>
     /// <param name="thingModelId">When set, restricts the results to this Thing Model.</param>

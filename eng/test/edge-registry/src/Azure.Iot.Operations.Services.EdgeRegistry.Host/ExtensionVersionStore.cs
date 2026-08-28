@@ -95,18 +95,27 @@ internal sealed class ExtensionVersionStore<TAttributes>(Func<TAttributes, List<
     }
 
     // TODO: for correct behavior, this should return an error if the item isn't found or the expected epoch doesn't match.
-    public void DeleteVersion(string groupId, string resourceId, ulong versionId, ulong? expectedEpoch)
+    public bool DeleteVersion(string groupId, string resourceId, ulong versionId, ulong? expectedEpoch)
     {
         lock (_gate)
         {
-            if (_resources.TryGetValue((groupId, resourceId), out StoredResource? resource))
+            if (!_resources.TryGetValue((groupId, resourceId), out StoredResource? resource))
             {
-                resource.Versions.RemoveAll(v => v.VersionId == versionId && (expectedEpoch is null || v.Epoch == expectedEpoch));
-                if (resource.DefaultVersionId == versionId)
-                {
-                    resource.DefaultVersionId = resource.Versions.Count > 0 ? resource.Versions[^1].VersionId : 0;
-                }
+                return false;
             }
+
+            int removed = resource.Versions.RemoveAll(v => v.VersionId == versionId && (expectedEpoch is null || v.Epoch == expectedEpoch));
+            if (removed == 0)
+            {
+                return false;
+            }
+
+            if (resource.DefaultVersionId == versionId)
+            {
+                resource.DefaultVersionId = resource.Versions.Count > 0 ? resource.Versions[^1].VersionId : 0;
+            }
+
+            return true;
         }
     }
 
@@ -148,6 +157,30 @@ internal static class ExtensionStub
 {
     public const string DefaultGroupId = "default";
     public const string VersionIdToken = "ex:versionId";
+
+    public static VersionAttributes ToCoreVersionAttributes(
+        string? name,
+        string? description,
+        string? documentation,
+        string? icon,
+        IReadOnlyList<Label> labels,
+        ulong? ancestor,
+        string? contentType,
+        string format,
+        byte[] document,
+        Dictionary<string, byte[]> extensions) => new()
+        {
+            Name = name,
+            Description = description,
+            Documentation = documentation,
+            Icon = icon,
+            Labels = labels.Select(l => new Label { Key = l.Key, Value = l.Value }).ToList(),
+            Ancestor = ancestor?.ToString(System.Globalization.CultureInfo.InvariantCulture),
+            ContentType = contentType,
+            Format = format,
+            Document = document.ToArray(),
+            Extensions = new Dictionary<string, byte[]>(extensions),
+        };
 
     public static string TopicToken(CommandRequestMetadata metadata, string token)
         => metadata.TopicTokens.TryGetValue(token, out string? value)

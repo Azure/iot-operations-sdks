@@ -21,10 +21,12 @@ internal sealed class EdgeRegistrySchemaExtensionService : EdgeRegistrySchemaExt
     private const string SchemaIdToken = "ex:schemaId";
 
     private readonly ExtensionVersionStore<CreateSchemaVersionAttributes> _store = new(a => a.Labels, a => a.Document);
+    private readonly EdgeRegistryService _coreService;
 
-    public EdgeRegistrySchemaExtensionService(ApplicationContext applicationContext, MqttSessionClient mqttClient)
+    public EdgeRegistrySchemaExtensionService(ApplicationContext applicationContext, MqttSessionClient mqttClient, EdgeRegistryService coreService)
         : base(applicationContext, mqttClient)
     {
+        _coreService = coreService;
     }
 
     public override Task<ExtendedResponse<CreateSchemaVersionOutputArguments>> CreateSchemaVersionAsync(CreateSchemaVersionInputArguments request, CommandRequestMetadata requestMetadata, CancellationToken cancellationToken)
@@ -32,6 +34,14 @@ internal sealed class EdgeRegistrySchemaExtensionService : EdgeRegistrySchemaExt
         string schemaId = TopicToken(requestMetadata, SchemaIdToken);
         string groupId = request.GroupId ?? DefaultGroupId;
         var version = _store.CreateVersion(groupId, schemaId, request.SchemaLabels, request);
+        _coreService.UpsertExtensionVersion(
+            GroupType,
+            groupId,
+            ResourceType,
+            schemaId,
+            request.SchemaLabels,
+            version.VersionId.ToString(CultureInfo.InvariantCulture),
+            ToCoreVersionAttributes(request.Name, request.Description, request.Documentation, request.Icon, request.Labels, request.Ancestor, request.ContentType, request.Format, request.Document, request.Extensions));
         return Task.FromResult(Ok(ToEntity(groupId, schemaId, version)));
     }
 
@@ -72,7 +82,11 @@ internal sealed class EdgeRegistrySchemaExtensionService : EdgeRegistrySchemaExt
         string schemaId = TopicToken(requestMetadata, SchemaIdToken);
         ulong versionId = ulong.Parse(TopicToken(requestMetadata, VersionIdToken), CultureInfo.InvariantCulture);
         string groupId = request.GroupId ?? DefaultGroupId;
-        _store.DeleteVersion(groupId, schemaId, versionId, request.Options.ExpectedEpoch);
+        if (_store.DeleteVersion(groupId, schemaId, versionId, request.Options.ExpectedEpoch))
+        {
+            _coreService.DeleteExtensionVersion(GroupType, groupId, ResourceType, schemaId, versionId.ToString(CultureInfo.InvariantCulture));
+        }
+
         return Task.FromResult(Ok(new EmptyJson()));
     }
 
