@@ -263,45 +263,76 @@ impl From<client_gen::Label> for Label {
 /// identifier as the value, not the derived Resource identifier.
 pub const ORIGINAL_ID_LABEL_KEY: &str = "originalid";
 
-/// Derives a conforming Resource identifier from an arbitrary identifier, recording the original
-/// in `labels` under [`ORIGINAL_ID_LABEL_KEY`].
+/// Derives a Resource identifier from an arbitrary identifier, recording the original in `labels`
+/// under [`ORIGINAL_ID_LABEL_KEY`] and returning both.
 ///
-/// The derived identifier is the lowercase hex SHA-256 of `original_id`. It is always 64 characters
-/// drawn from `[0-9a-f]`, which satisfies both the xRegistry identifier rules and the stricter
-/// cloud rules.
-///
-/// Any existing [`ORIGINAL_ID_LABEL_KEY`] entry is replaced, so repeated calls against the same
-/// `labels` do not accumulate duplicates.
+/// `original_id` is used as the Resource identifier unchanged when it already satisfies the cloud
+/// naming rules: 3 to 64 characters drawn from `[a-z0-9-]`, beginning and ending with an
+/// alphanumeric. Every other identifier is hashed, yielding the lowercase hex SHA-256 of
+/// `original_id`. A hashed identifier is always 64 characters drawn from `[0-9a-f]`, which
+/// satisfies both the xRegistry identifier rules and the stricter cloud rules.
+/// 
+/// An identical [`ORIGINAL_ID_LABEL_KEY`] entry is never duplicated, while entries recording a
+/// *different* identifier are left in place.
 ///
 /// # Errors
 /// [`struct@Error`] of kind [`ValidationError`](ErrorKind::ValidationError) if `original_id` is
-/// empty. `labels` is left untouched in that case.
+/// empty.
 ///
 /// # Example
 /// ```
 /// # use azure_iot_operations_services::edge_registry::{
 /// #     ORIGINAL_ID_LABEL_KEY, derive_resource_id,
 /// # };
-/// let mut labels = vec![];
-/// let resource_id = derive_resource_id("urn:azureiot:aio:dev:ep:opcua:asset:td.g", &mut labels)?;
+/// // An identifier that already conforms to the cloud naming rules is used as-is.
+/// let (resource_id, resource_labels) = derive_resource_id("asset-td", vec![])?;
+/// assert_eq!(resource_id, "asset-td");
+///
+/// // Every other identifier is hashed.
+/// let (resource_id, resource_labels) =
+///     derive_resource_id("urn:azureiot:aio:dev:ep:opcua:asset:td.g", vec![])?;
 ///
 /// assert_eq!(resource_id.len(), 64);
-/// assert_eq!(labels[0].key, ORIGINAL_ID_LABEL_KEY);
-/// assert_eq!(labels[0].value, "urn:azureiot:aio:dev:ep:opcua:asset:td.g");
+/// assert_eq!(resource_labels[0].key, ORIGINAL_ID_LABEL_KEY);
+/// assert_eq!(resource_labels[0].value, "urn:azureiot:aio:dev:ep:opcua:asset:td.g");
 /// # Ok::<(), azure_iot_operations_services::edge_registry::Error>(())
 /// ```
-pub fn derive_resource_id(original_id: &str, labels: &mut Vec<Label>) -> Result<String, Error> {
+pub fn derive_resource_id(
+    original_id: impl Into<String>,
+    mut resource_labels: Vec<Label>,
+) -> Result<(String, Vec<Label>), Error> {
+    let original_id = original_id.into();
+
     if original_id.is_empty() {
         return Err(ErrorKind::ValidationError("original_id must not be empty".to_string()).into());
     }
 
-    labels.retain(|label| label.key != ORIGINAL_ID_LABEL_KEY);
-    labels.push(Label {
+    let resource_id = if conforms_to_cloud_naming_rules(&original_id) {
+        original_id.clone()
+    } else {
+        HEXLOWER.encode(&Sha256::digest(original_id.as_bytes()))
+    };
+
+    resource_labels.retain(|label| !(label.key == ORIGINAL_ID_LABEL_KEY && label.value == original_id));
+    resource_labels.push(Label {
         key: ORIGINAL_ID_LABEL_KEY.to_string(),
-        value: original_id.to_string(),
+        value: original_id,
     });
 
-    Ok(HEXLOWER.encode(&Sha256::digest(original_id.as_bytes())))
+    Ok((resource_id, resource_labels))
+}
+
+/// Returns whether `id` satisfies the cloud naming rules: 3 to 64 characters drawn from
+/// `[a-z0-9-]`, beginning and ending with an alphanumeric.
+fn conforms_to_cloud_naming_rules(id: &str) -> bool {
+    let bytes = id.as_bytes();
+
+    (3..=64).contains(&bytes.len())
+        && bytes
+            .iter()
+            .all(|b| b.is_ascii_lowercase() || b.is_ascii_digit() || *b == b'-')
+        && bytes.first().is_some_and(u8::is_ascii_alphanumeric)
+        && bytes.last().is_some_and(u8::is_ascii_alphanumeric)
 }
 
 #[cfg(test)]
@@ -310,22 +341,44 @@ mod tests {
 
     use super::*;
 
-    /// Pins the derivation to the hash the Edge Registry service computes. Every SDK must produce
-    /// this value for identifiers to be reproducible across implementations.
+    /// Pins the hash to the one the Edge Registry service computes, the lowercase hex SHA-256 of
+    /// the input. Every SDK must produce this value for identifiers to be reproducible across
+    /// implementations.
     #[test]
-    fn derives_lowercase_sha256_hex() {
+    fn hashes_to_lowercase_sha256_hex() {
+        let (resource_id, _) = derive_resource_id("Test-Document", vec![]).unwrap();
+
         assert_eq!(
-            derive_resource_id("test-document", &mut vec![]).unwrap(),
-            "b72686d533cb3987150ab6455021dfed113a2a538d7421c8ef40cbdf02543831"
+            resource_id,
+            "1ae8481659aaf8fe08cb58818b1793849756b0f526d835e5106cfb76e558cfdd"
         );
     }
 
-    #[test_case("a"; "single character")]
+    #[test_case("abc"; "shortest permitted")]
+    #[test_case("123"; "digits only")]
+    #[test_case("a-b-c"; "internal hyphens")]
+    #[test_case("opcua-asset-td"; "typical identifier")]
+    #[test_case(&"a".repeat(64); "longest permitted")]
+    fn uses_a_conforming_identifier_as_the_resource_id(original_id: &str) {
+        let (resource_id, _) = derive_resource_id(original_id, vec![]).unwrap();
+
+        assert_eq!(resource_id, original_id);
+    }
+
+    #[test_case("ab"; "shorter than permitted")]
+    #[test_case(&"a".repeat(65); "longer than permitted")]
+    #[test_case("-abc"; "leading hyphen")]
+    #[test_case("abc-"; "trailing hyphen")]
+    #[test_case("Abc"; "uppercase")]
+    #[test_case("a_c"; "underscore")]
+    #[test_case("a\u{00f1}b"; "non ascii")]
     #[test_case("urn:azureiot:aio:dev:ep:opcua:asset:td.g"; "wot identifier")]
     #[test_case(&"x".repeat(512); "longer than an xregistry identifier")]
-    fn derived_identifier_conforms_to_the_cloud_naming_rules(original_id: &str) {
-        let resource_id = derive_resource_id(original_id, &mut vec![]).unwrap();
+    fn hashes_a_non_conforming_identifier(original_id: &str) {
+        let (resource_id, _) = derive_resource_id(original_id, vec![]).unwrap();
 
+        assert_ne!(resource_id, original_id);
+        assert!(conforms_to_cloud_naming_rules(&resource_id));
         assert_eq!(resource_id.len(), 64);
         assert!(
             resource_id
@@ -337,73 +390,80 @@ mod tests {
     #[test]
     fn derivation_is_deterministic() {
         assert_eq!(
-            derive_resource_id("some-id", &mut vec![]).unwrap(),
-            derive_resource_id("some-id", &mut vec![]).unwrap()
+            derive_resource_id("Some:Original@Id", vec![]).unwrap().0,
+            derive_resource_id("Some:Original@Id", vec![]).unwrap().0
         );
     }
 
     #[test]
     fn distinct_identifiers_derive_distinct_resource_ids() {
         assert_ne!(
-            derive_resource_id("some-id", &mut vec![]).unwrap(),
-            derive_resource_id("some-other-id", &mut vec![]).unwrap()
+            derive_resource_id("Some:Original@Id", vec![]).unwrap().0,
+            derive_resource_id("Some:Other@Id", vec![]).unwrap().0
         );
     }
 
     #[test]
-    fn rejects_an_empty_identifier_without_touching_the_labels() {
-        let mut labels = vec![Label {
-            key: "first".to_string(),
-            value: "1".to_string(),
-        }];
-
-        match derive_resource_id("", &mut labels) {
+    fn rejects_an_empty_identifier() {
+        match derive_resource_id("", vec![]) {
             Err(e) => assert!(matches!(e.kind(), ErrorKind::ValidationError(_))),
-            Ok(id) => panic!("expected a validation error, got {id}"),
+            Ok((resource_id, _)) => panic!("expected a validation error, got {resource_id}"),
         }
-        assert_eq!(labels.len(), 1);
-        assert_eq!(labels[0].key, "first");
+    }
+
+    #[test_case("Some:Original@Id_"; "hashed identifier")]
+    #[test_case("opcua-asset-td"; "conforming identifier")]
+    fn records_the_original_id_verbatim(original_id: &str) {
+        let (_, resource_labels) = derive_resource_id(original_id, vec![]).unwrap();
+
+        assert_eq!(resource_labels.len(), 1);
+        assert_eq!(resource_labels[0].key, ORIGINAL_ID_LABEL_KEY);
+        assert_eq!(resource_labels[0].value, original_id);
     }
 
     #[test]
-    fn records_the_original_id_verbatim() {
-        let mut labels = vec![];
-        derive_resource_id("Some:Original@Id_", &mut labels).unwrap();
-
-        assert_eq!(labels.len(), 1);
-        assert_eq!(labels[0].key, ORIGINAL_ID_LABEL_KEY);
-        assert_eq!(labels[0].value, "Some:Original@Id_");
-    }
-
-    #[test]
-    fn replaces_an_existing_original_id_label() {
-        let mut labels = vec![Label {
+    fn does_not_duplicate_an_identical_original_id_label() {
+        let existing = vec![Label {
             key: ORIGINAL_ID_LABEL_KEY.to_string(),
-            value: "stale".to_string(),
+            value: "current".to_string(),
         }];
-        derive_resource_id("current", &mut labels).unwrap();
+        let (_, resource_labels) = derive_resource_id("current", existing).unwrap();
 
-        assert_eq!(labels.len(), 1);
-        assert_eq!(labels[0].value, "current");
+        assert_eq!(resource_labels.len(), 1);
+        assert_eq!(resource_labels[0].value, "current");
+    }
+
+    #[test]
+    fn keeps_an_original_id_label_recording_a_different_identifier() {
+        let existing = vec![Label {
+            key: ORIGINAL_ID_LABEL_KEY.to_string(),
+            value: "other".to_string(),
+        }];
+        let (_, resource_labels) = derive_resource_id("current", existing).unwrap();
+
+        assert_eq!(resource_labels.len(), 2);
+        assert_eq!(resource_labels[0].value, "other");
+        assert_eq!(resource_labels[1].value, "current");
     }
 
     #[test]
     fn preserves_unrelated_labels() {
-        let mut labels = vec![
+        let existing = vec![
             Label {
                 key: "first".to_string(),
                 value: "1".to_string(),
             },
+            // Shares the value, but not the key, of the label being recorded.
             Label {
                 key: "second".to_string(),
-                value: "2".to_string(),
+                value: "some-id".to_string(),
             },
         ];
-        derive_resource_id("some-id", &mut labels).unwrap();
+        let (_, resource_labels) = derive_resource_id("some-id", existing).unwrap();
 
-        assert_eq!(labels.len(), 3);
-        assert_eq!(labels[0].key, "first");
-        assert_eq!(labels[1].key, "second");
-        assert_eq!(labels[2].key, ORIGINAL_ID_LABEL_KEY);
+        assert_eq!(resource_labels.len(), 3);
+        assert_eq!(resource_labels[0].key, "first");
+        assert_eq!(resource_labels[1].key, "second");
+        assert_eq!(resource_labels[2].key, ORIGINAL_ID_LABEL_KEY);
     }
 }
