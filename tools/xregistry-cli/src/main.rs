@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-//! Command-line client for Schemas, Thing Models, and Thing Descriptions in Edge Registry.
+//! Command-line interface for Schemas, Thing Models, and Thing Descriptions in Edge Registry.
 
 use std::{
     fs,
@@ -198,7 +198,7 @@ impl FromStr for LabelArgument {
 
 #[tokio::main(flavor = "current_thread")]
 async fn main() -> ExitCode {
-    match run().await {
+    match Box::pin(run()).await {
         Ok(()) => ExitCode::SUCCESS,
         Err(error) => {
             eprintln!("error: {error}");

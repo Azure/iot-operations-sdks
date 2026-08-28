@@ -92,6 +92,7 @@ Cargo.lock
 # downstream commit pin resolve to the same dependency set on any given day.
 !tools/azure_iot_operations_stub_services/Cargo.lock
 !tools/statestore-cli/Cargo.lock
+!tools/xregistry-cli/Cargo.lock
 target/
 
 # Tye
