@@ -14,6 +14,12 @@ public class ResourceIdTests
     /// the input. Every SDK must produce this value for identifiers to be reproducible across
     /// implementations.
     /// </summary>
+    /// <remarks>
+    /// This doubles as a cross-language test: the Rust <c>hashes_to_lowercase_sha256_hex</c> test in
+    /// <c>azure_iot_operations_services::edge_registry</c> asserts the same input yields the same
+    /// identifier, so a connector written in either language derives one Resource, not two. Changing
+    /// this value here without changing it there silently forks the registry.
+    /// </remarks>
     [Fact]
     public void HashesToLowercaseSha256Hex()
     {

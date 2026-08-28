@@ -31,6 +31,7 @@ public static class ResourceId
     /// <param name="originalId">The identifier to derive a Resource identifier from.</param>
     /// <param name="resourceLabels">The Resource labels to record the original identifier in. Left unmodified; the returned list is a copy.</param>
     /// <returns>The derived Resource identifier and the labels recording <paramref name="originalId"/>.</returns>
+    /// <exception cref="ArgumentNullException"><paramref name="originalId"/> is <see langword="null"/>.</exception>
     /// <exception cref="ArgumentException"><paramref name="originalId"/> is empty.</exception>
     /// <remarks>
     /// <paramref name="originalId"/> is used as the Resource identifier unchanged when it already
