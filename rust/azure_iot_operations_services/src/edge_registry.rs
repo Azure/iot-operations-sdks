@@ -361,9 +361,11 @@ mod tests {
     #[test_case("opcua-asset-td"; "typical identifier")]
     #[test_case(&"a".repeat(64); "longest permitted")]
     fn uses_a_conforming_identifier_as_the_resource_id(original_id: &str) {
-        let (resource_id, _) = derive_resource_id(original_id, vec![]).unwrap();
+        let (resource_id, resource_labels) = derive_resource_id(original_id, vec![]).unwrap();
 
         assert_eq!(resource_id, original_id);
+        assert_eq!(resource_labels.len(), 1);
+        assert_eq!(resource_labels[0].value, original_id);
     }
 
     #[test_case("ab"; "shorter than permitted")]
@@ -376,7 +378,7 @@ mod tests {
     #[test_case("urn:azureiot:aio:dev:ep:opcua:asset:td.g"; "wot identifier")]
     #[test_case(&"x".repeat(512); "longer than an xregistry identifier")]
     fn hashes_a_non_conforming_identifier(original_id: &str) {
-        let (resource_id, _) = derive_resource_id(original_id, vec![]).unwrap();
+        let (resource_id, resource_labels) = derive_resource_id(original_id, vec![]).unwrap();
 
         assert_ne!(resource_id, original_id);
         assert!(conforms_to_cloud_naming_rules(&resource_id));
@@ -386,6 +388,8 @@ mod tests {
                 .chars()
                 .all(|c| c.is_ascii_lowercase() || c.is_ascii_digit())
         );
+        assert_eq!(resource_labels.len(), 1);
+        assert_eq!(resource_labels[0].value, original_id);
     }
 
     #[test]
