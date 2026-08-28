@@ -31,6 +31,7 @@ tokio-retry2 = { version = "0.5.7", features = ["jitter"] }
 tokio-util.workspace = true
 
 [dev-dependencies]
+bytes.workspace = true
 env_logger.workspace = true
 temp-env = { workspace = true, features = ["async_closure"] }
 tempfile.workspace = true

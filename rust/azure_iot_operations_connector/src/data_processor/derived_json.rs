@@ -182,6 +182,9 @@ fn create_output_schema_string(data: &Data) -> Result<String, serde_json::Error>
 #[cfg(test)]
 mod test {
     use super::*;
+    use crate::DataOperationName;
+    use azure_iot_operations_services::edge_registry::Label;
+    use bytes::Bytes;
     use test_case::test_case;
 
     struct SchemaGenerationTestCase {
@@ -376,5 +379,136 @@ mod test {
 
         let r = create_schema(&input_data);
         assert!(r.is_err());
+    }
+
+    fn data_operation_ref() -> DataOperationRef {
+        DataOperationRef {
+            data_operation_name: DataOperationName::Dataset {
+                name: "test_data_operation_name".to_string(),
+            },
+            asset_name: "test_asset_name".to_string(),
+            device_name: "test_device_name".to_string(),
+            inbound_endpoint_name: "test_inbound_endpoint_name".to_string(),
+        }
+    }
+
+    /// Helper function to compare two `SchemaVersionAttributes` structs for equality.
+    /// This is necessary over the PartialEq/Eq trait because when using JSON, we can
+    /// end up with different ordering of the keys in the JSON object, which prevents
+    /// us from being able to make accurate comparisons of the `content` field.
+    fn schema_version_attributes_eq(
+        schema1: &SchemaVersionAttributes,
+        schema2: &SchemaVersionAttributes,
+    ) -> bool {
+        // Make new structs with the content set to empty strings to normalize our SchemaVersionAttributes
+        // under comparison since we can't directly compare the content accurately.
+        let schema1_no_content = SchemaVersionAttributes {
+            document: Bytes::new(),
+            ..schema1.clone()
+        };
+        let schema2_no_content = SchemaVersionAttributes {
+            document: Bytes::new(),
+            ..schema2.clone()
+        };
+
+        // Compare the content of the schemas
+        let schema1_json_content: Value = serde_json::from_slice(&schema1.document).unwrap();
+        let schema2_json_content: Value = serde_json::from_slice(&schema2.document).unwrap();
+
+        schema1_no_content == schema2_no_content && schema1_json_content == schema2_json_content
+    }
+
+    /// Helper function to compare two `XRegistryMessageSchema` structs for equality.
+    /// This is necessary over the PartialEq/Eq trait because when using JSON, we can
+    /// end up with different ordering of the keys in the JSON object, which prevents
+    /// us from being able to make accurate comparisons of the `content` field.
+    fn xregistry_message_schema_eq(
+        schema1: &XRegistryMessageSchema,
+        schema2: &XRegistryMessageSchema,
+    ) -> bool {
+        if !schema_version_attributes_eq(&schema1.version, &schema2.version) {
+            return false;
+        }
+        assert_eq!(schema1.group_id, schema2.group_id);
+        assert_eq!(schema1.schema_id, schema2.schema_id);
+        assert_eq!(schema1.schema_labels, schema2.schema_labels);
+
+        true
+    }
+
+    // /// Helper function to compare two raw schemas for equality.
+    // /// This is necessary over the PartialEq/Eq trait because when using JSON, we can
+    // /// end up with different ordering of the keys in the JSON object, which prevents
+    // /// us from being able to make accurate comparisons of the `content` field.
+    // fn output_schema_eq(schema1: &str, schema2: &str) -> bool {
+    //     // Compare the content of the schemas
+    //     let schema1_json_content: Value = serde_json::from_str(schema1).unwrap();
+    //     let schema2_json_content: Value = serde_json::from_str(schema2).unwrap();
+
+    //     schema1_json_content == schema2_json_content
+    // }
+
+    #[test_case(&valid_testcase_1(); "1:1 transformation")]
+    #[test_case(&valid_testcase_3(); "Overlapping transformation")]
+    fn valid_create_xregistry_schema(test_case: &SchemaGenerationTestCase) {
+        let input_data = Data {
+            payload: serde_json::to_vec(&test_case.input_json).unwrap(),
+            content_type: "application/json".to_string(),
+            custom_user_data: vec![],
+            timestamp: None,
+        };
+
+        // We expect the output message schema to contain the expected output JSON schema
+        // and have the correct format and schema type
+        let expected_schema_version_attributes = SchemaVersionAttributesBuilder::default()
+            .document(
+                serde_json::to_string(&test_case.expected_output_json_schema)
+                    .unwrap()
+                    .into(),
+            )
+            .format(SchemaFormat::JsonSchemaDraft07)
+            .build()
+            .unwrap();
+        let expected_output_message_schema = XRegistryMessageSchemaBuilder::default()
+            .version(expected_schema_version_attributes.clone())
+            .schema_id("10f3506100271610521098abccf13ad4e9dfd15e8dd17f9a9ade247863a65d74".to_string())
+            .schema_labels(vec![Label {
+                key: "originalid".to_string(),
+                value: "test_device_name:test_inbound_endpoint_name:test_asset_name:dataset:test_data_operation_name".to_string(),
+            }])
+            .build()
+            .unwrap();
+
+        let output_schema_version_attributes =
+            create_schema_version_attributes(&input_data).unwrap();
+        let output_message_schema =
+            create_xregistry_schema(&input_data, &data_operation_ref()).unwrap();
+
+        assert!(schema_version_attributes_eq(
+            &output_schema_version_attributes,
+            &expected_schema_version_attributes
+        ));
+
+        assert!(xregistry_message_schema_eq(
+            &output_message_schema,
+            &expected_output_message_schema
+        ));
+    }
+
+    #[test_case("not json".as_bytes(); "Not JSON")]
+    #[test_case(&[0x9c, 0xe5, 0x78]; "Not UTF8")]
+    fn invalid_xregistry_data_payload(invalid_payload: &[u8]) {
+        let input_data = Data {
+            payload: invalid_payload.into(),
+            content_type: "application/json".to_string(),
+            custom_user_data: vec![],
+            timestamp: None,
+        };
+
+        let r = create_schema_version_attributes(&input_data);
+        assert!(r.is_err());
+
+        let r2 = create_xregistry_schema(&input_data, &data_operation_ref());
+        assert!(r2.is_err());
     }
 }
