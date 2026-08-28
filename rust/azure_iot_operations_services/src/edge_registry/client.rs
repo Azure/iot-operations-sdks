@@ -23,8 +23,8 @@ use crate::edge_registry::models::{
     labels_to_gen,
 };
 use crate::edge_registry::{
-    AnyGroupSelection, CreateVersionId, Error, ErrorKind, GetVersionId, GroupId, GroupQuery,
-    GroupSelection, Label,
+    AnyGroupSelection, CreateOptions, CreateVersionId, Error, ErrorKind, GetVersionId, GroupId,
+    GroupQuery, GroupSelection, Label, PERSIST_USER_PROPERTY,
 };
 
 // Topic token keys for the xRegistry command topics.
@@ -256,6 +256,7 @@ impl Client {
     /// * `group_type` - The type of the Group to create.
     /// * `group_id` - The identifier of the Group to create. If [`CloudDefault`](GroupId::CloudDefault), create the default Group of the Group type.
     /// * `attributes` - The [`CoreGroupAttributes`] for the new Group.
+    /// * `options` - The [`CreateOptions`] that control the behavior of the create operation.
     /// * `timeout` - The duration until the client stops waiting for a response to the request, it is rounded up to the nearest second.
     ///
     /// Returns the created [`CoreGroupEntity`] with epoch 1.
@@ -273,15 +274,22 @@ impl Client {
         group_type: String,
         group_id: GroupId,
         attributes: CoreGroupAttributes,
+        options: CreateOptions,
         timeout: Duration,
     ) -> Result<CoreGroupEntity, Error> {
         let payload: client_gen::GroupAttributes = attributes.into_gen(group_id.into());
+
+        let mut custom_user_data = vec![];
+        if options.persist {
+            custom_user_data.push((PERSIST_USER_PROPERTY.to_string(), true.to_string()));
+        }
 
         let request = client_gen::CreateGroupRequestBuilder::default()
             .payload(payload)
             .map_err(ErrorKind::from)?
             .topic_tokens(Self::group_topic_tokens(group_type))
             .timeout(timeout)
+            .custom_user_data(custom_user_data)
             .build()
             .map_err(ErrorKind::from)?;
 
@@ -432,6 +440,7 @@ impl Client {
     /// * `resource_extensions` - Extension-specific attributes for the Resource.
     /// * `default_version_id` - The identifier for the Resource's default Version. If [`ServerAssigned`](CreateVersionId::ServerAssigned), the server assigns the Version identifier.
     /// * `default_version_attributes` - The [`CoreVersionAttributes`] of the Resource's default Version, created along with the Resource.
+    /// * `options` - The [`CreateOptions`] that control the behavior of the create operation.
     /// * `timeout` - The duration until the client stops waiting for a response to the request, it is rounded up to the nearest second.
     ///
     /// Returns the created [`CoreResourceEntity`] with epoch 1.
@@ -455,6 +464,7 @@ impl Client {
         resource_extensions: HashMap<String, Bytes>,
         default_version_id: CreateVersionId,
         default_version_attributes: CoreVersionAttributes,
+        options: CreateOptions,
         timeout: Duration,
     ) -> Result<CoreResourceEntity, Error> {
         let payload = client_gen::CreateResourceRequestPayload {
@@ -465,6 +475,11 @@ impl Client {
             extensions: extensions_to_gen(resource_extensions),
         };
 
+        let mut custom_user_data = vec![];
+        if options.persist {
+            custom_user_data.push((PERSIST_USER_PROPERTY.to_string(), true.to_string()));
+        }
+
         let request = client_gen::CreateResourceRequestBuilder::default()
             .payload(payload)
             .map_err(ErrorKind::from)?
@@ -474,6 +489,7 @@ impl Client {
                 resource_id,
             ))
             .timeout(timeout)
+            .custom_user_data(custom_user_data)
             .build()
             .map_err(ErrorKind::from)?;
 
@@ -657,6 +673,7 @@ impl Client {
     /// * `resource_labels` - Queryable key/value pairs to be added to the parent Resource (which is implicitly created if it doesn't already exist).
     /// * `version_id` - The identifier of the Version to create. If [`ServerAssigned`](CreateVersionId::ServerAssigned), the server assigns the Version identifier.
     /// * `version` - The [`CoreVersionAttributes`] of the Version to create.
+    /// * `options` - The [`CreateOptions`] that control the behavior of the create operation.
     /// * `timeout` - The duration until the client stops waiting for a response to the request, it is rounded up to the nearest second.
     ///
     /// Returns the created [`CoreVersionEntity`].
@@ -679,6 +696,7 @@ impl Client {
         resource_labels: Vec<Label>,
         version_id: CreateVersionId,
         version: CoreVersionAttributes,
+        options: CreateOptions,
         timeout: Duration,
     ) -> Result<CoreVersionEntity, Error> {
         let payload = client_gen::CreateVersionRequestPayload {
@@ -687,6 +705,11 @@ impl Client {
             version: version.into(),
             resource_labels: labels_to_gen(resource_labels),
         };
+
+        let mut custom_user_data = vec![];
+        if options.persist {
+            custom_user_data.push((PERSIST_USER_PROPERTY.to_string(), true.to_string()));
+        }
 
         let request = client_gen::CreateVersionRequestBuilder::default()
             .payload(payload)
@@ -697,6 +720,7 @@ impl Client {
                 resource_id,
             ))
             .timeout(timeout)
+            .custom_user_data(custom_user_data)
             .build()
             .map_err(ErrorKind::from)?;
 
@@ -889,6 +913,7 @@ impl Client {
     /// * `schema_id` - The identifier of the Schema that owns the Version.
     /// * `schema_labels` - Queryable key/value pairs to be added to the parent Schema.
     /// * `version` - The [`SchemaVersionAttributes`] of the Version to create.
+    /// * `options` - The [`CreateOptions`] that control the behavior of the create operation.
     /// * `timeout` - The duration until the client stops waiting for a response to the request, it is rounded up to the nearest second.
     ///
     /// Returns the created [`SchemaVersionEntity`] with epoch 1.
@@ -908,9 +933,15 @@ impl Client {
         schema_id: String,
         schema_labels: Vec<Label>,
         version: SchemaVersionAttributes,
+        options: CreateOptions,
         timeout: Duration,
     ) -> Result<SchemaVersionEntity, Error> {
         let payload = version.into_gen(group_id.into(), schema_labels);
+
+        let mut custom_user_data = vec![];
+        if options.persist {
+            custom_user_data.push((PERSIST_USER_PROPERTY.to_string(), true.to_string()));
+        }
 
         let request = client_gen::CreateSchemaVersionRequestBuilder::default()
             .payload(payload)
@@ -920,6 +951,7 @@ impl Client {
                 schema_id,
             ))
             .timeout(timeout)
+            .custom_user_data(custom_user_data)
             .build()
             .map_err(ErrorKind::from)?;
 
@@ -1102,6 +1134,7 @@ impl Client {
     /// * `thing_description_id` - The identifier of the Thing Description that owns the Version.
     /// * `thing_description_labels` - Queryable key/value pairs to be added to the parent Thing Description.
     /// * `version` - The [`ThingDescriptionVersionAttributes`] of the Version to create.
+    /// * `options` - The [`CreateOptions`] that control the behavior of the create operation.
     /// * `timeout` - The duration until the client stops waiting for a response to the request, it is rounded up to the nearest second.
     ///
     /// Returns the created [`ThingDescriptionVersionEntity`] with epoch 1.
@@ -1121,9 +1154,15 @@ impl Client {
         thing_description_id: String,
         thing_description_labels: Vec<Label>,
         version: ThingDescriptionVersionAttributes,
+        options: CreateOptions,
         timeout: Duration,
     ) -> Result<ThingDescriptionVersionEntity, Error> {
         let payload = version.into_gen(group_id.into(), thing_description_labels);
+
+        let mut custom_user_data = vec![];
+        if options.persist {
+            custom_user_data.push((PERSIST_USER_PROPERTY.to_string(), true.to_string()));
+        }
 
         let request = client_gen::CreateThingDescriptionVersionRequestBuilder::default()
             .payload(payload)
@@ -1133,6 +1172,7 @@ impl Client {
                 thing_description_id,
             ))
             .timeout(timeout)
+            .custom_user_data(custom_user_data)
             .build()
             .map_err(ErrorKind::from)?;
 
@@ -1315,6 +1355,7 @@ impl Client {
     /// * `thing_model_id` - The identifier of the Thing Model that owns the Version.
     /// * `thing_model_labels` - Queryable key/value pairs to be added to the parent Thing Model.
     /// * `version` - The [`ThingModelVersionAttributes`] of the Version to create.
+    /// * `options` - The [`CreateOptions`] that control the behavior of the create operation.
     /// * `timeout` - The duration until the client stops waiting for a response to the request, it is rounded up to the nearest second.
     ///
     /// Returns the created [`ThingModelVersionEntity`] with epoch 1.
@@ -1334,9 +1375,15 @@ impl Client {
         thing_model_id: String,
         thing_model_labels: Vec<Label>,
         version: ThingModelVersionAttributes,
+        options: CreateOptions,
         timeout: Duration,
     ) -> Result<ThingModelVersionEntity, Error> {
         let payload = version.into_gen(group_id.into(), thing_model_labels);
+
+        let mut custom_user_data = vec![];
+        if options.persist {
+            custom_user_data.push((PERSIST_USER_PROPERTY.to_string(), true.to_string()));
+        }
 
         let request = client_gen::CreateThingModelVersionRequestBuilder::default()
             .payload(payload)
@@ -1346,6 +1393,7 @@ impl Client {
                 thing_model_id,
             ))
             .timeout(timeout)
+            .custom_user_data(custom_user_data)
             .build()
             .map_err(ErrorKind::from)?;
 

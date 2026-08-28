@@ -18,6 +18,9 @@ pub mod models;
 
 pub use client::Client;
 
+/// User Property Key to indicate disk persistence.
+const PERSIST_USER_PROPERTY: &str = "aio-persistence";
+
 // `client_gen::JSON_LD11` cannot be used in the models: the generated `client` module flattens both
 // the Thing Description and Thing Model `JSON_LD11` consts into one namespace (and their source
 // modules are private), so the identifier is ambiguous.
@@ -249,5 +252,18 @@ impl From<client_gen::Label> for Label {
             key: value.key,
             value: value.value,
         }
+    }
+}
+
+/// Options for a `Set` Request
+#[derive(Clone, Debug)]
+pub struct CreateOptions {
+    /// Whether the entity should be persisted to disk.
+    pub persist: bool,
+}
+
+impl Default for CreateOptions {
+    fn default() -> Self {
+        Self { persist: true }
     }
 }
