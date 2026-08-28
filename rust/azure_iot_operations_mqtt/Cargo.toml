@@ -57,7 +57,7 @@ indexmap = { version = "2.12", default-features = false, features = ["std"] }
 libc = { version = "0.2.151", default-features = false }
 nix = { version = "0.30", default-features = false, features = ["net", "process", "socket", "zerocopy"] }
 parking_lot.workspace = true
-sha2 = { version = "0.10", default-features = false }
+sha2.workspace = true
 tokio-openssl = { version = "0.6", default-features = false }
 unicode-properties = { version = "0.1", default-features = false, features = [
     "general-category",
