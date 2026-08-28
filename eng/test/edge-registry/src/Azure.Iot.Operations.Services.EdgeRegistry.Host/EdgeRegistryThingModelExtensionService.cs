@@ -21,10 +21,12 @@ internal sealed class EdgeRegistryThingModelExtensionService : EdgeRegistryThing
     private const string ThingModelIdToken = "ex:thingModelId";
 
     private readonly ExtensionVersionStore<CreateThingModelVersionAttributes> _store = new(a => a.Labels, a => a.Document);
+    private readonly EdgeRegistryService _coreService;
 
-    public EdgeRegistryThingModelExtensionService(ApplicationContext applicationContext, MqttSessionClient mqttClient)
+    public EdgeRegistryThingModelExtensionService(ApplicationContext applicationContext, MqttSessionClient mqttClient, EdgeRegistryService coreService)
         : base(applicationContext, mqttClient)
     {
+        _coreService = coreService;
     }
 
     public override Task<ExtendedResponse<CreateThingModelVersionOutputArguments>> CreateThingModelVersionAsync(CreateThingModelVersionInputArguments request, CommandRequestMetadata requestMetadata, CancellationToken cancellationToken)
@@ -32,6 +34,14 @@ internal sealed class EdgeRegistryThingModelExtensionService : EdgeRegistryThing
         string thingModelId = TopicToken(requestMetadata, ThingModelIdToken);
         string groupId = request.GroupId ?? DefaultGroupId;
         var version = _store.CreateVersion(groupId, thingModelId, request.ThingModelLabels, request);
+        _coreService.UpsertExtensionVersion(
+            GroupType,
+            groupId,
+            ResourceType,
+            thingModelId,
+            request.ThingModelLabels,
+            version.VersionId.ToString(CultureInfo.InvariantCulture),
+            ToCoreVersionAttributes(request.Name, request.Description, request.Documentation, request.Icon, request.Labels, request.Ancestor, request.ContentType, request.Format, request.Document, request.Extensions));
         return Task.FromResult(Ok(ToEntity(groupId, thingModelId, version)));
     }
 
@@ -72,7 +82,11 @@ internal sealed class EdgeRegistryThingModelExtensionService : EdgeRegistryThing
         string thingModelId = TopicToken(requestMetadata, ThingModelIdToken);
         ulong versionId = ulong.Parse(TopicToken(requestMetadata, VersionIdToken), CultureInfo.InvariantCulture);
         string groupId = request.GroupId ?? DefaultGroupId;
-        _store.DeleteVersion(groupId, thingModelId, versionId, request.Options.ExpectedEpoch);
+        if (_store.DeleteVersion(groupId, thingModelId, versionId, request.Options.ExpectedEpoch))
+        {
+            _coreService.DeleteExtensionVersion(GroupType, groupId, ResourceType, thingModelId, versionId.ToString(CultureInfo.InvariantCulture));
+        }
+
         return Task.FromResult(Ok(new EmptyJson()));
     }
 

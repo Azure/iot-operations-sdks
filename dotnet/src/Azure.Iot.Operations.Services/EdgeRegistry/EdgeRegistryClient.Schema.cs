@@ -48,6 +48,19 @@ public sealed partial class EdgeRegistryClient : ISchemaRegistryClient
     }
 
     /// <inheritdoc/>
+    public Task<IReadOnlyList<Models.ResourceXId>> ListSchemasAsync(
+        GroupSelector groups,
+        Models.Label? label = null,
+        TimeSpan? timeout = null,
+        CancellationToken cancellationToken = default)
+        => ListResourcesAsync(
+            GroupQuery.WithinGroupType(Generated.Constants.SchemaGroupType, groups),
+            Generated.Constants.SchemaResourceType,
+            label,
+            timeout,
+            cancellationToken);
+
+    /// <inheritdoc/>
     public async Task<IReadOnlyList<Models.SchemaVersionXid>> ListSchemaVersionsAsync(GroupSelector groups, string? schemaId = null, string? documentHash = null, Models.Label? label = null, TimeSpan? timeout = null, CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();
