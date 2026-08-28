@@ -10,6 +10,8 @@ namespace Azure.Iot.Operations.Opc2WotLib
 
     public class OpcUaGraph
     {
+        private bool referencesResolved;
+
         public const string OpcUaCoreModelUri = "http://opcfoundation.org/UA/";
 
         public static readonly XmlNamespaceManager NamespaceManager;
@@ -72,6 +74,8 @@ namespace Azure.Iot.Operations.Opc2WotLib
 
         public void AddNodeset(string xmlText)
         {
+            referencesResolved = false;
+
             XmlDocument xmlDoc = new XmlDocument();
             xmlDoc.LoadXml(xmlText);
             ArgumentNullException.ThrowIfNull(xmlDoc.DocumentElement, nameof(xmlDoc.DocumentElement));
@@ -136,7 +140,7 @@ namespace Azure.Iot.Operations.Opc2WotLib
                         break;
                     case "UAVariableType":
                         OpcUaVariableType opcUaVariableType = new OpcUaVariableType(modelInfo, NsUriToNsInfoMap, node);
-                        if (!opcUaVariableType.IsDeprecated)
+                        if (opcUaVariableType.IsSchemaEligible)
                         {
                             modelInfo.NodeIdToVariableTypeMap[opcUaVariableType.NodeId] = opcUaVariableType;
                         }
@@ -162,13 +166,28 @@ namespace Azure.Iot.Operations.Opc2WotLib
                 }
             }
 
-            foreach (OpcUaObjectType opcUaObjectType in modelInfo.NodeIdToObjectTypeMap.Values)
+        }
+
+        public void ResolveReferences()
+        {
+            if (referencesResolved)
             {
-                foreach ((OpcUaNodeId, OpcUaObject) typeAndObjectOfReference in opcUaObjectType.TypeAndObjectOfReferences)
+                return;
+            }
+
+            foreach (OpcUaModelInfo modelInfo in ModelUriToModelMap.Values)
+            {
+                modelInfo.ReferencedObjectNodeIds.Clear();
+                foreach (OpcUaObjectType opcUaObjectType in modelInfo.NodeIdToObjectTypeMap.Values)
                 {
-                    modelInfo.ReferencedObjectNodeIds.Add(typeAndObjectOfReference.Item2.NodeId);
+                    foreach ((OpcUaNodeId, OpcUaObject) typeAndObjectOfReference in opcUaObjectType.TypeAndObjectOfReferences)
+                    {
+                        modelInfo.ReferencedObjectNodeIds.Add(typeAndObjectOfReference.Item2.NodeId);
+                    }
                 }
             }
+
+            referencesResolved = true;
         }
 
         private void SetDiscriminator(OpcUaNode newObjectType, Dictionary<string, OpcUaNode> effectiveNameToNodeMap)

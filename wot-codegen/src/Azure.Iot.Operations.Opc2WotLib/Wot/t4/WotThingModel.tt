@@ -14,6 +14,7 @@
     }
   ],
   "@type": "tm:ThingModel",
+  "id": "<#=this.id#>",
   "title": "<#=this.thingName#>",
   "dov:typeRef": "<#=this.typeRef#>",
 <# if (this.isEvent) { #>

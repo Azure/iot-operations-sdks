@@ -28,9 +28,17 @@ namespace Azure.Iot.Operations.Opc2WotLib
  // Licensed under the MIT License 
             this.Write("{\r\n  \"@context\": [\r\n    \"https://www.w3.org/2022/wot/td/v1.1\",\r\n    {\r\n      \"dov\":" +
                     " \"http://azure.com/DigitalOperations/vocab#\"\r\n    }\r\n  ],\r\n  \"@type\": \"tm:Thin" +
-                    "gModel\",\r\n  \"title\": \"");
+                    "gModel\",\r\n  \"id\": \"");
+            this.Write(this.ToStringHelper.ToStringWithCulture(this.id));
+            this.Write("\",\r\n  \"title\": \"");
             this.Write(this.ToStringHelper.ToStringWithCulture(this.thingName));
-            this.Write("\",\r\n  \"links\": [\r\n  ],\r\n  \"schemaDefinitions\": {\r\n");
+            this.Write("\",\r\n");
+ if (this.typeRef != null) {
+            this.Write("  \"dov:typeRef\": \"");
+            this.Write(this.ToStringHelper.ToStringWithCulture(this.typeRef));
+            this.Write("\",\r\n");
+ }
+            this.Write("  \"links\": [\r\n  ],\r\n  \"schemaDefinitions\": {\r\n");
  int ix1 = 1; foreach (KeyValuePair<string, WotDataSchema> schemaDefinition in this.schemaDefinitions) { 
             this.Write("    \"");
             this.Write(this.ToStringHelper.ToStringWithCulture(schemaDefinition.Key));
