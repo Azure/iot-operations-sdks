@@ -16,10 +16,10 @@ jobs:
     name: CI-spelling
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v7
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
 
       - name: Spell check
-        uses: streetsidesoftware/cspell-action@v8
+        uses: streetsidesoftware/cspell-action@de2a73e963e7443969755b648a1008f77033c5b2 # v8.4.0
         continue-on-error: true
         with:
           files: "**/*"
@@ -32,7 +32,7 @@ jobs:
     name: CI-links
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v7
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
 
       # On PRs, detect whether the link-check config or workflow itself was
       # modified. If so, we want a full-repo scan (nofilter) instead of the
@@ -41,7 +41,7 @@ jobs:
       - name: Detect linkspector config changes
         if: github.event_name == 'pull_request'
         id: changes
-        uses: dorny/paths-filter@v4
+        uses: dorny/paths-filter@ceb8a2b8f2d89434be7ff52d3de7ec3738c5cc9d # v4.0.3
         with:
           filters: |
             config:
@@ -68,7 +68,7 @@ jobs:
         run: npx --yes @puppeteer/browsers install "chrome@${CHROME_VERSION}" --path "$HOME/.cache/puppeteer"
 
       - name: Run linkspector
-        uses: umbrelladocs/action-linkspector@v1
+        uses: umbrelladocs/action-linkspector@568ec8d29fa92b31fd9ea5381e155c51e922af83 # v1.5.5
         with:
           config_file: .github/.linkspector.yml
           fail_on_error: true

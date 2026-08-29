@@ -72,7 +72,7 @@ jobs:
       # to set unconditionally (unused by crates.io-only builds).
       CARGO_REGISTRIES_AIO_SDKS_TOKEN: ${{ secrets.aio-sdks-token }}
     steps:
-      - uses: actions/checkout@v7
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
 
       # Refuse to fall back to `stable` silently. Every caller must
       # either pin via a `rust-toolchain.toml` in `path`, or point
@@ -90,7 +90,7 @@ jobs:
           fi
 
       - name: Setup Rust (from rust-toolchain.toml)
-        uses: actions-rust-lang/setup-rust-toolchain@v1
+        uses: actions-rust-lang/setup-rust-toolchain@166cdcfd11aee3cb47222f9ddb555ce30ddb9659 # v1.17.0
         with:
           # Tell the action where to look for `rust-toolchain.toml`.
           # Without this it would only check the repo root, find no
@@ -106,7 +106,7 @@ jobs:
         run: bash ./rust/scripts/system-deps.sh
 
       - name: Cache cargo build artifacts
-        uses: Swatinem/rust-cache@v2
+        uses: Swatinem/rust-cache@6323deb102c322ba6fcbdcafc7e3dddab59af2b6 # v2.9.2
         with:
           workspaces: ${{ inputs.path }}
           shared-key: tool-${{ inputs.name }}
@@ -114,7 +114,7 @@ jobs:
       # Install cargo subcommands AFTER the cache restore. `Swatinem/rust-cache`
       # caches `~/.cargo/bin`, so a warm cache makes this a no-op.
       - name: Install cargo tooling
-        uses: taiki-e/install-action@v2
+        uses: taiki-e/install-action@37f7c5781271959fb65b6b35224e28652ff2b63d # v2.87.0
         with:
           tool: cargo-hack,cargo-machete
 

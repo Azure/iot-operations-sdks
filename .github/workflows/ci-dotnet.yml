@@ -34,7 +34,7 @@ jobs:
     timeout-minutes: 45
 
     steps:
-    - uses: actions/checkout@v7
+    - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
 
     - name: Install AIO
       uses: ./.github/actions/configure-aio
@@ -47,7 +47,7 @@ jobs:
       run: dotnet --info
 
     - name: Install Protoc
-      uses: arduino/setup-protoc@v3
+      uses: arduino/setup-protoc@c65c819552d16ad3c9b72d9dfd5ba5237b9c906b # v3.0.0
       with:
         repo-token: ${{ secrets.GITHUB_TOKEN }}
 
@@ -272,7 +272,7 @@ jobs:
       run: dotnet test dotnet/Azure.Iot.Operations.sln --filter "FullyQualifiedName~Azure.Iot.Operations.Services.IntegrationTest.LeaderElectionClientIntegrationTests.TestFencing" -e MQTT_TEST_BROKER_CS="HostName=127.0.0.1;TcpPort=8883;UseTls=true;ClientId=TestClient;CaFile=${{ env.CA_FILE_PATH }};KeyFile=${{ env.CLIENT_KEY }};CertFile=${{ env.CLIENT_CERT }}" --logger:"trx;LogFileName=test-results.trx" -- xunit.parallelizeAssembly=true    
 
     - name: Azure.Iot.Operations.Mqtt.UnitTests Package Code Coverage
-      uses: irongut/CodeCoverageSummary@v1.3.0
+      uses: irongut/CodeCoverageSummary@51cc3a756ddcd398d447c044c02cb6aa83fdae95 # v1.3.0
       if: always()
       with:
         filename: ./**/Azure.Iot.Operations.Mqtt.UnitTests/TestResults/*/coverage.cobertura.xml
@@ -283,7 +283,7 @@ jobs:
         output: both
 
     - name: Azure.Iot.Operations.Mqtt.IntegrationTests Package Code Coverage
-      uses: irongut/CodeCoverageSummary@v1.3.0
+      uses: irongut/CodeCoverageSummary@51cc3a756ddcd398d447c044c02cb6aa83fdae95 # v1.3.0
       if: always()
       with:
         filename: ./**/Azure.Iot.Operations.Mqtt.IntegrationTests/TestResults/*/coverage.cobertura.xml
@@ -294,7 +294,7 @@ jobs:
         output: both
 
     - name: Azure.Iot.Operations.Protocol.UnitTests Code Coverage
-      uses: irongut/CodeCoverageSummary@v1.3.0
+      uses: irongut/CodeCoverageSummary@51cc3a756ddcd398d447c044c02cb6aa83fdae95 # v1.3.0
       if: always()
       with:
         filename: ./**/Azure.Iot.Operations.Protocol.UnitTests/TestResults/*/coverage.cobertura.xml
@@ -305,7 +305,7 @@ jobs:
         output: both
         
     - name: Azure.Iot.Operations.Protocol.IntegrationTests Code Coverage
-      uses: irongut/CodeCoverageSummary@v1.3.0
+      uses: irongut/CodeCoverageSummary@51cc3a756ddcd398d447c044c02cb6aa83fdae95 # v1.3.0
       if: always()
       with:
         filename: ./**/Azure.Iot.Operations.Protocol.IntegrationTests/TestResults/*/coverage.cobertura.xml
@@ -316,7 +316,7 @@ jobs:
         output: both
 
     - name: Azure.Iot.Operations.Protocol.MetlTests Code Coverage
-      uses: irongut/CodeCoverageSummary@v1.3.0
+      uses: irongut/CodeCoverageSummary@51cc3a756ddcd398d447c044c02cb6aa83fdae95 # v1.3.0
       if: always()
       with:
         filename: ./**/Azure.Iot.Operations.Protocol.MetlTests/TestResults/*/coverage.cobertura.xml
@@ -327,7 +327,7 @@ jobs:
         output: both
 
     - name: Azure.Iot.Operations.Services.UnitTests Code Coverage
-      uses: irongut/CodeCoverageSummary@v1.3.0
+      uses: irongut/CodeCoverageSummary@51cc3a756ddcd398d447c044c02cb6aa83fdae95 # v1.3.0
       if: always()
       with:
         filename: ./**/Azure.Iot.Operations.Services.UnitTests/TestResults/*/coverage.cobertura.xml
@@ -338,7 +338,7 @@ jobs:
         output: both
 
     - name: Azure.Iot.Operations.Services.IntegrationTests Code Coverage
-      uses: irongut/CodeCoverageSummary@v1.3.0
+      uses: irongut/CodeCoverageSummary@51cc3a756ddcd398d447c044c02cb6aa83fdae95 # v1.3.0
       if: always()
       with:
         filename: ./**/Azure.Iot.Operations.Services.IntegrationTests/TestResults/*/coverage.cobertura.xml
@@ -349,7 +349,7 @@ jobs:
         output: both
 
     - name: Azure.Iot.Operations.Connector.UnitTests Code Coverage
-      uses: irongut/CodeCoverageSummary@v1.3.0
+      uses: irongut/CodeCoverageSummary@51cc3a756ddcd398d447c044c02cb6aa83fdae95 # v1.3.0
       if: always()
       with:
         filename: ./**/Azure.Iot.Operations.Connector.UnitTests/TestResults/*/coverage.cobertura.xml
@@ -359,7 +359,7 @@ jobs:
         indicators: true
         output: both
 
-    - uses: dorny/test-reporter@v3
+    - uses: dorny/test-reporter@a43b3a5f7366b97d083190328d2c652e1a8b6aa2 # v3.0.0
       id: test-reporter
       if: always()
       with:
