@@ -9,11 +9,6 @@ namespace Azure.Iot.Operations.Services.EdgeRegistry;
 public class CreateOptions
 {
     /// <summary>
-    /// The default options, which persist the created entity.
-    /// </summary>
-    public static CreateOptions Default => new();
-
-    /// <summary>
     /// Whether the Edge Registry should persist the created entity to disk. Defaults to <c>true</c>.
     /// </summary>
     /// <remarks>

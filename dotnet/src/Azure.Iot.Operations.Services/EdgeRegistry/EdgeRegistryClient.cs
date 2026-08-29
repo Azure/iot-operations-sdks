@@ -97,7 +97,7 @@ public sealed partial class EdgeRegistryClient : IEdgeRegistryClient
         CommandRequestMetadata requestMetadata = new();
 
         // Only sent when true, since sending "false" is equivalent to omitting the property.
-        if ((options ?? CreateOptions.Default).Persist)
+        if (options is null || options.Persist)
         {
             requestMetadata.UserData.TryAdd(PersistUserProperty, "true");
         }

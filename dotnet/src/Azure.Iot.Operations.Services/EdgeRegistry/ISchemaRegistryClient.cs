@@ -30,7 +30,7 @@ public interface ISchemaRegistryClient
     /// <param name="schemaId">The Schema (Resource) identifier.</param>
     /// <param name="schemaLabels">Labels applied to the parent Schema.</param>
     /// <param name="version">The attributes of the Schema Version to create.</param>
-    /// <param name="options">The <see cref="CreateOptions"/> that control the behavior of the create operation; when <see langword="null"/>, <see cref="CreateOptions.Default"/> is used.</param>
+    /// <param name="options">The <see cref="CreateOptions"/> that control the behavior of the create operation; when <see langword="null"/>, the created entity is persisted.</param>
     /// <param name="timeout">The command timeout; when <see langword="null"/>, the client's default timeout is used.</param>
     /// <param name="cancellationToken">A token to cancel the operation.</param>
     /// <returns>A task whose result is the created <see cref="Models.SchemaVersion"/>.</returns>

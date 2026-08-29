@@ -31,7 +31,7 @@ public interface IThingDescriptionClient
     /// <param name="thingDescriptionId">The Thing Description (Resource) identifier.</param>
     /// <param name="thingDescriptionLabels">Labels applied to the parent Thing Description.</param>
     /// <param name="version">The attributes of the Thing Description Version to create.</param>
-    /// <param name="options">The <see cref="CreateOptions"/> that control the behavior of the create operation; when <see langword="null"/>, <see cref="CreateOptions.Default"/> is used.</param>
+    /// <param name="options">The <see cref="CreateOptions"/> that control the behavior of the create operation; when <see langword="null"/>, the created entity is persisted.</param>
     /// <param name="timeout">The command timeout; when <see langword="null"/>, the client's default timeout is used.</param>
     /// <param name="cancellationToken">A token to cancel the operation.</param>
     /// <returns>A task whose result is the created <see cref="Models.ThingDescriptionVersion"/>.</returns>
