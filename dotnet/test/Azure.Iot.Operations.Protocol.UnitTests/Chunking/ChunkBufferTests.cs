@@ -142,6 +142,37 @@ public class ChunkBufferTests
     }
 
     [Fact]
+    public async Task AddChunk_RedeliveredChunk_HoldsTheNewDeliveryAndAcknowledgesNeitherEarly()
+    {
+        var chunks = Split(NewPayload(4096));
+        var buffer = new ChunkBuffer(new ChunkingOptions());
+        var acknowledged = new List<string>();
+
+        Assert.True(chunks.Count > 2);
+
+        buffer.AddChunk(Received(chunks[0], () => acknowledged.Add("0")), Now, ExpiresAt);
+        buffer.AddChunk(Received(chunks[1], () => acknowledged.Add("1-first")), Now, ExpiresAt);
+
+        var redelivery = buffer.AddChunk(Received(chunks[1], () => acknowledged.Add("1-redelivered")), Now, ExpiresAt);
+
+        Assert.Null(redelivery.ReassembledMessage);
+        Assert.Empty(redelivery.DiscardedChunks);
+        Assert.Empty(acknowledged);
+
+        ChunkBufferResult? result = null;
+        for (int i = 2; i < chunks.Count; i++)
+        {
+            int index = i;
+            result = buffer.AddChunk(Received(chunks[i], () => acknowledged.Add(index.ToString())), Now, ExpiresAt);
+        }
+
+        await result!.ReassembledMessage!.AcknowledgeAsync(CancellationToken.None);
+
+        Assert.Contains("1-redelivered", acknowledged);
+        Assert.DoesNotContain("1-first", acknowledged);
+    }
+
+    [Fact]
     public void AddChunk_UnparsableMetadata_DiscardsAndReturnsChunkForAcknowledgement()
     {
         var buffer = new ChunkBuffer(new ChunkingOptions());
@@ -160,7 +191,7 @@ public class ChunkBufferTests
     }
 
     [Fact]
-    public void AddChunk_DuplicateChunk_DiscardsTheRedeliveryOnly()
+    public void AddChunk_DuplicateChunk_ReplacesTheHeldDeliveryRatherThanAcknowledgingIt()
     {
         var chunks = Split(NewPayload(4096));
         var buffer = new ChunkBuffer(new ChunkingOptions());
@@ -171,7 +202,7 @@ public class ChunkBufferTests
         var result = buffer.AddChunk(redelivery, Now, ExpiresAt);
 
         Assert.Null(result.ReassembledMessage);
-        Assert.Same(redelivery, Assert.Single(result.DiscardedChunks));
+        Assert.Empty(result.DiscardedChunks);
     }
 
     [Fact]

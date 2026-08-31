@@ -93,24 +93,27 @@ internal class ChunkedMessageAssembler
     }
 
     /// <summary>
-    /// Adds a chunk to the assembler.
+    /// Adds a chunk to the assembler, or replaces the delivery already held at that index.
     /// </summary>
     /// <param name="chunkIndex">The index of the chunk.</param>
     /// <param name="args">The MQTT message received event args.</param>
-    /// <returns>True if the chunk was added, false if it was already present.</returns>
+    /// <returns>True if the index was new, false if this delivery replaced one already held.</returns>
     public bool AddChunk(int chunkIndex, MqttApplicationMessageReceivedEventArgs args)
     {
         lock (_lock)
         {
-            if (_chunks.ContainsKey(chunkIndex))
+            // A redelivery only follows a reconnect, which discards the acknowledgement pending for
+            // the earlier delivery, so the newest one is the only one that can still be acknowledged.
+            bool isNewIndex = !_chunks.ContainsKey(chunkIndex);
+
+            _chunks[chunkIndex] = args;
+
+            if (isNewIndex)
             {
-                return false;
+                CurrentBufferSize += args.ApplicationMessage.Payload.Length;
             }
 
-            var chunkSize = args.ApplicationMessage.Payload.Length;
-            _chunks[chunkIndex] = args;
-            CurrentBufferSize += chunkSize;
-            return true;
+            return isNewIndex;
         }
     }
 

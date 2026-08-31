@@ -175,8 +175,9 @@ internal sealed class ChunkBuffer
 
         if (!entry.Assembler.AddChunk(metadata.ChunkIndex, args))
         {
-            // A redelivery of a chunk we already hold. The retained copy will be acknowledged with the rest.
-            return ChunkBufferResult.Discard([args]);
+            // Acknowledging it here would release the packet the broker is still holding for us.
+            Trace.TraceInformation($"Chunking: chunk {metadata.ChunkIndex} of message '{metadata.MessageId}' was redelivered; holding the new delivery in place of the old one.");
+            return ChunkBufferResult.Incomplete;
         }
 
         _bufferedBytes += chunkSize;
