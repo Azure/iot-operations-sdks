@@ -30,15 +30,12 @@ jobs:
         uses: actions/setup-dotnet@v6
         with:
           dotnet-version: 9.0.200
+
+      - name: Setup .NET 10
+        uses: actions/setup-dotnet@v6
+        with:
+          dotnet-version: 10.0.400
       
-      - name: Build and run old codegen
-        run: | 
-          dotnet nuget add source "https://pkgs.dev.azure.com/azure-iot-sdks/iot-operations/_packaging/preview/nuget/v3/index.json"
-
-          dotnet build -c Debug codegen/codegen.sln # TODO remove this once all languages use the WoT protocol compiler
-          echo "codegen=$(echo $(realpath codegen/src/Azure.Iot.Operations.ProtocolCompiler/bin/Debug/net9.0/Azure.Iot.Operations.ProtocolCompiler))" >> $GITHUB_ENV
-          ./codegen/gen_all.sh
-
       - name: Build and run WoT codegen
         run: | 
           dotnet build -c Debug wot-codegen/codegen.sln
