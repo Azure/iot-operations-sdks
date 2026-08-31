@@ -7,8 +7,47 @@ against it — topic, properties and payload, not just payload. AIO RPC payloads
 limit, and today such an invocation simply fails, leaving each application to invent its own
 fragmentation.
 
-Scope is RPC request and response. Telemetry chunking is deferred. Streaming is a separate mechanism
-([ADR XX](https://github.com/Azure/iot-operations-sdks/blob/maxim/streaming-adr-2/doc/dev/adr/0025-rpc-streaming.md)).
+Scope is RPC request and response.
+
+## Requirements
+
+* A request or response whose encoded PUBLISH exceeds the usable packet limit MUST still be
+  delivered, by splitting it across several PUBLISHes and reassembling it before the application
+  sees it.
+* Reassembly MUST reproduce the original message exactly — the payload byte for byte, and the user
+  properties the sender set, in their original order.
+* Chunking MUST be transparent. The command API, generated code and application handlers are
+  unchanged, and a chunked invocation MUST be indistinguishable from an unchunked one to the caller.
+* Every chunk of a message MUST reach the same executor, so that a shared subscription with several
+  executors cannot scatter one message across them.
+* A chunk MUST NOT be acknowledged until the reassembled message has been delivered, so that a
+  transfer interrupted midway is redelivered rather than silently lost.
+* Reassembly MUST be bounded in memory and in time, and a message that never completes MUST be
+  discarded with everything held for it released.
+* A message that cannot be chunked at all MUST fail with a distinct error rather than being
+  published as a packet the broker will discard.
+* A chunked message MUST be reassemblable by any conforming implementation, whichever language
+  split it.
+* Support MUST be implied by the protocol version — no negotiation, and no opt-out.
+
+## Non-requirements
+
+* **Telemetry chunking.** Deferred. The buffer is deliberately free of RPC concepts so telemetry can
+  reuse it later (§1), but nothing in this ADR applies to telemetry today.
+* **Streaming.** A chunked message is one logical message whose size is known before the first chunk
+  is published. Multi-entry exchanges are
+  [ADR XX](https://github.com/Azure/iot-operations-sdks/blob/maxim/streaming-adr-2/doc/dev/adr/0025-rpc-streaming.md),
+  which lists chunking as a non-requirement in return.
+* **Cancelling a transfer in flight.** There is no backchannel. Once an executor begins publishing a
+  chunked response the invoker cannot ask it to stop, and unsubscribing does not signal the peer; the
+  transfer runs to completion or expires.
+* **Incremental delivery.** The application receives the whole message or nothing. A partially
+  reassembled payload is never surfaced, and there is no progress signal.
+* **Resuming across a lost session.** If a session is lost mid-reassembly the partial state is
+  discarded and the transfer fails. There is no cross-session resume.
+* **Reassembly by peers that do not implement this protocol.** Chunk metadata is not a public
+  contract for applications to reassemble themselves.
+* **User-facing configuration.** No enable/disable switch and no chunk-size knob (§11).
 
 ## Decision
 
@@ -176,7 +215,125 @@ reassembled message fan out to every chunk it was built from, so redelivery repl
 message. This is cheap wherever the client exposes that context; an implementation that cannot
 retain it has to track the outstanding acknowledgements itself.
 
-### 9. Versioning and configuration
+### 9. Error handling
+
+Chunking has no backchannel of its own — a receiver can say nothing about an individual chunk. The
+request direction does not need one: every chunk carries the correlation data and response topic, so
+an executor that cannot reassemble answers with an **ordinary RPC error response** rather than
+leaving the caller to time out. The response direction has no equivalent, and needs none: the
+invoker is the final consumer and fails its own pending invocation.
+
+**Rejected before the chunk is buffered:**
+
+* `__chunk` is unparsable — unknown tag, the wrong field count for its tag, or a malformed message
+  id or index.
+* The head form appears at a non-zero index, or index `0` is not in the head form.
+* `total_chunks` is zero.
+* The chunk carries no message expiry, or an expiry of zero (§6).
+
+**Rejected once the chunk is attributed to a message:**
+
+* `total_chunks` exceeds the local maximum, or the reassembly budget is exhausted (§7).
+* An index is at or beyond `total_chunks`.
+* A second head chunk disagrees with the first about `total_chunks`, `checksum_id` or `checksum`.
+* A property chunk arrives at an index after a data chunk (§2).
+
+**Rejected at completion, or when the deadline passes:**
+
+* The head chunk names a `checksum_id` the receiver cannot resolve (§5).
+* The checksum does not match the reassembled payload.
+* The deadline passes with chunks still missing.
+
+**Not errors.** A repeated index is an ordinary QoS 1 redelivery, and it is routine here rather than
+exceptional: §8 leaves every chunk unacknowledged for the whole transfer, so a single reconnect
+mid-message redelivers all of them. It is acknowledged and ignored, and only *conflicting* metadata
+is a fault. Chunks arriving out of order are expected (§2). A chunk naming a message that has
+already completed or been discarded is acknowledged and ignored.
+
+Two traps follow from that, both of which turn a healthy transfer into a failure:
+
+* **The reassembly budget must not double-count.** Charging a redelivered chunk's bytes to the
+  in-flight total a second time trips the bound in §7 and discards a message that was never too
+  large.
+* **A redelivered chunk must not be acknowledged on arrival.** Acknowledging it releases the packet
+  at the broker, because a redelivery reuses the original's packet identifier — forfeiting the very
+  redelivery §8 depends on. Nor can it simply be dropped: a receiver that acknowledges in order
+  queues one entry per delivery, and an entry never marked stalls every acknowledgement behind it,
+  which is invariant 1 by another route. The buffer therefore **replaces** the delivery context it
+  holds for that index and acknowledges nothing until the message completes or is discarded. One
+  context per index suffices: MQTT 5 §4.4 permits redelivery only after a reconnect, and a reconnect
+  discards whatever acknowledgements were still pending, so only the newest delivery is live.
+
+Two invariants hold across all of the above:
+
+1. **Discarding a message means acknowledging every chunk held for it.** On a client that
+   acknowledges in order, one unacknowledged chunk stalls every later acknowledgement on the
+   connection — so a discard that forgets its held chunks wedges the client instead of failing one
+   invocation.
+2. **Every discard is attributable.** The message id, the chunk index and the reason are reported,
+   because a discarded message is otherwise indistinguishable from network loss.
+
+**What the peer is told.** In the request direction the executor publishes an error response on the
+correlation data and response topic that every chunk carries: `400` for malformed metadata or a
+checksum mismatch, `408` for a message still incomplete at its deadline, and `503` where local
+bounds refused a well-formed message this executor could not accept. A chunk without correlation
+data or a response topic is discarded silently, as the existing header validation already requires.
+In the response direction nothing is published; the invoker fails the invocation locally.
+
+Which error kind each of these surfaces as is open — see open question 1. The existing kinds map
+readily (`HeaderInvalid` for malformed metadata, `PayloadInvalid` for a checksum mismatch, `Timeout`
+for an incomplete message) and exist in all three languages; a dedicated kind would diagnose better
+at the cost of a Rust breaking change.
+
+### 10. Disconnection and recovery
+
+Chunking inherits the [session client](../../reference/session-client.md)'s recovery semantics and
+leans on them harder than vanilla RPC does, because §8 leaves every chunk of a transfer
+unacknowledged until the whole message is complete.
+
+**A session that survives.** The session client requires a non-zero session expiry interval, so a
+reconnect resumes the session rather than starting a new one. Nothing was acknowledged, so the
+broker still holds every chunk it delivered and re-sends them all under their original packet
+identifiers. The receiver replaces the delivery context it holds for each index (§9) and reassembly
+continues rather than restarting: the payload already buffered stays valid, and only the
+acknowledgement handles change. The reassembly deadline is **not** extended, because it belongs to
+the operation rather than to the connection.
+
+Individual chunks can still be lost across the outage. The broker decrements each message's expiry
+by the time it spent waiting, so a long enough outage retires chunks before the session resumes. The
+message then cannot complete and its remainder is discarded at the deadline.
+
+On the sending side, chunks not yet published are queued and flush on reconnect, each carrying the
+budget remaining when it is finally published (§6). A reconnect that consumes the budget therefore
+stops the transfer and fails the invocation naming the chunk it reached, rather than emitting chunks
+that are already expired.
+
+**A session that is lost.** If the session expires or is started clean, the buffered chunks are never
+redelivered and the partial message can never complete. It holds its share of the reassembly budget
+until its deadline and is then discarded (§7). Acknowledging its retained delivery contexts at that
+point achieves nothing, since the acknowledgements they referred to went with the connection — which
+is harmless, and is why discarding must not depend on acknowledgement succeeding.
+
+**An executor that is lost.** A chunked message can only be reassembled by the endpoint that
+received its chunks: partial state lives in memory keyed on `message_id` and is not shared between
+members of a shared subscription. A message is therefore recoverable only as a whole. Whether a
+broker redistributes a terminated member's unacknowledged messages to another member is
+implementation-defined; where it does, that member holds a partial set it cannot complete and both
+halves expire at their deadlines. Either way the invoker sees a failure within its budget rather
+than a wrong result. This is where chunking differs from streaming, which recovers mid-exchange
+because each entry stands alone.
+
+**Two costs to accept:**
+
+* **A reconnect replays the whole transfer.** Deferring every acknowledgement means a disconnect at
+  95% of a 10 MB message redelivers all 10 MB. That is the price of the guarantee in §8.
+* **A link that reconnects faster than a transfer completes never completes it.** Each reconnect
+  restarts delivery of the entire message, so where the mean time between reconnects is shorter than
+  the transfer takes, progress is zero and the operation fails at its deadline with no partial
+  result. Chunking makes a large message deliverable on a stable link; it does not make an unstable
+  link usable.
+
+### 11. Versioning and configuration
 
 * RPC wire protocol bumps to **2.0**. Chunking is implied by the version — no feature negotiation,
   no opt-out. A 2.0 implementation that rejects chunked messages is non-compliant.
@@ -209,8 +366,8 @@ outweigh the above.
 1. **Error kinds.** Which existing kind absorbs incomplete-chunk, checksum-mismatch and
    buffer-limit failures, versus adding new ones — `AIOProtocolErrorKind` is not `#[non_exhaustive]`,
    so a new variant is a Rust breaking change. Reusing `PayloadInvalid` or `HeaderInvalid` is
-   cheapest and costs diagnostics. Without a distinct kind, a failed reassembly surfaces as a plain
-   caller timeout with nothing implicating chunking.
+   cheapest and costs diagnostics. §9 defines the failure taxonomy and the status codes independently
+   of this choice, so it can be settled late.
 2. **Should a chunked response be cacheable at all?** A cached-response replay is re-chunked and
    re-sent in full, with no way for the invoker to decline it (there is no mid-transfer backchannel).
 3. **Cache memory.** A reassembled multi-MB payload enters the response cache exactly as a large
@@ -229,7 +386,8 @@ outweigh the above.
   chunk — repaid in part by a larger and provably correct payload budget per data chunk.
 * The delayed-ack window widens to the whole transfer, interacting with ordered acknowledgement and
   the executor's dispatcher concurrency.
-* Failures inside a transfer are, until open question 1 is settled, indistinguishable from a plain
-  timeout at the caller.
+* A request that cannot be reassembled is answered with an error response rather than silence, so
+  the caller learns the outcome within the invocation budget instead of at its expiry. A response
+  that cannot be reassembled has no such path and still fails at the invoker.
 * [rpc-protocol.md](../../reference/rpc-protocol.md) and
   [protocol-versioning.md](../../reference/protocol-versioning.md) need updating for the 2.0 bump.
