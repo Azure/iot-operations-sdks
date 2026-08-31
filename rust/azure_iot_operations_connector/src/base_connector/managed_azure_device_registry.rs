@@ -5773,10 +5773,16 @@ mod tests {
             uuid: None,
             version: None,
         };
+        let credentials_mount_dir = tempfile::tempdir().unwrap();
+        let credentials_mount = FileMount::new(
+            credentials_mount_dir.path().to_path_buf(),
+            std::time::Duration::from_secs(1),
+        )
+        .unwrap();
 
         let result = DeviceSpecification::new(
             device_specification,
-            Some(&PathBuf::from("/mnt/creds")),
+            Some(&credentials_mount),
             TEST_INBOUND_ENDPOINT_NAME,
         )
         .unwrap_err();
@@ -5833,10 +5839,16 @@ mod tests {
             uuid: None,
             version: None,
         };
+        let credentials_mount_dir = tempfile::tempdir().unwrap();
+        let credentials_mount = FileMount::new(
+            credentials_mount_dir.path().to_path_buf(),
+            std::time::Duration::from_secs(1),
+        )
+        .unwrap();
 
         let result = DeviceSpecification::new(
             device_specification,
-            Some(&PathBuf::from("/mnt/creds")),
+            Some(&credentials_mount),
             TEST_INBOUND_ENDPOINT_NAME,
         )
         .unwrap();
@@ -5850,11 +5862,11 @@ mod tests {
         };
         assert_eq!(
             username_path,
-            PathBuf::from(format!("/mnt/creds/{username_secret_name}"))
+            credentials_mount_dir.path().join(username_secret_name)
         );
         assert_eq!(
             password_path,
-            PathBuf::from(format!("/mnt/creds/{password_secret_name}"))
+            credentials_mount_dir.path().join(password_secret_name)
         );
     }
 
