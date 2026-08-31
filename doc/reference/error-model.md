@@ -224,11 +224,11 @@ If the type inherits from `RuntimeException` or `Error`, it is unchecked.
 The significance of checked exceptions is that the Java compiler enforces that functions (and methods) must handle every type of exception thrown by a function (or method) that they call.
 Handling means that either the function catches the exception type or the function declares in its signature that it might throw the exception type.
 
-Regarding the decision of whether to make a new exception checked or unchecked, a highly upvoted [answer on stackoverflow](https://stackoverflow.com/questions/27578/when-to-choose-checked-and-unchecked-exceptions) says the following:
+When deciding whether to make a new exception checked or unchecked, use the following guideline:
 
-> **Checked Exceptions** should be used for **predictable**, but **unpreventable** errors that are **reasonable to recover from**.
+> **Checked exceptions** are appropriate for predictable but unpreventable errors from which callers can reasonably recover.
 >
-> **Unchecked Exceptions** should be used for everything else.
+> **Unchecked exceptions** are appropriate for everything else.
 >
 > I'll break this down for you, because most people misunderstand what this means.
 >
