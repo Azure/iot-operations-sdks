@@ -1,0 +1,7 @@
+{
+  "success": true,
+  "commandLine": {
+    "things": [ "valid/ThingEventGroupsMulti.TM.json" ],
+    "lang": "none"
+  }
+}

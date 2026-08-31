@@ -36,7 +36,7 @@ namespace Azure.Iot.Operations.Opc2WotLib
 
                     string? description = childNode.ChildNodes.Cast<XmlNode>().FirstOrDefault(node => node.Name == "Description")?.InnerText.CleanText();
 
-                    ObjectFields[name] = new OpcUaObjectField(dataTypeNodeId, symbolicName, valueRank, isOptional, description);
+                    ObjectFields[name] = new OpcUaObjectField(this, dataTypeNodeId, symbolicName, valueRank, isOptional, description);
                 }
             }
         }
@@ -44,5 +44,41 @@ namespace Azure.Iot.Operations.Opc2WotLib
         public Dictionary<string, OpcUaObjectField> ObjectFields { get; }
 
         public bool IsUnion { get; }
+
+        public Dictionary<string, OpcUaObjectField> GetAllObjectFields()
+        {
+            Dictionary<string, OpcUaObjectField> fields = new();
+            CollateObjectFields(this, fields, new HashSet<OpcUaDataType>());
+            return fields;
+        }
+
+        private static void CollateObjectFields(OpcUaDataType dataType, Dictionary<string, OpcUaObjectField> fields, HashSet<OpcUaDataType> processedDataTypes)
+        {
+            if (!processedDataTypes.Add(dataType))
+            {
+                throw new InvalidOperationException($"Cycle detected in the base-type chain for OPC UA DataType '{dataType.EffectiveName}'.");
+            }
+
+            foreach (OpcUaNodeId baseTypeNodeId in dataType.BaseTypes.Where(nodeId => !nodeId.IsBuiltInDataType))
+            {
+                if (dataType.GetReferencedOpcUaNode(baseTypeNodeId) is OpcUaDataType baseDataType)
+                {
+                    CollateObjectFields(baseDataType, fields, processedDataTypes);
+                }
+            }
+
+            if (dataType is OpcUaDataTypeObject objectDataType)
+            {
+                foreach (KeyValuePair<string, OpcUaObjectField> field in objectDataType.ObjectFields)
+                {
+                    if (!fields.TryAdd(field.Key, field.Value))
+                    {
+                        throw new InvalidOperationException($"OPC UA DataType '{objectDataType.EffectiveName}' redeclares inherited field '{field.Key}'.");
+                    }
+                }
+            }
+
+            processedDataTypes.Remove(dataType);
+        }
     }
 }

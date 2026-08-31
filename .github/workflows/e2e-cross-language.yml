@@ -37,7 +37,7 @@ jobs:
       COUNTER_SERVER_ID: ${{ matrix.server }}
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
       #=======================================================================
       # Install prerequisites
@@ -49,7 +49,7 @@ jobs:
           install-go: 'true'
           install-dotnet: 'true'
           install-rust: 'true'
-          action-token: ${{ secrets.AIO_SDKS_ACTION_TOKEN }}
+          ssh-key: ${{ secrets.ACTIONS_REPO_SSH_KEY }}
 
       #=======================================================================
       # Build codegen and verify it matches repository
@@ -98,7 +98,9 @@ jobs:
       - name: Build Rust sample
         run: |
           cd rust
-          cargo build --release --config profile.release.panic=\'abort\'
+          cargo build --release --config profile.release.panic=\'abort\' \
+            -p counter_client \
+            -p counter_server
 
       #=======================================================================
       # Run a server

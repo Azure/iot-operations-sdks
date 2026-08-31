@@ -16,7 +16,7 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Generated.AdrBase
     public partial class UpdateAssetStatusResponseSchema
     {
         /// <summary>
-        /// Read error for the 'updateAssetStatus' Action.
+        /// Error for the 'updateAssetStatus' Action.
         /// </summary>
         [JsonPropertyName("updateAssetStatusError")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]

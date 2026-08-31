@@ -7,7 +7,7 @@
       "forms": [
         {
           "contentType": "application/json",
-          "dtv:topic": "sample/TestThing/command/noop",
+          "dov:topic": "sample/TestThing/command/noop",
           "op": "invokeaction"
         }
       ]

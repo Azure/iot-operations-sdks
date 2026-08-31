@@ -1,0 +1,25 @@
+{
+  "@context": [
+    "https://www.w3.org/2022/wot/td/v1.1",
+    { "dov": "http://azure.com/DigitalOperations/vocab#" }
+  ],
+  "@type": "tm:ThingModel",
+  "title": "NoopWithInput",
+  "actions": {
+    "noop": {
+      "input": {
+        "type": "string"
+      },
+      "forms": [
+        {
+          "dov:topic": "sample/noop/{executorId}",
+          "op": "invokeaction"
+        }
+      ]
+    }
+  },
+  "properties": {
+  },
+  "events": {
+  }
+}

@@ -1,3 +1,47 @@
+# OPC UA NodeSet converter
+
+The `Azure.Iot.Operations.Opc2Wot` tool converts OPC UA NodeSet files into standalone W3C WoT Thing Model documents. Each model is written to `<ShortOpcUaName>_<Type>.TM.json`, while its absolute `id` is the `dov:typeRef` prefixed with `urn:` (for example, `urn:org.opcfoundation.UA.MTConnect.v2.OptionalStopSubClassType`). Links between models use the target model's absolute `id`, and protocol-specific `forms` are omitted from Thing Models. The repository provides PowerShell and Bash wrappers for regenerating the OPC UA companion models maintained in the sibling [Azure/smd](https://github.com/Azure/smd) repository.
+
+By default, both wrappers expect this sibling repository layout:
+
+```text
+<root>/
+  iot-operations-sdks/
+  UA-Nodeset/
+  smd/
+```
+
+The default output is non-integrated: generated Thing Models retain relative references to other generated TM files. Pass the integration option only when each output file must be self-contained.
+
+## Generate OPC UA Thing Models
+
+PowerShell:
+
+```powershell
+.\generate_opcua_tms.ps1 `
+  -InputRoot C:\code\UA-Nodeset `
+  -OutputDir C:\code\smd\models
+```
+
+Bash:
+
+```bash
+bash ./generate_opcua_tms.sh \
+  --input-root ../../UA-Nodeset \
+  --output-dir ../../smd/models
+```
+
+Both wrappers recursively process `*.NodeSet2.xml` below the input root. By default, they omit the UA-Nodeset demo, test, and example-only inputs that are not published to SMD. Use `-IncludeNonPublished` or `--include-non-published` to include them. Include the complete set of required NodeSets so inherited types, cross-model links, and referenced VariableTypes can be resolved.
+
+Optional converter flags:
+
+| PowerShell | Bash | Behavior |
+| --- | --- | --- |
+| `-Integrate` | `--integrate` | Integrate referenced models into each output file. |
+| `-InheritVars` | `--inherit-vars` | Add `dov:includeInherited` to applicable root forms. |
+| `-IncludeTDs` | `--include-tds` | Include standalone Thing Description documents in the generated output. |
+| `-IncludeNonPublished` | `--include-non-published` | Include UA-Nodeset demo, test, and example-only models. |
+
 # Protocol compiler
 
 The `Azure.IoT.Operations.ProtocolCompiler` accepts one or more WoT Thing Model files as input, and it outputs specializations of the AIO SDK client and server classes in the requested programming language.
@@ -29,6 +73,7 @@ The compiler provides the following options:
 --workingDir <DIRPATH>         Directory for storing temporary files (relative to outDir unless path is rooted) [default: schemas]
 --namespace <NAMESPACE>        Namespace for generated code [csharp default: "Generated", rust default: "generated"]
 --common <NAMESPACE>           Namespace for common code [csharp default: "", rust default: "common_types"]
+--target <aio|none>            SDK that will be targeted by generated code [default: aio]
 --sdkPath <FILEPATH | URL>     Local path or feed URL for Azure.Iot.Operations.Protocol SDK
 --lang <csharp|rust|none>      Programming language for generated code
 --prefixSchemas                Apply Thing Model prefixes to schema type names (to avoid collisions across Thing Models)

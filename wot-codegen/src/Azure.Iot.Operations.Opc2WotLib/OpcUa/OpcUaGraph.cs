@@ -10,6 +10,8 @@ namespace Azure.Iot.Operations.Opc2WotLib
 
     public class OpcUaGraph
     {
+        private bool referencesResolved;
+
         public const string OpcUaCoreModelUri = "http://opcfoundation.org/UA/";
 
         public static readonly XmlNamespaceManager NamespaceManager;
@@ -49,6 +51,14 @@ namespace Azure.Iot.Operations.Opc2WotLib
             }
         }
 
+        public List<OpcUaModelInfo> GetRequiredModelClosure(OpcUaModelInfo rootModel)
+        {
+            List<OpcUaModelInfo> models = new();
+            HashSet<string> processedModelUris = new(StringComparer.Ordinal);
+            CollateRequiredModels(rootModel, models, processedModelUris);
+            return models;
+        }
+
         public string GetThingModel(string modelUri)
         {
             if (ModelUriToModelMap.TryGetValue(modelUri, out OpcUaModelInfo? modelInfo))
@@ -64,6 +74,8 @@ namespace Azure.Iot.Operations.Opc2WotLib
 
         public void AddNodeset(string xmlText)
         {
+            referencesResolved = false;
+
             XmlDocument xmlDoc = new XmlDocument();
             xmlDoc.LoadXml(xmlText);
             ArgumentNullException.ThrowIfNull(xmlDoc.DocumentElement, nameof(xmlDoc.DocumentElement));
@@ -82,10 +94,18 @@ namespace Azure.Iot.Operations.Opc2WotLib
             XmlNode? aliasesNode = xmlDoc.DocumentElement.SelectSingleNode("/opc:UANodeSet/opc:Aliases", NamespaceManager);
             ArgumentNullException.ThrowIfNull(aliasesNode, nameof(aliasesNode));
 
-            OpcUaModelInfo modelInfo = new OpcUaModelInfo(modelUri, namespaceUrisNode?.ChildNodes, aliasesNode.ChildNodes);
+            IEnumerable<string> requiredModelUris = modelNode.ChildNodes
+                .Cast<XmlNode>()
+                .Where(node => node.Name == "RequiredModel")
+                .Select(node => node.Attributes?["ModelUri"]?.Value)
+                .Where(uri => uri != null)
+                .Cast<string>();
+
+            OpcUaModelInfo modelInfo = new OpcUaModelInfo(modelUri, requiredModelUris, namespaceUrisNode?.ChildNodes, aliasesNode.ChildNodes);
             ModelUriToModelMap[modelUri] = modelInfo;
 
-            Dictionary<string, OpcUaObjectType> effectiveNameToObjectTypeMap = new();
+            Dictionary<string, OpcUaNode> effectiveNameToNodeMap = new();
+            HashSet<string> discriminatedEffectiveNames = new(StringComparer.Ordinal);
 
             foreach (XmlNode node in xmlDoc.DocumentElement.ChildNodes)
             {
@@ -95,23 +115,37 @@ namespace Azure.Iot.Operations.Opc2WotLib
                 {
                     case "UADataType":
                         opcUaNode = OpcUaDataType.TryCreate(modelInfo, NsUriToNsInfoMap, node, out OpcUaDataType? dataType) ? dataType : null;
+                        if (dataType != null && !dataType.IsDeprecated)
+                        {
+                            modelInfo.NodeIdToDataTypeMap[dataType.NodeId] = dataType;
+                        }
                         break;
                     case "UAObject":
                         OpcUaObject opcUaObject = new OpcUaObject(modelInfo, NsUriToNsInfoMap, node);
+                        SetDiscriminator(opcUaObject, effectiveNameToNodeMap, discriminatedEffectiveNames);
                         if (opcUaObject.HasTypeDefinitionNodeId != null)
                         {
                             modelInfo.TypeDefinitionNodeIds.Add(opcUaObject.HasTypeDefinitionNodeId);
                         }
+                        modelInfo.NodeIdToObjectMap[opcUaObject.NodeId] = opcUaObject;
                         opcUaNode = opcUaObject;
                         break;
                     case "UAObjectType":
                         OpcUaObjectType opcUaObjectType = new OpcUaObjectType(modelInfo, NsUriToNsInfoMap, node);
-                        SetDiscriminator(opcUaObjectType, effectiveNameToObjectTypeMap);
+                        SetDiscriminator(opcUaObjectType, effectiveNameToNodeMap, discriminatedEffectiveNames);
                         modelInfo.NodeIdToObjectTypeMap[opcUaObjectType.NodeId] = opcUaObjectType;
                         opcUaNode = opcUaObjectType;
                         break;
                     case "UAVariable":
                         opcUaNode = new OpcUaVariable(modelInfo, NsUriToNsInfoMap, node);
+                        break;
+                    case "UAVariableType":
+                        OpcUaVariableType opcUaVariableType = new OpcUaVariableType(modelInfo, NsUriToNsInfoMap, node);
+                        if (opcUaVariableType.IsSchemaEligible)
+                        {
+                            modelInfo.NodeIdToVariableTypeMap[opcUaVariableType.NodeId] = opcUaVariableType;
+                        }
+                        opcUaNode = opcUaVariableType;
                         break;
                     case "UAMethod":
                         opcUaNode = new OpcUaMethod(modelInfo, NsUriToNsInfoMap, node);
@@ -132,21 +166,79 @@ namespace Azure.Iot.Operations.Opc2WotLib
                     nsInfo.NodeIndexToNodeMap[opcUaNode.NodeId.NodeIndex] = opcUaNode;
                 }
             }
+
         }
 
-        private void SetDiscriminator(OpcUaObjectType newObjectType, Dictionary<string, OpcUaObjectType> effectiveNameToObjectTypeMap)
+        public void ResolveReferences()
         {
-            if (effectiveNameToObjectTypeMap.TryGetValue(newObjectType.EffectiveName, out OpcUaObjectType? extantObjectType))
+            if (referencesResolved)
+            {
+                return;
+            }
+
+            foreach (OpcUaModelInfo modelInfo in ModelUriToModelMap.Values)
+            {
+                modelInfo.ReferencedObjectNodeIds.Clear();
+                foreach (OpcUaObjectType opcUaObjectType in modelInfo.NodeIdToObjectTypeMap.Values)
+                {
+                    foreach ((OpcUaNodeId, OpcUaObject) typeAndObjectOfReference in opcUaObjectType.TypeAndObjectOfReferences)
+                    {
+                        modelInfo.ReferencedObjectNodeIds.Add(typeAndObjectOfReference.Item2.NodeId);
+                    }
+                }
+            }
+
+            referencesResolved = true;
+        }
+
+        private void SetDiscriminator(
+            OpcUaNode newObjectType,
+            Dictionary<string, OpcUaNode> effectiveNameToNodeMap,
+            HashSet<string> discriminatedEffectiveNames)
+        {
+            if (effectiveNameToNodeMap.TryGetValue(newObjectType.EffectiveName, out OpcUaNode? extantObjectType))
             {
                 if (extantObjectType.Discriminator == 0)
                 {
-                    extantObjectType.Discriminator = 1;
+                    discriminatedEffectiveNames.Remove(extantObjectType.DiscriminatedEffectiveName);
+                    SetNextAvailableDiscriminator(extantObjectType, discriminatedEffectiveNames);
                 }
 
-                newObjectType.Discriminator = extantObjectType.Discriminator + 1;
+                SetNextAvailableDiscriminator(newObjectType, discriminatedEffectiveNames);
+            }
+            else if (!discriminatedEffectiveNames.Add(newObjectType.DiscriminatedEffectiveName))
+            {
+                SetNextAvailableDiscriminator(newObjectType, discriminatedEffectiveNames);
             }
 
-            effectiveNameToObjectTypeMap[newObjectType.EffectiveName] = newObjectType;
+            effectiveNameToNodeMap[newObjectType.EffectiveName] = newObjectType;
+        }
+
+        private void SetNextAvailableDiscriminator(OpcUaNode node, HashSet<string> discriminatedEffectiveNames)
+        {
+            do
+            {
+                node.Discriminator++;
+            }
+            while (!discriminatedEffectiveNames.Add(node.DiscriminatedEffectiveName));
+        }
+
+        private void CollateRequiredModels(OpcUaModelInfo modelInfo, List<OpcUaModelInfo> models, HashSet<string> processedModelUris)
+        {
+            if (!processedModelUris.Add(modelInfo.ModelUri))
+            {
+                return;
+            }
+
+            models.Add(modelInfo);
+
+            foreach (string requiredModelUri in modelInfo.RequiredModelUris)
+            {
+                if (ModelUriToModelMap.TryGetValue(requiredModelUri, out OpcUaModelInfo? requiredModel))
+                {
+                    CollateRequiredModels(requiredModel, models, processedModelUris);
+                }
+            }
         }
     }
 }

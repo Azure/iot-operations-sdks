@@ -8,8 +8,8 @@
     {
       "condition": "ValuesInconsistent",
       "filename": "PropertyContainedInPropertyContainsOther.TM.json",
-      "line": 25,
-      "cfLine": 14,
+      "line": 24,
+      "cfLine": 13,
       "crossRef": ""
     }
   ]

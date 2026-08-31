@@ -97,9 +97,9 @@ namespace TestEnvoys.Passthrough
                 await this.passCommandExecutor.DisposeAsync().ConfigureAwait(false);
             }
 
-            public async ValueTask DisposeAsync(bool disposing)
+            public async ValueTask DisposeAsync(bool disposing, CancellationToken cancellationToken = default)
             {
-                await this.passCommandExecutor.DisposeAsync(disposing).ConfigureAwait(false);
+                await this.passCommandExecutor.DisposeAsync(disposing, cancellationToken).ConfigureAwait(false);
             }
         }
 
@@ -172,14 +172,24 @@ namespace TestEnvoys.Passthrough
                 return new RpcCallAsync<byte[]>(this.passCommandInvoker.InvokeCommandAsync(request, metadata, prefixedAdditionalTopicTokenMap, commandTimeout, cancellationToken), metadata.CorrelationId);
             }
 
+            /// <summary>
+            /// Stop accepting telemetry for all telemetry receivers and make all command invokers unsubscribe from command response topics.
+            /// </summary>
+            /// <param name="cancellationToken">Cancellation token.</param>
+            public async Task StopAsync(CancellationToken cancellationToken = default)
+            {
+                await Task.WhenAll(
+                    this.passCommandInvoker.StopAsync(cancellationToken)).ConfigureAwait(false);
+            }
+
             public async ValueTask DisposeAsync()
             {
                 await this.passCommandInvoker.DisposeAsync().ConfigureAwait(false);
             }
 
-            public async ValueTask DisposeAsync(bool disposing)
+            public async ValueTask DisposeAsync(bool disposing, CancellationToken cancellationToken = default)
             {
-                await this.passCommandInvoker.DisposeAsync(disposing).ConfigureAwait(false);
+                await this.passCommandInvoker.DisposeAsync(disposing, cancellationToken).ConfigureAwait(false);
             }
         }
     }

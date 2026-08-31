@@ -485,5 +485,30 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
 
             await Assert.ThrowsAsync<OperationCanceledException>(() => invoker.InvokeCommandAsync("someRequest", additionalTopicTokenMap: new Dictionary<string, string> { { "executorId", "someExecutor" } }, cancellationToken: cts.Token));
         }
+
+        [Fact]
+        public async Task InvokeCommand_RequestCarriesHighPriorityProperty()
+        {
+            // ADR 31: every mRPC request PUBLISH must be marked with the broker's high-priority
+            // backpressure-bypass property. The broker keys off the property's presence alone, so
+            // assert it is present exactly once rather than asserting its (empty) value.
+            MockMqttPubSubClient mock = new("mockClient");
+            await using InvokerStub stub = new(new ApplicationContext(), mock)
+            {
+                RequestTopicPattern = "command/{executorId}/mockCommand",
+                ResponseTopicPrefix = "clients/mockClient",
+            };
+
+            using CancellationTokenSource cts = new();
+            var invokeTask = stub.InvokeCommandAsync("req Payload", additionalTopicTokenMap: new Dictionary<string, string> { { "executorId", "stubServer" } }, cancellationToken: cts.Token);
+
+            Assert.NotNull(mock.MessagePublished.UserProperties);
+            Assert.Equal(1, mock.MessagePublished.UserProperties!.Count(p => p.Name == AkriSystemProperties.HighPriority));
+
+            // We only care about the published request; tear the invocation down explicitly so the
+            // task is observed rather than left dangling (dispose would otherwise cancel it unobserved).
+            cts.Cancel();
+            await Assert.ThrowsAsync<AkriMqttException>(() => invokeTask);
+        }
     }
 }

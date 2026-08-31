@@ -47,11 +47,10 @@ This directory contains a variety of samples demonstrating how to use the .NET p
 
 ### Telemetry and RPC
 
-1. [Cloud events](./Protocol/CloudEvents/) - Send telemetry with cloud events referencing the payload schema
-1. [Read cloud events](./Protocol/ReadCloudEvents/) - Receive telemetry with cloud events and fetch schema from the schema registry
+1. [Cloud events](./Protocol/Telemetry/SendCloudEvents/) - Send telemetry with cloud events referencing the payload schema
+1. [Read cloud events](./Protocol/Telemetry/ReadCloudEvents/) - Receive telemetry with cloud events and fetch schema from the schema registry
 1. [Envoys](./Protocol/TestEnvoys/) - Client library and server stub library for various schema definitions
-1. Counter [client / server](./Protocol/Counter) - Client and server for the counter definition
-1. Additional [clients / servers](./Protocol/Codegen/) - Client and server for different DTDL definitions
+1. Counter [client](./Protocol/RPC/CounterClient/) / [server](./Protocol/RPC/CounterServer/) - Client and server for the counter definition
 
 ### Connectors
 

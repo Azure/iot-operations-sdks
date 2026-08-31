@@ -8,8 +8,8 @@
     {
       "condition": "TypeMismatch",
       "filename": "EventWithUnitPropertyNotString.TM.json",
-      "line": 31,
-      "cfLine": 15,
+      "line": 30,
+      "cfLine": 14,
       "crossRef": ""
     }
   ]

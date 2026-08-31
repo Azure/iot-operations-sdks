@@ -67,6 +67,12 @@
         {
           "contentType": "application/json",
           "dtv:topic": "sample/command/doSomething",
+          "additionalResponses": [
+            {
+              "success": false,
+              "schema": "Foo"
+            }
+          ],
           "op": "invokeaction"
         }
       ]

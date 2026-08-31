@@ -1,13 +1,13 @@
 {
   "@context": [
     "https://www.w3.org/2022/wot/td/v1.1",
-    { "dtv": "http://azure.com/DigitalTwins/dtmi#" }
+    { "dov": "http://azure.com/DigitalOperations/vocab#" }
   ],
   "@type": "tm:ThingModel",
   "title": "Noop",
   "forms": [
     {
-      "dtv:topic": "sample/TestThing/events",
+      "dov:topic": "sample/TestThing/events",
       "contentType": "application/json",
       "op": [ "subscribeallevents", "subscribeallevents" ]
     }
@@ -17,7 +17,7 @@
       "forms": [
         {
           "contentType": "application/json",
-          "dtv:topic": "sample/TestThing/command/noop",
+          "dov:topic": "sample/TestThing/command/noop",
           "op": "invokeaction"
         }
       ]

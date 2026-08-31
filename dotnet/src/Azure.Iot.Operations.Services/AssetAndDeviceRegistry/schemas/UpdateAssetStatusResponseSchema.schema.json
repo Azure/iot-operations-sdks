@@ -6,7 +6,7 @@
   "additionalProperties": false,
   "properties": {
     "updateAssetStatusError": {
-      "description": "Read error for the 'updateAssetStatus' Action.",
+      "description": "Error for the 'updateAssetStatus' Action.",
       "$ref": "AkriServiceError.schema.json"
     },
     "updatedAssetStatus": {

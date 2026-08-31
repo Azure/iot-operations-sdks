@@ -54,7 +54,7 @@ namespace Dtdl2Wot
             this.Write("\"\r\n            }\r\n          ],\r\n");
  } 
  if (this.separate) { 
-            this.Write("          \"dtv:topic\": \"");
+            this.Write("          \"dov:topic\": \"");
             this.Write(this.ToStringHelper.ToStringWithCulture(this.propertyTopic.Replace(DtdlMqttTopicTokens.PropertyAction, "write")));
             this.Write("\",\r\n");
  } 
@@ -70,7 +70,7 @@ namespace Dtdl2Wot
             this.Write("\"\r\n            }\r\n          ],\r\n");
  } 
  if (this.separate) { 
-            this.Write("          \"dtv:topic\": \"");
+            this.Write("          \"dov:topic\": \"");
             this.Write(this.ToStringHelper.ToStringWithCulture(this.propertyTopic.Replace(DtdlMqttTopicTokens.PropertyAction, "read")));
             this.Write("\",\r\n");
  } 

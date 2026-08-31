@@ -89,5 +89,8 @@ internal sealed class Program
 
         // nothing more to do while owning the lock, so release it
         await leasedLockClient.ReleaseLockAsync(null, null, cancellationToken).ConfigureAwait(false);
+
+        await stateStoreClient.StopAsync(cancellationToken).ConfigureAwait(false);
+        await leasedLockClient.StopAsync(cancellationToken).ConfigureAwait(false);
     }
 }

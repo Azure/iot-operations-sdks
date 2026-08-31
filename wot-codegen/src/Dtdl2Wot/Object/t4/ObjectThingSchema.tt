@@ -11,7 +11,7 @@
 "required": [ <#=string.Join(", ", this.objectFields.Where(f => IsFieldRequired(f)).Select(f => $"\"{f.Name}\""))#> ],
 <# } #>
 <# if (this.objectFields.Any(f => IsFieldMessage(f))) { #>
-"dtv:errorMessage": "<#=this.objectFields.First(f => IsFieldMessage(f)).Name#>",
+"dov:errorMessage": "<#=this.objectFields.First(f => IsFieldMessage(f)).Name#>",
 <# } #>
 "properties": {
 <# int ix2 = 1; foreach (var dtField in this.objectFields) { #>

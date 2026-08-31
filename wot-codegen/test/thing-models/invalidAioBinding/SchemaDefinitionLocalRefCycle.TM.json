@@ -1,0 +1,33 @@
+{
+  "@context": [
+    "https://www.w3.org/2022/wot/td/v1.1",
+    { "dov": "http://azure.com/DigitalOperations/vocab#" }
+  ],
+  "@type": "tm:ThingModel",
+  "title": "LocalRefCycle",
+  "schemaDefinitions": {
+    "Loop": {
+      "type": "object",
+      "properties": {
+        "child": {
+          "tm:ref": "#/schemaDefinitions/Loop"
+        }
+      }
+    }
+  },
+  "actions": {
+    "noop": {
+      "forms": [
+        {
+          "contentType": "application/json",
+          "dov:topic": "sample/localrefcycle/{executorId}",
+          "op": "invokeaction"
+        }
+      ]
+    }
+  },
+  "properties": {
+  },
+  "events": {
+  }
+}

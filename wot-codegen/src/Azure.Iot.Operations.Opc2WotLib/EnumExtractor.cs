@@ -73,7 +73,7 @@ namespace Azure.Iot.Operations.Opc2WotLib
                     dataTypeEnums[dataType.NodeId] = dataTypeEnum;
                     break;
                 case OpcUaDataTypeObject dataTypeObject:
-                    foreach (OpcUaObjectField field in dataTypeObject.ObjectFields.Values.Where(f => f.DataType != null))
+                    foreach (OpcUaObjectField field in dataTypeObject.GetAllObjectFields().Values.Where(f => f.DataType != null))
                     {
                         CollateDataTypeEnums((OpcUaDataType)dataTypeObject.GetReferencedOpcUaNode(field.DataType!), dataTypeEnums, processedNodeIds);
                     }

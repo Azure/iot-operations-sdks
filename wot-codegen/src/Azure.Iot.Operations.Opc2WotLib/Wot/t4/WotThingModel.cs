@@ -30,17 +30,19 @@ namespace Azure.Iot.Operations.Opc2WotLib
  if (this.areUnitsInUse) { 
             this.Write("      \"qudt\": \"http://qudt.org/schema/qudt/\",\r\n");
  } 
-            this.Write("      \"dtv\": \"http://azure.com/DigitalTwins/dtmi#\",\r\n      \"aov\": \"http://azure.c" +
-                    "om/IoT/operations/tm#\"\r\n    }\r\n  ],\r\n  \"@type\": \"tm:ThingModel\",\r\n  \"title\": \"");
+            this.Write("      \"dov\": \"http://azure.com/DigitalOperations/vocab#\"\r\n    }\r\n  ],\r\n  \"@type\":" +
+                    " \"tm:ThingModel\",\r\n  \"id\": \"");
+            this.Write(this.ToStringHelper.ToStringWithCulture(this.id));
+            this.Write("\",\r\n  \"title\": \"");
             this.Write(this.ToStringHelper.ToStringWithCulture(this.thingName));
-            this.Write("\",\r\n  \"aov:typeRef\": \"");
+            this.Write("\",\r\n  \"dov:typeRef\": \"");
             this.Write(this.ToStringHelper.ToStringWithCulture(this.typeRef));
             this.Write("\",\r\n");
  if (this.isEvent) { 
-            this.Write("  \"aov:isEvent\": true,\r\n");
+            this.Write("  \"dov:isEvent\": true,\r\n");
  } 
  if (this.isComposite) { 
-            this.Write("  \"aov:isComposite\": true,\r\n");
+            this.Write("  \"dov:isComposite\": true,\r\n");
  } 
             this.Write("  \"links\": [\r\n");
  int ix1 = 1; foreach (string baseModelRef in this.baseModelRefs) { 
@@ -53,11 +55,11 @@ namespace Azure.Iot.Operations.Opc2WotLib
  foreach (LinkInfo linkInfo in this.linkInfos) { 
             this.Write("    {\r\n      \"rel\": \"");
             this.Write(this.ToStringHelper.ToStringWithCulture(linkInfo.Rel));
-            this.Write("\",\r\n      \"aov:refName\": \"");
+            this.Write("\",\r\n      \"dov:refName\": \"");
             this.Write(this.ToStringHelper.ToStringWithCulture(linkInfo.RefName));
             this.Write("\",\r\n");
  if (linkInfo.RefType != null) { 
-            this.Write("      \"aov:refType\": \"");
+            this.Write("      \"dov:refType\": \"");
             this.Write(this.ToStringHelper.ToStringWithCulture(linkInfo.RefType));
             this.Write("\",\r\n");
  } 
@@ -68,57 +70,29 @@ namespace Azure.Iot.Operations.Opc2WotLib
             this.Write("\r\n");
  ix1++; } 
             this.Write("  ],\r\n  \"schemaDefinitions\": {\r\n");
- ix1 = 1; foreach (OpcUaDataTypeEnum dataTypeEnum in this.dataTypeEnums) { 
+ ix1 = 1; foreach (KeyValuePair<string, WotDataSchema> schemaDefinition in this.schemaDefinitions) {
             this.Write("    \"");
-            this.Write(this.ToStringHelper.ToStringWithCulture(dataTypeEnum.EffectiveName));
-            this.Write("\": {\r\n      \"type\": \"object\",\r\n      \"aov:typeRef\": \"nsu=");
-            this.Write(this.ToStringHelper.ToStringWithCulture(dataTypeEnum.NodeIdNamespace));
-            this.Write(";i=");
-            this.Write(this.ToStringHelper.ToStringWithCulture(dataTypeEnum.NodeId.NodeIndex));
-            this.Write("\",\r\n      \"const\": {\r\n");
- int ix2 = 1; foreach (KeyValuePair<string, OpcUaEnumValue> enumValue in dataTypeEnum.EnumValues) { 
-            this.Write("        \"");
-            this.Write(this.ToStringHelper.ToStringWithCulture(enumValue.Value.SymbolicName ?? enumValue.Key));
-            this.Write("\": ");
-            this.Write(this.ToStringHelper.ToStringWithCulture(enumValue.Value.Value));
-            this.Write(this.ToStringHelper.ToStringWithCulture(ix2 < dataTypeEnum.EnumValues.Count ? "," : ""));
-            this.Write("\r\n");
- ix2++; } 
-            this.Write("      },\r\n");
- if (dataTypeEnum.Description != null) { 
-            this.Write("      \"description\": \"");
-            this.Write(this.ToStringHelper.ToStringWithCulture(dataTypeEnum.Description));
-            this.Write("\",\r\n");
- } 
-            this.Write("      \"properties\": {\r\n");
- ix2 = 1; foreach (KeyValuePair<string, OpcUaEnumValue> enumValue in dataTypeEnum.EnumValues) { 
-            this.Write("        \"");
-            this.Write(this.ToStringHelper.ToStringWithCulture(enumValue.Value.SymbolicName ?? enumValue.Key));
+            this.Write(this.ToStringHelper.ToStringWithCulture(schemaDefinition.Key));
             this.Write("\": {\r\n");
- if (enumValue.Value.Description != null) { 
-            this.Write("          \"description\": \"");
-            this.Write(this.ToStringHelper.ToStringWithCulture(enumValue.Value.Description));
-            this.Write("\",\r\n");
- } 
-            this.Write("          \"type\": \"integer\"\r\n        }");
-            this.Write(this.ToStringHelper.ToStringWithCulture(ix2 < dataTypeEnum.EnumValues.Count ? "," : ""));
+ this.PushIndent("      ");
+            this.Write(this.ToStringHelper.ToStringWithCulture(schemaDefinition.Value.TransformText()));
             this.Write("\r\n");
- ix2++; } 
-            this.Write("      }\r\n    }");
-            this.Write(this.ToStringHelper.ToStringWithCulture(ix1 < this.dataTypeEnums.Count ? "," : ""));
+ this.PopIndent();
+            this.Write("    }");
+            this.Write(this.ToStringHelper.ToStringWithCulture(ix1 < this.schemaDefinitions.Count ? "," : ""));
             this.Write("\r\n");
  ix1++; } 
             this.Write("  },\r\n");
  if (this.properties.Any() || this.events.Any()) { 
             this.Write("  \"forms\": [\r\n");
  if (this.events.Any()) { 
-            this.Write("    {\r\n      \"contentType\": \"application/json\",\r\n      \"dtv:topic\": \"opcua/");
+            this.Write("    {\r\n      \"contentType\": \"application/json\",\r\n      \"dov:topic\": \"opcua/");
             this.Write(this.ToStringHelper.ToStringWithCulture(this.specName));
             this.Write("/");
             this.Write(this.ToStringHelper.ToStringWithCulture(this.thingName));
             this.Write("/events/{senderId}\",\r\n");
  if (this.inheritVars && this.baseModelRefs.Any()) { 
-            this.Write("      \"dtv:includeInherited\": true,\r\n");
+            this.Write("      \"dov:includeInherited\": true,\r\n");
  } 
             this.Write("      \"op\": \"subscribeallevents\"\r\n    }");
             this.Write(this.ToStringHelper.ToStringWithCulture(this.properties.Any() ? "," : ""));
@@ -126,26 +100,51 @@ namespace Azure.Iot.Operations.Opc2WotLib
  } 
  if (this.properties.Any()) { 
  if (this.properties.Any(p => !p.ReadOnly)) { 
-            this.Write("    {\r\n      \"contentType\": \"application/json\",\r\n      \"dtv:topic\": \"opcua/");
+            this.Write("    {\r\n      \"contentType\": \"application/json\",\r\n      \"dov:topic\": \"opcua/");
             this.Write(this.ToStringHelper.ToStringWithCulture(this.specName));
             this.Write("/");
             this.Write(this.ToStringHelper.ToStringWithCulture(this.thingName));
             this.Write("/properties/write\",\r\n");
  if (this.inheritVars && this.baseModelRefs.Any()) { 
-            this.Write("      \"dtv:includeInherited\": true,\r\n");
+            this.Write("      \"dov:includeInherited\": true,\r\n");
  } 
             this.Write("      \"op\": \"writemultipleproperties\"\r\n    },\r\n");
  } 
-            this.Write("    {\r\n      \"contentType\": \"application/json\",\r\n      \"dtv:topic\": \"opcua/");
+            this.Write("    {\r\n      \"contentType\": \"application/json\",\r\n      \"dov:topic\": \"opcua/");
             this.Write(this.ToStringHelper.ToStringWithCulture(this.specName));
             this.Write("/");
             this.Write(this.ToStringHelper.ToStringWithCulture(this.thingName));
             this.Write("/properties/read\",\r\n");
  if (this.inheritVars && this.baseModelRefs.Any()) { 
-            this.Write("      \"dtv:includeInherited\": true,\r\n");
+            this.Write("      \"dov:includeInherited\": true,\r\n");
  } 
             this.Write("      \"op\": \"readallproperties\"\r\n    }\r\n");
  } 
+            this.Write("  ],\r\n");
+ } 
+ if (this.optionalActionNames.Any() || this.optionalPropertyNames.Any() || this.optionalEventNames.Any()) { 
+            this.Write("  \"tm:optional\": [\r\n");
+ ix1 = 1; foreach (string actionName in this.optionalActionNames) { 
+            this.Write("    \"/actions/");
+            this.Write(this.ToStringHelper.ToStringWithCulture(actionName));
+            this.Write("\"");
+            this.Write(this.ToStringHelper.ToStringWithCulture(ix1 < this.optionalActionNames.Count + this.optionalPropertyNames.Count + this.optionalEventNames.Count ? "," : ""));
+            this.Write("\r\n");
+ ix1++; } 
+ foreach (string propertyName in this.optionalPropertyNames) { 
+            this.Write("    \"/properties/");
+            this.Write(this.ToStringHelper.ToStringWithCulture(propertyName));
+            this.Write("\"");
+            this.Write(this.ToStringHelper.ToStringWithCulture(ix1 < this.optionalActionNames.Count + this.optionalPropertyNames.Count + this.optionalEventNames.Count ? "," : ""));
+            this.Write("\r\n");
+ ix1++; } 
+ foreach (string eventName in this.optionalEventNames) { 
+            this.Write("    \"/events/");
+            this.Write(this.ToStringHelper.ToStringWithCulture(eventName));
+            this.Write("\"");
+            this.Write(this.ToStringHelper.ToStringWithCulture(ix1 < this.optionalActionNames.Count + this.optionalPropertyNames.Count + this.optionalEventNames.Count ? "," : ""));
+            this.Write("\r\n");
+ ix1++; } 
             this.Write("  ],\r\n");
  } 
             this.Write("  \"actions\": {\r\n");

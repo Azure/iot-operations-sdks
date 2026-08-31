@@ -18,6 +18,7 @@ namespace Azure.Iot.Operations.EnvoyGenerator
         private readonly ITypeName? respSchema;
         private readonly List<CodeName> normalResultFields;
         private readonly List<CodeName> normalRequiredFields;
+        private readonly CodeName? normalResultName;
         private readonly ITypeName? normalResultSchema;
         private readonly CodeName? errorResultName;
         private readonly CodeName? errorResultSchema;
@@ -36,6 +37,7 @@ namespace Azure.Iot.Operations.EnvoyGenerator
             ITypeName? respSchema,
             List<CodeName> normalResultFields,
             List<CodeName> normalRequiredFields,
+            CodeName? normalResultName,
             ITypeName? normalResultSchema,
             CodeName? errorResultName,
             CodeName? errorResultSchema,
@@ -53,6 +55,7 @@ namespace Azure.Iot.Operations.EnvoyGenerator
             this.respSchema = respSchema;
             this.normalResultFields = normalResultFields;
             this.normalRequiredFields = normalRequiredFields;
+            this.normalResultName = normalResultName;
             this.normalResultSchema = normalResultSchema;
             this.errorResultName = errorResultName;
             this.errorResultSchema = errorResultSchema;

@@ -12,7 +12,7 @@ namespace Azure.Iot.Operations.Opc2WotLib
 
     public class LinkRelRuleEngine
     {
-        private const string DefaultRel = "aov:reference";
+        private const string DefaultRel = "dov:reference";
 
         private readonly List<LinkRelRule> linkRelRules;
 

@@ -39,6 +39,8 @@ public class SchemaRegistryClientIntegrationTests(ITestOutputHelper output)
         Assert.NotNull(getSchemaResponse?.Tags);
         Assert.Equal("value1", getSchemaResponse.Tags.GetValueOrDefault("key1"));
         Assert.Equal("DefaultSRNamespace", getSchemaResponse.Namespace);
+
+        await client.StopAsync();
     }
 
     [Fact]
@@ -49,6 +51,8 @@ public class SchemaRegistryClientIntegrationTests(ITestOutputHelper output)
         await using SchemaRegistryClient client = new(applicationContext, mqttClient);
 
         await Assert.ThrowsAsync<SchemaRegistryErrorException>(async () => await client.GetAsync("NotFound"));
+
+        await client.StopAsync();
     }
 
     [Fact]
@@ -61,6 +65,8 @@ public class SchemaRegistryClientIntegrationTests(ITestOutputHelper output)
         AkriMqttException ex = await Assert.ThrowsAsync<AkriMqttException>(async () => await client.PutAsync(avroSchema1, SchemaFormat.JsonSchemaDraft07, SchemaType.MessageSchema, "1", null!, null, null, TimeSpan.FromMinutes(1)));
         Assert.True(ex.IsRemote);
         Assert.StartsWith("Invalid JsonSchema/draft-07 schema", ex.Message);
+
+        await client.StopAsync();
     }
 
     [Fact]
@@ -73,6 +79,8 @@ public class SchemaRegistryClientIntegrationTests(ITestOutputHelper output)
         AkriMqttException ex = await Assert.ThrowsAsync<AkriMqttException>(async () => await client.PutAsync("not-json}", SchemaFormat.JsonSchemaDraft07, SchemaType.MessageSchema, "1", null!, null, null, TimeSpan.FromMinutes(1)));
         Assert.True(ex.IsRemote);
         Assert.StartsWith("Invalid JsonSchema/draft-07 schema", ex.Message);
+
+        await client.StopAsync();
     }
 
     [Fact]
@@ -86,6 +94,8 @@ public class SchemaRegistryClientIntegrationTests(ITestOutputHelper output)
 
         await Assert.ThrowsAsync<ObjectDisposedException>(async () => await client.PutAsync("irrelevant", SchemaFormat.JsonSchemaDraft07, SchemaType.MessageSchema, "1", null!, null, null, TimeSpan.FromMinutes(1)));
         await Assert.ThrowsAsync<ObjectDisposedException>(async () => await client.GetAsync("irrelevant"));
+
+        await client.StopAsync();
     }
 
     [Fact]
@@ -100,6 +110,8 @@ public class SchemaRegistryClientIntegrationTests(ITestOutputHelper output)
 
         await Assert.ThrowsAsync<OperationCanceledException>(async () => await client.PutAsync("irrelevant", SchemaFormat.JsonSchemaDraft07, SchemaType.MessageSchema, "1", null!, null, null, TimeSpan.FromMinutes(1), cts.Token));
         await Assert.ThrowsAsync<OperationCanceledException>(async () => await client.GetAsync("irrelevant", cancellationToken: cts.Token));
+
+        await client.StopAsync();
     }
 
     [Fact]
@@ -141,6 +153,8 @@ public class SchemaRegistryClientIntegrationTests(ITestOutputHelper output)
         Assert.NotNull(getSchemaResponse2);
         Assert.Equal("DefaultSRNamespace", getSchemaResponse2.Namespace);
         Assert.Equal(defaultSchemaVersion, getSchemaResponse2.Version);
+
+        await schemaRegistryInterface.StopAsync();
     }
 
     private static readonly string jsonSchema1 = """

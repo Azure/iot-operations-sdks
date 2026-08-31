@@ -13,4 +13,7 @@ pub struct AIOBrokerFeatures {
     /// Indicates if the Session should use AIO persistence
     #[builder(default = "false")]
     pub(crate) persistence: bool,
+    /// Value for the `metriccategory` MQTT CONNECT user property
+    #[builder(default = "\"aiosdk-rust\".to_string()", setter(into))]
+    pub(crate) metric_category: String,
 }

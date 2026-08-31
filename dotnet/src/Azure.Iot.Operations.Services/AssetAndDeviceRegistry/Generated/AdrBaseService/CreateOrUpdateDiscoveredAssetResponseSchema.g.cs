@@ -16,7 +16,7 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Generated.AdrBase
     public partial class CreateOrUpdateDiscoveredAssetResponseSchema
     {
         /// <summary>
-        /// Read error for the 'createOrUpdateDiscoveredAsset' Action.
+        /// Error for the 'createOrUpdateDiscoveredAsset' Action.
         /// </summary>
         [JsonPropertyName("createOrUpdateDiscoveredAssetError")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]

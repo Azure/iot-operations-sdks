@@ -28,6 +28,9 @@ namespace Azure.Iot.Operations.Protocol.IntegrationTests
             await client.OnTelemetryReceived.Task;
 
             Assert.Equal(expectedTelemetryTopicTokenValue, client.CustomTopicTokenValue);
+
+            await service.StopAsync();
+            await client.StopAsync();
         }
 
         [Fact]
@@ -51,6 +54,9 @@ namespace Azure.Iot.Operations.Protocol.IntegrationTests
             await client.OnTelemetryReceived.Task;
 
             Assert.Equal(expectedTelemetryTopicTokenValue, client.CustomTopicTokenValue);
+
+            await service.StopAsync();
+            await client.StopAsync();
         }
 
         [Fact]
@@ -73,6 +79,9 @@ namespace Azure.Iot.Operations.Protocol.IntegrationTests
 
             Assert.Equal(expectedRpcTopicTokenValue, service.ReceivedRpcCustomTopicTokenValue);
             Assert.Equal(expectedRpcTopicTokenValue, result.CustomTopicTokenResponse);
+
+            await service.StopAsync();
+            await client.StopAsync();
         }
 
         [Fact]
@@ -95,6 +104,9 @@ namespace Azure.Iot.Operations.Protocol.IntegrationTests
 
             Assert.Equal(expectedRpcTopicTokenValue, service.ReceivedRpcCustomTopicTokenValue);
             Assert.Equal(expectedRpcTopicTokenValue, result.CustomTopicTokenResponse);
+
+            await service.StopAsync();
+            await client.StopAsync();
         }
 
         [Fact]
@@ -126,6 +138,9 @@ namespace Azure.Iot.Operations.Protocol.IntegrationTests
 
             // This RPC call should fail because the executor isn't listening for invocations with the above topic token value
             var error = await Assert.ThrowsAsync<AkriMqttException>(async () => await client.ReadCustomTopicTokenAsync(mqttClient1.ClientId!, new(), otherCustomTopicTokens, TimeSpan.FromSeconds(3)));
+
+            await service.StopAsync();
+            await client.StopAsync();
         }
     }
 }

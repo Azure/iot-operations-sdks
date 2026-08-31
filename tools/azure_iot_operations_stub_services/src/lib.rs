@@ -24,7 +24,7 @@ use std::{
 };
 
 use azure_iot_operations_mqtt::{
-    MqttConnectionSettingsBuilder,
+    aio::connection_settings::MqttConnectionSettingsBuilder,
     session::{Session, SessionOptionsBuilder},
 };
 #[cfg(feature = "enable-output")]

@@ -28,7 +28,7 @@ namespace Dtdl2Wot
  // Copyright (c) Microsoft Corporation. 
  // Licensed under the MIT License 
  this.PushIndent(new string(' ', this.indent)); 
-            this.Write("\"dtv:placeholder\": true,\r\n");
+            this.Write("\"dov:placeholder\": true,\r\n");
             this.Write(this.ToStringHelper.ToStringWithCulture(this.thingDescriber.GetTypeAndAddenda(this.dtMap.MapValue.Schema, 0)));
  this.PopIndent(); 
             return this.GenerationEnvironment.ToString();

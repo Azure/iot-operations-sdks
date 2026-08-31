@@ -28,11 +28,11 @@ namespace Dtdl2Wot
         {
  // Copyright (c) Microsoft Corporation. 
  // Licensed under the MIT License 
-            this.Write("{\r\n  \"@context\": [\r\n    \"https://www.w3.org/2022/wot/td/v1.1\",\r\n    { \"dtv\": \"htt" +
-                    "p://azure.com/DigitalTwins/dtmi#\" }\r\n  ],\r\n  \"@type\": \"tm:ThingModel\",\r\n  \"title" +
-                    "\": \"");
+            this.Write("{\r\n  \"@context\": [\r\n    \"https://www.w3.org/2022/wot/td/v1.1\",\r\n    {\r\n      \"dov" +
+                    "\": \"http://azure.com/DigitalOperations/vocab#\"\r\n    }\r\n  ],\r\n  \"@type\": \"tm:Thin" +
+                    "gModel\",\r\n  \"title\": \"");
             this.Write(this.ToStringHelper.ToStringWithCulture(this.serviceName.AsGiven));
-            this.Write("\",\r\n  \"links\": [\r\n    {\r\n      \"rel\": \"dtv:naming\",\r\n      \"href\": \"");
+            this.Write("\",\r\n  \"links\": [\r\n    {\r\n      \"rel\": \"dov:naming\",\r\n      \"href\": \"");
             this.Write(this.ToStringHelper.ToStringWithCulture(this.schemaNamesPath));
             this.Write("\",\r\n      \"type\": \"application/json\"\r\n    }\r\n  ],\r\n");
  if (this.errorSchemas.Any() || this.namespacedEnums.Any()) { 
@@ -96,7 +96,7 @@ namespace Dtdl2Wot
  if (this.aggregateTelemetries) { 
             this.Write("    {\r\n      \"contentType\": \"");
             this.Write(this.ToStringHelper.ToStringWithCulture(this.contentType));
-            this.Write("\",\r\n      \"dtv:topic\": \"");
+            this.Write("\",\r\n      \"dov:topic\": \"");
             this.Write(this.ToStringHelper.ToStringWithCulture(this.telemetryTopic));
             this.Write("\",\r\n      \"op\": \"subscribeallevents\"\r\n    }");
             this.Write(this.ToStringHelper.ToStringWithCulture(this.aggregateProperties ? "," : ""));
@@ -111,7 +111,7 @@ namespace Dtdl2Wot
             this.Write("      \"additionalResponses\": [\r\n        {\r\n          \"success\": false\r\n        }\r" +
                     "\n      ],\r\n");
  } 
-            this.Write("      \"dtv:topic\": \"");
+            this.Write("      \"dov:topic\": \"");
             this.Write(this.ToStringHelper.ToStringWithCulture(this.propertyTopic.Replace(DtdlMqttTopicTokens.PropertyAction, "write")));
             this.Write("\",\r\n      \"op\": \"writemultipleproperties\"\r\n    },\r\n");
  } 
@@ -122,7 +122,7 @@ namespace Dtdl2Wot
             this.Write("      \"additionalResponses\": [\r\n        {\r\n          \"success\": false\r\n        }\r" +
                     "\n      ],\r\n");
  } 
-            this.Write("      \"dtv:topic\": \"");
+            this.Write("      \"dov:topic\": \"");
             this.Write(this.ToStringHelper.ToStringWithCulture(this.propertyTopic.Replace(DtdlMqttTopicTokens.PropertyAction, "read")));
             this.Write("\",\r\n      \"op\": \"readallproperties\"\r\n    }\r\n");
  } 

@@ -9,9 +9,13 @@ namespace Azure.Iot.Operations.Opc2WotLib
 
     public class OpcUaObject : OpcUaNode
     {
+        private OpcUaObjectType? hasTypeDefinition = null;
+
         public OpcUaObject(OpcUaModelInfo modelInfo, Dictionary<string, OpcUaNamespaceInfo> nsUriToNsInfoMap, XmlNode objectNode)
             : base(modelInfo, nsUriToNsInfoMap, objectNode)
         {
+            References = UaUtil.GetReferencesFromXmlNode(modelInfo, nsUriToNsInfoMap, objectNode);
+
             XmlNode? referencesNode = objectNode.ChildNodes.Cast<XmlNode>().FirstOrDefault(node => node.Name == "References" && node.Attributes?["ReleaseStatus"]?.Value != "Deprecated");
             if (referencesNode != null)
             {
@@ -34,6 +38,19 @@ namespace Azure.Iot.Operations.Opc2WotLib
                         HasModellingRule = UaUtil.ParseTypeString(hasModellingRuleNodeIdString, modelInfo, nsUriToNsInfoMap);
                     }
                 }
+            }
+        }
+
+        public OpcUaObjectType? HasTypeDefinition
+        {
+            get
+            {
+                if (hasTypeDefinition == null && HasTypeDefinitionNodeId != null)
+                {
+                    hasTypeDefinition = GetReferencedOpcUaNode(HasTypeDefinitionNodeId) as OpcUaObjectType;
+                }
+
+                return hasTypeDefinition;
             }
         }
 

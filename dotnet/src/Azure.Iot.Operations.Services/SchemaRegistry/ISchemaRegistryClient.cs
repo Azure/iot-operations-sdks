@@ -31,4 +31,28 @@ public interface ISchemaRegistryClient : IAsyncDisposable
     /// <param name="cancellationToken">A token that can be used to cancel the operation before completion if needed.</param>
     /// <returns>Information about the created/updated schema</returns>
     Task<SchemaRegistry.Schema> PutAsync(string schemaContent, SchemaRegistry.Format schemaFormat, SchemaRegistry.SchemaType schemaType = SchemaRegistry.SchemaType.MessageSchema, string version = "1", Dictionary<string, string> tags = default!, string? displayName = null, string? description = null, TimeSpan? timeout = default!, CancellationToken cancellationToken = default!);
+
+    /// <summary>
+    /// Make this client unsubscribe from any topics that it subscribed to.
+    /// </summary>
+    Task StopAsync(CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// Asynchronously dispose of this client and optionally dispose the underlying MQTT client
+    /// </summary>
+    /// <param name="disposing">If true, this client will also dispose the underlying MQTT client.</param>
+    /// <param name="cancellationToken">Cancellation token</param>
+    ValueTask DisposeAsync(bool disposing, CancellationToken cancellationToken);
+
+    /// <summary>
+    /// Asynchronously dispose of this client and optionally dispose the underlying MQTT client
+    /// </summary>
+    /// <param name="disposing">If true, this client will also dispose the underlying MQTT client.</param>
+    ValueTask DisposeAsync(bool disposing);
+
+    /// <summary>
+    /// Asynchronously dispose this object, but not the underlying mqtt client.
+    /// </summary>
+    /// <param name="cancellationToken">Cancellation token</param>
+    ValueTask DisposeAsync(CancellationToken cancellationToken);
 }

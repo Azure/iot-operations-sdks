@@ -1,0 +1,16 @@
+{
+  "success": false,
+  "commandLine": {
+    "things": [ "invalidAioBinding/ThingActionGroupsDuplicateTitle.TM.json" ],
+    "lang": "none"
+  },
+  "errors": [
+    {
+      "condition": "Duplication",
+      "filename": "ThingActionGroupsDuplicateTitle.TM.json",
+      "line": 10,
+      "cfLine": 14,
+      "crossRef": ""
+    }
+  ]
+}

@@ -114,7 +114,7 @@ namespace Azure.Iot.Operations.Opc2WotLib
                         if (referenceTypeString != null && targetNodeIdString != null)
                         {
                             OpcUaNodeId referenceTypeNodeId = UaUtil.ParseTypeString(referenceTypeString, modelInfo, nsUriToNsInfoMap);
-                            OpcUaNodeId targetNodeId = new OpcUaNodeId(targetNodeIdString, modelInfo, nsUriToNsInfoMap);
+                            OpcUaNodeId targetNodeId = UaUtil.ParseTypeString(targetNodeIdString, modelInfo, nsUriToNsInfoMap);
                             references.Add(new OpcUaReference(referenceTypeNodeId, targetNodeId, isForward));
                         }
                     }

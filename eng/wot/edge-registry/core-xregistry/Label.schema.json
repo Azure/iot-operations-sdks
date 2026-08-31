@@ -1,0 +1,19 @@
+{
+    "$schema": "https://json-schema.org/draft-07/schema",
+    "title": "Label",
+    "description": "A key-value pair used for labeling.",
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+        "key",
+        "value"
+    ],
+    "properties": {
+        "key": {
+            "type": "string"
+        },
+        "value": {
+            "type": "string"
+        }
+    }
+}

@@ -245,5 +245,17 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
             _messageAcked.Dispose();
             return new ValueTask();
         }
+
+        public ValueTask DisposeAsync(bool disposing, CancellationToken cancellationToken)
+        {
+            _messageAcked.Dispose();
+            return new ValueTask();
+        }
+
+        public ValueTask DisposeAsync(CancellationToken cancellationToken)
+        {
+            _messageAcked.Dispose();
+            return new ValueTask();
+        }
     }
 }

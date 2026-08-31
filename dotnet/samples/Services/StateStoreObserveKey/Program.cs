@@ -48,6 +48,7 @@ try
 
 finally
 {
+    await stateStoreClient.StopAsync();
     Console.WriteLine("The End.");
 }
 

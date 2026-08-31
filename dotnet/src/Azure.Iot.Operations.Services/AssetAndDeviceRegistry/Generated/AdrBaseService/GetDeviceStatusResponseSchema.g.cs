@@ -23,7 +23,7 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Generated.AdrBase
         public DeviceStatus? DeviceStatus { get; set; } = default;
 
         /// <summary>
-        /// Read error for the 'getDeviceStatus' Action.
+        /// Error for the 'getDeviceStatus' Action.
         /// </summary>
         [JsonPropertyName("getDeviceStatusError")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]

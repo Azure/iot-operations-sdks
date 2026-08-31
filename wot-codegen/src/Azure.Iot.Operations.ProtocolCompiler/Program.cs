@@ -75,6 +75,13 @@ namespace Azure.Iot.Operations.ProtocolCompiler
                 HelpName = "NAMESPACE",
             };
 
+            var targetOption = new Option<string>("--target")
+            {
+                DefaultValueFactory = (_) => "aio",
+                Description = $"SDK that will be targeted by generated code",
+                HelpName = string.Join('|', CommandHandler.SupportedSdkTargets),
+            };
+
             var sdkPathOption = new Option<string?>("--sdkPath")
             {
                 Description = "Local path or feed URL for Azure.Iot.Operations.Protocol SDK",
@@ -112,6 +119,7 @@ namespace Azure.Iot.Operations.ProtocolCompiler
             rootCommand.Add(workingDirOption);
             rootCommand.Add(namespaceOption);
             rootCommand.Add(commonOption);
+            rootCommand.Add(targetOption);
             rootCommand.Add(sdkPathOption);
             rootCommand.Add(langOption);
             rootCommand.Add(prefixSchemasOption);
@@ -137,6 +145,7 @@ namespace Azure.Iot.Operations.ProtocolCompiler
                     WorkingDir = Path.IsPathRooted(workingDir) ? new DirectoryInfo(workingDir) : new DirectoryInfo(Path.Combine(outputDir.FullName, workingDir)),
                     GenNamespace = parseResult.GetValue(namespaceOption)!,
                     CommonNamespace = parseResult.GetValue(commonOption)!,
+                    SdkTarget = parseResult.GetValue(targetOption)!,
                     SdkPath = parseResult.GetValue(sdkPathOption),
                     Language = parseResult.GetValue(langOption)!,
                     PrefixSchemas = parseResult.GetValue(prefixSchemasOption),

@@ -6,7 +6,7 @@
   "additionalProperties": false,
   "properties": {
     "createOrUpdateDiscoveredAssetError": {
-      "description": "Read error for the 'createOrUpdateDiscoveredAsset' Action.",
+      "description": "Error for the 'createOrUpdateDiscoveredAsset' Action.",
       "$ref": "AkriServiceError.schema.json"
     },
     "discoveredAssetResponse": {

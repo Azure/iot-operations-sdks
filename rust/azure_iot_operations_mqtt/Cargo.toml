@@ -3,7 +3,7 @@
 
 [package]
 name = "azure_iot_operations_mqtt"
-version = "1.0.1"
+version = "1.1.1"
 edition = "2024"
 rust-version.workspace = true
 license = "MIT"
@@ -12,25 +12,30 @@ repository = "https://github.com/Azure/iot-operations-sdks"
 readme = "README.md"
 publish = true
 
+[features]
+default = [ ]
+test-utils = ["tempfile", "async-tungstenite"]
+
 [dependencies]
 anyhow = "1.0.86"
-async-trait = "0.1.81"
+async-trait.workspace = true
+async-tungstenite = { version = "0.34", optional = true, features = ["tokio-openssl"] }
 bytes.workspace = true
-chrono.workspace = true
+chrono = { workspace = true, default-features = false, features = ["std"] }
 derive_builder.workspace = true
 derive-getters.workspace = true
 fluent-uri = "0.3.2"
-futures = "0.3.31"
+futures.workspace = true
 log.workspace = true
 notify.workspace = true
 notify-debouncer-full.workspace = true
 openssl = "0.10"
 rand = "0.8.5"
-regex = "1.11.0"
-tempfile = { version = "3", optional = true }
+regex.workspace = true
+tempfile = { workspace = true, optional = true }
 thiserror.workspace = true
-tokio = { version = "1.41", default-features = false, features = ["io-util", "macros", "net", "rt", "sync", "time"] }
-uuid = { version = "1.8.0", features = ["v4","fast-rng"] }
+tokio = { workspace = true, features = ["io-util", "macros", "net", "rt", "sync", "time"] }
+uuid = { workspace = true, features = ["v4", "fast-rng"] }
 
 # for internal mqtt client
 bstr = { version = "1", default-features = false }
@@ -51,9 +56,8 @@ indexmap = { version = "2.12", default-features = false, features = ["std"] }
 # for kTLS support
 libc = { version = "0.2.151", default-features = false }
 nix = { version = "0.30", default-features = false, features = ["net", "process", "socket", "zerocopy"] }
-parking_lot = { version = "0.12", default-features = false }
-sha2 = { version = "0.10", default-features = false }
-test-case = { version = "3", default-features = false }
+parking_lot.workspace = true
+sha2.workspace = true
 tokio-openssl = { version = "0.6", default-features = false }
 unicode-properties = { version = "0.1", default-features = false, features = [
     "general-category",
@@ -65,7 +69,7 @@ env_logger.workspace = true
 temp-env.workspace = true
 test-case.workspace = true
 tokio-test.workspace = true
-tokio = { version = "1.41", default-features = false, features = [
+tokio = { workspace = true, features = [
     "macros",
     "rt",
     "rt-multi-thread",
@@ -75,10 +79,6 @@ tokio = { version = "1.41", default-features = false, features = [
 # for internal mqtt client
 matches = { version = "0.1", default-features = false }
 paste = { version = "1.0", default-features = false }
-
-[features]
-default = [ ]
-test-utils = ["tempfile"]
 
 [lints]
 workspace = true

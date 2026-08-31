@@ -4,6 +4,7 @@
 namespace Azure.Iot.Operations.Services.SchemaRegistry;
 
 using Azure.Iot.Operations.Protocol;
+using Azure.Iot.Operations.Protocol.Models;
 using Azure.Iot.Operations.Services.SchemaRegistry.Generated;
 using Azure.Iot.Operations.Services.SchemaRegistry.Models;
 
@@ -118,15 +119,57 @@ public class SchemaRegistryClient(ApplicationContext applicationContext, IMqttPu
         }
     }
 
+    /// <inheritdoc/>
+    public async Task StopAsync(CancellationToken cancellationToken = default)
+    {
+        if (_clientStub != null)
+        {
+            await _clientStub.StopAsync(cancellationToken);
+        }
+    }
+
+    /// <summary>
+    /// Asynchronously dispose this object, but not the underlying mqtt client.
+    /// </summary>
     public async ValueTask DisposeAsync()
+    {
+        await DisposeAsyncCore(false, CancellationToken.None).ConfigureAwait(false);
+        GC.SuppressFinalize(this);
+    }
+
+    /// <inheritdoc/>
+    public async ValueTask DisposeAsync(CancellationToken cancellationToken)
+    {
+        await DisposeAsyncCore(false, cancellationToken).ConfigureAwait(false);
+        GC.SuppressFinalize(this);
+    }
+
+    /// <inheritdoc/>
+    public async ValueTask DisposeAsync(bool disposing)
+    {
+        await DisposeAsyncCore(disposing, CancellationToken.None).ConfigureAwait(false);
+        GC.SuppressFinalize(this);
+    }
+
+    /// <inheritdoc/>
+    public async ValueTask DisposeAsync(bool disposing, CancellationToken cancellationToken)
+    {
+        await DisposeAsyncCore(disposing, cancellationToken).ConfigureAwait(false);
+        GC.SuppressFinalize(this);
+    }
+
+    protected async virtual ValueTask DisposeAsyncCore(bool disposing, CancellationToken cancellationToken)
     {
         if (_disposed)
         {
             return;
         }
 
-        await _clientStub.DisposeAsync().ConfigureAwait(false);
-        GC.SuppressFinalize(this);
+        if (_clientStub != null)
+        {
+            await _clientStub.DisposeAsync(disposing, cancellationToken);
+        }
+
         _disposed = true;
     }
 }

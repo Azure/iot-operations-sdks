@@ -1,0 +1,32 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema",
+  "title": "ListResourcesRequestPayload",
+  "description": "Request payload for listing xRegistry Resources, optionally filtered by Group type, Group, Resource type, and/or label.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "allGroups"
+  ],
+  "properties": {
+    "groupType": {
+      "description": "Group type. If not specified, Resources are listed across all Group types; in that case groupId must be specified explicitly or allGroups must be true, because the default Group only exists within a specific Group type.",
+      "type": "string"
+    },
+    "groupId": {
+      "description": "Group identifier. Ignored if allGroups is true. If not specified, the default Group of the specified groupType is used; this default is only valid when groupType is specified, so groupId must be provided when groupType is not.",
+      "type": "string"
+    },
+    "allGroups": {
+      "description": "If true, lists Resources across all Groups (groupId is ignored). If false, lists within the Group specified by groupId, or — only when groupType is specified — the default Group of that type if groupId is unspecified.",
+      "type": "boolean"
+    },
+    "resourceType": {
+      "description": "Resource type. If specified, only Resources of this type are listed; when listing across all Groups, Resources of this type are matched across all Groups. Lists Resources across all Resource types if not specified.",
+      "type": "string"
+    },
+    "label": {
+      "description": "If specified, only Resources with this label are listed.",
+      "$ref": "Label.schema.json"
+    }
+  }
+}

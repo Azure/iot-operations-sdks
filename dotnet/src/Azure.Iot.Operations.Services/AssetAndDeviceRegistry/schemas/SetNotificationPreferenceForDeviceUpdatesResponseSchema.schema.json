@@ -10,7 +10,7 @@
       "type": "string"
     },
     "setNotificationPreferenceForDeviceUpdatesError": {
-      "description": "Read error for the 'setNotificationPreferenceForDeviceUpdates' Action.",
+      "description": "Error for the 'setNotificationPreferenceForDeviceUpdates' Action.",
       "$ref": "AkriServiceError.schema.json"
     }
   }

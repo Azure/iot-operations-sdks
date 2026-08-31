@@ -96,9 +96,9 @@ namespace Azure.Iot.Operations.Services.StateStore.Generated
                 await this.invokeCommandExecutor.DisposeAsync().ConfigureAwait(false);
             }
 
-            public async ValueTask DisposeAsync(bool disposing)
+            public async ValueTask DisposeAsync(bool disposing, CancellationToken cancellationToken = default)
             {
-                await this.invokeCommandExecutor.DisposeAsync(disposing).ConfigureAwait(false);
+                await this.invokeCommandExecutor.DisposeAsync(disposing, cancellationToken).ConfigureAwait(false);
             }
         }
 
@@ -169,14 +169,24 @@ namespace Azure.Iot.Operations.Services.StateStore.Generated
                 return new RpcCallAsync<byte[]>(this.invokeCommandInvoker.InvokeCommandAsync(request, metadata, prefixedAdditionalTopicTokenMap, commandTimeout, cancellationToken), metadata.CorrelationId);
             }
 
+            /// <summary>
+            /// Stop accepting telemetry for all telemetry receivers and make all command invokers unsubscribe from command topics.
+            /// </summary>
+            /// <param name="cancellationToken">Cancellation token.</param>
+            public async Task StopAsync(CancellationToken cancellationToken = default)
+            {
+                await Task.WhenAll(
+                    this.invokeCommandInvoker.StopAsync(cancellationToken)).ConfigureAwait(false);
+            }
+
             public async ValueTask DisposeAsync()
             {
                 await this.invokeCommandInvoker.DisposeAsync().ConfigureAwait(false);
             }
 
-            public async ValueTask DisposeAsync(bool disposing)
+            public async ValueTask DisposeAsync(bool disposing, CancellationToken cancellationToken = default)
             {
-                await this.invokeCommandInvoker.DisposeAsync(disposing).ConfigureAwait(false);
+                await this.invokeCommandInvoker.DisposeAsync(disposing, cancellationToken).ConfigureAwait(false);
             }
         }
     }

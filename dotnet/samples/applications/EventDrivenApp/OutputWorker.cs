@@ -60,6 +60,8 @@ public class OutputWorker(ApplicationContext applicationContext, SessionClientFa
 
                     // Deserialize the sensor data
                     inputData = JsonSerializer.Deserialize<List<SensorData>>(response.Value.GetString()) ?? [];
+
+                    await stateStoreClient.StopAsync();
                 }
 
                 // Remove older data

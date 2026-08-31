@@ -5,7 +5,7 @@ publish = false
 
 [dependencies]
 envoy = { path = "../envoy"}
-tokio.workspace = true
+tokio = { workspace = true, features = ["rt", "rt-multi-thread", "macros", "sync", "time"] }
 env_logger.workspace = true
 log.workspace = true
 azure_iot_operations_mqtt = { path = "../../../azure_iot_operations_mqtt" }

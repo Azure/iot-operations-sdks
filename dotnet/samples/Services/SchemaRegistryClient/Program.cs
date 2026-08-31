@@ -61,3 +61,5 @@ catch (SchemaRegistryErrorException e) when (e.SchemaRegistryError.Code == Schem
 {
     Console.WriteLine("Schema was not found");
 }
+
+await schemaRegistryClient.StopAsync();

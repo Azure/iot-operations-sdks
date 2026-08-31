@@ -8,8 +8,8 @@
     {
       "condition": "ValuesInconsistent",
       "filename": "PropertyWithUnitDataSchemaBoolean.TM.json",
-      "line": 17,
-      "cfLine": 16,
+      "line": 16,
+      "cfLine": 15,
       "crossRef": ""
     }
   ]

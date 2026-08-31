@@ -30,7 +30,7 @@ namespace Azure.Iot.Operations.Opc2WotLib
             this.Write(this.ToStringHelper.ToStringWithCulture(this.PropertyName));
             this.Write("\": {\r\n");
  if (this.browseNamespace != null) { 
-            this.Write("  \"aov:namespace\": \"");
+            this.Write("  \"dov:namespace\": \"");
             this.Write(this.ToStringHelper.ToStringWithCulture(this.browseNamespace));
             this.Write("\",\r\n");
  } 
@@ -42,28 +42,32 @@ namespace Azure.Iot.Operations.Opc2WotLib
             this.Write(this.ToStringHelper.ToStringWithCulture(this.ReadOnly ? "true" : "false"));
             this.Write(",\r\n");
  if (this.isPlaceholder) { 
-            this.Write("  \"dtv:placeholder\": true,\r\n");
+            this.Write("  \"dov:placeholder\": true,\r\n");
  } 
  if (this.containedIn != null) { 
-            this.Write("  \"aov:containedIn\": \"");
+            this.Write("  \"dov:containedIn\": \"");
             this.Write(this.ToStringHelper.ToStringWithCulture(this.containedIn));
             this.Write("\",\r\n");
  } 
  if (this.contains.Any()) { 
-            this.Write("  \"aov:contains\": [ ");
+            this.Write("  \"dov:contains\": [ ");
             this.Write(this.ToStringHelper.ToStringWithCulture(string.Join(", ", this.contains.Select(c => $"\"{c}\""))));
             this.Write(" ],\r\n");
  } 
  if (this.quantityKind != null) { 
             this.Write("  \"qudt:hasQuantityKind\": \"");
             this.Write(this.ToStringHelper.ToStringWithCulture(this.quantityKind));
-            this.Write("\",\r\n  \"aov:withUnit\": \"properties/");
+            this.Write("\",\r\n  \"dov:withUnit\": \"properties/");
             this.Write(this.ToStringHelper.ToStringWithCulture(this.PropertyName));
             this.Write("_EngineeringUnits\",\r\n");
  } 
             this.Write("  \"forms\": [\r\n");
  if (!this.ReadOnly) { 
-            this.Write("    {\r\n      \"contentType\": \"application/json\",\r\n      \"dtv:topic\": \"opcua/");
+            this.Write("    {\r\n");
+ if (this.inDescription) { 
+            this.Write("      \"href\": \"https://placeholder.example.com/endpoint\",\r\n");
+ } 
+            this.Write("      \"contentType\": \"application/json\",\r\n      \"dov:topic\": \"opcua/");
             this.Write(this.ToStringHelper.ToStringWithCulture(this.specName));
             this.Write("/");
             this.Write(this.ToStringHelper.ToStringWithCulture(this.thingModelName));
@@ -71,7 +75,11 @@ namespace Azure.Iot.Operations.Opc2WotLib
             this.Write(this.ToStringHelper.ToStringWithCulture(this.PropertyName));
             this.Write("/write\",\r\n      \"op\": \"writeproperty\"\r\n    },\r\n");
  } 
-            this.Write("    {\r\n      \"contentType\": \"application/json\",\r\n      \"dtv:topic\": \"opcua/");
+            this.Write("    {\r\n");
+ if (this.inDescription) { 
+            this.Write("      \"href\": \"https://placeholder.example.com/endpoint\",\r\n");
+ } 
+            this.Write("      \"contentType\": \"application/json\",\r\n      \"dov:topic\": \"opcua/");
             this.Write(this.ToStringHelper.ToStringWithCulture(this.specName));
             this.Write("/");
             this.Write(this.ToStringHelper.ToStringWithCulture(this.thingModelName));

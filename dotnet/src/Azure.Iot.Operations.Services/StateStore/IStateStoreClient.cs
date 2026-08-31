@@ -69,6 +69,28 @@ namespace Azure.Iot.Operations.Services.StateStore
         /// </remarks>
         Task UnobserveAsync(StateStoreKey key, TimeSpan? requestTimeout = null, CancellationToken cancellationToken = default);
 
+        /// <summary>
+        /// Make this client unsubscribe from any topics that it subscribed to.
+        /// </summary>
+        Task StopAsync(CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// Asynchronously dispose of this client and optionally dispose the underlying MQTT client
+        /// </summary>
+        /// <param name="disposing">If true, this client will also dispose the underlying MQTT client.</param>
+        /// <param name="cancellationToken">Cancellation token</param>
+        ValueTask DisposeAsync(bool disposing, CancellationToken cancellationToken);
+
+        /// <summary>
+        /// Asynchronously dispose of this client and optionally dispose the underlying MQTT client
+        /// </summary>
+        /// <param name="disposing">If true, this client will also dispose the underlying MQTT client.</param>
         ValueTask DisposeAsync(bool disposing);
+
+        /// <summary>
+        /// Asynchronously dispose this object, but not the underlying mqtt client.
+        /// </summary>
+        /// <param name="cancellationToken">Cancellation token</param>
+        ValueTask DisposeAsync(CancellationToken cancellationToken);
     }
 }

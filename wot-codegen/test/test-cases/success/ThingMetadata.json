@@ -1,0 +1,7 @@
+{
+  "success": true,
+  "commandLine": {
+    "things": [ "valid/ThingMetadata.TM.json" ],
+    "lang": "none"
+  }
+}

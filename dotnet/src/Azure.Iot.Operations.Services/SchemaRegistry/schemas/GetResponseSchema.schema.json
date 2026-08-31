@@ -6,7 +6,7 @@
   "additionalProperties": false,
   "properties": {
     "error": {
-      "description": "Read error for the 'get' Action.",
+      "description": "Error for the 'get' Action.",
       "$ref": "SchemaRegistryError.schema.json"
     },
     "schema": {

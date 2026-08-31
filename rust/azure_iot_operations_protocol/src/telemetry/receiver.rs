@@ -18,7 +18,7 @@ use crate::{
         hybrid_logical_clock::HybridLogicalClock,
         payload_serialize::{FormatIndicator, PayloadSerialize},
         topic_processor::TopicPattern,
-        user_properties::UserProperty,
+        user_properties::ProtocolReservedUserProperty,
     },
     telemetry::DEFAULT_TELEMETRY_PROTOCOL_VERSION,
 };
@@ -87,14 +87,14 @@ where
 
         // Parse user properties
         let expected_aio_properties = [
-            UserProperty::Timestamp,
-            UserProperty::ProtocolVersion,
-            UserProperty::SourceId,
+            ProtocolReservedUserProperty::Timestamp,
+            ProtocolReservedUserProperty::ProtocolVersion,
+            ProtocolReservedUserProperty::SourceId,
         ];
         let mut telemetry_custom_user_data = vec![];
         let mut telemetry_aio_data = HashMap::new();
         for (key, value) in publish_properties.user_properties {
-            match UserProperty::from_str(&key) {
+            match ProtocolReservedUserProperty::from_str(&key) {
                 Ok(p) if expected_aio_properties.contains(&p) => {
                     telemetry_aio_data.insert(p, value);
                 }
@@ -114,7 +114,7 @@ where
         // If the protocol version is not supported, or cannot be parsed, all bets are off
         // regarding what anything else even means, so this *must* be done first
         let protocol_version = {
-            match telemetry_aio_data.get(&UserProperty::ProtocolVersion) {
+            match telemetry_aio_data.get(&ProtocolReservedUserProperty::ProtocolVersion) {
                 Some(protocol_version) => {
                     if let Some(version) = ProtocolVersion::parse_protocol_version(protocol_version)
                     {
@@ -136,7 +136,7 @@ where
 
         // Format HLC timestamp
         let timestamp = telemetry_aio_data
-            .get(&UserProperty::Timestamp)
+            .get(&ProtocolReservedUserProperty::Timestamp)
             .map(|s| HybridLogicalClock::from_str(s))
             .transpose()
             .map_err(|e| e.to_string())?;
@@ -163,7 +163,7 @@ where
             content_type,
             format_indicator,
             custom_user_data: telemetry_custom_user_data,
-            sender_id: telemetry_aio_data.remove(&UserProperty::SourceId),
+            sender_id: telemetry_aio_data.remove(&ProtocolReservedUserProperty::SourceId),
             timestamp,
             // NOTE: Topic Tokens cannot be created from just a Publish, they need additional information
             topic_tokens: HashMap::default(),

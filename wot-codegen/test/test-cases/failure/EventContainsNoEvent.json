@@ -8,8 +8,8 @@
     {
       "condition": "ItemNotFound",
       "filename": "EventContainsNoEvent.TM.json",
-      "line": 18,
-      "cfLine": 13,
+      "line": 17,
+      "cfLine": 12,
       "crossRef": ""
     }
   ]

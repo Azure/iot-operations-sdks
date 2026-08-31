@@ -1,7 +1,7 @@
 {
   "@context": [
     "https://www.w3.org/2022/wot/td/v1.1",
-    { "dtv": "http://azure.com/DigitalTwins/dtmi#" }
+    { "dov": "http://azure.com/DigitalOperations/vocab#" }
   ],
   "@type": "tm:ThingModel",
   "title": "Ping",
@@ -14,10 +14,10 @@
   ],
   "forms": [
     {
-      "dtv:topic": "sample/all/events",
+      "dov:topic": "sample/all/events",
       "contentType": "application/json",
       "op": "subscribeallevents",
-      "dtv:includeInherited": true
+      "dov:includeInherited": true
     }
   ],
   "actions": {
