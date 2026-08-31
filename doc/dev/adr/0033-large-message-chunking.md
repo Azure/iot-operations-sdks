@@ -391,3 +391,9 @@ outweigh the above.
   that cannot be reassembled has no such path and still fails at the invoker.
 * [rpc-protocol.md](../../reference/rpc-protocol.md) and
   [protocol-versioning.md](../../reference/protocol-versioning.md) need updating for the 2.0 bump.
+
+## Appendix
+
+[Large Message Chunking Diagrams](./0033-large-message-chunking-diagrams.md) illustrates the
+layering, the wire format, the happy path, how a receiver classifies a chunk, and what a reconnect
+does to a transfer in progress.
