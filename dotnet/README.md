@@ -33,7 +33,7 @@ To get started with a .NET SDK tutorial, follow these steps:
 
 ## Developing your Akri connector
 
-The Akri Connector package is available on Nuget.org:
+The Akri Connector package is available on NuGet.org:
 
 1. Install the packages into your project:
 
