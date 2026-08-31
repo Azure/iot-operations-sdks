@@ -230,7 +230,7 @@ When deciding whether to make a new exception checked or unchecked, use the foll
 >
 > **Unchecked exceptions** are appropriate for everything else.
 >
-> I'll break this down for you, because most people misunderstand what this means.
+> The following clarifies this guidance:
 >
 > 1. **Predictable but unpreventable**: The caller did everything within their power to validate the input parameters, but some condition outside their control has caused the operation to fail. For example, you try reading a file but someone deletes it between the time you check if it exists and the time the read operation begins. By declaring a checked exception, you are telling the caller to anticipate this failure.
 >
