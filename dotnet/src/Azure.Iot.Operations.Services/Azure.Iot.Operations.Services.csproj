@@ -22,7 +22,7 @@
 
   <PropertyGroup>
     <!-- Ignore errors about taking a dependency on a beta version since the beta package in question is the Azure.Iot.Operations.Mqtt package -->
-    <NoWarn>NU5104</NoWarn>
+    <NoWarn>$(NoWarn);NU5104</NoWarn>
   </PropertyGroup>
 
   <ItemGroup>
