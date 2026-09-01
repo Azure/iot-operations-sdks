@@ -7,7 +7,7 @@
     <copyright>© Microsoft Corporation. All rights reserved.</copyright>
     <Authors>Microsoft</Authors>
     <VersionPrefix>1.3.0</VersionPrefix>
-    <VersionSuffix>beta2</VersionSuffix>
+    <VersionSuffix>beta3</VersionSuffix>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>enable</Nullable>
     <PackageReadmeFile>README.md</PackageReadmeFile>
@@ -20,7 +20,12 @@
     <None Include="./README.md" Pack="true" PackagePath="\" />
   </ItemGroup>
 
-	<ItemGroup>
+  <PropertyGroup>
+    <!-- Ignore errors about taking a dependency on a beta version since the beta package in question is the Azure.Iot.Operations.Mqtt package -->
+    <NoWarn>NU5104</NoWarn>
+  </PropertyGroup>
+
+  <ItemGroup>
 		<ProjectReference Include="..\Azure.Iot.Operations.Protocol\Azure.Iot.Operations.Protocol.csproj" />
 	</ItemGroup>
 
