@@ -138,7 +138,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 
     // Create a device endpoint client creation observation
     let device_endpoint_client_creation_observation =
-        base_connector.create_device_endpoint_client_create_observation();
+        base_connector.create_device_endpoint_client_create_observation()?;
 
     // Run the session and the base connector concurrently, ending the application if either end (both should run forever unless there are fatal errors)
     tokio::select! {

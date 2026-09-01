@@ -158,5 +158,29 @@ namespace Azure.Iot.Operations.Services.LeaderElection
         /// and then remove any handlers from <see cref="LeadershipChangeEventReceivedAsync"/>.
         /// </remarks>
         Task UnobserveLeadershipChangesAsync(TimeSpan? timeout = null, CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// Make this client unsubscribe from any topics that it subscribed to.
+        /// </summary>
+        Task StopAsync(CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// Asynchronously dispose of this client and optionally dispose the underlying clients
+        /// </summary>
+        /// <param name="disposing">If true, this client will also dispose the underlying clients.</param>
+        /// <param name="cancellationToken">Cancellation token</param>
+        ValueTask DisposeAsync(bool disposing, CancellationToken cancellationToken);
+
+        /// <summary>
+        /// Asynchronously dispose of this client and optionally dispose the underlying clients
+        /// </summary>
+        /// <param name="disposing">If true, this client will also dispose the underlying clients.</param>
+        ValueTask DisposeAsync(bool disposing);
+
+        /// <summary>
+        /// Asynchronously dispose this object, but not the underlying clients.
+        /// </summary>
+        /// <param name="cancellationToken">Cancellation token</param>
+        ValueTask DisposeAsync(CancellationToken cancellationToken);
     }
 }

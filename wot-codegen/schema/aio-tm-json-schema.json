@@ -1,19 +1,34 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "title": "Thing Description with AIO Protocol Binding",
+  "title": "Thing Model with AIO Protocol Binding",
   "version": "0.1",
-  "description": "JSON Schema for validating TD instances that employ the AIO WoT Protocol Binding",
+  "description": "JSON Schema for validating TM instances that employ the AIO WoT Protocol Binding",
   "definitions": {
     "title": {
       "type": "string",
       "pattern": "^[A-Z][A-Za-z0-9]*$",
       "description": "The 'title' value is used as a codegen type name, so it should start with an uppercase letter and contain only alphanumeric characters"
     },
+    "groupElement": {
+      "type": "object",
+      "required": [ "title" ],
+      "properties": {
+        "title": {
+          "type": "string",
+          "minLength": 1,
+          "description": "non-empty name that uniquely identifies this group across all property/action/event group arrays"
+        }
+      },
+      "additionalProperties": true
+    },
     "dataSchema_boolean": {
       "type": "object",
       "properties": {
         "title": {
           "$ref": "#/definitions/title"
+        },
+        "dov:namespace": {
+          "type": "string"
         },
         "aov:namespace": {
           "type": "string"
@@ -25,6 +40,9 @@
         "const": {
           "type": "boolean"
         }
+      },
+      "not": {
+        "required": [ "dov:namespace", "aov:namespace" ]
       }
     },
     "dataSchema_integer": {
@@ -32,6 +50,9 @@
       "properties": {
         "title": {
           "$ref": "#/definitions/title"
+        },
+        "dov:namespace": {
+          "type": "string"
         },
         "aov:namespace": {
           "type": "string"
@@ -43,8 +64,16 @@
         "const": {
           "type": "integer"
         },
+        "dov:scaleFactor": {
+          "description": "scale factor to apply to instance values",
+          "type": "integer"
+        },
         "aov:scaleFactor": {
           "description": "scale factor to apply to instance values",
+          "type": "integer"
+        },
+        "dov:decimalPlaces": {
+          "description": "number of decimal places of significant precision of instance values",
           "type": "integer"
         },
         "aov:decimalPlaces": {
@@ -115,6 +144,13 @@
             }
           ]
         }
+      },
+      "not": {
+        "anyOf": [
+          { "required": [ "dov:namespace", "aov:namespace" ] },
+          { "required": [ "dov:scaleFactor", "aov:scaleFactor" ] },
+          { "required": [ "dov:decimalPlaces", "aov:decimalPlaces" ] }
+        ]
       }
     },
     "dataSchema_number": {
@@ -122,6 +158,9 @@
       "properties": {
         "title": {
           "$ref": "#/definitions/title"
+        },
+        "dov:namespace": {
+          "type": "string"
         },
         "aov:namespace": {
           "type": "string"
@@ -133,9 +172,17 @@
         "const": {
           "type": "number"
         },
+        "dov:scaleFactor": {
+          "description": "scale factor to apply to instance values",
+          "type": "number"
+        },
         "aov:scaleFactor": {
           "description": "scale factor to apply to instance values",
           "type": "number"
+        },
+        "dov:decimalPlaces": {
+          "description": "number of decimal places of significant precision of instance values",
+          "type": "integer"
         },
         "aov:decimalPlaces": {
           "description": "number of decimal places of significant precision of instance values",
@@ -169,6 +216,13 @@
             }
           ]
         }
+      },
+      "not": {
+        "anyOf": [
+          { "required": [ "dov:namespace", "aov:namespace" ] },
+          { "required": [ "dov:scaleFactor", "aov:scaleFactor" ] },
+          { "required": [ "dov:decimalPlaces", "aov:decimalPlaces" ] }
+        ]
       }
     },
     "dataSchema_string": {
@@ -177,12 +231,19 @@
         "title": {
           "$ref": "#/definitions/title"
         },
+        "dov:namespace": {
+          "type": "string"
+        },
         "aov:namespace": {
           "type": "string"
         },
         "type": {
           "type": "string",
           "const": "string"
+        },
+        "dov:typeRef": {
+          "description": "opaque reference to another type definition (not necessarily in WoT) that is congruent to this definition",
+          "type": "string"
         },
         "aov:typeRef": {
           "description": "opaque reference to another type definition (not necessarily in WoT) that is congruent to this definition",
@@ -223,7 +284,14 @@
         }
       },
       "dependentRequired": {
-        "aov:typeRef": [ "enum" ]
+        "aov:typeRef": [ "enum" ],
+        "dov:typeRef": [ "enum" ]
+      },
+      "not": {
+        "anyOf": [
+          { "required": [ "dov:namespace", "aov:namespace" ] },
+          { "required": [ "dov:typeRef", "aov:typeRef" ] }
+        ]
       }
     },
     "dataSchema_object": {
@@ -233,12 +301,19 @@
         "title": {
           "$ref": "#/definitions/title"
         },
+        "dov:namespace": {
+          "type": "string"
+        },
         "aov:namespace": {
           "type": "string"
         },
         "type": {
           "type": "string",
           "const": "object"
+        },
+        "dov:typeRef": {
+          "description": "opaque reference to another type definition (not necessarily in WoT) that is congruent to this structured object definition",
+          "type": "string"
         },
         "aov:typeRef": {
           "description": "opaque reference to another type definition (not necessarily in WoT) that is congruent to this structured object definition",
@@ -261,17 +336,28 @@
       "not": {
         "anyOf": [
           {
+            "required": [ "dov:additionalProperties" ]
+          },
+          {
             "required": [ "dtv:additionalProperties" ]
-          }
+          },
+          { "required": [ "dov:namespace", "aov:namespace" ] },
+          { "required": [ "dov:typeRef", "aov:typeRef" ] }
         ]
       }
     },
     "dataSchema_map": {
       "type": "object",
-      "required": [ "dtv:additionalProperties" ],
+      "anyOf": [
+        { "required": [ "dov:additionalProperties" ] },
+        { "required": [ "dtv:additionalProperties" ] }
+      ],
       "properties": {
         "title": {
           "$ref": "#/definitions/title"
+        },
+        "dov:namespace": {
+          "type": "string"
         },
         "aov:namespace": {
           "type": "string"
@@ -280,9 +366,17 @@
           "type": "string",
           "const": "object"
         },
+        "dov:typeRef": {
+          "description": "opaque reference to another type definition (not necessarily in WoT) that is congruent to this map definition",
+          "type": "string"
+        },
         "aov:typeRef": {
           "description": "opaque reference to another type definition (not necessarily in WoT) that is congruent to this map definition",
           "type": "string"
+        },
+        "dov:additionalProperties": {
+          "description": "use 'dov:additionalProperties' to indicate a map type and specify the data schema for the values therein",
+          "$ref": "#/definitions/dataSchema"
         },
         "dtv:additionalProperties": {
           "description": "use 'dtv:additionalProperties' to indicate a map type and specify the data schema for the values therein",
@@ -296,7 +390,10 @@
           },
           {
             "required": [ "required" ]
-          }
+          },
+          { "required": [ "dov:namespace", "aov:namespace" ] },
+          { "required": [ "dov:typeRef", "aov:typeRef" ] },
+          { "required": [ "dov:additionalProperties", "dtv:additionalProperties" ] }
         ]
       }
     },
@@ -307,12 +404,19 @@
         "title": {
           "$ref": "#/definitions/title"
         },
+        "dov:namespace": {
+          "type": "string"
+        },
         "aov:namespace": {
           "type": "string"
         },
         "type": {
           "type": "string",
           "const": "array"
+        },
+        "dov:typeRef": {
+          "description": "opaque reference to another type definition (not necessarily in WoT) that is congruent to this array definition",
+          "type": "string"
         },
         "aov:typeRef": {
           "description": "opaque reference to another type definition (not necessarily in WoT) that is congruent to this array definition",
@@ -322,6 +426,12 @@
           "description": "use 'items' to specify the data schema for the values in the array",
           "$ref": "#/definitions/dataSchema"
         }
+      },
+      "not": {
+        "anyOf": [
+          { "required": [ "dov:namespace", "aov:namespace" ] },
+          { "required": [ "dov:typeRef", "aov:typeRef" ] }
+        ]
       }
     },
     "dataSchema_base": {
@@ -535,7 +645,13 @@
       "not": {
         "anyOf": [
           {
+            "required": [ "dov:ref" ]
+          },
+          {
             "required": [ "dtv:ref" ]
+          },
+          {
+            "required": [ "dov:errorMessage" ]
           },
           {
             "required": [ "dtv:errorMessage" ]
@@ -552,6 +668,9 @@
           "not": {
             "anyOf": [
               {
+                "required": [ "dov:ref" ]
+              },
+              {
                 "required": [ "dtv:ref" ]
               }
             ]
@@ -559,23 +678,34 @@
         },
         {
           "properties": {
+            "dov:ref": {
+              "type": "string",
+              "description": "reference to an external schema definition to be used in place of an inline type definition"
+            },
             "dtv:ref": {
               "type": "string",
               "description": "reference to an external schema definition to be used in place of an inline type definition"
             }
           },
-          "required": [ "dtv:ref" ],
+          "anyOf": [
+            { "required": [ "dov:ref" ] },
+            { "required": [ "dtv:ref" ] }
+          ],
           "not": {
             "anyOf": [
               {
                 "required": [ "type" ]
-              }
+              },
+              { "required": [ "dov:ref", "dtv:ref" ] }
             ]
           }
         }
       ],
       "not": {
         "anyOf": [
+          {
+            "required": [ "dov:errorMessage" ]
+          },
           {
             "required": [ "dtv:errorMessage" ]
           }
@@ -597,6 +727,9 @@
           "not": {
             "anyOf": [
               {
+                "required": [ "dov:ref" ]
+              },
+              {
                 "required": [ "dtv:ref" ]
               }
             ]
@@ -604,23 +737,34 @@
         },
         {
           "properties": {
+            "dov:ref": {
+              "type": "string",
+              "description": "reference to an external schema definition to be used in place of an inline type definition"
+            },
             "dtv:ref": {
               "type": "string",
               "description": "reference to an external schema definition to be used in place of an inline type definition"
             }
           },
-          "required": [ "dtv:ref" ],
+          "anyOf": [
+            { "required": [ "dov:ref" ] },
+            { "required": [ "dtv:ref" ] }
+          ],
           "not": {
             "anyOf": [
               {
                 "required": [ "type" ]
-              }
+              },
+              { "required": [ "dov:ref", "dtv:ref" ] }
             ]
           }
         }
       ],
       "not": {
         "anyOf": [
+          {
+            "required": [ "dov:errorMessage" ]
+          },
           {
             "required": [ "dtv:errorMessage" ]
           }
@@ -635,6 +779,17 @@
           "description": "content type for communicated values, only 'application/json' supported at present",
           "enum": [ "application/json" ]
         },
+        "dov:topic": {
+          "type": "string",
+          "pattern": "^(?:(?:[!$-*,-.0-z|~]+|(?:{(?:[A-Za-z]+:)?(?:[A-Za-z]+)})))(?:\/(?:[!$-*,-.0-z|~]+|(?:{(?:[A-Za-z]+:)?(?:[A-Za-z]+)})))*$",
+          "description": "MQTT topic pattern -- slash-separated sequence of labels, each of which is a non-empty string of restricted characters or a brace-enclosed token",
+          "defaultSnippets": [
+            {
+              "description": "MQTT topic pattern used for publishes and subscribes",
+              "body": "sample/action/noop/{modelId}"
+            }
+          ]
+        },
         "dtv:topic": {
           "type": "string",
           "pattern": "^(?:(?:[!$-*,-.0-z|~]+|(?:{(?:[A-Za-z]+:)?(?:[A-Za-z]+)})))(?:\/(?:[!$-*,-.0-z|~]+|(?:{(?:[A-Za-z]+:)?(?:[A-Za-z]+)})))*$",
@@ -646,6 +801,9 @@
             }
           ]
         }
+      },
+      "not": {
+        "required": [ "dov:topic", "dtv:topic" ]
       }
     },
     "form_element_property": {
@@ -672,16 +830,25 @@
       "not": {
         "anyOf": [
           {
+            "required": [ "dov:serviceGroupId" ]
+          },
+          {
             "required": [ "dtv:serviceGroupId" ]
+          },
+          {
+            "required": [ "dov:headerCode" ]
           },
           {
             "required": [ "dtv:headerCode" ]
           },
           {
+            "required": [ "dov:headerInfo" ]
+          },
+          {
             "required": [ "dtv:headerInfo" ]
           }
         ],
-        "description": "dtv:serviceGroupId, dtv:headerCode, and dtv:headerInfo are not allowed in property forms"
+        "description": "serviceGroupId, headerCode, and headerInfo (dov: or dtv:) are not allowed in property forms"
       }
     },
     "form_element_action": {
@@ -704,13 +871,42 @@
             }
           ]
         },
+        "dov:serviceGroupId": {
+          "description": "string to use for shared subscriptions when receiving server-side action requests",
+          "type": "string"
+        },
         "dtv:serviceGroupId": {
           "description": "string to use for shared subscriptions when receiving server-side action requests",
+          "type": "string"
+        },
+        "dov:headerCode": {
+          "description": "reference to a key in the 'schemaDefinitions' property object, whose value is an object defining a string enum for a MQTT header value",
           "type": "string"
         },
         "dtv:headerCode": {
           "description": "reference to a key in the 'schemaDefinitions' property object, whose value is an object defining a string enum for a MQTT header value",
           "type": "string"
+        },
+        "dov:headerInfo": {
+          "description": "schema for content embedded in a MQTT user header value",
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "contentType": {
+                "description": "content type for data embedded in header info value, only 'application/json' supported at present",
+                "type": "string",
+                "enum": [ "application/json" ]
+              },
+              "schema": {
+                "type": "string",
+                "description": "reference to a key in the 'schemaDefinitions' property object"
+              },
+              "success": {
+                "type": "boolean"
+              }
+            }
+          }
         },
         "dtv:headerInfo": {
           "description": "schema for content embedded in a MQTT user header value",
@@ -733,6 +929,13 @@
             }
           }
         }
+      },
+      "not": {
+        "anyOf": [
+          { "required": [ "dov:serviceGroupId", "dtv:serviceGroupId" ] },
+          { "required": [ "dov:headerCode", "dtv:headerCode" ] },
+          { "required": [ "dov:headerInfo", "dtv:headerInfo" ] }
+        ]
       }
     },
     "form_element_event": {
@@ -755,6 +958,10 @@
             }
           ]
         },
+        "dov:serviceGroupId": {
+          "description": "string to use for shared subscriptions when receiving client-side events",
+          "type": "string"
+        },
         "dtv:serviceGroupId": {
           "description": "string to use for shared subscriptions when receiving client-side events",
           "type": "string"
@@ -766,13 +973,20 @@
             "required": [ "additionalResponses" ]
           },
           {
+            "required": [ "dov:headerCode" ]
+          },
+          {
             "required": [ "dtv:headerCode" ]
           },
           {
+            "required": [ "dov:headerInfo" ]
+          },
+          {
             "required": [ "dtv:headerInfo" ]
-          }
+          },
+          { "required": [ "dov:serviceGroupId", "dtv:serviceGroupId" ] }
         ],
-        "description": "dtv:headerCode and dtv:headerInfo are not allowed in event forms"
+        "description": "headerCode and headerInfo (dov: or dtv:) are not allowed in event forms"
       }
     },
     "form_element_root": {
@@ -812,6 +1026,10 @@
             }
           ]
         },
+        "dov:serviceGroupId": {
+          "description": "string to use for shared subscriptions when receiving client-side events",
+          "type": "string"
+        },
         "dtv:serviceGroupId": {
           "description": "string to use for shared subscriptions when receiving client-side events",
           "type": "string"
@@ -821,13 +1039,20 @@
       "not": {
         "anyOf": [
           {
+            "required": [ "dov:headerCode" ]
+          },
+          {
             "required": [ "dtv:headerCode" ]
           },
           {
+            "required": [ "dov:headerInfo" ]
+          },
+          {
             "required": [ "dtv:headerInfo" ]
-          }
+          },
+          { "required": [ "dov:serviceGroupId", "dtv:serviceGroupId" ] }
         ],
-        "description": "dtv:headerCode and dtv:headerInfo are not allowed in root forms"
+        "description": "headerCode and headerInfo (dov: or dtv:) are not allowed in root forms"
       }
     },
     "aioThingModel": {
@@ -848,6 +1073,10 @@
                   {
                     "type": "object",
                     "properties": {
+                      "dov": {
+                        "type": "string",
+                        "const": "http://azure.com/DigitalOperations/vocab#"
+                      },
                       "dtv": {
                         "type": "string",
                         "const": "http://azure.com/DigitalTwins/dtmi#"
@@ -862,27 +1091,57 @@
                     }
                   }
                 ]
-              },
-              "contains": {
-                "type": "object",
-                "required": [ "dtv" ]
-              },
-              "description": "Must include WoT TD context string \"https://www.w3.org/2022/wot/td/v1.1\" and local context object with key \"dtv\" and value \"http://azure.com/DigitalTwins/dtmi#\""
+              }
             },
             "title": {
               "$ref": "#/definitions/title"
+            },
+            "dov:typeRef": {
+              "description": "opaque reference to another definition (not necessarily in WoT) that is congruent to this Thing Model definition",
+              "type": "string"
             },
             "aov:typeRef": {
               "description": "opaque reference to another definition (not necessarily in WoT) that is congruent to this Thing Model definition",
               "type": "string"
             },
+            "dov:isComposite": {
+              "description": "true if the Thing Model represents a composite type",
+              "type": "boolean"
+            },
             "aov:isComposite": {
               "description": "true if the Thing Model represents a composite type",
+              "type": "boolean"
+            },
+            "dov:isEvent": {
+              "description": "true if the Thing Model represents an event type",
               "type": "boolean"
             },
             "aov:isEvent": {
               "description": "true if the Thing Model represents an event type",
               "type": "boolean"
+            },
+            "dov:metadata": {
+              "description": "arbitrary metadata associated with this Thing Model",
+              "type": "object",
+              "additionalProperties": true
+            },
+            "dov:propertyGroups": {
+              "description": "groups of related properties; each group object must have a distinct, non-empty 'title'",
+              "type": "array",
+              "uniqueItems": true,
+              "items": { "$ref": "#/definitions/groupElement" }
+            },
+            "dov:actionGroups": {
+              "description": "groups of related actions; each group object must have a distinct, non-empty 'title'",
+              "type": "array",
+              "uniqueItems": true,
+              "items": { "$ref": "#/definitions/groupElement" }
+            },
+            "dov:eventGroups": {
+              "description": "groups of related events; each group object must have a distinct, non-empty 'title'",
+              "type": "array",
+              "uniqueItems": true,
+              "items": { "$ref": "#/definitions/groupElement" }
             },
             "schemaDefinitions": {
               "type": "object",
@@ -892,6 +1151,10 @@
                 "type": "object",
                 "required": [ "type" ],
                 "properties": {
+                  "dov:errorMessage": {
+                    "type": "string",
+                    "description": "name of a property whose value will hold an error message when this object is used as an error value"
+                  },
                   "dtv:errorMessage": {
                     "type": "string",
                     "description": "name of a property whose value will hold an error message when this object is used as an error value"
@@ -900,8 +1163,12 @@
                 "not": {
                   "anyOf": [
                     {
+                      "required": [ "dov:ref" ]
+                    },
+                    {
                       "required": [ "dtv:ref" ]
-                    }
+                    },
+                    { "required": [ "dov:errorMessage", "dtv:errorMessage" ] }
                   ]
                 }
               }
@@ -924,6 +1191,10 @@
                       "dtv:naming"
                     ]
                   },
+                  "dov:refType": {
+                    "type": "string",
+                    "description": "custom reference type name, needed when 'rel' is 'aov:typedReference'"
+                  },
                   "aov:refType": {
                     "type": "string",
                     "description": "custom reference type name, needed when 'rel' is 'aov:typedReference'"
@@ -936,6 +1207,9 @@
                     "type": "string"
                   }
                 },
+                "not": {
+                  "required": [ "dov:refType", "aov:refType" ]
+                },
                 "allOf": [
                   {
                     "if": {
@@ -946,11 +1220,17 @@
                       }
                     },
                     "then": {
-                      "required": [ "aov:refType" ]
+                      "anyOf": [
+                        { "required": [ "dov:refType" ] },
+                        { "required": [ "aov:refType" ] }
+                      ]
                     },
                     "else": {
                       "not": {
-                        "required": [ "aov:refType" ]
+                        "anyOf": [
+                          { "required": [ "dov:refType" ] },
+                          { "required": [ "aov:refType" ] }
+                        ]
                       }
                     }
                   },
@@ -1043,8 +1323,18 @@
                     "type": "boolean",
                     "description": "true if the property is read-only"
                   },
+                  "dov:namespace": {
+                    "type": "string"
+                  },
                   "aov:namespace": {
                     "type": "string"
+                  },
+                  "dov:contains": {
+                    "description": "list of names of other property affordances that this property logically contains",
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
                   },
                   "aov:contains": {
                     "description": "list of names of other property affordances that this property logically contains",
@@ -1053,13 +1343,39 @@
                       "type": "string"
                     }
                   },
+                  "dov:containedIn": {
+                    "description": "name of another property affordance in which this property is logically contained",
+                    "type": "string"
+                  },
                   "aov:containedIn": {
                     "description": "name of another property affordance in which this property is logically contained",
                     "type": "string"
                   },
+                  "dov:placeholder": {
+                    "type": "boolean",
+                    "description": "true if the property is a placeholder for a dynamic collection of properties"
+                  },
                   "dtv:placeholder": {
                     "type": "boolean",
                     "description": "true if the property is a placeholder for a dynamic collection of properties"
+                  },
+                  "dov:memberOf": {
+                    "description": "name of a group of properties to which this property belongs; the value must equal the 'title' of some element in the top-level 'dov:propertyGroups' array",
+                    "type": "string"
+                  },
+                  "aov:memberOf": {
+                    "description": "name of a group of properties to which this property belongs; the value must equal the 'title' of some element in the top-level 'dov:propertyGroups' array",
+                    "type": "string"
+                  },
+                  "dov:propertyIRI": {
+                    "description": "IRI that identifies this property",
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "dov:propertyConfiguration": {
+                    "description": "arbitrary configuration data associated with this property",
+                    "type": "object",
+                    "additionalProperties": true
                   },
                   "forms": {
                     "type": "array",
@@ -1085,6 +1401,15 @@
                       }
                     ]
                   }
+                },
+                "not": {
+                  "anyOf": [
+                    { "required": [ "dov:namespace", "aov:namespace" ] },
+                    { "required": [ "dov:contains", "aov:contains" ] },
+                    { "required": [ "dov:containedIn", "aov:containedIn" ] },
+                    { "required": [ "dov:placeholder", "dtv:placeholder" ] },
+                    { "required": [ "dov:memberOf", "aov:memberOf" ] }
+                  ]
                 }
               },
               "defaultSnippets": [
@@ -1119,6 +1444,9 @@
               "additionalProperties": {
                 "type": "object",
                 "properties": {
+                  "dov:namespace": {
+                    "type": "string"
+                  },
                   "aov:namespace": {
                     "type": "string"
                   },
@@ -1180,9 +1508,23 @@
                     "type": "boolean",
                     "description": "true if caching the action's output is safe"
                   },
-                  "aov:memberOf": {
-                    "description": "name of a group of actions to which this action belongs",
+                  "dov:memberOf": {
+                    "description": "name of a group of actions to which this action belongs; the value must equal the 'title' of some element in the top-level 'dov:actionGroups' array",
                     "type": "string"
+                  },
+                  "aov:memberOf": {
+                    "description": "name of a group of actions to which this action belongs; the value must equal the 'title' of some element in the top-level 'dov:actionGroups' array",
+                    "type": "string"
+                  },
+                  "dov:propertyIRI": {
+                    "description": "IRI that identifies this action",
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "dov:actionConfiguration": {
+                    "description": "arbitrary configuration data associated with this action",
+                    "type": "object",
+                    "additionalProperties": true
                   },
                   "forms": {
                     "type": "array",
@@ -1203,6 +1545,12 @@
                       }
                     ]
                   }
+                },
+                "not": {
+                  "anyOf": [
+                    { "required": [ "dov:namespace", "aov:namespace" ] },
+                    { "required": [ "dov:memberOf", "aov:memberOf" ] }
+                  ]
                 }
               },
               "defaultSnippets": [
@@ -1259,8 +1607,18 @@
                     "$ref": "#/definitions/dataSchema_affordance",
                     "description": "the data schema of the event"
                   },
+                  "dov:namespace": {
+                    "type": "string"
+                  },
                   "aov:namespace": {
                     "type": "string"
+                  },
+                  "dov:contains": {
+                    "description": "list of names of other event affordances that this event logically contains",
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
                   },
                   "aov:contains": {
                     "description": "list of names of other event affordances that this event logically contains",
@@ -1269,13 +1627,39 @@
                       "type": "string"
                     }
                   },
+                  "dov:containedIn": {
+                    "description": "name of another event affordance in which this event is logically contained",
+                    "type": "string"
+                  },
                   "aov:containedIn": {
                     "description": "name of another event affordance in which this event is logically contained",
                     "type": "string"
                   },
+                  "dov:placeholder": {
+                    "type": "boolean",
+                    "description": "true if the event is a placeholder for a dynamic collection of events"
+                  },
                   "dtv:placeholder": {
                     "type": "boolean",
                     "description": "true if the event is a placeholder for a dynamic collection of events"
+                  },
+                  "dov:memberOf": {
+                    "description": "name of a group of events to which this event belongs; the value must equal the 'title' of some element in the top-level 'dov:eventGroups' array",
+                    "type": "string"
+                  },
+                  "aov:memberOf": {
+                    "description": "name of a group of events to which this event belongs; the value must equal the 'title' of some element in the top-level 'dov:eventGroups' array",
+                    "type": "string"
+                  },
+                  "dov:propertyIRI": {
+                    "description": "IRI that identifies this event",
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "dov:eventConfiguration": {
+                    "description": "arbitrary configuration data associated with this event",
+                    "type": "object",
+                    "additionalProperties": true
                   },
                   "forms": {
                     "type": "array",
@@ -1296,6 +1680,15 @@
                       }
                     ]
                   }
+                },
+                "not": {
+                  "anyOf": [
+                    { "required": [ "dov:namespace", "aov:namespace" ] },
+                    { "required": [ "dov:contains", "aov:contains" ] },
+                    { "required": [ "dov:containedIn", "aov:containedIn" ] },
+                    { "required": [ "dov:placeholder", "dtv:placeholder" ] },
+                    { "required": [ "dov:memberOf", "aov:memberOf" ] }
+                  ]
                 }
               },
               "defaultSnippets": [
@@ -1320,6 +1713,13 @@
                 }
               ]
             }
+          },
+          "not": {
+            "anyOf": [
+              { "required": [ "dov:typeRef", "aov:typeRef" ] },
+              { "required": [ "dov:isComposite", "aov:isComposite" ] },
+              { "required": [ "dov:isEvent", "aov:isEvent" ] }
+            ]
           }
         }
       ]

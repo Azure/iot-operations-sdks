@@ -333,19 +333,64 @@ namespace Azure.Iot.Operations.Services.StateStore
             StateStorePayloadParser.ValidateKeyNotifyResponse(commandResponse.Response);
         }
 
+        /// <inheritdoc/>
+        public async Task StopAsync(CancellationToken cancellationToken = default)
+        {
+            if (_generatedClientStub != null)
+            {
+                await _generatedClientStub.StopAsync(cancellationToken);
+            }
+
+            if (_mqttClient != null
+                && _isSubscribedToNotifications
+                && !string.IsNullOrEmpty(_mqttClient.ClientId))
+            {
+                MqttClientUnsubscribeOptions unsubscribeOptions = new MqttClientUnsubscribeOptions(string.Format(NotificationsTopicFormat, _mqttClient.ClientId));
+
+                try
+                {
+                    await _mqttClient.UnsubscribeAsync(unsubscribeOptions).ConfigureAwait(false);
+                }
+                catch (Exception e)
+                {
+                    // Not that big of a problem. Also a temporary responsibility of this layer while the code-gen for key notify pattern
+                    // is unfinished. Once it is finished, this layer won't be responsible for managing MQTT topic subscriptions.
+                    Trace.TraceWarning("Failed to unsubscribe from key notifications MQTT topic.", e);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Asynchronously dispose this object, but not the underlying mqtt client.
+        /// </summary>
         public async ValueTask DisposeAsync()
         {
-            await DisposeAsyncCore(false).ConfigureAwait(false);
+            await DisposeAsyncCore(false, CancellationToken.None).ConfigureAwait(false);
             GC.SuppressFinalize(this);
         }
 
+        /// <inheritdoc/>
+        public async ValueTask DisposeAsync(CancellationToken cancellationToken)
+        {
+            await DisposeAsyncCore(false, cancellationToken).ConfigureAwait(false);
+            GC.SuppressFinalize(this);
+        }
+
+        /// <inheritdoc/>
         public async ValueTask DisposeAsync(bool disposing)
         {
-            await DisposeAsyncCore(disposing).ConfigureAwait(false);
+            await DisposeAsyncCore(disposing, CancellationToken.None).ConfigureAwait(false);
             GC.SuppressFinalize(this);
         }
 
-        protected async virtual ValueTask DisposeAsyncCore(bool disposing)
+        /// <inheritdoc/>
+        public async ValueTask DisposeAsync(bool disposing, CancellationToken cancellationToken)
+        {
+            await DisposeAsyncCore(disposing, cancellationToken).ConfigureAwait(false);
+            GC.SuppressFinalize(this);
+        }
+
+        protected async virtual ValueTask DisposeAsyncCore(bool disposing, CancellationToken cancellationToken)
         {
             if (_disposed)
             {
@@ -354,23 +399,6 @@ namespace Azure.Iot.Operations.Services.StateStore
 
             if (_generatedClientStub != null && _mqttClient != null)
             {
-                if (_isSubscribedToNotifications
-                    && !string.IsNullOrEmpty(_mqttClient.ClientId))
-                {
-                    MqttClientUnsubscribeOptions unsubscribeOptions = new MqttClientUnsubscribeOptions(string.Format(NotificationsTopicFormat, _mqttClient.ClientId));
-
-                    try
-                    {
-                        await _mqttClient.UnsubscribeAsync(unsubscribeOptions).ConfigureAwait(false);
-                    }
-                    catch (Exception e)
-                    {
-                        // Not that big of a problem. Also a temporary responsibility of this layer while the code-gen for key notify pattern
-                        // is unfinished. Once it is finished, this layer won't be responsible for managing MQTT topic subscriptions.
-                        Trace.TraceWarning("Failed to unsubscribe from key notifications MQTT topic.", e);
-                    }
-                }
-
                 _mqttClient.ApplicationMessageReceivedAsync -= OnTelemetryReceived;
                 await _generatedClientStub.DisposeAsync().ConfigureAwait(false);
 

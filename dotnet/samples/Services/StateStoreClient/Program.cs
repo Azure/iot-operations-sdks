@@ -66,6 +66,7 @@ try
 }
 finally
 {
+    await stateStoreClient.StopAsync();
     await stateStoreClient.DisposeAsync(true);
 }
 Console.WriteLine("The End");

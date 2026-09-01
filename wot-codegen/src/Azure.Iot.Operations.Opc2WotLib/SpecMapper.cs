@@ -3,38 +3,41 @@
 
 namespace Azure.Iot.Operations.Opc2WotLib
 {
-    using System.Collections.Generic;
+    using System;
     using System.Linq;
 
     public class SpecMapper
     {
-        private const string modelUriPrefix = "http://opcfoundation.org/UA/";
-
-        private static readonly List<(string, string)> mapping = new()
-        {
-            ( "http://opcfoundation.org/UA/", "OpcUaCore" ),
-            ( "http://fdi-cooperation.com/OPCUA/FDI5/", "FDI5" ),
-            ( "http://fdi-cooperation.com/OPCUA/FDI7/", "FDI7" ),
-            ( "http://opcfoundation.org/UA/AML/", "AMLBaseTypes" ),
-            ( "http://opcfoundation.org/UA/Dictionary/IRDI", "IRDI" ),
-            ( "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/", "isa95-jobcontrol" ),
-            ( "http://sercos.org/UA/", "sercos" ),
-            ( "http://vdma.org/UA/LaserSystem-Example/", "LaserSystem-Example" ),
-            ( "http://www.OPCFoundation.org/UA/2013/01/ISA95", "ISA95" )
-        };
-
-        private static readonly Dictionary<string, string> UriToSpecName = mapping.ToDictionary(e => e.Item1, e => e.Item2);
-
         public static string GetSpecNameFromUri(string modelUri)
         {
-            if (UriToSpecName.TryGetValue(modelUri, out string? specName))
+            Uri uri = new Uri(modelUri);
+            string result = GetPrefixFromHost(uri.Host) + GetNameFromPath(uri.AbsolutePath);
+
+            if (result == "UA")
             {
-                return specName;
+                return "OpcUaCore";
             }
-            else
-            {
-                return modelUri.Substring(modelUriPrefix.Length, modelUri.Length - modelUriPrefix.Length - (modelUri.EndsWith('/') ? 1 : 0)).Replace('/', '.');
-            }
+
+            return result.StartsWith("UA.", StringComparison.Ordinal) ? result.Substring("UA.".Length) : result;
+        }
+
+        public static string GetNameFromPath(string uriPath)
+        {
+            // Drop purely-numeric path segments (e.g., the "2013/01" in dated legacy
+            // namespaces like http://www.OPCFoundation.org/UA/2013/01/ISA95) so that the
+            // derived spec name and type titles do not start with a digit.
+            return string.Join('.', uriPath
+                .Split('/', StringSplitOptions.RemoveEmptyEntries)
+                .Where(segment => !segment.All(char.IsDigit)));
+        }
+
+        public static string GetPrefixFromHost(string uriHost)
+        {
+            string[] parts = uriHost.Split('.');
+            return string.Equals(parts[parts.Length - 2], "opcfoundation", StringComparison.OrdinalIgnoreCase)
+                && string.Equals(parts[parts.Length - 1], "org", StringComparison.OrdinalIgnoreCase)
+                ? string.Empty
+                : parts[parts.Length - 2] + ".";
         }
     }
 }

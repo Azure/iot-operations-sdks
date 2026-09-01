@@ -1,0 +1,17 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema",
+  "title": "CreateSchemaVersionResponseSchema",
+  "description": "The Schema Version entity.",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "_error": {
+      "description": "Error for the 'createSchemaVersion' Action.",
+      "$ref": "SchemaExtensionError.schema.json"
+    },
+    "_output": {
+      "description": "Output for the 'createSchemaVersion' Action.",
+      "$ref": "CreateSchemaVersionOutputArguments.schema.json"
+    }
+  }
+}

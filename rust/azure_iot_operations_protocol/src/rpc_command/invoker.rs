@@ -12,10 +12,7 @@ use bytes::Bytes;
 use chrono::{DateTime, Utc};
 use iso8601_duration;
 use tokio::{
-    sync::{
-        Mutex, Notify,
-        broadcast::{Sender, error::RecvError},
-    },
+    sync::{Mutex, Notify},
     task::{self, JoinHandle},
     time,
 };
@@ -24,7 +21,8 @@ use uuid::Uuid;
 
 use crate::common::{
     cloud_event as protocol_cloud_event,
-    user_properties::{PARTITION_KEY, validate_invoker_user_properties},
+    dispatcher::Dispatcher,
+    user_properties::{BrokerReservedUserProperty, validate_invoker_user_properties},
 };
 use crate::{
     ProtocolVersion,
@@ -37,7 +35,7 @@ use crate::{
             DeserializationError, FormatIndicator, PayloadSerialize, SerializedPayload,
         },
         topic_processor::{TopicPattern, contains_invalid_char},
-        user_properties::UserProperty,
+        user_properties::ProtocolReservedUserProperty,
     },
     parse_supported_protocol_major_versions,
     rpc_command::{
@@ -504,21 +502,21 @@ where
 
         // Parse user properties
         let expected_aio_properties = [
-            UserProperty::Timestamp,
-            UserProperty::Status,
-            UserProperty::StatusMessage,
-            UserProperty::SourceId,
-            UserProperty::IsApplicationError,
-            UserProperty::InvalidPropertyName,
-            UserProperty::InvalidPropertyValue,
-            UserProperty::ProtocolVersion,
-            UserProperty::SupportedMajorVersions,
-            UserProperty::RequestProtocolVersion,
+            ProtocolReservedUserProperty::Timestamp,
+            ProtocolReservedUserProperty::Status,
+            ProtocolReservedUserProperty::StatusMessage,
+            ProtocolReservedUserProperty::SourceId,
+            ProtocolReservedUserProperty::IsApplicationError,
+            ProtocolReservedUserProperty::InvalidPropertyName,
+            ProtocolReservedUserProperty::InvalidPropertyValue,
+            ProtocolReservedUserProperty::ProtocolVersion,
+            ProtocolReservedUserProperty::SupportedMajorVersions,
+            ProtocolReservedUserProperty::RequestProtocolVersion,
         ];
         let mut response_custom_user_data = vec![];
         let mut response_aio_data = HashMap::new();
         for (key, value) in publish_properties.user_properties {
-            match UserProperty::from_str(&key) {
+            match ProtocolReservedUserProperty::from_str(&key) {
                 Ok(p) if expected_aio_properties.contains(&p) => {
                     response_aio_data.insert(p, value);
                 }
@@ -529,6 +527,11 @@ where
                     response_custom_user_data.push((key, value));
                 }
                 Err(()) => {
+                    // Strip broker-reserved properties — they are SDK/broker internals
+                    // and should never appear in user-facing custom_user_data.
+                    if BrokerReservedUserProperty::from_str(&key).is_ok() {
+                        continue;
+                    }
                     response_custom_user_data.push((key, value));
                 }
             }
@@ -538,7 +541,7 @@ where
         // If the protocol version is not supported, or cannot be parsed, all bets are off
         // regarding what anything else even means, so this *must* be done first
         let protocol_version = {
-            match response_aio_data.get(&UserProperty::ProtocolVersion) {
+            match response_aio_data.get(&ProtocolReservedUserProperty::ProtocolVersion) {
                 Some(protocol_version) => {
                     if let Some(version) = ProtocolVersion::parse_protocol_version(protocol_version)
                     {
@@ -573,12 +576,12 @@ where
         // Check the status code.
         // We will use this to determine which data format to serialize to.
         let status_code = {
-            match response_aio_data.get(&UserProperty::Status) {
+            match response_aio_data.get(&ProtocolReservedUserProperty::Status) {
                 Some(s) => match StatusCode::from_str(s) {
                     Ok(code) => code,
                     Err(StatusCodeParseError::UnparsableStatusCode(s)) => {
                         return Err(AIOProtocolError::new_header_invalid_error(
-                            &UserProperty::Status.to_string(),
+                            &ProtocolReservedUserProperty::Status.to_string(),
                             &s,
                             false,
                             Some(format!(
@@ -589,7 +592,7 @@ where
                     }
                     Err(StatusCodeParseError::UnknownStatusCode(_)) => {
                         let status_message = response_aio_data
-                            .remove(&UserProperty::StatusMessage)
+                            .remove(&ProtocolReservedUserProperty::StatusMessage)
                             .unwrap_or(String::from("Unknown"));
                         let mut unknown_err = AIOProtocolError::new_unknown_error(
                             true,
@@ -599,21 +602,21 @@ where
                             None,
                         );
                         // Add any invalid properties that might be included for extra information
-                        unknown_err.property_name =
-                            response_aio_data.remove(&UserProperty::InvalidPropertyName);
+                        unknown_err.property_name = response_aio_data
+                            .remove(&ProtocolReservedUserProperty::InvalidPropertyName);
                         unknown_err.property_value = response_aio_data
-                            .remove(&UserProperty::InvalidPropertyValue)
+                            .remove(&ProtocolReservedUserProperty::InvalidPropertyValue)
                             .map(Value::String);
                         return Err(unknown_err);
                     }
                 },
                 None => {
                     return Err(AIOProtocolError::new_header_missing_error(
-                        &UserProperty::Status.to_string(),
+                        &ProtocolReservedUserProperty::Status.to_string(),
                         false,
                         Some(format!(
                             "Response missing MQTT user property '{}'",
-                            UserProperty::Status
+                            ProtocolReservedUserProperty::Status
                         )),
                         None,
                     ));
@@ -623,7 +626,7 @@ where
 
         // Get HLC here since we will need it no matter what type of result we are processing
         let timestamp = response_aio_data
-            .get(&UserProperty::Timestamp)
+            .get(&ProtocolReservedUserProperty::Timestamp)
             .map(|s| HybridLogicalClock::from_str(s))
             .transpose()?;
 
@@ -676,23 +679,25 @@ where
                     format_indicator,
                     custom_user_data: response_custom_user_data,
                     timestamp,
-                    executor_id: response_aio_data.remove(&UserProperty::SourceId),
+                    executor_id: response_aio_data.remove(&ProtocolReservedUserProperty::SourceId),
                 })
             }
             // RemoteError
             _ => Self::Err(RemoteError {
                 status_code,
                 protocol_version,
-                status_message: response_aio_data.remove(&UserProperty::StatusMessage),
+                status_message: response_aio_data
+                    .remove(&ProtocolReservedUserProperty::StatusMessage),
                 is_application_error: response_aio_data
-                    .get(&UserProperty::IsApplicationError)
+                    .get(&ProtocolReservedUserProperty::IsApplicationError)
                     .is_some_and(|v| v == "true"),
-                invalid_property_name: response_aio_data.remove(&UserProperty::InvalidPropertyName),
+                invalid_property_name: response_aio_data
+                    .remove(&ProtocolReservedUserProperty::InvalidPropertyName),
                 invalid_property_value: response_aio_data
-                    .remove(&UserProperty::InvalidPropertyValue),
+                    .remove(&ProtocolReservedUserProperty::InvalidPropertyValue),
                 timestamp,
                 supported_protocol_major_versions: response_aio_data
-                    .get(&UserProperty::SupportedMajorVersions)
+                    .get(&ProtocolReservedUserProperty::SupportedMajorVersions)
                     .map(|s| parse_supported_protocol_major_versions(s)),
             }),
         };
@@ -789,7 +794,7 @@ where
     state_mutex: Arc<Mutex<State>>,
     // Used to send information to manage state
     shutdown_notifier: Arc<Notify>,
-    response_tx: Sender<Option<Publish>>,
+    response_dispatcher: Arc<Dispatcher<Publish, Bytes>>,
 }
 
 /// Describes state of invoker to know whether to subscribe/unsubscribe/reject invokes
@@ -911,21 +916,21 @@ where
         // Create a filtered receiver from the Managed Client
         let mqtt_receiver = client.create_filtered_pub_receiver(response_topic_filter.clone());
 
-        // Create the channel to send responses on
-        let response_tx = Sender::new(5);
+        // Create the dispatcher to send responses on
+        let response_dispatcher = Arc::new(Dispatcher::new());
 
         // Create the shutdown notifier for the receiver loop
         let shutdown_notifier = Arc::new(Notify::new());
 
         // Start the receive response loop
         task::spawn({
-            let response_tx_clone = response_tx.clone();
+            let response_dispatcher_clone = response_dispatcher.clone();
             let shutdown_notifier_clone = shutdown_notifier.clone();
             let command_name_clone = invoker_options.command_name.clone();
             async move {
                 Self::receive_response_loop(
                     mqtt_receiver,
-                    response_tx_clone,
+                    response_dispatcher_clone,
                     shutdown_notifier_clone,
                     command_name_clone,
                 )
@@ -944,7 +949,7 @@ where
             response_payload_type: PhantomData,
             state_mutex: invoker_state_mutex,
             shutdown_notifier,
-            response_tx,
+            response_dispatcher,
         })
     }
 
@@ -1129,28 +1134,29 @@ where
                 )
             })?;
 
-        // Create correlation id
-        let correlation_id = Uuid::new_v4();
-        let correlation_data = Bytes::from(correlation_id.as_bytes().to_vec());
-
         // Get updated timestamp
         let timestamp_str = self.application_hlc.update_now()?;
 
         // Add internal user properties
         request.custom_user_data.push((
-            UserProperty::SourceId.to_string(),
+            ProtocolReservedUserProperty::SourceId.to_string(),
             self.mqtt_client.client_id().to_string(),
         ));
-        request
-            .custom_user_data
-            .push((UserProperty::Timestamp.to_string(), timestamp_str));
         request.custom_user_data.push((
-            UserProperty::ProtocolVersion.to_string(),
+            ProtocolReservedUserProperty::Timestamp.to_string(),
+            timestamp_str,
+        ));
+        request.custom_user_data.push((
+            ProtocolReservedUserProperty::ProtocolVersion.to_string(),
             RPC_COMMAND_PROTOCOL_VERSION.to_string(),
         ));
         request.custom_user_data.push((
-            PARTITION_KEY.to_string(),
+            BrokerReservedUserProperty::Partition.to_string(),
             self.mqtt_client.client_id().to_string(),
+        ));
+        request.custom_user_data.push((
+            BrokerReservedUserProperty::HighPriority.to_string(),
+            String::new(),
         ));
 
         // Cloud Events headers
@@ -1160,18 +1166,6 @@ where
                 request.custom_user_data.push((key, value));
             }
         }
-
-        // Create MQTT Properties
-        let publish_properties = PublishProperties {
-            correlation_data: Some(correlation_data.clone()),
-            response_topic: Some(response_topic),
-            payload_format_indicator: request.serialized_payload.format_indicator.into(),
-            content_type: Some(request.serialized_payload.content_type.clone()),
-            message_expiry_interval: Some(message_expiry_interval),
-            user_properties: request.custom_user_data,
-            topic_alias: None,
-            subscription_identifiers: Vec::new(),
-        };
 
         // Subscribe to the response topic if we're not already subscribed and the invoker hasn't been shutdown
         {
@@ -1197,8 +1191,34 @@ where
             // Allow other concurrent invoke commands to acquire the invoker_state lock
         }
 
-        // Create receiver for response
-        let mut response_rx = self.response_tx.subscribe();
+        // Create correlation id and receiver for response
+        let (correlation_data, mut response_rx) = {
+            loop {
+                let correlation_id = Uuid::new_v4();
+                let correlation_data = Bytes::copy_from_slice(correlation_id.as_bytes());
+
+                // Create receiver for response
+                if let Ok(rx) = self
+                    .response_dispatcher
+                    .register_receiver(correlation_data.clone())
+                {
+                    break (correlation_data, rx);
+                }
+                // Otherwise, loop again; Correlation ID wasn't unique, retry with a new correlation_id
+            }
+        };
+
+        // Create MQTT Properties
+        let publish_properties = PublishProperties {
+            correlation_data: Some(correlation_data.clone()),
+            response_topic: Some(response_topic),
+            payload_format_indicator: request.serialized_payload.format_indicator.into(),
+            content_type: Some(request.serialized_payload.content_type.clone()),
+            message_expiry_interval: Some(message_expiry_interval),
+            user_properties: request.custom_user_data,
+            topic_alias: None,
+            subscription_identifiers: Vec::new(),
+        };
 
         // Send publish
         let publish_result = self
@@ -1213,7 +1233,6 @@ where
 
         // Await for publish to complete in a task that concurrently polls the response_rx
         // so that the response_tx won't lag if the puback takes long to return
-        // TODO: this could be fixed more elegantly by using a dispatcher instead of a broadcast channel for the response_tx/rx
         let pub_task = tokio::task::spawn({
             let command_name = self.command_name.clone();
             let ct = cancellation_token.clone();
@@ -1271,87 +1290,58 @@ where
                 }
             }
         });
-        // task to receive incoming responses and check for the one that is for this request
+        // task to receive the incoming response for this request
         let response_task = tokio::task::spawn({
             let command_name = self.command_name.clone();
             let ct = cancellation_token.clone();
             async move {
-                loop {
-                    // wait for incoming pub
-                    tokio::select! {
-                        () = ct.cancelled() => {
-                            // This error won't be returned as this only happens if the invoke has already returned a timeout error
-                            // This branch is just here to make sure this task ends
-                            return Err(AIOProtocolError::new_timeout_error(
+                // wait for incoming pub
+                tokio::select! {
+                    () = ct.cancelled() => {
+                        // This error won't be returned as this only happens if the invoke has already returned a timeout error
+                        // This branch is just here to make sure this task ends
+                        Err(AIOProtocolError::new_timeout_error(
+                            false,
+                            None,
+                            &command_name,
+                            request.timeout,
+                            None,
+                            Some(command_name.clone()),
+                        ))
+                    },
+                    res = response_rx.recv() => {
+                        // we know the correlation id matches, otherwise it wouldn't have been dispatched to us
+                        res.ok_or_else(|| {
+                            log::error!(
+                                "[{command_name}] Command Invoker has been shutdown and will no longer receive a response"
+                            );
+                            AIOProtocolError::new_cancellation_error(
                                 false,
                                 None,
-                                &command_name,
-                                request.timeout,
-                                None,
-                                Some(command_name.clone()),
-                            ));
-                        },
-                        res = response_rx.recv() => {
-                            match res {
-                                Ok(rsp_pub) => {
-                                    if let Some(rsp_pub) = rsp_pub {
-                                        // check correlation id for match, otherwise loop again
-                                        if let Some(ref response_correlation_data) =
-                                            rsp_pub.properties.correlation_data
-                                            && *response_correlation_data == correlation_data {
-                                                // This is implicit validation of the correlation data - if it's malformed it won't match the request
-                                                // This is the response for this request, stop listening for more responses and validate and parse it and send it back to the application
-                                                return Ok(rsp_pub);
-                                            }
-                                    } else {
-                                        log::error!(
-                                            "[{command_name}] Command Invoker has been shutdown and will no longer receive a response"
-                                        );
-                                        return Err(AIOProtocolError::new_cancellation_error(
-                                            false,
-                                            None,
-                                            Some(
-                                                "Command Invoker has been shutdown and will no longer receive a response"
-                                                    .to_string(),
-                                            ),
-                                            Some(command_name),
-                                        ));
-                                    }
-                                    // If the publish doesn't have properties, correlation_data, or the correlation data doesn't match, keep waiting for the next one
-                                }
-                                Err(RecvError::Lagged(e)) => {
-                                    log::warn!(
-                                        "[{command_name}] Invoker response receiver lagged. Response may not be received. Number of skipped messages: {e}"
-                                    );
-                                    // Keep waiting for response even though it may have gotten overwritten.
-                                }
-                                Err(RecvError::Closed) => {
-                                    log::error!(
-                                        "[{command_name}] Invoker MQTT Receiver has been cleaned up and will no longer send a response"
-                                    );
-                                    return Err(AIOProtocolError::new_cancellation_error(
-                                        false,
-                                        None,
-                                        Some(
-                                            "MQTT Receiver has been cleaned up and will no longer send a response"
-                                                .to_string(),
-                                        ),
-                                        Some(command_name),
-                                    ));
-                                }
-                            }
-                        }
+                                Some(
+                                    "Command Invoker has been shutdown and will no longer receive a response"
+                                        .to_string(),
+                                ),
+                                Some(command_name),
+                            )
+                        })
                     }
                 }
             }
         });
 
         // wait for pub to be completed and response to be received, immediately returning any errors returned.
-        let rsp_pub = match tokio::try_join!(flatten(pub_task), flatten(response_task)) {
-            Ok(((), rsp_pub)) => rsp_pub,
-            // Return any error that occurs
-            Err(e) => {
-                return Err(e);
+        let rsp_pub = {
+            let res = tokio::try_join!(flatten(pub_task), flatten(response_task));
+            // Unregister the receiver for this correlation data before possibly returning, since we will no longer be listening on it
+            self.response_dispatcher
+                .unregister_receiver(&correlation_data);
+            match res {
+                Ok(((), rsp_pub)) => rsp_pub,
+                // Return any error that occurs
+                Err(e) => {
+                    return Err(e);
+                }
             }
         };
 
@@ -1394,7 +1384,7 @@ where
 
     async fn receive_response_loop(
         mut mqtt_receiver: SessionPubReceiver,
-        response_tx: Sender<Option<Publish>>,
+        response_dispatcher: Arc<Dispatcher<Publish, Bytes>>,
         shutdown_notifier: Arc<Notify>,
         command_name: String,
     ) {
@@ -1408,11 +1398,14 @@ where
                   },
                   recv_result = mqtt_receiver.recv_manual_ack() => {
                     if let Some((m, ack_token)) = recv_result {
-                        // Send to pending command listeners
-                        match response_tx.send(Some(m)) {
-                            Ok(_) => { },
-                            Err(e) => {
-                                log::debug!("[{command_name}] Command Response ignored, no pending commands: {e}");
+                        // Send to pending command listener for this correlation id
+                        // If there's no correlation data, then we can't match it to an invoke request,so we will just ignore it
+                        if let Some(correlation_data) = m.properties.correlation_data.clone() {
+                            match response_dispatcher.dispatch(&correlation_data, m) {
+                                Ok(()) => { },
+                                Err(e) => {
+                                    log::debug!("[{command_name}] Command Response ignored, no pending commands for this correlation id: {e}");
+                                }
                             }
                         }
                         // Manually ack
@@ -1436,8 +1429,7 @@ where
                             });
                         }
                     } else {
-                        // if this fails, it's just because there are no more pending commands, which is fine
-                        _ = response_tx.send(None);
+                        _ = response_dispatcher.unregister_all();
                         log::info!("[{command_name}] No more command responses will be received.");
                         break;
                     }

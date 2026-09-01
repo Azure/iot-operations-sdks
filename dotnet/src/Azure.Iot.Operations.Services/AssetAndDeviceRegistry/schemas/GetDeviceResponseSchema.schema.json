@@ -10,7 +10,7 @@
       "$ref": "Device.schema.json"
     },
     "getDeviceError": {
-      "description": "Read error for the 'getDevice' Action.",
+      "description": "Error for the 'getDevice' Action.",
       "$ref": "AkriServiceError.schema.json"
     }
   }

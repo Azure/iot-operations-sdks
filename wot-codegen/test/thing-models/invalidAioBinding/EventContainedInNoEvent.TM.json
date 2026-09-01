@@ -1,8 +1,7 @@
 {
   "@context": [
     "https://www.w3.org/2022/wot/td/v1.1",
-    { "dtv": "http://azure.com/DigitalTwins/dtmi#" },
-    { "aov": "http://azure.com/IoT/operations/tm#" }
+    { "dov": "http://azure.com/DigitalOperations/vocab#" }
   ],
   "@type": "tm:ThingModel",
   "title": "Noop",
@@ -18,7 +17,7 @@
       "forms": [
         {
           "contentType": "application/json",
-          "dtv:topic": "sample/alpha/{senderId}",
+          "dov:topic": "sample/alpha/{senderId}",
           "op": "subscribeevent"
         }
       ]
@@ -27,11 +26,11 @@
       "data": {
         "type": "string"
       },
-      "aov:containedIn": "gamma",
+      "dov:containedIn": "gamma",
       "forms": [
         {
           "contentType": "application/json",
-          "dtv:topic": "sample/beta/{senderId}",
+          "dov:topic": "sample/beta/{senderId}",
           "op": "subscribeevent"
         }
       ]

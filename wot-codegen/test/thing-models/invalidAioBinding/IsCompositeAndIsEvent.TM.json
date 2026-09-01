@@ -1,19 +1,18 @@
 {
   "@context": [
     "https://www.w3.org/2022/wot/td/v1.1",
-    { "dtv": "http://azure.com/DigitalTwins/dtmi#" },
-    { "aov": "http://azure.com/IoT/operations/tm#" }
+    { "dov": "http://azure.com/DigitalOperations/vocab#" }
   ],
   "@type": "tm:ThingModel",
   "title": "Noop",
-  "aov:isComposite": true,
-  "aov:isEvent": true,
+  "dov:isComposite": true,
+  "dov:isEvent": true,
   "actions": {
     "noop": {
       "forms": [
         {
           "contentType": "application/json",
-          "dtv:topic": "sample/noop/{executorId}",
+          "dov:topic": "sample/noop/{executorId}",
           "op": "invokeaction"
         }
       ]

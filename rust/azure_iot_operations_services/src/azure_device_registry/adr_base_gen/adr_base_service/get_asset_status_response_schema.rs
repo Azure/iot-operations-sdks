@@ -22,7 +22,7 @@ pub struct GetAssetStatusResponseSchema {
     #[builder(default = "None")]
     pub asset_status: Option<AssetStatus>,
 
-    /// Read error for the 'getAssetStatus' Action.
+    /// Error for the 'getAssetStatus' Action.
     #[serde(rename = "getAssetStatusError")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]

@@ -50,7 +50,7 @@ namespace Azure.Iot.Operations.EnvoyGenerator
             this.Write(this.ToStringHelper.ToStringWithCulture(this.commonNs.GetFolderName(TargetLanguage.Rust)));
             this.Write("::custom_payload::CustomPayload;\r\n");
  } 
- if (this.reqSchema == null || this.respSchema == null) { 
+ if (this.reqSchema == null || this.respSchema == null || (this.errorResultName != null && this.normalResultSchema == null)) { 
             this.Write("use super::super::");
             this.Write(this.ToStringHelper.ToStringWithCulture(this.commonNs.GetFolderName(TargetLanguage.Rust)));
             this.Write("::");
@@ -77,11 +77,14 @@ namespace Azure.Iot.Operations.EnvoyGenerator
             this.Write(";\r\n");
  } 
  if (this.errorResultName != null) { 
+ if (this.normalResultSchema != null) { 
             this.Write("use super::");
             this.Write(this.ToStringHelper.ToStringWithCulture(this.normalResultSchema.GetFileName(TargetLanguage.Rust)));
             this.Write("::");
             this.Write(this.ToStringHelper.ToStringWithCulture(this.normalResultSchema.GetTypeName(TargetLanguage.Rust)));
-            this.Write(";\r\nuse super::");
+            this.Write(";\r\n");
+ } 
+            this.Write("use super::");
             this.Write(this.ToStringHelper.ToStringWithCulture(this.errorResultSchema.GetFileName(TargetLanguage.Rust)));
             this.Write("::");
             this.Write(this.ToStringHelper.ToStringWithCulture(this.errorResultSchema.GetTypeName(TargetLanguage.Rust)));
@@ -269,8 +272,18 @@ namespace Azure.Iot.Operations.EnvoyGenerator
                 } else {
                     Ok(Ok(");
             this.Write(this.ToStringHelper.ToStringWithCulture(this.commandName.GetTypeName(TargetLanguage.Rust, "response")));
-            this.Write(" {\r\n                        payload: ");
-            this.Write(this.ToStringHelper.ToStringWithCulture(this.normalResultSchema.GetTypeName(TargetLanguage.Rust)));
+            this.Write(" {\r\n");
+ if (this.normalResultName != null) { 
+            this.Write("                        payload: response.payload.");
+            this.Write(this.ToStringHelper.ToStringWithCulture(this.normalResultName.GetFieldName(TargetLanguage.Rust)));
+            this.Write(".ok_or(");
+            this.Write(this.ToStringHelper.ToStringWithCulture(this.componentName.GetTypeName(TargetLanguage.Rust)));
+            this.Write("::get_err(\"");
+            this.Write(this.ToStringHelper.ToStringWithCulture(this.normalResultName.AsGiven));
+            this.Write("\"))?,\r\n");
+ } else { 
+            this.Write("                        payload: ");
+            this.Write(this.ToStringHelper.ToStringWithCulture(this.normalResultSchema?.GetTypeName(TargetLanguage.Rust) ?? this.serializerEmptyType.GetTypeName(TargetLanguage.Rust)));
             this.Write(" {\r\n");
  foreach (CodeName normalResultField in this.normalResultFields) { 
  if (this.normalRequiredFields.Contains(normalResultField)) { 
@@ -291,8 +304,9 @@ namespace Azure.Iot.Operations.EnvoyGenerator
             this.Write(",\r\n");
  } 
  } 
-            this.Write(@"                        },
-                        content_type: response.content_type,
+            this.Write("                        },\r\n");
+ } 
+            this.Write(@"                        content_type: response.content_type,
                         format_indicator: response.format_indicator,
                         custom_user_data: response.custom_user_data,
                         timestamp: response.timestamp,
@@ -319,7 +333,7 @@ namespace Azure.Iot.Operations.EnvoyGenerator
         self.0.shutdown().await
     }
 ");
- if (this.errorResultName != null && this.normalRequiredFields.Any()) { 
+ if (this.errorResultName != null && (this.normalRequiredFields.Any() || this.normalResultName != null)) { 
             this.Write(@"
     fn get_err(field_name: &str) -> AIOProtocolError {
         AIOProtocolError {
@@ -347,7 +361,7 @@ namespace Azure.Iot.Operations.EnvoyGenerator
 
     private string ExternalResponseType() => this.respSchema?.GetTypeName(TargetLanguage.Rust) ?? this.serializerEmptyType.GetTypeName(TargetLanguage.Rust);
 
-    private string InternalResponseType() => (this.normalResultSchema ?? this.respSchema)?.GetTypeName(TargetLanguage.Rust) ?? this.serializerEmptyType.GetTypeName(TargetLanguage.Rust);
+    private string InternalResponseType() => (this.errorResultName != null ? this.normalResultSchema : this.respSchema)?.GetTypeName(TargetLanguage.Rust) ?? this.serializerEmptyType.GetTypeName(TargetLanguage.Rust);
 
     }
     #region Base class

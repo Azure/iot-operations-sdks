@@ -16,7 +16,7 @@ use super::discovered_device_response_schema::DiscoveredDeviceResponseSchema;
 /// Response containing the discovered device response or error details if the operation failed.
 #[derive(Serialize, Deserialize, Debug, Clone, Builder)]
 pub struct CreateOrUpdateDiscoveredDeviceResponseSchema {
-    /// Read error for the 'createOrUpdateDiscoveredDevice' Action.
+    /// Error for the 'createOrUpdateDiscoveredDevice' Action.
     #[serde(rename = "createOrUpdateDiscoveredDeviceError")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]

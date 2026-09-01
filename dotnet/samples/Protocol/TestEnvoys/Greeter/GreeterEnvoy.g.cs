@@ -85,7 +85,11 @@ public class GreeterEnvoy
             await sayHelloWithDelayExecutor.StartAsync(preferredDispatchConcurrency, cancellationToken);
         }
 
-        public Task StopAsync(CancellationToken cancellationToken) => throw new NotImplementedException();
+        public async Task StopAsync(CancellationToken cancellationToken)
+        {
+            await sayHelloExecutor.StopAsync(cancellationToken);
+            await sayHelloWithDelayExecutor.StopAsync(cancellationToken);
+        }
 
         public override string ToString()
         {

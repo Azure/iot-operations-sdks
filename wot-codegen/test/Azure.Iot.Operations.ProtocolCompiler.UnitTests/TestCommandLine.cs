@@ -35,6 +35,9 @@ namespace Azure.Iot.Operations.ProtocolCompiler.UnitTests
         [JsonPropertyName("common")]
         public string? CommonNamespace { get; set; }
 
+        [JsonPropertyName("target")]
+        public string? SdkTarget { get; set; }
+
         [JsonPropertyName("sdkPath")]
         public string? SdkPath { get; set; }
 

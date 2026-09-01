@@ -1,0 +1,108 @@
+{
+  "@context": [
+    "https://www.w3.org/2022/wot/td/v1.1",
+    { "dtv": "http://azure.com/DigitalTwins/dtmi#" }
+  ],
+  "@type": "ExampleThing",
+  "title": "CommandVariants",
+  "securityDefinitions": {
+    "basic_sc": {
+      "scheme": "basic",
+       "in": "header"
+    }
+  },
+  "security": "basic_sc",
+  "links": [
+    {
+      "rel": "dtv:naming",
+      "href": "./CommandVariants.SchemaNames.json",
+      "type": "application/json"
+    }
+  ],
+  "actions": {
+    "noop": {
+      "idempotent": true,
+      "forms": [
+        {
+          "href": "http://example.com/noop",
+          "contentType": "application/json",
+          "dtv:topic": "samples/command/noop/{executorId}",
+          "op": "invokeaction"
+        }
+      ]
+    },
+    "peek": {
+      "output": {
+        "type": "object",
+        "required": [ "outVal" ],
+        "properties": {
+          "outVal": {
+            "type": "integer",
+            "minimum": -2147483648,
+            "maximum": 2147483647
+          }
+        }
+      },
+      "idempotent": true,
+      "forms": [
+        {
+          "href": "http://example.com/peek",
+          "contentType": "application/json",
+          "dtv:topic": "samples/command/peek/{executorId}",
+          "dtv:serviceGroupId": "PeekCmdGroup",
+          "op": "invokeaction"
+        }
+      ]
+    },
+    "poke": {
+      "input": {
+        "type": "object",
+        "required": [ "inVal" ],
+        "properties": {
+          "inVal": {
+            "type": "integer",
+            "minimum": -2147483648,
+            "maximum": 2147483647
+          }
+        }
+      },
+      "forms": [
+        {
+          "href": "http://example.com/poke",
+          "contentType": "application/json",
+          "dtv:topic": "samples/command/poke/{executorId}",
+          "dtv:serviceGroupId": "PokeCmdGroup",
+          "op": "invokeaction"
+        }
+      ]
+    },
+    "setColor": {
+      "input": {
+        "type": "object",
+        "required": [ "newColor" ],
+        "properties": {
+          "newColor": {
+            "type": "string"
+          }
+        }
+      },
+      "output": {
+        "type": "object",
+        "required": [ "oldColor" ],
+        "properties": {
+          "oldColor": {
+            "type": "string"
+          }
+        }
+      },
+      "forms": [
+        {
+          "href": "http://example.com/setColor",
+          "contentType": "application/json",
+          "dtv:topic": "samples/command/setColor/{executorId}",
+          "op": "invokeaction"
+        }
+      ]
+    }
+  }
+}

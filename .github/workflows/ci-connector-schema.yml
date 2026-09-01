@@ -23,19 +23,19 @@ jobs:
     timeout-minutes: 10
 
     steps:
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
 
     - name: Download connector metadata schema
-      run: wget https://raw.githubusercontent.com/SchemaStore/schemastore/refs/heads/master/src/schemas/json/aio-connector-metadata-10.0-preview.json -O ./connector-metadata-schema.json
+      run: wget https://json.schemastore.org/aio-connector-metadata-11.0-preview.json -O ./connector-metadata-schema.json
 
     - name: Validate JSON with Glob
-      uses: nhalstead/validate-json-action@0.1.3
+      uses: nhalstead/validate-json-action@c0708aeeffcbd850efc50b0c4597efdf6aaf0ee3 # v0.1.12
       with:
         schema: ./connector-metadata-schema.json
         jsons: ./doc/akri_connector/example-connector-metadata.json,./doc/akri_connector/minimal-example-connector-metadata.json
 
     - name: Validate JSON with Glob
-      uses: nhalstead/validate-json-action@0.1.3
+      uses: nhalstead/validate-json-action@c0708aeeffcbd850efc50b0c4597efdf6aaf0ee3 # v0.1.12
       with:
         schema: ./connector-metadata-schema.json
-        jsons: ./dotnet/samples/Connectors/EventDrivenTcpThermostatConnector/connector-metadata.json,./dotnet/samples/Connectors/SqlConnector/connector-metadata.json,./dotnet/samples/Connectors/PollingRestThermostatConnector/connector-metadata.json
+        jsons: ./dotnet/samples/Connectors/EventDrivenTcpThermostatConnector/connector-metadata.json,./dotnet/samples/Connectors/SqlConnector/connector-metadata.json,./dotnet/samples/Connectors/PollingRestThermostatConnector/connector-metadata.json,./dotnet/samples/Connectors/ManagementActionConnector/connector-metadata.json

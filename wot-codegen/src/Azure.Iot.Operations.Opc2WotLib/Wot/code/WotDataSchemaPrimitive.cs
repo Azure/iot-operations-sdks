@@ -47,7 +47,7 @@ namespace Azure.Iot.Operations.Opc2WotLib
         {
             this.description = description;
             this.schemaName = schemaName;
-            this.typeRef = dataTypeNode != null ? $"nsu={dataTypeNode.NodeIdNamespace};i={dataTypeNode.NodeId.NodeIndex}" : null;
+            this.typeRef = dataTypeNode != null ? dataTypeNode.GetTypeRef() : null;
             this.kvpList = NodeIndexToKvpListMap[dataTypeNodeId.NodeIndex];
         }
     }

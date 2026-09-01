@@ -265,19 +265,41 @@ namespace Azure.Iot.Operations.Services.LeaderElection
             await _leasedLockClient.UnobserveLockAsync(timeout, cancellationToken).ConfigureAwait(false);
         }
 
+        /// <inheritdoc/>
+        public async Task StopAsync(CancellationToken cancellationToken = default)
+        {
+            await _leasedLockClient.StopAsync(cancellationToken).ConfigureAwait(false);
+        }
+
+        /// <inheritdoc/>
         public async ValueTask DisposeAsync()
         {
-            await DisposeAsyncCore(false).ConfigureAwait(false);
+            await DisposeAsyncCore(false, CancellationToken.None).ConfigureAwait(false);
             GC.SuppressFinalize(this);
         }
 
+        /// <inheritdoc/>
+        public async ValueTask DisposeAsync(CancellationToken cancellationToken)
+        {
+            await DisposeAsyncCore(false, cancellationToken).ConfigureAwait(false);
+            GC.SuppressFinalize(this);
+        }
+
+        /// <inheritdoc/>
         public async ValueTask DisposeAsync(bool disposing)
         {
-            await DisposeAsyncCore(disposing).ConfigureAwait(false);
+            await DisposeAsyncCore(disposing, CancellationToken.None).ConfigureAwait(false);
             GC.SuppressFinalize(this);
         }
 
-        protected async virtual ValueTask DisposeAsyncCore(bool disposing)
+        /// <inheritdoc/>
+        public async ValueTask DisposeAsync(bool disposing, CancellationToken cancellationToken)
+        {
+            await DisposeAsyncCore(disposing, cancellationToken).ConfigureAwait(false);
+            GC.SuppressFinalize(this);
+        }
+
+        protected async virtual ValueTask DisposeAsyncCore(bool disposing, CancellationToken cancellationToken)
         {
             if (_disposed)
             {
@@ -288,7 +310,7 @@ namespace Azure.Iot.Operations.Services.LeaderElection
 
             if (disposing)
             {
-                await _leasedLockClient.DisposeAsync(disposing).ConfigureAwait(false);
+                await _leasedLockClient.DisposeAsync(disposing, cancellationToken).ConfigureAwait(false);
             }
 
             _disposed = true;

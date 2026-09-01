@@ -11,6 +11,13 @@
       "line": 0,
       "cfLine": 0,
       "crossRef": ""
+    },
+    {
+      "condition": "PropertyInvalid",
+      "filename": "NoContext.TM.json",
+      "line": 9,
+      "cfLine": 0,
+      "crossRef": ""
     }
   ]
 }

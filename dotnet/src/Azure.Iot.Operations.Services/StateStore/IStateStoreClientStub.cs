@@ -11,5 +11,7 @@ namespace Azure.Iot.Operations.Services.StateStore
     internal interface IStateStoreClientStub : IAsyncDisposable
     {
         RpcCallAsync<byte[]> InvokeAsync(byte[] request, CommandRequestMetadata? requestMetadata = null, Dictionary<string, string>? additionalTopicTokenMap = null, TimeSpan? commandTimeout = default, CancellationToken cancellationToken = default);
+
+        Task StopAsync(CancellationToken cancellationToken);
     }
 }

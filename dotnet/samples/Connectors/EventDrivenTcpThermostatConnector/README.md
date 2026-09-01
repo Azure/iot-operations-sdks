@@ -10,16 +10,16 @@ This sample demonstrates a connector that reacts to events sent to it by an asse
 
 ## Creating the sample
 
-This project was generated  from the [event driven telemetry connector](/dotnet/templates/EventDrivenTelemetryConnector/) template. 
+This project was generated from the [event driven telemetry connector](/dotnet/templates/content/EventDrivenConnectorTemplate/) template.
 
 For instructions on how to install the project template, see [the installation instructions](/dotnet/templates/README.md).
 
 ## Run the sample
 
-1. Run the following [script](./deploy-connector-and-asset.sh) to deploy the connector and the simulated thermostat client to the cluster:
+1. Run the following [script](./deploy-connector-and-device.sh) to deploy the connector and the simulated thermostat client to the cluster:
 
     ```bash
-    ./deploy-connector-and-asset.sh
+    ./deploy-connector-and-device.sh
     ```
 
 1. Subscribe to the following MQTT topic to observe the connector output:

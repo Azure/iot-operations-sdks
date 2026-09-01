@@ -22,8 +22,8 @@ inputs:
     required: false
     default: 'false'
 
-  action-token:
-    description: 'A GitHub PAT'
+  ssh-key:
+    description: 'SSH private key (deploy key) for checking out Azure/iot-operations-sdks-action'
     required: true
 
 runs:
@@ -34,11 +34,11 @@ runs:
       shell: bash
 
     - name: Checkout deploy action
-      uses: actions/checkout@v4
+      uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
       with:
         repository: azure/iot-operations-sdks-action
         path: action-deploy
-        token: ${{ inputs.action-token }}
+        ssh-key: ${{ inputs.ssh-key }}
 
     - name: Install AIO
       uses: ./action-deploy
@@ -53,25 +53,25 @@ runs:
     - name: Install Akri
       uses: ./action-deploy
       with:
-        akri: 2510
+        akri: 2603
         install_aio: "false"
         install_akri: "true"
 
     - name: Setup .NET
       if: inputs.install-dotnet == 'true'
-      uses: actions/setup-dotnet@v4
+      uses: actions/setup-dotnet@67a3573c9a986a3f9c594539f4ab511d57bb3ce9 # v4
       with:
         dotnet-version: 9.x
 
     - name: Setup GO
       if: inputs.install-go == 'true'
-      uses: actions/setup-go@v5
+      uses: actions/setup-go@40f1582b2485089dde7abd97c1529aa768e1baff # v5
       with:
         go-version: 1.25
 
     - name: Setup Rust
       if: inputs.install-rust == 'true'
-      uses: actions-rust-lang/setup-rust-toolchain@v1
+      uses: actions-rust-lang/setup-rust-toolchain@166cdcfd11aee3cb47222f9ddb555ce30ddb9659 # v1
       with:
         # Disable this action's built-in cache; callers that care about
         # caching should use `Swatinem/rust-cache` in their workflow,

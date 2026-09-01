@@ -82,20 +82,30 @@ public sealed class CompositeMqttClient : IAsyncDisposable, IMqttPubSubClient
 
     public async ValueTask DisposeAsync()
     {
+        await DisposeAsync(CancellationToken.None);
+    }
+
+    public async ValueTask DisposeAsync(bool disposing, CancellationToken cancellationToken)
+    {
         if (_sessionClient != null)
         {
-            await _sessionClient.DisconnectAsync();
-            await _sessionClient.DisposeAsync();
+            await _sessionClient.DisconnectAsync(cancellationToken: cancellationToken);
+            await _sessionClient.DisposeAsync(cancellationToken);
         }
         else
         {
-            await _mqttClient.DisconnectAsync(new MQTTnet.MqttClientDisconnectOptions());
+            await _mqttClient.DisconnectAsync(new MQTTnet.MqttClientDisconnectOptions(), cancellationToken);
             _mqttClient.Dispose();
         }
     }
 
     public ValueTask DisposeAsync(bool disposing)
     {
-        return DisposeAsync();
+        return DisposeAsync(disposing, CancellationToken.None);
+    }
+
+    public ValueTask DisposeAsync(CancellationToken cancellationToken)
+    {
+        return DisposeAsync(true, cancellationToken);
     }
 }

@@ -1,0 +1,16 @@
+{
+  "success": false,
+  "commandLine": {
+    "things": [ "invalidAioBinding/ThingMetadataWrongType.TM.json" ],
+    "lang": "none"
+  },
+  "errors": [
+    {
+      "condition": "JsonInvalid",
+      "filename": "ThingMetadataWrongType.TM.json",
+      "line": 8,
+      "cfLine": 0,
+      "crossRef": ""
+    }
+  ]
+}

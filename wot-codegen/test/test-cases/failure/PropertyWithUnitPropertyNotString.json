@@ -8,8 +8,8 @@
     {
       "condition": "TypeMismatch",
       "filename": "PropertyWithUnitPropertyNotString.TM.json",
-      "line": 17,
-      "cfLine": 26,
+      "line": 16,
+      "cfLine": 25,
       "crossRef": ""
     }
   ]

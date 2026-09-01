@@ -1,0 +1,23 @@
+﻿apiVersion: namespaces.deviceregistry.microsoft.com/v1
+kind: Device
+metadata:
+  name: my-mgmt-action-device
+  namespace: azure-iot-operations
+spec:
+  attributes:
+    deviceId: my-mgmt-action-device
+    deviceType: mgmt-action-sample
+  enabled: true
+  endpoints:
+    inbound:
+      my_mgmt_endpoint:
+        additionalConfiguration: '{}'
+        # No real device is required for management-action API scaffolding.
+        # Point at a placeholder address; the sample connector does not open
+        # a network connection to it.
+        address: mgmt-action-placeholder.azure-iot-operations.svc.cluster.local:80
+        endpointType: mgmt-action-endpoint-type
+        version: "0.0.1"
+  uuid: 2345-6789-0123-4567
+  version: 1
+

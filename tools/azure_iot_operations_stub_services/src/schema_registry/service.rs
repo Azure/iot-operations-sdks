@@ -8,7 +8,7 @@ use std::{
     sync::{Arc, Mutex},
 };
 
-use azure_iot_operations_mqtt::interface::ManagedClient;
+use azure_iot_operations_mqtt::session::SessionManagedClient;
 use azure_iot_operations_protocol::{
     application::ApplicationContext, common::aio_protocol_error::AIOProtocolError, rpc_command,
 };
@@ -23,26 +23,18 @@ use crate::{
 };
 
 /// Schema Registry service implementation.
-pub struct Service<C>
-where
-    C: ManagedClient + Clone + Send + Sync + 'static,
-    C::PubReceiver: Send + Sync + 'static,
-{
+pub struct Service {
     schemas: Arc<Mutex<HashMap<String, BTreeSet<Schema>>>>,
-    get_command_executor: service_gen::GetCommandExecutor<C>,
-    put_command_executor: service_gen::PutCommandExecutor<C>,
+    get_command_executor: service_gen::GetCommandExecutor,
+    put_command_executor: service_gen::PutCommandExecutor,
     service_output_manager: ServiceStateOutputManager,
 }
 
-impl<C> Service<C>
-where
-    C: ManagedClient + Clone + Send + Sync + 'static,
-    C::PubReceiver: Send + Sync + 'static,
-{
+impl Service {
     /// Creates a new stub Schema Registry Service.
     pub fn new(
         application_context: ApplicationContext,
-        client: C,
+        client: SessionManagedClient,
         output_directory_manager: &OutputDirectoryManager,
     ) -> Self {
         log::info!("Schema Registry Stub Service created");
@@ -422,7 +414,7 @@ where
     }
 
     async fn get_schema_runner(
-        mut get_command_executor: service_gen::GetCommandExecutor<C>,
+        mut get_command_executor: service_gen::GetCommandExecutor,
         schemas: Arc<Mutex<HashMap<String, BTreeSet<Schema>>>>,
     ) -> Result<(), AIOProtocolError> {
         loop {
@@ -461,7 +453,7 @@ where
     }
 
     async fn put_schema_runner(
-        mut put_command_executor: service_gen::PutCommandExecutor<C>,
+        mut put_command_executor: service_gen::PutCommandExecutor,
         schemas: Arc<Mutex<HashMap<String, BTreeSet<Schema>>>>,
         service_state_manager: ServiceStateOutputManager,
     ) -> Result<(), AIOProtocolError> {

@@ -63,7 +63,8 @@ func TestCommand(t *testing.T) {
 
 	expected := value + client.ID() + res.CorrelationData
 	require.Equal(t, expected, res.Payload)
-	require.Equal(t, map[string]string{"ex:token": "test"}, res.Metadata)
+	require.Equal(t, "test", res.Metadata["ex:token"])
+	require.Equal(t, "", res.Metadata["$high_priority"])
 	require.Equal(t, map[string]string{
 		"ex:token":   "test",
 		"executorId": server.ID(),

@@ -1,0 +1,7 @@
+{
+  "success": true,
+  "commandLine": {
+    "things": [ "valid/ActionPropertyIri.TM.json" ],
+    "lang": "none"
+  }
+}

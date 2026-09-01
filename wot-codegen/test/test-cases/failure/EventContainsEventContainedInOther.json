@@ -8,8 +8,8 @@
     {
       "condition": "ValuesInconsistent",
       "filename": "EventContainsEventContainedInOther.TM.json",
-      "line": 18,
-      "cfLine": 31,
+      "line": 17,
+      "cfLine": 30,
       "crossRef": ""
     }
   ]

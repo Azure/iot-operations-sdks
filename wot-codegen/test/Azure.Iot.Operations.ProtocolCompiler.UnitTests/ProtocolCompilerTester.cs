@@ -212,6 +212,7 @@ namespace Azure.Iot.Operations.ProtocolCompiler.UnitTests
                 WorkingDir = workingDir,
                 GenNamespace = commandLine.GenNamespace,
                 CommonNamespace = commandLine.CommonNamespace,
+                SdkTarget = commandLine.SdkTarget ?? "none",
                 SdkPath = commandLine.SdkPath,
                 Language = commandLine.Language ?? "none",
                 NoProj = commandLine.NoProj,

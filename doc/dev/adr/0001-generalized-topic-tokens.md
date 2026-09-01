@@ -86,5 +86,5 @@ frameworks (e.g. [express][2] or [axum][3]).
 
 [1]:
     https://learn.microsoft.com/azure/iot-operations/create-edge-apps/concept-about-state-store-protocol
-[2]: https://expressjs.com/guide/routing.html
+[2]: https://expressjs.com/en/guide/routing.html
 [3]: https://docs.rs/axum/latest/axum/struct.Router.html#captures

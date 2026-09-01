@@ -45,7 +45,7 @@ use azure_iot_operations_protocol::common::aio_protocol_error::AIOProtocolError;
             this.Write(this.ToStringHelper.ToStringWithCulture(this.commonNs.GetFolderName(TargetLanguage.Rust)));
             this.Write("::custom_payload::CustomPayload;\r\n");
  } 
- if (this.reqSchema == null || this.respSchema == null) { 
+ if (this.reqSchema == null || this.respSchema == null || (this.errorResultName != null && this.normalResultSchema == null)) { 
             this.Write("use super::super::");
             this.Write(this.ToStringHelper.ToStringWithCulture(this.commonNs.GetFolderName(TargetLanguage.Rust)));
             this.Write("::");
@@ -72,11 +72,14 @@ use azure_iot_operations_protocol::common::aio_protocol_error::AIOProtocolError;
             this.Write(";\r\n");
  } 
  if (this.errorResultName != null) { 
+ if (this.normalResultSchema != null) { 
             this.Write("use super::");
             this.Write(this.ToStringHelper.ToStringWithCulture(this.normalResultSchema.GetFileName(TargetLanguage.Rust)));
             this.Write("::");
             this.Write(this.ToStringHelper.ToStringWithCulture(this.normalResultSchema.GetTypeName(TargetLanguage.Rust)));
-            this.Write(";\r\nuse super::");
+            this.Write(";\r\n");
+ } 
+            this.Write("use super::");
             this.Write(this.ToStringHelper.ToStringWithCulture(this.errorResultSchema.GetFileName(TargetLanguage.Rust)));
             this.Write("::");
             this.Write(this.ToStringHelper.ToStringWithCulture(this.errorResultSchema.GetTypeName(TargetLanguage.Rust)));
@@ -120,18 +123,24 @@ use azure_iot_operations_protocol::common::aio_protocol_error::AIOProtocolError;
             this.Write("    /// Payload of the response\r\n    ///\r\n    /// # Errors\r\n    /// If the payloa" +
                     "d cannot be serialized\r\n    pub fn payload(\r\n        &mut self,\r\n        payload" +
                     ": ");
-            this.Write(this.ToStringHelper.ToStringWithCulture((this.normalResultSchema ?? this.respSchema).GetTypeName(TargetLanguage.Rust)));
+            this.Write(this.ToStringHelper.ToStringWithCulture((this.errorResultName != null ? this.normalResultSchema : this.respSchema)?.GetTypeName(TargetLanguage.Rust) ?? this.serializerEmptyType.GetTypeName(TargetLanguage.Rust)));
             this.Write(",\r\n    ) -> Result<&mut Self, AIOProtocolError> {\r\n");
  if (this.errorResultName != null) { 
             this.Write("        self.inner_builder.payload(");
             this.Write(this.ToStringHelper.ToStringWithCulture(this.respSchema.GetTypeName(TargetLanguage.Rust)));
             this.Write(" {\r\n");
+ if (this.normalResultName != null) { 
+            this.Write("            ");
+            this.Write(this.ToStringHelper.ToStringWithCulture(this.normalResultName.GetFieldName(TargetLanguage.Rust)));
+            this.Write(": Some(payload),\r\n");
+ } else { 
  foreach (CodeName normalResultField in this.normalResultFields) { 
             this.Write("            ");
             this.Write(this.ToStringHelper.ToStringWithCulture(normalResultField.GetFieldName(TargetLanguage.Rust)));
             this.Write(": ");
             this.Write(this.ToStringHelper.ToStringWithCulture(this.CondSome($"payload.{normalResultField.GetFieldName(TargetLanguage.Rust)}", this.normalRequiredFields.Contains(normalResultField))));
             this.Write(",\r\n");
+ } 
  } 
             this.Write("            ");
             this.Write(this.ToStringHelper.ToStringWithCulture(this.errorResultName.GetFieldName(TargetLanguage.Rust)));
@@ -146,10 +155,16 @@ use azure_iot_operations_protocol::common::aio_protocol_error::AIOProtocolError;
             this.Write(") -> Result<&mut Self, AIOProtocolError> {\r\n        self.inner_builder.payload(");
             this.Write(this.ToStringHelper.ToStringWithCulture(this.respSchema.GetTypeName(TargetLanguage.Rust)));
             this.Write(" {\r\n");
+ if (this.normalResultName != null) { 
+            this.Write("            ");
+            this.Write(this.ToStringHelper.ToStringWithCulture(this.normalResultName.GetFieldName(TargetLanguage.Rust)));
+            this.Write(": None,\r\n");
+ } else { 
  foreach (CodeName normalResultField in this.normalResultFields) { 
             this.Write("            ");
             this.Write(this.ToStringHelper.ToStringWithCulture(normalResultField.GetFieldName(TargetLanguage.Rust)));
             this.Write(": None,\r\n");
+ } 
  } 
             this.Write("            ");
             this.Write(this.ToStringHelper.ToStringWithCulture(this.errorResultName.GetFieldName(TargetLanguage.Rust)));

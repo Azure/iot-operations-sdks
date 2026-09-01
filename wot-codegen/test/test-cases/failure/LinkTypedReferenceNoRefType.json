@@ -8,8 +8,8 @@
     {
       "condition": "PropertyMissing",
       "filename": "LinkTypedReferenceNoRefType.TM.json",
-      "line": 10,
-      "cfLine": 11,
+      "line": 9,
+      "cfLine": 10,
       "crossRef": ""
     }
   ]

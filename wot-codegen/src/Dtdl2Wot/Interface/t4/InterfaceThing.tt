@@ -8,13 +8,15 @@
 {
   "@context": [
     "https://www.w3.org/2022/wot/td/v1.1",
-    { "dtv": "http://azure.com/DigitalTwins/dtmi#" }
+    {
+      "dov": "http://azure.com/DigitalOperations/vocab#"
+    }
   ],
   "@type": "tm:ThingModel",
   "title": "<#=this.serviceName.AsGiven#>",
   "links": [
     {
-      "rel": "dtv:naming",
+      "rel": "dov:naming",
       "href": "<#=this.schemaNamesPath#>",
       "type": "application/json"
     }
@@ -59,7 +61,7 @@
 <# if (this.aggregateTelemetries) { #>
     {
       "contentType": "<#=this.contentType#>",
-      "dtv:topic": "<#=this.telemetryTopic#>",
+      "dov:topic": "<#=this.telemetryTopic#>",
       "op": "subscribeallevents"
     }<#=this.aggregateProperties ? "," : ""#>
 <# } #>
@@ -74,7 +76,7 @@
         }
       ],
 <# } #>
-      "dtv:topic": "<#=this.propertyTopic.Replace(DtdlMqttTopicTokens.PropertyAction, "write")#>",
+      "dov:topic": "<#=this.propertyTopic.Replace(DtdlMqttTopicTokens.PropertyAction, "write")#>",
       "op": "writemultipleproperties"
     },
 <# } #>
@@ -87,7 +89,7 @@
         }
       ],
 <# } #>
-      "dtv:topic": "<#=this.propertyTopic.Replace(DtdlMqttTopicTokens.PropertyAction, "read")#>",
+      "dov:topic": "<#=this.propertyTopic.Replace(DtdlMqttTopicTokens.PropertyAction, "read")#>",
       "op": "readallproperties"
     }
 <# } #>

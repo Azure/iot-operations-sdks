@@ -10,16 +10,16 @@ This sample demonstrates a connector thats polls a SQL database endpoint for ass
 
 ## Creating the sample
 
-This project was generated from the [polling telemetry connector](/dotnet/templates/PollingTelemetryConnector/) template. 
+This project was generated from the [polling telemetry connector](/dotnet/templates/content/PollingConnectorTemplate/) template. 
 
 For instructions on how to install the project template, see [the installation instructions](/dotnet/templates/README.md).
 
 ## Run the sample
 
-1. Run the following [script](./deploy-connector-and-asset.sh) to deploy the connector and the simulated thermostat client to the cluster:
+1. Run the following [script](./deploy-connector-and-device.sh) to deploy the connector and the simulated thermostat client to the cluster:
 
     ```bash
-    ./deploy-connector-and-asset.sh
+    ./deploy-connector-and-device.sh
     ```
 
 1. Subscribe to the following MQTT topic to observe the connector output:

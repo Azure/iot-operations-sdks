@@ -1,5 +1,5 @@
 {
-  "$schema": "https://json.schemastore.org/aio-connector-metadata-10.0-preview.json",
+  "$schema": "https://json.schemastore.org/aio-connector-metadata-11.0-preview.json",
   "name": "Example polling REST thermostat connector",
   "version": "1.0.0",
   "maintainer": "Azure IoT Operations, for sample use only",

@@ -8,8 +8,8 @@
     {
       "condition": "ValuesInconsistent",
       "filename": "IsCompositeAndIsEvent.TM.json",
-      "line": 9,
-      "cfLine": 10,
+      "line": 8,
+      "cfLine": 9,
       "crossRef": ""
     }
   ]

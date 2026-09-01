@@ -33,8 +33,8 @@ public record AssetManagementGroupStatus
             foreach (var action in Actions)
             {
                 // All action entries in this are present exactly once in other
-                var matches = other.Actions.Select((a) => a.EqualTo(action));
-                if (matches == null || matches.Count() != 1)
+                var matches = other.Actions.Where((a) => a.EqualTo(action));
+                if (matches.Count() != 1)
                 {
                     return false;
                 }
@@ -43,8 +43,8 @@ public record AssetManagementGroupStatus
             foreach (var action in other.Actions)
             {
                 // All action entries in other are present exactly once in this
-                var matches = Actions.Select((a) => a.EqualTo(action));
-                if (matches == null || matches.Count() != 1)
+                var matches = Actions.Where((a) => a.EqualTo(action));
+                if (matches.Count() != 1)
                 {
                     return false;
                 }

@@ -7,9 +7,15 @@ edition = "2024"
 # No version => cannot be released to crates.io. For source use only.
 publish = false
 
+[features]
+default=["enable-output"]
+enable-output=[]
+
+# AIO SDK crates track a milestone release (currently 2607), not the tip of main.
+# Cargo.lock is committed and CI builds --locked, so these carets cannot drift.
 [dependencies]
-azure_iot_operations_protocol = { version = "0.10.0", registry = "aio-sdks"  }
-azure_iot_operations_mqtt = { version = "0.10.0", registry = "aio-sdks"  }
+azure_iot_operations_protocol = { version = "1.0.1" }
+azure_iot_operations_mqtt = { version = "1.1.0" }
 tokio = { version = "1.41", features = ["rt", "time", "sync"] }
 serde = { version = "1.0", features = ["derive"] }
 serde_repr = "0.1"
@@ -24,7 +30,3 @@ derive_builder = "0.20"
 log = "0.4.21"
 log4rs = "1.3.0"
 clap = "4.5.48"
-
-[features]
-default=["enable-output"]
-enable-output=[]

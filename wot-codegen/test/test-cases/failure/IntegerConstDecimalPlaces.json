@@ -8,8 +8,8 @@
     {
       "condition": "PropertyUnsupported",
       "filename": "IntegerConstDecimalPlaces.TM.json",
-      "line": 13,
-      "cfLine": 12,
+      "line": 12,
+      "cfLine": 11,
       "crossRef": ""
     }
   ]

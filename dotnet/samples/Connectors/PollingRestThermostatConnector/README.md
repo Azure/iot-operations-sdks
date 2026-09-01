@@ -10,7 +10,7 @@ This sample demonstrates a connector thats polls a REST endpoint for asset infor
 
 ## Creating the sample
 
-This project was generated from the [polling telemetry connector](/dotnet/templates/PollingTelemetryConnector/) template. 
+This project was generated from the [polling telemetry connector](/dotnet/templates/content/PollingConnectorTemplate/) template. 
 
 For instructions on how to install the project template, see [the installation instructions](/dotnet/templates/README.md).
 
@@ -30,5 +30,5 @@ For instructions on how to install the project template, see [the installation i
 
     output:
     ```bash
-    {"humidity":31.371145248413086,"temperature":74.15005493164062}
+    {"currentTemperature":31.371145248413086,"desiredTemperature":74.15005493164062}
     ```

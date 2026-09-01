@@ -1,7 +1,7 @@
 {
   "@context": [
     "https://www.w3.org/2022/wot/td/v1.1",
-    { "dtv": "http://azure.com/DigitalTwins/dtmi#" }
+    { "dov": "http://azure.com/DigitalOperations/vocab#" }
   ],
   "@type": "tm:ThingModel",
   "title": "Noop",
@@ -17,12 +17,12 @@
   },
   "forms": [
     {
-      "dtv:topic": "sample/all/events/read",
+      "dov:topic": "sample/all/events/read",
       "contentType": "application/json",
       "op": "readallproperties"
     },
     {
-      "dtv:topic": "sample/all/events/write",
+      "dov:topic": "sample/all/events/write",
       "contentType": "application/json",
       "op": "writemultipleproperties",
       "additionalResponses": [
@@ -40,7 +40,7 @@
       "forms": [
         {
           "contentType": "application/json",
-          "dtv:topic": "sample/alpha/{maintainerId}/{action}",
+          "dov:topic": "sample/alpha/{maintainerId}/{action}",
           "op": "readproperty",
           "additionalResponses": [
             {
@@ -51,7 +51,7 @@
         },
         {
           "contentType": "application/json",
-          "dtv:topic": "sample/alpha/{maintainerId}/{action}",
+          "dov:topic": "sample/alpha/{maintainerId}/{action}",
           "op": "writeproperty"
         }
       ]

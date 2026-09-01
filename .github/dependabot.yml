@@ -3,6 +3,17 @@
 # Please see the documentation for more information:
 # https://docs.github.com/github/administering-a-repository/configuration-options-for-dependency-updates
 # https://containers.dev/guide/dependabot
+#
+# NOTE: We intentionally do NOT configure version updates for the language
+# ecosystems (cargo, gomod, nuget). This repo publishes libraries, and
+# routinely bumping dependency floors in manifests raises MSRV-like
+# constraints for downstream consumers. Critical security fixes are handled
+# separately by GitHub's "Dependabot security updates" toggle (repo
+# Settings > Security), which opens PRs only when an advisory matches.
+#
+# Only tooling-hygiene ecosystems (devcontainers, github-actions) are
+# watched here — those aren't exposed to consumers, so pin rot is pure
+# downside.
 
 version: 2
 updates:
@@ -10,3 +21,13 @@ updates:
    directory: "/"
    schedule:
      interval: weekly
+
+ - package-ecosystem: "github-actions"
+   directory: "/"
+   schedule:
+     interval: weekly
+   groups:
+     patch-and-minor:
+       update-types:
+         - "patch"
+         - "minor"

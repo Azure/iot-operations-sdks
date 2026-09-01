@@ -25,6 +25,9 @@ pub struct TopicName(mqtt_proto::Topic<String>);
 
 impl TopicName {
     /// Constructs a new `TopicName` after validating the input string.
+    /// 
+    /// If passing an owned `String`, consider using the `TryFrom<String>` implementation to avoid
+    /// an extra allocation.
     ///
     /// # Errors
     /// Returns an error if the topic is invalid.
@@ -33,8 +36,12 @@ impl TopicName {
     where
         S: AsRef<str>,
     {
-        let inner = mqtt_proto::Topic::new(s.as_ref().to_owned())?;
-        Ok(TopicName(inner))
+        // TODO: Consider changing this bound from `AsRef<str>` to `Into<String>` for performance:
+        // it would allow owned `String` inputs to be moved in without re-allocating, instead of
+        // always cloning via `to_owned()`. This is a breaking change (e.g. `&String` callers would
+        // no longer compile), so defer it until we're willing to make one. Owned inputs can already
+        // use the zero-clone `TryFrom<String>` path in the meantime.
+        Self::try_from(s.as_ref().to_owned())
     }
 
     /// Returns the topic name as a string slice.
@@ -66,12 +73,39 @@ impl From<mqtt_proto::Topic<String>> for TopicName {
     }
 }
 
+impl TryFrom<String> for TopicName {
+    type Error = TopicError;
+
+    fn try_from(s: String) -> Result<Self, Self::Error> {
+        Ok(TopicName(mqtt_proto::Topic::new(s)?))
+    }
+}
+
+impl TryFrom<&str> for TopicName {
+    type Error = TopicError;
+
+    fn try_from(s: &str) -> Result<Self, Self::Error> {
+        Self::try_from(s.to_owned())
+    }
+}
+
+impl std::str::FromStr for TopicName {
+    type Err = TopicError;
+
+    fn from_str(s: &str) -> Result<Self, Self::Err> {
+        Self::try_from(s)
+    }
+}
+
 /// MQTT Topic Filter as described in MQTT v5, section "4.7 Topic Names and Topic Filters".
 #[derive(Debug, Clone, Eq, PartialEq, Hash)]
 pub struct TopicFilter(mqtt_proto::Filter<String>);
 
 impl TopicFilter {
     /// Constructs a new `TopicFilter` after validating the input string.
+    /// 
+    /// If passing an owned `String`, consider using the `TryFrom<String>` implementation to avoid
+    /// an extra allocation.
     ///
     /// # Errors
     /// Returns an error if the topic filter is invalid.
@@ -80,8 +114,12 @@ impl TopicFilter {
     where
         S: AsRef<str>,
     {
-        let inner = mqtt_proto::Filter::new(s.as_ref().to_owned())?;
-        Ok(TopicFilter(inner))
+        // TODO: Consider changing this bound from `AsRef<str>` to `Into<String>` for performance:
+        // it would allow owned `String` inputs to be moved in without re-allocating, instead of
+        // always cloning via `to_owned()`. This is a breaking change (e.g. `&String` callers would
+        // no longer compile), so defer it until we're willing to make one. Owned inputs can already
+        // use the zero-clone `TryFrom<String>` path in the meantime.
+        Self::try_from(s.as_ref().to_owned())
     }
 
     /// Returns the topic filter as a string slice.
@@ -104,6 +142,30 @@ impl TopicFilter {
 impl From<mqtt_proto::Filter<String>> for TopicFilter {
     fn from(value: mqtt_proto::Filter<String>) -> Self {
         TopicFilter(value)
+    }
+}
+
+impl TryFrom<String> for TopicFilter {
+    type Error = TopicError;
+
+    fn try_from(s: String) -> Result<Self, Self::Error> {
+        Ok(TopicFilter(mqtt_proto::Filter::new(s)?))
+    }
+}
+
+impl TryFrom<&str> for TopicFilter {
+    type Error = TopicError;
+
+    fn try_from(s: &str) -> Result<Self, Self::Error> {
+        Self::try_from(s.to_owned())
+    }
+}
+
+impl std::str::FromStr for TopicFilter {
+    type Err = TopicError;
+
+    fn from_str(s: &str) -> Result<Self, Self::Err> {
+        Self::try_from(s)
     }
 }
 

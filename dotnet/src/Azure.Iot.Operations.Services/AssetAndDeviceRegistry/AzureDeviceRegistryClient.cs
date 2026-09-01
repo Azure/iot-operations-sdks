@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 using System.Collections.Concurrent;
+using System.Diagnostics;
 using Azure.Iot.Operations.Protocol;
 using Azure.Iot.Operations.Protocol.Models;
 using Azure.Iot.Operations.Protocol.Retry;
@@ -48,8 +49,10 @@ public class AzureDeviceRegistryClient : IAzureDeviceRegistryClient
         _applicationContext = applicationContext;
         _connectorClientId = mqttClient.ClientId ?? throw new ArgumentException("Must provide an MQTT client Id in the IMqttPubSubClient");
 
-        _adrBaseServiceClient = new AdrBaseServiceClientStub(_applicationContext, mqttClient);
-        _adrBaseServiceService = new AdrBaseServiceServiceStub(_applicationContext, mqttClient);
+        Dictionary<string, string> topicTokenMap = new() { { "connectorClientId", _connectorClientId } };
+
+        _adrBaseServiceClient = new AdrBaseServiceClientStub(_applicationContext, mqttClient, topicTokenMap);
+        _adrBaseServiceService = new AdrBaseServiceServiceStub(_applicationContext, mqttClient, topicTokenMap);
         _deviceDiscoveryServiceClient = new DeviceDiscoveryServiceClientStub(_applicationContext, mqttClient);
     }
 
@@ -64,17 +67,67 @@ public class AzureDeviceRegistryClient : IAzureDeviceRegistryClient
         _deviceDiscoveryServiceClient = deviceDiscoveryServiceClientStub;
     }
 
-    /// <inheritdoc />
+    /// <summary>
+    /// Make this client unsubscribe from any topics that it subscribed to.
+    /// </summary>
+    public async Task StopAsync(CancellationToken cancellationToken = default)
+    {
+        await _adrBaseServiceClient.StopAsync(cancellationToken).ConfigureAwait(false);
+        await _deviceDiscoveryServiceClient.StopAsync(cancellationToken).ConfigureAwait(false);
+        await _adrBaseServiceService.StopAsync(cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Asynchronously dispose this object, but not the underlying clients.
+    /// </summary>
+    /// <param name="cancellationToken">Cancellation token</param>
     public async ValueTask DisposeAsync()
+    {
+        await DisposeAsyncCore(false, CancellationToken.None).ConfigureAwait(false);
+        GC.SuppressFinalize(this);
+    }
+
+    /// <summary>
+    /// Asynchronously dispose this object, but not the underlying clients.
+    /// </summary>
+    /// <param name="cancellationToken">Cancellation token</param>
+    public async ValueTask DisposeAsync(CancellationToken cancellationToken)
+    {
+        await DisposeAsyncCore(false, cancellationToken).ConfigureAwait(false);
+        GC.SuppressFinalize(this);
+    }
+
+    /// <summary>
+    /// Asynchronously dispose of this client and optionally dispose the underlying clients
+    /// </summary>
+    /// <param name="disposing">If true, this client will also dispose the underlying clients.</param>
+    public async ValueTask DisposeAsync(bool disposing)
+    {
+        await DisposeAsyncCore(disposing, CancellationToken.None).ConfigureAwait(false);
+        GC.SuppressFinalize(this);
+    }
+
+    /// <summary>
+    /// Asynchronously dispose of this client and optionally dispose the underlying clients
+    /// </summary>
+    /// <param name="disposing">If true, this client will also dispose the underlying clients.</param>
+    /// <param name="cancellationToken">Cancellation token</param>
+    public async ValueTask DisposeAsync(bool disposing, CancellationToken cancellationToken)
+    {
+        await DisposeAsyncCore(disposing, cancellationToken).ConfigureAwait(false);
+        GC.SuppressFinalize(this);
+    }
+
+    protected virtual async ValueTask DisposeAsyncCore(bool disposing, CancellationToken cancellationToken)
     {
         if (_disposed)
         {
             return;
         }
 
-        await _adrBaseServiceClient.DisposeAsync().ConfigureAwait(false);
-        await _deviceDiscoveryServiceClient.DisposeAsync().ConfigureAwait(false);
-        await _adrBaseServiceService.DisposeAsync().ConfigureAwait(false);
+        await _adrBaseServiceClient.DisposeAsync(disposing, cancellationToken).ConfigureAwait(false);
+        await _deviceDiscoveryServiceClient.DisposeAsync(disposing, cancellationToken).ConfigureAwait(false);
+        await _adrBaseServiceService.DisposeAsync(disposing, cancellationToken).ConfigureAwait(false);
 
         GC.SuppressFinalize(this);
         _disposed = true;
@@ -114,6 +167,9 @@ public class AzureDeviceRegistryClient : IAzureDeviceRegistryClient
 
             try
             {
+                string value = notificationPreference == Models.NotificationPreference.On ? "ON" : "OFF";
+                Trace.TraceInformation($"Setting notification preference for device {deviceName} endpoint {inboundEndpointName} with val {value}");
+
                 var result = await _adrBaseServiceClient.SetNotificationPreferenceForDeviceUpdatesAsync(
                     notificationRequest,
                     null,
@@ -151,6 +207,9 @@ public class AzureDeviceRegistryClient : IAzureDeviceRegistryClient
         {
             cancellationToken.ThrowIfCancellationRequested();
             ObjectDisposedException.ThrowIf(_disposed, this);
+
+            string value = notificationPreference == Models.NotificationPreference.On ? "ON" : "OFF";
+            Trace.TraceInformation($"Setting notification preference for device {deviceName} endpoint {inboundEndpointName} asset {assetName} with val {value}");
 
             _observedAssets[$"{deviceName}_{inboundEndpointName}_{assetName}"] = _dummyByte;
             await _adrBaseServiceClient.AssetUpdateEventTelemetryReceiver.StartAsync(cancellationToken);
@@ -581,14 +640,15 @@ public class AzureDeviceRegistryClient : IAzureDeviceRegistryClient
 
             try
             {
-                await _adrBaseServiceService.DeviceEndpointRuntimeHealthEventTelemetrySender.SendTelemetryAsync(
-                    new()
+                await _adrBaseServiceService.SendTelemetryAsync(
+                    new DeviceEndpointRuntimeHealthEventTelemetry()
                     {
                         DeviceEndpointRuntimeHealthEvent = new()
                         {
                             RuntimeHealth = deviceEndpointRuntimeHealth.ToProtocol(),
                         },
                     },
+                    new(),
                     additionalTopicTokenMap,
                     MqttQualityOfServiceLevel.AtLeastOnce,
                     telemetryTimeout ?? _defaultTimeout,
@@ -636,8 +696,8 @@ public class AzureDeviceRegistryClient : IAzureDeviceRegistryClient
             {
                 var protocolDatasetsRuntimeHealth = datasetsRuntimeHealth?.Select(x => x.ToProtocol());
 
-                await _adrBaseServiceService.DatasetRuntimeHealthEventTelemetrySender.SendTelemetryAsync(
-                    new()
+                await _adrBaseServiceService.SendTelemetryAsync(
+                    new DatasetRuntimeHealthEventTelemetry()
                     {
                         DatasetRuntimeHealthEvent = new()
                         {
@@ -645,6 +705,7 @@ public class AzureDeviceRegistryClient : IAzureDeviceRegistryClient
                             Datasets = protocolDatasetsRuntimeHealth != null ? protocolDatasetsRuntimeHealth.ToList() : new(),
                         }
                     },
+                    new(),
                     additionalTopicTokenMap,
                     MqttQualityOfServiceLevel.AtLeastOnce,
                     telemetryTimeout ?? _defaultTimeout,
@@ -692,8 +753,8 @@ public class AzureDeviceRegistryClient : IAzureDeviceRegistryClient
             {
                 var protocolEventsRuntimeHealth = eventsRuntimeHealth?.Select(x => x.ToProtocol());
 
-                await _adrBaseServiceService.EventRuntimeHealthEventTelemetrySender.SendTelemetryAsync(
-                    new()
+                await _adrBaseServiceService.SendTelemetryAsync(
+                    new EventRuntimeHealthEventTelemetry()
                     {
                         EventRuntimeHealthEvent = new()
                         {
@@ -701,6 +762,7 @@ public class AzureDeviceRegistryClient : IAzureDeviceRegistryClient
                             Events = protocolEventsRuntimeHealth != null ? protocolEventsRuntimeHealth.ToList() : new(),
                         }
                     },
+                    new(),
                     additionalTopicTokenMap,
                     MqttQualityOfServiceLevel.AtLeastOnce,
                     telemetryTimeout ?? _defaultTimeout,
@@ -748,7 +810,7 @@ public class AzureDeviceRegistryClient : IAzureDeviceRegistryClient
             {
                 var protocolStreamsRuntimeHealth = streamsRuntimeHealth?.Select(x => x.ToProtocol());
 
-                await _adrBaseServiceService.StreamRuntimeHealthEventTelemetrySender.SendTelemetryAsync(
+                await _adrBaseServiceService.SendTelemetryAsync(
                     new StreamRuntimeHealthEventTelemetry()
                     {
                         StreamRuntimeHealthEvent = new()
@@ -757,6 +819,7 @@ public class AzureDeviceRegistryClient : IAzureDeviceRegistryClient
                             Streams = protocolStreamsRuntimeHealth != null ? protocolStreamsRuntimeHealth.ToList() : new(),
                         }
                     },
+                    new(),
                     additionalTopicTokenMap,
                     MqttQualityOfServiceLevel.AtLeastOnce,
                     telemetryTimeout ?? _defaultTimeout,
@@ -804,7 +867,7 @@ public class AzureDeviceRegistryClient : IAzureDeviceRegistryClient
             {
                 var protocolManagementActionsRuntimeHealth = managementActionsRuntimeHealth?.Select(x => x.ToProtocol());
 
-                await _adrBaseServiceService.ManagementActionRuntimeHealthEventTelemetrySender.SendTelemetryAsync(
+                await _adrBaseServiceService.SendTelemetryAsync(
                     new ManagementActionRuntimeHealthEventTelemetry()
                     {
                         ManagementActionRuntimeHealthEvent = new ManagementActionRuntimeHealthEventSchema()
@@ -813,6 +876,7 @@ public class AzureDeviceRegistryClient : IAzureDeviceRegistryClient
                             ManagementActions = protocolManagementActionsRuntimeHealth != null ? protocolManagementActionsRuntimeHealth.ToList() : new(),
                         }
                     },
+                    new(),
                     additionalTopicTokenMap,
                     MqttQualityOfServiceLevel.AtLeastOnce,
                     telemetryTimeout ?? _defaultTimeout,

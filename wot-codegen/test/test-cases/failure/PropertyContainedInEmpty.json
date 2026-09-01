@@ -8,7 +8,7 @@
     {
       "condition": "PropertyEmpty",
       "filename": "PropertyContainedInEmpty.TM.json",
-      "line": 24,
+      "line": 23,
       "cfLine": 0,
       "crossRef": ""
     }

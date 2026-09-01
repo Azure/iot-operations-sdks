@@ -247,13 +247,32 @@ namespace Azure.Iot.Operations.Protocol.Telemetry
 
         public virtual async ValueTask DisposeAsync()
         {
-            await DisposeAsyncCore(false);
+            await DisposeAsyncCore(false, CancellationToken.None);
             GC.SuppressFinalize(this);
+        }
+
+        public virtual async ValueTask DisposeAsync(CancellationToken cancellationToken)
+        {
+            await DisposeAsyncCore(false, cancellationToken);
+#pragma warning disable CA1816 // Dispose methods should call SuppressFinalize. Reason: This is a dispose method
+            GC.SuppressFinalize(this);
+#pragma warning restore CA1816 // Dispose methods should call SuppressFinalize
         }
 
         public virtual async ValueTask DisposeAsync(bool disposing)
         {
-            await DisposeAsyncCore(disposing);
+            await DisposeAsyncCore(disposing, CancellationToken.None);
+#pragma warning disable CA1816 // Dispose methods should call SuppressFinalize. Reason: This is a dispose method
+            GC.SuppressFinalize(this);
+#pragma warning restore CA1816 // Dispose methods should call SuppressFinalize
+        }
+
+        public virtual async ValueTask DisposeAsync(bool disposing, CancellationToken cancellationToken)
+        {
+            await DisposeAsyncCore(disposing, cancellationToken);
+#pragma warning disable CA1816 // Dispose methods should call SuppressFinalize. Reason: This is a dispose method
+            GC.SuppressFinalize(this);
+#pragma warning restore CA1816 // Dispose methods should call SuppressFinalize
         }
 
         private static Dictionary<string, string> CombineTopicTokenMaps(Dictionary<string, string> baseMap, Dictionary<string, string>? additionalMap)
@@ -269,13 +288,13 @@ namespace Azure.Iot.Operations.Protocol.Telemetry
             return combinedTopicTokenMap;
         }
 
-        protected virtual async ValueTask DisposeAsyncCore(bool disposing)
+        protected virtual async ValueTask DisposeAsyncCore(bool disposing, CancellationToken cancellationToken)
         {
             if (!_isDisposed)
             {
                 if (disposing)
                 {
-                    await _mqttClient.DisposeAsync(disposing);
+                    await _mqttClient.DisposeAsync(disposing, cancellationToken);
                 }
 
                 _isDisposed = true;

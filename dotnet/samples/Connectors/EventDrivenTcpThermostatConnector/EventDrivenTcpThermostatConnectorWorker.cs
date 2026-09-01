@@ -40,7 +40,7 @@ namespace EventDrivenTcpThermostatConnector
                     currentDeviceStatus.Endpoints.Inbound ??= new();
                     if (!currentDeviceStatus.Endpoints.Inbound.ContainsKey(args.InboundEndpointName))
                     {
-                        currentDeviceStatus.Endpoints.Inbound.Add(args.InboundEndpointName, new());
+                        currentDeviceStatus.Endpoints.Inbound[args.InboundEndpointName] = new();
                     }
                     return currentDeviceStatus;
                 }, true, null, cancellationToken);
@@ -241,7 +241,7 @@ namespace EventDrivenTcpThermostatConnector
                                     currentDeviceStatus.Endpoints.Inbound ??= new();
                                     if (!currentDeviceStatus.Endpoints.Inbound.ContainsKey(args.InboundEndpointName))
                                     {
-                                        currentDeviceStatus.Endpoints.Inbound.Add(args.InboundEndpointName, new());
+                                        currentDeviceStatus.Endpoints.Inbound[args.InboundEndpointName] = new();
                                     }
                                     return currentDeviceStatus;
                                 }, true, null, cancellationToken);

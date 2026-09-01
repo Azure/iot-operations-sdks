@@ -162,12 +162,12 @@ namespace TestEnvoys.Counter
                 await this.telemetrySender.DisposeAsync().ConfigureAwait(false);
             }
 
-            public async ValueTask DisposeAsync(bool disposing)
+            public async ValueTask DisposeAsync(bool disposing, CancellationToken cancellationToken = default)
             {
-                await this.readCounterCommandExecutor.DisposeAsync(disposing).ConfigureAwait(false);
-                await this.incrementCommandExecutor.DisposeAsync(disposing).ConfigureAwait(false);
-                await this.resetCommandExecutor.DisposeAsync(disposing).ConfigureAwait(false);
-                await this.telemetrySender.DisposeAsync(disposing).ConfigureAwait(false);
+                await this.readCounterCommandExecutor.DisposeAsync(disposing, cancellationToken).ConfigureAwait(false);
+                await this.incrementCommandExecutor.DisposeAsync(disposing, cancellationToken).ConfigureAwait(false);
+                await this.resetCommandExecutor.DisposeAsync(disposing, cancellationToken).ConfigureAwait(false);
+                await this.telemetrySender.DisposeAsync(disposing, cancellationToken).ConfigureAwait(false);
             }
         }
 
@@ -338,13 +338,16 @@ namespace TestEnvoys.Counter
             }
 
             /// <summary>
-            /// Stop accepting telemetry for all telemetry receivers.
+            /// Stop accepting telemetry for all telemetry receivers and make all command invokers unsubscribe from command response topics.
             /// </summary>
             /// <param name="cancellationToken">Cancellation token.</param>
             public async Task StopAsync(CancellationToken cancellationToken = default)
             {
                 await Task.WhenAll(
-                    this.telemetryReceiver.StopAsync(cancellationToken)).ConfigureAwait(false);
+                    this.telemetryReceiver.StopAsync(cancellationToken),
+                    this.readCounterCommandInvoker.StopAsync(cancellationToken),
+                    this.incrementCommandInvoker.StopAsync(cancellationToken),
+                    this.resetCommandInvoker.StopAsync(cancellationToken)).ConfigureAwait(false);
             }
 
             public async ValueTask DisposeAsync()
@@ -355,12 +358,12 @@ namespace TestEnvoys.Counter
                 await this.telemetryReceiver.DisposeAsync().ConfigureAwait(false);
             }
 
-            public async ValueTask DisposeAsync(bool disposing)
+            public async ValueTask DisposeAsync(bool disposing, CancellationToken cancellationToken = default)
             {
-                await this.readCounterCommandInvoker.DisposeAsync(disposing).ConfigureAwait(false);
-                await this.incrementCommandInvoker.DisposeAsync(disposing).ConfigureAwait(false);
-                await this.resetCommandInvoker.DisposeAsync(disposing).ConfigureAwait(false);
-                await this.telemetryReceiver.DisposeAsync(disposing).ConfigureAwait(false);
+                await this.readCounterCommandInvoker.DisposeAsync(disposing, cancellationToken).ConfigureAwait(false);
+                await this.incrementCommandInvoker.DisposeAsync(disposing, cancellationToken).ConfigureAwait(false);
+                await this.resetCommandInvoker.DisposeAsync(disposing, cancellationToken).ConfigureAwait(false);
+                await this.telemetryReceiver.DisposeAsync(disposing, cancellationToken).ConfigureAwait(false);
             }
         }
     }

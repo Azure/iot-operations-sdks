@@ -23,7 +23,7 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Generated.AdrBase
         public string? ResponsePayload { get; set; } = default;
 
         /// <summary>
-        /// Read error for the 'setNotificationPreferenceForDeviceUpdates' Action.
+        /// Error for the 'setNotificationPreferenceForDeviceUpdates' Action.
         /// </summary>
         [JsonPropertyName("setNotificationPreferenceForDeviceUpdatesError")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]

@@ -18,6 +18,7 @@ pub mod data_processor;
 pub mod deployment_artifacts;
 pub mod destination_endpoint;
 pub mod management_action_executor;
+pub mod readiness_probe;
 
 #[macro_use]
 extern crate derive_getters;

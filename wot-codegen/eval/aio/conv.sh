@@ -1,6 +1,6 @@
 #!/bin/sh
 
-conv=./codegen2/src/Dtdl2Wot/bin/Debug/net9.0/Dtdl2Wot
+conv=./codegen2/src/Dtdl2Wot/bin/Debug/net10.0/Dtdl2Wot
 
 $conv ./eng/dtdl/adr-base-service.json ./eng/wot/adr-base-service
 $conv ./eng/dtdl/device-discovery-service.json ./eng/wot/device-discovery-service

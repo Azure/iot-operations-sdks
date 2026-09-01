@@ -1,0 +1,7 @@
+{
+  "success": true,
+  "commandLine": {
+    "things": [ "valid/EventEventConfiguration.TM.json" ],
+    "lang": "none"
+  }
+}

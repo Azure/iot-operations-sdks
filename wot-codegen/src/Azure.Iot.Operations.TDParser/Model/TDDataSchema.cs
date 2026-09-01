@@ -5,33 +5,77 @@ namespace Azure.Iot.Operations.TDParser.Model
 {
     using System;
     using System.Collections.Generic;
+    using System.Diagnostics.CodeAnalysis;
     using System.Linq;
+    using System.Text;
     using System.Text.Json;
 
     public class TDDataSchema : IEquatable<TDDataSchema>, IDeserializable<TDDataSchema>
     {
-        public const string RefName = "dtv:ref";
+        public const string RefName = "dov:ref";
+        public const string RefLegacyName = "dtv:ref";
+        public const string LocalRefName = "tm:ref";
         public const string TitleName = TDCommon.TitleName;
         public const string DescriptionName = TDCommon.DescriptionName;
         public const string TypeName = "type";
         public const string ConstName = "const";
         public const string MinimumName = "minimum";
         public const string MaximumName = "maximum";
-        public const string ScaleFactorName = "aov:scaleFactor";
-        public const string DecimalPlacesName = "aov:decimalPlaces";
+        public const string ScaleFactorName = "dov:scaleFactor";
+        public const string ScaleFactorLegacyName = "aov:scaleFactor";
+        public const string DecimalPlacesName = "dov:decimalPlaces";
+        public const string DecimalPlacesLegacyName = "aov:decimalPlaces";
         public const string FormatName = "format";
         public const string PatternName = "pattern";
         public const string ContentEncodingName = "contentEncoding";
-        public const string AdditionalPropertiesName = "dtv:additionalProperties";
+        public const string AdditionalPropertiesName = "dov:additionalProperties";
+        public const string AdditionalPropertiesLegacyName = "dtv:additionalProperties";
         public const string EnumName = "enum";
         public const string RequiredName = "required";
-        public const string ErrorMessageName = "dtv:errorMessage";
+        public const string ErrorMessageName = "dov:errorMessage";
+        public const string ErrorMessageLegacyName = "dtv:errorMessage";
         public const string PropertiesName = "properties";
         public const string ItemsName = "items";
-        public const string TypeRefName = "aov:typeRef";
+        public const string TypeRefName = "dov:typeRef";
+        public const string TypeRefLegacyName = "aov:typeRef";
         public const string NamespaceName = TDCommon.NamespaceName;
+        public const string NamespaceLegacyName = TDCommon.NamespaceLegacyName;
+
+        public static readonly HashSet<string> SupportedProperties = new()
+        {
+            RefName,
+            RefLegacyName,
+            LocalRefName,
+            TitleName,
+            DescriptionName,
+            TypeName,
+            ConstName,
+            MinimumName,
+            MaximumName,
+            ScaleFactorName,
+            ScaleFactorLegacyName,
+            DecimalPlacesName,
+            DecimalPlacesLegacyName,
+            FormatName,
+            PatternName,
+            ContentEncodingName,
+            AdditionalPropertiesName,
+            AdditionalPropertiesLegacyName,
+            EnumName,
+            RequiredName,
+            ErrorMessageName,
+            ErrorMessageLegacyName,
+            PropertiesName,
+            ItemsName,
+            TypeRefName,
+            TypeRefLegacyName,
+            NamespaceName,
+            NamespaceLegacyName
+        };
 
         public ValueTracker<StringHolder>? Ref { get; set; }
+
+        public ValueTracker<StringHolder>? LocalRef { get; set; }
 
         public ValueTracker<StringHolder>? Title { get; set; }
 
@@ -73,9 +117,23 @@ namespace Azure.Iot.Operations.TDParser.Model
 
         public Dictionary<string, long> PropertyNames { get; set; } = new();
 
+        public PrefixType RefPrefixType { get; set; } = PrefixType.Indeterminate;
+
+        public PrefixType ScaleFactorPrefixType { get; set; } = PrefixType.Indeterminate;
+
+        public PrefixType DecimalPlacesPrefixType { get; set; } = PrefixType.Indeterminate;
+
+        public PrefixType AdditionalPropertiesPrefixType { get; set; } = PrefixType.Indeterminate;
+
+        public PrefixType ErrorMessagePrefixType { get; set; } = PrefixType.Indeterminate;
+
+        public PrefixType TypeRefPrefixType { get; set; } = PrefixType.Indeterminate;
+
+        public PrefixType NamespacePrefixType { get; set; } = PrefixType.Indeterminate;
+
         public override int GetHashCode()
         {
-            return (Title, Description, Type, Const, Minimum, Maximum, ScaleFactor, DecimalPlaces, Format, Pattern, ContentEncoding, AdditionalProperties, Enum, Required, ErrorMessage, Properties, Items, TypeRef, Namespace).GetHashCode();
+            return (Ref, LocalRef, Title, Description, Type, Const, Minimum, Maximum, ScaleFactor, DecimalPlaces, Format, Pattern, ContentEncoding, AdditionalProperties, Enum, Required, ErrorMessage, Properties, Items, TypeRef, Namespace).GetHashCode();
         }
 
         public virtual bool Equals(TDDataSchema? other)
@@ -88,6 +146,7 @@ namespace Azure.Iot.Operations.TDParser.Model
             {
                 return Title == other.Title &&
                     Ref == other.Ref &&
+                    LocalRef == other.LocalRef &&
                     Description == other.Description &&
                     Type == other.Type &&
                     Const == other.Const &&
@@ -179,6 +238,13 @@ namespace Azure.Iot.Operations.TDParser.Model
             if (Ref != null)
             {
                 foreach (ITraversable item in Ref.Traverse())
+                {
+                    yield return item;
+                }
+            }
+            if (LocalRef != null)
+            {
+                foreach (ITraversable item in LocalRef.Traverse())
                 {
                     yield return item;
                 }
@@ -324,6 +390,14 @@ namespace Azure.Iot.Operations.TDParser.Model
             {
                 case RefName:
                     dataSchema.Ref = ValueTracker<StringHolder>.Deserialize(ref reader, RefName);
+                    dataSchema.RefPrefixType = PrefixType.DoVocabulary;
+                    return true;
+                case RefLegacyName:
+                    dataSchema.Ref = ValueTracker<StringHolder>.Deserialize(ref reader, RefName);
+                    dataSchema.RefPrefixType = PrefixType.AioProtocol;
+                    return true;
+                case LocalRefName:
+                    dataSchema.LocalRef = ValueTracker<StringHolder>.Deserialize(ref reader, LocalRefName);
                     return true;
                 case TitleName:
                     dataSchema.Title = ValueTracker<StringHolder>.Deserialize(ref reader, TitleName);
@@ -345,9 +419,19 @@ namespace Azure.Iot.Operations.TDParser.Model
                     return true;
                 case ScaleFactorName:
                     dataSchema.ScaleFactor = ValueTracker<NumberHolder>.Deserialize(ref reader, ScaleFactorName);
+                    dataSchema.ScaleFactorPrefixType = PrefixType.DoVocabulary;
+                    return true;
+                case ScaleFactorLegacyName:
+                    dataSchema.ScaleFactor = ValueTracker<NumberHolder>.Deserialize(ref reader, ScaleFactorName);
+                    dataSchema.ScaleFactorPrefixType = PrefixType.AioPlatform;
                     return true;
                 case DecimalPlacesName:
                     dataSchema.DecimalPlaces = ValueTracker<NumberHolder>.Deserialize(ref reader, DecimalPlacesName);
+                    dataSchema.DecimalPlacesPrefixType = PrefixType.DoVocabulary;
+                    return true;
+                case DecimalPlacesLegacyName:
+                    dataSchema.DecimalPlaces = ValueTracker<NumberHolder>.Deserialize(ref reader, DecimalPlacesName);
+                    dataSchema.DecimalPlacesPrefixType = PrefixType.AioPlatform;
                     return true;
                 case FormatName:
                     dataSchema.Format = ValueTracker<StringHolder>.Deserialize(ref reader, FormatName);
@@ -360,6 +444,11 @@ namespace Azure.Iot.Operations.TDParser.Model
                     return true;
                 case AdditionalPropertiesName:
                     dataSchema.AdditionalProperties = ValueTracker<TDDataSchema>.Deserialize(ref reader, AdditionalPropertiesName);
+                    dataSchema.AdditionalPropertiesPrefixType = PrefixType.DoVocabulary;
+                    return true;
+                case AdditionalPropertiesLegacyName:
+                    dataSchema.AdditionalProperties = ValueTracker<TDDataSchema>.Deserialize(ref reader, AdditionalPropertiesName);
+                    dataSchema.AdditionalPropertiesPrefixType = PrefixType.AioProtocol;
                     return true;
                 case EnumName:
                     dataSchema.Enum = ArrayTracker<StringHolder>.Deserialize(ref reader, EnumName);
@@ -369,6 +458,11 @@ namespace Azure.Iot.Operations.TDParser.Model
                     return true;
                 case ErrorMessageName:
                     dataSchema.ErrorMessage = ValueTracker<StringHolder>.Deserialize(ref reader, ErrorMessageName);
+                    dataSchema.ErrorMessagePrefixType = PrefixType.DoVocabulary;
+                    return true;
+                case ErrorMessageLegacyName:
+                    dataSchema.ErrorMessage = ValueTracker<StringHolder>.Deserialize(ref reader, ErrorMessageName);
+                    dataSchema.ErrorMessagePrefixType = PrefixType.AioProtocol;
                     return true;
                 case PropertiesName:
                     dataSchema.Properties = MapTracker<TDDataSchema>.Deserialize(ref reader, PropertiesName);
@@ -378,13 +472,101 @@ namespace Azure.Iot.Operations.TDParser.Model
                     return true;
                 case TypeRefName:
                     dataSchema.TypeRef = ValueTracker<StringHolder>.Deserialize(ref reader, TypeRefName);
+                    dataSchema.TypeRefPrefixType = PrefixType.DoVocabulary;
+                    return true;
+                case TypeRefLegacyName:
+                    dataSchema.TypeRef = ValueTracker<StringHolder>.Deserialize(ref reader, TypeRefName);
+                    dataSchema.TypeRefPrefixType = PrefixType.AioPlatform;
                     return true;
                 case NamespaceName:
                     dataSchema.Namespace = ValueTracker<StringHolder>.Deserialize(ref reader, NamespaceName);
+                    dataSchema.NamespacePrefixType = PrefixType.DoVocabulary;
+                    return true;
+                case NamespaceLegacyName:
+                    dataSchema.Namespace = ValueTracker<StringHolder>.Deserialize(ref reader, NamespaceName);
+                    dataSchema.NamespacePrefixType = PrefixType.AioPlatform;
                     return true;
                 default:
                     return false;
             }
+        }
+
+        public static bool TryGetLocalRefSchemaKey(string localRefValue, [NotNullWhen(true)] out string? schemaKey, [NotNullWhen(false)] out string? error)
+        {
+            const string Prefix = "#/schemaDefinitions/";
+
+            schemaKey = null;
+            error = null;
+
+            if (!localRefValue.StartsWith(Prefix, StringComparison.Ordinal))
+            {
+                error = $"Data schema '{LocalRefName}' property value \"{localRefValue}\" must be a local JSON Pointer of the form \"{Prefix}<escaped-key>\".";
+                return false;
+            }
+
+            string encodedKey = localRefValue[Prefix.Length..];
+            if (encodedKey.Length == 0)
+            {
+                error = $"Data schema '{LocalRefName}' property value \"{localRefValue}\" must identify a key in '{TDThing.SchemaDefinitionsName}'.";
+                return false;
+            }
+
+            if (encodedKey.Contains('/'))
+            {
+                error = $"Data schema '{LocalRefName}' property value \"{localRefValue}\" must identify exactly one key in '{TDThing.SchemaDefinitionsName}'.";
+                return false;
+            }
+
+            if (!TryDecodeJsonPointerSegment(encodedKey, out schemaKey, out error))
+            {
+                error = $"Data schema '{LocalRefName}' property value \"{localRefValue}\" is invalid: {error}";
+                return false;
+            }
+
+            return true;
+        }
+
+        private static bool TryDecodeJsonPointerSegment(string encodedSegment, [NotNullWhen(true)] out string? decodedSegment, [NotNullWhen(false)] out string? error)
+        {
+            StringBuilder builder = new();
+
+            for (int index = 0; index < encodedSegment.Length; index++)
+            {
+                char current = encodedSegment[index];
+                if (current != '~')
+                {
+                    builder.Append(current);
+                    continue;
+                }
+
+                if (index + 1 >= encodedSegment.Length)
+                {
+                    decodedSegment = null;
+                    error = "a '~' escape sequence is incomplete";
+                    return false;
+                }
+
+                char escape = encodedSegment[index + 1];
+                switch (escape)
+                {
+                    case '0':
+                        builder.Append('~');
+                        break;
+                    case '1':
+                        builder.Append('/');
+                        break;
+                    default:
+                        decodedSegment = null;
+                        error = $"escape sequence '~{escape}' is not supported";
+                        return false;
+                }
+
+                index++;
+            }
+
+            decodedSegment = builder.ToString();
+            error = null;
+            return true;
         }
     }
 }
