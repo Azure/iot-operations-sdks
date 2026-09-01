@@ -43,7 +43,7 @@ public sealed partial class EdgeRegistryClient : ICoreClient
     }
 
     /// <inheritdoc/>
-    public async Task<Models.CoreGroupEntity> CreateGroupAsync(string groupType, GroupId groupId, Models.CoreGroupAttributes attributes, TimeSpan? timeout = null, CancellationToken cancellationToken = default)
+    public async Task<Models.CoreGroupEntity> CreateGroupAsync(string groupType, GroupId groupId, Models.CoreGroupAttributes attributes, CreateOptions? options = null, TimeSpan? timeout = null, CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();
         ObjectDisposedException.ThrowIf(_disposed, this);
@@ -53,6 +53,7 @@ public sealed partial class EdgeRegistryClient : ICoreClient
 
         var output = await _coreStub.CreateGroupAsync(
             request,
+            PersistenceMetadata(options),
             additionalTopicTokenMap: GroupTopicTokens(groupType),
             commandTimeout: timeout ?? s_defaultCommandTimeout,
             cancellationToken: cancellationToken);
@@ -95,7 +96,7 @@ public sealed partial class EdgeRegistryClient : ICoreClient
     }
 
     /// <inheritdoc/>
-    public async Task<Models.CoreResourceEntity> CreateResourceAsync(string groupType, GroupId groupId, string resourceType, string resourceId, Models.CoreResourceMetaAttributes meta, Dictionary<string, byte[]> resourceExtensions, CreateVersionId defaultVersionId, Models.CoreVersionAttributes defaultVersion, TimeSpan? timeout = null, CancellationToken cancellationToken = default)
+    public async Task<Models.CoreResourceEntity> CreateResourceAsync(string groupType, GroupId groupId, string resourceType, string resourceId, Models.CoreResourceMetaAttributes meta, Dictionary<string, byte[]> resourceExtensions, CreateVersionId defaultVersionId, Models.CoreVersionAttributes defaultVersion, CreateOptions? options = null, TimeSpan? timeout = null, CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();
         ObjectDisposedException.ThrowIf(_disposed, this);
@@ -111,6 +112,7 @@ public sealed partial class EdgeRegistryClient : ICoreClient
 
         var output = await _coreStub.CreateResourceAsync(
             request,
+            PersistenceMetadata(options),
             additionalTopicTokenMap: ResourceTopicTokens(groupType, resourceType, resourceId),
             commandTimeout: timeout ?? s_defaultCommandTimeout,
             cancellationToken: cancellationToken);
@@ -181,7 +183,7 @@ public sealed partial class EdgeRegistryClient : ICoreClient
     }
 
     /// <inheritdoc/>
-    public async Task<Models.CoreVersionEntity> CreateVersionAsync(string groupType, GroupId groupId, string resourceType, string resourceId, IReadOnlyList<Models.Label> resourceLabels, CreateVersionId versionId, Models.CoreVersionAttributes version, TimeSpan? timeout = null, CancellationToken cancellationToken = default)
+    public async Task<Models.CoreVersionEntity> CreateVersionAsync(string groupType, GroupId groupId, string resourceType, string resourceId, IReadOnlyList<Models.Label> resourceLabels, CreateVersionId versionId, Models.CoreVersionAttributes version, CreateOptions? options = null, TimeSpan? timeout = null, CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();
         ObjectDisposedException.ThrowIf(_disposed, this);
@@ -196,6 +198,7 @@ public sealed partial class EdgeRegistryClient : ICoreClient
 
         var output = await _coreStub.CreateVersionAsync(
             request,
+            PersistenceMetadata(options),
             additionalTopicTokenMap: ResourceTopicTokens(groupType, resourceType, resourceId),
             commandTimeout: timeout ?? s_defaultCommandTimeout,
             cancellationToken: cancellationToken);
