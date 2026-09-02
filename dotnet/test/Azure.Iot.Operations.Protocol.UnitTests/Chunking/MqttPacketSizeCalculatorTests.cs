@@ -169,7 +169,7 @@ public class MqttPacketSizeCalculatorTests
                 PayloadFormatIndicator = MqttPayloadFormatIndicator.CharacterData,
                 TopicAlias = 3,
                 Retain = true,
-                UserProperties = [new MqttUserProperty("__chunk", "d:8ac7a0e4-1b3d-4f9a-9a3f-0d2f6c5b7e11:12")],
+                UserProperties = [new MqttUserProperty("__chunk", "d:8ac7a0e4-1b3d-4f9a-9a3f-0d2f6c5b7e11:12:100")],
             }
         },
     };

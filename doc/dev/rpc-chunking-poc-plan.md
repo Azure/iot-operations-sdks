@@ -1,6 +1,7 @@
 # RPC Chunking POC — Design Decisions and Plan
 
-> **Status:** Planning. Scope is a **golden-happy-path proof of concept**, not production code.
+> **Status:** Implemented .NET proof of concept, hardened against the ADR 33 failure cases. Broker
+> limit plumbing and cross-language implementations remain.
 > **Companion:** [rpc-chunking-working-doc.md](rpc-chunking-working-doc.md) holds the review of the
 > current implementation and the gap list (G1–G8, F1–F3) referenced throughout.
 
@@ -10,8 +11,8 @@ Demonstrate end-to-end that a payload larger than the broker's maximum packet si
 through the **existing** `CommandInvoker` / `CommandExecutor` and reassembled transparently, with
 no API change visible to the application.
 
-Explicitly **out of scope** for the POC: failure paths, cross-language parity, telemetry,
-production-grade packet-size negotiation, and fixing F3.
+Cross-language parity, telemetry, production-grade packet-size negotiation, and fixing F3 remain
+outside this POC. Chunking-specific failure paths are implemented and tested.
 
 ---
 
@@ -34,14 +35,14 @@ What carries forward:
 | ADR 0023 decision | POC stance |
 |---|---|
 | Single `__chunk` user property carrying chunk metadata | **Adopt** |
-| `messageId` + `chunkIndex` on every chunk; `totalChunks` + `checksum` only on the first | **Adopt** |
+| `messageId` + `chunkIndex` + `totalChunks` on every chunk; checksum metadata only on the head | **Adopt** |
 | Chunk size derived from CONNACK Maximum Packet Size minus overhead | **Defer** — hardcode for the POC (§3.1) |
-| Receiver uses first chunk's `MessageExpiryInterval` as the reassembly deadline | **Adopt** |
-| First chunk carries all user properties, later chunks only what reassembly needs (e.g. `$partition`) | **Adopt** |
+| Request chunks carry remaining operation budget; responses use the invoker's local deadline | **Adopt** |
+| Ordered property chunks carry user properties; routing and validation properties repeat on every chunk | **Adopt** |
 | QoS preserved across all chunks | **Adopt** |
 | Buffer indexed by `messageId` + `chunkIndex` | **Adopt**, but see §3.3 on the key |
 | SHA-256 checksum over the reassembled payload | **Adopt**, cheap and catches reassembly bugs early |
-| Chunking support is implied by the protocol version, no feature negotiation or opt-out | **Adopt** — no version bump in the POC at all (§3.4) |
+| Chunking format is implied by protocol version 2.0; 1.0 requests advertise acceptable response majors | **Adopt**; retain an unchunked 1.0 path (§3.4) |
 | Enable/disable configuration setting | **Drop** — contradicts "automatic and opaque" from the meeting |
 
 What does **not** carry forward:
@@ -155,10 +156,11 @@ sequenceDiagram
     B->>E: chunk 0
     E->>CB: Add
     CB-->>E: incomplete
-    E->>B: PUBACK chunk 0
-    Note over E: POC shortcut - ack per chunk,<br/>cache NOT consulted yet
+    Note over E: hold chunk 0 - no PUBACK yet
     B->>E: chunks 1, 2
-    E->>B: PUBACK 1, 2
+    E->>CB: Add
+    CB-->>E: incomplete
+    Note over E: hold chunks 1, 2 - no PUBACK yet
     B->>E: chunk 3
     E->>CB: Add
     CB-->>E: complete, reassembled payload
@@ -167,15 +169,14 @@ sequenceDiagram
     H-->>E: response
     E->>C: StoreAsync (completes TCS)
     E->>B: PUBLISH response chunks
-    E->>B: PUBACK chunk 3
+    E->>B: PUBACK chunks 0..3
     B->>I: response chunks
-    I->>I: buffer on ResponsePromise, TrySetResult on last
+    I->>I: invoker buffer reassembles, then TrySetResult
     I-->>App: ExtendedResponse
 ```
 
 Invoker side is the mirror image: `MessageReceivedCallbackAsync` locates the `ResponsePromise`, adds
-the chunk to a buffer hanging off it, and calls `TrySetResult` only on the final chunk. This is the
-`ChunkBuffer`-on-`ResponsePromise` change that motivates renaming `_requestIdMap` (working doc §2.2).
+the chunk to the invoker-level buffer, and calls `TrySetResult` only after reassembly completes.
 
 ---
 
@@ -190,9 +191,12 @@ write-up.
 | **.NET `ValidateMessageSize`** | Leave `MqttClientOptions.MaximumPacketSize` at default `0` | The check is `if (_maximumPacketSize > 0 && ...)`, so `0` disables it | Fix to use the CONNACK value and full packet size |
 | **G8** delayed acks | ~~Ack each chunk as it is buffered~~ **Withdrawn in Phase 1** — not needed | `ChunkedMessageAssembler.AcknowledgeHandler` already fans an ack out to every chunk, so correct deferred acks came for free | Nothing to repay |
 | **G5** packet IDs | Cap at 100 chunks, fail fast beyond | Nowhere near the 65535 ceiling | Bound derived from the negotiated receive maximum |
-| **Protocol version** | No 2.0 bump; just add `__chunk` | The POC controls both ends | Full version bump plus a legacy 1.0 path |
-| **G6** error kinds | Reuse the POC branch's `ChunkingException` hierarchy locally; do not touch `AkriMqttErrorKind` | No cross-language error contract needed yet | Decide reuse-vs-new-kind, incl. the Rust breaking change |
-| **Expiry** | Same `MessageExpiryInterval` on every chunk | Matches ADR 0023 | Open question for the ADR |
+| **Protocol version** | **Resolved:** ordinary traffic remains 1.0; actual chunks use 2.0 and are rejected under 1.0 | — | Complete |
+| **G6** error kinds | Mapping onto existing kinds and RPC `400`/`408`/`503` is settled in the ADR, but the POC publishes **no chunk-specific failure response** | A failed or timed-out reassembly still releases every held delivery, so the ack stream cannot stall; the caller fails on its own command timeout instead of a precise status | Emit the ADR statuses from the executor and fail the invoker's promise |
+| **Delivery allowance** | No reserve for subscription identifiers the broker adds on delivery | SDK envoys assign no identifiers, so publish size equals delivery size for every subscription the SDK itself makes | Declare a connection-scoped identified-subscription count and subtract `count × 5` (ADR §3) |
+| **Reassembly capacity** | Only `MaxChunkCount` and `MaxReassemblyWindow`; no aggregate byte cap and no active-message cap | Bounds any single message; concurrent reassembly is unbounded | Restore an aggregate buffer limit and an active-message limit |
+| **Late chunks** | No tombstones — a chunk naming a terminated message opens a fresh entry that expires and is released | Costs a delayed ack, not a stall | Bounded tombstones per ADR §8 |
+| **Expiry** | **Resolved:** stamp remaining message expiry and required request countdown per chunk | — | Complete |
 | **F3** | Not fixed | Unreachable on the happy path once the buffer sits above the cache | Separate PR with the §2.6 repro tests |
 | **Languages** | .NET only | Prior POC code is .NET | Rust and Go after the ADR |
 
@@ -212,46 +216,45 @@ The form is additionally **introduced by a tag**, mirroring the streaming protoc
 property, so the parser never infers the shape from how many fields arrived:
 
 ```txt
-chunk_metadata ::= head_chunk | data_chunk
+chunk_metadata ::= head_chunk | property_chunk | data_chunk
 head_chunk     ::= "h" ":" message_id ":" chunk_index ":" total_chunks ":" checksum_id ":" checksum
-data_chunk     ::= "d" ":" message_id ":" chunk_index
+property_chunk ::= "p" ":" message_id ":" chunk_index ":" total_chunks
+data_chunk     ::= "d" ":" message_id ":" chunk_index ":" total_chunks
 ```
 
 | Field | Type | Meaning |
 |---|---|---|
 | `message_id` | UUID, 8-4-4-4-12 | Identifies the message being reassembled. Present on every chunk. |
 | `chunk_index` | uint | Position within the message. Always `0` on a head chunk. |
-| `total_chunks` | uint, `>= 1` | Number of chunks the message was split into, counting the head chunk. Head chunk only. |
+| `total_chunks` | uint, `>= 1` | Number of chunks the message was split into, present on every chunk. |
 | `checksum_id` | token | Names the algorithm that produced `checksum`, so the receiver verifies with the one the sender used. Head chunk only. |
 | `checksum` | lowercase hex | Over the whole reassembled payload. Head chunk only. |
 
 Examples:
 
-* `h:8ac7a0e4-1b3d-4f9a-9a3f-0d2f6c5b7e11:0:4:sha256:e3b0c442...` — the head chunk of a four-chunk
-  message, i.e. one header chunk plus three data chunks.
-* `d:8ac7a0e4-1b3d-4f9a-9a3f-0d2f6c5b7e11:3` — its final chunk.
+* `h:8ac7a0e4-1b3d-4f9a-9a3f-0d2f6c5b7e11:0:4:sha256:e3b0c442...` — the head of a four-chunk message.
+* `p:8ac7a0e4-1b3d-4f9a-9a3f-0d2f6c5b7e11:1:4` — a property chunk.
+* `d:8ac7a0e4-1b3d-4f9a-9a3f-0d2f6c5b7e11:3:4` — its final data chunk.
 
 A head chunk is always index `0`, and index `0` must always use the head form; either violation is
-a parse failure rather than something to interpret. Because the tag fixes the field count, the
-optional countdown proposed in §7.3 can be appended to either form later without ambiguity.
+a parse failure rather than something to interpret. Because the tag fixes the base field count,
+request forms append a required countdown while response forms omit it without ambiguity.
 
-Per §3.5 the head chunk carries **no payload**, so `h` now means "header" as well as "carries the
-total and checksum". The grammar itself is unchanged.
+Per §3.5 the head chunk carries **no payload or logical user properties**. Its distinct metadata is
+the checksum identifier and checksum; the count is repeated on all three forms.
 
-### 3.3 Settled — buffer key: `messageId`
+### 3.3 Settled — buffer key: message plus MQTT operation identity
 
-ADR 0023 keys the buffer on `messageId`. Inside the envoys, `(responseTopic, correlationData)` is
-already the identity used by the cache and is available without a new field. Options:
+ADR 0023 keyed the buffer on `messageId`. That makes accidental UUID collision negligible, but lets
+a peer deliberately collide with an unrelated in-flight operation. The buffer therefore uses:
 
-1. Key on `messageId` only — matches the ADR, keeps the buffer independent of RPC concepts, and is
-   what telemetry will need later.
-2. Key on `(responseTopic, correlationData)` — no new wire field needed on the RPC path.
+`(messageId, topic, responseTopic, correlationData)`
 
-**Recommendation: option 1**, because `ChunkBuffer` is meant to be shared with telemetry, which has
-no correlation data. `messageId` stays on the wire as ADR 0023 specifies. Nothing to change in
-Phase 0 — `messageId` is already carried on every chunk; the lookup key lands in Phase 1.
+These are MQTT fields rather than RPC types, so telemetry can still reuse the buffer with absent
+response topic and correlation data. Two packets that match the whole tuple are intentionally the
+same logical transfer.
 
-### 3.5 Settled — the head chunk carries properties only, and the chunk size is measured
+### 3.5 Settled — properties are split separately, and every chunk is measured
 
 This replaces the original "guess a flat 1024 bytes of overhead" approach, and is the change that
 largely answers §5 question 1.
@@ -263,39 +266,34 @@ can only be *guessed*, and the guess has to be pessimistic enough to be safe on 
 used `StaticOverhead = 1024` for exactly this reason — a number with no derivation, simultaneously
 too large for the common case and not provably large enough for the worst one.
 
-**The change.** Chunk 0 becomes a **header chunk**: the full user property set, zero payload. Chunks
-1..n carry the payload and only `PerChunkUserProperties` (`$partition`, `$high_priority`,
-`__protVer`).
+**The change.** Chunk 0 is a zero-payload head carrying checksum metadata. Zero-payload property
+chunks preserve the caller's property order, followed by data chunks carrying the payload. Only
+`PerChunkUserProperties` (`$partition`, `$high_priority`, `__protVer`) repeat on every packet.
 
 This splits the problem in two, and each half becomes easy:
 
-* A data chunk's property set is now **entirely SDK-controlled**, so its overhead can be *measured*
-  rather than guessed — `GetMaxDataChunkSize` builds an empty probe chunk, sizes it with
-  `MqttPacketSizeCalculator`, and subtracts. The chunk size is correct by construction.
-* The unbounded, user-controlled part is confined to a single message, whose size merely has to be
-  *checked*. It has to fit in one packet anyway — properties cannot be split across chunks — so if
-  it does not fit, the message is undeliverable and the splitter says so instead of emitting an
-  oversized packet.
+* `GetMaxDataChunkSize` builds and sizes an empty data-chunk probe, then gives the remaining bytes
+  to payload.
+* Property chunks are packed by sizing each candidate with the next caller property included. A
+  property starts a new chunk when needed; only one name/value pair that cannot fit by itself is
+  rejected.
 
-The probe uses chunk index `MaxChunkCount`, the widest index the configuration allows, because the
+The probe uses the widest valid index below `MaxChunkCount`, because the
 index appears in `__chunk` and a larger index encodes longer, while the real chunk count is not
 known until the chunk size is. Using the widest possible index resolves that circularity with an
 upper bound.
 
-`StaticOverhead` survives only as a 64-byte **safety margin**. It is not covering arithmetic error:
-the size calculation is exact, and is pinned byte-for-byte against the MQTT client's own encoder by
-`MqttPacketSizeCalculatorTests` across the cases where the two could plausibly disagree — the
-omit-when-default property rules, variable byte integer boundaries, UTF-8 width, and subscription
-identifiers. What the margin actually covers is §3.6.
+Data payload capacity is found by binary-searching the largest final encoded PUBLISH that fits, so
+growth in MQTT's Remaining Length field is included. The size calculation is pinned byte-for-byte
+against the MQTT client's encoder. A separate declared allowance covers broker-added subscription
+identifiers (§3.6); there is no fixed byte margin.
 
 **Related change: the trigger is now the whole packet, not the payload.** `SplitIfNeeded` compares
 `MqttPacketSizeCalculator.CalculatePublishSize(message)` against the limit. A broker's maximum applies
 to the entire PUBLISH, so a moderate payload with a large property set could previously pass a
 payload-only check and then be rejected on the wire.
 
-**Cost:** one extra message per chunked transfer. Partly offset by the larger payload budget —
-against a 64 KiB limit the measured budget is 65,165–65,251 bytes versus the flat 64,512 before, so
-roughly 1% more payload per chunk. For a 1 MB transfer that is 17 messages where there were 16.
+**Cost:** one head plus however many property chunks are needed, in addition to the data chunks.
 
 **Not addressed:** the calculated size is still checked against a *hardcoded* limit rather than the
 broker's negotiated maximum. G1 remains open; what is now closed is how to divide a known limit.
@@ -354,47 +352,9 @@ Only two can *grow* the packet, and one of them is already closed here:
   calls the `$share` prefix "the shared subscription identifier", which is unrelated to the MQTT 5
   Subscription Identifier property discussed here. The ADR should not conflate them.
 
-#### How big should the margin actually be?
+#### Delivery allowance — deferred
 
-The honest answer is that `DefaultSafetyMargin = 64` is a round number, not a derived bound, and the
-evidence says so in both directions.
-
-**Sharing one connection is common.** `AdrBaseService` alone puts 16 envoys on a single client (9
-command executors, 7 telemetry senders), and a typical connector runs 20+ once state store, schema
-registry and leader election are added. So the premise of "many subscriptions on one session" is
-not hypothetical.
-
-**Their filters do not overlap.** Every envoy in a service resolves the same topic tokens and
-differs only by command name — `rpc/command-samples/client-1/readCounter` versus `.../increment`
-versus `.../reset` — so exactly one subscription matches any given publish. Overlap *is* reachable,
-because `MqttTopicProcessor.ResolveTopic` substitutes `+` for any token left unresolved, so an
-executor subscribing with an unresolved `{executorId}` would take `rpc/command-samples/+/+` and
-shadow all of its siblings. Nothing in the SDK does this today.
-
-**And nothing sets subscription identifiers at all.** `MqttClientSubscribeOptions.SubscriptionIdentifier`
-is plumbed through the model layer but never assigned outside unit tests, so the broker adds none.
-Combined with topic aliases being disabled, **a published packet and its delivery are currently the
-same size**, and the margin protects against nothing that exists.
-
-| Case | Identifiers on one delivery | Bytes needed |
-|---|---|---|
-| Today | 0 | 0 |
-| If identifiers were enabled, with the current topic design | 1 | ≤ 5 |
-| Pathological: 20-envoy connector, wildcard filters overlapping | 20 | ~100 |
-
-So 64 is roughly thirteen times what the realistic case needs and still short of the pathological
-one. It is not a bound in either direction.
-
-**For the ADR:** a fixed byte margin is the wrong shape for this. The correct allowance is a
-function of how many of the connection's subscriptions can match a given topic, which the splitter
-cannot see from where it sits. The defensible position is an explicit invariant rather than a
-constant — *the SDK does not use subscription identifiers, therefore publish size equals delivery
-size* — with the requirement that anything enabling them must subtract their worst case from the
-chunk budget rather than trusting a margin to absorb it. Keeping 64 in the POC costs 0.1% of a
-64 KiB packet and buys a little insulation from the assumption being wrong; it should not survive
-into the design as a derived number, because it is not one.
-
-So the asymmetry the safety margin exists for is:
+The asymmetry an allowance would cover is:
 
 > Chunking sizes the packet it **publishes**, but the limit that decides whether a chunk survives
 > applies to the packet the subscriber **receives**.
@@ -404,21 +364,21 @@ large to send to a client, the server **must discard it and behave as if it had 
 A silently dropped chunk is the worst failure mode chunking has — reassembly never completes and the
 caller sees only a timeout, with nothing indicating chunking was involved.
 
-**Not currently reachable in this SDK:** the envoys subscribe with a bare topic filter and never set
-`MqttClientSubscribeOptions.SubscriptionIdentifier`, so nothing is added on delivery today. The
-margin is defending a latent hazard, not an active one — but it becomes active the moment anything
-subscribes with an identifier, and 64 bytes absorbs roughly a dozen of them at up to five bytes each.
+The POC reserves nothing. SDK envoys assign no subscription identifiers, so publish size equals
+delivery size for every subscription the SDK makes; an application that subscribes with identifiers
+on the shared client is the uncovered case.
 
 **For the ADR:** the negotiated limit that chunking needs is therefore not simply "the broker's
 maximum packet size." It is that maximum *minus what the broker will add on delivery*. A design that
 plumbs G1 through without accounting for this would size chunks to exactly the limit and have them
 dropped.
 
-### 3.4 No protocol version bump in the POC
+### 3.4 RPC 2.0 with an unchunked 1.0 path
 
-The eventual design bumps the RPC wire protocol to 2.0. The POC skips it because both ends are our
-own build. This means a POC binary talking to a released 1.0 peer will misbehave — acceptable for a
-lab demo, and it must be stated plainly so the POC is never pointed at a real deployment.
+Ordinary POC requests remain RPC 1.0 and advertise `__supProtMajVer = "1 2"`; only actual chunks are
+stamped 2.0. A small request can therefore receive a large chunked response. A requester that does
+not advertise 2 receives `503` instead of chunks it cannot understand. Shared 1.0 METL version
+selection remains unchanged.
 
 ---
 
@@ -438,16 +398,15 @@ lab demo, and it must be stated plainly so the POC is never pointed at a real de
 3. Applied the decisions:
    * **§3.2 settled — colon-separated.** `ChunkMetadata` lost its `System.Text.Json` attributes and
      gained `Format()` / `TryParse()` in the style of `ProtocolVersion.TryParseProtocolVersion`.
-     Wire form is `messageId:chunkIndex:totalChunks:checksum` for the first chunk and
-     `messageId:chunkIndex` for the rest. The parser enforces that four fields imply index 0 and
-     two fields imply a non-zero index.
+    Wire forms are tagged `h`, `p` and `d`; every form carries `messageId`, `chunkIndex` and
+    `totalChunks`, while only `h` carries checksum metadata.
    * **§3.3 settled — `messageId`.** Already carried on every chunk; nothing to change here. The
      assembler-lookup key lands in Phase 1.
    * **`ChunkingOptions.Enabled` dropped.**
    * **All chunking types made `internal`.** The POC adds no public API surface;
      `InternalsVisibleTo` covers the tests. Removes the pre-existing
      `//TODO: public for testing purposes, should be internal`.
-4. Added `ChunkMetadataTests` for the new format/parse code.
+4. Added `ChunkMetadataTests` for the tagged head, property and data forms.
 
 Verified: solution builds with 0 warnings (`TreatWarningsAsErrors` is on), 38 chunking tests pass,
 full Protocol unit suite 336 passed / 2 pre-existing skips.
@@ -456,11 +415,10 @@ full Protocol unit suite 336 passed / 2 pre-existing skips.
 
 | Finding | Impact |
 |---|---|
-| **The buffer bound is not enforced.** `ChunkingOptions.ReassemblyBufferSizeLimit` (10 MB), `ChunkedMessageAssembler.CurrentBufferSize` and `HasExpired()` all exist, but nothing calls them — the enforcement lived in the dropped `ChunkingMqttPubSubClient`. Likewise `BufferLimitExceededError`, `ChunkTimeoutError` and `ChecksumMismatchError` are defined but never thrown. | **Phase 1, mandatory.** This is exactly the unbounded-buffer hazard called out in working doc §2.8. |
-| **The splitter does not implement the ADR's property optimization.** `CreateChunk` copies the full user-property list onto *every* chunk; ADR 0023 says the first chunk carries everything and later chunks only what reassembly needs (e.g. `$partition`). | **Phase 2.** Pure overhead until then, not a correctness issue. |
+| **The buffer bound was not enforced.** | **Resolved.** Full encoded retained size is bounded across entries; autonomous expiry releases contexts without requiring later traffic. |
+| **The splitter does not yet separate caller properties from data.** `CreateChunk` copies the full user-property list onto every chunk. | **Resolved.** Property chunks now carry the ordered logical property stream; data chunks carry only repeated routing and validation properties. |
 | **`TryReassemble` returns `false` for both "incomplete" and "checksum mismatch."** Error information is lost despite `ChecksumMismatchError` existing. | Phase 1 when wiring error propagation. |
 | **`ChunkedMessageAssembler` stores whole `MqttApplicationMessageReceivedEventArgs`,** not payload bytes. Its `AcknowledgeHandler` already acks *all* chunks when the reassembled message is acked. | Useful: both envoy callbacks receive exactly those args, and the G8-correct ack behaviour is already implemented — the ack-per-chunk shortcut (§3.1) may be cheaper to skip than assumed. Re-evaluate in Phase 1. |
-| `HasExpired()` returns `false` when no timeout is set. | Safe for RPC, which requires `MessageExpiryInterval`. Matters if `ChunkBuffer` is later shared with telemetry. |
 
 ### Phase 1 — Executor receive path ✅ done
 
@@ -472,11 +430,10 @@ full Protocol unit suite 336 passed / 2 pre-existing skips.
 5. Bounds and expiry are enforced **in this phase**:
    * `ChunkingOptions.MaxChunkCount` (new, default 100) — bounds reassembly memory and packet
      identifier consumption.
-   * `ChunkingOptions.ReassemblyBufferSizeLimit` (10 MB) — now actually enforced, across all
-     in-flight messages, not just one.
-   * Per-message deadline supplied by the caller (the executor passes `commandExpirationTime`),
-     with a lazy sweep on each add. No background timer, so nothing to dispose and the clock is
-     injectable for tests.
+   * `ChunkingOptions.MaxReassemblyWindow` — caps local resource retention independently of an
+     untrusted wire countdown.
+   * Per-message deadline supplied by the caller. Each entry schedules autonomous expiry, so a
+     stalled transfer releases its acknowledgement contexts without needing later traffic.
 6. Added `ChunkBufferTests` (11 cases): in-order and out-of-order reassembly, property
    preservation, chunk-property stripping, ack fan-out, unparsable metadata, duplicate chunk,
    `MaxChunkCount`, buffer limit, and expiry.
@@ -509,10 +466,10 @@ later ack on that client.
 | Item | Status |
 |---|---|
 | `ChunkingOptions` is constructed with defaults inside `CommandExecutor` | Chunk size is not yet read from it; that arrives with the invoker split in Phase 2. |
-| `ChunkTimeoutError`, `BufferLimitExceededError`, `ChecksumMismatchError` still unthrown | The buffer logs and discards instead. Wiring them into an error *response* to the invoker needs the error-model decision (G6), so it is deferred to Phase 3. |
+| Chunking-specific exception classes | Buffer outcomes carry structured failure categories; requests publish `400`/`408`/`503`, responses fail locally, and unchunkable sends use a distinct exception. |
 | `TryReassemble` still collapses "incomplete" and "checksum mismatch" into `false` | The buffer only calls it when `IsComplete`, so a `false` there means checksum mismatch. Good enough for the POC; worth splitting when G6 is settled. |
-| `commandTimeout` / `commandExpirationTime` are computed from the *arriving* chunk, not the reassembled message | Deliberate and more accurate: the broker decrements `MessageExpiryInterval` per hop, so the last chunk carries the freshest deadline, whereas the reassembled message inherits the first chunk's staler value. |
-| Reassembled args carry `PacketIdentifier = 1` | Pre-existing TODO in the salvaged assembler. Harmless — the synthetic args is never sent to the broker. |
+| Reassembly deadline | Request chunks supply an operation countdown; response chunks use the invoker's local absolute deadline. |
+| Reassembled packet identifier | Uses the head chunk's packet identifier; actual acknowledgement still fans out through retained contexts. |
 
 ### Phase 2 — Invoker send path ✅ done
 
@@ -522,9 +479,8 @@ later ack on that client.
    immediately before `PublishAsync`, once the message is fully built — the plan said "after
    `ToBytes`", but several user properties are added after serialization, so this is the correct
    spot.
-8. Implemented the ADR 0023 property distribution that the salvaged splitter never had: the first
-   chunk carries the full user-property set, later chunks carry only
-   `ChunkingConstants.PerChunkUserProperties`.
+8. Implemented the ADR 33 property distribution: ordered property chunks carry the logical
+  user-property stream, while `ChunkingConstants.PerChunkUserProperties` repeat on every chunk.
 9. Added `ChunkedCommandTests` — five end-to-end cases through the real invoker and executor over
    `MockMqttPubSubClient`.
 
@@ -538,9 +494,10 @@ Verified: solution builds with 0 warnings, 54 chunking tests pass, full Protocol
 | `$partition` | Shared-subscription routing — every chunk must reach the same executor. |
 | `$high_priority` | Backpressure bypass. If only the first chunk bypassed backpressure, later chunks could be dropped and reassembly would never complete. |
 | `__protVer` | `TryValidateRequestHeaders` runs on every chunk, before the buffer sees it. |
+| `__supProtMajVer` | Every request chunk independently advertises that response chunks may use protocol 2.0. |
 
-Everything else — `__srcId`, `__invId`, `__ts`, cloud-event headers, application metadata — rides on
-the first chunk only, and the reassembled message inherits the first chunk's properties.
+Everything else — `__srcId`, `__invId`, `__ts`, cloud-event headers, application metadata — rides
+in the property chunks and is reassembled in its original order.
 
 #### Notes from Phase 2
 
@@ -577,8 +534,8 @@ Verified: solution builds with 0 warnings, 56 chunking tests pass, full Protocol
 #### Design note — one buffer per envoy, not one per invocation
 
 The plan called for a `ChunkBuffer` hanging off `ResponsePromise`. A single invoker-level buffer is
-simpler and mirrors the executor exactly: `ChunkBuffer` keys on `messageId`, which is globally
-unique, so concurrent invocations cannot collide even though they share the buffer.
+simpler and mirrors the executor exactly: `ChunkBuffer` keys on `messageId` plus MQTT operation
+identity, so concurrent invocations cannot collide even though they share the buffer.
 
 This weakens the §2.2 rename argument in the working document — `ResponsePromise` does *not* grow a
 `ChunkBuffer` after all, so `_pendingResponses` would now be as accurate as `_pendingInvocations`.
@@ -625,23 +582,8 @@ dotnet test dotnet/test/Azure.Iot.Operations.Protocol.IntegrationTests/Azure.Iot
   --filter "FullyQualifiedName~ChunkingPocTests" --logger "console;verbosity=detailed"
 ```
 
-Abridged output for the both-directions scenario:
-
-```txt
-[sdk Information] Chunking: split a 305918 byte payload for topic 'rpc/chunking/poc/echo'
-                  into a header chunk plus 5 data chunk(s) of at most 65165 bytes as message 'fc8d80db-...'.
-[sdk Information] Command 'echo': publishing request chunk 1/6 (0 bytes, expiry 120s) ...
-[sdk Information] Command 'echo': publishing request chunk 6/6 (45093 bytes, expiry 120s) ...
-[sdk Information] Chunking: buffered chunk 0 of message 'fc8d80db-...', 1 chunk(s) held, 0 byte(s) buffered in total.
-[sdk Information] Chunking: reassembled message 'fc8d80db-...' from 6 chunk(s) into 305918 byte(s).
-[sdk Information] Chunking: split a 305918 byte payload for topic 'clients/.../rpc/chunking/poc/echo'
-                  into a header chunk plus 5 data chunk(s) of at most 65251 bytes as message 'c45b8c8e-...'.
-```
-
-The expiry dropping from 120s on the request to 119s on the response is the §7 two-clock model
-visible on the wire. Chunk 1/6 carrying 0 bytes is the §3.5 header chunk. The request and response
-budgets differ (65,165 vs 65,251) because request chunks carry a response topic — that difference is
-measured per message rather than absorbed into a worst-case constant.
+The trace reports one head, the number of property chunks, the number of data chunks and their
+measured payload budget. Request and response budgets can differ because their MQTT metadata differs.
 
 The tests deliberately reach for **no internals** — the integration project has no
 `InternalsVisibleTo` — so everything is asserted through the ordinary public API plus what a
@@ -649,25 +591,19 @@ bystander MQTT client can see on the wire. `ObserveRequestTopicAsync` subscribes
 the request topic, which is how the wire-format assertions are made without touching
 `ChunkingConstants`.
 
-Observed on the wire for a 300 KB request, confirming the §3.2 grammar end to end:
+The wire-format assertion recognizes all three forms and verifies that every chunk agrees on the
+same message id and total:
 
 ```txt
-h:fc8d80db-1fea-434f-9156-93c1500f08ee:0:6:65e3f17b17e884a1b9a7a490ce16f6642cb2745ce1d669c6d1f0a41d05895d2c
-d:fc8d80db-1fea-434f-9156-93c1500f08ee:1
-d:fc8d80db-1fea-434f-9156-93c1500f08ee:2
-d:fc8d80db-1fea-434f-9156-93c1500f08ee:3
-d:fc8d80db-1fea-434f-9156-93c1500f08ee:4
-d:fc8d80db-1fea-434f-9156-93c1500f08ee:5
+h:fc8d80db-1fea-434f-9156-93c1500f08ee:0:5:sha256:65e3f17b...
+p:fc8d80db-1fea-434f-9156-93c1500f08ee:1:5
+d:fc8d80db-1fea-434f-9156-93c1500f08ee:2:5
+d:fc8d80db-1fea-434f-9156-93c1500f08ee:3:5
+d:fc8d80db-1fea-434f-9156-93c1500f08ee:4:5
 ```
 
-First timings against mosquitto on localhost, which start to answer §5 question 2. Chunk counts
-include the header chunk:
-
-| Scenario | Payload | Chunks | Round trip |
-|---|---|---|---|
-| Large request | 1 MB | 17 | ~309 ms |
-| Large response | 1 MB | 17 | ~298 ms |
-| Both directions | 300 KB each way | 6 each way | ~52 ms |
+Earlier timing and chunk-count measurements predated property chunks and repeating `totalChunks`, so
+they must be measured again before being used as current evidence.
 
 > A test-authoring trap worth remembering: the file-transfer scenario originally returned the plan
 > document as-is, which at ~34 KB is **below** the 64 KB threshold — so it round-tripped happily
@@ -683,16 +619,16 @@ Implements §3.5. Changes:
   encoded size. Exact, not approximate: `MqttPacketSizeCalculatorTests` pins it byte-for-byte
   against the MQTT client's own serializer across 22 cases.
 * **`SplitIfNeeded` now triggers on calculated packet size**, not payload length.
-* **`SplitMessage` emits a header chunk** at index 0 carrying the full property set and no payload,
-  then data chunks at 1..n. `ExtractChunkPayload` offsets by `(chunkIndex - 1)`.
+* **`SplitMessage` emits three roles:** a head at index 0, then ordered property chunks, then data
+  chunks. Every form carries `totalChunks`.
 * **`GetMaxDataChunkSize` measures** a data chunk's overhead with a probe chunk instead of assuming
   a constant. Throws if the overhead leaves no room for payload.
-* **A head-size guard** throws when the properties alone exceed one packet, since they cannot be
-  split.
-* **`ChunkingOptions.StaticOverhead` reframed** from the whole allowance (1024) to a safety margin
-  (`DefaultSafetyMargin` = 64). `Utils.GetMaxChunkSize` deleted — nothing guesses any more.
-* `ChunkedMessageAssembler` needed **no change**: `TryReassemble` already iterated all indices
-  writing each payload, so a zero-length chunk 0 simply contributes nothing.
+* **Property packing** starts a new property chunk when needed and rejects only a single property
+  that cannot fit by itself.
+* **No guessed overhead remains.** Final encoded candidates are measured exactly.
+  `Utils.GetMaxChunkSize` was deleted.
+* `ChunkedMessageAssembler` now concatenates only data-chunk payloads and reconstructs user
+  properties from property chunks in index order.
 
 Verified: solution builds with 0 warnings; Protocol unit suite 401 passed / 2 pre-existing skips
 (103 chunking tests, including a new `MqttPacketSizeCalculatorTests`); all 6 integration tests pass
@@ -708,9 +644,9 @@ These feed directly into the ADR's open questions (working doc, Part 3).
    **Answered — see §3.5.** Not merely tractable: it is *exact*. Sizing an MQTT 5 PUBLISH is
    straightforward arithmetic over the encoding, and a test pins it byte-for-byte against the
    client's own serializer, so resize-and-retry is unnecessary. The condition is that the thing
-   being sized is under your control — which is what the header chunk arranges, by giving data
-   chunks a property set the SDK sets in full. What remains open is obtaining the real limit (G1),
-   not dividing it.
+  being sized is fully represented by the candidate message: property chunks are sized as packed,
+  and data chunks use an empty-payload probe. What remains open is obtaining the real limit (G1),
+  not dividing it.
 2. What does peak memory actually look like during reassembly of a large payload?
 3. Does `$partition` on later chunks genuinely preserve shared-subscription routing?
 4. Does per-chunk overhead justify colon-separated over JSON? (§3.2)
@@ -728,7 +664,8 @@ These feed directly into the ADR's open questions (working doc, Part 3).
 
    What the checksum is actually for is narrower than it looks, because the structure already
    catches most failures: a missing chunk fails `IsComplete`, ordering is fixed by index, a
-   duplicate index is rejected, messages cannot mix because the buffer is keyed on `messageId`, and
+  duplicate deliveries replace one index, unrelated operations cannot mix because the buffer key
+  includes MQTT operation identity plus `messageId`, and
    bit corruption is caught by TCP and by the TLS MAC. What remains is **splitter and assembler
    bugs** — an off-by-one in the payload slicing produces a complete, well-formed, wrong payload —
    and **cross-language mismatch**, where a Rust or Go implementation splits differently. That is
@@ -877,9 +814,9 @@ sequenceDiagram
     participant E as Executor
 
     Note over I: operation budget = 30s<br/>local countdown starts
-    I->>B: chunk 0 __chunk d:...:30, expiry 30
+    I->>B: chunk 0 __chunk h:...:30, expiry 30
     Note over I: 2s elapsed
-    I->>B: chunk 1 __chunk d:...:28, expiry 28
+    I->>B: chunk 1 __chunk p:...:28, expiry 28
     Note over I: 3s elapsed
     I->>B: chunk 2 __chunk d:...:25, expiry 25
 
@@ -895,12 +832,9 @@ sequenceDiagram
     Note over I: uses its OWN remaining budget<br/>no countdown needed on the wire
 ```
 
-**Finding 1 — the overloaded invoke timeout.** Today every chunk carries the *same* full
-`commandTimeout` as its expiry, so an N-chunk message asks the broker to hold N messages for the
-full budget each. Adopting ADR 25's rule — each chunk's expiry is the **remaining** budget at the
-moment that chunk is published, capped at it — makes the expiry shrink across the sequence and
-guarantees no chunk outlives the operation. This is strictly better than current behaviour and
-needs **no wire change**.
+**Finding 1 — the overloaded invoke timeout.** The original POC put the same full
+`commandTimeout` on every chunk. The implementation now follows ADR 25: each chunk's expiry is the
+remaining budget when it is published, so expiry shrinks across the sequence.
 
 **Finding 3 — the buffer's deadline.** The real defect is not that the deadline comes from outside;
 it is *where the caller gets it from*. `MessageExpiryInterval` is a **message** clock that the
@@ -910,12 +844,13 @@ the misuse ADR 25 rejects. A `timeout_length`-style countdown in `__chunk` fixes
 * it is an **operation** deadline, not a message deadline;
 * it is on **every** chunk, so the executor reads it from whichever chunk arrives first — removing
   the "first to arrive is not necessarily chunk 0" problem entirely;
-* it survives chunk loss and lets a **different executor** recover a partially received message,
-  which matters because the request topic is a shared subscription.
+* it survives out-of-order delivery without requiring the head chunk first. Reassembly state remains
+  local to the executor that received the chunks.
 
-The `ChunkBuffer.AddChunk(args, now, expiresAt)` signature stays as it is. The buffer remains
-transport-agnostic and reusable for telemetry; only the *source* of the caller's deadline changes —
-the executor reads the wire countdown, the invoker uses its own local remaining budget.
+`ChunkBuffer.AddChunk(args, now, expiresAt, requireRemainingSeconds)` keeps the buffer
+transport-agnostic and reusable for telemetry. Request reassembly requires and bounds against the
+wire countdown; response reassembly uses the invoker's local remaining budget without requiring a
+countdown.
 
 ### 7.3 Proposed changes
 
@@ -923,15 +858,16 @@ the executor reads the wire countdown, the invoker uses its own local remaining 
 |---|---|---|
 | Per-chunk expiry = remaining operation budget at publish time, capped | None | ✅ **Implemented** |
 | Reject any chunk with a zero or absent expiry | None | ✅ **Implemented** |
-| Add a countdown field to `__chunk`, request-direction only | **Format change** | Needs ADR ratification |
-| Executor derives its reassembly deadline from that field, not from `MessageExpiryInterval` | Depends on the above | Needs ADR ratification |
-| Response-direction chunks omit the countdown; the invoker uses its local budget | None | Follows ADR 25 |
+| Add a countdown field to `__chunk`, request-direction only | **Format change** | ✅ **Implemented and ratified by ADR 33** |
+| Executor derives its reassembly deadline from that field, not from `MessageExpiryInterval` | Depends on the above | ✅ **Implemented** |
+| Response-direction chunks omit the countdown; the invoker uses its local absolute deadline | None | ✅ **Implemented** |
 | Dedupe/response-cache lifetime keyed to the operation budget rather than one chunk's expiry | None | Needs ADR ratification |
 
-With the countdown added, the two forms gain an optional trailing field —
-`h:messageId:chunkIndex:totalChunks:checksum[:remainingSeconds]` and
-`d:messageId:chunkIndex[:remainingSeconds]`. Because the leading tag already fixes which form is
-being read (§3.2), accepting one extra field per form is unambiguous.
+All three request forms carry a required trailing field —
+`h:messageId:chunkIndex:totalChunks:checksumId:checksum:remainingSeconds`,
+`p:messageId:chunkIndex:totalChunks:remainingSeconds` and
+`d:messageId:chunkIndex:totalChunks:remainingSeconds`. Response chunks omit it. The leading tag
+fixes the form, so the direction-dependent arity is unambiguous.
 
 #### What the implemented pair changed
 
@@ -944,6 +880,8 @@ being read (§3.2), accepting one extra field per form is unambiguous.
   better diagnostics than the caller later seeing a bare "timed out waiting for a response".
 * The executor does the same in `PublishResponseAsync`, deriving its deadline from the response's
   own expiry and abandoning the remaining chunks if the budget lapses mid-publish.
+* Each buffer entry schedules autonomous expiry. A stalled transfer releases all held delivery
+  contexts and reports failure even if no later chunk arrives.
 * **The unchunked path is untouched.** Both loops only rewrite the expiry when
   `SplitIfNeeded` actually split, so single-message publishes behave exactly as before.
 * `ChunkBuffer` now discards any chunk carrying a zero expiry, since there would be no bound on how

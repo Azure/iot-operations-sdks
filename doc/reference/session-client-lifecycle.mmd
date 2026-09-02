@@ -1,0 +1,33 @@
+sequenceDiagram
+    autonumber
+    actor App as Application
+    participant Client as MqttSessionClient
+    participant Broker as MQTT broker
+
+    Note over Client,Broker: An MQTT session is durable protocol state identified by Client ID
+    App->>Client: Connect with initial Clean Start choice
+    Client->>Broker: CONNECT<br/>Clean Start = true or false<br/>Session Expiry > 0
+    Broker-->>Client: CONNACK<br/>Session Present says whether an old session resumed
+    Note over Client: Start local request workers
+
+    App->>Client: Publish, Subscribe, or Unsubscribe
+    Client->>Broker: MQTT request
+    Broker--xClient: TCP, TLS, or MQTT connection is lost
+    Note over Client: Pause request workers<br/>Keep pending outgoing requests<br/>Clear queued acknowledgements for received publishes
+
+    Client->>Broker: Reconnect with same Client ID<br/>Clean Start = false
+    alt Broker retained the unexpired session
+        Broker-->>Client: CONNACK<br/>Session Present = true
+        Note over Broker: Existing subscriptions and queued QoS state remain
+        Note over Client: Resume pending local requests
+    else Broker no longer has the session
+        Broker-->>Client: CONNACK<br/>Session Present = false
+        Client->>Broker: DISCONNECT<br/>Session Expiry = 0
+        Client-->>App: Fatal session-lost notification
+    end
+
+    opt Application deliberately closes a live session
+        App->>Client: Disconnect
+        Client->>Broker: DISCONNECT<br/>Session Expiry = 0
+        Note over Client,Broker: Stop reconnecting and delete broker-side session state
+    end

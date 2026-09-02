@@ -24,7 +24,7 @@ internal interface IChunkChecksum
     string Id { get; }
 
     /// <summary>
-    /// Computes the checksum of a complete payload.
+    /// Computes the checksum of a complete payload as a non-empty lowercase hexadecimal string.
     /// </summary>
     string Compute(ReadOnlySequence<byte> payload);
 }

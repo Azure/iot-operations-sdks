@@ -19,17 +19,11 @@ namespace Azure.Iot.Operations.Protocol.Chunking;
 internal class ChunkedMessageAssembler
 {
     private readonly Dictionary<int, MqttApplicationMessageReceivedEventArgs> _chunks = new();
-    private readonly DateTime _creationTime = DateTime.UtcNow;
+    private readonly Dictionary<int, ChunkKind> _chunkKinds = new();
     private readonly object _lock = new();
-    private int _totalChunks;
+    private string? _checksumId;
     private string? _checksum;
     private IChunkChecksum? _checksumAlgorithm;
-    private TimeSpan? _timeout;
-
-    /// <summary>
-    /// Gets the current buffer size in bytes of all stored chunks.
-    /// </summary>
-    public long CurrentBufferSize { get; private set; }
 
     /// <summary>
     /// Gets the number of chunks received so far.
@@ -44,6 +38,11 @@ internal class ChunkedMessageAssembler
             }
         }
     }
+
+    /// <summary>
+    /// Gets the total number of chunks expected.
+    /// </summary>
+    public int TotalChunks { get; private set; }
 
     /// <summary>
     /// Gets the chunks received so far, for callers that must acknowledge them when a message is
@@ -66,54 +65,79 @@ internal class ChunkedMessageAssembler
     /// <param name="totalChunks">The total number of chunks expected (may be updated later).</param>
     public ChunkedMessageAssembler(int totalChunks)
     {
-        _totalChunks = totalChunks;
+        TotalChunks = totalChunks;
     }
 
     /// <summary>
     /// Gets a value indicating whether all chunks have been received.
     /// </summary>
-    public bool IsComplete => _totalChunks > 0 && _chunks.Count == _totalChunks;
+    public bool IsComplete => TotalChunks > 0 && _chunks.Count == TotalChunks;
 
     /// <summary>
-    /// Updates the metadata for this chunked message when the head chunk is received.
+    /// Records checksum metadata from the head chunk, or verifies that a redelivered head agrees
+    /// with the metadata already recorded.
     /// </summary>
-    /// <param name="totalChunks">The total number of chunks expected.</param>
-    /// <param name="checksum">The checksum of the complete message.</param>
-    /// <param name="checksumAlgorithm">The algorithm the sender used to produce the checksum.</param>
-    /// <param name="timeout">The timeout duration extracted from MessageExpiryInterval.</param>
-    public void UpdateMetadata(int totalChunks, string? checksum, IChunkChecksum? checksumAlgorithm, TimeSpan? timeout)
+    public bool TryUpdateMetadata(
+        int totalChunks,
+        string checksumId,
+        string checksum,
+        IChunkChecksum checksumAlgorithm)
     {
         lock (_lock)
         {
-            _totalChunks = totalChunks;
+            if (_checksumId != null || _checksum != null)
+            {
+                return TotalChunks == totalChunks
+                    && string.Equals(_checksumId, checksumId, StringComparison.Ordinal)
+                    && string.Equals(_checksum, checksum, StringComparison.Ordinal);
+            }
+
+            TotalChunks = totalChunks;
+            _checksumId = checksumId;
             _checksum = checksum;
             _checksumAlgorithm = checksumAlgorithm;
-            _timeout = timeout;
+            return true;
         }
     }
 
     /// <summary>
-    /// Adds a chunk to the assembler, or replaces the delivery already held at that index.
+    /// Adds a parsed chunk to the assembler, or replaces the delivery already held at that index.
     /// </summary>
-    /// <param name="chunkIndex">The index of the chunk.</param>
-    /// <param name="args">The MQTT message received event args.</param>
-    /// <returns>True if the index was new, false if this delivery replaced one already held.</returns>
-    public bool AddChunk(int chunkIndex, MqttApplicationMessageReceivedEventArgs args)
+    public bool AddChunk(
+        ChunkMetadata metadata,
+        MqttApplicationMessageReceivedEventArgs args,
+        out MqttApplicationMessageReceivedEventArgs? previous)
     {
         lock (_lock)
         {
-            // A redelivery only follows a reconnect, which discards the acknowledgement pending for
-            // the earlier delivery, so the newest one is the only one that can still be acknowledged.
-            bool isNewIndex = !_chunks.ContainsKey(chunkIndex);
+            _chunks.TryGetValue(metadata.ChunkIndex, out previous);
+            _chunkKinds[metadata.ChunkIndex] = metadata.Kind;
+            return AddChunkUnderLock(metadata.ChunkIndex, args);
+        }
+    }
 
-            _chunks[chunkIndex] = args;
-
-            if (isNewIndex)
+    /// <summary>
+    /// Checks that this chunk's role agrees with any chunk already held at the same index and that
+    /// property-chunk indices remain before data-chunk indices.
+    /// </summary>
+    public bool IsChunkRoleConsistent(ChunkMetadata metadata)
+    {
+        lock (_lock)
+        {
+            if (_chunkKinds.TryGetValue(metadata.ChunkIndex, out ChunkKind existingKind)
+                && existingKind != metadata.Kind)
             {
-                CurrentBufferSize += args.ApplicationMessage.Payload.Length;
+                return false;
             }
 
-            return isNewIndex;
+            return metadata.Kind switch
+            {
+                ChunkKind.Property => !_chunkKinds.Any(chunk =>
+                    chunk.Value == ChunkKind.Data && chunk.Key < metadata.ChunkIndex),
+                ChunkKind.Data => !_chunkKinds.Any(chunk =>
+                    chunk.Value == ChunkKind.Property && chunk.Key > metadata.ChunkIndex),
+                _ => true,
+            };
         }
     }
 
@@ -139,19 +163,35 @@ internal class ChunkedMessageAssembler
                 var firstChunk = _chunks[0];
                 var firstMessage = firstChunk.ApplicationMessage;
 
-                // Calculate the total payload size
-                long totalSize = _chunks.Values.Sum(args => args.ApplicationMessage.Payload.Length);
+                if (!HasValidChunkRoleSequence())
+                {
+                    return false;
+                }
+
+                long totalSize = _chunks
+                    .Where(chunk => _chunkKinds[chunk.Key] == ChunkKind.Data)
+                    .Sum(chunk => chunk.Value.ApplicationMessage.Payload.Length);
+
+                if (totalSize > Array.MaxLength)
+                {
+                    return false;
+                }
 
                 // Create a memory stream with the exact capacity we need
                 using var memoryStream = new MemoryStream((int)totalSize);
 
                 // Write all chunks in order
-                for (int i = 0; i < _totalChunks; i++)
+                for (int i = 0; i < TotalChunks; i++)
                 {
                     if (!_chunks.TryGetValue(i, out var chunkArgs))
                     {
                         // This should never happen if IsComplete is true
                         return false;
+                    }
+
+                    if (_chunkKinds[i] != ChunkKind.Data)
+                    {
+                        continue;
                     }
 
                     var payload = chunkArgs.ApplicationMessage.Payload;
@@ -181,10 +221,11 @@ internal class ChunkedMessageAssembler
                     }
                 }
 
-                // Create a reassembled message without the chunking metadata
-                var userProperties = firstMessage.UserProperties?
-                    .Where(p => p.Name != ChunkingConstants.ChunkUserProperty)
-                    .ToList();
+                List<MqttUserProperty>? userProperties = ReassembleUserProperties();
+                if (userProperties == null)
+                {
+                    return false;
+                }
 
                 var reassembledMessage = new MqttApplicationMessage(firstMessage.Topic, firstMessage.QualityOfServiceLevel)
                 {
@@ -204,10 +245,14 @@ internal class ChunkedMessageAssembler
                 reassembledArgs = new MqttApplicationMessageReceivedEventArgs(
                     firstChunk.ClientId,
                     reassembledMessage,
-                    1, // TODO: Set the correct packet identifier
+                    firstChunk.PacketIdentifier,
                     AcknowledgeHandler);
 
                 return true;
+            }
+            catch (OutOfMemoryException)
+            {
+                throw;
             }
             catch (Exception)
             {
@@ -217,11 +262,88 @@ internal class ChunkedMessageAssembler
         }
     }
 
+    private bool AddChunkUnderLock(int chunkIndex, MqttApplicationMessageReceivedEventArgs args)
+    {
+        bool isNewIndex = !_chunks.ContainsKey(chunkIndex);
+        _chunks[chunkIndex] = args;
+        return isNewIndex;
+    }
+
+    private bool HasValidChunkRoleSequence()
+    {
+        if (!_chunkKinds.TryGetValue(0, out ChunkKind firstKind) || firstKind != ChunkKind.Head)
+        {
+            return false;
+        }
+
+        bool sawData = false;
+        for (int i = 0; i < TotalChunks; i++)
+        {
+            if (!_chunkKinds.TryGetValue(i, out ChunkKind kind))
+            {
+                return false;
+            }
+
+            if (kind == ChunkKind.Head)
+            {
+                if (i != 0 || _chunks[i].ApplicationMessage.Payload.Length != 0)
+                {
+                    return false;
+                }
+            }
+            else if (kind == ChunkKind.Property)
+            {
+                if (sawData || _chunks[i].ApplicationMessage.Payload.Length != 0)
+                {
+                    return false;
+                }
+            }
+            else
+            {
+                sawData = true;
+            }
+        }
+
+        return true;
+    }
+
+    private List<MqttUserProperty>? ReassembleUserProperties()
+    {
+        List<MqttUserProperty> userProperties = [];
+
+        for (int i = 0; i < TotalChunks; i++)
+        {
+            List<MqttUserProperty> chunkProperties = _chunks[i].ApplicationMessage.UserProperties ?? [];
+            int metadataIndex = chunkProperties.FindIndex(p => p.Name == ChunkingConstants.ChunkUserProperty);
+            if (metadataIndex < 0
+                || chunkProperties.Count(p => p.Name == ChunkingConstants.ChunkUserProperty) != 1)
+            {
+                return null;
+            }
+
+            if (_chunkKinds[i] == ChunkKind.Property)
+            {
+                if (metadataIndex == chunkProperties.Count - 1)
+                {
+                    return null;
+                }
+
+                userProperties.AddRange(chunkProperties.Skip(metadataIndex + 1));
+            }
+            else if (metadataIndex != chunkProperties.Count - 1)
+            {
+                return null;
+            }
+        }
+
+        return userProperties;
+    }
+
     private async Task AcknowledgeHandler(MqttApplicationMessageReceivedEventArgs reassembledArgs, CancellationToken ct)
     {
         // When acknowledging the reassembled message, acknowledge all the chunks
-        var tasks = new List<Task>(_totalChunks);
-        for (int i = 0; i < _totalChunks; i++)
+        var tasks = new List<Task>(TotalChunks);
+        for (int i = 0; i < TotalChunks; i++)
         {
             if (_chunks.TryGetValue(i, out var chunk))
             {
@@ -232,18 +354,4 @@ internal class ChunkedMessageAssembler
         await Task.WhenAll(tasks).ConfigureAwait(false);
     }
 
-    /// <summary>
-    /// Checks if this assembler has expired based on the creation time.
-    /// </summary>
-    /// <param name="timeout">The timeout duration.</param>
-    /// <returns>True if the assembler has expired, false otherwise.</returns>
-    public bool HasExpired()
-    {
-        if (!_timeout.HasValue)
-        {
-            return false; // No timeout set, never expires
-        }
-
-        return DateTime.UtcNow - _creationTime > _timeout.Value;
-    }
 }

@@ -27,9 +27,16 @@ internal static class MqttPacketSizeCalculator
     /// <summary>
     /// Calculates the total encoded size, in bytes, of the PUBLISH packet carrying this message.
     /// </summary>
-    public static long CalculatePublishSize(MqttApplicationMessage message)
+    public static long CalculatePublishSize(MqttApplicationMessage message) =>
+        CalculatePublishSize(message, message?.Payload.Length ?? throw new ArgumentNullException(nameof(message)));
+
+    /// <summary>
+    /// Calculates the encoded PUBLISH size using a prospective payload length.
+    /// </summary>
+    public static long CalculatePublishSize(MqttApplicationMessage message, long payloadLength)
     {
         ArgumentNullException.ThrowIfNull(message);
+        ArgumentOutOfRangeException.ThrowIfNegative(payloadLength);
 
         long variableHeader = LengthPrefixBytes + Utf8ByteCount(message.Topic);
 
@@ -41,7 +48,7 @@ internal static class MqttPacketSizeCalculator
         long properties = CalculateProperties(message);
         variableHeader += VariableByteIntegerSize(properties) + properties;
 
-        long remainingLength = variableHeader + message.Payload.Length;
+        long remainingLength = variableHeader + payloadLength;
 
         return PacketTypeBytes + VariableByteIntegerSize(remainingLength) + remainingLength;
     }

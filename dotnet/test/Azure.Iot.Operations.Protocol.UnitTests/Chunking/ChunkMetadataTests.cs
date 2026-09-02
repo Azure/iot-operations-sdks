@@ -20,11 +20,30 @@ public class ChunkMetadataTests
     }
 
     [Fact]
-    public void Format_DataChunk_IsTaggedAndCarriesIndexOnly()
+    public void Format_PropertyChunk_IsTaggedAndCarriesTotal()
     {
-        var metadata = ChunkMetadata.CreateSubsequentChunk(MessageId, 3);
+        var metadata = ChunkMetadata.CreatePropertyChunk(MessageId, 2, 4);
 
-        Assert.Equal($"d:{MessageId}:3", metadata.Format());
+        Assert.Equal($"p:{MessageId}:2:4", metadata.Format());
+    }
+
+    [Fact]
+    public void Format_DataChunk_IsTaggedAndCarriesTotal()
+    {
+        var metadata = ChunkMetadata.CreateDataChunk(MessageId, 3, 4);
+
+        Assert.Equal($"d:{MessageId}:3:4", metadata.Format());
+    }
+
+    [Theory]
+    [InlineData("sha:256", Checksum)]
+    [InlineData(ChecksumId, "DEADBEEF")]
+    [InlineData(ChecksumId, "")]
+    public void Format_HeadChunkWithInvalidChecksumMetadata_Throws(string checksumId, string checksum)
+    {
+        var metadata = ChunkMetadata.CreateFirstChunk(MessageId, 4, checksumId, checksum);
+
+        Assert.Throws<ArgumentException>(() => metadata.Format());
     }
 
     [Fact]
@@ -43,13 +62,44 @@ public class ChunkMetadataTests
     [Fact]
     public void TryParse_DataChunk_RoundTrips()
     {
-        var original = ChunkMetadata.CreateSubsequentChunk(MessageId, 3);
+        var original = ChunkMetadata.CreateDataChunk(MessageId, 3, 4);
 
         Assert.True(ChunkMetadata.TryParse(original.Format(), out var parsed));
         Assert.Equal(MessageId, parsed!.MessageId);
         Assert.Equal(3, parsed.ChunkIndex);
-        Assert.Null(parsed.TotalChunks);
+        Assert.Equal(4, parsed.TotalChunks);
+        Assert.Equal(ChunkKind.Data, parsed.Kind);
         Assert.Null(parsed.Checksum);
+    }
+
+    [Fact]
+    public void TryParse_PropertyChunk_RoundTrips()
+    {
+        var original = ChunkMetadata.CreatePropertyChunk(MessageId, 2, 4);
+
+        Assert.True(ChunkMetadata.TryParse(original.Format(), out var parsed));
+        Assert.Equal(MessageId, parsed!.MessageId);
+        Assert.Equal(2, parsed.ChunkIndex);
+        Assert.Equal(4, parsed.TotalChunks);
+        Assert.Equal(ChunkKind.Property, parsed.Kind);
+    }
+
+    [Theory]
+    [InlineData("h")]
+    [InlineData("p")]
+    [InlineData("d")]
+    public void TryParse_Countdown_RoundTrips(string kind)
+    {
+        ChunkMetadata original = kind switch
+        {
+            "h" => ChunkMetadata.CreateFirstChunk(MessageId, 4, ChecksumId, Checksum),
+            "p" => ChunkMetadata.CreatePropertyChunk(MessageId, 2, 4),
+            _ => ChunkMetadata.CreateDataChunk(MessageId, 3, 4),
+        };
+
+        Assert.True(ChunkMetadata.TryParse(original.Format(27), out ChunkMetadata? parsed));
+        Assert.Equal(27u, parsed!.RemainingSeconds);
+        Assert.Equal(original.Format(27), parsed.Format());
     }
 
     [Theory]
@@ -57,20 +107,30 @@ public class ChunkMetadataTests
     [InlineData("")]
     [InlineData("only-one-field")]
     // Unknown, missing, or wrong-case tag.
-    [InlineData("x:id:1")]
+    [InlineData("x:id:1:4")]
     [InlineData("id:1")]
-    [InlineData("D:id:1")]
+    [InlineData("D:id:1:4")]
     [InlineData("H:id:0:4:sha256:checksum")]
     // Right tag, wrong field count for that form.
     [InlineData("d:id")]
-    [InlineData("d:id:1:extra")]
+    [InlineData("d:id:1")]
+    [InlineData("d:8ac7a0e4-1b3d-4f9a-9a3f-0d2f6c5b7e11:1:4:extra")]
+    [InlineData("p:id:1")]
+    [InlineData("p:id:1:4:extra")]
     [InlineData("h:id:0:4:sha256")]
     [InlineData("h:id:0:4:sha256:checksum:extra")]
     // Malformed fields.
-    [InlineData("d::1")]
-    [InlineData("d:id:notanumber")]
-    [InlineData("d:id:-1")]
-    [InlineData("d:id: 1")]
+    [InlineData("d::1:4")]
+    [InlineData("d:id:notanumber:4")]
+    [InlineData("d:id:-1:4")]
+    [InlineData("d:id: 1:4")]
+    [InlineData("d:id:1:notanumber")]
+    [InlineData("d:id:1:0")]
+    [InlineData("d:id:4:4")]
+    [InlineData("d:8ac7a0e4-1b3d-4f9a-9a3f-0d2f6c5b7e11:1:4:0")]
+    [InlineData("d:8ac7a0e4-1b3d-4f9a-9a3f-0d2f6c5b7e11:1:4:01")]
+    [InlineData("d:8AC7A0E4-1B3D-4F9A-9A3F-0D2F6C5B7E11:1:4")]
+    [InlineData("h:8ac7a0e4-1b3d-4f9a-9a3f-0d2f6c5b7e11:0:4:sha256:E3B0")]
     public void TryParse_MalformedValue_Fails(string? value)
     {
         Assert.False(ChunkMetadata.TryParse(value, out var parsed));
@@ -81,7 +141,7 @@ public class ChunkMetadataTests
     public void TryParse_DataChunkAtIndexZero_Fails()
     {
         // Index 0 is the head chunk and must use the head form.
-        Assert.False(ChunkMetadata.TryParse($"d:{MessageId}:0", out var parsed));
+        Assert.False(ChunkMetadata.TryParse($"d:{MessageId}:0:4", out var parsed));
         Assert.Null(parsed);
     }
 

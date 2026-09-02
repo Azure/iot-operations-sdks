@@ -15,6 +15,8 @@ namespace Azure.Iot.Operations.Protocol.UnitTests.Chunking
 {
     public class ChunkedMessageAssemblerTests
     {
+        private const string MessageId = "8ac7a0e4-1b3d-4f9a-9a3f-0d2f6c5b7e11";
+
         [Fact]
         public void Constructor_SetsProperties_Correctly()
         {
@@ -30,11 +32,12 @@ namespace Azure.Iot.Operations.Protocol.UnitTests.Chunking
         {
             // Arrange
             var assembler = new ChunkedMessageAssembler(2);
-            var chunk0 = CreateMqttMessageEventArgs("payload1");
+            ChunkMetadata metadata = ChunkMetadata.CreateFirstChunk(MessageId, 2, ChunkChecksums.Sha256.Id, "deadbeef");
+            var chunk0 = CreateMqttMessageEventArgs(metadata, string.Empty);
 
             // Act & Assert
-            Assert.True(assembler.AddChunk(0, chunk0)); // First time should return true
-            Assert.False(assembler.AddChunk(0, chunk0)); // Second time should return false (duplicate)
+            Assert.True(assembler.AddChunk(metadata, chunk0, out _));
+            Assert.False(assembler.AddChunk(metadata, chunk0, out _));
         }
 
         [Fact]
@@ -42,12 +45,14 @@ namespace Azure.Iot.Operations.Protocol.UnitTests.Chunking
         {
             // Arrange
             var assembler = new ChunkedMessageAssembler(2);
-            var chunk0 = CreateMqttMessageEventArgs("payload1");
-            var chunk1 = CreateMqttMessageEventArgs("payload2");
+            ChunkMetadata headMetadata = ChunkMetadata.CreateFirstChunk(MessageId, 2, ChunkChecksums.Sha256.Id, "deadbeef");
+            ChunkMetadata dataMetadata = ChunkMetadata.CreateDataChunk(MessageId, 1, 2);
+            var chunk0 = CreateMqttMessageEventArgs(headMetadata, string.Empty);
+            var chunk1 = CreateMqttMessageEventArgs(dataMetadata, "payload2");
 
             // Act
-            assembler.AddChunk(0, chunk0);
-            assembler.AddChunk(1, chunk1);
+            assembler.AddChunk(headMetadata, chunk0, out _);
+            assembler.AddChunk(dataMetadata, chunk1, out _);
 
             // Assert
             Assert.True(assembler.IsComplete);
@@ -58,10 +63,11 @@ namespace Azure.Iot.Operations.Protocol.UnitTests.Chunking
         {
             // Arrange
             var assembler = new ChunkedMessageAssembler(2);
-            var chunk0 = CreateMqttMessageEventArgs("payload1");
+            ChunkMetadata metadata = ChunkMetadata.CreateFirstChunk(MessageId, 2, ChunkChecksums.Sha256.Id, "deadbeef");
+            var chunk0 = CreateMqttMessageEventArgs(metadata, string.Empty);
 
             // Act
-            assembler.AddChunk(0, chunk0);
+            assembler.AddChunk(metadata, chunk0, out _);
             var result = assembler.TryReassemble(out var reassembledArgs);
 
             // Assert
@@ -73,13 +79,18 @@ namespace Azure.Iot.Operations.Protocol.UnitTests.Chunking
         public void TryReassemble_ReturnsValidMessageWhenComplete()
         {
             // Arrange
-            var assembler = new ChunkedMessageAssembler(2);
-            var chunk0 = CreateMqttMessageEventArgs("payload1");
-            var chunk1 = CreateMqttMessageEventArgs(" payload2");
+            var assembler = new ChunkedMessageAssembler(3);
+            ChunkMetadata headMetadata = ChunkMetadata.CreateFirstChunk(MessageId, 3, ChunkChecksums.Sha256.Id, "deadbeef");
+            ChunkMetadata data1Metadata = ChunkMetadata.CreateDataChunk(MessageId, 1, 3);
+            ChunkMetadata data2Metadata = ChunkMetadata.CreateDataChunk(MessageId, 2, 3);
+            var chunk0 = CreateMqttMessageEventArgs(headMetadata, string.Empty);
+            var chunk1 = CreateMqttMessageEventArgs(data1Metadata, "payload1");
+            var chunk2 = CreateMqttMessageEventArgs(data2Metadata, " payload2");
 
             // Act
-            assembler.AddChunk(0, chunk0);
-            assembler.AddChunk(1, chunk1);
+            assembler.AddChunk(headMetadata, chunk0, out _);
+            assembler.AddChunk(data1Metadata, chunk1, out _);
+            assembler.AddChunk(data2Metadata, chunk2, out _);
             var result = assembler.TryReassemble(out var reassembledArgs);
 
             // Assert
@@ -110,15 +121,20 @@ namespace Azure.Iot.Operations.Protocol.UnitTests.Chunking
             // Calculate the actual checksum
             var checksum = ChunkChecksums.Sha256.Compute(ros);
 
-            var assembler = new ChunkedMessageAssembler(2);
-            assembler.UpdateMetadata(2, checksum, ChunkChecksums.Sha256, null); // Set the correct checksum
+            var assembler = new ChunkedMessageAssembler(3);
+            ChunkMetadata headMetadata = ChunkMetadata.CreateFirstChunk(MessageId, 3, ChunkChecksums.Sha256.Id, checksum);
+            ChunkMetadata data1Metadata = ChunkMetadata.CreateDataChunk(MessageId, 1, 3);
+            ChunkMetadata data2Metadata = ChunkMetadata.CreateDataChunk(MessageId, 2, 3);
+            Assert.True(assembler.TryUpdateMetadata(3, ChunkChecksums.Sha256.Id, checksum, ChunkChecksums.Sha256));
 
-            var chunk0 = CreateMqttMessageEventArgs(payload1);
-            var chunk1 = CreateMqttMessageEventArgs(payload2);
+            var chunk0 = CreateMqttMessageEventArgs(headMetadata, string.Empty);
+            var chunk1 = CreateMqttMessageEventArgs(data1Metadata, payload1);
+            var chunk2 = CreateMqttMessageEventArgs(data2Metadata, payload2);
 
             // Act
-            assembler.AddChunk(0, chunk0);
-            assembler.AddChunk(1, chunk1);
+            assembler.AddChunk(headMetadata, chunk0, out _);
+            assembler.AddChunk(data1Metadata, chunk1, out _);
+            assembler.AddChunk(data2Metadata, chunk2, out _);
             var result = assembler.TryReassemble(out var reassembledArgs);
 
             // Assert
@@ -130,15 +146,21 @@ namespace Azure.Iot.Operations.Protocol.UnitTests.Chunking
         public void TryReassemble_ChecksumVerification_Failure()
         {
             // Arrange
-            var assembler = new ChunkedMessageAssembler(2);
-            assembler.UpdateMetadata(2, "invalid-checksum", ChunkChecksums.Sha256, null); // Set incorrect checksum
+            var assembler = new ChunkedMessageAssembler(3);
+            const string checksum = "deadbeef";
+            ChunkMetadata headMetadata = ChunkMetadata.CreateFirstChunk(MessageId, 3, ChunkChecksums.Sha256.Id, checksum);
+            ChunkMetadata data1Metadata = ChunkMetadata.CreateDataChunk(MessageId, 1, 3);
+            ChunkMetadata data2Metadata = ChunkMetadata.CreateDataChunk(MessageId, 2, 3);
+            Assert.True(assembler.TryUpdateMetadata(3, ChunkChecksums.Sha256.Id, checksum, ChunkChecksums.Sha256));
 
-            var chunk0 = CreateMqttMessageEventArgs("payload1");
-            var chunk1 = CreateMqttMessageEventArgs("payload2");
+            var chunk0 = CreateMqttMessageEventArgs(headMetadata, string.Empty);
+            var chunk1 = CreateMqttMessageEventArgs(data1Metadata, "payload1");
+            var chunk2 = CreateMqttMessageEventArgs(data2Metadata, "payload2");
 
             // Act
-            assembler.AddChunk(0, chunk0);
-            assembler.AddChunk(1, chunk1);
+            assembler.AddChunk(headMetadata, chunk0, out _);
+            assembler.AddChunk(data1Metadata, chunk1, out _);
+            assembler.AddChunk(data2Metadata, chunk2, out _);
             var result = assembler.TryReassemble(out var reassembledArgs);
 
             // Assert
@@ -147,53 +169,17 @@ namespace Azure.Iot.Operations.Protocol.UnitTests.Chunking
         }
 
         [Fact]
-        public void HasExpired_ReturnsTrueWhenTimeoutExceeded()
+        public void TryReassemble_ChecksumThrowsOutOfMemoryException_Rethrows()
         {
-            // Arrange
+            var checksumAlgorithm = new OutOfMemoryChecksum();
             var assembler = new ChunkedMessageAssembler(2);
-            var shortTimeout = TimeSpan.FromMilliseconds(1);
+            ChunkMetadata headMetadata = ChunkMetadata.CreateFirstChunk(MessageId, 2, checksumAlgorithm.Id, "deadbeef");
+            ChunkMetadata dataMetadata = ChunkMetadata.CreateDataChunk(MessageId, 1, 2);
+            Assert.True(assembler.TryUpdateMetadata(2, checksumAlgorithm.Id, "deadbeef", checksumAlgorithm));
+            assembler.AddChunk(headMetadata, CreateMqttMessageEventArgs(headMetadata, string.Empty), out _);
+            assembler.AddChunk(dataMetadata, CreateMqttMessageEventArgs(dataMetadata, "payload"), out _);
 
-            // Set timeout via metadata update
-            assembler.UpdateMetadata(2, "test-checksum", ChunkChecksums.Sha256, shortTimeout);
-
-            // Act
-            Thread.Sleep(10); // Ensure timeout is exceeded
-            var result = assembler.HasExpired();
-
-            // Assert
-            Assert.True(result);
-        }
-
-        [Fact]
-        public void HasExpired_ReturnsFalseWhenTimeoutNotExceeded()
-        {
-            // Arrange
-            var assembler = new ChunkedMessageAssembler(2);
-            var longTimeout = TimeSpan.FromMinutes(5);
-
-            // Set timeout via metadata update
-            assembler.UpdateMetadata(2, "test-checksum", ChunkChecksums.Sha256, longTimeout);
-
-            // Act
-            var result = assembler.HasExpired();
-
-            // Assert
-            Assert.False(result);
-        }
-
-        [Fact]
-        public void HasExpired_ReturnsFalseWhenNoTimeoutSet()
-        {
-            // Arrange
-            var assembler = new ChunkedMessageAssembler(2);
-
-            // Don't set any timeout via metadata update
-
-            // Act
-            var result = assembler.HasExpired();
-
-            // Assert
-            Assert.False(result);
+            Assert.Throws<OutOfMemoryException>(() => assembler.TryReassemble(out _));
         }
 
         [Fact]
@@ -201,24 +187,26 @@ namespace Azure.Iot.Operations.Protocol.UnitTests.Chunking
         {
             // Arrange
             var assembler = new ChunkedMessageAssembler(2);
+            ChunkMetadata headMetadata = ChunkMetadata.CreateFirstChunk(MessageId, 2, ChunkChecksums.Sha256.Id, "deadbeef");
+            ChunkMetadata dataMetadata = ChunkMetadata.CreateDataChunk(MessageId, 1, 2);
             var chunk0AckCount = false;
             var chunk1AckCount = false;
 
             // Create mock message args with mock acknowledgeAsync methods
-            var chunk0 = CreateMqttMessageEventArgsWithAckHandler((_, _) =>
+            var chunk0 = CreateMqttMessageEventArgsWithAckHandler(headMetadata, string.Empty, (_, _) =>
             {
                 chunk0AckCount = true;
                 return Task.CompletedTask;
             });
-            var chunk1 = CreateMqttMessageEventArgsWithAckHandler((_, _) =>
+            var chunk1 = CreateMqttMessageEventArgsWithAckHandler(dataMetadata, "testpayload", (_, _) =>
             {
                 chunk1AckCount = true;
                 return Task.CompletedTask;
             });
 
             // Act
-            assembler.AddChunk(0, chunk0);
-            assembler.AddChunk(1, chunk1);
+            assembler.AddChunk(headMetadata, chunk0, out _);
+            assembler.AddChunk(dataMetadata, chunk1, out _);
             var result = assembler.TryReassemble(out var reassembledArgs);
 
             // Simulate acknowledgment of reassembled message
@@ -234,12 +222,15 @@ namespace Azure.Iot.Operations.Protocol.UnitTests.Chunking
         }
 
         // Helper method to create a simple MQTT message event args with payload
-        private static MqttApplicationMessageReceivedEventArgs CreateMqttMessageEventArgs(string payload)
+        private static MqttApplicationMessageReceivedEventArgs CreateMqttMessageEventArgs(
+            ChunkMetadata metadata,
+            string payload)
         {
             var bytes = Encoding.UTF8.GetBytes(payload);
             var mqttMessage = new MqttApplicationMessage("test/topic")
             {
-                Payload = new ReadOnlySequence<byte>(bytes)
+                Payload = new ReadOnlySequence<byte>(bytes),
+                UserProperties = [new MqttUserProperty(ChunkingConstants.ChunkUserProperty, metadata.Format())],
             };
 
             return new MqttApplicationMessageReceivedEventArgs(
@@ -250,12 +241,16 @@ namespace Azure.Iot.Operations.Protocol.UnitTests.Chunking
         }
 
         // Helper method to create a mock MQTT message event args
-        private static MqttApplicationMessageReceivedEventArgs CreateMqttMessageEventArgsWithAckHandler(Func<MqttApplicationMessageReceivedEventArgs, CancellationToken, Task> acknowledgeHandler)
+        private static MqttApplicationMessageReceivedEventArgs CreateMqttMessageEventArgsWithAckHandler(
+            ChunkMetadata metadata,
+            string payload,
+            Func<MqttApplicationMessageReceivedEventArgs, CancellationToken, Task> acknowledgeHandler)
         {
-            var bytes = "testpayload"u8.ToArray();
+            var bytes = Encoding.UTF8.GetBytes(payload);
             var mqttMessage = new MqttApplicationMessage("test/topic")
             {
-                Payload = new ReadOnlySequence<byte>(bytes)
+                Payload = new ReadOnlySequence<byte>(bytes),
+                UserProperties = [new MqttUserProperty(ChunkingConstants.ChunkUserProperty, metadata.Format())],
             };
 
             var messageEventArgs = new MqttApplicationMessageReceivedEventArgs(
@@ -265,6 +260,13 @@ namespace Azure.Iot.Operations.Protocol.UnitTests.Chunking
                 acknowledgeHandler);
 
             return messageEventArgs;
+        }
+
+        private sealed class OutOfMemoryChecksum : IChunkChecksum
+        {
+            public string Id => "oom";
+
+            public string Compute(ReadOnlySequence<byte> payload) => throw new OutOfMemoryException();
         }
     }
 }

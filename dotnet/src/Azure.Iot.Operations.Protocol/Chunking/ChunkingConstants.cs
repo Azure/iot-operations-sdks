@@ -20,13 +20,20 @@ internal static class ChunkingConstants
 
     /// <summary>
     /// Tag introducing a head chunk, the first chunk of a message, which additionally carries the
-    /// message-level header: <c>h:messageId:chunkIndex:totalChunks:checksum</c>.
+    /// message-level header:
+    /// <c>h:messageId:chunkIndex:totalChunks:checksumId:checksum</c>.
     /// </summary>
     public const string HeadChunkTag = "h";
 
     /// <summary>
-    /// Tag introducing a data chunk, any chunk after the first:
-    /// <c>d:messageId:chunkIndex</c>.
+    /// Tag introducing a property chunk:
+    /// <c>p:messageId:chunkIndex:totalChunks</c>.
+    /// </summary>
+    public const string PropertyChunkTag = "p";
+
+    /// <summary>
+    /// Tag introducing a data chunk:
+    /// <c>d:messageId:chunkIndex:totalChunks</c>.
     /// </summary>
     public const string DataChunkTag = "d";
 
@@ -36,17 +43,9 @@ internal static class ChunkingConstants
     public const int HeadChunkFieldCount = 6;
 
     /// <summary>
-    /// Number of separated fields in a <see cref="DataChunkTag"/> value.
+    /// Number of separated fields in a property or data chunk value.
     /// </summary>
-    public const int DataChunkFieldCount = 3;
-
-    /// <summary>
-    /// Default safety margin left free in each data chunk on top of its calculated overhead.
-    /// Nothing consumes it today: no production code sets subscription identifiers and topic
-    /// aliases are disabled, so a published packet and its delivery are the same size. It is a
-    /// round number rather than a derived bound - see §3.6 of doc/dev/rpc-chunking-poc-plan.md.
-    /// </summary>
-    public const int DefaultSafetyMargin = 64;
+    public const int BodyChunkFieldCount = 4;
 
     /// <summary>
     /// Stand-in for the broker-negotiated maximum packet size, which is not reachable from the
@@ -59,19 +58,19 @@ internal static class ChunkingConstants
     public const int PlaceholderMaxPacketSize = 64 * 1024;
 
     /// <summary>
-    /// User properties copied onto every chunk rather than the first one alone.
+    /// User properties copied onto every chunk in addition to their occurrence in the logical
+    /// property stream.
     /// </summary>
     /// <remarks>
-    /// Per ADR 0023 the first chunk carries the full property set and later chunks carry only what
-    /// is needed to deliver and reassemble the message. That means the broker routing properties,
-    /// so all chunks reach the same shared-subscription member and share the sender's backpressure
-    /// treatment, plus the protocol version, which the receiver validates on every chunk before
-    /// reassembly begins.
+    /// These are the broker routing properties, so all chunks reach the same shared-subscription
+    /// member and share the sender's backpressure treatment, plus the protocol version, which the
+    /// receiver validates on every chunk before reassembly begins.
     /// </remarks>
     public static readonly string[] PerChunkUserProperties =
     [
         "$partition",
         "$high_priority",
         "__protVer",
+        "__supProtMajVer",
     ];
 }

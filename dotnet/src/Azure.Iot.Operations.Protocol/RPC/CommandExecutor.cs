@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 using Azure.Iot.Operations.Protocol.Chunking;
+using Azure.Iot.Operations.Protocol.Chunking.Exceptions;
 using Azure.Iot.Operations.Protocol.Events;
 using Azure.Iot.Operations.Protocol.Models;
 using System;
@@ -21,7 +22,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
         where TReq : class
         where TResp : class
     {
-        private readonly int[] _supportedMajorProtocolVersions = [CommandVersion.MajorProtocolVersion];
+        private readonly int[] _supportedMajorProtocolVersions = CommandVersion.SupportedMajorProtocolVersions;
 
         private static readonly TimeSpan DefaultExecutorTimeout = TimeSpan.FromSeconds(10);
 
@@ -34,7 +35,8 @@ namespace Azure.Iot.Operations.Protocol.RPC
 
         private readonly ApplicationContext _applicationContext;
         private readonly ICommandResponseCache _commandResponseCache;
-        private readonly ChunkBuffer _chunkBuffer = new(new ChunkingOptions());
+        private readonly ChunkingOptions _chunkingOptions;
+        private readonly ChunkBuffer _chunkBuffer;
         private Dispatcher? _dispatcher;
         private bool _isRunning;
         private bool _hasSubscribed;
@@ -82,7 +84,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
         /// for topic tokens such as "executorId" which should be the same for the duration of this command executor's lifetime.
         /// </summary>
         /// <remarks>
-        /// Tokens replacement values can also be specified when starting the executor by specifying the additionalTopicToken map in <see cref="StartAsync(int?, Dictionary{string, string}?, CancellationToken)"/>.
+        /// Token replacement values can be configured through <see cref="TopicTokenMap"/> before calling <see cref="StartAsync(int?, CancellationToken)"/>.
         /// </remarks>
         public Dictionary<string, string> TopicTokenMap { get; protected set; }
 
@@ -96,6 +98,8 @@ namespace Azure.Iot.Operations.Protocol.RPC
             _mqttClient = mqttClient ?? throw AkriMqttException.GetArgumentInvalidException(commandName, nameof(mqttClient), string.Empty);
             _commandName = commandName;
             _serializer = serializer ?? throw AkriMqttException.GetArgumentInvalidException(commandName, nameof(serializer), string.Empty);
+            _chunkingOptions = new ChunkingOptions();
+            _chunkBuffer = new(_chunkingOptions);
 
             _isRunning = false;
             _hasSubscribed = false;
@@ -133,12 +137,18 @@ namespace Azure.Iot.Operations.Protocol.RPC
                 DateTime ttl = messageReceivedTime + CacheTtl;
 
                 string? requestedProtocolVersion = args.ApplicationMessage.UserProperties?.FirstOrDefault(p => p.Name == AkriSystemProperties.ProtocolVersion)?.Value;
+                bool requesterSupportsChunking = SupportsChunkedResponses(args.ApplicationMessage);
                 if (!TryValidateRequestHeaders(args.ApplicationMessage, out CommandStatusCode? status, out string? statusMessage, out string? invalidPropertyName, out string? invalidPropertyValue))
                 {
                     Trace.TraceWarning($"Command '{_commandName}' header validation failed. Status message: {statusMessage}");
+                    bool shouldPublishError = status != null;
+                    int[]? advertisedVersions = status == CommandStatusCode.NotSupportedVersion
+                        && ChunkBuffer.IsChunk(args.ApplicationMessage)
+                        ? CommandVersion.SupportedResponseMajorProtocolVersions
+                        : null;
 
                     await GetDispatcher()(
-                        status != null ? async () => { await GenerateAndPublishResponseAsync(commandExpirationTime, args.ApplicationMessage.ResponseTopic!, args.ApplicationMessage.CorrelationData!, (CommandStatusCode)status, statusMessage, null, null, false, invalidPropertyName, invalidPropertyValue, requestedProtocolVersion).ConfigureAwait(false); }
+                        shouldPublishError ? async () => { await GenerateAndPublishResponseAsync(commandExpirationTime, args.ApplicationMessage.ResponseTopic!, args.ApplicationMessage.CorrelationData!, (CommandStatusCode)status!, statusMessage, null, null, false, invalidPropertyName, invalidPropertyValue, requestedProtocolVersion, requesterSupportsChunking, advertisedVersions).ConfigureAwait(false); }
                     : null,
                         async () => { await args.AcknowledgeAsync(CancellationToken.None).ConfigureAwait(false); }).ConfigureAwait(false);
                     return;
@@ -148,12 +158,13 @@ namespace Azure.Iot.Operations.Protocol.RPC
                 // request carries the same correlation data and would otherwise look like a duplicate.
                 if (ChunkBuffer.IsChunk(args.ApplicationMessage))
                 {
-                    ChunkBufferResult chunkResult = _chunkBuffer.AddChunk(args, messageReceivedTime, commandExpirationTime);
+                    ChunkBufferResult chunkResult = _chunkBuffer.AddChunk(
+                        args,
+                        messageReceivedTime,
+                        messageReceivedTime + ExecutionTimeout,
+                        requireRemainingSeconds: true);
 
-                    foreach (MqttApplicationMessageReceivedEventArgs discarded in chunkResult.DiscardedChunks)
-                    {
-                        await discarded.AcknowledgeAsync(CancellationToken.None).ConfigureAwait(false);
-                    }
+                    await ChunkBuffer.AcknowledgeDiscardedAsync(chunkResult).ConfigureAwait(false);
 
                     if (chunkResult.ReassembledMessage == null)
                     {
@@ -162,7 +173,6 @@ namespace Azure.Iot.Operations.Protocol.RPC
 
                     // Acknowledging the reassembled message acknowledges every chunk it was built from.
                     args = chunkResult.ReassembledMessage;
-                    args.AutoAcknowledge = false;
                 }
 
                 // This validation is handled above, so assume a response topic is provided beyond this point.
@@ -192,7 +202,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
                         async () =>
                         {
                             MqttApplicationMessage cachedMessage = await cachedResponse.ConfigureAwait(false);
-                            await GenerateAndPublishResponse(commandExpirationTime, args.ApplicationMessage.ResponseTopic, args.ApplicationMessage.CorrelationData, cachedMessage.Payload, cachedMessage.UserProperties, cachedMessage.ContentType, (int)cachedMessage.PayloadFormatIndicator).ConfigureAwait(false);
+                            await GenerateAndPublishResponse(commandExpirationTime, args.ApplicationMessage.ResponseTopic, args.ApplicationMessage.CorrelationData, cachedMessage.Payload, cachedMessage.UserProperties, cachedMessage.ContentType, (int)cachedMessage.PayloadFormatIndicator, requestedProtocolVersion, requesterSupportsChunking).ConfigureAwait(false);
                         },
                         async () => { await args.AcknowledgeAsync(CancellationToken.None).ConfigureAwait(false); }).ConfigureAwait(false);
 
@@ -209,6 +219,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
                         PayloadFormatIndicator = args.ApplicationMessage.PayloadFormatIndicator,
                     };
                     request = _serializer.FromBytes<TReq>(args.ApplicationMessage.Payload, requestMetadata.ContentType, requestMetadata.PayloadFormatIndicator);
+
                     // Update application HLC against received timestamp
                     if (requestMetadata.Timestamp != null)
                     {
@@ -234,7 +245,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
                     }
 
                     await GetDispatcher()(
-                        async () => { await GenerateAndPublishResponseAsync(commandExpirationTime, args.ApplicationMessage.ResponseTopic, args.ApplicationMessage.CorrelationData, statusCode, ex.Message, null, null, false, amex?.HeaderName, amex?.HeaderValue, requestedProtocolVersion).ConfigureAwait(false); },
+                        async () => { await GenerateAndPublishResponseAsync(commandExpirationTime, args.ApplicationMessage.ResponseTopic, args.ApplicationMessage.CorrelationData, statusCode, ex.Message, null, null, false, amex?.HeaderName, amex?.HeaderValue, requestedProtocolVersion, requesterSupportsChunking).ConfigureAwait(false); },
                         async () => { await args.AcknowledgeAsync(CancellationToken.None).ConfigureAwait(false); }).ConfigureAwait(false);
 
                     return;
@@ -256,7 +267,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
 
                         var serializedPayloadContext = _serializer.ToBytes(extended.Response);
 
-                        MqttApplicationMessage? responseMessage = await GenerateResponseAsync(commandExpirationTime, args.ApplicationMessage.ResponseTopic, args.ApplicationMessage.CorrelationData, !serializedPayloadContext.SerializedPayload.IsEmpty ? CommandStatusCode.OK : CommandStatusCode.NoContent, null, serializedPayloadContext, extended.ResponseMetadata);
+                        MqttApplicationMessage? responseMessage = await GenerateResponseAsync(commandExpirationTime, args.ApplicationMessage.ResponseTopic, args.ApplicationMessage.CorrelationData, !serializedPayloadContext.SerializedPayload.IsEmpty ? CommandStatusCode.OK : CommandStatusCode.NoContent, null, serializedPayloadContext, extended.ResponseMetadata, requestedProtocolVersion: requestedProtocolVersion);
                         await _commandResponseCache.StoreAsync(
                             _commandName,
                             args.ApplicationMessage.ResponseTopic,
@@ -267,7 +278,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
                             commandExpirationTime,
                             WallClock.UtcNow - executionStartTime).ConfigureAwait(false);
 
-                        await PublishResponseAsync(args.ApplicationMessage.ResponseTopic, args.ApplicationMessage.CorrelationData, responseMessage);
+                        await PublishResponseAsync(args.ApplicationMessage.ResponseTopic, args.ApplicationMessage.CorrelationData, responseMessage, requesterSupportsChunking);
                     }
                     catch (Exception ex)
                     {
@@ -303,7 +314,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
                                 break;
                         }
 
-                        await GenerateAndPublishResponseAsync(commandExpirationTime, args.ApplicationMessage.ResponseTopic, args.ApplicationMessage.CorrelationData, statusCode, statusMessage, null, null, isAppError, invalidPropertyName, invalidPropertyValue, requestedProtocolVersion);
+                        await GenerateAndPublishResponseAsync(commandExpirationTime, args.ApplicationMessage.ResponseTopic, args.ApplicationMessage.CorrelationData, statusCode, statusMessage, null, null, isAppError, invalidPropertyName, invalidPropertyValue, requestedProtocolVersion, requesterSupportsChunking);
                     }
                     finally
                     {
@@ -313,6 +324,23 @@ namespace Azure.Iot.Operations.Protocol.RPC
 
                 await GetDispatcher()(CmdFunc, async () => { await args.AcknowledgeAsync(CancellationToken.None).ConfigureAwait(false); }).ConfigureAwait(false);
             }
+        }
+
+        private static bool SupportsChunkedResponses(MqttApplicationMessage request)
+        {
+            string? selectedVersion = request.UserProperties?
+                .FirstOrDefault(p => p.Name == AkriSystemProperties.ProtocolVersion)?.Value;
+            if (ProtocolVersion.TryParseProtocolVersion(selectedVersion, out ProtocolVersion? parsedSelected)
+                && parsedSelected!.MajorVersion == CommandVersion.ChunkingMajorProtocolVersion)
+            {
+                return true;
+            }
+
+            string? supportedVersions = request.UserProperties?
+                .FirstOrDefault(p => p.Name == AkriSystemProperties.SupportedMajorProtocolVersions)?.Value;
+            return supportedVersions != null
+                && ProtocolVersion.TryParseFromString(supportedVersions, out int[] parsedSupported)
+                && parsedSupported.Contains(CommandVersion.ChunkingMajorProtocolVersion);
         }
 
         /// <summary>
@@ -454,7 +482,17 @@ namespace Azure.Iot.Operations.Protocol.RPC
                 return false;
             }
 
-            if (!_supportedMajorProtocolVersions.Contains(protocolVersion!.MajorVersion))
+            bool isChunk = ChunkBuffer.IsChunk(requestMsg);
+            if (isChunk && protocolVersion!.MajorVersion != CommandVersion.ChunkingMajorProtocolVersion)
+            {
+                status = CommandStatusCode.NotSupportedVersion;
+                statusMessage = $"Chunking requires protocol version {CommandVersion.ChunkingMajorProtocolVersion}.0.";
+                invalidPropertyName = null;
+                invalidPropertyValue = null;
+                return false;
+            }
+
+            if (!isChunk && !_supportedMajorProtocolVersions.Contains(protocolVersion!.MajorVersion))
             {
                 status = CommandStatusCode.NotSupportedVersion;
                 statusMessage = $"Invalid or unsupported protocol version ({AkriSystemProperties.ProtocolVersion}) value provided: {requestProtocolVersion}.";
@@ -481,7 +519,8 @@ namespace Azure.Iot.Operations.Protocol.RPC
             bool? isAppError = null,
             string? invalidPropertyName = null,
             string? invalidPropertyValue = null,
-            string? requestedProtocolVersion = null)
+            string? requestedProtocolVersion = null,
+            int[]? supportedProtocolMajorVersions = null)
         {
             MqttApplicationMessage message = new(topic, MqttQualityOfServiceLevel.AtLeastOnce)
             {
@@ -502,7 +541,9 @@ namespace Azure.Iot.Operations.Protocol.RPC
                 message.ContentType = payloadContext.ContentType;
             }
 
-            message.AddUserProperty(AkriSystemProperties.ProtocolVersion, $"{CommandVersion.MajorProtocolVersion}.{CommandVersion.MinorProtocolVersion}");
+            message.AddUserProperty(
+                AkriSystemProperties.ProtocolVersion,
+                GetResponseProtocolVersion(requestedProtocolVersion, status));
 
             // Update HLC and use as the timestamp.
             string timestamp = await _applicationContext.ApplicationHlc.UpdateNowAsync();
@@ -540,7 +581,8 @@ namespace Azure.Iot.Operations.Protocol.RPC
             {
                 Debug.Assert(requestedProtocolVersion != null);
                 message.AddUserProperty(AkriSystemProperties.RequestedProtocolVersion, requestedProtocolVersion);
-                string spaceSeparatedListOfSupportedProtocolVersions = ProtocolVersion.ToString(_supportedMajorProtocolVersions);
+                string spaceSeparatedListOfSupportedProtocolVersions = ProtocolVersion.ToString(
+                    supportedProtocolMajorVersions ?? _supportedMajorProtocolVersions);
                 message.AddUserProperty(AkriSystemProperties.SupportedMajorProtocolVersions, spaceSeparatedListOfSupportedProtocolVersions);
             }
 
@@ -562,20 +604,24 @@ namespace Azure.Iot.Operations.Protocol.RPC
             bool? isAppError = null,
             string? invalidPropertyName = null,
             string? invalidPropertyValue = null,
-            string? requestedProtocolVersion = null)
+            string? requestedProtocolVersion = null,
+            bool requesterSupportsChunking = false,
+            int[]? supportedProtocolMajorVersions = null)
         {
-            MqttApplicationMessage responseMessage = await GenerateResponseAsync(commandExpirationTime, topic, correlationData, status, statusMessage, payloadContext, metadata, isAppError, invalidPropertyName, invalidPropertyValue, requestedProtocolVersion);
-            await PublishResponseAsync(topic, correlationData, responseMessage);
+            MqttApplicationMessage responseMessage = await GenerateResponseAsync(commandExpirationTime, topic, correlationData, status, statusMessage, payloadContext, metadata, isAppError, invalidPropertyName, invalidPropertyValue, requestedProtocolVersion, supportedProtocolMajorVersions);
+            await PublishResponseAsync(topic, correlationData, responseMessage, requesterSupportsChunking);
         }
 
-        private Task GenerateAndPublishResponse(
+        private async Task GenerateAndPublishResponse(
             DateTime commandExpirationTime,
             string topic,
             byte[]? correlationData,
             ReadOnlySequence<byte> payload,
             List<MqttUserProperty>? userProperties,
             string? contentType,
-            int payloadFormatIndicator)
+            int payloadFormatIndicator,
+            string? requestedProtocolVersion,
+            bool requesterSupportsChunking)
         {
             MqttApplicationMessage message = new(topic, MqttQualityOfServiceLevel.AtLeastOnce)
             {
@@ -591,25 +637,33 @@ namespace Azure.Iot.Operations.Protocol.RPC
 
             if (userProperties != null)
             {
-                foreach (MqttUserProperty property in userProperties)
+                foreach (MqttUserProperty property in userProperties.Where(
+                    property => property.Name != AkriSystemProperties.ProtocolVersion
+                        && property.Name != AkriSystemProperties.Timestamp))
                 {
                     message.AddUserProperty(property.Name, property.Value);
                 }
             }
 
-            message.AddUserProperty(AkriSystemProperties.ProtocolVersion, CommandVersion.MajorProtocolVersion + "." + CommandVersion.MinorProtocolVersion);
+            message.AddUserProperty(
+                AkriSystemProperties.ProtocolVersion,
+                GetResponseProtocolVersion(requestedProtocolVersion, CommandStatusCode.OK));
+            message.AddUserProperty(
+                AkriSystemProperties.Timestamp,
+                await _applicationContext.ApplicationHlc.UpdateNowAsync().ConfigureAwait(false));
 
             int remainingSeconds = Math.Max(0, (int)(commandExpirationTime - WallClock.UtcNow).TotalSeconds);
 
             message.MessageExpiryInterval = (uint)remainingSeconds;
 
-            return PublishResponseAsync(topic, correlationData, message);
+            await PublishResponseAsync(topic, correlationData, message, requesterSupportsChunking).ConfigureAwait(false);
         }
 
         private async Task PublishResponseAsync(
             string topic,
             byte[]? correlationData,
-            MqttApplicationMessage responseMessage)
+            MqttApplicationMessage responseMessage,
+            bool requesterSupportsChunking)
         {
             if (responseMessage.MessageExpiryInterval == 0)
             {
@@ -618,14 +672,47 @@ namespace Azure.Iot.Operations.Protocol.RPC
                 return;
             }
 
+            DateTime responseDeadline = WallClock.UtcNow + TimeSpan.FromSeconds(responseMessage.MessageExpiryInterval);
+            string? responseProtocolVersion = responseMessage.UserProperties?
+                .FirstOrDefault(p => p.Name == AkriSystemProperties.ProtocolVersion)?.Value;
+
             try
             {
-                IReadOnlyList<MqttApplicationMessage> outgoingMessages = ChunkedMessageSplitter.SplitIfNeeded(responseMessage);
+                if (!requesterSupportsChunking
+                    && MqttPacketSizeCalculator.CalculatePublishSize(responseMessage)
+                        > ChunkingConstants.PlaceholderMaxPacketSize)
+                {
+                    MqttApplicationMessage legacyError = await GenerateResponseAsync(
+                        responseDeadline,
+                        topic,
+                        correlationData ?? [],
+                        CommandStatusCode.ServiceUnavailable,
+                        "The response exceeds the packet limit and the requester does not support chunking.",
+                        requestedProtocolVersion: responseProtocolVersion).ConfigureAwait(false);
+                    if (legacyError.MessageExpiryInterval > 0)
+                    {
+                        await _mqttClient.PublishAsync(legacyError, CancellationToken.None).ConfigureAwait(false);
+                    }
+                    return;
+                }
+
+                IReadOnlyList<MqttApplicationMessage> outgoingMessages = requesterSupportsChunking
+                    ? ChunkedMessageSplitter.SplitIfNeeded(responseMessage, options: _chunkingOptions)
+                    : [responseMessage];
 
                 // Each chunk's expiry is the budget still remaining when it is published, so no
                 // chunk outlives the command.
                 bool isChunked = outgoingMessages.Count > 1;
-                DateTime responseDeadline = WallClock.UtcNow + TimeSpan.FromSeconds(responseMessage.MessageExpiryInterval);
+
+                if (isChunked)
+                {
+                    foreach (MqttApplicationMessage outgoing in outgoingMessages)
+                    {
+                        StampProtocolVersion(
+                            outgoing,
+                            $"{CommandVersion.ChunkingMajorProtocolVersion}.{CommandVersion.ChunkingMinorProtocolVersion}");
+                    }
+                }
 
                 for (int chunkIndex = 0; chunkIndex < outgoingMessages.Count; chunkIndex++)
                 {
@@ -654,10 +741,62 @@ namespace Azure.Iot.Operations.Protocol.RPC
                     }
                 }
             }
+            catch (ChunkingException e)
+            {
+                Trace.TraceError($"Command '{_commandName}' produced a response that cannot be chunked: {e.Message}");
+                MqttApplicationMessage errorResponse = await GenerateResponseAsync(
+                    responseDeadline,
+                    topic,
+                    correlationData ?? [],
+                    CommandStatusCode.ServiceUnavailable,
+                    e.Message,
+                    requestedProtocolVersion: responseProtocolVersion).ConfigureAwait(false);
+
+                if (errorResponse.MessageExpiryInterval > 0)
+                {
+                    await _mqttClient.PublishAsync(errorResponse, CancellationToken.None).ConfigureAwait(false);
+                }
+            }
             catch (Exception e)
             {
                 Trace.TraceError($"Command '{_commandName}' execution failed due to a MQTT communication error: {e.Message}.");
             }
+        }
+
+        private static void StampProtocolVersion(MqttApplicationMessage message, string protocolVersion)
+        {
+            List<MqttUserProperty> properties = message.UserProperties
+                ?? throw new InvalidOperationException("A chunked response has no user properties.");
+            bool found = false;
+            for (int i = 0; i < properties.Count; i++)
+            {
+                if (properties[i].Name == AkriSystemProperties.ProtocolVersion)
+                {
+                    properties[i] = new MqttUserProperty(AkriSystemProperties.ProtocolVersion, protocolVersion);
+                    found = true;
+                }
+            }
+
+            if (!found)
+            {
+                throw new InvalidOperationException("A chunked response has no protocol version.");
+            }
+        }
+
+        private static string GetResponseProtocolVersion(string? requestedProtocolVersion, CommandStatusCode status)
+        {
+            if (status != CommandStatusCode.NotSupportedVersion
+                && ProtocolVersion.TryParseProtocolVersion(requestedProtocolVersion, out ProtocolVersion? parsed)
+                && (CommandVersion.SupportedMajorProtocolVersions.Contains(parsed!.MajorVersion)
+                    || parsed.MajorVersion == CommandVersion.ChunkingMajorProtocolVersion))
+            {
+                int localMinorVersion = parsed.MajorVersion == CommandVersion.ChunkingMajorProtocolVersion
+                    ? CommandVersion.ChunkingMinorProtocolVersion
+                    : CommandVersion.MinorProtocolVersion;
+                return $"{parsed.MajorVersion}.{Math.Min(parsed.MinorVersion, localMinorVersion)}";
+            }
+
+            return $"{CommandVersion.MajorProtocolVersion}.{CommandVersion.MinorProtocolVersion}";
         }
 
         private Dispatcher GetDispatcher()
@@ -788,6 +927,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
             if (!_isDisposed)
             {
                 _mqttClient.ApplicationMessageReceivedAsync -= MessageReceivedCallbackAsync;
+                await _chunkBuffer.DisposeAsync().ConfigureAwait(false);
 
                 if (disposing)
                 {

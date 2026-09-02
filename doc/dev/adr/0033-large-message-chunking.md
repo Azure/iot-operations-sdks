@@ -28,7 +28,8 @@ Scope is RPC request and response.
   published as a packet the broker will discard.
 * A chunked message MUST be reassemblable by any conforming implementation, whichever language
   split it.
-* Support MUST be implied by the protocol version — no negotiation, and no opt-out.
+* A chunk's format support MUST be implied by protocol version 2.0, with no per-transfer opt-out.
+  During migration, a 1.0 request MUST be able to advertise that 2.0 responses are accepted.
 
 ## Non-requirements
 
@@ -54,13 +55,12 @@ Scope is RPC request and response.
 ### 1. Layering
 
 Splitting and reassembly happen in `CommandInvoker` and `CommandExecutor`. The reassembly buffer
-sits between header validation and the response cache, so the cache only ever sees whole messages.
-Placing it below the cache would deadlock on the golden path: every chunk shares
-`(responseTopic, correlationData)`, so chunk 1 looks like an in-flight duplicate of chunk 0 and
-awaits a placeholder that is never completed.
+sits between header validation and the response cache, so the cache only ever sees whole messages
+and the rest of the pipeline works without modification.
 
-The buffer itself is free of RPC concepts — keyed on `messageId`, given its deadline by the caller —
-so telemetry can reuse it later.
+The buffer itself is free of RPC concepts. Entries are keyed by `message_id` plus the MQTT operation
+identity (topic, response topic and correlation data), so unrelated operations cannot collide even
+if a peer reuses a UUID. The caller supplies the deadline, so telemetry can reuse the buffer later.
 
 ### 2. Wire format
 
@@ -68,26 +68,37 @@ One reserved user property, `__chunk` ([ADR 4](./0004-reserved-user-properties.m
 and introduced by a tag so the parser never infers the shape from the field count:
 
 ```txt
-chunk_metadata ::= head_chunk | property_chunk | data_chunk
-head_chunk     ::= "h" ":" message_id ":" chunk_index ":" total_chunks ":" checksum_id ":" checksum
-property_chunk ::= "p" ":" message_id ":" chunk_index
-data_chunk     ::= "d" ":" message_id ":" chunk_index
+chunk_metadata         ::= response_chunk | request_chunk
+response_chunk         ::= head_chunk | property_chunk | data_chunk
+request_chunk          ::= head_request_chunk | property_request_chunk | data_request_chunk
+head_chunk             ::= "h" ":" message_id ":" chunk_index ":" total_chunks ":" checksum_id ":" checksum
+property_chunk         ::= "p" ":" message_id ":" chunk_index ":" total_chunks
+data_chunk             ::= "d" ":" message_id ":" chunk_index ":" total_chunks
+head_request_chunk     ::= head_chunk ":" remaining_seconds
+property_request_chunk ::= property_chunk ":" remaining_seconds
+data_request_chunk     ::= data_chunk ":" remaining_seconds
 ```
 
 | Field | Type | Presence |
 |---|---|---|
 | `message_id` | UUID, 8-4-4-4-12 | every chunk |
 | `chunk_index` | uint, `0` on the head chunk | every chunk |
-| `total_chunks` | uint `>= 1`, counting every chunk of the message | head chunk only |
+| `total_chunks` | uint `>= 1`, counting every chunk of the message | every chunk |
 | `checksum_id` | token naming the algorithm | head chunk only |
 | `checksum` | lowercase hex over the reassembled payload | head chunk only |
+| `remaining_seconds` | positive uint operation countdown | every request chunk only |
+
+UUIDs, integers and checksums use the canonical forms shown above: lowercase UUID `D` format,
+unsigned decimal integers without leading zeroes, and lowercase hexadecimal checksums.
 
 Index `0` must use the head form and the head form must be index `0`; either violation is a parse
 failure. Property chunks occupy the indices immediately after the header and data chunks follow
 them, so each chunk's role is known from its own tag and needs no boundary marker on the header.
-Colon-separated rather than JSON because it rides on every chunk. Out-of-order delivery is fine —
-whichever chunk arrives first creates the entry, and completion is "total known and all indices
-present".
+Colon-separated rather than JSON because it rides on every chunk. Chunks may arrive out of order:
+any chunk can create a reassembly-buffer entry keyed by `message_id`. Repeating `total_chunks` lets
+the receiver validate the declared count and `chunk_index` before buffering that first arrival; all
+chunks attributed to the entry must declare the same total. Completion requires the head and exactly
+the indices `{0, ..., total_chunks - 1}`.
 
 ### 3. Chunk roles
 
@@ -95,24 +106,28 @@ Each chunk carries exactly one kind of thing:
 
 | Chunk | Tag | Carries | Count |
 |---|---|---|---|
-| Header | `h` | message-level metadata only — total, checksum identifier, checksum. No payload, no user properties | exactly one, at index `0` |
+| Header | `h` | message-level checksum metadata only — checksum identifier and checksum. No payload or logical user properties | exactly one, at index `0` |
 | Property | `p` | a slice of the message's user property set | zero or more |
 | Data | `d` | a slice of the payload | zero or more |
 
 Every chunk additionally carries what routing and validation need on each packet — `$partition`,
-`$high_priority`, `__protVer` and `__chunk` itself. The message's user properties are the
+`$high_priority`, `__protVer`, `__supProtMajVer` and `__chunk` itself. The message's user properties are the
 concatenation, in index order, of those carried by the property chunks; its payload is the
 concatenation, in index order, of the data chunks.
 
-This is what makes each chunk's size *measurable* instead of guessed. Every chunk type has a
-property set the SDK authors in full, so its overhead is obtained by sizing an empty probe of that
-type rather than by trusting arithmetic over arbitrary caller input — the place where a size
-function goes wrong, and where the penalty is a silently discarded packet rather than an exception.
+Within the MQTT User Property sequence, packet-level properties precede `__chunk`. On a property
+chunk, the logical property slice follows `__chunk`; on a head or data chunk, `__chunk` is last.
+Reassembly concatenates only the properties after `__chunk` on property chunks. This boundary
+preserves names, duplicates and order without confusing repeated routing properties for logical
+properties.
 
-Splitting the property set is safe in a way splitting the payload is not: properties reassemble as a
-**set union** ordered by chunk index, not a byte splice, so how a sender packs them need not match
-how another implementation would. Only a single name/value pair that cannot fit in one packet makes
-a message undeliverable, and that is reported as such.
+The splitter sizes each property-chunk candidate and an empty data-chunk probe instead of guessing
+their MQTT overhead. This avoids an oversized PUBLISH that the broker may silently discard.
+
+Splitting the property list is safe in a way splitting the payload is not: properties reassemble by
+ordered concatenation, not a byte splice, so how a sender packs them need not match how another
+implementation would. Only a single name/value pair that cannot fit in one packet makes a message
+undeliverable, and that is reported as such.
 
 The alternative — a per-implementation overhead constant — is rejected. It cannot be both safe and
 efficient, and three languages would pick three different numbers.
@@ -144,7 +159,7 @@ envoys use, so the baseline above is a default, not a guarantee. The allowance i
 | Setting | `MaxIdentifiedSubscriptionsPerDelivery`, default `0` |
 | Scope | the **connection**, not the envoy — every envoy sharing a client must size against the same value, and it is surfaced through the same accessor that yields the negotiated maximum packet size |
 | Effect | the chunk budget subtracts `count × 5` bytes: one property identifier byte plus a variable byte integer of up to four |
-| Guard | a client used by envoys rejects a SUBSCRIBE carrying an identifier unless the allowance covers it, turning a silently discarded chunk into a startup error |
+| Guard | the client conservatively counts live identified topic filters and rejects a SUBSCRIBE that would exceed the allowance, turning a silently discarded chunk into a startup error |
 
 Rejected alternatives: a byte-valued `ReservedDeliveryOverheadBytes`, which is an underivable and
 unauditable number of exactly the kind §3 removed for property overhead; and a fixed safety margin,
@@ -165,8 +180,9 @@ mismatch indistinguishable from corruption. The ADR defines the registered set a
 
 The checksum guards against **implementation error** — a slicing off-by-one producing a complete but
 wrong payload, or two languages disagreeing about the split. Structure already covers the rest: a
-missing chunk fails completion, ordering is fixed by index, duplicate indices are rejected, messages
-cannot mix because the buffer is keyed on `messageId`, and bit corruption is caught by TCP and TLS.
+missing chunk fails completion, ordering is fixed by index, repeated indices replace one retained
+slot, unrelated operations cannot mix because the key includes MQTT operation identity, and bit
+corruption is caught by TCP and TLS.
 
 It is **not a security control and cannot become one** — it travels unauthenticated in a plaintext
 user property beside the payload it describes, so anyone able to alter the payload can recompute it.
@@ -187,10 +203,16 @@ absent expiry is rejected, since nothing would bound how long a partial message 
 
 **Receive side:** the executor must not derive its reassembly deadline from `MessageExpiryInterval`
 — that conflates a message clock with an operation clock, which ADR 25 explicitly rejects, and it
-requires the *head* chunk to arrive first, which is not guaranteed. `__chunk` therefore carries an
-optional trailing countdown on request-direction chunks —
-`h:...:checksum[:remainingSeconds]` and `d:...:index[:remainingSeconds]`, unambiguous because the
-tag already fixes the form. Response-direction chunks omit it; the invoker uses its own budget.
+requires the *head* chunk to arrive first, which is not guaranteed. Every request-direction chunk
+therefore appends a required positive countdown:
+`h:...:total:checksum_id:checksum:remaining_seconds`,
+`p:...:index:total:remaining_seconds` and `d:...:index:total:remaining_seconds`. The tag fixes the
+form, so response-direction chunks omit the field without ambiguity; the invoker uses its own
+absolute deadline.
+
+MQTT expresses expiry in whole seconds. A sender rounds a positive fractional remainder up so a
+usable final fraction is not encoded as the already-expired value `0`; a chunk can consequently
+outlive the local deadline by less than one second, never by a full second.
 
 Consequence to document: the invoke timeout now has to cover split, transmit, reassemble, execute,
 respond and reassemble again. A timeout that worked for an unchunked payload can stop working once
@@ -201,11 +223,18 @@ the payload crosses the chunking threshold.
 The buffer is bounded from the outset, or a message that stalls after one chunk becomes an entry
 nothing reclaims:
 
-* a maximum chunk count per message, checked the moment the head chunk names the total, discarding
-  the message and releasing every chunk held for it — eventually derived from the negotiated receive
-  maximum rather than a constant;
+* a maximum chunk count per message, declared on every chunk and checked before that chunk is
+  buffered — eventually derived from the negotiated receive maximum rather than a constant;
 * a total reassembly budget across all in-flight messages;
-* a deadline **supplied by the caller**, never derived inside the buffer.
+* a maximum number of concurrently active reassembly entries, independent of their byte cost;
+* a deadline **supplied by the caller**, never derived inside the buffer;
+* a local maximum reassembly window that caps both caller and peer-provided deadlines;
+* an autonomous expiry action scheduled when an entry is created, so cleanup does not depend on
+  another chunk arriving.
+
+The aggregate budget is admission control, not a reservation per operation: several individually
+valid maximum-size transfers may not fit concurrently. The arrival that would exceed the budget is
+rejected with `503`; existing entries retain their allocations until completion or expiry.
 
 ### 8. Acknowledgement
 
@@ -228,19 +257,20 @@ invoker is the final consumer and fails its own pending invocation.
 * `__chunk` is unparsable — unknown tag, the wrong field count for its tag, or a malformed message
   id or index.
 * The head form appears at a non-zero index, or index `0` is not in the head form.
-* `total_chunks` is zero.
+* `total_chunks` is zero or exceeds the local maximum.
+* `chunk_index` is at or beyond `total_chunks`.
 * The chunk carries no message expiry, or an expiry of zero (§6).
 
 **Rejected once the chunk is attributed to a message:**
 
-* `total_chunks` exceeds the local maximum, or the reassembly budget is exhausted (§7).
-* An index is at or beyond `total_chunks`.
-* A second head chunk disagrees with the first about `total_chunks`, `checksum_id` or `checksum`.
+* Its `total_chunks` disagrees with the total already recorded for that `message_id`.
+* The reassembly budget is exhausted (§7).
+* A second head chunk disagrees with the first about `checksum_id` or `checksum`.
+* The head chunk names a `checksum_id` the receiver cannot resolve (§5).
 * A property chunk arrives at an index after a data chunk (§2).
 
 **Rejected at completion, or when the deadline passes:**
 
-* The head chunk names a `checksum_id` the receiver cannot resolve (§5).
 * The checksum does not match the reassembled payload.
 * The deadline passes with chunks still missing.
 
@@ -250,19 +280,19 @@ mid-message redelivers all of them. It is acknowledged and ignored, and only *co
 is a fault. Chunks arriving out of order are expected (§2). A chunk naming a message that has
 already completed or been discarded is acknowledged and ignored.
 
+Receivers retain a bounded tombstone for each completed or discarded operation through its deadline
+and a short minimum grace period. This prevents late chunks from creating a new partial entry or a
+second error response; count and retention bounds keep the tombstones from becoming unbounded state.
+
 Two traps follow from that, both of which turn a healthy transfer into a failure:
 
 * **The reassembly budget must not double-count.** Charging a redelivered chunk's bytes to the
   in-flight total a second time trips the bound in §7 and discards a message that was never too
   large.
-* **A redelivered chunk must not be acknowledged on arrival.** Acknowledging it releases the packet
-  at the broker, because a redelivery reuses the original's packet identifier — forfeiting the very
-  redelivery §8 depends on. Nor can it simply be dropped: a receiver that acknowledges in order
-  queues one entry per delivery, and an entry never marked stalls every acknowledgement behind it,
-  which is invariant 1 by another route. The buffer therefore **replaces** the delivery context it
-  holds for that index and acknowledges nothing until the message completes or is discarded. One
-  context per index suffices: MQTT 5 §4.4 permits redelivery only after a reconnect, and a reconnect
-  discards whatever acknowledgements were still pending, so only the newest delivery is live.
+* **A repeated index must not leak either delivery context.** The buffer retains the newest context
+  for final acknowledgement and releases the displaced local context. An ordered-ack client must do
+  so without acknowledging the newly delivered packet; otherwise the displaced queue entry can
+  stall every acknowledgement behind it. One retained context per index is sufficient.
 
 Two invariants hold across all of the above:
 
@@ -280,10 +310,11 @@ bounds refused a well-formed message this executor could not accept. A chunk wit
 data or a response topic is discarded silently, as the existing header validation already requires.
 In the response direction nothing is published; the invoker fails the invocation locally.
 
-Which error kind each of these surfaces as is open — see open question 1. The existing kinds map
-readily (`HeaderInvalid` for malformed metadata, `PayloadInvalid` for a checksum mismatch, `Timeout`
-for an incomplete message) and exist in all three languages; a dedicated kind would diagnose better
-at the cost of a Rust breaking change.
+Existing error kinds carry these failures across languages: malformed metadata and checksum
+mismatches map to `PayloadInvalid`/`400`, incomplete reassembly to `Timeout`/`408`, and exhausted
+local capacity to `StateInvalid`/`503`. A distinct sender-side error identifies a message that
+cannot be represented within the packet and chunk limits. Error responses use a separate bounded
+expiry so reporting a deadline failure does not create a response that never expires.
 
 ### 10. Disconnection and recovery
 
@@ -335,8 +366,14 @@ because each entry stands alone.
 
 ### 11. Versioning and configuration
 
-* RPC wire protocol bumps to **2.0**. Chunking is implied by the version — no feature negotiation,
-  no opt-out. A 2.0 implementation that rejects chunked messages is non-compliant.
+* Chunked RPC messages use wire protocol **2.0**. Chunking is implied by that version — no feature
+  negotiation and no opt-out. A 2.0 implementation that rejects chunked messages is non-compliant.
+* During migration, unchunked traffic remains on 1.0. A large request uses 2.0 and receives a
+  version error from a legacy executor rather than being misinterpreted. Every request advertises
+  acceptable response majors in `__supProtMajVer`; a chunk-aware invoker advertises `1 2`. This
+  lets a chunk-aware executor answer a small 1.0 request with either an unchunked 1.0 response or,
+  when needed, a chunked 2.0 response. Without that advertisement, an oversized response returns
+  `503` rather than incompatible chunks.
 * Chunking is **automatic and opaque**: no user-facing chunk-size knob and no enable/disable
   setting.
 * QoS is preserved across all chunks, and all chunks use the same topic.
@@ -363,19 +400,14 @@ outweigh the above.
 
 ## Open questions
 
-1. **Error kinds.** Which existing kind absorbs incomplete-chunk, checksum-mismatch and
-   buffer-limit failures, versus adding new ones — `AIOProtocolErrorKind` is not `#[non_exhaustive]`,
-   so a new variant is a Rust breaking change. Reusing `PayloadInvalid` or `HeaderInvalid` is
-   cheapest and costs diagnostics. §9 defines the failure taxonomy and the status codes independently
-   of this choice, so it can be settled late.
-2. **Should a chunked response be cacheable at all?** A cached-response replay is re-chunked and
+1. **Should a chunked response be cacheable at all?** A cached-response replay is re-chunked and
    re-sent in full, with no way for the invoker to decline it (there is no mid-transfer backchannel).
-3. **Cache memory.** A reassembled multi-MB payload enters the response cache exactly as a large
+2. **Cache memory.** A reassembled multi-MB payload enters the response cache exactly as a large
    unchunked one would; bounding *reassembly* does nothing about that.
-4. **Prerequisite, not part of this ADR.** The negotiated maximum packet size is unreachable from
+3. **Prerequisite, not part of this ADR.** The negotiated maximum packet size is unreachable from
    any envoy in all three languages. That plumbing should land first so this protocol can assume it
    exists.
-5. **Cross-language dedupe divergence.** Rust delays the ack, .NET coalesces onto the same task, Go
+4. **Cross-language dedupe divergence.** Rust delays the ack, .NET coalesces onto the same task, Go
    drops the duplicate. This must be reconciled before the METL tests can be written.
 
 ## Consequences

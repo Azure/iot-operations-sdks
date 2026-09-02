@@ -17,7 +17,6 @@ public class ChunkBufferTests
     // data chunk's real overhead, so the payload budget is whatever is left after that plus the
     // safety margin, rather than a number these tests can compute.
     private const int TestMaxPacketSize = 1200;
-    private const int TestSafetyMargin = 16;
 
     [Fact]
     public void IsChunk_UnchunkedMessage_ReturnsFalse()
@@ -39,17 +38,21 @@ public class ChunkBufferTests
     }
 
     [Fact]
-    public void Split_ProducesAHeaderChunkCarryingNoPayload()
+    public void Split_ProducesHeadPropertyAndDataChunks()
     {
         var chunks = Split(NewPayload(4096), extraProperty: true);
 
         Assert.True(chunks.Count > 2);
         Assert.Equal(0, chunks[0].Payload.Length);
-        Assert.All(chunks.Skip(1), c => Assert.True(c.Payload.Length > 0));
+        Assert.Equal(ChunkKind.Head, Metadata(chunks[0]).Kind);
 
-        // The header chunk is the one carrying the user's properties.
-        Assert.Contains(chunks[0].UserProperties!, p => p.Name == "originalProperty");
-        Assert.All(chunks.Skip(1), c => Assert.DoesNotContain(c.UserProperties!, p => p.Name == "originalProperty"));
+        MqttApplicationMessage propertyChunk = Assert.Single(chunks.Where(c => Metadata(c).Kind == ChunkKind.Property));
+        Assert.Equal(0, propertyChunk.Payload.Length);
+        Assert.Contains(propertyChunk.UserProperties!, p => p.Name == "originalProperty");
+
+        List<MqttApplicationMessage> dataChunks = chunks.Where(c => Metadata(c).Kind == ChunkKind.Data).ToList();
+        Assert.NotEmpty(dataChunks);
+        Assert.All(dataChunks, c => Assert.True(c.Payload.Length > 0));
     }
 
     [Fact]
@@ -90,7 +93,7 @@ public class ChunkBufferTests
     public void AddChunk_ChunksOutOfOrder_ReassemblesPayload()
     {
         var payload = NewPayload(4096);
-        var chunks = Split(payload);
+        var chunks = Split(payload, extraProperty: true);
         var buffer = new ChunkBuffer(new ChunkingOptions());
 
         ChunkBufferResult? result = null;
@@ -101,6 +104,8 @@ public class ChunkBufferTests
 
         Assert.NotNull(result!.ReassembledMessage);
         Assert.Equal(payload, result.ReassembledMessage!.ApplicationMessage.Payload.ToArray());
+        Assert.Contains(result.ReassembledMessage.ApplicationMessage.UserProperties!,
+            p => p.Name == "originalProperty" && p.Value == "value");
     }
 
     [Fact]
@@ -142,7 +147,7 @@ public class ChunkBufferTests
     }
 
     [Fact]
-    public async Task AddChunk_RedeliveredChunk_HoldsTheNewDeliveryAndAcknowledgesNeitherEarly()
+    public async Task AddChunk_RedeliveredChunk_ReleasesOldDeliveryAndHoldsNewDelivery()
     {
         var chunks = Split(NewPayload(4096));
         var buffer = new ChunkBuffer(new ChunkingOptions());
@@ -156,8 +161,9 @@ public class ChunkBufferTests
         var redelivery = buffer.AddChunk(Received(chunks[1], () => acknowledged.Add("1-redelivered")), Now, ExpiresAt);
 
         Assert.Null(redelivery.ReassembledMessage);
-        Assert.Empty(redelivery.DiscardedChunks);
-        Assert.Empty(acknowledged);
+        MqttApplicationMessageReceivedEventArgs displaced = Assert.Single(redelivery.DiscardedChunks);
+        await displaced.AcknowledgeAsync(CancellationToken.None);
+        Assert.Equal(["1-first"], acknowledged);
 
         ChunkBufferResult? result = null;
         for (int i = 2; i < chunks.Count; i++)
@@ -169,7 +175,83 @@ public class ChunkBufferTests
         await result!.ReassembledMessage!.AcknowledgeAsync(CancellationToken.None);
 
         Assert.Contains("1-redelivered", acknowledged);
-        Assert.DoesNotContain("1-first", acknowledged);
+    }
+
+    [Fact]
+    public async Task AddChunk_DuplicateIndexWithDifferentPacketIdentifier_ReleasesDisplacedDelivery()
+    {
+        var chunks = Split(NewPayload(4096));
+        await using var buffer = new ChunkBuffer(new ChunkingOptions());
+        var acknowledged = new List<string>();
+
+        buffer.AddChunk(Received(chunks[0], packetIdentifier: 10), Now, ExpiresAt);
+        buffer.AddChunk(Received(chunks[1], () => acknowledged.Add("first"), 11), Now, ExpiresAt);
+
+        var duplicate = buffer.AddChunk(Received(chunks[1], () => acknowledged.Add("replacement"), 12), Now, ExpiresAt);
+        MqttApplicationMessageReceivedEventArgs displaced = Assert.Single(duplicate.DiscardedChunks);
+        await displaced.AcknowledgeAsync(CancellationToken.None);
+
+        Assert.Equal(["first"], acknowledged);
+
+        ChunkBufferResult? completed = null;
+        for (int i = 2; i < chunks.Count; i++)
+        {
+            completed = buffer.AddChunk(Received(chunks[i], packetIdentifier: (ushort)(12 + i)), Now, ExpiresAt);
+        }
+
+        await completed!.ReassembledMessage!.AcknowledgeAsync(CancellationToken.None);
+
+        Assert.Contains("replacement", acknowledged);
+    }
+
+    [Fact]
+    public async Task AddChunk_SameDeliveryInstanceTwice_IsAcknowledgedOnceOnCompletion()
+    {
+        IReadOnlyList<MqttApplicationMessage> chunks = Split(NewPayload(4096));
+        await using var buffer = new ChunkBuffer(new ChunkingOptions());
+        int headAcknowledgements = 0;
+        var head = Received(chunks[0], () => headAcknowledgements++);
+
+        buffer.AddChunk(head, Now, ExpiresAt);
+        ChunkBufferResult repeated = buffer.AddChunk(head, Now, ExpiresAt);
+        Assert.Empty(repeated.DiscardedChunks);
+
+        ChunkBufferResult? completed = null;
+        foreach (MqttApplicationMessage chunk in chunks.Skip(1))
+        {
+            completed = buffer.AddChunk(Received(chunk), Now, ExpiresAt);
+        }
+
+        await completed!.ReassembledMessage!.AcknowledgeAsync(CancellationToken.None);
+        Assert.Equal(1, headAcknowledgements);
+    }
+
+    [Fact]
+    public async Task DisposeAsync_WithPartialEntries_AcknowledgesEachHeldChunkOnce()
+    {
+        IReadOnlyList<MqttApplicationMessage> chunks = Split(NewPayload(4096));
+        var buffer = new ChunkBuffer(new ChunkingOptions());
+        int acknowledgements = 0;
+        buffer.AddChunk(Received(chunks[0], () => acknowledgements++), Now, ExpiresAt);
+        buffer.AddChunk(Received(chunks[1], () => acknowledgements++), Now, ExpiresAt);
+
+        await buffer.DisposeAsync();
+        await buffer.DisposeAsync();
+
+        Assert.Equal(2, acknowledgements);
+    }
+
+    [Fact]
+    public async Task AddChunk_AfterDispose_ReturnsDeliveryForAcknowledgement()
+    {
+        IReadOnlyList<MqttApplicationMessage> chunks = Split(NewPayload(4096));
+        var buffer = new ChunkBuffer(new ChunkingOptions());
+        await buffer.DisposeAsync();
+        var delivery = Received(chunks[0]);
+
+        ChunkBufferResult result = buffer.AddChunk(delivery, Now, ExpiresAt);
+
+        Assert.Same(delivery, Assert.Single(result.DiscardedChunks));
     }
 
     [Fact]
@@ -191,97 +273,265 @@ public class ChunkBufferTests
     }
 
     [Fact]
-    public void AddChunk_DuplicateChunk_ReplacesTheHeldDeliveryRatherThanAcknowledgingIt()
+    public void AddChunk_DuplicateChunk_ReturnsDisplacedDelivery()
     {
         var chunks = Split(NewPayload(4096));
         var buffer = new ChunkBuffer(new ChunkingOptions());
 
-        Assert.Empty(buffer.AddChunk(Received(chunks[0]), Now, ExpiresAt).DiscardedChunks);
+        var first = Received(chunks[0]);
+        Assert.Empty(buffer.AddChunk(first, Now, ExpiresAt).DiscardedChunks);
 
         var redelivery = Received(chunks[0]);
         var result = buffer.AddChunk(redelivery, Now, ExpiresAt);
 
         Assert.Null(result.ReassembledMessage);
-        Assert.Empty(result.DiscardedChunks);
+        Assert.Same(first, Assert.Single(result.DiscardedChunks));
     }
 
     [Fact]
-    public void AddChunk_TooManyChunks_DiscardsMessage()
+    public void AddChunk_NonHeadChunkDeclaringTooManyChunks_DiscardsMessageImmediately()
     {
         var chunks = Split(NewPayload(4096));
         var buffer = new ChunkBuffer(new ChunkingOptions { MaxChunkCount = 2 });
 
         Assert.True(chunks.Count > 2);
 
-        var result = buffer.AddChunk(Received(chunks[0]), Now, ExpiresAt);
+        var result = buffer.AddChunk(Received(chunks[^1]), Now, ExpiresAt);
 
         Assert.Null(result.ReassembledMessage);
         Assert.Single(result.DiscardedChunks);
     }
 
     [Fact]
-    public void AddChunk_ExceedsReassemblyBufferLimit_DiscardsMessageAndReleasesHeldChunks()
-    {
-        var chunks = Split(NewPayload(4096));
-
-        // Room for the header chunk, which carries no payload, and one data chunk but not two.
-        long limit = chunks[1].Payload.Length + 1;
-        var buffer = new ChunkBuffer(new ChunkingOptions { ReassemblyBufferSizeLimit = limit });
-
-        var header = Received(chunks[0]);
-        Assert.Empty(buffer.AddChunk(header, Now, ExpiresAt).DiscardedChunks);
-
-        var first = Received(chunks[1]);
-        Assert.Empty(buffer.AddChunk(first, Now, ExpiresAt).DiscardedChunks);
-
-        var second = Received(chunks[2]);
-        var result = buffer.AddChunk(second, Now, ExpiresAt);
-
-        Assert.Null(result.ReassembledMessage);
-        Assert.Equal([header, first, second], result.DiscardedChunks);
-    }
-
-    [Fact]
-    public void AddChunk_PartialMessageExpires_AbandonsAndReturnsHeldChunks()
+    public void AddChunk_ConflictingTotals_DiscardsEveryHeldChunk()
     {
         var chunks = Split(NewPayload(4096));
         var buffer = new ChunkBuffer(new ChunkingOptions());
+        var held = Received(chunks[^1]);
 
-        var held = Received(chunks[0]);
         Assert.Empty(buffer.AddChunk(held, Now, ExpiresAt).DiscardedChunks);
 
-        // A later, unrelated chunk arrives after the first message's deadline.
-        var laterChunks = Split(NewPayload(4096));
-        var afterExpiry = ExpiresAt.AddSeconds(1);
-        var result = buffer.AddChunk(Received(laterChunks[0]), afterExpiry, afterExpiry.AddSeconds(10));
+        ChunkMetadata head = Metadata(chunks[0]);
+        ReplaceChunkMetadata(chunks[0], ChunkMetadata.CreateFirstChunk(
+            head.MessageId,
+            head.TotalChunks + 1,
+            head.ChecksumId!,
+            head.Checksum!).Format());
+        var conflicting = Received(chunks[0]);
+        var result = buffer.AddChunk(conflicting, Now, ExpiresAt);
 
         Assert.Null(result.ReassembledMessage);
-        Assert.Contains(held, result.DiscardedChunks);
+        Assert.Equal([held, conflicting], result.DiscardedChunks);
+    }
+
+    [Theory]
+    [InlineData(false)]
+    [InlineData(true)]
+    public void AddChunk_ConflictingHeadChecksumMetadata_DiscardsEveryHeldChunk(bool changeChecksumId)
+    {
+        var chunks = Split(NewPayload(4096));
+        var buffer = new ChunkBuffer(new ChunkingOptions
+        {
+            ResolveChecksum = _ => ChunkChecksums.Sha256,
+        });
+        var held = Received(chunks[0]);
+        ChunkMetadata head = Metadata(chunks[0]);
+
+        Assert.Empty(buffer.AddChunk(held, Now, ExpiresAt).DiscardedChunks);
+
+        ReplaceChunkMetadata(chunks[0], ChunkMetadata.CreateFirstChunk(
+            head.MessageId,
+            head.TotalChunks,
+            changeChecksumId ? "other" : head.ChecksumId!,
+            changeChecksumId ? head.Checksum! : "deadbeef").Format());
+        var conflicting = Received(chunks[0]);
+        var result = buffer.AddChunk(conflicting, Now, ExpiresAt);
+
+        Assert.Null(result.ReassembledMessage);
+        Assert.Equal([held, conflicting], result.DiscardedChunks);
     }
 
     [Fact]
-    public void AddChunk_ExpirySweepCoincidesWithReassembly_StillReturnsTheAbandonedChunks()
+    public void AddChunk_PropertyIndexAfterHeldDataIndex_DiscardsEveryHeldChunk()
     {
+        var chunks = Split(NewPayload(4096), extraProperty: true);
+        MqttApplicationMessage property = chunks.Single(c => Metadata(c).Kind == ChunkKind.Property);
+        MqttApplicationMessage data = chunks.First(c => Metadata(c).Kind == ChunkKind.Data);
+        ChunkMetadata propertyMetadata = Metadata(property);
+        ChunkMetadata dataMetadata = Metadata(data);
+        ReplaceChunkMetadata(property, ChunkMetadata.CreatePropertyChunk(
+            propertyMetadata.MessageId,
+            dataMetadata.ChunkIndex + 1,
+            propertyMetadata.TotalChunks).Format());
         var buffer = new ChunkBuffer(new ChunkingOptions());
+        var held = Received(data);
+
+        Assert.Empty(buffer.AddChunk(held, Now, ExpiresAt).DiscardedChunks);
+
+        var conflicting = Received(property);
+        var result = buffer.AddChunk(conflicting, Now, ExpiresAt);
+
+        Assert.Null(result.ReassembledMessage);
+        Assert.Equal([held, conflicting], result.DiscardedChunks);
+    }
+
+    [Fact]
+    public async Task AddChunk_PartialMessageExpiresWithoutMoreTraffic_AcknowledgesHeldChunks()
+    {
+        var chunks = Split(NewPayload(4096));
+        var acknowledged = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+        await using var buffer = new ChunkBuffer(new ChunkingOptions());
+
+        var held = Received(chunks[0], () => acknowledged.TrySetResult());
+        Assert.Empty(buffer.AddChunk(held, Now, Now.AddMilliseconds(25)).DiscardedChunks);
+
+        await acknowledged.Task.WaitAsync(TimeSpan.FromSeconds(5));
+    }
+
+    [Fact]
+    public void AddChunk_HeadOnlyMessage_ReassemblesEmptyMessage()
+    {
+        const string messageId = "8ac7a0e4-1b3d-4f9a-9a3f-0d2f6c5b7e11";
+        ChunkMetadata metadata = ChunkMetadata.CreateFirstChunk(
+            messageId,
+            1,
+            ChunkChecksums.Sha256.Id,
+            ChunkChecksums.Sha256.Compute(ReadOnlySequence<byte>.Empty));
+        var message = new MqttApplicationMessage("test/topic")
+        {
+            MessageExpiryInterval = 10,
+            UserProperties = [new MqttUserProperty(ChunkingConstants.ChunkUserProperty, metadata.Format())],
+        };
+        var buffer = new ChunkBuffer(new ChunkingOptions());
+
+        ChunkBufferResult result = buffer.AddChunk(Received(message), Now, ExpiresAt);
+
+        Assert.NotNull(result.ReassembledMessage);
+        Assert.True(result.ReassembledMessage.ApplicationMessage.Payload.IsEmpty);
+    }
+
+    [Fact]
+    public void AddChunk_EmptyPayloadWithProperties_ReassemblesWithoutDataChunks()
+    {
+        IReadOnlyList<MqttApplicationMessage> chunks = Split([], extraProperty: true);
+        var buffer = new ChunkBuffer(new ChunkingOptions());
+
+        Assert.Equal(2, chunks.Count);
+        Assert.DoesNotContain(chunks, chunk => Metadata(chunk).Kind == ChunkKind.Data);
+
+        ChunkBufferResult? result = null;
+        foreach (MqttApplicationMessage chunk in chunks)
+        {
+            result = buffer.AddChunk(Received(chunk), Now, ExpiresAt);
+        }
+
+        Assert.NotNull(result!.ReassembledMessage);
+        Assert.True(result.ReassembledMessage.ApplicationMessage.Payload.IsEmpty);
+        Assert.Contains(
+            result.ReassembledMessage.ApplicationMessage.UserProperties!,
+            property => property.Name == "originalProperty" && property.Value == "value");
+    }
+
+    [Fact]
+    public async Task AddChunk_CountdownBeyondSingleTimerRange_DoesNotPoisonEntry()
+    {
+        IReadOnlyList<MqttApplicationMessage> chunks = Split(NewPayload(4096));
+        foreach (MqttApplicationMessage chunk in chunks)
+        {
+            ChunkMetadata metadata = Metadata(chunk);
+            ReplaceChunkMetadata(chunk, metadata.Format(uint.MaxValue));
+        }
+
+        await using var buffer = new ChunkBuffer(new ChunkingOptions());
+        DateTime now = DateTime.UtcNow;
+        ChunkBufferResult? result = null;
+        foreach (MqttApplicationMessage chunk in chunks)
+        {
+            result = buffer.AddChunk(
+                Received(chunk),
+                now,
+                now.AddSeconds(1),
+                requireRemainingSeconds: true);
+        }
+
+        Assert.NotNull(result!.ReassembledMessage);
+    }
+
+    [Fact]
+    public async Task AddChunk_PeerCountdownBeyondCallerDeadline_IsClamped()
+    {
+        IReadOnlyList<MqttApplicationMessage> chunks = Split(NewPayload(4096));
+        ChunkMetadata metadata = Metadata(chunks[0]);
+        ReplaceChunkMetadata(chunks[0], metadata.Format(uint.MaxValue));
+        var acknowledged = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+        await using var buffer = new ChunkBuffer(new ChunkingOptions());
+        DateTime now = DateTime.UtcNow;
+
+        buffer.AddChunk(
+            Received(chunks[0], () => acknowledged.TrySetResult()),
+            now,
+            now.AddMilliseconds(25),
+            requireRemainingSeconds: true);
+
+        // The caller's nearer deadline wins over the peer's multi-decade countdown.
+        await acknowledged.Task.WaitAsync(TimeSpan.FromSeconds(5));
+    }
+
+    [Fact]
+    public void AddChunk_SameMessageIdWithDifferentCorrelations_ReassemblesIndependently()
+    {
+        byte[] firstPayload = NewPayload(4096);
+        byte[] secondPayload = NewPayload(4096);
+        IReadOnlyList<MqttApplicationMessage> first = Split(firstPayload);
+        IReadOnlyList<MqttApplicationMessage> second = Split(secondPayload);
+        string sharedMessageId = Metadata(first[0]).MessageId;
+        foreach (MqttApplicationMessage chunk in second)
+        {
+            ChunkMetadata original = Metadata(chunk);
+            ChunkMetadata replacement = original.Kind switch
+            {
+                ChunkKind.Head => ChunkMetadata.CreateFirstChunk(sharedMessageId, original.TotalChunks, original.ChecksumId!, original.Checksum!),
+                ChunkKind.Property => ChunkMetadata.CreatePropertyChunk(sharedMessageId, original.ChunkIndex, original.TotalChunks),
+                _ => ChunkMetadata.CreateDataChunk(sharedMessageId, original.ChunkIndex, original.TotalChunks),
+            };
+            ReplaceChunkMetadata(chunk, replacement.Format());
+        }
+
+        var buffer = new ChunkBuffer(new ChunkingOptions());
+        ChunkBufferResult? firstResult = null;
+        ChunkBufferResult? secondResult = null;
+        for (int i = 0; i < first.Count; i++)
+        {
+            firstResult = buffer.AddChunk(Received(first[i]), Now, ExpiresAt);
+            secondResult = buffer.AddChunk(Received(second[i]), Now, ExpiresAt);
+        }
+
+        Assert.Equal(firstPayload, firstResult!.ReassembledMessage!.ApplicationMessage.Payload.ToArray());
+        Assert.Equal(secondPayload, secondResult!.ReassembledMessage!.ApplicationMessage.Payload.ToArray());
+    }
+
+    [Fact]
+    public async Task AddChunk_OneMessageExpiresWhileAnotherReassembles()
+    {
+        var orphanAcknowledged = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+        await using var buffer = new ChunkBuffer(new ChunkingOptions());
 
         // A message that will stall, held with a nearer deadline than the one that completes.
         var stalled = Split(NewPayload(4096));
-        var orphan = Received(stalled[0]);
-        Assert.Empty(buffer.AddChunk(orphan, Now, Now.AddSeconds(10)).DiscardedChunks);
+        var orphan = Received(stalled[0], () => orphanAcknowledged.TrySetResult());
+        Assert.Empty(buffer.AddChunk(orphan, Now, Now.AddMilliseconds(50)).DiscardedChunks);
 
-        // A second message, all but its final chunk arriving before the first message expires.
+        // A second message completes independently while the first message's timer remains active.
         var completing = Split(NewPayload(4096));
         DateTime farDeadline = Now.AddSeconds(60);
-        for (int i = 0; i < completing.Count - 1; i++)
+        ChunkBufferResult? result = null;
+        foreach (MqttApplicationMessage chunk in completing)
         {
-            Assert.Empty(buffer.AddChunk(Received(completing[i]), Now, farDeadline).DiscardedChunks);
+            result = buffer.AddChunk(Received(chunk), Now, farDeadline);
         }
 
-        // The final chunk both sweeps the stalled message and completes this one.
-        var result = buffer.AddChunk(Received(completing[^1]), Now.AddSeconds(11), farDeadline);
-
-        Assert.NotNull(result.ReassembledMessage);
-        Assert.Contains(orphan, result.DiscardedChunks);
+        Assert.NotNull(result!.ReassembledMessage);
+        await orphanAcknowledged.Task.WaitAsync(TimeSpan.FromSeconds(5));
     }
 
     [Fact]
@@ -307,7 +557,6 @@ public class ChunkBufferTests
 
         var splitter = new ChunkedMessageSplitter(new ChunkingOptions
         {
-            StaticOverhead = TestSafetyMargin,
             Checksum = checksum,
         });
         var chunks = splitter.SplitMessage(NewMessage(payload), TestMaxPacketSize);
@@ -335,7 +584,6 @@ public class ChunkBufferTests
     {
         var splitter = new ChunkedMessageSplitter(new ChunkingOptions
         {
-            StaticOverhead = TestSafetyMargin,
             Checksum = new Fnv1a64ChunkChecksum(),
         });
         var chunks = splitter.SplitMessage(NewMessage(NewPayload(4096)), TestMaxPacketSize);
@@ -374,6 +622,19 @@ public class ChunkBufferTests
     private static string? ChunkValue(MqttApplicationMessage message) =>
         message.UserProperties?.FirstOrDefault(p => p.Name == ChunkingConstants.ChunkUserProperty)?.Value;
 
+    private static ChunkMetadata Metadata(MqttApplicationMessage message)
+    {
+        Assert.True(ChunkMetadata.TryParse(ChunkValue(message), out ChunkMetadata? metadata));
+        return metadata!;
+    }
+
+    private static void ReplaceChunkMetadata(MqttApplicationMessage message, string value)
+    {
+        List<MqttUserProperty> properties = message.UserProperties!;
+        int index = properties.FindIndex(p => p.Name == ChunkingConstants.ChunkUserProperty);
+        properties[index] = new MqttUserProperty(ChunkingConstants.ChunkUserProperty, value);
+    }
+
     private static byte[] NewPayload(int size)
     {
         var payload = new byte[size];
@@ -383,7 +644,7 @@ public class ChunkBufferTests
 
     private static IReadOnlyList<MqttApplicationMessage> Split(byte[] payload, bool extraProperty = false)
     {
-        var splitter = new ChunkedMessageSplitter(new ChunkingOptions { StaticOverhead = TestSafetyMargin });
+        var splitter = new ChunkedMessageSplitter(new ChunkingOptions());
         return splitter.SplitMessage(NewMessage(payload, extraProperty), TestMaxPacketSize);
     }
 
@@ -397,12 +658,15 @@ public class ChunkBufferTests
             UserProperties = extraProperty ? [new MqttUserProperty("originalProperty", "value")] : null
         };
 
-    private static MqttApplicationMessageReceivedEventArgs Received(MqttApplicationMessage message, Action? onAcknowledge = null)
+    private static MqttApplicationMessageReceivedEventArgs Received(
+        MqttApplicationMessage message,
+        Action? onAcknowledge = null,
+        ushort packetIdentifier = 1)
     {
         return new MqttApplicationMessageReceivedEventArgs(
             "testClient",
             message,
-            1,
+            packetIdentifier,
             (_, _) =>
             {
                 onAcknowledge?.Invoke();

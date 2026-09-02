@@ -3,6 +3,7 @@
 
 using System.Buffers;
 using Azure.Iot.Operations.Protocol.Chunking;
+using Azure.Iot.Operations.Protocol.Chunking.Exceptions;
 using Azure.Iot.Operations.Protocol.Events;
 using Azure.Iot.Operations.Protocol.Models;
 
@@ -11,7 +12,6 @@ namespace Azure.Iot.Operations.Protocol.UnitTests.Chunking;
 public class ChunkedMessageSplitterTests
 {
     private const int MaxPacketSize = 1200;
-    private const int SafetyMargin = 16;
 
     [Fact]
     public void Constructor_NullOptions_ThrowsArgumentNullException()
@@ -48,18 +48,46 @@ public class ChunkedMessageSplitterTests
         Assert.True(ChunkMetadata.TryParse(ChunkValue(chunks[0]), out var head));
         Assert.Equal(0, head!.ChunkIndex);
         Assert.Equal(chunks.Count, head.TotalChunks);
+        Assert.Equal(ChunkKind.Head, head.Kind);
         Assert.NotNull(head.Checksum);
 
-        // Data chunks are indexed from 1 and carry neither total nor checksum.
+        // Data chunks are indexed from 1 and repeat the total, but not the checksum.
         for (int i = 1; i < chunks.Count; i++)
         {
             Assert.True(chunks[i].Payload.Length > 0);
             Assert.True(ChunkMetadata.TryParse(ChunkValue(chunks[i]), out var data));
             Assert.Equal(i, data!.ChunkIndex);
-            Assert.Null(data.TotalChunks);
+            Assert.Equal(chunks.Count, data.TotalChunks);
+            Assert.Equal(ChunkKind.Data, data.Kind);
             Assert.Null(data.Checksum);
             Assert.Equal(head.MessageId, data.MessageId);
         }
+    }
+
+    [Fact]
+    public void SplitMessage_PropertyChunksPreserveOriginalOrder()
+    {
+        List<MqttUserProperty> properties = Enumerable.Range(0, 30)
+            .Select(i => new MqttUserProperty($"property{i:D2}", new string((char)('a' + (i % 26)), 80)))
+            .ToList();
+
+        var chunks = Split(NewPayload(4096), properties);
+        var propertyChunks = chunks.Where(c => Metadata(c).Kind == ChunkKind.Property).ToList();
+
+        Assert.True(propertyChunks.Count > 1);
+        Assert.All(propertyChunks, c => Assert.Equal(0, c.Payload.Length));
+        Assert.All(propertyChunks, c => Assert.NotEqual(
+            c.UserProperties!.Count - 1,
+            c.UserProperties.FindIndex(p => p.Name == ChunkingConstants.ChunkUserProperty)));
+        Assert.All(chunks.Where(c => Metadata(c).Kind != ChunkKind.Property), c => Assert.Equal(
+            c.UserProperties!.Count - 1,
+            c.UserProperties.FindIndex(p => p.Name == ChunkingConstants.ChunkUserProperty)));
+
+        List<MqttUserProperty> reassembled = propertyChunks
+            .SelectMany(PropertiesAfterChunkMetadata)
+            .ToList();
+
+        Assert.Equal(properties.Select(p => (p.Name, p.Value)), reassembled.Select(p => (p.Name, p.Value)));
     }
 
     [Fact]
@@ -90,7 +118,7 @@ public class ChunkedMessageSplitterTests
     }
 
     [Fact]
-    public void SplitMessage_OnlyTheHeaderChunkCarriesTheOriginalProperties()
+    public void SplitMessage_OnlyPropertyChunksCarryOriginalProperties()
     {
         List<MqttUserProperty> properties =
         [
@@ -101,31 +129,54 @@ public class ChunkedMessageSplitterTests
 
         var chunks = Split(NewPayload(4096), properties);
 
-        Assert.Contains(chunks[0].UserProperties!, p => p.Name == "originalProperty");
+        Assert.DoesNotContain(chunks[0].UserProperties!, p => p.Name == "originalProperty");
 
         foreach (var chunk in chunks.Skip(1))
         {
-            Assert.DoesNotContain(chunk.UserProperties!, p => p.Name == "originalProperty");
-
             // Routing and per-chunk validation properties must survive on every chunk.
             Assert.Contains(chunk.UserProperties!, p => p.Name == "$partition");
             Assert.Contains(chunk.UserProperties!, p => p.Name == "__protVer");
         }
+
+        MqttApplicationMessage propertyChunk = Assert.Single(chunks.Where(c => Metadata(c).Kind == ChunkKind.Property));
+        Assert.Contains(PropertiesAfterChunkMetadata(propertyChunk), p => p.Name == "originalProperty");
+        Assert.All(chunks.Where(c => Metadata(c).Kind != ChunkKind.Property),
+            c => Assert.Empty(PropertiesAfterChunkMetadata(c)));
     }
 
     [Fact]
-    public void SplitMessage_PropertiesTooLargeForOnePacket_Throws()
+    public void SplitMessage_LargePropertySet_IsSplitAcrossChunks()
     {
-        // The properties alone cannot be split, so the message is undeliverable and must say so.
         var properties = Enumerable.Range(0, 40)
             .Select(i => new MqttUserProperty($"userProperty{i:D2}", new string('v', 200)))
             .ToList();
 
-        var splitter = new ChunkedMessageSplitter(new ChunkingOptions { StaticOverhead = SafetyMargin });
-        var message = NewMessage(NewPayload(4096), properties);
+        var chunks = Split(NewPayload(4096), properties);
 
-        var exception = Assert.Throws<ArgumentException>(() => splitter.SplitMessage(message, MaxPacketSize));
-        Assert.Contains("exceeds the maximum packet size", exception.Message, StringComparison.Ordinal);
+        Assert.True(chunks.Count(c => Metadata(c).Kind == ChunkKind.Property) > 1);
+        Assert.All(chunks, c => Assert.True(MqttPacketSizeCalculator.CalculatePublishSize(c) <= MaxPacketSize));
+    }
+
+    [Fact]
+    public void SplitMessage_SinglePropertyTooLargeForOneChunk_Throws()
+    {
+        List<MqttUserProperty> properties = [new("oversized", new string('v', MaxPacketSize * 2))];
+        var splitter = new ChunkedMessageSplitter(new ChunkingOptions());
+
+        var exception = Assert.Throws<MessageTooLargeError>(() => splitter.SplitMessage(NewMessage(NewPayload(16), properties), MaxPacketSize));
+
+        Assert.Contains("cannot fit in one property chunk", exception.Message, StringComparison.Ordinal);
+    }
+
+    [Fact]
+    public void SplitMessage_CallerSuppliedChunkProperty_Throws()
+    {
+        var message = NewMessage(NewPayload(16), [new MqttUserProperty(ChunkingConstants.ChunkUserProperty, "caller")]);
+        var splitter = new ChunkedMessageSplitter(new ChunkingOptions());
+
+        ChunkAssemblyError exception = Assert.Throws<ChunkAssemblyError>(() => splitter.SplitMessage(message, MaxPacketSize));
+
+        Assert.Contains("reserved", exception.Message, StringComparison.OrdinalIgnoreCase);
     }
 
     [Fact]
@@ -143,7 +194,7 @@ public class ChunkedMessageSplitterTests
             TopicAlias = 5,
         };
 
-        var chunks = new ChunkedMessageSplitter(new ChunkingOptions { StaticOverhead = SafetyMargin })
+        var chunks = new ChunkedMessageSplitter(new ChunkingOptions())
             .SplitMessage(message, MaxPacketSize);
 
         foreach (var chunk in chunks)
@@ -212,7 +263,79 @@ public class ChunkedMessageSplitterTests
 
         Assert.True(result.Count > 1);
         Assert.Equal(0, result[0].Payload.Length);
-        Assert.Contains(result[0].UserProperties!, p => p.Name == "userProperty000");
+        Assert.Contains(result.Where(c => Metadata(c).Kind == ChunkKind.Property)
+            .SelectMany(PropertiesAfterChunkMetadata), p => p.Name == "userProperty000");
+    }
+
+    [Fact]
+    public void SplitMessage_WithoutDeliveryAllowance_AccountsForRemainingLengthGrowth()
+    {
+        const int packetLimit = 65_536;
+        var splitter = new ChunkedMessageSplitter(new ChunkingOptions());
+
+        IReadOnlyList<MqttApplicationMessage> chunks = splitter.SplitMessage(
+            NewMessage(NewPayload(packetLimit * 2)),
+            packetLimit);
+
+        Assert.All(chunks, chunk => Assert.True(
+            MqttPacketSizeCalculator.CalculatePublishSize(chunk) <= packetLimit,
+            $"Encoded chunk size {MqttPacketSizeCalculator.CalculatePublishSize(chunk)} exceeds {packetLimit}."));
+    }
+
+    [Fact]
+    public void SplitIfNeeded_RequestCountdownReservationFitsAfterStamping()
+    {
+        MqttApplicationMessage message = NewMessage(NewPayload(ChunkingConstants.PlaceholderMaxPacketSize * 2));
+
+        IReadOnlyList<MqttApplicationMessage> chunks = ChunkedMessageSplitter.SplitIfNeeded(
+            message,
+            includeRemainingSeconds: true);
+
+        Assert.All(chunks, chunk =>
+        {
+            Assert.True(MqttPacketSizeCalculator.CalculatePublishSize(chunk) <= ChunkingConstants.PlaceholderMaxPacketSize);
+            Assert.True(ChunkMetadata.TryParse(ChunkValue(chunk), out ChunkMetadata? metadata));
+            Assert.Equal(uint.MaxValue, metadata!.RemainingSeconds);
+        });
+    }
+
+    [Fact]
+    public void SplitMessage_NoPayloadByteCanFit_ThrowsMessageTooLarge()
+    {
+        const string messageId = "8ac7a0e4-1b3d-4f9a-9a3f-0d2f6c5b7e11";
+        string? contentType = null;
+        int packetLimit = 0;
+        for (int length = 1; length < 20_000; length++)
+        {
+            string candidate = new('x', length);
+            var probe = new MqttApplicationMessage("t")
+            {
+                ContentType = candidate,
+                UserProperties =
+                [
+                    new(ChunkingConstants.ChunkUserProperty, ChunkMetadata.CreateDataChunk(messageId, 99, 100).Format()),
+                ],
+            };
+            long emptySize = MqttPacketSizeCalculator.CalculatePublishSize(probe, 0);
+            if (MqttPacketSizeCalculator.CalculatePublishSize(probe, 1) > emptySize + 1)
+            {
+                contentType = candidate;
+                packetLimit = (int)emptySize + 1;
+                break;
+            }
+        }
+
+        Assert.NotNull(contentType);
+        var message = new MqttApplicationMessage("t")
+        {
+            ContentType = contentType,
+            Payload = new ReadOnlySequence<byte>([1]),
+        };
+
+        MessageTooLargeError exception = Assert.Throws<MessageTooLargeError>(
+            () => new ChunkedMessageSplitter(new ChunkingOptions()).SplitMessage(message, packetLimit));
+
+        Assert.Contains("cannot carry any payload", exception.Message, StringComparison.Ordinal);
     }
 
     [Fact]
@@ -244,6 +367,19 @@ public class ChunkedMessageSplitterTests
     private static string? ChunkValue(MqttApplicationMessage message) =>
         message.UserProperties?.FirstOrDefault(p => p.Name == ChunkingConstants.ChunkUserProperty)?.Value;
 
+    private static ChunkMetadata Metadata(MqttApplicationMessage message)
+    {
+        Assert.True(ChunkMetadata.TryParse(ChunkValue(message), out ChunkMetadata? metadata));
+        return metadata!;
+    }
+
+    private static IEnumerable<MqttUserProperty> PropertiesAfterChunkMetadata(MqttApplicationMessage message)
+    {
+        List<MqttUserProperty> properties = message.UserProperties ?? [];
+        int metadataIndex = properties.FindIndex(p => p.Name == ChunkingConstants.ChunkUserProperty);
+        return metadataIndex < 0 ? [] : properties.Skip(metadataIndex + 1);
+    }
+
     private static byte[] NewPayload(int size)
     {
         var payload = new byte[size];
@@ -262,7 +398,7 @@ public class ChunkedMessageSplitterTests
         };
 
     private static IReadOnlyList<MqttApplicationMessage> Split(byte[] payload, List<MqttUserProperty>? properties = null) =>
-        new ChunkedMessageSplitter(new ChunkingOptions { StaticOverhead = SafetyMargin })
+        new ChunkedMessageSplitter(new ChunkingOptions())
             .SplitMessage(NewMessage(payload, properties), MaxPacketSize);
 
     private static MqttApplicationMessageReceivedEventArgs Received(MqttApplicationMessage message) =>

@@ -44,6 +44,12 @@ A protocol version major bump signifies a non-backwards or non-forwards compatib
 
 The required MQTT user property will use the name "__protVer" and the value will be "X.Y" whereX is the major protocol version and Y is the minor protocol version. The first value of this property will be "1.0", for example.
 
+An RPC request may also include `__supProtMajVer`, a space-separated list of response major
+versions the invoker accepts. This is an optional, ignorable 1.x extension. It allows an invoker to
+select request version 1.0 for a small request while advertising that a large response may use the
+2.0 chunking format. A legacy executor ignores the property and responds with 1.0; a chunk-aware
+executor keeps a small response on 1.0 and uses 2.0 only if it actually chunks the response.
+
 With the above, a command invoker with protocol version X.Y can interact with a command executor with protocol version X.Z for any value of Y and Z. 
 
 The protocol version used by a client will be hardcoded in the client library and cannot be changed by the user. Users will need to upgrade/downgrade their client library version to change the protocol version. 

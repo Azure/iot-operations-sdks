@@ -54,23 +54,26 @@ validation need.
 flowchart LR
     M["One logical message<br/>user properties plus payload"]
 
-    M --> H["h:message_id:0:5:sha256:hash<br/>message id, chunk index, total,<br/>checksum id, checksum<br/>no properties, no payload"]
-    M --> P["p:message_id:1<br/>message id, chunk index<br/>a slice of the user properties<br/>zero or more"]
-    M --> D1["d:message_id:2<br/>message id, chunk index<br/>a slice of the payload"]
-    M --> D2["d:message_id:3<br/>message id, chunk index<br/>a slice of the payload"]
+    M --> H["h:message_id:0:5:sha256:hash<br/>message id, chunk index, total,<br/>checksum id, checksum<br/>no logical properties, no payload"]
+    M --> P["p:message_id:1:5<br/>message id, chunk index, total<br/>a slice of the user properties<br/>zero or more"]
+    M --> D1["d:message_id:2:5<br/>message id, chunk index, total<br/>a slice of the payload"]
+    M --> D2["d:message_id:3:5<br/>message id, chunk index, total<br/>a slice of the payload"]
+    M --> D3["d:message_id:4:5<br/>message id, chunk index, total<br/>a slice of the payload"]
 
     H --> R["Reassembled message"]
     P --> R
     D1 --> R
     D2 --> R
+    D3 --> R
 
-    R --> N["properties = ordered union of the p chunks<br/>payload = ordered concatenation of the d chunks"]
+    R --> N["properties = ordered concatenation of the p chunks<br/>payload = ordered concatenation of the d chunks"]
 
     E["Every chunk also carries<br/>partition, high priority, protocol version, chunk metadata"]
     E -.-> H
     E -.-> P
     E -.-> D1
     E -.-> D2
+    E -.-> D3
 ```
 
 ## 3. Happy path on the wire
@@ -89,14 +92,14 @@ sequenceDiagram
 
     A->>I: InvokeCommandAsync(request, timeout 30s)
     Note over I: encoded packet exceeds the limit<br/>measure a data chunk, then split
-    I->>B: h:message_id:0:5:sha256:e3b0 - expiry 30
-    I->>B: p:message_id:1 user properties - expiry 29
-    I->>B: d:message_id:2 payload - expiry 29
-    I->>B: d:message_id:3 payload - expiry 28
-    I->>B: d:message_id:4 payload - expiry 28
+    I->>B: h:message_id:0:5:sha256:e3b0:30 - expiry 30
+    I->>B: p:message_id:1:5:29 user properties - expiry 29
+    I->>B: d:message_id:2:5:29 payload - expiry 29
+    I->>B: d:message_id:3:5:28 payload - expiry 28
+    I->>B: d:message_id:4:5:28 payload - expiry 28
     B->>E: all five chunks, same topic and correlation
     Note over E: headers validated per chunk<br/>chunks buffered, nothing acknowledged
-    Note over E: total known and all indices present<br/>checksum verified, message rebuilt
+    Note over E: head and all declared indices present<br/>checksum verified, message rebuilt
     E->>H: OnCommandReceived(request)
     H-->>E: response
     Note over E: cache stores the whole response
@@ -118,11 +121,13 @@ flowchart TB
     X -->|no| DC["discard the chunk<br/>acknowledge it"]
     X -->|yes| Y{"message expiry present?"}
     Y -->|no| DC
-    Y -->|yes| Z{"index already held?"}
-    Z -->|yes| RP["replace the delivery context<br/>acknowledge nothing"]
+    Y -->|yes| T{"operation recently terminated?"}
+    T -->|yes| DC
+    T -->|no| Z{"index already held?"}
+    Z -->|yes| RP["retain the new delivery context<br/>release the displaced local context"]
     Z -->|no| BD{"within the count and size bounds?"}
     BD -->|no| DM["discard the message<br/>acknowledge every chunk held"]
-    BD -->|yes| CP{"total known and all indices present?"}
+    BD -->|yes| CP{"head and all declared indices present?"}
     CP -->|no| W["hold and wait"]
     CP -->|yes| CK{"checksum matches?"}
     CK -->|no| DM
@@ -158,9 +163,9 @@ sequenceDiagram
     Note over B,E: session resumes
 
     B->>E: chunk 0 again, original packet id
-    E->>F: replace the context held for index 0
+    E->>F: replace index 0 context<br/>retire the displaced local context
     B->>E: chunk 1 again, original packet id
-    E->>F: replace the context held for index 1
+    E->>F: replace index 1 context<br/>retire the displaced local context
     B->>E: chunk 2
     E->>F: hold - the message is now complete
 

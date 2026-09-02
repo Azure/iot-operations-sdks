@@ -299,37 +299,39 @@ public class ChunkingPocTests(ITestOutputHelper output)
         Assert.True(observed.Count > 1, $"Expected several chunks, observed {observed.Count} message(s).");
         Assert.Equal(observed.Count, chunkValues.Count);
 
-        // Exactly one head chunk, the rest data chunks, and every chunk names the same message.
+        // Exactly one head chunk, at least one property chunk, the rest data chunks, and every
+        // chunk names the same message and total.
         Assert.Single(chunkValues, v => v.StartsWith("h:", StringComparison.Ordinal));
-        Assert.Equal(chunkValues.Count - 1, chunkValues.Count(v => v.StartsWith("d:", StringComparison.Ordinal)));
+        Assert.Contains(chunkValues, v => v.StartsWith("p:", StringComparison.Ordinal));
+        Assert.Contains(chunkValues, v => v.StartsWith("d:", StringComparison.Ordinal));
 
         string messageId = chunkValues[0].Split(':')[1];
         Assert.All(chunkValues, v => Assert.Equal(messageId, v.Split(':')[1]));
+        Assert.All(chunkValues, v => Assert.Equal(chunkValues.Count, int.Parse(v.Split(':')[3], System.Globalization.CultureInfo.InvariantCulture)));
 
         // Every chunk must carry a positive expiry, and none may outlive the invocation.
         Assert.All(observed, m => Assert.InRange(m.MessageExpiryInterval, 1u, (uint)TimeSpan.FromMinutes(2).TotalSeconds));
 
-        // Only the head chunk carries the full property set.
+        // The head carries checksum metadata; property chunks carry the logical property stream.
         MqttApplicationMessage head = observed.Single(m =>
             m.UserProperties!.Single(p => p.Name == ChunkUserPropertyName).Value.StartsWith("h:", StringComparison.Ordinal));
-        Assert.Contains(head.UserProperties!, p => p.Name == "__srcId");
+        Assert.DoesNotContain(head.UserProperties!, p => p.Name == "__srcId");
 
-        // The head chunk exists to carry properties, not payload. Quarantining the unbounded,
-        // user-controlled properties here is what lets every data chunk have a fully SDK-controlled
-        // property set, and therefore a measurable rather than guessed overhead.
+        List<MqttApplicationMessage> propertyChunks = observed.Where(m =>
+            m.UserProperties!.Single(p => p.Name == ChunkUserPropertyName).Value.StartsWith("p:", StringComparison.Ordinal)).ToList();
+        Assert.Contains(propertyChunks.SelectMany(m => m.UserProperties!), p => p.Name == "__srcId");
+        Assert.Contains(propertyChunks.SelectMany(m => m.UserProperties!), p => p.Name == "__ts");
+
         Assert.Equal(0, head.Payload.Length);
-        Assert.All(observed.Where(m => m != head), m => Assert.True(m.Payload.Length > 0));
+        Assert.All(propertyChunks, m => Assert.Equal(0, m.Payload.Length));
+        Assert.All(observed.Where(m =>
+            m.UserProperties!.Single(p => p.Name == ChunkUserPropertyName).Value.StartsWith("d:", StringComparison.Ordinal)),
+            m => Assert.True(m.Payload.Length > 0));
 
-        // __ts is consumed by the executor to advance the application clock, so it has to survive
-        // reassembly: it rides on the head chunk, whose properties the reassembled message inherits.
-        Assert.Contains(head.UserProperties!, p => p.Name == "__ts");
-
-        foreach (MqttApplicationMessage tail in observed.Where(m => m != head))
+        foreach (MqttApplicationMessage chunk in observed)
         {
-            Assert.DoesNotContain(tail.UserProperties!, p => p.Name == "__srcId");
-            Assert.DoesNotContain(tail.UserProperties!, p => p.Name == "__ts");
-            Assert.Contains(tail.UserProperties!, p => p.Name == "$partition");
-            Assert.Contains(tail.UserProperties!, p => p.Name == "__protVer");
+            Assert.Contains(chunk.UserProperties!, p => p.Name == "$partition");
+            Assert.Contains(chunk.UserProperties!, p => p.Name == "__protVer");
         }
     }
 
