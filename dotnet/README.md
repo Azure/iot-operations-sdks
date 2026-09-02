@@ -33,13 +33,7 @@ To get started with a .NET SDK tutorial, follow these steps:
 
 ## Developing your Akri connector
 
-The Akri Connector package (this service is currently in private preview) is located in our ADO package feed:
-
-1. Add our [package feed](https://dev.azure.com/azure-iot-sdks/iot-operations/_artifacts/feed/preview):
-
-    ```bash
-    dotnet nuget add source -n AzureIoTOperations https://pkgs.dev.azure.com/azure-iot-sdks/iot-operations/_packaging/preview/nuget/v3/index.json
-    ```
+The Akri Connector package is available on NuGet.org:
 
 1. Install the packages into your project:
 

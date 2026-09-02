@@ -11,7 +11,7 @@ namespace Azure.Iot.Operations.Services.EdgeRegistry;
 public sealed partial class EdgeRegistryClient : IThingDescriptionClient
 {
     /// <inheritdoc/>
-    public async Task<Models.ThingDescriptionVersion> CreateThingDescriptionVersionAsync(GroupId groupId, string thingDescriptionId, IReadOnlyList<Models.Label> thingDescriptionLabels, Models.ThingDescriptionVersionAttributes version, TimeSpan? timeout = null, CancellationToken cancellationToken = default)
+    public async Task<Models.ThingDescriptionVersion> CreateThingDescriptionVersionAsync(GroupId groupId, string thingDescriptionId, IReadOnlyList<Models.Label> thingDescriptionLabels, Models.ThingDescriptionVersionAttributes version, CreateOptions? options = null, TimeSpan? timeout = null, CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();
         ObjectDisposedException.ThrowIf(_disposed, this);
@@ -20,6 +20,7 @@ public sealed partial class EdgeRegistryClient : IThingDescriptionClient
 
         var output = await _thingDescriptionStub.CreateThingDescriptionVersionAsync(
             request,
+            PersistenceMetadata(options),
             additionalTopicTokenMap: ExtensionResourceTopicTokens(ThingDescriptionIdTopicToken, thingDescriptionId),
             commandTimeout: timeout ?? s_defaultCommandTimeout,
             cancellationToken: cancellationToken);
@@ -47,6 +48,19 @@ public sealed partial class EdgeRegistryClient : IThingDescriptionClient
 
         return Converter.ToModel(output);
     }
+
+    /// <inheritdoc/>
+    public Task<IReadOnlyList<Models.ResourceXId>> ListThingDescriptionsAsync(
+        GroupSelector groups,
+        Models.Label? label = null,
+        TimeSpan? timeout = null,
+        CancellationToken cancellationToken = default)
+        => ListResourcesAsync(
+            GroupQuery.WithinGroupType(Generated.Constants.ThingDescriptionGroupType, groups),
+            Generated.Constants.ThingDescriptionResourceType,
+            label,
+            timeout,
+            cancellationToken);
 
     /// <inheritdoc/>
     public async Task<IReadOnlyList<Models.ThingDescriptionVersionXid>> ListThingDescriptionVersionsAsync(GroupSelector groups, string? thingDescriptionId = null, string? documentHash = null, Models.Label? label = null, TimeSpan? timeout = null, CancellationToken cancellationToken = default)

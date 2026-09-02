@@ -25,7 +25,7 @@ namespace Azure.Iot.Operations.Opc2WotLib
             this.specName = specName;
             this.thingName = WotUtil.LegalizeName(uaObject.DiscriminatedEffectiveName, specName);
             this.typeRef = uaObject.GetTypeRef();
-            this.definingModelRef = uaObject.HasTypeDefinition != null && uaObject.HasTypeDefinition.NodeId.NsIndex != 0 ? GetModelRef(uaObject, uaObject.HasTypeDefinition) : null;
+            this.definingModelRef = uaObject.HasTypeDefinition != null && uaObject.HasTypeDefinition.NodeId.NsIndex != 0 ? GetModelRef(uaObject.HasTypeDefinition) : null;
 
             this.actions = uaObject.Methods.OrderBy(m => m.EffectiveName).Select(m => new WotAction(specName, this.thingName, m, true)).ToList();
             this.properties = uaObject.VariableRecords.OrderBy(r => r.Key).Select(r => new WotProperty(specName, this.thingName, r.Value.UaVariable, r.Key, r.Value.ContainedIn, r.Value.Contains, true)).ToList();
@@ -45,11 +45,9 @@ namespace Azure.Iot.Operations.Opc2WotLib
 
         public string FileName => $"{this.thingName}.TD.json";
 
-        private string GetModelRef(OpcUaObject sourceObject, OpcUaObjectType targetObjectType)
+        private string GetModelRef(OpcUaObjectType targetObjectType)
         {
-            string targetSpecName = SpecMapper.GetSpecNameFromUri(targetObjectType.DefiningModel.ModelUri);
-            string targetThingName = WotUtil.LegalizeName(targetObjectType.DiscriminatedEffectiveName, targetSpecName);
-            return WotUtil.GetThingModelId(targetObjectType.DefiningModel.ModelUri, targetThingName);
+            return WotUtil.GetThingModelId(targetObjectType.GetTypeRef());
         }
     }
 }

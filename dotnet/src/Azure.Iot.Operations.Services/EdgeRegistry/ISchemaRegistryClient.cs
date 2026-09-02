@@ -30,10 +30,11 @@ public interface ISchemaRegistryClient
     /// <param name="schemaId">The Schema (Resource) identifier.</param>
     /// <param name="schemaLabels">Labels applied to the parent Schema.</param>
     /// <param name="version">The attributes of the Schema Version to create.</param>
+    /// <param name="options">The <see cref="CreateOptions"/> that control the behavior of the create operation; when <see langword="null"/>, the created entity is persisted.</param>
     /// <param name="timeout">The command timeout; when <see langword="null"/>, the client's default timeout is used.</param>
     /// <param name="cancellationToken">A token to cancel the operation.</param>
     /// <returns>A task whose result is the created <see cref="Models.SchemaVersion"/>.</returns>
-    Task<Models.SchemaVersion> CreateSchemaVersionAsync(GroupId groupId, string schemaId, IReadOnlyList<Models.Label> schemaLabels, Models.SchemaVersionAttributes version, TimeSpan? timeout = null, CancellationToken cancellationToken = default);
+    Task<Models.SchemaVersion> CreateSchemaVersionAsync(GroupId groupId, string schemaId, IReadOnlyList<Models.Label> schemaLabels, Models.SchemaVersionAttributes version, CreateOptions? options = null, TimeSpan? timeout = null, CancellationToken cancellationToken = default);
 
     /// <summary>Retrieves a Schema Version.</summary>
     /// <param name="groupId">The Schema Group. Use <see cref="GroupId.CloudDefault"/> for the cloud-default Group (the configured namespace).</param>
@@ -43,6 +44,18 @@ public interface ISchemaRegistryClient
     /// <param name="cancellationToken">A token to cancel the operation.</param>
     /// <returns>A task whose result is the requested <see cref="Models.SchemaVersion"/>.</returns>
     Task<Models.SchemaVersion> GetSchemaVersionAsync(GroupId groupId, string schemaId, GetSchemaVersionId versionId, TimeSpan? timeout = null, CancellationToken cancellationToken = default);
+
+    /// <summary>Lists the XIDs of Schemas matching the query, optionally filtered by a single label.</summary>
+    /// <param name="groups">The Schema Groups to search; see <see cref="GroupSelector"/> for the available scopes.</param>
+    /// <param name="label">When set, restricts the results to Schemas carrying this label.</param>
+    /// <param name="timeout">The command timeout; when <see langword="null"/>, the client's default timeout is used.</param>
+    /// <param name="cancellationToken">A token to cancel the operation.</param>
+    /// <returns>A task whose result is the XIDs of the matching Schemas.</returns>
+    Task<IReadOnlyList<Models.ResourceXId>> ListSchemasAsync(
+        GroupSelector groups,
+        Models.Label? label = null,
+        TimeSpan? timeout = null,
+        CancellationToken cancellationToken = default);
 
     /// <summary>Lists the XIDs of Schema Versions matching the query, optionally filtered by Schema id and/or a single label.</summary>
     /// <param name="groups">The Groups to search; see <see cref="GroupSelector"/> for the available scopes.</param>

@@ -31,10 +31,11 @@ public interface IThingDescriptionClient
     /// <param name="thingDescriptionId">The Thing Description (Resource) identifier.</param>
     /// <param name="thingDescriptionLabels">Labels applied to the parent Thing Description.</param>
     /// <param name="version">The attributes of the Thing Description Version to create.</param>
+    /// <param name="options">The <see cref="CreateOptions"/> that control the behavior of the create operation; when <see langword="null"/>, the created entity is persisted.</param>
     /// <param name="timeout">The command timeout; when <see langword="null"/>, the client's default timeout is used.</param>
     /// <param name="cancellationToken">A token to cancel the operation.</param>
     /// <returns>A task whose result is the created <see cref="Models.ThingDescriptionVersion"/>.</returns>
-    Task<Models.ThingDescriptionVersion> CreateThingDescriptionVersionAsync(GroupId groupId, string thingDescriptionId, IReadOnlyList<Models.Label> thingDescriptionLabels, Models.ThingDescriptionVersionAttributes version, TimeSpan? timeout = null, CancellationToken cancellationToken = default);
+    Task<Models.ThingDescriptionVersion> CreateThingDescriptionVersionAsync(GroupId groupId, string thingDescriptionId, IReadOnlyList<Models.Label> thingDescriptionLabels, Models.ThingDescriptionVersionAttributes version, CreateOptions? options = null, TimeSpan? timeout = null, CancellationToken cancellationToken = default);
 
     /// <summary>Retrieves a Thing Description Version.</summary>
     /// <param name="groupId">The Thing Description Group. Use <see cref="GroupId.CloudDefault"/> for the cloud-default Group (the configured namespace).</param>
@@ -44,6 +45,18 @@ public interface IThingDescriptionClient
     /// <param name="cancellationToken">A token to cancel the operation.</param>
     /// <returns>A task whose result is the requested <see cref="Models.ThingDescriptionVersion"/>.</returns>
     Task<Models.ThingDescriptionVersion> GetThingDescriptionVersionAsync(GroupId groupId, string thingDescriptionId, GetThingDescriptionVersionId versionId, TimeSpan? timeout = null, CancellationToken cancellationToken = default);
+
+    /// <summary>Lists the XIDs of Thing Descriptions matching the query, optionally filtered by a single label.</summary>
+    /// <param name="groups">The Thing Description Groups to search; see <see cref="GroupSelector"/> for the available scopes.</param>
+    /// <param name="label">When set, restricts the results to Thing Descriptions carrying this label.</param>
+    /// <param name="timeout">The command timeout; when <see langword="null"/>, the client's default timeout is used.</param>
+    /// <param name="cancellationToken">A token to cancel the operation.</param>
+    /// <returns>A task whose result is the XIDs of the matching Thing Descriptions.</returns>
+    Task<IReadOnlyList<Models.ResourceXId>> ListThingDescriptionsAsync(
+        GroupSelector groups,
+        Models.Label? label = null,
+        TimeSpan? timeout = null,
+        CancellationToken cancellationToken = default);
 
     /// <summary>Lists the XIDs of Thing Description Versions matching the query, optionally filtered by Thing Description id and/or a single label.</summary>
     /// <param name="groups">The Groups to search; see <see cref="GroupSelector"/> for the available scopes.</param>

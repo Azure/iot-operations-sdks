@@ -146,7 +146,7 @@ impl From<String> for SchemaFormat {
 }
 
 /// Attributes needed to create a Schema Version.
-#[derive(Debug, Clone, Builder)]
+#[derive(Debug, Clone, Builder, PartialEq, Eq)]
 pub struct SchemaVersionAttributes {
     /// Human-readable name.
     #[builder(default = "None")]

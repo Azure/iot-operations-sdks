@@ -10,7 +10,7 @@ namespace Azure.Iot.Operations.Services.EdgeRegistry;
 public sealed partial class EdgeRegistryClient : IThingModelClient
 {
     /// <inheritdoc/>
-    public async Task<Models.ThingModelVersion> CreateThingModelVersionAsync(GroupId groupId, string thingModelId, IReadOnlyList<Models.Label> thingModelLabels, Models.ThingModelVersionAttributes version, TimeSpan? timeout = null, CancellationToken cancellationToken = default)
+    public async Task<Models.ThingModelVersion> CreateThingModelVersionAsync(GroupId groupId, string thingModelId, IReadOnlyList<Models.Label> thingModelLabels, Models.ThingModelVersionAttributes version, CreateOptions? options = null, TimeSpan? timeout = null, CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();
         ObjectDisposedException.ThrowIf(_disposed, this);
@@ -19,6 +19,7 @@ public sealed partial class EdgeRegistryClient : IThingModelClient
 
         var output = await _thingModelStub.CreateThingModelVersionAsync(
             request,
+            PersistenceMetadata(options),
             additionalTopicTokenMap: ExtensionResourceTopicTokens(ThingModelIdTopicToken, thingModelId),
             commandTimeout: timeout ?? s_defaultCommandTimeout,
             cancellationToken: cancellationToken);
@@ -46,6 +47,19 @@ public sealed partial class EdgeRegistryClient : IThingModelClient
 
         return Converter.ToModel(output);
     }
+
+    /// <inheritdoc/>
+    public Task<IReadOnlyList<Models.ResourceXId>> ListThingModelsAsync(
+        GroupSelector groups,
+        Models.Label? label = null,
+        TimeSpan? timeout = null,
+        CancellationToken cancellationToken = default)
+        => ListResourcesAsync(
+            GroupQuery.WithinGroupType(Generated.Constants.ThingModelGroupType, groups),
+            Generated.Constants.ThingModelResourceType,
+            label,
+            timeout,
+            cancellationToken);
 
     /// <inheritdoc/>
     public async Task<IReadOnlyList<Models.ThingModelVersionXid>> ListThingModelVersionsAsync(GroupSelector groups, string? thingModelId = null, string? documentHash = null, Models.Label? label = null, TimeSpan? timeout = null, CancellationToken cancellationToken = default)
