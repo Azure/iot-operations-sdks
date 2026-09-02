@@ -5,6 +5,7 @@
 
 use std::{sync::Arc, time::Duration};
 
+use azure_iot_operations_mqtt::aio::AIOBrokerFeaturesBuilder;
 use azure_iot_operations_mqtt::session::{
     Session, SessionError, SessionManagedClient, SessionOptionsBuilder,
     reconnect_policy::ExponentialBackoffWithJitter, reconnect_policy::ReconnectPolicy,
@@ -110,6 +111,12 @@ pub struct Options {
     #[builder(default = "Duration::from_secs(5)")]
     filemount_debounce_duration: Duration,
 
+    /// Value for the `metriccategory` that is used to categorize the internal traffic between
+    /// the connector and other AIO services - Broker, Schema Registry, DSS.
+    /// See <https://learn.microsoft.com/en-us/azure/iot-operations/reference/observability-metrics-mqtt-broker#category> for details.
+    #[builder(default = "\"aiosdk-rust-connector\".to_string()", setter(into))]
+    metric_category: String,
+
     /// Reconnect policy used by the MQTT Session.
     #[builder(default = "Box::new(ExponentialBackoffWithJitter::default())")]
     reconnect_policy: Box<dyn ReconnectPolicy>,
@@ -142,9 +149,14 @@ impl BaseConnector {
         let mqtt_connection_settings = connector_artifacts
             .to_mqtt_connection_settings("0")
             .map_err(|e| e.clone())?;
+        let aio_broker_features = AIOBrokerFeaturesBuilder::default()
+            .metric_category(base_connector_options.metric_category)
+            .build()
+            .map_err(|e| e.to_string())?;
         let session_options = SessionOptionsBuilder::default()
             .connection_settings(mqtt_connection_settings)
             .reconnect_policy(base_connector_options.reconnect_policy)
+            .aio_broker_features(Some(aio_broker_features))
             .build()
             .map_err(|e| e.to_string())?;
         let session = Session::new(session_options).map_err(|e| e.to_string())?;

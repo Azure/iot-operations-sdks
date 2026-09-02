@@ -60,10 +60,11 @@ public interface ICoreClient : IAsyncDisposable
     /// <param name="groupType">The Group type (the xRegistry Group collection name).</param>
     /// <param name="groupId">The Group. Use <see cref="GroupId.CloudDefault"/> for the cloud-default Group (the configured namespace).</param>
     /// <param name="attributes">The attributes of the Group to create.</param>
+    /// <param name="options">The <see cref="CreateOptions"/> that control the behavior of the create operation; when <see langword="null"/>, the created entity is persisted.</param>
     /// <param name="timeout">The command timeout; when <see langword="null"/>, the client's default timeout is used.</param>
     /// <param name="cancellationToken">A token to cancel the operation.</param>
     /// <returns>A task whose result is the created <see cref="Models.CoreGroupEntity"/>.</returns>
-    Task<Models.CoreGroupEntity> CreateGroupAsync(string groupType, GroupId groupId, Models.CoreGroupAttributes attributes, TimeSpan? timeout = null, CancellationToken cancellationToken = default);
+    Task<Models.CoreGroupEntity> CreateGroupAsync(string groupType, GroupId groupId, Models.CoreGroupAttributes attributes, CreateOptions? options = null, TimeSpan? timeout = null, CancellationToken cancellationToken = default);
 
     /// <summary>Deletes a Group. Deletes cascade to all contained Resources and their Versions.</summary>
     /// <param name="groupType">The Group type (the xRegistry Group collection name).</param>
@@ -95,10 +96,11 @@ public interface ICoreClient : IAsyncDisposable
     /// <param name="resourceExtensions">Resource-level extension attributes, keyed by extension name.</param>
     /// <param name="defaultVersionId">The Version id to assign to the Resource's default Version. Use <see cref="CreateVersionId.ServerAssigned"/> to let the service choose.</param>
     /// <param name="defaultVersion">The attributes of the Resource's default Version.</param>
+    /// <param name="options">The <see cref="CreateOptions"/> that control the behavior of the create operation; when <see langword="null"/>, the created entity is persisted.</param>
     /// <param name="timeout">The command timeout; when <see langword="null"/>, the client's default timeout is used.</param>
     /// <param name="cancellationToken">A token to cancel the operation.</param>
     /// <returns>A task whose result is the created <see cref="Models.CoreResourceEntity"/>.</returns>
-    Task<Models.CoreResourceEntity> CreateResourceAsync(string groupType, GroupId groupId, string resourceType, string resourceId, Models.CoreResourceMetaAttributes meta, Dictionary<string, byte[]> resourceExtensions, CreateVersionId defaultVersionId, Models.CoreVersionAttributes defaultVersion, TimeSpan? timeout = null, CancellationToken cancellationToken = default);
+    Task<Models.CoreResourceEntity> CreateResourceAsync(string groupType, GroupId groupId, string resourceType, string resourceId, Models.CoreResourceMetaAttributes meta, Dictionary<string, byte[]> resourceExtensions, CreateVersionId defaultVersionId, Models.CoreVersionAttributes defaultVersion, CreateOptions? options = null, TimeSpan? timeout = null, CancellationToken cancellationToken = default);
 
     /// <summary>Lists the XIDs of Resources matching the query, optionally filtered by Resource type and/or a single label.</summary>
     /// <param name="groups">The Groups to search; see <see cref="GroupQuery"/> for the available scopes.</param>
@@ -141,10 +143,11 @@ public interface ICoreClient : IAsyncDisposable
     /// <param name="resourceLabels">Labels applied to the parent Resource.</param>
     /// <param name="versionId">The Version id to assign. Use <see cref="CreateVersionId.ServerAssigned"/> to let the service choose.</param>
     /// <param name="version">The attributes of the Version to create.</param>
+    /// <param name="options">The <see cref="CreateOptions"/> that control the behavior of the create operation; when <see langword="null"/>, the created entity is persisted.</param>
     /// <param name="timeout">The command timeout; when <see langword="null"/>, the client's default timeout is used.</param>
     /// <param name="cancellationToken">A token to cancel the operation.</param>
     /// <returns>A task whose result is the created <see cref="Models.CoreVersionEntity"/>.</returns>
-    Task<Models.CoreVersionEntity> CreateVersionAsync(string groupType, GroupId groupId, string resourceType, string resourceId, IReadOnlyList<Models.Label> resourceLabels, CreateVersionId versionId, Models.CoreVersionAttributes version, TimeSpan? timeout = null, CancellationToken cancellationToken = default);
+    Task<Models.CoreVersionEntity> CreateVersionAsync(string groupType, GroupId groupId, string resourceType, string resourceId, IReadOnlyList<Models.Label> resourceLabels, CreateVersionId versionId, Models.CoreVersionAttributes version, CreateOptions? options = null, TimeSpan? timeout = null, CancellationToken cancellationToken = default);
 
     /// <summary>Lists the XIDs of Versions matching the query, optionally filtered by Resource type, Resource id, and/or a single label.</summary>
     /// <param name="groups">The Groups to search; see <see cref="GroupQuery"/> for the available scopes.</param>

@@ -241,6 +241,11 @@ pub struct Session {
     connect_parameters: AzureMqttConnectParameters,
     /// Client ID of the underlying MQTT client
     client_id: String,
+    /// Metric category of the underlying MQTT client when using AIO broker features
+    // NOTE: This is copied from AIOBrokerFeatures because this is currently the only value from there
+    // that is required in the Session, however, if that changes, this should be replaced with a copy
+    // of the entire AIOBrokerFeatures struct.
+    metric_category: Option<String>,
     /// Receiver dispatcher for incoming publishes
     incoming_pub_dispatcher: Arc<Mutex<IncomingPublishDispatcher>>,
     /// Reconnect policy
@@ -264,15 +269,16 @@ impl Session {
 
         // Add AIO metric and features to user properties when using AIO MQTT broker features
         // CONSIDER: user properties from being supported on SessionOptions or ConnectionSettings
-        let user_properties = if let Some(features) = options.aio_broker_features {
-            let mut user_properties =
-                vec![("metriccategory".to_string(), "aiosdk-rust".to_string())];
+        let (user_properties, metric_category) = if let Some(features) = options.aio_broker_features
+        {
+            let metric_category = features.metric_category;
+            let mut user_properties = vec![("metriccategory".to_string(), metric_category.clone())];
             if features.persistence {
                 user_properties.push(("aio-persistence".to_string(), true.to_string()));
             }
-            user_properties
+            (user_properties, Some(metric_category))
         } else {
-            vec![]
+            (vec![], None)
         };
 
         // Create EnhancedAuthPolicy if provided in options or SAT file is provided via ConnectionSettings
@@ -326,6 +332,7 @@ impl Session {
             reauth_handle: None,
             connect_parameters,
             client_id,
+            metric_category,
             incoming_pub_dispatcher,
             reconnect_policy: options.reconnect_policy,
             enhanced_auth_policy,
@@ -353,6 +360,7 @@ impl Session {
     pub fn create_managed_client(&self) -> SessionManagedClient {
         SessionManagedClient {
             client_id: self.client_id.clone(),
+            metric_category: self.metric_category.clone(),
             client: self.client.clone(),
             dispatcher: self.incoming_pub_dispatcher.clone(),
         }
