@@ -139,7 +139,7 @@ impl From<rpc_command::invoker::RequestBuilderError> for ErrorKind {
 // ~~~~~~~~~~~~~~~~~~~SDK Created Helper Structs~~~~~~~~~~~~~~~~~~~~~~~~
 
 /// Identifies a Group within its Group type for a request.
-#[derive(Debug, Clone, Default)]
+#[derive(Debug, Clone, Default, PartialEq, Eq)]
 pub enum GroupId {
     /// Use the cloud default Group Id of the Group type.
     #[default]
@@ -228,7 +228,7 @@ pub enum GroupSelection {
 }
 
 /// A label key/value pair used to filter list queries.
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, PartialEq, Eq)]
 pub struct Label {
     /// The label key.
     pub key: String,

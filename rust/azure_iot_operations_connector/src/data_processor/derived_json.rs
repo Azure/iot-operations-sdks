@@ -3,10 +3,21 @@
 
 //! Processor for generating [`MessageSchema`] for the JSON payload defined in a [`Data`].
 
+use azure_iot_operations_services::edge_registry::{
+    derive_resource_id,
+    models::{
+        SchemaFormat, SchemaVersionAttributes, SchemaVersionAttributesBuilder,
+        SchemaVersionAttributesBuilderError,
+    },
+};
 use azure_iot_operations_services::schema_registry::{Format, SchemaType};
 use serde_json::{self, Value};
 
-use crate::{Data, MessageSchema, MessageSchemaBuilder, MessageSchemaBuilderError};
+use crate::{
+    Data, DataOperationRef, MessageSchema, MessageSchemaBuilder, MessageSchemaBuilderError,
+    XRegistryMessageSchema, XRegistryMessageSchemaBuilder, XRegistryMessageSchemaBuilderError,
+    default_schema_id,
+};
 
 /// An error that occurred during the schema generation of data.
 #[derive(Debug, thiserror::Error)]
@@ -25,6 +36,24 @@ enum SchemaGenerationErrorRepr {
     Schema(#[from] MessageSchemaBuilderError),
 }
 
+/// An error that occurred during the schema generation of data.
+#[derive(Debug, thiserror::Error)]
+#[error("{repr}")]
+pub struct XRegistrySchemaGenerationError {
+    #[source]
+    repr: XRegistrySchemaGenerationErrorRepr,
+}
+
+/// Inner representation of a [`XRegistrySchemaGenerationError`].
+#[derive(Debug, thiserror::Error)]
+enum XRegistrySchemaGenerationErrorRepr {
+    #[error(transparent)]
+    Serde(#[from] serde_json::Error),
+    #[error(transparent)]
+    Schema(#[from] SchemaVersionAttributesBuilderError),
+    #[error(transparent)]
+    MessageSchema(#[from] XRegistryMessageSchemaBuilderError),
+}
 /// Returns a new [`MessageSchema`] that describes it.
 ///
 /// # Limitations
@@ -50,6 +79,93 @@ pub fn create_schema(data: &Data) -> Result<MessageSchema, SchemaGenerationError
 /// Returns an error if the transformation or schema generation cannot be made.
 /// Input data will not be modified.
 fn create_output_schema(data: &Data) -> Result<MessageSchema, SchemaGenerationErrorRepr> {
+    // Create a MessageSchema from the output JSON schema
+    let output_message_schema = MessageSchemaBuilder::default()
+        .schema_content(create_output_schema_string(data)?)
+        .format(Format::JsonSchemaDraft07)
+        .schema_type(SchemaType::MessageSchema)
+        .build()?;
+
+    Ok(output_message_schema)
+}
+
+/// Returns a new [`XRegistryMessageSchema`] that describes it, generating a generic schema id.
+///
+/// # Limitations
+/// - Cannot correctly interpret enums as it derives the schema only from JSON payload provided.
+/// - Similarly, optionality of fields cannot be inferred correctly in the schema.
+/// - Fields that are set to `null` in the input JSON will be set to `true` in the schema, as no
+///   information is available to derive the type of the field.
+///
+/// # Errors
+/// Returns a [`XRegistrySchemaGenerationError`] if there is an error during the transformation or schema generation.
+///
+/// # Panics
+/// Panics if the schema id generated from `default_schema_id` is an empty string. Not possible because this at minimum
+/// returns `:::`
+pub fn create_xregistry_schema(
+    data: &Data,
+    data_operation_ref: &DataOperationRef,
+) -> Result<XRegistryMessageSchema, XRegistrySchemaGenerationError> {
+    // NOTE: We delegate to a function here that modifies the data in place so that the entire
+    // `data` struct does not need to be reallocated, while also being able to return it as part
+    // of an error if necessary.
+    let schema_version_attributes = create_schema_version_attributes(data)?;
+    let desired_schema_id = default_schema_id(data_operation_ref);
+    let (actual_schema_id, schema_labels) = derive_resource_id(desired_schema_id, vec![])
+        .expect("default_schema_id can't return an empty String");
+    XRegistryMessageSchemaBuilder::default()
+        .schema_id(actual_schema_id)
+        .version(schema_version_attributes)
+        .schema_labels(schema_labels)
+        .build()
+        .map_err(|e| XRegistrySchemaGenerationError { repr: e.into() })
+}
+
+/// Returns a new [`SchemaVersionAttributes`] that describes it, leaving the caller to determine the schema id,
+/// group id, and schema labels.
+///
+/// # Limitations
+/// - Cannot correctly interpret enums as it derives the schema only from JSON payload provided.
+/// - Similarly, optionality of fields cannot be inferred correctly in the schema.
+/// - Fields that are set to `null` in the input JSON will be set to `true` in the schema, as no
+///   information is available to derive the type of the field.
+///
+/// # Errors
+/// Returns a [`XRegistrySchemaGenerationError`] if there is an error during the transformation or schema generation.
+pub fn create_schema_version_attributes(
+    data: &Data,
+) -> Result<SchemaVersionAttributes, XRegistrySchemaGenerationError> {
+    // NOTE: We delegate to a function here that modifies the data in place so that the entire
+    // `data` struct does not need to be reallocated, while also being able to return it as part
+    // of an error if necessary.
+    match create_output_schema_version_attributes(data) {
+        Ok(message_schema) => Ok(message_schema),
+        Err(e) => Err(XRegistrySchemaGenerationError { repr: e }),
+    }
+}
+
+/// Generates a new [`SchemaVersionAttributes`] that describes the data.
+///
+/// Returns an error if the transformation or schema generation cannot be made.
+/// Input data will not be modified.
+fn create_output_schema_version_attributes(
+    data: &Data,
+) -> Result<SchemaVersionAttributes, XRegistrySchemaGenerationErrorRepr> {
+    // Create a SchemaVersionAttributes from the output JSON schema
+    let schema_version_attributes = SchemaVersionAttributesBuilder::default()
+        .document(create_output_schema_string(data)?.into())
+        .format(SchemaFormat::JsonSchemaDraft07)
+        .build()?;
+
+    Ok(schema_version_attributes)
+}
+
+/// Generates a new Schema document that describes the data.
+///
+/// Returns an error if the transformation or schema generation cannot be made.
+/// Input data will not be modified.
+fn create_output_schema_string(data: &Data) -> Result<String, serde_json::Error> {
     // Parse the input JSON from bytes
     let output_json: Value = serde_json::from_slice(&data.payload)?;
 
@@ -59,19 +175,16 @@ fn create_output_schema(data: &Data) -> Result<MessageSchema, SchemaGenerationEr
         metadata.examples = vec![];
     }
 
-    // Create a MessageSchema from the output JSON schema
-    let output_message_schema = MessageSchemaBuilder::default()
-        .schema_content(serde_json::to_string(&output_root_schema)?)
-        .format(Format::JsonSchemaDraft07)
-        .schema_type(SchemaType::MessageSchema)
-        .build()?;
-
-    Ok(output_message_schema)
+    // Create the output JSON schema
+    serde_json::to_string(&output_root_schema)
 }
 
 #[cfg(test)]
 mod test {
     use super::*;
+    use crate::DataOperationName;
+    use azure_iot_operations_services::edge_registry::Label;
+    use bytes::Bytes;
     use test_case::test_case;
 
     struct SchemaGenerationTestCase {
@@ -266,5 +379,136 @@ mod test {
 
         let r = create_schema(&input_data);
         assert!(r.is_err());
+    }
+
+    fn data_operation_ref() -> DataOperationRef {
+        DataOperationRef {
+            data_operation_name: DataOperationName::Dataset {
+                name: "test_data_operation_name".to_string(),
+            },
+            asset_name: "test_asset_name".to_string(),
+            device_name: "test_device_name".to_string(),
+            inbound_endpoint_name: "test_inbound_endpoint_name".to_string(),
+        }
+    }
+
+    /// Helper function to compare two `SchemaVersionAttributes` structs for equality.
+    /// This is necessary over the PartialEq/Eq trait because when using JSON, we can
+    /// end up with different ordering of the keys in the JSON object, which prevents
+    /// us from being able to make accurate comparisons of the `content` field.
+    fn schema_version_attributes_eq(
+        schema1: &SchemaVersionAttributes,
+        schema2: &SchemaVersionAttributes,
+    ) -> bool {
+        // Make new structs with the content set to empty strings to normalize our SchemaVersionAttributes
+        // under comparison since we can't directly compare the content accurately.
+        let schema1_no_content = SchemaVersionAttributes {
+            document: Bytes::new(),
+            ..schema1.clone()
+        };
+        let schema2_no_content = SchemaVersionAttributes {
+            document: Bytes::new(),
+            ..schema2.clone()
+        };
+
+        // Compare the content of the schemas
+        let schema1_json_content: Value = serde_json::from_slice(&schema1.document).unwrap();
+        let schema2_json_content: Value = serde_json::from_slice(&schema2.document).unwrap();
+
+        schema1_no_content == schema2_no_content && schema1_json_content == schema2_json_content
+    }
+
+    /// Helper function to compare two `XRegistryMessageSchema` structs for equality.
+    /// This is necessary over the PartialEq/Eq trait because when using JSON, we can
+    /// end up with different ordering of the keys in the JSON object, which prevents
+    /// us from being able to make accurate comparisons of the `content` field.
+    fn xregistry_message_schema_eq(
+        schema1: &XRegistryMessageSchema,
+        schema2: &XRegistryMessageSchema,
+    ) -> bool {
+        if !schema_version_attributes_eq(&schema1.version, &schema2.version) {
+            return false;
+        }
+        assert_eq!(schema1.group_id, schema2.group_id);
+        assert_eq!(schema1.schema_id, schema2.schema_id);
+        assert_eq!(schema1.schema_labels, schema2.schema_labels);
+
+        true
+    }
+
+    // /// Helper function to compare two raw schemas for equality.
+    // /// This is necessary over the PartialEq/Eq trait because when using JSON, we can
+    // /// end up with different ordering of the keys in the JSON object, which prevents
+    // /// us from being able to make accurate comparisons of the `content` field.
+    // fn output_schema_eq(schema1: &str, schema2: &str) -> bool {
+    //     // Compare the content of the schemas
+    //     let schema1_json_content: Value = serde_json::from_str(schema1).unwrap();
+    //     let schema2_json_content: Value = serde_json::from_str(schema2).unwrap();
+
+    //     schema1_json_content == schema2_json_content
+    // }
+
+    #[test_case(&valid_testcase_1(); "1:1 transformation")]
+    #[test_case(&valid_testcase_3(); "Overlapping transformation")]
+    fn valid_create_xregistry_schema(test_case: &SchemaGenerationTestCase) {
+        let input_data = Data {
+            payload: serde_json::to_vec(&test_case.input_json).unwrap(),
+            content_type: "application/json".to_string(),
+            custom_user_data: vec![],
+            timestamp: None,
+        };
+
+        // We expect the output message schema to contain the expected output JSON schema
+        // and have the correct format and schema type
+        let expected_schema_version_attributes = SchemaVersionAttributesBuilder::default()
+            .document(
+                serde_json::to_string(&test_case.expected_output_json_schema)
+                    .unwrap()
+                    .into(),
+            )
+            .format(SchemaFormat::JsonSchemaDraft07)
+            .build()
+            .unwrap();
+        let expected_output_message_schema = XRegistryMessageSchemaBuilder::default()
+            .version(expected_schema_version_attributes.clone())
+            .schema_id("10f3506100271610521098abccf13ad4e9dfd15e8dd17f9a9ade247863a65d74".to_string())
+            .schema_labels(vec![Label {
+                key: "originalid".to_string(),
+                value: "test_device_name:test_inbound_endpoint_name:test_asset_name:dataset:test_data_operation_name".to_string(),
+            }])
+            .build()
+            .unwrap();
+
+        let output_schema_version_attributes =
+            create_schema_version_attributes(&input_data).unwrap();
+        let output_message_schema =
+            create_xregistry_schema(&input_data, &data_operation_ref()).unwrap();
+
+        assert!(schema_version_attributes_eq(
+            &output_schema_version_attributes,
+            &expected_schema_version_attributes
+        ));
+
+        assert!(xregistry_message_schema_eq(
+            &output_message_schema,
+            &expected_output_message_schema
+        ));
+    }
+
+    #[test_case("not json".as_bytes(); "Not JSON")]
+    #[test_case(&[0x9c, 0xe5, 0x78]; "Not UTF8")]
+    fn invalid_xregistry_data_payload(invalid_payload: &[u8]) {
+        let input_data = Data {
+            payload: invalid_payload.into(),
+            content_type: "application/json".to_string(),
+            custom_user_data: vec![],
+            timestamp: None,
+        };
+
+        let r = create_schema_version_attributes(&input_data);
+        assert!(r.is_err());
+
+        let r2 = create_xregistry_schema(&input_data, &data_operation_ref());
+        assert!(r2.is_err());
     }
 }
