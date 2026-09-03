@@ -50,7 +50,13 @@ namespace Azure.Iot.Operations.Connector.UnitTests
             Device device = CreateTestDevice();
             Asset asset = CreateTestAsset();
             AssetDataset dataset = new AssetDataset { Name = TestDatasetName };
-            MessageSchemaReference schema = CreateTestSchemaReference();
+            Schema schema = new Schema
+            {
+                Name = "test-schema",
+                Version = "1.0.0",
+                Format = Format.JsonSchemaDraft07,
+                SchemaType = SchemaType.MessageSchema,
+            };
 
             MockMqttClient mockMqttClient = new MockMqttClient();
             MockAzureDeviceRegistryClientWrapper mockAdrClientWrapper = new MockAzureDeviceRegistryClientWrapper();
@@ -88,7 +94,13 @@ namespace Azure.Iot.Operations.Connector.UnitTests
             Device device = CreateTestDevice();
             Asset asset = CreateTestAsset();
             AssetDataset dataset = new AssetDataset { Name = TestDatasetName };
-            MessageSchemaReference schema = CreateTestSchemaReference();
+            Schema schema = new Schema
+            {
+                Name = "test-schema",
+                Version = "1.0.0",
+                Format = Format.JsonSchemaDraft07,
+                SchemaType = SchemaType.MessageSchema,
+            };
 
             MockMqttClient mockMqttClient = new MockMqttClient();
             MockAzureDeviceRegistryClientWrapper mockAdrClientWrapper = new MockAzureDeviceRegistryClientWrapper();
@@ -124,7 +136,13 @@ namespace Azure.Iot.Operations.Connector.UnitTests
             // Arrange
             Device device = CreateTestDevice();
             Asset asset = CreateTestAsset();
-            MessageSchemaReference schema = CreateTestSchemaReference();
+            Schema schema = new Schema
+            {
+                Name = "test-schema",
+                Version = "1.0.0",
+                Format = Format.JsonSchemaDraft07,
+                SchemaType = SchemaType.MessageSchema,
+            };
 
             MockMqttClient mockMqttClient = new MockMqttClient();
             MockAzureDeviceRegistryClientWrapper mockAdrClientWrapper = new MockAzureDeviceRegistryClientWrapper();
@@ -163,7 +181,13 @@ namespace Azure.Iot.Operations.Connector.UnitTests
             // Arrange
             Device device = CreateTestDevice();
             Asset asset = CreateTestAsset();
-            MessageSchemaReference schema = CreateTestSchemaReference();
+            Schema schema = new Schema
+            {
+                Name = "test-schema",
+                Version = "1.0.0",
+                Format = Format.JsonSchemaDraft07,
+                SchemaType = SchemaType.MessageSchema,
+            };
 
             MockMqttClient mockMqttClient = new MockMqttClient();
             MockAzureDeviceRegistryClientWrapper mockAdrClientWrapper = new MockAzureDeviceRegistryClientWrapper();
@@ -193,16 +217,6 @@ namespace Azure.Iot.Operations.Connector.UnitTests
             Assert.NotNull(result);
             Assert.NotNull(result.Source);
             Assert.DoesNotContain(TestEndpointAddress, result.Source.ToString());
-        }
-
-        private static MessageSchemaReference CreateTestSchemaReference()
-        {
-            return new MessageSchemaReference()
-            {
-                SchemaName = "test-schema",
-                SchemaRegistryNamespace = "test-namespace",
-                SchemaVersion = "1.0.0",
-            };
         }
 
         private static Device CreateTestDevice()
