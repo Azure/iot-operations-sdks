@@ -31,11 +31,10 @@ public interface IThingModelClient
     /// <param name="thingModelId">The Thing Model (Resource) identifier.</param>
     /// <param name="thingModelLabels">Labels applied to the parent Thing Model.</param>
     /// <param name="version">The attributes of the Thing Model Version to create.</param>
-    /// <param name="options">The <see cref="CreateOptions"/> that control the behavior of the create operation; when <see langword="null"/>, the created entity is persisted.</param>
     /// <param name="timeout">The command timeout; when <see langword="null"/>, the client's default timeout is used.</param>
     /// <param name="cancellationToken">A token to cancel the operation.</param>
     /// <returns>A task whose result is the created <see cref="Models.ThingModelVersion"/>.</returns>
-    Task<Models.ThingModelVersion> CreateThingModelVersionAsync(GroupId groupId, string thingModelId, IReadOnlyList<Models.Label> thingModelLabels, Models.ThingModelVersionAttributes version, CreateOptions? options = null, TimeSpan? timeout = null, CancellationToken cancellationToken = default);
+    Task<Models.ThingModelVersion> CreateThingModelVersionAsync(GroupId groupId, string thingModelId, IReadOnlyList<Models.Label> thingModelLabels, Models.ThingModelVersionAttributes version, TimeSpan? timeout = null, CancellationToken cancellationToken = default);
 
     /// <summary>Retrieves a Thing Model Version.</summary>
     /// <param name="groupId">The Thing Model Group. Use <see cref="GroupId.CloudDefault"/> for the cloud-default Group (the configured namespace).</param>
