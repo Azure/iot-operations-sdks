@@ -3,7 +3,6 @@
 
 using System.Globalization;
 using Azure.Iot.Operations.Protocol;
-using Azure.Iot.Operations.Protocol.RPC;
 
 namespace Azure.Iot.Operations.Services.EdgeRegistry;
 
@@ -31,9 +30,6 @@ public sealed partial class EdgeRegistryClient : IEdgeRegistryClient
     private const string SchemaIdTopicToken = "schemaId";
     private const string ThingDescriptionIdTopicToken = "thingDescriptionId";
     private const string ThingModelIdTopicToken = "thingModelId";
-
-    /// <summary>The user property that asks the Edge Registry to persist the entity being written.</summary>
-    private const string PersistUserProperty = "aio-persistence";
 
     private static readonly TimeSpan s_defaultCommandTimeout = TimeSpan.FromSeconds(10);
 
@@ -89,20 +85,6 @@ public sealed partial class EdgeRegistryClient : IEdgeRegistryClient
         Dictionary<string, string> tokens = ExtensionResourceTopicTokens(resourceIdToken, resourceId);
         tokens[VersionIdTopicToken] = versionId.ToString(CultureInfo.InvariantCulture);
         return tokens;
-    }
-
-    /// <summary>Builds the request metadata for a create request, signalling persistence when requested.</summary>
-    private static CommandRequestMetadata PersistenceMetadata(CreateOptions? options)
-    {
-        CommandRequestMetadata requestMetadata = new();
-
-        // Only sent when true, since sending "false" is equivalent to omitting the property.
-        if (options is null || options.Persist)
-        {
-            requestMetadata.UserData.TryAdd(PersistUserProperty, "true");
-        }
-
-        return requestMetadata;
     }
 
     /// <inheritdoc/>
