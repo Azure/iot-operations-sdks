@@ -59,12 +59,30 @@ use azure_iot_operations_services::state_store::{self, SetCondition, SetOptions}
 //    36. TODO set with key expiry, recv delete notification once key expires
 // SHUTDOWN
 //    37. where key is being observed, then shutdown is called. Recv returns None.
+// SCAN
+//    38. where multiple keys match the pattern, alongside keys that do not, paging through every
+//        page until the pager is exhausted
+//    39. where no keys match the pattern (expect success with no keys returned)
+//    40. where the pattern uses glob metacharacters other than a trailing `*`: `?`, character
+//        classes, ranges, negation and escaped literals
 
 const VALUE1: &[u8] = b"value1";
 const VALUE2: &[u8] = b"value2";
 const VALUE3: &[u8] = b"value3";
 const VALUE4: &[u8] = b"value4";
 const TIMEOUT: Duration = Duration::from_secs(10);
+/// Number of keys seeded for the SCAN tests.
+const SCAN_KEY_COUNT: usize = 10;
+/// Upper bound on the pages a single SCAN may return.
+///
+/// Deliberately loose. The page count is up to the State Store, so this only stops a pager that
+/// never completes from hanging the test run.
+const MAX_SCAN_PAGES: usize = 64;
+/// Prefix shared by every key seeded for the SCAN pattern test.
+///
+/// A SCAN walks the whole keyspace, so anchoring every pattern on this prefix keeps the other
+/// tests in this file from affecting the result.
+const PATTERN_KEY_PREFIX: &str = "sspat";
 
 fn setup_test(client_id: &str) -> Result<(Session, state_store::Client, SessionExitHandle), ()> {
     let _ = Builder::new()
@@ -1077,6 +1095,424 @@ async fn state_store_shutdown_right_away_network_tests() {
         tokio::try_join!(
             async move { session.run().await.map_err(|e| { e.to_string() }) },
             async move { test_task.await.map_err(|e| { e.to_string() }) },
+        )
+        .is_ok()
+    );
+}
+
+/// ~~~~~~~~ Scan keys ~~~~~~~~
+/// Test: SCAN returns exactly the keys matching the pattern, paged to exhaustion.
+///
+/// Seeds both matching and non-matching keys, then asserts the matching ones all come back and
+/// the others do not. The State Store chooses the page size, so the assertion is on the keys
+/// collected across all pages rather than on any particular page count.
+#[tokio::test]
+async fn state_store_scan_network_tests() {
+    let log_identifier = "scan";
+    let Ok((session, state_store_client, exit_handle)) =
+        setup_test("state_store_scan_network_tests-rust")
+    else {
+        // Network tests disabled, skipping tests
+        return;
+    };
+
+    let test_task = tokio::task::spawn({
+        async move {
+            // A prefix distinct from the other tests' keys so the pattern below cannot match them
+            let scan_keys: Vec<Vec<u8>> = (0..SCAN_KEY_COUNT)
+                .map(|i| format!("scankey{i:02}").into_bytes())
+                .collect();
+
+            // Keys that are in the store but must not be returned by `scankey*`
+            let decoy_keys: Vec<Vec<u8>> = vec![
+                // Shorter than the prefix
+                b"scanke".to_vec(),
+                // Differs in the last character of the prefix
+                b"scankex00".to_vec(),
+                // Contains the prefix but does not start with it, so this catches a match that
+                // is not anchored at the start
+                b"xscankey00".to_vec(),
+            ];
+
+            // Delete the keys in case they were left over from a previous run
+            for key in scan_keys.iter().chain(decoy_keys.iter()) {
+                let delete_cleanup_response = state_store_client
+                    .del(key.clone(), None, TIMEOUT)
+                    .await
+                    .unwrap();
+                log::info!(
+                    "[{log_identifier}] Delete {}: {delete_cleanup_response:?}",
+                    String::from_utf8_lossy(key)
+                );
+            }
+
+            // Seed the keys that the scan is expected to find, plus the decoys it must skip
+            for key in scan_keys.iter().chain(decoy_keys.iter()) {
+                let set_response = state_store_client
+                    .set(
+                        key.clone(),
+                        VALUE1.to_vec(),
+                        TIMEOUT,
+                        None,
+                        SetOptions::default(),
+                    )
+                    .await
+                    .unwrap();
+                assert!(set_response.response);
+            }
+            log::info!(
+                "[{log_identifier}] Seeded {SCAN_KEY_COUNT} keys and {} non-matching key(s)",
+                decoy_keys.len()
+            );
+
+            // where multiple keys match the pattern
+            let mut pager = state_store_client
+                .filter_keys(b"scankey*".to_vec(), TIMEOUT)
+                .unwrap();
+
+            let mut page_count = 0;
+            let mut scanned_keys: Vec<Vec<u8>> = Vec::new();
+            while let Some(page) = pager.next().await.unwrap() {
+                page_count += 1;
+                log::info!(
+                    "[{log_identifier}] page {page_count} returned {} key(s)",
+                    page.len()
+                );
+                scanned_keys.extend(page);
+                // Guards against a pager that never reports completion
+                assert!(
+                    page_count <= MAX_SCAN_PAGES,
+                    "pager returned more pages than expected"
+                );
+            }
+            log::info!(
+                "[{log_identifier}] scan complete: {} key(s) over {page_count} page(s)",
+                scanned_keys.len()
+            );
+
+            // Decoys are checked first so an over-matching pattern names the offending key
+            // instead of failing as a diff of two byte-vector lists
+            scanned_keys.sort();
+            for decoy in &decoy_keys {
+                assert!(
+                    !scanned_keys.contains(decoy),
+                    "scan returned non-matching key {}",
+                    String::from_utf8_lossy(decoy)
+                );
+            }
+            let mut expected_keys = scan_keys.clone();
+            expected_keys.sort();
+            assert_eq!(scanned_keys, expected_keys);
+
+            // The pager keeps reporting completion once it is exhausted
+            assert!(pager.next().await.unwrap().is_none());
+
+            // Clean up the seeded keys
+            for key in scan_keys.iter().chain(decoy_keys.iter()) {
+                let delete_response = state_store_client
+                    .del(key.clone(), None, TIMEOUT)
+                    .await
+                    .unwrap();
+                assert_eq!(delete_response.response, 1);
+            }
+
+            // Shutdown state store client and underlying resources
+            assert!(state_store_client.shutdown().await.is_ok());
+
+            exit_handle.try_exit().unwrap();
+        }
+    });
+
+    // if an assert fails in the test task, propagate the panic to end the test,
+    // while still running the test task and the session to completion on the happy path
+    assert!(
+        tokio::try_join!(
+            async move { test_task.await.map_err(|e| { e.to_string() }) },
+            async move { session.run().await.map_err(|e| { e.to_string() }) }
+        )
+        .is_ok()
+    );
+}
+
+/// Test: SCAN with a pattern that nothing matches succeeds and returns no keys.
+///
+/// Keys are seeded first so the store is known to be non-empty, proving the empty result comes
+/// from the pattern rather than from there being nothing to find.
+#[tokio::test]
+async fn state_store_scan_no_match_network_tests() {
+    let log_identifier = "scan-no-match";
+    let Ok((session, state_store_client, exit_handle)) =
+        setup_test("state_store_scan_no_match_network_tests-rust")
+    else {
+        // Network tests disabled, skipping tests
+        return;
+    };
+
+    let test_task = tokio::task::spawn({
+        async move {
+            // A prefix of its own so the other SCAN tests' keys cannot affect this result
+            let seeded_keys: Vec<Vec<u8>> = (0..SCAN_KEY_COUNT)
+                .map(|i| format!("nomatchkey{i:02}").into_bytes())
+                .collect();
+
+            // Delete the keys in case they were left over from a previous run
+            for key in &seeded_keys {
+                state_store_client
+                    .del(key.clone(), None, TIMEOUT)
+                    .await
+                    .unwrap();
+            }
+
+            for key in &seeded_keys {
+                let set_response = state_store_client
+                    .set(
+                        key.clone(),
+                        VALUE1.to_vec(),
+                        TIMEOUT,
+                        None,
+                        SetOptions::default(),
+                    )
+                    .await
+                    .unwrap();
+                assert!(set_response.response);
+            }
+            log::info!("[{log_identifier}] Seeded {SCAN_KEY_COUNT} key(s)");
+
+            // Starts with the same prefix as the seeded keys but then requires "zzz", which none
+            // of them have. Sharing the prefix means a partial match would return all 10 keys.
+            let pattern = b"nomatchkeyzzz*".to_vec();
+            let mut pager = state_store_client
+                .filter_keys(pattern.clone(), TIMEOUT)
+                .unwrap();
+
+            let mut unmatched_keys: Vec<Vec<u8>> = Vec::new();
+            let mut page_count = 0;
+            while let Some(page) = pager.next().await.unwrap() {
+                page_count += 1;
+                unmatched_keys.extend(page);
+                // Guards against a pager that never reports completion
+                assert!(
+                    page_count <= MAX_SCAN_PAGES,
+                    "pager returned more pages than expected"
+                );
+            }
+            assert!(
+                unmatched_keys.is_empty(),
+                "scan with no matching keys returned {} key(s)",
+                unmatched_keys.len()
+            );
+            log::info!(
+                "[{log_identifier}] scan with no matches returned {page_count} page(s) and 0 key(s)"
+            );
+
+            // The pager keeps reporting completion once it is exhausted
+            assert!(pager.next().await.unwrap().is_none());
+
+            // Confirms the keys were in the store, so the empty scan above was down to the
+            // pattern. Uses GET rather than a second SCAN to stay independent of the feature
+            // under test.
+            for key in &seeded_keys {
+                let get_response = state_store_client.get(key.clone(), TIMEOUT).await.unwrap();
+                assert!(
+                    get_response.response.is_some(),
+                    "seeded key {} was not present in the store",
+                    String::from_utf8_lossy(key)
+                );
+            }
+
+            // Clean up the seeded keys
+            for key in &seeded_keys {
+                let delete_response = state_store_client
+                    .del(key.clone(), None, TIMEOUT)
+                    .await
+                    .unwrap();
+                assert_eq!(delete_response.response, 1);
+            }
+
+            // Shutdown state store client and underlying resources
+            assert!(state_store_client.shutdown().await.is_ok());
+
+            exit_handle.try_exit().unwrap();
+        }
+    });
+
+    // if an assert fails in the test task, propagate the panic to end the test,
+    // while still running the test task and the session to completion on the happy path
+    assert!(
+        tokio::try_join!(
+            async move { test_task.await.map_err(|e| { e.to_string() }) },
+            async move { session.run().await.map_err(|e| { e.to_string() }) }
+        )
+        .is_ok()
+    );
+}
+
+/// Test: SCAN supports the full glob syntax, not just a trailing `*`.
+///
+/// Keys are matched with the `glob` crate's `Pattern`, so `?`, character classes, ranges,
+/// `[!...]` negation and `[x]`-escaped literals all work. Note `[^...]` is not a negation.
+///
+/// Each case asserts the exact set of keys returned, so a pattern that matches too many keys
+/// fails just as loudly as one that matches too few.
+#[tokio::test]
+async fn state_store_scan_patterns_network_tests() {
+    let log_identifier = "scan-patterns";
+    let Ok((session, state_store_client, exit_handle)) =
+        setup_test("state_store_scan_patterns_network_tests-rust")
+    else {
+        // Network tests disabled, skipping tests
+        return;
+    };
+
+    let test_task = tokio::task::spawn({
+        async move {
+            let p = PATTERN_KEY_PREFIX;
+            // Every seeded key, chosen to differ in length and in character class after the prefix
+            let seeded: Vec<String> = vec![
+                // The prefix alone, to prove `*` also matches an empty sequence
+                p.to_string(),
+                format!("{p}a"),
+                format!("{p}b"),
+                format!("{p}c"),
+                format!("{p}1"),
+                format!("{p}2"),
+                format!("{p}ab"),
+                format!("{p}abc"),
+                // A non-alphanumeric character, which `?` must still match
+                format!("{p}.x"),
+                // A literal glob metacharacter inside the key itself
+                format!("{p}*lit"),
+            ];
+
+            // Delete first in case a previous run left these behind
+            for key in &seeded {
+                state_store_client
+                    .del(key.as_bytes().to_vec(), None, TIMEOUT)
+                    .await
+                    .unwrap();
+            }
+
+            for key in &seeded {
+                let set_response = state_store_client
+                    .set(
+                        key.as_bytes().to_vec(),
+                        VALUE1.to_vec(),
+                        TIMEOUT,
+                        None,
+                        SetOptions::default(),
+                    )
+                    .await
+                    .unwrap();
+                assert!(set_response.response, "failed to seed key {key}");
+            }
+            log::info!(
+                "[{log_identifier}] Seeded {} key(s) under prefix {p:?}",
+                seeded.len()
+            );
+
+            // (pattern, the seeded keys it must return; every other seeded key must be excluded)
+            let cases: Vec<(String, Vec<String>)> = vec![
+                // `*` matches any sequence, including an empty one
+                (format!("{p}*"), seeded.clone()),
+                // `?` matches exactly one character, so longer suffixes are excluded
+                (
+                    format!("{p}?"),
+                    vec![
+                        format!("{p}a"),
+                        format!("{p}b"),
+                        format!("{p}c"),
+                        format!("{p}1"),
+                        format!("{p}2"),
+                    ],
+                ),
+                // Two `?` match exactly two characters, of any class
+                (format!("{p}??"), vec![format!("{p}ab"), format!("{p}.x")]),
+                // A character class matches one character from the set
+                (format!("{p}[ab]"), vec![format!("{p}a"), format!("{p}b")]),
+                // A range behaves the same way over an ordered span
+                (format!("{p}[0-9]"), vec![format!("{p}1"), format!("{p}2")]),
+                // `[!...]` negates the class, so the digits drop out and the letters remain
+                (
+                    format!("{p}[!0-9]"),
+                    vec![format!("{p}a"), format!("{p}b"), format!("{p}c")],
+                ),
+                // Unlike Redis globs, `^` is not a negation. It is just another member of the
+                // class, so this matches a digit or a literal `^` and the letters stay out.
+                (format!("{p}[^0-9]"), vec![format!("{p}1"), format!("{p}2")]),
+                // A `*` in the middle anchors both ends of the key
+                (format!("{p}*c"), vec![format!("{p}c"), format!("{p}abc")]),
+                // Wrapping a metacharacter in a class escapes it, matching it literally
+                (format!("{p}[*]lit"), vec![format!("{p}*lit")]),
+                // A pattern that nothing satisfies returns no keys rather than an error
+                (format!("{p}nomatch*"), vec![]),
+            ];
+
+            for (pattern, expected) in &cases {
+                let mut pager = state_store_client
+                    .filter_keys(pattern.as_bytes().to_vec(), TIMEOUT)
+                    .unwrap();
+                let mut matched: Vec<Vec<u8>> = Vec::new();
+                let mut page_count = 0;
+                while let Some(page) = pager.next().await.unwrap() {
+                    page_count += 1;
+                    assert!(
+                        page_count <= MAX_SCAN_PAGES,
+                        "pager did not terminate for pattern {pattern:?}"
+                    );
+                    matched.extend(page);
+                }
+                matched.sort();
+
+                // Checked per key so a failure names the offending key, which the set comparison
+                // below cannot do
+                for key in &seeded {
+                    let should_match = expected.contains(key);
+                    let did_match = matched.contains(&key.as_bytes().to_vec());
+                    assert!(
+                        did_match == should_match,
+                        "pattern {pattern:?}: key {key:?} should {}have been returned",
+                        if should_match { "" } else { "not " }
+                    );
+                }
+
+                let mut expected_keys: Vec<Vec<u8>> =
+                    expected.iter().map(|k| k.as_bytes().to_vec()).collect();
+                expected_keys.sort();
+                // Also catches any key returned that was not seeded by this test at all
+                assert_eq!(
+                    matched, expected_keys,
+                    "pattern {pattern:?} returned the wrong key set"
+                );
+
+                log::info!(
+                    "[{log_identifier}] pattern {pattern:?} matched {} of {} seeded key(s)",
+                    matched.len(),
+                    seeded.len()
+                );
+            }
+
+            // Clean up the seeded keys
+            for key in &seeded {
+                let delete_response = state_store_client
+                    .del(key.as_bytes().to_vec(), None, TIMEOUT)
+                    .await
+                    .unwrap();
+                assert_eq!(delete_response.response, 1, "failed to delete key {key}");
+            }
+
+            // Shutdown state store client and underlying resources
+            assert!(state_store_client.shutdown().await.is_ok());
+
+            exit_handle.try_exit().unwrap();
+        }
+    });
+
+    // if an assert fails in the test task, propagate the panic to end the test,
+    // while still running the test task and the session to completion on the happy path
+    assert!(
+        tokio::try_join!(
+            async move { test_task.await.map_err(|e| { e.to_string() }) },
+            async move { session.run().await.map_err(|e| { e.to_string() }) }
         )
         .is_ok()
     );
