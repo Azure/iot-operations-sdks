@@ -11,11 +11,6 @@ namespace Azure.Iot.Operations.Connector
 {
     public static class MqttSessionClientProvider
     {
-        /// <summary>
-        /// Categorizes the internal traffic between the connector and other AIO services.
-        /// </summary>
-        private const string ConnectorMetricCategory = "aiosdk-dotnet-connector";
-
         public static Func<IServiceProvider, IMqttClient> Factory = service =>
         {
             IConfiguration? config = service.GetService<IConfiguration>();
@@ -29,7 +24,6 @@ namespace Azure.Iot.Operations.Connector
             {
                 EnableMqttLogging = mqttDiag,
                 RetryOnFirstConnect = true,
-                MetricCategory = ConnectorMetricCategory,
             };
 
 
