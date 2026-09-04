@@ -75,7 +75,7 @@ jobs:
       # makes this step a no-op. Running it before the cache restore would
       # risk the restore clobbering the just-installed binary.
       - name: Install cargo tooling
-        uses: taiki-e/install-action@1ed6d7be6168f6c9046541087ff549b6bc581fdf # v2
+        uses: taiki-e/install-action@0758d235715de2f3551eacc980d9ae8fce9342c3 # v2
         with:
           tool: cargo-machete,cargo-hack
 
@@ -183,7 +183,7 @@ jobs:
 
       # See `check` job above for why this step lives after the cache.
       - name: Install cargo tooling
-        uses: taiki-e/install-action@1ed6d7be6168f6c9046541087ff549b6bc581fdf # v2
+        uses: taiki-e/install-action@0758d235715de2f3551eacc980d9ae8fce9342c3 # v2
         with:
           tool: cargo-llvm-cov
 
