@@ -65,6 +65,8 @@ use azure_iot_operations_services::state_store::{self, SetCondition, SetOptions}
 //    39. where no keys match the pattern (expect success with no keys returned)
 //    40. where the pattern uses glob metacharacters other than a trailing `*`: `?`, character
 //        classes, ranges, negation and escaped literals
+//    41. where keys are deleted and updated between two scans with the same pattern, and a
+//        narrower pattern then selects only the updated keys
 
 const VALUE1: &[u8] = b"value1";
 const VALUE2: &[u8] = b"value2";
@@ -83,6 +85,19 @@ const MAX_SCAN_PAGES: usize = 64;
 /// A SCAN walks the whole keyspace, so anchoring every pattern on this prefix keeps the other
 /// tests in this file from affecting the result.
 const PATTERN_KEY_PREFIX: &str = "sspat";
+/// Number of keys seeded for the SCAN mutation test.
+const MUTATION_KEY_COUNT: usize = 100;
+/// Number of seeded keys the SCAN mutation test deletes.
+const MUTATION_DELETED_COUNT: usize = 25;
+/// Number of seeded keys the SCAN mutation test renames.
+const MUTATION_RENAMED_COUNT: usize = 25;
+/// Prefix shared by every key seeded for the SCAN mutation test.
+const MUTATION_KEY_PREFIX: &str = "mutkey";
+/// Prefix used for the new key name when the mutation test renames a key.
+///
+/// Deliberately does not start with [`MUTATION_KEY_PREFIX`], so a renamed key drops out of the
+/// original pattern and is only selected by a pattern anchored on this prefix.
+const MUTATION_RENAMED_PREFIX: &str = "renkey";
 
 fn setup_test(client_id: &str) -> Result<(Session, state_store::Client, SessionExitHandle), ()> {
     let _ = Builder::new()
@@ -1498,6 +1513,255 @@ async fn state_store_scan_patterns_network_tests() {
                     .await
                     .unwrap();
                 assert_eq!(delete_response.response, 1, "failed to delete key {key}");
+            }
+
+            // Shutdown state store client and underlying resources
+            assert!(state_store_client.shutdown().await.is_ok());
+
+            exit_handle.try_exit().unwrap();
+        }
+    });
+
+    // if an assert fails in the test task, propagate the panic to end the test,
+    // while still running the test task and the session to completion on the happy path
+    assert!(
+        tokio::try_join!(
+            async move { test_task.await.map_err(|e| { e.to_string() }) },
+            async move { session.run().await.map_err(|e| { e.to_string() }) }
+        )
+        .is_ok()
+    );
+}
+
+/// Test: SCAN reflects deletes and renames made between scans with the same pattern.
+///
+/// Seeds 100 keys and scans them all, deletes 25 and scans the remaining 75, then renames 25 to a
+/// prefix the original pattern does not match and scans the remaining 50. A final scan on the new
+/// prefix must select only the 25 renamed keys. No value is ever updated in place, so every
+/// difference between scans comes from a key appearing or disappearing.
+#[tokio::test]
+async fn state_store_scan_after_changes_network_tests() {
+    let log_identifier = "scan-keys-changes";
+    let Ok((session, state_store_client, exit_handle)) =
+        setup_test("state_store_scan_after_changes_network_tests-rust")
+    else {
+        // Network tests disabled, skipping tests
+        return;
+    };
+
+    let test_task = tokio::task::spawn({
+        async move {
+            let all_keys: Vec<String> = (0..MUTATION_KEY_COUNT)
+                .map(|i| format!("{MUTATION_KEY_PREFIX}{i:03}"))
+                .collect();
+
+            // Split into disjoint groups so every key has exactly one fate
+            let deleted: Vec<String> = all_keys[..MUTATION_DELETED_COUNT].to_vec();
+            let renamed_from: Vec<String> = all_keys
+                [MUTATION_DELETED_COUNT..MUTATION_DELETED_COUNT + MUTATION_RENAMED_COUNT]
+                .to_vec();
+            let renamed_to: Vec<String> = renamed_from
+                .iter()
+                .map(|key| {
+                    format!(
+                        "{MUTATION_RENAMED_PREFIX}{}",
+                        key.trim_start_matches(MUTATION_KEY_PREFIX)
+                    )
+                })
+                .collect();
+            let untouched: Vec<String> =
+                all_keys[MUTATION_DELETED_COUNT + MUTATION_RENAMED_COUNT..].to_vec();
+
+            // Delete first in case a previous run left any of these behind
+            for key in all_keys.iter().chain(renamed_to.iter()) {
+                state_store_client
+                    .del(key.as_bytes().to_vec(), None, TIMEOUT)
+                    .await
+                    .unwrap();
+            }
+
+            for key in &all_keys {
+                let set_response = state_store_client
+                    .set(
+                        key.as_bytes().to_vec(),
+                        VALUE1.to_vec(),
+                        TIMEOUT,
+                        None,
+                        SetOptions::default(),
+                    )
+                    .await
+                    .unwrap();
+                assert!(set_response.response, "failed to seed key {key}");
+            }
+            log::info!("[{log_identifier}] Seeded {MUTATION_KEY_COUNT} key(s)");
+
+            let pattern = format!("{MUTATION_KEY_PREFIX}*");
+            let renamed_pattern = format!("{MUTATION_RENAMED_PREFIX}*");
+
+            // Scan 1: all 100 keys come back before any changes
+            let mut expected_names = all_keys.clone();
+            expected_names.sort();
+            let mut pager = state_store_client
+                .filter_keys(pattern.as_bytes().to_vec(), TIMEOUT)
+                .unwrap();
+            // Names are compared as strings so a mismatch names the key instead of dumping raw bytes
+            let mut matched_names: Vec<String> = Vec::new();
+            let mut page_count = 0;
+            while let Some(page) = pager.next().await.unwrap() {
+                page_count += 1;
+                // Guards against a pager that never reports completion
+                assert!(
+                    page_count <= MAX_SCAN_PAGES,
+                    "pager returned more pages than expected"
+                );
+                matched_names.extend(page.into_iter().map(|k| String::from_utf8(k).unwrap()));
+            }
+            matched_names.sort();
+            assert_eq!(matched_names, expected_names, "scan before changes");
+            log::info!(
+                "[{log_identifier}] before changes: {} key(s) over {page_count} page(s)",
+                matched_names.len()
+            );
+
+            for key in &deleted {
+                let delete_response = state_store_client
+                    .del(key.as_bytes().to_vec(), None, TIMEOUT)
+                    .await
+                    .unwrap();
+                assert_eq!(delete_response.response, 1, "failed to delete key {key}");
+            }
+            log::info!("[{log_identifier}] Deleted {} key(s)", deleted.len());
+
+            // Scan 2: the 25 deleted keys are gone, leaving 75
+            let mut expected_names: Vec<String> = renamed_from
+                .iter()
+                .chain(untouched.iter())
+                .cloned()
+                .collect();
+            expected_names.sort();
+            let mut pager = state_store_client
+                .filter_keys(pattern.as_bytes().to_vec(), TIMEOUT)
+                .unwrap();
+            let mut matched_names: Vec<String> = Vec::new();
+            let mut page_count = 0;
+            while let Some(page) = pager.next().await.unwrap() {
+                page_count += 1;
+                assert!(
+                    page_count <= MAX_SCAN_PAGES,
+                    "pager returned more pages than expected"
+                );
+                matched_names.extend(page.into_iter().map(|k| String::from_utf8(k).unwrap()));
+            }
+            matched_names.sort();
+            for key in &deleted {
+                assert!(
+                    !matched_names.contains(key),
+                    "pattern {pattern:?} returned deleted key {key}"
+                );
+            }
+            assert_eq!(matched_names, expected_names, "scan after deletes");
+            log::info!(
+                "[{log_identifier}] after deletes: {} key(s) over {page_count} page(s)",
+                matched_names.len()
+            );
+
+            // Renames the key while keeping the value, so only the key name changes
+            for (old_key, new_key) in renamed_from.iter().zip(renamed_to.iter()) {
+                let delete_response = state_store_client
+                    .del(old_key.as_bytes().to_vec(), None, TIMEOUT)
+                    .await
+                    .unwrap();
+                assert_eq!(
+                    delete_response.response, 1,
+                    "failed to remove key {old_key}"
+                );
+                let set_response = state_store_client
+                    .set(
+                        new_key.as_bytes().to_vec(),
+                        VALUE1.to_vec(),
+                        TIMEOUT,
+                        None,
+                        SetOptions::default(),
+                    )
+                    .await
+                    .unwrap();
+                assert!(set_response.response, "failed to add key {new_key}");
+            }
+            log::info!("[{log_identifier}] Renamed {} key(s)", renamed_to.len());
+
+            // Two scans, one per case below:
+            //   Scan 3: the renamed keys no longer match the original pattern, leaving 50.
+            //   Scan 4: the new pattern selects only the 25 renamed keys.
+            let mut expected_untouched = untouched.clone();
+            expected_untouched.sort();
+            let mut expected_renamed = renamed_to.clone();
+            expected_renamed.sort();
+            let cases: Vec<(&str, &Vec<String>)> = vec![
+                (pattern.as_str(), &expected_untouched),
+                (renamed_pattern.as_str(), &expected_renamed),
+            ];
+
+            for (scan_pattern, expected_names) in cases {
+                let mut pager = state_store_client
+                    .filter_keys(scan_pattern.as_bytes().to_vec(), TIMEOUT)
+                    .unwrap();
+                let mut matched_names: Vec<String> = Vec::new();
+                let mut page_count = 0;
+                while let Some(page) = pager.next().await.unwrap() {
+                    page_count += 1;
+                    assert!(
+                        page_count <= MAX_SCAN_PAGES,
+                        "pager did not terminate for pattern {scan_pattern:?}"
+                    );
+                    matched_names.extend(page.into_iter().map(|k| String::from_utf8(k).unwrap()));
+                }
+                matched_names.sort();
+
+                // Deleted keys are checked by name so a failure says which one came back
+                for key in &deleted {
+                    assert!(
+                        !matched_names.contains(key),
+                        "pattern {scan_pattern:?} returned deleted key {key}"
+                    );
+                }
+                // Likewise for names that no longer exist because they were renamed
+                for key in &renamed_from {
+                    assert!(
+                        !matched_names.contains(key),
+                        "pattern {scan_pattern:?} returned stale key {key}"
+                    );
+                }
+
+                for key in expected_names {
+                    assert!(
+                        matched_names.contains(key),
+                        "pattern {scan_pattern:?} did not return expected key {key}"
+                    );
+                }
+                for key in &matched_names {
+                    assert!(
+                        expected_names.contains(key),
+                        "pattern {scan_pattern:?} returned unexpected key {key}"
+                    );
+                }
+                assert_eq!(
+                    &matched_names, expected_names,
+                    "pattern {scan_pattern:?} returned the wrong key set"
+                );
+
+                log::info!(
+                    "[{log_identifier}] after renames: pattern {scan_pattern:?} matched {} key(s) over {page_count} page(s)",
+                    matched_names.len()
+                );
+            }
+
+            // Clean up every key that still exists. The deleted and renamed-from names are
+            // already gone, so the response is not asserted here.
+            for key in all_keys.iter().chain(renamed_to.iter()) {
+                state_store_client
+                    .del(key.as_bytes().to_vec(), None, TIMEOUT)
+                    .await
+                    .unwrap();
             }
 
             // Shutdown state store client and underlying resources
