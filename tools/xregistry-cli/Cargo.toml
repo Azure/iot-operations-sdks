@@ -1,0 +1,40 @@
+# Copyright (c) Microsoft Corporation.
+# Licensed under the MIT License.
+
+[package]
+name = "xregistry-cli"
+version = "0.1.0"
+edition = "2024"
+rust-version = "1.88"
+license = "MIT"
+description = "Azure IoT Operations Edge Registry command-line interface"
+repository = "https://github.com/Azure/iot-operations-sdks"
+readme = "readme.md"
+publish = false
+
+[dependencies]
+azure_iot_operations_mqtt = { version = "1.1", path = "../../rust/azure_iot_operations_mqtt" }
+azure_iot_operations_protocol = { version = "1.0", path = "../../rust/azure_iot_operations_protocol" }
+azure_iot_operations_services = { version = "1.4.0-beta2", path = "../../rust/azure_iot_operations_services", features = ["edge_registry"] }
+bytes = "1.5"
+clap = { version = "4.5", features = ["derive"] }
+env_logger = "0.11.3"
+log = "0.4.21"
+serde_json = "1.0.105"
+tokio = { version = "1.41", features = ["macros", "rt", "sync", "time"] }
+uuid = { version = "1.8", features = ["v4"] }
+
+[lints.rust]
+rust_2018_idioms = { level = "deny", priority = -1 }
+
+[lints.clippy]
+all = { level = "warn", priority = -1 }
+pedantic = { level = "warn", priority = -1 }
+too_many_lines = "allow"
+module_name_repetitions = "allow"
+
+[profile.release]
+panic = "abort"
+
+[profile.dev]
+panic = "abort"
