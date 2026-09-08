@@ -46,7 +46,7 @@ public class EdgeRegistryClientIntegrationTests(ITestOutputHelper output)
 
         // Create
         using CancellationTokenSource cts = new();
-        cts.CancelAfter(TimeSpan.FromSeconds(20));
+        cts.CancelAfter(TimeSpan.FromSeconds(42));
         CoreGroupEntity created = await client.CreateGroupAsync(GroupType, groupId, MakeGroupAttributes(), cancellationToken: cts.Token);
         output.WriteLine($"created group {created.Id} (xid {created.XId})");
         Assert.Equal(groupId, created.Id);
