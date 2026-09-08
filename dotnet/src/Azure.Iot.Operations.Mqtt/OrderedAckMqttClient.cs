@@ -163,19 +163,21 @@ public class OrderedAckMqttClient : IMqttPubSubClient, IMqttClient
     }
 
     /// <summary>
-    /// Validate the size of the message before sending it to the MQTT broker.
+    /// Validate that the provided message can be sent to the MQTT broker.
     /// </summary>
     /// <param name="message">The message to validate.</param>
     /// <exception cref="InvalidOperationException">If the message size is too large.</exception>
     /// <remarks>
+    /// The outcome of this check depends only on the contents of the message, so a message that fails it can never
+    /// be sent successfully no matter how many times it is retried. Clients that queue messages should run this
+    /// check before queueing so that an invalid message fails immediately instead of waiting in the queue forever.
     /// </remarks>
-    private Task ValidateMessageSize(MqttApplicationMessage message)
+    protected void ValidateOutgoingMessage(MqttApplicationMessage message)
     {
         if (_maximumPacketSize > 0 && message.Payload.Length > _maximumPacketSize)
         {
             throw new InvalidOperationException($"Message size is too large. Maximum message size is {_maximumPacketSize} bytes.");
         }
-        return Task.CompletedTask;
     }
 
     /// <inheritdoc/>
@@ -184,12 +186,7 @@ public class OrderedAckMqttClient : IMqttPubSubClient, IMqttClient
         cancellationToken.ThrowIfCancellationRequested();
         ObjectDisposedException.ThrowIf(_disposed, this);
 
-        if (applicationMessage.AioPersistence && !applicationMessage.Retain)
-        {
-            throw new InvalidOperationException("Only retained messages can be persisted. Must set the retain flag on this message to persist it.");
-        }
-
-        await ValidateMessageSize(applicationMessage);
+        ValidateOutgoingMessage(applicationMessage);
         return MqttNetConverter.ToGeneric(await UnderlyingMqttClient.PublishAsync(MqttNetConverter.FromGeneric(applicationMessage), cancellationToken));
     }
 

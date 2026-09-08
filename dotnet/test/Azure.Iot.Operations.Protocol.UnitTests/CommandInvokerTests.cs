@@ -369,6 +369,40 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
             Assert.Equal(numberOfRequests - 1, responses.Count);
         }
 
+        [Fact(Timeout = 30000)]
+        public async Task InvokerTimesOutWhenPublishNeverCompletes()
+        {
+            // The session client queues publishes and only completes them once they reach the broker, so a request
+            // that can never be sent must still surface the command timeout instead of waiting forever.
+            ApplicationContext applicationContext = new ApplicationContext();
+            var mock = new MockMqttPubSubClient("mockClient");
+            await using var invoker = new InvokerStub(applicationContext, mock)
+            {
+                RequestTopicPattern = "command/{executorId}/mockCommand",
+                ResponseTopicPrefix = "clients/mockClient",
+            };
+
+            CommandRequestMetadata requestMetadata = new();
+            requestMetadata.UserData["_stallPublish"] = "true";
+
+            var invokeRequest = invoker.InvokeCommandAsync(
+                "req Payload",
+                requestMetadata,
+                additionalTopicTokenMap: new Dictionary<string, string> { { "executorId", "someExecutor" } },
+                commandTimeout: TimeSpan.FromSeconds(1));
+
+            var ex = await Assert.ThrowsAsync<AkriMqttException>(() => invokeRequest);
+            Assert.Equal(AkriMqttErrorKind.Timeout, ex.Kind);
+            Assert.False(ex.IsShallow);
+            Assert.False(ex.IsRemote);
+            Assert.Equal("myCmd", ex.CommandName);
+            Assert.Equal(TimeSpan.FromSeconds(1), ex.TimeoutValue);
+
+            // The publish must also be cancelled, otherwise a client that queues requests could still deliver
+            // this one after the invoker has given up, causing a late command execution.
+            Assert.True(mock.LastPublishCancellationToken.IsCancellationRequested);
+        }
+
         [Fact]
         public async Task InvokerDisconnectsBeforePuback()
         {

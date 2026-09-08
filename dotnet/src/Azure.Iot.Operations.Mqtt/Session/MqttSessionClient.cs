@@ -202,6 +202,10 @@ namespace Azure.Iot.Operations.Mqtt.Session
                 throw new SessionClosedException("Cannot publish until the session has been re-opened. The session is closed either because it could not be recovered or because this client was manually closed.");
             }
 
+            // Validate before queueing. A message that fails this check can never be published, so queueing it
+            // would leave the caller waiting on a request that is guaranteed to never complete.
+            ValidateOutgoingMessage(applicationMessage);
+
             TaskCompletionSource<MqttClientPublishResult> tcs = new TaskCompletionSource<MqttClientPublishResult>();
 
             var queuedRequest = new QueuedPublishRequest(applicationMessage, tcs, cancellationToken: cancellationToken);
@@ -692,6 +696,24 @@ namespace Azure.Iot.Operations.Mqtt.Session
 
         private async Task ExecuteSinglePublishAsync(QueuedPublishRequest queuedPublish, CancellationToken cancellationToken)
         {
+            try
+            {
+                // The outcome of this check depends only on the message itself, so a message that fails it can
+                // never be published no matter how often it is retried. Complete the request now instead of
+                // leaving it queued for a retry that is guaranteed to fail in exactly the same way.
+                ValidateOutgoingMessage(queuedPublish.Request);
+            }
+            catch (Exception validationException)
+            {
+                await _outgoingRequestList.RemoveAsync(queuedPublish, CancellationToken.None);
+                if (!queuedPublish.ResultTaskCompletionSource.TrySetException(validationException))
+                {
+                    Trace.TraceError("Failed to set task completion source for publish request");
+                }
+
+                return;
+            }
+
             try
             {
                 MqttClientPublishResult publishResult = await base.PublishAsync(queuedPublish.Request, cancellationToken);

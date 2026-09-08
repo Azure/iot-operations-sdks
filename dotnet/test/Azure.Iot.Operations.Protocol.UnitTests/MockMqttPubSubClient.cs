@@ -37,6 +37,9 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
 
         public List<MqttApplicationMessage> MessagesPublished { get; } = new();
 
+        /// <summary>The cancellation token handed to the most recent publish, so tests can assert it gets cancelled.</summary>
+        public CancellationToken LastPublishCancellationToken { get; private set; }
+
         public string SubscribedTopicReceived { get; set; }
 
         public string UnsubscribeTopicReceived { get; set; }
@@ -177,6 +180,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
         {
             MessagePublished = applicationMessage;
             MessagesPublished.Add(applicationMessage);
+            LastPublishCancellationToken = cancellationToken;
             Interlocked.Increment(ref _numPublishes);
 
             if (applicationMessage.CorrelationData != null)
@@ -203,6 +207,13 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
             if (applicationMessage.UserProperties!.TryGetProperty("_dropPubAck", out string? dropPubAck) && dropPubAck == "true")
             {
                 throw new MqttCommunicationException("PubAck dropped");
+            }
+
+            if (applicationMessage.UserProperties!.TryGetProperty("_stallPublish", out string? stallPublish) && stallPublish == "true")
+            {
+                // Simulates a session client that has queued the publish but can never actually send it, so the
+                // returned task never completes.
+                return new TaskCompletionSource<MqttClientPublishResult>().Task;
             }
 
             string topic = applicationMessage.Topic;

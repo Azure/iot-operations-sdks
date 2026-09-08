@@ -600,9 +600,17 @@ namespace Azure.Iot.Operations.Protocol.RPC
 
                 await SubscribeAsNeededAsync(responseTopicFilter, cancellationToken).ConfigureAwait(false);
 
+                // Bound the publish by the command timeout. The session client queues publishes and only completes
+                // them once they reach the broker, so without this an unsendable request would block here forever
+                // and the command timeout below would never be reached. The timeout is also linked into the token
+                // handed to the publish so that a client which queues requests discards this one instead of
+                // sending it once the connection recovers.
+                using CancellationTokenSource publishTimeoutCts = WallClock.CreateCancellationTokenSource(reifiedCommandTimeout);
+                using CancellationTokenSource publishCts = CancellationTokenSource.CreateLinkedTokenSource(publishTimeoutCts.Token, cancellationToken);
+
                 try
                 {
-                    MqttClientPublishResult pubAck = await _mqttClient.PublishAsync(requestMessage, cancellationToken).ConfigureAwait(false);
+                    MqttClientPublishResult pubAck = await WallClock.WaitAsync(_mqttClient.PublishAsync(requestMessage, publishCts.Token), reifiedCommandTimeout, cancellationToken).ConfigureAwait(false);
                     MqttClientPublishReasonCode pubReasonCode = pubAck.ReasonCode;
                     if (pubReasonCode != MqttClientPublishReasonCode.Success)
                     {
@@ -616,6 +624,25 @@ namespace Azure.Iot.Operations.Protocol.RPC
                         };
                     }
                     Trace.TraceInformation($"Invoked command '{_commandName}' with correlation ID {requestGuid} to topic '{requestTopic}'");
+                }
+                catch (Exception ex) when ((ex is TimeoutException || ex is OperationCanceledException) && !cancellationToken.IsCancellationRequested)
+                {
+                    // Cancel explicitly in case the wait timed out before the linked token did, so that a queued
+                    // publish is always dropped rather than delivered after this invocation has given up.
+                    await publishCts.CancelAsync().ConfigureAwait(false);
+
+                    SetCanceledSafe(responsePromise.CompletionSource);
+
+                    throw new AkriMqttException($"Command '{_commandName}' timed out while publishing the request", ex)
+                    {
+                        Kind = AkriMqttErrorKind.Timeout,
+                        IsShallow = false,
+                        IsRemote = false,
+                        TimeoutName = nameof(commandTimeout),
+                        TimeoutValue = reifiedCommandTimeout,
+                        CommandName = _commandName,
+                        CorrelationId = requestGuid,
+                    };
                 }
                 catch (Exception ex) when (ex is not AkriMqttException)
                 {

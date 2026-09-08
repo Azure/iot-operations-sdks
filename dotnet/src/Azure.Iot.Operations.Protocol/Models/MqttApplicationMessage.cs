@@ -145,11 +145,17 @@ namespace Azure.Iot.Operations.Protocol.Models
         public List<MqttUserProperty>? UserProperties { get; set; }
 
         /// <summary>
-        /// If set, this message will be persisted by the AIO MQTT broker. This is only applicable
-        /// for retained messages. If this value is set to true, <see cref="Retain"/> must also be set to true.
+        /// If set, this message asks the AIO MQTT broker to persist the data associated with it to disk.
         /// </summary>
         /// <remarks>
-        /// This feature is only applicable with the AIO MQTT broker.
+        /// This feature is only applicable with the AIO MQTT broker, and only takes effect when the broker is
+        /// deployed with persistence enabled and configured to allow dynamic persistence requests.
+        /// <para>
+        /// The broker applies this flag to whichever kind of data the message produces. Setting it together with
+        /// <see cref="Retain"/> asks the broker to persist the retained message, while setting it on a request to a
+        /// service that writes to the broker's state store asks the broker to persist the resulting state store
+        /// entries. It is therefore valid on messages that are not retained.
+        /// </para>
         /// </remarks>
         public bool AioPersistence
         {
@@ -166,6 +172,7 @@ namespace Azure.Iot.Operations.Protocol.Models
             set
             {
                 UserProperties ??= new();
+                UserProperties.RemoveAll(property => property.Name.Equals(AioPersistenceFlag, StringComparison.Ordinal));
                 UserProperties.Add(new(AioPersistenceFlag, value ? "true" : "false"));
             }
         }
