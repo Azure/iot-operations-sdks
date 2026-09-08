@@ -37,6 +37,9 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
 
         public List<MqttApplicationMessage> MessagesPublished { get; } = new();
 
+        /// <summary>The cancellation token handed to the most recent publish, so tests can assert it gets cancelled.</summary>
+        public CancellationToken LastPublishCancellationToken { get; private set; }
+
         public string SubscribedTopicReceived { get; set; }
 
         public string UnsubscribeTopicReceived { get; set; }
@@ -177,6 +180,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
         {
             MessagePublished = applicationMessage;
             MessagesPublished.Add(applicationMessage);
+            LastPublishCancellationToken = cancellationToken;
             Interlocked.Increment(ref _numPublishes);
 
             if (applicationMessage.CorrelationData != null)

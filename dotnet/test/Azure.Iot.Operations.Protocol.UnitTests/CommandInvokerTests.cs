@@ -397,6 +397,10 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
             Assert.False(ex.IsRemote);
             Assert.Equal("myCmd", ex.CommandName);
             Assert.Equal(TimeSpan.FromSeconds(1), ex.TimeoutValue);
+
+            // The publish must also be cancelled, otherwise a client that queues requests could still deliver
+            // this one after the invoker has given up, causing a late command execution.
+            Assert.True(mock.LastPublishCancellationToken.IsCancellationRequested);
         }
 
         [Fact]
