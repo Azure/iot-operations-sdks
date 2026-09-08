@@ -188,7 +188,7 @@ namespace Azure.Iot.Operations.Services.StateStore
             CommandRequestMetadata requestMetadata = new CommandRequestMetadata();
             if (options.PersistEntry)
             {
-                requestMetadata.UserData.TryAdd("aio-persistence", "true");
+                requestMetadata.PersistCommand = true;
             }
 
             if (options.FencingToken != null)
