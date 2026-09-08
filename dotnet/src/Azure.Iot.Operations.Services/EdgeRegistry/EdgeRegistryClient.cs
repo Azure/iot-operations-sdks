@@ -3,6 +3,8 @@
 
 using System.Globalization;
 using Azure.Iot.Operations.Protocol;
+using Azure.Iot.Operations.Protocol.RPC;
+using Microsoft.VisualBasic;
 
 namespace Azure.Iot.Operations.Services.EdgeRegistry;
 
@@ -85,6 +87,20 @@ public sealed partial class EdgeRegistryClient : IEdgeRegistryClient
         Dictionary<string, string> tokens = ExtensionResourceTopicTokens(resourceIdToken, resourceId);
         tokens[VersionIdTopicToken] = versionId.ToString(CultureInfo.InvariantCulture);
         return tokens;
+    }
+
+    /// <summary>Builds the request metadata for a create request, signalling persistence when requested.</summary>
+    private static CommandRequestMetadata PersistenceMetadata(CreateOptions? options)
+    {
+        CommandRequestMetadata requestMetadata = new();
+
+        // Only sent when true, since sending "false" is equivalent to omitting the property.
+        if (options is null || options.Persist)
+        {
+            requestMetadata.PersistCommand = true;
+        }
+
+        return requestMetadata;
     }
 
     /// <inheritdoc/>
