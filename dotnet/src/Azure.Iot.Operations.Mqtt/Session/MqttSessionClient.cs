@@ -58,6 +58,7 @@ namespace Azure.Iot.Operations.Mqtt.Session
         {
             _sessionClientOptions = sessionClientOptions ?? new MqttSessionClientOptions();
             _sessionClientOptions.Validate();
+            _sessionClientOptions.ConnectionRetryPolicy = new NoRetryPolicy();
 
             DisconnectedAsync += InternalDisconnectedAsync;
 
@@ -114,6 +115,7 @@ namespace Azure.Iot.Operations.Mqtt.Session
             ArgumentNullException.ThrowIfNull(options);
 
             _isClosing = false;
+            
             MqttClientConnectResult? connectResult = await MaintainConnectionAsync(options, null, cancellationToken);
 
             // By design, MaintainConnectionAsync should only return null when called during reconnection.
