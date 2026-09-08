@@ -87,7 +87,7 @@ public class EdgeRegistryClientIntegrationTests(ITestOutputHelper output)
     [Fact]
     public async Task CreateResourceCreatesDefaultVersion()
     {
-        await using MqttSessionClient mqttClient = await ClientFactory.CreateAndConnectClientAsyncFromEnvAsync();
+        await using var mqttClient = await ClientFactory.FooAsync();
         ApplicationContext applicationContext = new();
         await using IEdgeRegistryClient client = new EdgeRegistryClient(applicationContext, mqttClient);
 
@@ -130,7 +130,7 @@ public class EdgeRegistryClientIntegrationTests(ITestOutputHelper output)
     [Fact]
     public async Task CreateAndListVersionsRoundTrip()
     {
-        await using MqttSessionClient mqttClient = await ClientFactory.CreateAndConnectClientAsyncFromEnvAsync();
+        await using var mqttClient = await ClientFactory.FooAsync();
         ApplicationContext applicationContext = new();
         await using IEdgeRegistryClient client = new EdgeRegistryClient(applicationContext, mqttClient);
 
@@ -183,7 +183,7 @@ public class EdgeRegistryClientIntegrationTests(ITestOutputHelper output)
     [Fact]
     public async Task ListResourcesIncludesCreatedResource()
     {
-        await using MqttSessionClient mqttClient = await ClientFactory.CreateAndConnectClientAsyncFromEnvAsync();
+        await using var mqttClient = await ClientFactory.FooAsync();
         ApplicationContext applicationContext = new();
         await using IEdgeRegistryClient client = new EdgeRegistryClient(applicationContext, mqttClient);
 
@@ -219,7 +219,7 @@ public class EdgeRegistryClientIntegrationTests(ITestOutputHelper output)
     [Fact]
     public async Task ListResourcesAllGroupsStaysWithinGroupType()
     {
-        await using MqttSessionClient mqttClient = await ClientFactory.CreateAndConnectClientAsyncFromEnvAsync();
+        await using var mqttClient = await ClientFactory.FooAsync();
         ApplicationContext applicationContext = new();
         await using IEdgeRegistryClient client = new EdgeRegistryClient(applicationContext, mqttClient);
 
@@ -279,7 +279,7 @@ public class EdgeRegistryClientIntegrationTests(ITestOutputHelper output)
     [Fact]
     public async Task SchemaVersionRoundTrip()
     {
-        await using MqttSessionClient mqttClient = await ClientFactory.CreateAndConnectClientAsyncFromEnvAsync();
+        await using var mqttClient = await ClientFactory.FooAsync();
         ApplicationContext applicationContext = new();
         await using IEdgeRegistryClient client = new EdgeRegistryClient(applicationContext, mqttClient);
 
@@ -328,7 +328,7 @@ public class EdgeRegistryClientIntegrationTests(ITestOutputHelper output)
     [Fact]
     public async Task SchemaListSelectorsMapAllAndSpecificGroups()
     {
-        await using MqttSessionClient mqttClient = await ClientFactory.CreateAndConnectClientAsyncFromEnvAsync();
+        await using var mqttClient = await ClientFactory.FooAsync();
         ApplicationContext applicationContext = new();
         await using IEdgeRegistryClient client = new EdgeRegistryClient(applicationContext, mqttClient);
 
@@ -383,7 +383,7 @@ public class EdgeRegistryClientIntegrationTests(ITestOutputHelper output)
     [Fact]
     public async Task ThingDescriptionVersionRoundTrip()
     {
-        await using MqttSessionClient mqttClient = await ClientFactory.CreateAndConnectClientAsyncFromEnvAsync();
+        await using var mqttClient = await ClientFactory.FooAsync();
         ApplicationContext applicationContext = new();
         await using IEdgeRegistryClient client = new EdgeRegistryClient(applicationContext, mqttClient);
 
@@ -416,7 +416,7 @@ public class EdgeRegistryClientIntegrationTests(ITestOutputHelper output)
     [Fact]
     public async Task ThingModelVersionRoundTrip()
     {
-        await using MqttSessionClient mqttClient = await ClientFactory.CreateAndConnectClientAsyncFromEnvAsync();
+        await using var mqttClient = await ClientFactory.FooAsync();
         ApplicationContext applicationContext = new();
         await using IEdgeRegistryClient client = new EdgeRegistryClient(applicationContext, mqttClient);
 

@@ -1,10 +1,11 @@
 ﻿// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-using Azure.Iot.Operations.Protocol.Connection;
-using Azure.Iot.Operations.Mqtt.Session;
-using Azure.Iot.Operations.Protocol.Retry;
 using System.Diagnostics;
+using Azure.Iot.Operations.Mqtt;
+using Azure.Iot.Operations.Mqtt.Session;
+using Azure.Iot.Operations.Protocol.Connection;
+using Azure.Iot.Operations.Protocol.Retry;
 
 namespace Azure.Iot.Operations.Services.IntegrationTest;
 
@@ -31,6 +32,31 @@ public class ClientFactory
         };
 
         MqttSessionClient mqttSessionClient = new(sessionClientOptions);
+        await mqttSessionClient.ConnectAsync(mcs);
+        return mqttSessionClient;
+    }
+
+    public static async Task<OrderedAckMqttClient> FooAsync(string clientId = "")
+    {
+        var mcs = CreateMqttConnectionSettings();
+        if (string.IsNullOrEmpty(clientId))
+        {
+            mcs.ClientId += Guid.NewGuid().ToString();
+        }
+        else
+        {
+            mcs.ClientId = clientId;
+        }
+
+        MqttSessionClientOptions sessionClientOptions = new MqttSessionClientOptions()
+        {
+            // This retry policy prevents the client from retrying forever
+            ConnectionRetryPolicy = new ExponentialBackoffRetryPolicy(10, TimeSpan.FromSeconds(5)),
+            RetryOnFirstConnect = true, // This helps counteract if MQ is still deploying when the test is run
+            EnableMqttLogging = true,
+        };
+
+        OrderedAckMqttClient mqttSessionClient = new(new MQTTnet.MqttClientFactory().CreateMqttClient());
         await mqttSessionClient.ConnectAsync(mcs);
         return mqttSessionClient;
     }
