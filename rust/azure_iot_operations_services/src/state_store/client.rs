@@ -59,7 +59,7 @@ impl KeyObservation {
     // that was observed where the receiver was dropped and a key that was never observed
 }
 
-/// A caller-driven, page-at-a-time filter of State Store keys.
+/// A caller-driven, page-at-a-time list of State Store keys.
 ///
 /// Call [`ListKeysPager::next`] to request each page. The continuation token is managed
 /// internally, and the pager cannot outlive the [`Client`] that created it.
