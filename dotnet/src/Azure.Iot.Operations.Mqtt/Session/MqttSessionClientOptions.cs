@@ -83,10 +83,6 @@ namespace Azure.Iot.Operations.Mqtt.Session
 
             ArgumentNullException.ThrowIfNull(ConnectionRetryPolicy, "A session client must have a retry policy.");
 
-            if (ConnectionRetryPolicy is NoRetryPolicy)
-            {
-                throw new ArgumentException("A session client cannot use a 'NoRetry' policy");
-            }
         }
     }
 }
