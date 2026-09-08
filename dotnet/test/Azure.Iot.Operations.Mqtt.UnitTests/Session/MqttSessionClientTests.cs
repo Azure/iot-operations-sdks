@@ -2454,6 +2454,98 @@ namespace Azure.Iot.Operations.Protocol.Session.UnitTests
             Assert.True(containsFlag);
         }
 
+        [Fact(Timeout = 30000)]
+        public async Task MqttSessionClient_PublishWithPersistenceAndWithoutRetain()
+        {
+            // The "aio-persistence" user property is not exclusive to retained messages. The AIO broker also
+            // accepts it on ordinary request/response messages to persist the state store entries they produce,
+            // which is how the state store and Edge Registry clients request durable writes. Rejecting the
+            // property on non-retained messages left those requests stuck in the outgoing queue forever.
+            using MockMqttClient mockMqttClient = new MockMqttClient();
+            await using MqttSessionClient sessionClient = new(mockMqttClient);
+
+            mockMqttClient.OnConnectAttempt += (actualConnect) =>
+            {
+                return Task.FromResult(MQTTnet.MqttClientConnectResultFactory.Create(MockMqttClient.SuccessfulInitialConnAck, MQTTnet.Formatter.MqttProtocolVersion.V500));
+            };
+
+            await sessionClient.ConnectAsync(new MqttClientOptions(new MqttClientTcpOptions("localhost", 1883))
+            {
+                SessionExpiryInterval = 100,
+            });
+
+            TaskCompletionSource<MQTTnet.MqttApplicationMessage> actualPublishTcs = new();
+            mockMqttClient.OnPublishAttempt += (actualPublish) =>
+            {
+                actualPublishTcs.TrySetResult(actualPublish);
+                return Task.FromResult(new MQTTnet.MqttClientPublishResult(0, MQTTnet.MqttClientPublishReasonCode.Success, "", new List<MQTTnet.Packets.MqttUserProperty>()));
+            };
+
+            MqttApplicationMessage publish = new("someTopic")
+            {
+                AioPersistence = true,
+                Retain = false,
+            };
+
+            MqttClientPublishResult publishResult = await sessionClient.PublishAsync(publish).WaitAsync(TimeSpan.FromSeconds(10));
+            Assert.Equal(MqttClientPublishReasonCode.Success, publishResult.ReasonCode);
+
+            var actualPublish = await actualPublishTcs.Task.WaitAsync(TimeSpan.FromSeconds(3));
+            Assert.False(actualPublish.Retain);
+            Assert.Contains(
+                actualPublish.UserProperties,
+                property => property.Name.Equals("aio-persistence") && property.ReadValueAsString().Equals("true"));
+        }
+
+        [Fact(Timeout = 30000)]
+        public async Task MqttSessionClient_QueuedPublishThatFailsValidationCompletesInsteadOfHanging()
+        {
+            // A queued request is only ever retried when the connection is recovered, so a request that fails a
+            // check depending solely on the message would otherwise sit in the queue forever and its caller would
+            // wait on a result that never arrives.
+            using MockMqttClient mockMqttClient = new MockMqttClient();
+            await using MqttSessionClient sessionClient = new(mockMqttClient);
+
+            mockMqttClient.OnConnectAttempt += (actualConnect) =>
+            {
+                return Task.FromResult(MQTTnet.MqttClientConnectResultFactory.Create(MockMqttClient.SuccessfulInitialConnAck, MQTTnet.Formatter.MqttProtocolVersion.V500));
+            };
+
+            // Queue the publish before connecting so that the maximum packet size isn't known yet and the request
+            // can't be rejected up front.
+            Task<MqttClientPublishResult> publishTask = sessionClient.PublishAsync(
+                new MqttApplicationMessage("someTopic") { PayloadSegment = new byte[64] });
+
+            await sessionClient.ConnectAsync(new MqttClientOptions(new MqttClientTcpOptions("localhost", 1883))
+            {
+                SessionExpiryInterval = 100,
+                MaximumPacketSize = 8,
+            });
+
+            await Assert.ThrowsAsync<InvalidOperationException>(async () => await publishTask.WaitAsync(TimeSpan.FromSeconds(10)));
+        }
+
+        [Fact(Timeout = 30000)]
+        public async Task MqttSessionClient_PublishThatFailsValidationThrowsBeforeBeingQueued()
+        {
+            using MockMqttClient mockMqttClient = new MockMqttClient();
+            await using MqttSessionClient sessionClient = new(mockMqttClient);
+
+            mockMqttClient.OnConnectAttempt += (actualConnect) =>
+            {
+                return Task.FromResult(MQTTnet.MqttClientConnectResultFactory.Create(MockMqttClient.SuccessfulInitialConnAck, MQTTnet.Formatter.MqttProtocolVersion.V500));
+            };
+
+            await sessionClient.ConnectAsync(new MqttClientOptions(new MqttClientTcpOptions("localhost", 1883))
+            {
+                SessionExpiryInterval = 100,
+                MaximumPacketSize = 8,
+            });
+
+            await Assert.ThrowsAsync<InvalidOperationException>(
+                async () => await sessionClient.PublishAsync(new MqttApplicationMessage("someTopic") { PayloadSegment = new byte[64] }));
+        }
+
         [Fact(Timeout = 10000)] // Adding a timeout to this test in case some deadlock causes disposing the session client when it is reconnecting to hang
         public async Task MqttSessionClient_DisposeWhileReconnectingStopsReconnectingAndDoesNotThrow() // check for the issue reported in https://github.com/Azure/iot-operations-sdks/issues/1281
         {

@@ -27,11 +27,12 @@ namespace Azure.Iot.Operations.Protocol.Telemetry
         public CloudEvent? CloudEvent { get; set; }
 
         /// <summary>
-        /// If true, this telemetry will be persisted by the AIO MQTT broker upon receiving it. This is only applicable
-        /// for retained messages. If this value is set to true, <see cref="Retain"/> must also be set to true.
+        /// If true, this telemetry asks the AIO MQTT broker to persist it to disk upon receiving it. This is only
+        /// applicable for retained messages, so <see cref="Retain"/> should also be set to true.
         /// </summary>
         /// <remarks>
-        /// This feature is only applicable with the AIO MQTT broker.
+        /// This feature is only applicable with the AIO MQTT broker, and only takes effect when the broker is
+        /// deployed with persistence enabled and configured to allow dynamic persistence requests.
         /// </remarks>
         public bool PersistTelemetry { get; set; }
 

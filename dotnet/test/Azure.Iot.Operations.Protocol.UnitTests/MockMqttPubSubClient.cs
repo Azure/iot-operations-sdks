@@ -205,6 +205,13 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
                 throw new MqttCommunicationException("PubAck dropped");
             }
 
+            if (applicationMessage.UserProperties!.TryGetProperty("_stallPublish", out string? stallPublish) && stallPublish == "true")
+            {
+                // Simulates a session client that has queued the publish but can never actually send it, so the
+                // returned task never completes.
+                return new TaskCompletionSource<MqttClientPublishResult>().Task;
+            }
+
             string topic = applicationMessage.Topic;
             if (topic.Contains("failPubAck"))
             {

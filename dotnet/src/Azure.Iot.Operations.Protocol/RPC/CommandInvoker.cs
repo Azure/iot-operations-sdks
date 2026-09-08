@@ -602,7 +602,10 @@ namespace Azure.Iot.Operations.Protocol.RPC
 
                 try
                 {
-                    MqttClientPublishResult pubAck = await _mqttClient.PublishAsync(requestMessage, cancellationToken).ConfigureAwait(false);
+                    // Bound the publish by the command timeout. The session client queues publishes and only
+                    // completes them once they reach the broker, so without this an unsendable request would
+                    // block here forever and the command timeout below would never be reached.
+                    MqttClientPublishResult pubAck = await WallClock.WaitAsync(_mqttClient.PublishAsync(requestMessage, cancellationToken), reifiedCommandTimeout, cancellationToken).ConfigureAwait(false);
                     MqttClientPublishReasonCode pubReasonCode = pubAck.ReasonCode;
                     if (pubReasonCode != MqttClientPublishReasonCode.Success)
                     {
@@ -616,6 +619,21 @@ namespace Azure.Iot.Operations.Protocol.RPC
                         };
                     }
                     Trace.TraceInformation($"Invoked command '{_commandName}' with correlation ID {requestGuid} to topic '{requestTopic}'");
+                }
+                catch (TimeoutException ex)
+                {
+                    SetCanceledSafe(responsePromise.CompletionSource);
+
+                    throw new AkriMqttException($"Command '{_commandName}' timed out while publishing the request", ex)
+                    {
+                        Kind = AkriMqttErrorKind.Timeout,
+                        IsShallow = false,
+                        IsRemote = false,
+                        TimeoutName = nameof(commandTimeout),
+                        TimeoutValue = reifiedCommandTimeout,
+                        CommandName = _commandName,
+                        CorrelationId = requestGuid,
+                    };
                 }
                 catch (Exception ex) when (ex is not AkriMqttException)
                 {

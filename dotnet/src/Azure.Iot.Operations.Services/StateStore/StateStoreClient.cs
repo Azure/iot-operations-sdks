@@ -26,6 +26,15 @@ namespace Azure.Iot.Operations.Services.StateStore
 
         internal const string FencingTokenUserPropertyKey = AkriSystemProperties.ReservedPrefix + "ft";
 
+        /// <summary>
+        /// The user property that asks the broker to persist the state store entries written by this request.
+        /// </summary>
+        /// <remarks>
+        /// This is sent on a normal (non-retained) request/response message. The broker applies the flag to the
+        /// state store entries the request produces, not to the request message itself.
+        /// </remarks>
+        internal const string PersistUserPropertyKey = "aio-persistence";
+
         public event Func<object?, KeyChangeMessageReceivedEventArgs, Task>? KeyChangeMessageReceivedAsync;
 
         public StateStoreClient(ApplicationContext applicationContext, IMqttPubSubClient mqttClient)
@@ -188,7 +197,7 @@ namespace Azure.Iot.Operations.Services.StateStore
             CommandRequestMetadata requestMetadata = new CommandRequestMetadata();
             if (options.PersistEntry)
             {
-                requestMetadata.UserData.TryAdd("aio-persistence", "true");
+                requestMetadata.UserData.TryAdd(PersistUserPropertyKey, "true");
             }
 
             if (options.FencingToken != null)

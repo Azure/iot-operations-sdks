@@ -337,7 +337,8 @@ namespace Azure.Iot.Operations.Protocol.Models
         /// If true, the session used in this connection will be persisted by the AIO MQTT broker.
         /// </summary>
         /// <remarks>
-        /// This feature is only applicable with the AIO MQTT broker.
+        /// This feature is only applicable with the AIO MQTT broker, and only takes effect when the broker is
+        /// deployed with persistence enabled and configured to allow dynamic persistence requests.
         /// </remarks>
         public bool AioPersistence
         {
@@ -354,6 +355,7 @@ namespace Azure.Iot.Operations.Protocol.Models
             set
             {
                 UserProperties ??= new();
+                UserProperties.RemoveAll(property => property.Name.Equals(AioPersistenceFlag, StringComparison.Ordinal));
                 UserProperties.Add(new(AioPersistenceFlag, value ? "true" : "false"));
             }
         }
