@@ -556,7 +556,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
                     // Only set this value if it is true since sending "aio-persistence":"false"
                     // is the same as not sending "aio-persistence" user property at all
                     requestMessage.AioPersistence = true;
-                    requestMessage.Retain = true;
+                    //requestMessage.Retain = true; //break it on purpose
                 }
 
                 string? clientId = _mqttClient.ClientId;
