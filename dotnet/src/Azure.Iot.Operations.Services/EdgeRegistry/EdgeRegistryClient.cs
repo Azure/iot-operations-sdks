@@ -4,7 +4,6 @@
 using System.Globalization;
 using Azure.Iot.Operations.Protocol;
 using Azure.Iot.Operations.Protocol.RPC;
-using Microsoft.VisualBasic;
 
 namespace Azure.Iot.Operations.Services.EdgeRegistry;
 
