@@ -32,9 +32,6 @@ public sealed partial class EdgeRegistryClient : IEdgeRegistryClient
     private const string ThingDescriptionIdTopicToken = "thingDescriptionId";
     private const string ThingModelIdTopicToken = "thingModelId";
 
-    /// <summary>The user property that asks the Edge Registry to persist the entity being written.</summary>
-    private const string PersistUserProperty = "aio-persistence";
-
     private static readonly TimeSpan s_defaultCommandTimeout = TimeSpan.FromSeconds(10);
 
     private readonly CoreClientStub _coreStub;
@@ -99,7 +96,7 @@ public sealed partial class EdgeRegistryClient : IEdgeRegistryClient
         // Only sent when true, since sending "false" is equivalent to omitting the property.
         if (options is null || options.Persist)
         {
-            requestMetadata.UserData.TryAdd(PersistUserProperty, "true");
+            requestMetadata.PersistCommand = true;
         }
 
         return requestMetadata;
