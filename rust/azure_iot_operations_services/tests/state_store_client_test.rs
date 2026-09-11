@@ -1182,7 +1182,7 @@ async fn state_store_scan_network_tests() {
 
             // where multiple keys match the pattern
             let mut pager = state_store_client
-                .filter_keys(b"scankey*".to_vec(), TIMEOUT)
+                .list_keys(b"scankey*".to_vec(), TIMEOUT)
                 .unwrap();
 
             let mut page_count = 0;
@@ -1297,7 +1297,7 @@ async fn state_store_scan_no_match_network_tests() {
             // of them have. Sharing the prefix means a partial match would return all 10 keys.
             let pattern = b"nomatchkeyzzz*".to_vec();
             let mut pager = state_store_client
-                .filter_keys(pattern.clone(), TIMEOUT)
+                .list_keys(pattern.clone(), TIMEOUT)
                 .unwrap();
 
             let mut unmatched_keys: Vec<Vec<u8>> = Vec::new();
@@ -1464,7 +1464,7 @@ async fn state_store_scan_patterns_network_tests() {
 
             for (pattern, expected) in &cases {
                 let mut pager = state_store_client
-                    .filter_keys(pattern.as_bytes().to_vec(), TIMEOUT)
+                    .list_keys(pattern.as_bytes().to_vec(), TIMEOUT)
                     .unwrap();
                 let mut matched: Vec<Vec<u8>> = Vec::new();
                 let mut page_count = 0;
@@ -1602,7 +1602,7 @@ async fn state_store_scan_after_changes_network_tests() {
             let mut expected_names = all_keys.clone();
             expected_names.sort();
             let mut pager = state_store_client
-                .filter_keys(pattern.as_bytes().to_vec(), TIMEOUT)
+                .list_keys(pattern.as_bytes().to_vec(), TIMEOUT)
                 .unwrap();
             // Names are compared as strings so a mismatch names the key instead of dumping raw bytes
             let mut matched_names: Vec<String> = Vec::new();
@@ -1640,7 +1640,7 @@ async fn state_store_scan_after_changes_network_tests() {
                 .collect();
             expected_names.sort();
             let mut pager = state_store_client
-                .filter_keys(pattern.as_bytes().to_vec(), TIMEOUT)
+                .list_keys(pattern.as_bytes().to_vec(), TIMEOUT)
                 .unwrap();
             let mut matched_names: Vec<String> = Vec::new();
             let mut page_count = 0;
@@ -1703,7 +1703,7 @@ async fn state_store_scan_after_changes_network_tests() {
 
             for (scan_pattern, expected_names) in cases {
                 let mut pager = state_store_client
-                    .filter_keys(scan_pattern.as_bytes().to_vec(), TIMEOUT)
+                    .list_keys(scan_pattern.as_bytes().to_vec(), TIMEOUT)
                     .unwrap();
                 let mut matched_names: Vec<String> = Vec::new();
                 let mut page_count = 0;
