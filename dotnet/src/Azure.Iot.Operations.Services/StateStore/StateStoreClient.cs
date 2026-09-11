@@ -334,44 +334,6 @@ namespace Azure.Iot.Operations.Services.StateStore
         }
 
         /// <inheritdoc/>
-        public virtual async Task<IStateStoreGetResponse> ListKeysAsync(byte[] pattern, TimeSpan? requestTimeout = null, CancellationToken cancellationToken = default)
-        {
-            cancellationToken.ThrowIfCancellationRequested();
-            ArgumentNullException.ThrowIfNull(pattern, nameof(pattern));
-            ObjectDisposedException.ThrowIf(_disposed, this);
-
-            Debug.Assert(_generatedClientStub != null);
-
-            byte[] requestPayload = StateStorePayloadParser.BuildListKeysRequestPayload(pattern);
-            Trace.TraceInformation($"LISTKEYS {Encoding.ASCII.GetString(pattern)}");
-            ExtendedResponse<byte[]> commandResponse =
-                await _generatedClientStub.InvokeAsync(
-                    requestPayload,
-                    commandTimeout: requestTimeout,
-                    cancellationToken: cancellationToken).WithMetadata();
-
-            if (commandResponse.Response == null
-                || commandResponse.Response.Length == 0)
-            {
-                throw new StateStoreOperationException("Received no response payload from State Store");
-            }
-
-            byte[]? value = StateStorePayloadParser.ParseGetResponse(commandResponse.Response);
-
-            if (value == null)
-            {
-                // This case signifies that the requested key did not exist in the state store. Note that
-                // this is not the same as the case where the requested key exists and the value is an empty
-                // byte array. In the latter case, there may still be a timestamp attached to the key.
-                return new StateStoreGetResponse(null, null);
-            }
-
-            return new StateStoreGetResponse(
-                commandResponse.ResponseMetadata != null ? commandResponse.ResponseMetadata.Timestamp! : null,
-                new StateStoreValue(value));
-        }
-
-        /// <inheritdoc/>
         public async Task StopAsync(CancellationToken cancellationToken = default)
         {
             if (_generatedClientStub != null)
@@ -396,6 +358,26 @@ namespace Azure.Iot.Operations.Services.StateStore
                     Trace.TraceWarning("Failed to unsubscribe from key notifications MQTT topic.", e);
                 }
             }
+        }
+
+        /// <inheritdoc/>
+        public ListKeysPageIterator ListKeys(string pattern, TimeSpan? requestTimeout = null)
+        {
+            ArgumentException.ThrowIfNullOrEmpty(pattern, nameof(pattern));
+
+            return ListKeys(Encoding.UTF8.GetBytes(pattern), requestTimeout);
+        }
+
+        /// <inheritdoc/>
+        public ListKeysPageIterator ListKeys(byte[] pattern, TimeSpan? requestTimeout = null)
+        {
+            ArgumentNullException.ThrowIfNull(pattern, nameof(pattern));
+            ArgumentOutOfRangeException.ThrowIfZero(pattern.Length, nameof(pattern));
+            ObjectDisposedException.ThrowIf(_disposed, this);
+
+            Debug.Assert(_generatedClientStub != null);
+
+            return new ListKeysPageIterator(_generatedClientStub, pattern, requestTimeout);
         }
 
         /// <summary>

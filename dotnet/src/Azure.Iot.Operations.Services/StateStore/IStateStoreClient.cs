@@ -75,6 +75,30 @@ namespace Azure.Iot.Operations.Services.StateStore
         Task StopAsync(CancellationToken cancellationToken = default);
 
         /// <summary>
+        /// Creates an iterator that lists State Store keys matching the provided pattern.
+        /// </summary>
+        /// <param name="pattern">The glob-style pattern used to match keys.</param>
+        /// <param name="requestTimeout">The optional timeout for each page request.</param>
+        /// <returns>An iterator that requests matching keys one page at a time.</returns>
+        /// <remarks>
+        /// Creating the iterator does not contact the State Store. Each call to
+        /// <see cref="ListKeysPageIterator.GetNextPageAsync(CancellationToken)"/> requests one page.
+        /// </remarks>
+        ListKeysPageIterator ListKeys(string pattern, TimeSpan? requestTimeout = null);
+
+        /// <summary>
+        /// Creates an iterator that lists State Store keys matching the provided binary pattern.
+        /// </summary>
+        /// <param name="pattern">The binary glob-style pattern used to match keys.</param>
+        /// <param name="requestTimeout">The optional timeout for each page request.</param>
+        /// <returns>An iterator that requests matching keys one page at a time.</returns>
+        /// <remarks>
+        /// Creating the iterator does not contact the State Store. Each call to
+        /// <see cref="ListKeysPageIterator.GetNextPageAsync(CancellationToken)"/> requests one page.
+        /// </remarks>
+        ListKeysPageIterator ListKeys(byte[] pattern, TimeSpan? requestTimeout = null);
+
+        /// <summary>
         /// Asynchronously dispose of this client and optionally dispose the underlying MQTT client
         /// </summary>
         /// <param name="disposing">If true, this client will also dispose the underlying MQTT client.</param>

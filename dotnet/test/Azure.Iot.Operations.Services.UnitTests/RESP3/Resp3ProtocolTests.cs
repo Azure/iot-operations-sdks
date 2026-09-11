@@ -129,6 +129,16 @@ namespace Azure.Iot.Operations.Services.Test.Unit.StateStore.RESP3
         }
 
         [Fact]
+        public void ParseBlobStringThrowsIfArgumentLengthIsNegative()
+        {
+            // arrange
+            byte[] value = Encoding.ASCII.GetBytes("$-1\r\n");
+
+            // act, assert
+            Assert.Throws<Resp3ProtocolException>(() => Resp3Protocol.ParseBlobString(value));
+        }
+
+        [Fact]
         public void ParseBlobStringThrowsIfArgumentLengthIsNotAccurate()
         {
             // arrange

@@ -81,9 +81,10 @@ namespace Azure.Iot.Operations.Services.StateStore.RESP3
                 throw new Resp3ProtocolException("Invalid RESP3 blob string: non-ASCII characters detected.");
             }
 
-            if (!int.TryParse(blobStringLengthString, out int declaredLength))
+            if (!int.TryParse(blobStringLengthString, out int declaredLength)
+                || declaredLength < 0)
             {
-                throw new Resp3ProtocolException("Invalid RESP3 blob string: length segment could not be parsed as an integer");
+                throw new Resp3ProtocolException("Invalid RESP3 blob string: length segment must be a non-negative integer");
             }
 
             int totalBlobStringLength = "$".Length + blobStringLengthString.Length + Separator.Length + declaredLength + Separator.Length;
