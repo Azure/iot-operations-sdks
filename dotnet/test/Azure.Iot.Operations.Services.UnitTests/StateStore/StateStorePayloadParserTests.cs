@@ -117,6 +117,19 @@ namespace Azure.Iot.Operations.Services.Test.Unit.StateStore
             Assert.Equal(0, getResponse.Length);
         }
 
+        [Theory]
+        [InlineData("*1\r\n*2147483647\r\n")]
+        [InlineData("*1\r\n*1\r\n$2147483647\r\n")]
+        public void ParseListKeysResponseWrapsOversizedDeclaredLengths(string response)
+        {
+            // arrange
+            byte[] invalidListKeysResponse = Encoding.ASCII.GetBytes(response);
+
+            // act, assert
+            Assert.Throws<StateStoreOperationException>(
+                () => StateStorePayloadParser.ParseListKeysResponse(invalidListKeysResponse));
+        }
+
         [Fact]
         public void ParseDelResponseThrowsIfNotNumber()
         {

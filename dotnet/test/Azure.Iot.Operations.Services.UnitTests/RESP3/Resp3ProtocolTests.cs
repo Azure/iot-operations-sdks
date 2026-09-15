@@ -139,6 +139,16 @@ namespace Azure.Iot.Operations.Services.Test.Unit.StateStore.RESP3
         }
 
         [Fact]
+        public void ParseBlobStringThrowsIfArgumentLengthExceedsAvailablePayload()
+        {
+            // arrange
+            byte[] value = Encoding.ASCII.GetBytes("$2147483647\r\n");
+
+            // act, assert
+            Assert.Throws<Resp3ProtocolException>(() => Resp3Protocol.ParseBlobString(value));
+        }
+
+        [Fact]
         public void ParseBlobStringThrowsIfArgumentLengthIsNotAccurate()
         {
             // arrange
@@ -439,6 +449,103 @@ namespace Azure.Iot.Operations.Services.Test.Unit.StateStore.RESP3
 
             // assert
             Assert.Empty(parsedValue);
+        }
+
+        [Fact]
+        public void ParseBlobStringArrayWithOffsetAndTrailingBytesSuccess()
+        {
+            // arrange
+            string value = "prefix*2\r\n$11\r\nhello world\r\n$7\r\ngoodbye\r\nsuffix";
+
+            // act
+            int remainingIndex = Resp3Protocol.ParseBlobStringArray(
+                "prefix".Length,
+                Encoding.ASCII.GetBytes(value),
+                out List<byte[]> parsedValue);
+
+            // assert
+            Assert.Equal(2, parsedValue.Count);
+            Assert.Equal("hello world", Encoding.ASCII.GetString(parsedValue[0]));
+            Assert.Equal("goodbye", Encoding.ASCII.GetString(parsedValue[1]));
+            Assert.Equal(value.Length - "suffix".Length, remainingIndex);
+        }
+
+        [Fact]
+        public void ParseBlobStringArrayWithEmptyArrayAndTrailingBytesSuccess()
+        {
+            // arrange
+            string value = "prefix*0\r\nsuffix";
+
+            // act
+            int remainingIndex = Resp3Protocol.ParseBlobStringArray(
+                "prefix".Length,
+                Encoding.ASCII.GetBytes(value),
+                out List<byte[]> parsedValue);
+
+            // assert
+            Assert.Empty(parsedValue);
+            Assert.Equal(value.Length - "suffix".Length, remainingIndex);
+        }
+
+        [Theory]
+        [InlineData(-1)]
+        [InlineData(4)]
+        public void ParseBlobStringArrayThrowsIfStartIndexIsOutOfRange(int startIndex)
+        {
+            // arrange
+            byte[] value = Encoding.ASCII.GetBytes("*0\r\n");
+
+            // act, assert
+            Assert.Throws<Resp3ProtocolException>(
+                () => Resp3Protocol.ParseBlobStringArray(startIndex, value, out _));
+        }
+
+        [Fact]
+        public void ParseBlobStringArrayThrowsIfStartIndexDoesNotPointToArray()
+        {
+            // arrange
+            byte[] value = Encoding.ASCII.GetBytes("prefix*0\r\n");
+
+            // act, assert
+            Assert.Throws<Resp3ProtocolException>(
+                () => Resp3Protocol.ParseBlobStringArray(0, value, out _));
+        }
+
+        [Theory]
+        [InlineData("*\r\n")]
+        [InlineData("*not-an-integer\r\n")]
+        [InlineData("*-1\r\n")]
+        [InlineData("*2147483647\r\n")]
+        public void ParseBlobStringArrayThrowsIfArrayLengthIsInvalid(string value)
+        {
+            // act, assert
+            Assert.Throws<Resp3ProtocolException>(
+                () => Resp3Protocol.ParseBlobStringArray(
+                    0,
+                    Encoding.ASCII.GetBytes(value),
+                    out _));
+        }
+
+        [Fact]
+        public void ParseBlobStringArrayThrowsIfDeclaredLengthExceedsElements()
+        {
+            // arrange
+            byte[] value = Encoding.ASCII.GetBytes("*2\r\n$3\r\none\r\n");
+
+            // act, assert
+            Assert.Throws<Resp3ProtocolException>(
+                () => Resp3Protocol.ParseBlobStringArray(0, value, out _));
+        }
+
+        [Fact]
+        public void ParseBlobStringArrayThrowsIfElementIsNotBlobString()
+        {
+            // arrange
+            byte[] value = Encoding.ASCII.GetBytes("*1\r\n:1\r\n");
+
+            // act, assert
+            Assert.Throws<Resp3ProtocolException>(
+                () => Resp3Protocol.ParseBlobStringArray(0, value, out _));
         }
 
         [Fact]

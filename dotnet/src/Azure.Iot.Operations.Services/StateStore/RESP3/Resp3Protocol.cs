@@ -9,6 +9,7 @@ namespace Azure.Iot.Operations.Services.StateStore.RESP3
     {
         // The commonly used separator that splits ups segments of a RESP3 string. AKA "CRLF"
         private const string Separator = "\r\n";
+        private const int MinimumBlobStringLength = 6;
 
         private static readonly byte[] Nil1 = Encoding.ASCII.GetBytes("$-1\r\n"); // returned when getting a key that does not exist
         private static readonly byte[] Nil2 = Encoding.ASCII.GetBytes(":-1\r\n"); // returned when non-fencing condition isn't met on a set request
@@ -87,23 +88,23 @@ namespace Azure.Iot.Operations.Services.StateStore.RESP3
                 throw new Resp3ProtocolException("Invalid RESP3 blob string: length segment must be a non-negative integer");
             }
 
-            int totalBlobStringLength = "$".Length + blobStringLengthString.Length + Separator.Length + declaredLength + Separator.Length;
-
-            // Parse the remaining "{length}\r\n" portion of the overall blob string
-            if (resp3BlobStringBytes.Length - remainingIndex < declaredLength + Separator.Length)
+            int remainingPayloadLength = resp3BlobStringBytes.Length - remainingIndex;
+            if (remainingPayloadLength < Separator.Length
+                || declaredLength > remainingPayloadLength - Separator.Length)
             {
                 throw new Resp3ProtocolException("Invalid RESP3 blob string: the blob string's actual length does not match its declared length");
             }
 
-            if (resp3BlobStringBytes[startIndex + totalBlobStringLength - 2] != Encoding.ASCII.GetBytes(Separator)[0]
-                || resp3BlobStringBytes[startIndex + totalBlobStringLength - 1] != Encoding.ASCII.GetBytes(Separator)[1])
+            int separatorIndex = remainingIndex + declaredLength;
+            if (resp3BlobStringBytes[separatorIndex] != Encoding.ASCII.GetBytes(Separator)[0]
+                || resp3BlobStringBytes[separatorIndex + 1] != Encoding.ASCII.GetBytes(Separator)[1])
             {
                 throw new Resp3ProtocolException($"Invalid RESP3 object: missing the final \"\\r\\n\" separators");
             }
 
             blobString = new ReadOnlySpan<byte>(resp3BlobStringBytes, remainingIndex, declaredLength);
 
-            return startIndex + totalBlobStringLength;
+            return separatorIndex + Separator.Length;
         }
 
         /// <summary>
@@ -229,6 +230,12 @@ namespace Azure.Iot.Operations.Services.StateStore.RESP3
                 || declaredArrayLength < 0)
             {
                 throw new Resp3ProtocolException("Invalid RESP3 blob array: array size segment must be a non-negative integer");
+            }
+
+            if (declaredArrayLength
+                > (resp3BlobArrayBytes.Length - remainingIndex) / MinimumBlobStringLength)
+            {
+                throw new Resp3ProtocolException("Invalid RESP3 blob array: declared array size does not match the actual size.");
             }
 
             blobStrings = new List<byte[]>(declaredArrayLength);
