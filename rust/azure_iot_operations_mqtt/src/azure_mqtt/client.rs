@@ -72,11 +72,14 @@ pub fn new_client(options: ClientOptions) -> (Client, ConnectHandle, Receiver) {
     let (o_pub_q12_tx, o_pub_q12_rx) =
         tokio::sync::mpsc::channel(options.publish_qos1_qos2_queue_size);
     let (o_pub_q0_tx, o_pub_q0_rx) = tokio::sync::mpsc::channel(options.publish_qos0_queue_size);
-    // NOTE: We use size 1 channels for outgoing data to avoid buffering packets that are not yet
-    // owned by the internal session state. If this becomes a performance bottleneck, revisit.
+    // NOTE: We use size 1 channels for outgoing data that cannot be submitted from Drop to avoid
+    // buffering packets that are not yet owned by the internal session state.
     let (sub_tx, sub_rx) = tokio::sync::mpsc::channel(1);
-    let (ack_tx, ack_rx) = tokio::sync::mpsc::channel(1);
     let (auth_tx, auth_rx) = tokio::sync::mpsc::channel(1);
+    // NOTE: We use an unbounded channel for acknowledgements, as there could be many ocurring simultaneously
+    // and the fallback Drop implementation cannot await channel capacity without spawning many tasks/threads
+    // in a way which severely affects performance.
+    let (ack_tx, ack_rx) = tokio::sync::mpsc::unbounded_channel();
     // NOTE: We use an unbounded channel for incoming publishes, as messages read off the network must go
     // somewhere.
     let (i_pub_tx, i_pub_rx) = tokio::sync::mpsc::unbounded_channel();
