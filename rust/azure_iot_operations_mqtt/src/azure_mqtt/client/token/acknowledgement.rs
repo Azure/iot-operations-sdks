@@ -26,11 +26,11 @@ impl PubAckToken {
     /// The returned `CompletionToken` resolves once the PUBACK is sent (*after* any ordering necessary).
     ///
     /// Can only be successfully used during the same connection epoch on which it was received.
-    pub fn accept(
+    pub async fn accept(
         self,
         properties: PubAckProperties,
-    ) -> impl Future<Output = Result<PubAckCompletionToken, DetachedError>> {
-        self.0.accept(properties.into())
+    ) -> Result<PubAckCompletionToken, DetachedError> {
+        self.0.accept(properties.into()).await
     }
 
     /// Reject the received PUBLISH by issuing a PUBACK with an error reason code.
@@ -39,12 +39,12 @@ impl PubAckToken {
     ///
     /// Returns once the PUBACK has been accepted into the MQTT session.
     /// The returned `CompletionToken` resolves once the PUBACK is sent (*after* any ordering necessary).
-    pub fn reject(
+    pub async fn reject(
         self,
         reason: PubRejectReason,
         properties: PubAckProperties,
-    ) -> impl Future<Output = Result<PubAckCompletionToken, DetachedError>> {
-        self.0.reject(reason.into(), properties.into())
+    ) -> Result<PubAckCompletionToken, DetachedError> {
+        self.0.reject(reason.into(), properties.into()).await
     }
 }
 
@@ -78,12 +78,12 @@ impl PubRecToken {
     /// The returned `CompletionToken` resolves once the PUBREC is sent (*after* any ordering necessary).
     ///
     /// Can only be successfully used during the same session epoch on which it was received.
-    pub fn reject(
+    pub async fn reject(
         self,
         reason: PubRejectReason,
         properties: PubRecProperties,
-    ) -> impl Future<Output = Result<PubRecRejectCompletionToken, DetachedError>> {
-        self.0.reject(reason.into(), properties.into())
+    ) -> Result<PubRecRejectCompletionToken, DetachedError> {
+        self.0.reject(reason.into(), properties.into()).await
     }
 }
 
@@ -124,18 +124,17 @@ impl PubCompToken {
     /// The returned `CompletionToken` resolves once the PUBCOMP is sent (*after* any ordering necessary).
     ///
     /// Can only be successfully used during the same session epoch on which it was received.
-    pub fn confirm(
+    pub async fn confirm(
         self,
         properties: PubCompProperties,
-    ) -> impl Future<Output = Result<PubCompConfirmCompletionToken, DetachedError>> {
-        self.0.confirm(properties.into())
+    ) -> Result<PubCompConfirmCompletionToken, DetachedError> {
+        self.0.confirm(properties.into()).await
     }
 }
 
 pub(crate) mod buffered {
 
-    use futures_executor::block_on;
-    use tokio::sync::mpsc::Sender;
+    use tokio::sync::mpsc::UnboundedSender;
 
     use crate::azure_mqtt::buffer_pool::Shared;
     use crate::azure_mqtt::client::channel_data::AcknowledgementRequest;
@@ -157,7 +156,7 @@ pub(crate) mod buffered {
     {
         pkid: PacketIdentifier,
         epoch: u64,
-        tx: Sender<AcknowledgementRequest<S>>,
+        tx: UnboundedSender<AcknowledgementRequest<S>>,
         triggered: bool,
     }
 
@@ -168,7 +167,7 @@ pub(crate) mod buffered {
         pub(crate) fn new(
             pkid: PacketIdentifier,
             epoch: u64,
-            tx: Sender<AcknowledgementRequest<S>>,
+            tx: UnboundedSender<AcknowledgementRequest<S>>,
         ) -> Self {
             Self {
                 pkid,
@@ -218,14 +217,16 @@ pub(crate) mod buffered {
             properties: PubAckOtherProperties<S>,
             reason: PubAckReasonCode,
         ) -> Result<PubAckCompletionToken, DetachedError> {
+            let completion =
+                PubAckToken::inner_send(&self.tx, self.pkid, properties, reason, self.epoch)?;
             self.triggered = true;
-            PubAckToken::inner_send(&self.tx, self.pkid, properties, reason, self.epoch).await
+            Ok(completion)
         }
 
         /// Internal helper to send the acknowledgement request.
         /// Does not operate on self in order to allow for use in drop efficiently.
-        async fn inner_send(
-            tx: &Sender<AcknowledgementRequest<S>>,
+        fn inner_send(
+            tx: &UnboundedSender<AcknowledgementRequest<S>>,
             packet_identifier: PacketIdentifier,
             other_properties: PubAckOtherProperties<S>,
             reason_code: PubAckReasonCode,
@@ -238,7 +239,6 @@ pub(crate) mod buffered {
                 other_properties,
             };
             tx.send(AcknowledgementRequest::PubAck(notifier, puback, epoch))
-                .await
                 .map_err(|_| DetachedError {})?;
             Ok(PubAckCompletionToken(token))
         }
@@ -252,22 +252,13 @@ pub(crate) mod buffered {
             // Must acknowledge if the token was not used in order to prevent locking the
             // ack ordering flow.
             if !self.triggered {
-                // TODO: Consider using Option to avoid cloning for better performance
-                let tx = self.tx.clone();
-                let pkid = self.pkid;
-                let epoch = self.epoch;
-                std::thread::spawn(move || {
-                    block_on(async move {
-                        let _ = PubAckToken::inner_send(
-                            &tx,
-                            pkid,
-                            Default::default(),
-                            PubAckReasonCode::Success,
-                            epoch,
-                        )
-                        .await;
-                    });
-                });
+                let _ = PubAckToken::inner_send(
+                    &self.tx,
+                    self.pkid,
+                    Default::default(),
+                    PubAckReasonCode::Success,
+                    self.epoch,
+                );
             }
         }
     }
@@ -279,7 +270,7 @@ pub(crate) mod buffered {
         S: Shared,
     {
         pkid: PacketIdentifier,
-        tx: Sender<AcknowledgementRequest<S>>,
+        tx: UnboundedSender<AcknowledgementRequest<S>>,
         triggered: bool,
     }
 
@@ -287,7 +278,10 @@ pub(crate) mod buffered {
     where
         S: Shared,
     {
-        pub(crate) fn new(pkid: PacketIdentifier, tx: Sender<AcknowledgementRequest<S>>) -> Self {
+        pub(crate) fn new(
+            pkid: PacketIdentifier,
+            tx: UnboundedSender<AcknowledgementRequest<S>>,
+        ) -> Self {
             Self {
                 pkid,
                 tx,
@@ -344,7 +338,7 @@ pub(crate) mod buffered {
         S: Shared,
     {
         pkid: PacketIdentifier,
-        tx: Sender<AcknowledgementRequest<S>>,
+        tx: UnboundedSender<AcknowledgementRequest<S>>,
         triggered: bool,
     }
 
@@ -352,7 +346,10 @@ pub(crate) mod buffered {
     where
         S: Shared,
     {
-        pub(crate) fn new(pkid: PacketIdentifier, tx: Sender<AcknowledgementRequest<S>>) -> Self {
+        pub(crate) fn new(
+            pkid: PacketIdentifier,
+            tx: UnboundedSender<AcknowledgementRequest<S>>,
+        ) -> Self {
             Self {
                 pkid,
                 tx,
@@ -393,7 +390,7 @@ pub(crate) mod buffered {
         S: Shared,
     {
         pkid: PacketIdentifier,
-        tx: Sender<AcknowledgementRequest<S>>,
+        tx: UnboundedSender<AcknowledgementRequest<S>>,
         triggered: bool,
     }
 
@@ -401,7 +398,10 @@ pub(crate) mod buffered {
     where
         S: Shared,
     {
-        pub(crate) fn new(pkid: PacketIdentifier, tx: Sender<AcknowledgementRequest<S>>) -> Self {
+        pub(crate) fn new(
+            pkid: PacketIdentifier,
+            tx: UnboundedSender<AcknowledgementRequest<S>>,
+        ) -> Self {
             Self {
                 pkid,
                 tx,
@@ -439,14 +439,38 @@ pub(crate) mod buffered {
 #[cfg(test)]
 mod test {
     use bytes::Bytes;
+    use futures_util::FutureExt;
+    use tokio::sync::mpsc::{UnboundedReceiver, UnboundedSender};
 
     use super::buffered::*;
     use crate::azure_mqtt::client::channel_data::AcknowledgementRequest;
     use crate::azure_mqtt::mqtt_proto::{PacketIdentifier, PubAckOtherProperties, PubAckReasonCode};
 
+    fn acknowledgement_channel() -> (
+        UnboundedSender<AcknowledgementRequest<Bytes>>,
+        UnboundedReceiver<AcknowledgementRequest<Bytes>>,
+    ) {
+        tokio::sync::mpsc::unbounded_channel()
+    }
+
+    fn assert_default_puback(
+        request: Option<AcknowledgementRequest<Bytes>>,
+        packet_identifier: PacketIdentifier,
+        epoch: u64,
+    ) {
+        let Some(AcknowledgementRequest::PubAck(notifier, puback, request_epoch)) = request else {
+            panic!("Did not receive automatic PubAck acknowledgement request");
+        };
+        assert_eq!(request_epoch, epoch);
+        assert_eq!(puback.packet_identifier, packet_identifier);
+        assert_eq!(puback.reason_code, PubAckReasonCode::Success);
+        assert_eq!(puback.other_properties, Default::default());
+        assert!(notifier.complete(()).is_err());
+    }
+
     #[tokio::test]
     async fn puback_token_accept() {
-        let (tx, mut rx) = tokio::sync::mpsc::channel(1);
+        let (tx, mut rx) = acknowledgement_channel();
         let pkid = PacketIdentifier::new(1).unwrap();
         let epoch = 3;
         let properties = PubAckOtherProperties {
@@ -475,7 +499,7 @@ mod test {
 
     #[tokio::test]
     async fn puback_token_reject() {
-        let (tx, mut rx) = tokio::sync::mpsc::channel(1);
+        let (tx, mut rx) = acknowledgement_channel();
         let pkid = PacketIdentifier::new(1).unwrap();
         let epoch = 3;
         let properties = PubAckOtherProperties {
@@ -506,29 +530,66 @@ mod test {
 
     #[tokio::test]
     async fn puback_token_drop_before_use() {
-        let (tx, mut rx) = tokio::sync::mpsc::channel(1);
+        let (tx, mut rx) = acknowledgement_channel();
         let pkid = PacketIdentifier::new(1).unwrap();
         let epoch = 3;
         let token = PubAckToken::<Bytes>::new(pkid, epoch, tx);
         // Drop the token without accepting or rejecting it
         drop(token);
-        // It was accepted automatically with default properties
-        if let Some(AcknowledgementRequest::PubAck(_, puback, req_epoch)) = rx.recv().await {
-            assert_eq!(req_epoch, epoch);
-            assert_eq!(puback.packet_identifier, pkid);
-            assert_eq!(puback.reason_code, PubAckReasonCode::Success);
-            assert_eq!(puback.other_properties, Default::default());
-        } else {
+
+        assert_eq!(rx.len(), 1);
+        assert_default_puback(rx.recv().await, pkid, epoch);
+        assert_eq!(rx.len(), 0);
+    }
+
+    #[tokio::test]
+    async fn public_puback_accept_future_drop_before_poll() {
+        let (tx, mut rx) = acknowledgement_channel();
+        let pkid = PacketIdentifier::new(1).unwrap();
+        let epoch = 3;
+        let token = super::PubAckToken(PubAckToken::new(pkid, epoch, tx));
+        let properties = crate::azure_mqtt::packet::PubAckProperties {
+            reason_string: Some("not submitted".into()),
+            user_properties: Vec::new(),
+        };
+
+        let accept = token.accept(properties);
+        drop(accept);
+
+        assert_default_puback(rx.recv().await, pkid, epoch);
+    }
+
+    #[tokio::test]
+    async fn puback_accept_submits_on_first_poll() {
+        let (tx, mut rx) = acknowledgement_channel();
+        let epoch = 3;
+        let pkid = PacketIdentifier::new(1).unwrap();
+        let token = PubAckToken::new(pkid, epoch, tx);
+        let properties = PubAckOtherProperties {
+            reason_string: Some("submitted".into()),
+            user_properties: vec![("key".into(), "value".into())],
+        };
+        let accept = token.accept(properties.clone());
+        drop(
+            accept
+                .now_or_never()
+                .expect("PubAck submission yielded unexpectedly")
+                .unwrap(),
+        );
+
+        let Some(AcknowledgementRequest::PubAck(_, puback, req_epoch)) = rx.recv().await else {
             panic!("Did not receive PubAck acknowledgement request");
-        }
-        // There are no additional items in the channel (i.e. was only accepted once)
-        tokio::time::sleep(tokio::time::Duration::from_secs(1)).await;
+        };
+        assert_eq!(req_epoch, epoch);
+        assert_eq!(puback.packet_identifier, pkid);
+        assert_eq!(puback.reason_code, PubAckReasonCode::Success);
+        assert_eq!(puback.other_properties, properties);
         assert_eq!(rx.len(), 0);
     }
 
     #[tokio::test]
     async fn puback_token_drop_after_use() {
-        let (tx, mut rx) = tokio::sync::mpsc::channel(1);
+        let (tx, mut rx) = acknowledgement_channel();
         let pkid = PacketIdentifier::new(1).unwrap();
         let epoch = 3;
         let properties = PubAckOtherProperties {
@@ -554,7 +615,37 @@ mod test {
         // Now drop the token
         drop(completion_token);
         // There should still be no additional items in the channel (i.e. was only accepted once)
-        tokio::time::sleep(tokio::time::Duration::from_secs(1)).await;
         assert_eq!(rx.len(), 0);
+    }
+
+    #[test]
+    fn bulk_drop_without_receiver_progress_is_synchronous() {
+        let (tx, rx) = acknowledgement_channel();
+        let epoch = 3;
+
+        for packet_identifier in 1..=1_024 {
+            let token = PubAckToken::<Bytes>::new(
+                PacketIdentifier::new(packet_identifier).unwrap(),
+                epoch,
+                tx.clone(),
+            );
+            drop(token);
+        }
+
+        assert_eq!(rx.len(), 1_024);
+    }
+
+    #[tokio::test]
+    async fn detached_session_rejects_manual_submission_and_ignores_drop() {
+        let (tx, rx) = acknowledgement_channel();
+        let epoch = 3;
+        drop(rx);
+
+        let explicit =
+            PubAckToken::<Bytes>::new(PacketIdentifier::new(1).unwrap(), epoch, tx.clone());
+        assert!(explicit.accept(Default::default()).await.is_err());
+
+        let automatic = PubAckToken::<Bytes>::new(PacketIdentifier::new(2).unwrap(), epoch, tx);
+        drop(automatic);
     }
 }

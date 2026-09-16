@@ -3,7 +3,7 @@
 
 [package]
 name = "azure_iot_operations_mqtt"
-version = "1.2.0"
+version = "1.2.1"
 edition = "2024"
 rust-version.workspace = true
 license = "MIT"
@@ -42,9 +42,6 @@ bstr = { version = "1", default-features = false }
 derive-where = { version = "1", default-features = false }
 either = { version = "1.6", default-features = false }
 enum-iterator = { version = "2", default-features = false }
-futures-executor = { version = "0.3", default-features = false, features = [
-    "std", # for futures_executor::block_on
-] }
 futures-util = { version = "0.3", default-features = false, features = [
     "std", # for futures_util::future::Shared
 ] }
