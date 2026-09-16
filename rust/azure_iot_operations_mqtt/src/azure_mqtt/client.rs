@@ -76,7 +76,7 @@ pub fn new_client(options: ClientOptions) -> (Client, ConnectHandle, Receiver) {
     // buffering packets that are not yet owned by the internal session state.
     let (sub_tx, sub_rx) = tokio::sync::mpsc::channel(1);
     let (auth_tx, auth_rx) = tokio::sync::mpsc::channel(1);
-    // NOTE: We use an unbounded channel for acknowledgements, as there could be many ocurring simultaneously
+    // NOTE: We use an unbounded channel for acknowledgements, as there could be many occurring simultaneously
     // and the fallback Drop implementation cannot await channel capacity without spawning many tasks/threads
     // in a way which severely affects performance.
     let (ack_tx, ack_rx) = tokio::sync::mpsc::unbounded_channel();
