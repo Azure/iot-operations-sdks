@@ -46,6 +46,70 @@ namespace Azure.Iot.Operations.ProtocolCompiler.UnitTests.TypeGeneratorTests
             Assert.IsType<IntegerType>(temperatureField.SchemaType);
         }
 
+        [Theory]
+        [InlineData("{}")]
+        [InlineData("true")]
+        [InlineData("""{ "description": "any value" }""")]
+        [InlineData("""{ "type": ["string", "number"] }""")]
+        public void MapsUntypedFieldToAnyType(string fieldSchema)
+        {
+            Assert.IsType<AnyType>(StandardizeSingleField(fieldSchema).SchemaType);
+        }
+
+        [Theory]
+        [InlineData("""{ "type": "array" }""")]
+        [InlineData("""{ "type": "array", "items": {} }""")]
+        [InlineData("""{ "type": "array", "items": true }""")]
+        public void MapsArrayOfUntypedItemsToAnyElementType(string fieldSchema)
+        {
+            ArrayType arrayType = Assert.IsType<ArrayType>(StandardizeSingleField(fieldSchema).SchemaType);
+
+            Assert.IsType<AnyType>(arrayType.ElementSchema);
+        }
+
+        [Theory]
+        [InlineData("""{ "type": "object" }""")]
+        [InlineData("""{ "type": "object", "additionalProperties": true }""")]
+        public void MapsObjectWithoutTypedValuesToMapOfAnyType(string fieldSchema)
+        {
+            MapType mapType = Assert.IsType<MapType>(StandardizeSingleField(fieldSchema).SchemaType);
+
+            Assert.IsType<AnyType>(mapType.ValueSchema);
+        }
+
+        [Fact]
+        public void MapsNullableTypeListToUnderlyingType()
+        {
+            Assert.IsType<IntegerType>(StandardizeSingleField("""{ "type": ["integer", "null"], "maximum": 2147483647 }""").SchemaType);
+        }
+
+        [Theory]
+        [InlineData("false")]
+        [InlineData("""{ "type": null }""")]
+        [InlineData("""{ "type": [] }""")]
+        [InlineData("""{ "type": ["null"] }""")]
+        [InlineData("""{ "type": ["string", 7] }""")]
+        public void RejectsSchemaThatNamesNoValueType(string fieldSchema)
+        {
+            Assert.Throws<Exception>(() => StandardizeSingleField(fieldSchema));
+        }
+
+        private static ObjectType.FieldInfo StandardizeSingleField(string fieldSchema)
+        {
+            string schemaText = $$"""
+                {
+                  "$schema": "http://json-schema.org/draft-07/schema#",
+                  "title": "MinimalTelemetry",
+                  "type": "object",
+                  "properties": {
+                    "Value": {{fieldSchema}}
+                  }
+                }
+                """;
+
+            return Assert.Single(StandardizeSingleObject(schemaText).FieldInfos).Value;
+        }
+
         private static ObjectType StandardizeSingleObject(string schemaText)
         {
             JsonSchemaStandardizer standardizer = new();

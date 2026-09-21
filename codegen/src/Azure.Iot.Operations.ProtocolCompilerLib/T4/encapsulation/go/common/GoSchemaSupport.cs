@@ -8,6 +8,7 @@ namespace Azure.Iot.Operations.ProtocolCompilerLib
             string optRef = isRequired ? string.Empty : "*";
             return schemaType switch
             {
+                AnyType _ => "any",
                 ArrayType arrayType => $"[]{GetType(arrayType.ElementSchema, true)}",
                 MapType mapType => $"map[string]{GetType(mapType.ValueSchema, !mapType.NullValues)}",
                 ObjectType objectType => $"{optRef}{objectType.SchemaName.GetTypeName(TargetLanguage.Go)}",
