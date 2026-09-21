@@ -83,12 +83,19 @@ namespace Azure.Iot.Operations.ProtocolCompiler.UnitTests.TypeGeneratorTests
             Assert.IsType<IntegerType>(StandardizeSingleField("""{ "type": ["integer", "null"], "maximum": 2147483647 }""").SchemaType);
         }
 
+        [Fact]
+        public void MapsRepeatedTypeListToUnderlyingType()
+        {
+            Assert.IsType<StringType>(StandardizeSingleField("""{ "type": ["string", "string"] }""").SchemaType);
+        }
+
         [Theory]
         [InlineData("false")]
         [InlineData("""{ "type": null }""")]
         [InlineData("""{ "type": [] }""")]
         [InlineData("""{ "type": ["null"] }""")]
         [InlineData("""{ "type": ["string", 7] }""")]
+        [InlineData("""{ "type": ["string", "not-a-json-schema-type"] }""")]
         public void RejectsSchemaThatNamesNoValueType(string fieldSchema)
         {
             Assert.Throws<Exception>(() => StandardizeSingleField(fieldSchema));

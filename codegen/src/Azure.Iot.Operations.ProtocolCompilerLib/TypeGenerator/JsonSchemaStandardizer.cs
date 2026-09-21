@@ -11,6 +11,8 @@
     {
         private readonly string[] InternalDefsKeys = new string[] { "$defs", "definitions" };
 
+        private static readonly string[] JsonSchemaTypeNames = new string[] { "array", "boolean", "integer", "null", "number", "object", "string" };
+
         public SerializationFormat SerializationFormat { get => SerializationFormat.Json; }
 
         public IEnumerable<SchemaType> GetStandardizedSchemas(string schemaText, CodeName genNamespace, Func<string, string> retriever)
@@ -199,15 +201,25 @@
                 throw new Exception($"unrecognized 'type' keyword (JSON value kind = {typeElt.ValueKind})");
             }
 
-            string[] valueTypes = typeElt.EnumerateArray()
-                .Select(e => e.ValueKind == JsonValueKind.String ? e.GetString()! : throw new Exception($"unrecognized 'type' keyword entry (JSON value kind = {e.ValueKind})"))
-                .Where(valueType => valueType != "null")
+            // A 'type' keyword names one of seven value types, or a non-empty unique list of them.
+            string[] namedTypes = typeElt.EnumerateArray()
+                .Select(e => e.ValueKind == JsonValueKind.String && JsonSchemaTypeNames.Contains(e.GetString()) ?
+                    e.GetString()! :
+                    throw new Exception($"unrecognized 'type' keyword entry ({e})"))
+                .Distinct()
                 .ToArray();
+
+            if (namedTypes.Length == 0)
+            {
+                throw new Exception("unrecognized 'type' keyword (the list of value types is empty)");
+            }
+
+            string[] valueTypes = namedTypes.Where(valueType => valueType != "null").ToArray();
 
             return valueTypes.Length switch
             {
                 1 => valueTypes[0],
-                0 => throw new Exception("unrecognized 'type' keyword (names no value type)"),
+                0 => "null",
                 _ => null,
             };
         }
