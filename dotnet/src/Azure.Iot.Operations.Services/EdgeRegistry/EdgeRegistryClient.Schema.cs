@@ -10,7 +10,7 @@ namespace Azure.Iot.Operations.Services.EdgeRegistry;
 public sealed partial class EdgeRegistryClient : ISchemaRegistryClient
 {
     /// <inheritdoc/>
-    public async Task<Models.SchemaVersion> CreateSchemaVersionAsync(GroupId groupId, string schemaId, IReadOnlyList<Models.Label> schemaLabels, Models.SchemaVersionAttributes version, CreateOptions? options = null, TimeSpan? timeout = null, CancellationToken cancellationToken = default)
+    public async Task<Models.SchemaVersion> CreateSchemaVersionAsync(GroupId groupId, string schemaId, IReadOnlyList<Models.Label> schemaLabels, Models.SchemaVersionAttributes version, TimeSpan? timeout = null, CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();
         ObjectDisposedException.ThrowIf(_disposed, this);
@@ -19,7 +19,6 @@ public sealed partial class EdgeRegistryClient : ISchemaRegistryClient
 
         var output = await _schemaStub.CreateSchemaVersionAsync(
             request,
-            PersistenceMetadata(options),
             additionalTopicTokenMap: ExtensionResourceTopicTokens(SchemaIdTopicToken, schemaId),
             commandTimeout: timeout ?? s_defaultCommandTimeout,
             cancellationToken: cancellationToken);
