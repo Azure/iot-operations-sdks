@@ -88,20 +88,6 @@ public sealed partial class EdgeRegistryClient : IEdgeRegistryClient
         return tokens;
     }
 
-    /// <summary>Builds the request metadata for a create request, signalling persistence when requested.</summary>
-    private static CommandRequestMetadata PersistenceMetadata(CreateOptions? options)
-    {
-        CommandRequestMetadata requestMetadata = new();
-
-        // Only sent when true, since sending "false" is equivalent to omitting the property.
-        if (options is null || options.Persist)
-        {
-            requestMetadata.PersistCommand = true;
-        }
-
-        return requestMetadata;
-    }
-
     /// <inheritdoc/>
     public async Task StopAsync(CancellationToken cancellationToken = default)
     {
