@@ -817,8 +817,8 @@ impl DeviceEndpointClient {
                                 let _ = self.connector_context.connector_restart_tx.try_send(e_message);
                             },
                             // Drop malformed updates so later valid updates can recover the existing client.
-                            DeviceSpecificationError::InvalidSecretName(secret_name) => {
-                                log::error!("Failed to apply device update for {:?}: credential secret name '{secret_name}' must be a relative path within the credentials mount", self.device_endpoint_ref);
+                            DeviceSpecificationError::InvalidSecretName(mount_entry_name) => {
+                                log::error!("Failed to apply device update for {:?}: credential secret name '{mount_entry_name}' must be a relative path within the credentials mount", self.device_endpoint_ref);
                             },
                         }
                     }
