@@ -54,8 +54,9 @@ namespace Azure.Iot.Operations.Protocol
         internal const string ProtocolVersion = ReservedPrefix + "protVer";
 
         /// <summary>
-        /// User property indicating which major versions the command executor supports. The value
-        /// of this property is a space-separated list of integers like "1 2 3".
+        /// User property indicating which major versions the sender supports. On a request it
+        /// advertises acceptable response versions; on a version-error response it advertises the
+        /// executor's supported request versions. The value is space-separated, like "1 2 3".
         /// </summary>
         internal const string SupportedMajorProtocolVersions = ReservedPrefix + "supProtMajVer";
 
