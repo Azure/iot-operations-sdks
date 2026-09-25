@@ -391,11 +391,20 @@ async fn run_dataset(
             _ = timer.tick(), if dataset_valid => {
                 let sample_data = mock_received_data(count);
 
-                let current_message_schema =
-                    derived_json::create_xregistry_schema(&sample_data, data_operation_client.data_operation_ref()).ok();
+                let current_message_schema = match derived_json::create_schema(&sample_data) {
+                    Ok(schema) => Some(schema),
+                    Err(e) => {
+                        log::error!("{log_identifier} Error generating message schema: {e}");
+                        data_operation_reporter.report_health_event(RuntimeHealthEvent::Unavailable {
+                            message: Some(format!("Failed to generate message schema: {e}")),
+                            reason_code: Some("SampleConnectorSchemaGenerationFailed".to_string()),
+                        });
+                        continue;
+                    }
+                };
                 // Report schema only if there isn't already one
                 match data_operation_client
-                    .report_xregistry_message_schema_if_modified(|current_schema_reference| {
+                    .report_message_schema_if_modified(|current_schema_reference| {
                         // Only report schema if there isn't already one, or if schema has changed
                         if local_schema_reference.is_none()
                             || current_schema_reference.is_none()
