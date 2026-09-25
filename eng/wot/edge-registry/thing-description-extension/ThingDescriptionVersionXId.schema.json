@@ -1,0 +1,36 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema",
+  "title": "ThingDescriptionVersionXId",
+  "description": "The XID components that identify a Thing Description Version.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "groupType",
+    "groupId",
+    "resourceType",
+    "resourceId",
+    "versionId"
+  ],
+  "properties": {
+    "groupType": {
+      "description": "Group type.",
+      "type": "string"
+    },
+    "groupId": {
+      "description": "Group identifier.",
+      "type": "string"
+    },
+    "resourceType": {
+      "description": "Resource type.",
+      "type": "string"
+    },
+    "resourceId": {
+      "description": "Resource identifier.",
+      "type": "string"
+    },
+    "versionId": {
+      "description": "Version identifier.",
+      "type": "integer"
+    }
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema",
+  "title": "VersionXIdList",
+  "description": "List of Version XIDs within the provided constraints with the specified label.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "versions"
+  ],
+  "properties": {
+    "versions": {
+      "description": "List of Version XID components.",
+      "type": "array",
+      "items": {
+        "$ref": "VersionXId.schema.json"
+      }
+    }
+  }
+}

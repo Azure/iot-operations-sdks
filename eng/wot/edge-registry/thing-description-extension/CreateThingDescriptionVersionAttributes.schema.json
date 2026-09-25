@@ -1,0 +1,77 @@
+{
+    "$schema": "https://json-schema.org/draft-07/schema",
+    "title": "CreateThingDescriptionVersionAttributes",
+    "description": "Request payload for creating a Thing Description Version.",
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+        "labels",
+        "format",
+        "document",
+        "extensions",
+        "thingDescriptionLabels"
+    ],
+    "properties": {
+        "groupId": {
+            "description": "Group identifier. Uses the default if not specified.",
+            "type": "string"
+        },
+        "name": {
+            "description": "Human-readable name.",
+            "type": "string"
+        },
+        "description": {
+            "description": "A human-readable summary of the purpose of the entity.",
+            "type": "string"
+        },
+        "documentation": {
+            "description": "A URL to additional information about this entity.",
+            "type": "string"
+        },
+        "icon": {
+            "description": "A URL to a graphical icon for the owning entity.",
+            "type": "string"
+        },
+        "labels": {
+            "description": "Queryable Key Value pairs to be added to the Version. Labels can be used to store additional metadata about the Version.",
+            "type": "array",
+            "items": {
+                "type": "object",
+                "$ref": "../core-xregistry/Label.schema.json"
+            }
+        },
+        "ancestor": {
+            "description": "The versionId of this Version's ancestor if it has an ancestor.",
+            "type": "integer"
+        },
+        "contentType": {
+            "description": "The media type of the entity as defined by RFC9110.",
+            "type": "string"
+        },
+        "format": {
+            "description": "Thing Description format identifier.",
+            "type": "string"
+        },
+        "document": {
+            "description": "Base64-encoded thing description document content.",
+            "type": "string",
+            "contentEncoding": "base64"
+        },
+        "extensions": {
+            "description": "Extension-specific attributes.",
+            "type": "object",
+            "additionalProperties": {
+                "type": "string",
+                "contentEncoding": "base64"
+            }
+        },
+        "thingDescriptionLabels": {
+            "description": "Queryable Key Value pairs to be added to the parent Thing Description. Labels can be used to store additional metadata about the Thing Description.",
+            "type": "array",
+            "items": {
+                "type": "object",
+                "$ref": "../core-xregistry/Label.schema.json"
+            }
+        }
+    }
+}

@@ -12,7 +12,7 @@ namespace Azure.Iot.Operations.Connector
     {
         private readonly IDatasetSamplerFactory _datasetSamplerFactory;
 
-        public PollingTelemetryConnectorWorker(ApplicationContext applicationContext, ILogger<ConnectorWorker> logger, IMqttClient mqttClient, IDatasetSamplerFactory datasetSamplerFactory, IMessageSchemaProvider messageSchemaFactory, IAzureDeviceRegistryClientWrapperProvider adrClientFactory, IConnectorLeaderElectionConfigurationProvider? leaderElectionConfigurationProvider = null) : base(applicationContext, logger, mqttClient, messageSchemaFactory, adrClientFactory, leaderElectionConfigurationProvider)
+        public PollingTelemetryConnectorWorker(ApplicationContext applicationContext, ILogger<ConnectorWorker> logger, IMqttClient mqttClient, IDatasetSamplerFactory datasetSamplerFactory, IMessageSchemaProvider messageSchemaFactory, IAzureDeviceRegistryClientWrapperProvider adrClientFactory, IConnectorLeaderElectionConfigurationProvider? leaderElectionConfigurationProvider = null, IEdgeRegistryMessageSchemaProvider? edgeRegistryMessageSchemaProvider = null) : base(applicationContext, logger, mqttClient, messageSchemaFactory, adrClientFactory, leaderElectionConfigurationProvider, edgeRegistryMessageSchemaProvider: edgeRegistryMessageSchemaProvider)
         {
             base.WhileDeviceIsAvailable = WhileDeviceAvailableAsync;
             base.WhileAssetIsAvailable = WhileAssetAvailableAsync;

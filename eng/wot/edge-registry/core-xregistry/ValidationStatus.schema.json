@@ -1,0 +1,20 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema",
+  "title": "ValidationStatus",
+  "description": "Indicates whether validation was performed, and if not, the reason why not (e.g., \"unsupported format\", \"validation disabled\").",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "validated"
+  ],
+  "properties": {
+    "validated": {
+      "description": "True if validation was performed and the entity adheres to the rules; false if validation was not performed.",
+      "type": "boolean"
+    },
+    "reason": {
+      "description": "If validation was not performed, the reason why not. MUST be present if validated is false. MUST NOT be present if validated is true.",
+      "type": "string"
+    }
+  }
+}

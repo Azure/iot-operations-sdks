@@ -1,0 +1,6 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema",
+  "title": "DeleteThingModelVersionInputArguments",
+  "type": "object",
+  "$ref": "../../../../../../eng/wot/edge-registry/core-xregistry/DeleteRequestPayload.schema.json"
+}

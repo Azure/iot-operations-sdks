@@ -1,0 +1,19 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema",
+  "title": "ThingDescriptionVersionXIdList",
+  "description": "List of Thing Description Version XIDs within the provided constraints with the specified label.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "versions"
+  ],
+  "properties": {
+    "versions": {
+      "description": "List of Thing Description Version XID components.",
+      "type": "array",
+      "items": {
+        "$ref": "ThingDescriptionVersionXId.schema.json"
+      }
+    }
+  }
+}
