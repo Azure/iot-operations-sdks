@@ -4,6 +4,7 @@
 use std::fmt::{Display, Formatter};
 use std::iter::zip;
 
+use super::byte_str::validate_mqtt_string;
 use crate::azure_mqtt::buffer_pool::{self, BytesAccumulator, Owned, Shared};
 use crate::azure_mqtt::mqtt_proto::{
     ByteStr, DOLLAR_SIGN, DecodeError, EncodeError, MULTI_LEVEL_MATCH, MULTI_LEVEL_MATCH_STR,
@@ -77,6 +78,22 @@ where
         if inner_ref.is_empty() {
             return Err(DecodeError::EmptyFilter);
         }
+
+        // Ref[3.1.1]: [MQTT-4.7.3-3]
+        // Ref[5.0]: [MQTT-4.7.3-3]
+        // NOTE: String-backed values can come from public API input, so enforce this constraint
+        // here. `InvalidByteStr` is the closest existing error variant; its use on a `String` path
+        // reflects the original assumption that such values were already valid.
+        if inner_ref.len() > usize::from(u16::MAX) {
+            return Err(DecodeError::InvalidByteStr("longer than 65,535 bytes"));
+        }
+
+        // Ref[3.1.1]: [MQTT-4.7.3-2], 1.5.3 UTF-8 encoded strings
+        // Ref[5.0]: [MQTT-4.7.3-2], 1.5.4 UTF-8 Encoded String
+        // NOTE: String-backed values can come from public API input, so enforce these constraints
+        // here. `InvalidByteStr` is the closest existing error variant; its use on a `String` path
+        // reflects the original assumption that such values were already valid.
+        validate_mqtt_string(inner_ref.as_bytes())?;
 
         let (kind, filter) = if inner_ref.as_bytes()[0] == DOLLAR_SIGN as u8 {
             // Ref[5.0]: [MQTT-4.8.2-1], [MQTT-4.8.2-2]
@@ -418,6 +435,7 @@ where
 
 #[cfg(test)]
 mod tests {
+    use matches::assert_matches;
     use test_case::test_case;
 
     use super::super::topic::topic_str;
@@ -441,6 +459,16 @@ mod tests {
         );
     }
 
+    #[test_case("a\0b".to_owned(); "null")]
+    #[test_case("a\u{1}b".to_owned(); "C0 control")]
+    #[test_case("a\u{7f}b".to_owned(); "C1 control")]
+    #[test_case("a\u{ffff}b".to_owned(); "non-character")]
+    #[test_case("a".repeat(usize::from(u16::MAX) + 1); "overlong ascii")]
+    #[test_case("é".repeat(usize::from(u16::MAX) / 2 + 1); "overlong multibyte")]
+    fn invalid_mqtt_string(filter: String) {
+        assert_matches!(Filter::new(filter), Err(DecodeError::InvalidByteStr(_)));
+    }
+
     #[test_case("a", &["a"]; "single")]
     #[test_case("foo/+/baz", &["foo", "+", "baz"]; "single level match")]
     #[test_case("foo/+/#", &["foo", "+", "#"]; "long single level match and multi level match")]
@@ -449,6 +477,13 @@ mod tests {
     fn valid(filter: &str, components: &[&str]) {
         let filter = super::filter(filter);
         assert!(filter.iter().eq(components.iter().copied()));
+    }
+
+    #[test]
+    fn maximum_length() {
+        let filter = Filter::new("a".repeat(usize::from(u16::MAX))).unwrap();
+
+        assert_eq!(filter.as_str().len(), usize::from(u16::MAX));
     }
 
     #[test_case("/b", &["", "b"], "b", &["b"])]
@@ -488,6 +523,30 @@ mod tests {
             }
             _ => panic!("Expected filter of type: Shared"),
         }
+    }
+
+    #[test]
+    fn shared_subscription_maximum_length() {
+        let prefix = "$share/group/";
+        let filter = Filter::new(format!(
+            "{prefix}{}",
+            "a".repeat(usize::from(u16::MAX) - prefix.len())
+        ))
+        .unwrap();
+
+        assert_eq!(filter.as_str().len(), usize::from(u16::MAX));
+    }
+
+    #[test_case(
+        format!("$share/group/{}", "a".repeat(usize::from(u16::MAX) - "$share/group/".len() + 1));
+        "overlong"
+    )]
+    #[test_case("$share/gro\0up/a".to_owned(); "null group")]
+    #[test_case("$share/gro\u{1}up/a".to_owned(); "C0 control in group")]
+    #[test_case("$share/gro\u{7f}up/a".to_owned(); "C1 control in group")]
+    #[test_case("$share/gro\u{ffff}up/a".to_owned(); "non-character in group")]
+    fn shared_subscription_invalid_mqtt_string(filter: String) {
+        assert_matches!(Filter::new(filter), Err(DecodeError::InvalidByteStr(_)));
     }
 
     #[test_case("$share/group1/mytopic", &FilterKind::Shared { index_group_name_and_filter: 13 })]

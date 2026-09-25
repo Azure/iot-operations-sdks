@@ -805,14 +805,27 @@ impl Connection {
     /// Drives this connection until it is disconnected.
     /// Packets will only be sent and received while this future is running.
     pub async fn run_until_disconnect(mut self) -> (ConnectHandle, DisconnectedEvent) {
+        // Every exit from an established connection performs exactly one session transition.
         let event = match self.run_until_disconnect_inner().await {
-            Ok(InnerDisconnect::Application) => DisconnectedEvent::ApplicationDisconnect,
-            Ok(InnerDisconnect::Server(disconnect)) => {
-                DisconnectedEvent::ServerDisconnect(disconnect)
+            Ok(InnerDisconnect::Application(disconnect)) => {
+                self.session.client_disconnect(&disconnect);
+                DisconnectedEvent::ApplicationDisconnect
             }
-            Ok(InnerDisconnect::PingTimeout) => DisconnectedEvent::PingTimeout,
-            Err(InnerConnectionError::Io(e)) => DisconnectedEvent::IoError(e),
-            Err(InnerConnectionError::Protocol(e)) => DisconnectedEvent::ProtocolError(e),
+            Ok(InnerDisconnect::Server(disconnect)) => {
+                self.session.server_disconnect(&disconnect);
+                DisconnectedEvent::ServerDisconnect(disconnect.into())
+            }
+            Ok(InnerDisconnect::PingTimeout) => {
+                self.session.transport_disconnect(&"PINGRESP timeout");
+                DisconnectedEvent::PingTimeout
+            }
+            Err(err) => {
+                self.session.transport_disconnect(&err);
+                match err {
+                    InnerConnectionError::Io(e) => DisconnectedEvent::IoError(e),
+                    InnerConnectionError::Protocol(e) => DisconnectedEvent::ProtocolError(e),
+                }
+            }
         };
         let connect_handle = ConnectHandle {
             session: self.session,
@@ -825,6 +838,7 @@ impl Connection {
         (connect_handle, event)
     }
 
+    /// Returns how the connection ended. The caller applies the matching session transition.
     async fn run_until_disconnect_inner(
         &mut self,
     ) -> Result<InnerDisconnect, InnerConnectionError> {
@@ -856,29 +870,22 @@ impl Connection {
             match next {
                 // Outgoing packet from session
                 future::Either::Left(packet) => {
-                    let mut disconnect = false;
                     let mut op_packet = Some(packet);
-                    while let Some(packet_) = op_packet {
-                        if let Packet::Disconnect(disconnect_) = &packet_ {
-                            disconnect = true;
-                            self.session.client_disconnect(disconnect_);
-                        }
-                        if let Packet::PingReq(_) = &packet_
+                    while let Some(packet) = op_packet {
+                        if let Packet::PingReq(_) = &packet
                             && let Some(timeout) = self.cfg_pingresp_timeout
                         {
                             pingresp_timer = Some(Timer::new(timeout));
                         }
-                        writer.write(&packet_, ProtocolVersion::V5).await?;
-                        if disconnect {
-                            break;
+                        writer.write(&packet, ProtocolVersion::V5).await?;
+                        if let Packet::Disconnect(disconnect) = packet {
+                            // Only a flushed DISCONNECT counts as an application disconnect.
+                            writer.flush().await?;
+                            return Ok(InnerDisconnect::Application(disconnect));
                         }
                         op_packet = self.session.next_outgoing_packet().now_or_never();
                     }
                     writer.flush().await?;
-                    // If we wrote a DISCONNECT packet, also close the connection.
-                    if disconnect {
-                        return Ok(InnerDisconnect::Application);
-                    }
                 }
 
                 // Incoming packet from reader
@@ -902,8 +909,7 @@ impl Connection {
                         .complete_inflight(CompletedOperation::PublishQoS2(pubrec))?,
 
                     Packet::Disconnect(disconnect) => {
-                        self.session.server_disconnect(&disconnect);
-                        return Ok(InnerDisconnect::Server(disconnect.into()));
+                        return Ok(InnerDisconnect::Server(disconnect));
                     }
 
                     Packet::Publish(publish) => self.session.incoming_publish(publish),
@@ -914,16 +920,11 @@ impl Connection {
                     }
 
                     packet => {
-                        let err = ProtocolError::from(ProtocolErrorRepr::UnexpectedPacket).into();
-                        self.session.transport_disconnect(&err);
-                        return Err(err);
+                        return Err(ProtocolError::from(ProtocolErrorRepr::UnexpectedPacket).into());
                     }
                 },
 
-                future::Either::Right(Err(err)) => {
-                    self.session.transport_disconnect(&err);
-                    return Err(err);
-                }
+                future::Either::Right(Err(err)) => return Err(err),
             }
         }
     }
@@ -1048,8 +1049,8 @@ impl From<InnerConnectionError> for ConnectError {
 
 /// Internal enum for distinguishing disconnect types
 enum InnerDisconnect {
-    Application,
-    Server(Disconnect),
+    Application(mqtt_proto::Disconnect<Bytes>),
+    Server(mqtt_proto::Disconnect<Bytes>),
     PingTimeout,
 }
 
