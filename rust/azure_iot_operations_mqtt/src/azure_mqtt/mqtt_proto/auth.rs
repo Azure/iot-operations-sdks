@@ -19,6 +19,9 @@ where
     pub reason_code: AuthenticateReasonCode,
     // Spec is confusing because it says that authentication method is required but also allows it to be omitted when reason code is omitted,
     // so the net effect is that it's optional.
+    // UPDATE 10/01/2026: Clarified this is actually a bug in the MQTT spec. See OASIS issue MQTT-537
+    // https://issues.oasis-open.org/browse/MQTT-537
+    // This may need to remain Option in order to support interop with servers, more research required.
     pub authentication: Option<Authentication<S>>,
     pub reason_string: Option<ByteStr<S>>,
     pub user_properties: UserProperties<S>,
