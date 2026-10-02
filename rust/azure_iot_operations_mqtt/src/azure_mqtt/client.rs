@@ -25,7 +25,7 @@ use crate::azure_mqtt::client::{
         DisconnectRequest, IncomingPublishAndToken, PublishRequestQoS0, PublishRequestQoS1QoS2,
         ReauthRequest, SubscriptionRequest,
     },
-    session::{CompletedOperation, Session},
+    session::{CompletedOperation, Session, authentication_method_matches},
     timer::Timer,
     token::{
         acknowledgement::{PubAckToken, PubRecToken},
@@ -380,12 +380,7 @@ impl ConnectHandle {
         }
 
         let connack = match maybe_timeout(response_timeout, mqtt_receive(&mut reader)).await {
-            Ok(Ok(Packet::ConnAck(connack))) => {
-                if !connack.is_success() {
-                    return ConnectResult::Failure(self, ConnectError::Rejected(connack.into()));
-                }
-                connack
-            }
+            Ok(Ok(Packet::ConnAck(connack))) => connack,
             Ok(Ok(_)) => {
                 return ConnectResult::Failure(
                     self,
@@ -396,8 +391,15 @@ impl ConnectHandle {
             Err(_) => return ConnectResult::Failure(self, ConnectError::ResponseTimeout),
         };
 
-        self.session
-            .incoming_connack(connack.clone(), keep_alive.into());
+        if let Err(err) = self
+            .session
+            .incoming_connack(connack.clone(), keep_alive.into(), None)
+        {
+            return ConnectResult::Failure(self, ConnectError::Protocol(err));
+        }
+        if !connack.is_success() {
+            return ConnectResult::Failure(self, ConnectError::Rejected(connack.into()));
+        }
 
         let (disconnect_tx, disconnect_rx) = tokio::sync::oneshot::channel();
         self.session.ch.disconnect_rx = Some(disconnect_rx);
@@ -441,7 +443,7 @@ impl ConnectHandle {
     /// - `response_timeout`: Optional timeout for the MQTT CONNECT operation.
     #[allow(clippy::too_many_arguments)] // Reducing the number of arguments creates semantic confusion
     pub async fn connect_enhanced_auth(
-        mut self,
+        self,
         connection_transport: ConnectionTransportConfig,
         clean_start: bool,
         keep_alive: KeepAliveConfig,
@@ -453,7 +455,7 @@ impl ConnectHandle {
         response_timeout: Option<Duration>,
     ) -> ConnectEnhancedAuthResult {
         let auth_method = authentication_info.method.clone();
-        let (mut reader, mut writer) = match self.transport_connect(connection_transport).await {
+        let (reader, mut writer) = match self.transport_connect(connection_transport).await {
             Ok(streams) => streams,
             Err(err) => return ConnectEnhancedAuthResult::Failure(self, err.into()),
         };
@@ -473,70 +475,17 @@ impl ConnectHandle {
             return ConnectEnhancedAuthResult::Failure(self, err);
         }
 
-        let packet = match maybe_timeout(response_timeout, mqtt_receive(&mut reader)).await {
-            Ok(Ok(packet)) => packet,
-            Ok(Err(err)) => return ConnectEnhancedAuthResult::Failure(self, err.into()),
-            Err(_) => {
-                return ConnectEnhancedAuthResult::Failure(self, ConnectError::ResponseTimeout);
-            }
+        let auth_handle = EnhancedAuthHandle {
+            session: self.session,
+            reader_pool: self.reader_pool,
+            writer_pool: self.writer_pool,
+            reader,
+            writer,
+            auth_method,
+            cfg_client_id: self.cfg_client_id,
+            cfg_keep_alive: keep_alive,
         };
-
-        match packet {
-            Packet::ConnAck(connack) => {
-                self.session
-                    .incoming_connack(connack.clone(), keep_alive.into());
-                if connack.is_success() {
-                    let (disconnect_tx, disconnect_rx) = tokio::sync::oneshot::channel();
-                    let auth_tx = self.session.ch.auth_tx.clone();
-                    self.session.ch.disconnect_rx = Some(disconnect_rx);
-                    let cfg_pingresp_timeout = match keep_alive {
-                        KeepAliveConfig::Duration {
-                            ping_after,
-                            response_timeout,
-                        } => Some(response_timeout),
-                        KeepAliveConfig::Infinite => None,
-                    };
-                    ConnectEnhancedAuthResult::Success(
-                        Connection {
-                            session: self.session,
-                            reader_pool: self.reader_pool,
-                            writer_pool: self.writer_pool,
-                            reader,
-                            writer,
-                            cfg_client_id: self.cfg_client_id,
-                            cfg_pingresp_timeout,
-                        },
-                        connack.into(),
-                        DisconnectHandle(disconnect_tx),
-                        ReauthHandle {
-                            method: auth_method,
-                            tx: auth_tx,
-                        },
-                    )
-                } else {
-                    ConnectEnhancedAuthResult::Failure(self, ConnectError::Rejected(connack.into()))
-                }
-            }
-
-            Packet::Auth(auth) => {
-                let auth_handle = EnhancedAuthHandle {
-                    session: self.session,
-                    reader_pool: self.reader_pool,
-                    writer_pool: self.writer_pool,
-                    reader,
-                    writer,
-                    auth_method,
-                    cfg_client_id: self.cfg_client_id,
-                    cfg_keep_alive: keep_alive,
-                };
-                ConnectEnhancedAuthResult::Continue(auth.into(), auth_handle)
-            }
-
-            _ => ConnectEnhancedAuthResult::Failure(
-                self,
-                ConnectError::Protocol(ProtocolErrorRepr::UnexpectedPacket.into()),
-            ),
-        }
+        auth_handle.receive_response(response_timeout).await
     }
 
     async fn transport_connect(
@@ -680,45 +629,28 @@ impl EnhancedAuthHandle {
             .into(),
         );
         if let Err(err) = self.writer.write(&auth, ProtocolVersion::V5).await {
-            let connect_handle = ConnectHandle {
-                session: self.session,
-                reader_pool: self.reader_pool,
-                writer_pool: self.writer_pool,
-                cfg_client_id: self.cfg_client_id,
-            };
-            return ConnectEnhancedAuthResult::Failure(connect_handle, err.into());
+            return ConnectEnhancedAuthResult::Failure(self.into_connect_handle(), err.into());
         }
         if let Err(err) = self.writer.flush().await {
-            let connect_handle = ConnectHandle {
-                session: self.session,
-                reader_pool: self.reader_pool,
-                writer_pool: self.writer_pool,
-                cfg_client_id: self.cfg_client_id,
-            };
-            return ConnectEnhancedAuthResult::Failure(connect_handle, err.into());
+            return ConnectEnhancedAuthResult::Failure(self.into_connect_handle(), err.into());
         }
 
-        // Wait for next response
+        self.receive_response(response_timeout).await
+    }
+
+    /// Waits for the server's next AUTH challenge or its CONNACK.
+    async fn receive_response(
+        mut self,
+        response_timeout: Option<Duration>,
+    ) -> ConnectEnhancedAuthResult {
         let packet = match maybe_timeout(response_timeout, mqtt_receive(&mut self.reader)).await {
             Ok(Ok(packet)) => packet,
             Ok(Err(err)) => {
-                let connect_handle = ConnectHandle {
-                    session: self.session,
-                    reader_pool: self.reader_pool,
-                    writer_pool: self.writer_pool,
-                    cfg_client_id: self.cfg_client_id,
-                };
-                return ConnectEnhancedAuthResult::Failure(connect_handle, err.into());
+                return ConnectEnhancedAuthResult::Failure(self.into_connect_handle(), err.into());
             }
             Err(_) => {
-                let connect_handle = ConnectHandle {
-                    session: self.session,
-                    reader_pool: self.reader_pool,
-                    writer_pool: self.writer_pool,
-                    cfg_client_id: self.cfg_client_id,
-                };
                 return ConnectEnhancedAuthResult::Failure(
-                    connect_handle,
+                    self.into_connect_handle(),
                     ConnectError::ResponseTimeout,
                 );
             }
@@ -726,8 +658,16 @@ impl EnhancedAuthHandle {
 
         match packet {
             Packet::ConnAck(connack) => {
-                self.session
-                    .incoming_connack(connack.clone(), self.cfg_keep_alive.into());
+                if let Err(err) = self.session.incoming_connack(
+                    connack.clone(),
+                    self.cfg_keep_alive.into(),
+                    Some(self.auth_method.as_str()),
+                ) {
+                    return ConnectEnhancedAuthResult::Failure(
+                        self.into_connect_handle(),
+                        ConnectError::Protocol(err),
+                    );
+                }
 
                 if connack.is_success() {
                     let (disconnect_tx, disconnect_rx) = tokio::sync::oneshot::channel();
@@ -754,38 +694,52 @@ impl EnhancedAuthHandle {
                         connack.into(),
                         DisconnectHandle(disconnect_tx),
                         ReauthHandle {
-                            method: self.auth_method.clone(),
+                            method: self.auth_method,
                             tx: auth_tx,
                         },
                     )
                 } else {
-                    let connect_handle = ConnectHandle {
-                        session: self.session,
-                        reader_pool: self.reader_pool,
-                        writer_pool: self.writer_pool,
-                        cfg_client_id: self.cfg_client_id,
-                    };
                     ConnectEnhancedAuthResult::Failure(
-                        connect_handle,
+                        self.into_connect_handle(),
                         ConnectError::Rejected(connack.into()),
                     )
                 }
             }
 
-            Packet::Auth(auth) => ConnectEnhancedAuthResult::Continue(auth.into(), self),
-
-            _ => {
-                let connect_handle = ConnectHandle {
-                    session: self.session,
-                    reader_pool: self.reader_pool,
-                    writer_pool: self.writer_pool,
-                    cfg_client_id: self.cfg_client_id,
-                };
-                ConnectEnhancedAuthResult::Failure(
-                    connect_handle,
-                    ConnectError::Protocol(ProtocolErrorRepr::UnexpectedPacket.into()),
-                )
+            Packet::Auth(auth) => {
+                // TODO: Make one component responsible for validation of auth method
+                // Currently this is responsibility is split between here for intermediate steps of
+                // initial authentication and in the Session for the final initial authentication
+                // step and all reauthentications.
+                if authentication_method_matches(
+                    auth.authentication.as_ref(),
+                    Some(self.auth_method.as_str()),
+                ) {
+                    ConnectEnhancedAuthResult::Continue(auth.into(), self)
+                } else {
+                    ConnectEnhancedAuthResult::Failure(
+                        self.into_connect_handle(),
+                        ConnectError::Protocol(
+                            ProtocolErrorRepr::AuthenticationMethodMismatch.into(),
+                        ),
+                    )
+                }
             }
+
+            _ => ConnectEnhancedAuthResult::Failure(
+                self.into_connect_handle(),
+                ConnectError::Protocol(ProtocolErrorRepr::UnexpectedPacket.into()),
+            ),
+        }
+    }
+
+    // NOTE: This is not a trait because the user should not be able to do this.
+    fn into_connect_handle(self) -> ConnectHandle {
+        ConnectHandle {
+            session: self.session,
+            reader_pool: self.reader_pool,
+            writer_pool: self.writer_pool,
+            cfg_client_id: self.cfg_client_id,
         }
     }
 }
