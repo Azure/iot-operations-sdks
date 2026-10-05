@@ -29,7 +29,9 @@ default-members = [
   "azure_iot_operations_services",
 ]
 
-resolver = "2"
+# Resolver 3 prefers dependency versions compatible with `rust-version` (the MSRV) when
+# resolving, so a new dependency release that raises its own MSRV doesn't break MSRV builds.
+resolver = "3"
 
 [workspace.package]
 # This is the MSRV. If this value is changed, it also must be changed in the CI for the SDK
