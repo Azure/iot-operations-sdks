@@ -1,0 +1,5817 @@
+WEBVTT
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/12-0
+00:00:04.755 --> 00:00:05.075
+Or.
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/14-0
+00:00:08.115 --> 00:00:09.475
+I'll share my screen.
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/19-0
+00:00:10.195 --> 00:00:12.315
+I will be just this documentdocumentURI.
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/20-0
+00:00:18.101 --> 00:00:19.701
+<v Carter Tinney>Fine, sorry, just give me one moment.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/36-0
+00:00:38.115 --> 00:00:39.395
+All right, so we.
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/39-0
+00:00:41.795 --> 00:00:46.675
+We started some discussion that we can
+just pick it up from...
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/59-0
+00:00:48.075 --> 00:00:53.390
+<v @1>From the chat,
+I'll do a brief summary of this document,.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/59-1
+00:00:53.390 --> 00:00:55.315
+<v @1>So basically it is...</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/57-0
+00:00:56.181 --> 00:00:57.781
+<v Carter Tinney>Yeah, I'd like some clarity on.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/61-0
+00:00:56.475 --> 00:00:57.075
+Be often.
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/72-0
+00:00:58.653 --> 00:01:02.293
+<v Carter Tinney>like the pros and cons that are listed in
+here that I don't really understand.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/76-0
+00:01:03.795 --> 00:01:06.355
+<v @1>Yeah, of course, so...</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/84-0
+00:01:08.195 --> 00:01:14.115
+<v @1>So the first one is the very original one
+that we discussed like a year ago, having.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/132-0
+00:01:13.413 --> 00:01:18.535
+<v Carter Tinney>and it won't work. Like A, in my opinion,
+well, I mean, I'll say it's my opinion,</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/132-1
+00:01:18.535 --> 00:01:21.845
+<v Carter Tinney>but like,
+there's no way to make this work at an MQ.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/132-2
+00:01:21.845 --> 00:01:24.843
+<v Carter Tinney>Like,
+if we put it below the envoys in the MQTT</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/132-3
+00:01:24.843 --> 00:01:29.152
+<v Carter Tinney>session, I mean, we're now,
+it's not even resembling MQTT anymore if</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/132-4
+00:01:29.152 --> 00:01:33.024
+<v Carter Tinney>we're like chunking,
+unless we want to make sure that this is</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/132-5
+00:01:33.024 --> 00:01:33.773
+<v Carter Tinney>done across.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/172-0
+00:01:34.693 --> 00:01:39.157
+<v Carter Tinney>everything always. And then even then,
+there's a whole bunch of edge cases it</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/172-1
+00:01:39.157 --> 00:01:42.819
+<v Carter Tinney>creates with regards to acts and memory
+consumption, et cetera,</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/172-2
+00:01:42.819 --> 00:01:45.565
+<v Carter Tinney>that I don't even think A should be
+considered.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/172-3
+00:01:45.565 --> 00:01:49.971
+<v Carter Tinney>Unless we're interested in radically
+changing the relationship of components</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/158-0
+00:01:45.715 --> 00:01:45.915
+It.
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/172-4
+00:01:49.971 --> 00:01:51.573
+<v Carter Tinney>that we're dealing with. And</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/179-0
+00:01:52.453 --> 00:01:56.612
+<v Carter Tinney>are acceptable to take a bunch of
+breaking changes that would probably be</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/179-1
+00:01:56.612 --> 00:01:57.173
+<v Carter Tinney>necessary.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/181-0
+00:01:58.293 --> 00:01:59.013
+<v Valerie Avva Lim>That said.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/183-0
+00:01:58.755 --> 00:02:03.155
+<v @1>Yeah,
+that's probably where we left a year ago.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/190-0
+00:02:04.773 --> 00:02:08.352
+<v Valerie Avva Lim>I say that said, like,
+I think this layering in some ways could</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/184-0
+00:02:05.075 --> 00:02:05.395
+I...
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/190-1
+00:02:08.352 --> 00:02:11.874
+<v Valerie Avva Lim>make sense of having this at, you know,
+in the protocol crate,</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/190-2
+00:02:11.874 --> 00:02:16.123
+<v Valerie Avva Lim>but something that is just a wrapper
+around MQT that both telemetry and RPC</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/190-3
+00:02:16.123 --> 00:02:18.975
+<v Valerie Avva Lim>can share,
+because there's no reason for it not to</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/190-4
+00:02:18.975 --> 00:02:19.813
+<v Valerie Avva Lim>be shared code.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/199-0
+00:02:20.853 --> 00:02:28.613
+<v Carter Tinney>Yeah, potentially, yeah.
+I don't necessarily dispute that.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/195-0
+00:02:25.173 --> 00:02:25.733
+<v Valerie Avva Lim>Hopefully.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/201-0
+00:02:33.835 --> 00:02:34.515
+<v @1>Right, yeah.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/212-0
+00:02:36.835 --> 00:02:42.023
+<v @1>Yeah, no,. No,.
+It's here just for the completeness of</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/212-1
+00:02:42.023 --> 00:02:43.155
+<v @1>the picture.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/218-0
+00:02:44.755 --> 00:02:47.955
+<v @1>Yeah,. So the second option is to...</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/236-0
+00:02:49.475 --> 00:02:54.321
+<v @1>Build on top of streaming,
+which has its own pros and cons.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/236-1
+00:02:54.321 --> 00:02:57.875
+<v @1>One of the pros that is, I understand,
+not.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/237-0
+00:02:59.875 --> 00:03:00.115
+Uh.
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/280-0
+00:03:01.635 --> 00:03:07.413
+<v @1>On the table right now is that we kill
+two birds with one stone,</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/280-1
+00:03:07.413 --> 00:03:13.457
+<v @1>so streaming and chunking.
+So it turns out streaming does not have,</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/280-2
+00:03:13.457 --> 00:03:16.035
+<v @1>frankly any request for that.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/284-0
+00:03:17.555 --> 00:03:18.515
+<v @1>So no need...</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/303-0
+00:03:17.573 --> 00:03:20.352
+<v Carter Tinney>Well,
+doesn't that one case still apply for</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/303-1
+00:03:20.352 --> 00:03:23.256
+<v Carter Tinney>streaming?
+The one with the multiple records,</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/303-2
+00:03:23.256 --> 00:03:27.233
+<v Carter Tinney>like asset discovery,
+report 10 to 20 discovered assets in one</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/303-3
+00:03:27.233 --> 00:03:30.453
+<v Carter Tinney>operation?
+Wouldn't that be a conventional stream?</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/343-0
+00:03:31.235 --> 00:03:32.275
+That would be,.
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/344-0
+00:03:32.275 --> 00:03:37.665
+<v @1>I mean, if there is, if there is a,.
+So basically if there is no other way</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/344-1
+00:03:37.665 --> 00:03:40.828
+<v @1>around it,
+but otherwise you can just have,</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/344-2
+00:03:40.828 --> 00:03:46.433
+<v @1>you can just assemble every all this
+pieces together on the response side and</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/344-3
+00:03:46.433 --> 00:03:49.955
+<v @1>send it through the checking,.
+So there is like.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/356-0
+00:03:51.013 --> 00:03:54.823
+<v Carter Tinney>Well, not quite right, because, like,
+there's a there's a there's a one-to-one</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/346-0
+00:03:51.555 --> 00:03:52.355
+For that.
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/383-0
+00:03:54.355 --> 00:03:57.480
+<v @1>Yeah,
+I understand that that every piece makes</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/356-1
+00:03:54.823 --> 00:03:57.813
+<v Carter Tinney>relationship between serialization and
+deserialization types.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/383-1
+00:03:57.480 --> 00:04:01.670
+<v @1>its own sense. Yeah,.
+That's all that we we we talked about it</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/383-2
+00:04:01.670 --> 00:04:07.123
+<v @1>before. Yes, that's all understandable,
+but it's like it seems like it's not hard</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/383-3
+00:04:07.123 --> 00:04:10.115
+<v @1>requirement.
+It's just okay that would make.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/384-0
+00:04:09.333 --> 00:04:12.867
+<v Carter Tinney>Yeah, I don't dispute that.
+I just want to be very clear that I don't</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/384-1
+00:04:12.867 --> 00:04:14.533
+<v Carter Tinney>think that's a chunking scenario.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/387-0
+00:04:15.795 --> 00:04:20.261
+<v @1>It's not pure chunking scenario,
+but it's not pure streaming requirement.,</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/387-1
+00:04:20.261 --> 00:04:24.548
+<v @1>So it's like nobody says, oh,
+we want in this way and not the other way</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/387-2
+00:04:24.548 --> 00:04:26.275
+<v @1>around. So I understand that.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/395-0
+00:04:25.173 --> 00:04:27.473
+<v Carter Tinney>Well, I know,
+I don't think chunking is the right</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/395-1
+00:04:27.473 --> 00:04:29.772
+<v Carter Tinney>approach.
+If that problem is a problem we want to</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/388-0
+00:04:28.453 --> 00:04:29.973
+<v Valerie Avva Lim>Agreed, because...</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/395-2
+00:04:29.772 --> 00:04:32.071
+<v Carter Tinney>solve, like,
+I don't think we're hand waving, oh,</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/395-3
+00:04:32.071 --> 00:04:34.784
+<v Carter Tinney>we could do it. No,
+I don't think you do it with chunking.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/395-4
+00:04:34.784 --> 00:04:36.853
+<v Carter Tinney>Like,
+I think that brings the serialization.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/394-0
+00:04:35.013 --> 00:04:36.986
+<v Valerie Avva Lim>Yeah,
+because I think you want to receive them</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/394-1
+00:04:36.986 --> 00:04:37.573
+<v Valerie Avva Lim>one at a time.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/420-0
+00:04:37.733 --> 00:04:40.243
+<v Carter Tinney>Exactly,
+and you want to deserialize each</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/420-1
+00:04:40.243 --> 00:04:44.845
+<v Carter Tinney>individual like entry uniquely, right?
+And that's not the chunking scenario.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/420-2
+00:04:44.845 --> 00:04:47.653
+<v Carter Tinney>That is the opposite of the chunking
+scenario.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/468-0
+00:04:47.675 --> 00:04:51.051
+<v @1>What if we just want to send an array of
+objects?.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/468-1
+00:04:51.051 --> 00:04:55.551
+<v @1>It's more that the timing of when those
+assets become discoverable.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/428-0
+00:04:51.893 --> 00:04:52.453
+<v Valerie Avva Lim>But it's the...</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/468-2
+00:04:55.551 --> 00:04:59.787
+<v @1>Is the interesting part here.
+So as I understand that scenario,</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/468-3
+00:04:59.787 --> 00:05:03.097
+<v @1>asset A might be discoverable at time
+stamp zero,</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/468-4
+00:05:03.097 --> 00:05:06.075
+<v @1>asset B might be discoverable at time
+stamp.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/494-0
+00:05:06.835 --> 00:05:09.615
+<v @1>0.
+1 seconds and we want to send the asset</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/494-1
+00:05:09.615 --> 00:05:14.852
+<v @1>that becomes discoverable immediately,
+but we also want to keep the stream alive</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/494-2
+00:05:14.852 --> 00:05:17.955
+<v @1>because we think the next asset is coming
+soon.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/495-0
+00:05:18.915 --> 00:05:20.355
+Okay, well then...
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/497-0
+00:05:20.133 --> 00:05:23.779
+<v Carter Tinney>Yeah, and to be clear,
+I'm not saying we have to like, you know,</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/497-1
+00:05:23.779 --> 00:05:28.155
+<v Carter Tinney>ignore this scenario or this scenario
+should mean that we implement streaming</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/497-2
+00:05:28.155 --> 00:05:30.623
+<v Carter Tinney>to do chunking.
+I'm not saying any of that.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/497-3
+00:05:30.623 --> 00:05:35.166
+<v Carter Tinney>What I'm saying is that that scenario I
+don't think is chunking and is something</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/497-4
+00:05:35.166 --> 00:05:37.410
+<v Carter Tinney>else.
+And if that scenario is like high</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/496-0
+00:05:35.955 --> 00:05:36.435
+Yu.
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/497-5
+00:05:37.410 --> 00:05:39.653
+<v Carter Tinney>priority, then we have to consider that.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/501-0
+00:05:39.893 --> 00:05:42.373
+<v Carter Tinney>And if it's not,
+I'm happy to just ignore that scenario.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/513-0
+00:05:43.315 --> 00:05:44.355
+Okay, yeah, I.
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/552-0
+00:05:43.333 --> 00:05:46.766
+<v Varun Puranik>Yeah, let's keep that scenario in mind,
+but just to add some context,</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/552-1
+00:05:46.766 --> 00:05:49.905
+<v Varun Puranik>I don't think we should consider that a
+high priority scenario.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/552-2
+00:05:49.905 --> 00:05:53.043
+<v Varun Puranik>I think the other file,
+the true chunking one that we have had,</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/552-3
+00:05:53.043 --> 00:05:55.692
+<v Varun Puranik>I think they definitely are the more
+higher priority.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/552-4
+00:05:55.692 --> 00:05:59.173
+<v Varun Puranik>We should optimize for that.
+Let's not optimize for this one scenario.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/553-0
+00:06:00.355 --> 00:06:00.835
+Okay.
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/558-0
+00:06:02.115 --> 00:06:07.980
+<v @1>But just to for myself,
+just to clarify if that would be a</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/558-1
+00:06:07.980 --> 00:06:14.641
+<v @1>sending array of objects,
+would that be a considered good chunking</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/558-2
+00:06:14.641 --> 00:06:15.635
+<v @1>use case?.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/565-0
+00:06:17.493 --> 00:06:19.942
+<v Carter Tinney>Well, see, the thing is, like,
+it's the array,</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/565-1
+00:06:19.942 --> 00:06:23.694
+<v Carter Tinney>it's the many things that makes it
+appropriate for, as Tim pointed out,</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/565-2
+00:06:23.694 --> 00:06:27.393
+<v Carter Tinney>discovered a different time.
+You have an ongoing communication that is</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/565-3
+00:06:27.393 --> 00:06:30.884
+<v Carter Tinney>sending things with arbitrary things in
+between, blah, blah, blah.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/563-0
+00:06:30.435 --> 00:06:31.795
+<v @1>Yeah, that's case is clear.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/565-4
+00:06:30.884 --> 00:06:33.749
+<v Carter Tinney>That makes it the stream.
+But any single one of those,</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/565-5
+00:06:33.749 --> 00:06:36.875
+<v Carter Tinney>you might want to chunk also,
+depending on the size, right?</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/565-6
+00:06:36.875 --> 00:06:40.053
+<v Carter Tinney>And that's why I think chunking and
+streaming are kind of...</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/598-0
+00:06:40.373 --> 00:06:44.093
+<v Carter Tinney>different from like,
+like chunking is like the idea that it's</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/598-1
+00:06:44.093 --> 00:06:48.953
+<v Carter Tinney>related to the content and knowing that
+you need to deserialize several payloads</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/598-2
+00:06:48.953 --> 00:06:52.193
+<v Carter Tinney>together, right?
+That's as opposed to like, you know,</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/598-3
+00:06:52.193 --> 00:06:53.813
+<v Carter Tinney>what's going over the wire.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/630-0
+00:06:54.555 --> 00:07:00.211
+<v @1>No, yeah, I understand.
+My question is in General: do we not do</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/630-1
+00:07:00.211 --> 00:07:07.547
+<v @1>we consider it is a bad use of chunking
+if we just want to sense array of objects?</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/630-2
+00:07:07.547 --> 00:07:07.635
+<v @1>.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/646-0
+00:07:08.053 --> 00:07:09.803
+<v Valerie Avva Lim>Yeah,
+because you don't have control over</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/629-0
+00:07:09.133 --> 00:07:10.693
+<v Carter Tinney>Yes, there's no chunking.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/646-1
+00:07:09.803 --> 00:07:12.218
+<v Valerie Avva Lim>whether you're chunking or not. Like,
+I mean, if you set,</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/646-2
+00:07:12.218 --> 00:07:14.676
+<v Valerie Avva Lim>if your payload is an array,
+it may get chunked, but like,</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/646-3
+00:07:14.676 --> 00:07:16.133
+<v Valerie Avva Lim>I don't think there's actually any.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/662-0
+00:07:17.653 --> 00:07:21.066
+<v Valerie Avva Lim>like correlation between the two other
+than just maybe your payloads longer</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/654-0
+00:07:19.613 --> 00:07:19.893
+<v Carter Tinney>And it.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/662-1
+00:07:21.066 --> 00:07:22.053
+<v Valerie Avva Lim>because it's an array.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/675-0
+00:07:22.093 --> 00:07:25.262
+<v Carter Tinney>And then again,
+an array is not the scenario that Tim's</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/675-1
+00:07:25.262 --> 00:07:28.373
+<v Carter Tinney>describing, right?
+Like an array is known at one time.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/685-0
+00:07:26.275 --> 00:07:30.121
+<v @1>Yeah, yeah, yeah, no argue with that.
+No argue with that.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/685-1
+00:07:30.121 --> 00:07:33.635
+<v @1>The team scenario is pure streaming,
+like all clear.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/764-0
+00:07:34.933 --> 00:07:37.897
+<v Carter Tinney>So, if you wrote,
+if you wrote the deserializer and</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/691-0
+00:07:34.995 --> 00:07:35.875
+Is just like.
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/764-1
+00:07:37.897 --> 00:07:41.887
+<v Carter Tinney>serializer for the array of stuff,
+like we don't have any first class</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/764-2
+00:07:41.887 --> 00:07:46.617
+<v Carter Tinney>support for deserializing arrays, right?
+Like the way invoker and executor work is</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/764-3
+00:07:46.617 --> 00:07:50.664
+<v Carter Tinney>there is a some T that is like an invoker
+for T and an executor for T,</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/764-4
+00:07:50.664 --> 00:07:53.172
+<v Carter Tinney>or actually it's a TREC and a TRESP,
+right?</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/764-5
+00:07:53.172 --> 00:07:56.933
+<v Carter Tinney>And the point is that the TREC and the
+TRESP payloads have to be.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/815-0
+00:07:57.133 --> 00:07:59.951
+<v Carter Tinney>You know,
+you have the serialization built in,</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/815-1
+00:07:59.951 --> 00:08:04.326
+<v Carter Tinney>and it's like a one-to-one for this
+invoker only serializes this type of</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/815-2
+00:08:04.326 --> 00:08:07.263
+<v Carter Tinney>thing, right? So, yeah,
+like the array of stuff,</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/815-3
+00:08:07.263 --> 00:08:11.398
+<v Carter Tinney>like there's no concept of an array in
+there. It's like a data type.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/815-4
+00:08:11.398 --> 00:08:15.174
+<v Carter Tinney>You're getting executor,
+you're executing requests that have a</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/815-5
+00:08:15.174 --> 00:08:16.133
+<v Carter Tinney>specific format.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/879-0
+00:08:16.453 --> 00:08:19.584
+<v Carter Tinney>If that format is going to be an array,
+I mean, like,</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/879-1
+00:08:19.584 --> 00:08:24.048
+<v Carter Tinney>I guess if you have some bespoke array
+class, like my array something, like,</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/879-2
+00:08:24.048 --> 00:08:27.469
+<v Carter Tinney>I guess you could make it.
+If you wrote the serializer and</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/879-3
+00:08:27.469 --> 00:08:31.064
+<v Carter Tinney>deserializer for it, sure.
+But I would say that that's, like,</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/879-4
+00:08:31.064 --> 00:08:33.962
+<v Carter Tinney>I guess, but that's not even, like, again,
+to me,</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/879-5
+00:08:33.962 --> 00:08:38.311
+<v Carter Tinney>chunking would just kick in automatically
+if the size gets too big, right?</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/861-0
+00:08:35.333 --> 00:08:37.085
+<v Valerie Avva Lim>Yeah,
+like it wouldn't get chunked on the array</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/861-1
+00:08:37.085 --> 00:08:37.413
+<v Valerie Avva Lim>boundary.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/879-6
+00:08:38.311 --> 00:08:41.093
+<v Carter Tinney>Rather than failing because it's over max
+size.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/864-0
+00:08:38.493 --> 00:08:38.693
+<v Valerie Avva Lim>Yeah.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/888-0
+00:08:41.333 --> 00:08:43.610
+<v Carter Tinney>Instead,
+chunking would just auto start chunking</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/888-1
+00:08:43.610 --> 00:08:47.093
+<v Carter Tinney>it up and splitting it up and assembling
+on the other side, in my opinion.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/890-0
+00:08:48.995 --> 00:08:49.475
+All.
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/894-0
+00:08:52.035 --> 00:08:53.555
+OK, let's move on.
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/900-0
+00:08:55.075 --> 00:08:55.475
+Said.
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/905-0
+00:08:58.355 --> 00:08:59.875
+<v @1>So the third option is...</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/912-0
+00:09:02.915 --> 00:09:05.715
+<v @1>Special invoice for chunking support.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/923-0
+00:09:06.915 --> 00:09:10.515
+<v @1>And I think to answer your questions
+about the...</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/955-0
+00:09:13.075 --> 00:09:17.981
+<v @1>Efficiency and all of that,
+it just so I didn't.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/955-1
+00:09:17.981 --> 00:09:25.090
+<v @1>I didn't consider that option.
+The first option I guess here to modify</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/955-2
+00:09:25.090 --> 00:09:28.595
+<v @1>existing MRPC API just adding that.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/962-0
+00:09:30.355 --> 00:09:34.195
+<v @1>Both for the chunking options of Invoker
+and executor.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/973-0
+00:09:35.475 --> 00:09:41.715
+<v @1>So that makes perfect sense and all those
+commands that you asked about.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/1001-0
+00:09:42.995 --> 00:09:48.405
+<v @1>Or they are just in comparison between
+these three options,</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/1001-1
+00:09:48.405 --> 00:09:53.635
+<v @1>so it doesn't consider that option of
+modifying the MRPC.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/1015-0
+00:09:54.853 --> 00:09:57.242
+<v Carter Tinney>But like,
+can you explain like more about like what</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/1015-1
+00:09:57.242 --> 00:10:00.228
+<v Carter Tinney>the safety consider like,
+like there is like a bunch of stuff in</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/1015-2
+00:10:00.228 --> 00:10:01.973
+<v Carter Tinney>there that I didn't really understand.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/1030-0
+00:10:03.635 --> 00:10:08.675
+<v @1>Well, safety is more on the like a memory.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/1054-0
+00:10:10.675 --> 00:10:16.388
+<v @1>So, like a DDoS kind of stuff, attack,
+'cause like for chunking,.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/1054-1
+00:10:16.388 --> 00:10:21.235
+<v @1>We know the limits,
+so we don't receive more than we...</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/1056-0
+00:10:26.115 --> 00:10:29.395
+<v @1>So we know ahead of time if we can handle
+this.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/1064-0
+00:10:31.075 --> 00:10:34.835
+<v @1>The full message or not.
+So they're like for streaming.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/1074-0
+00:10:37.475 --> 00:10:40.835
+<v @1>It might be some ways to overload us.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/1079-0
+00:10:42.915 --> 00:10:45.315
+<v @1>But again, it's more.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/1080-0
+00:10:46.373 --> 00:10:48.533
+<v Carter Tinney>Well, what's the overload risk?
+I don't understand.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/1092-0
+00:10:51.275 --> 00:10:54.575
+<v @1>Well,
+we we don't have is it's more like on the</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/1092-1
+00:10:54.575 --> 00:10:57.875
+<v @1>implementation side than in principle,
+I guess.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/1103-0
+00:11:00.035 --> 00:11:07.235
+<v @1>Because the stream is not can be not,
+it's not bounded by definition, so.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/1104-0
+00:11:06.293 --> 00:11:08.930
+<v Carter Tinney>I mean,
+receiving isn't bounded by definition</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/1104-1
+00:11:08.930 --> 00:11:10.133
+<v Carter Tinney>either, like, like...</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/1170-0
+00:11:12.413 --> 00:11:15.698
+<v Carter Tinney>Like,
+there's an unbounded channel right now on</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/1170-1
+00:11:15.698 --> 00:11:19.392
+<v Carter Tinney>a receiver in Rust, right? Like,
+because it's a like,</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/1170-2
+00:11:19.392 --> 00:11:23.702
+<v Carter Tinney>there is no way to rate limit quas 0
+messages and not, I mean,</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/1170-3
+00:11:23.702 --> 00:11:28.423
+<v Carter Tinney>we're talking quas one here,
+so I guess theoretically you have a max</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/1170-4
+00:11:28.423 --> 00:11:32.733
+<v Carter Tinney>of 65,535, but I mean,
+that's still even if, if that's like...</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/1191-0
+00:11:32.853 --> 00:11:37.266
+<v Carter Tinney>the limit you're dealing with,
+that's still like extremely memory risky</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/1191-1
+00:11:37.266 --> 00:11:41.127
+<v Carter Tinney>with large payloads.
+Like that's just a natural consequence of</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/1191-2
+00:11:41.127 --> 00:11:45.784
+<v Carter Tinney>receiving a whole bunch of messages and
+not like getting rid of them out of</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/1191-3
+00:11:45.784 --> 00:11:46.213
+<v Carter Tinney>memory.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/1195-0
+00:11:49.075 --> 00:11:51.955
+Yep, got it. Well, let's...
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/1194-0
+00:11:51.475 --> 00:11:52.035
+Buts.
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/1204-0
+00:11:53.875 --> 00:11:58.595
+<v @1>I don't put much,. I guess in this.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/1240-0
+00:12:07.075 --> 00:12:12.980
+<v @1>So I just didn't have much time to kind
+of think all of that through.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/1240-1
+00:12:12.980 --> 00:12:17.113
+<v @1>It's obviously heavily AI-ed.
+So when I read it,</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/1240-2
+00:12:17.113 --> 00:12:19.475
+<v @1>so it made some sense to me.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/1243-0
+00:12:20.595 --> 00:12:22.515
+<v @1>So by I didn't mean.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/1250-0
+00:12:23.555 --> 00:12:25.715
+<v @1>Specifics. I guess this case.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/1267-0
+00:12:38.515 --> 00:12:42.235
+<v @1>I don't let me see,
+I don't remember all the questions here.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/1269-0
+00:12:43.715 --> 00:12:44.515
+Do you remember...?
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/1281-0
+00:12:45.413 --> 00:12:48.602
+<v Carter Tinney>Yeah, I mean,
+I just wanted to go over that table and</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/1281-1
+00:12:48.602 --> 00:12:52.735
+<v Carter Tinney>like understand the recommendations.
+Here you have like ship soonest,</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/1281-2
+00:12:52.735 --> 00:12:56.101
+<v Carter Tinney>safest under load and attack,
+lowest compatibility risk,</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/1281-3
+00:12:56.101 --> 00:12:59.998
+<v Carter Tinney>lowest total protocol cost.
+I don't know what a protocol cost is.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/1281-4
+00:12:59.998 --> 00:13:03.423
+<v Carter Tinney>Is that like bytes on the wire?
+Is that engineering cost?</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/1281-5
+00:13:03.423 --> 00:13:05.253
+<v Carter Tinney>Like I don't know what that is.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/1282-0
+00:13:05.933 --> 00:13:06.133
+<v Carter Tinney>Um...</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/1292-0
+00:13:08.035 --> 00:13:09.515
+And for the product.
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/1295-0
+00:13:08.213 --> 00:13:10.667
+<v Carter Tinney>Yeah,
+I just don't really understand like the</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/1295-1
+00:13:10.667 --> 00:13:12.693
+<v Carter Tinney>conclusion that this document gets to.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/1299-0
+00:13:13.955 --> 00:13:15.635
+For the protocol cost,.
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/1300-0
+00:13:15.795 --> 00:13:20.213
+<v @1>It is on the wire, but it's not a big one.
+Basically,.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/1300-1
+00:13:20.213 --> 00:13:25.595
+<v @1>There is one extra message here and there,
+it's not like it's a...</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/1302-0
+00:13:27.635 --> 00:13:28.675
+<v @1>It's a big deal.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/1305-0
+00:13:32.995 --> 00:13:33.395
+Hero.
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/1312-0
+00:13:34.915 --> 00:13:37.875
+<v @1>Is that this table dimension by
+dimensions?</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/1313-0
+00:13:38.933 --> 00:13:40.773
+<v Carter Tinney>No, it was the conclusion table.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/1324-0
+00:13:41.315 --> 00:13:43.315
+<v @1>Oh, including table, OK, the summary one.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/1326-0
+00:13:45.133 --> 00:13:46.213
+<v Carter Tinney>Yeah, like, I don't know.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/1327-0
+00:13:49.635 --> 00:13:51.715
+<v @1>So, the.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/1330-0
+00:13:52.795 --> 00:13:53.475
+Option.
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/1339-0
+00:14:05.795 --> 00:14:10.115
+<v @1>Well,
+that's all I've explained before that.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/1351-0
+00:14:14.435 --> 00:14:17.635
+<v @1>So, what was compatibility risk? Is,.
+What was the B?</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/1356-0
+00:14:18.915 --> 00:14:21.075
+<v @1>It's on top of the streaming.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/1360-0
+00:14:25.395 --> 00:14:25.475
+Oh.
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/1365-0
+00:14:30.995 --> 00:14:31.795
+So.
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/1401-0
+00:14:33.235 --> 00:14:37.768
+<v @1>Well, for streaming, you have, it's a,
+you have, you will have to,.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/1401-1
+00:14:37.768 --> 00:14:42.902
+<v @1>You will have to have like a complete new
+implementation of streaming first,</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/1401-2
+00:14:42.902 --> 00:14:46.835
+<v @1>and then to have that chunking on top of
+it,. So it's not.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/1436-0
+00:14:58.035 --> 00:15:03.455
+<v @1>And now, on its own,.
+It's so you don't have this back mobility</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/1463-0
+00:14:58.095 --> 00:15:03.460
+<v @1>And now, on its own,.
+It's so you don't have this back mobility</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/1436-1
+00:15:03.455 --> 00:15:10.315
+<v @1>issues regarding that when it is when you
+work on transfer to level you have to.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/1463-1
+00:15:03.460 --> 00:15:10.335
+<v @1>issues regarding that when it is when you
+work on transport to level you have to.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/1467-0
+00:15:11.615 --> 00:15:13.455
+<v @1>Because it's invisible for the.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/1483-0
+00:15:16.975 --> 00:15:21.585
+<v @1>Current client and servers,
+so they will just receive some garbage on</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/1483-1
+00:15:21.585 --> 00:15:25.470
+<v @1>the wire, not on the wire,
+but they won't be able to find.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/1483-2
+00:15:25.470 --> 00:15:28.895
+<v @1>Won't be able to serialize, deserialize,
+correctly.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/1486-0
+00:15:29.813 --> 00:15:34.680
+<v Carter Tinney>Well, not exactly, because again,
+A is would almost certainly necessitate</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/1486-1
+00:15:34.680 --> 00:15:39.941
+<v Carter Tinney>breaking changes across the entire SDK.
+So I don't really think you could argue</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/1486-2
+00:15:39.941 --> 00:15:44.412
+<v Carter Tinney>that that's going to be more compatible.
+Like, yes, it's invisible,</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/1486-3
+00:15:44.412 --> 00:15:49.344
+<v Carter Tinney>assuming everything is upgraded,
+but like the changes like conceptually to</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/1486-4
+00:15:49.344 --> 00:15:54.013
+<v Carter Tinney>support the idea that the client,
+like the lowest level of the SDK is.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/1511-0
+00:15:54.133 --> 00:15:59.324
+<v Carter Tinney>aggregating content are,
+it would almost certainly have serious</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/1511-1
+00:15:59.324 --> 00:16:03.947
+<v Carter Tinney>ramifications on message delivery
+guarantees, et cetera.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/1511-2
+00:16:03.947 --> 00:16:09.219
+<v Carter Tinney>You'd probably have to rewrite
+significant parts of the protocol</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/1511-3
+00:16:09.219 --> 00:16:11.733
+<v Carter Tinney>themselves to accommodate that.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/1514-0
+00:16:17.535 --> 00:16:22.695
+<v @1>Well, again,
+there is still some old clients that.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/1517-0
+00:16:24.975 --> 00:16:30.295
+<v @1>Can participate in the exchange and they
+want to be able to understand the traffic.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/1522-0
+00:16:32.375 --> 00:16:34.895
+<v @1>Whereas in B&amp;C, if you don't.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/1529-0
+00:16:37.615 --> 00:16:41.215
+<v @1>It's just a completely separate thing,
+right?.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/1538-0
+00:16:52.335 --> 00:16:55.055
+<v @1>OK, I guess there is, I mean.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/1539-0
+00:16:56.935 --> 00:16:57.615
+Stu.
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/1545-0
+00:17:02.015 --> 00:17:03.215
+<v @1>So it's maybe.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/1553-0
+00:17:04.495 --> 00:17:08.975
+<v @1>Go through this bigger table,
+which gives us a little bit on.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/1564-0
+00:17:11.295 --> 00:17:14.575
+<v @1>But again, it seems like we all.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/1585-0
+00:17:16.255 --> 00:17:22.511
+<v @1>Agreed on that the C-like approach,
+but just modifying existing RPC.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/1585-1
+00:17:22.511 --> 00:17:28.495
+<v @1>Let's not argue about things that we
+don't even consider anymore.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/1587-0
+00:17:29.493 --> 00:17:32.156
+<v Carter Tinney>Okay, so in that case,
+I did do some analysis.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/1587-1
+00:17:32.156 --> 00:17:35.386
+<v Carter Tinney>I didn't have a ton of time,
+like I mentioned last week,</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/1587-2
+00:17:35.386 --> 00:17:38.785
+<v Carter Tinney>I wasn't going to,
+but I did take some time to analyze what</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/1587-3
+00:17:38.785 --> 00:17:43.431
+<v Carter Tinney>we have right now and some issues that
+might come up with trying to do that. Now,</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/1587-4
+00:17:43.431 --> 00:17:46.773
+<v Carter Tinney>I do think it's doable,
+but there are some considerations.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/1590-0
+00:17:48.133 --> 00:17:51.733
+<v Carter Tinney>Particularly around.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/1645-0
+00:17:54.133 --> 00:17:56.889
+<v Carter Tinney>Well, okay,
+we could get into the specific,</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/1645-1
+00:17:56.889 --> 00:18:00.082
+<v Carter Tinney>I don't want to,
+if you want to talk generalities,</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/1645-2
+00:18:00.082 --> 00:18:03.151
+<v Carter Tinney>we can do that first. But I do have, like,
+yeah,</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/1645-3
+00:18:03.151 --> 00:18:07.847
+<v Carter Tinney>I did look at the implementation and I
+think it's doable. If we cut, like,</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/1645-4
+00:18:07.847 --> 00:18:12.293
+<v Carter Tinney>you have to like look at the wire version
+that you get and be able to.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/1689-0
+00:18:12.493 --> 00:18:16.903
+<v Carter Tinney>keep a legacy path for 1.0,
+you could swap to 2.0. The issue,</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/1689-1
+00:18:16.903 --> 00:18:22.309
+<v Carter Tinney>the biggest issue I see is that a
+chunking framework introduces new classes</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/1689-2
+00:18:22.309 --> 00:18:27.786
+<v Carter Tinney>of errors, not like a software class,
+but like new types of failures that we</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/1689-3
+00:18:27.786 --> 00:18:32.053
+<v Carter Tinney>hadn't previously considered,
+like for incomplete messages.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/1732-0
+00:18:32.613 --> 00:18:36.203
+<v Carter Tinney>et cetera,
+which is a little difficult with the</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/1732-1
+00:18:36.203 --> 00:18:40.765
+<v Carter Tinney>existing error definitions that we have.
+And mea culpa here,</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/1732-2
+00:18:40.765 --> 00:18:46.897
+<v Carter Tinney>we kind of screwed up something in the
+rust error definitions that changing them,</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/1732-3
+00:18:46.897 --> 00:18:52.954
+<v Carter Tinney>adding new types is a breaking change for
+us. Again, we should have caught that,</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/1732-4
+00:18:52.954 --> 00:18:53.253
+<v Carter Tinney>but.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/1778-0
+00:18:53.973 --> 00:18:57.887
+<v Carter Tinney>We didn't, it's not,
+the kinds are not non-exhaustive, Valerie.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/1778-1
+00:18:57.887 --> 00:19:01.555
+<v Carter Tinney>For AIO protocol error,
+this was something I'd been trying,</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/1778-2
+00:19:01.555 --> 00:19:06.202
+<v Carter Tinney>like the error definitions in Rust I'd
+been trying to fix before connectors</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/1778-3
+00:19:06.202 --> 00:19:11.216
+<v Carter Tinney>became a high priority and then the work
+got deprioritized and I never got to it.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/1778-4
+00:19:11.216 --> 00:19:12.133
+<v Carter Tinney>Again, that is.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/1808-0
+00:19:12.213 --> 00:19:15.470
+<v Carter Tinney>something I would have liked to have
+gotten to, but we didn't.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/1808-1
+00:19:15.470 --> 00:19:19.502
+<v Carter Tinney>And now we would have to eat that now,
+but that's a Rust specific issue and I</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/1808-2
+00:19:19.502 --> 00:19:23.586
+<v Carter Tinney>don't think the other languages need to
+tie themselves into knots to deal with</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/1808-3
+00:19:23.586 --> 00:19:25.653
+<v Carter Tinney>like an engineering failure that we had.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/1809-0
+00:19:26.453 --> 00:19:30.773
+<v Valerie Avva Lim>And if we're putting the wire protocol
+version, then...</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/1825-0
+00:19:31.973 --> 00:19:34.218
+<v Valerie Avva Lim>I mean,
+if we have a breaking change with that,</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/1825-1
+00:19:34.218 --> 00:19:35.013
+<v Valerie Avva Lim>it's probably OK.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/1898-0
+00:19:34.453 --> 00:19:38.564
+<v Carter Tinney>Yeah, but it's like an API one,
+but that's like Rust specific.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/1831-0
+00:19:36.773 --> 00:19:37.333
+<v Valerie Avva Lim>Yeah, true.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/1898-1
+00:19:38.564 --> 00:19:43.719
+<v Carter Tinney>Issues that we'd have to solve would be
+that it is a little dicey to do the 1.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/1898-2
+00:19:43.719 --> 00:19:47.765
+<v Carter Tinney>0 versus 2.0 pivot,
+because by the time you find out what the</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/1898-3
+00:19:47.765 --> 00:19:51.745
+<v Carter Tinney>protocol version is,
+you read the first packet off the wire,</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/1898-4
+00:19:51.745 --> 00:19:55.530
+<v Carter Tinney>and then in a chunking scenario,
+you'd have to read more.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/1880-0
+00:19:53.813 --> 00:19:55.253
+<v Valerie Avva Lim>Which means you had to receive it.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/1898-5
+00:19:55.530 --> 00:19:59.053
+<v Carter Tinney>Now that's a surmountable problem,
+and the problem is</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/1950-0
+00:19:59.173 --> 00:20:03.620
+<v Carter Tinney>that the code probably gets a little ugly
+because you have to pass some ability to</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/1950-1
+00:20:03.620 --> 00:20:07.424
+<v Carter Tinney>read into like some delegation after
+reading one packet here and then,</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/1950-2
+00:20:07.424 --> 00:20:10.531
+<v Carter Tinney>or not pack, yeah,
+you read one MQTT packet here and then</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/1950-3
+00:20:10.531 --> 00:20:14.925
+<v Carter Tinney>you have to like read more packets over
+there and then some, it's a little weird,</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/1950-4
+00:20:14.925 --> 00:20:18.728
+<v Carter Tinney>but like, eh, whatever, you can,
+you can deal with it. But like, yeah,</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/1950-5
+00:20:18.728 --> 00:20:19.853
+<v Carter Tinney>it's a little tricky.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/1996-0
+00:20:20.213 --> 00:20:24.183
+<v Carter Tinney>engineering wise and code cleanliness
+wise, but it's doable.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/1996-1
+00:20:24.183 --> 00:20:29.258
+<v Carter Tinney>I think the question we would have to
+consider here that would look at a real</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/1996-2
+00:20:29.258 --> 00:20:34.528
+<v Carter Tinney>implementation of how that would work is,
+is the wire going to end for chunking?</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/1996-3
+00:20:34.528 --> 00:20:39.733
+<v Carter Tinney>Are we going to be aware of the size of
+the packets when we sent them out? This</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/2056-0
+00:20:39.973 --> 00:20:44.627
+<v Carter Tinney>has implications on how we divide up the
+chunks, right? Are we lazily doing it, i.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/2056-1
+00:20:44.627 --> 00:20:47.990
+<v Carter Tinney>e. trying to send a message,
+if it fails for being too big,</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/2056-2
+00:20:47.990 --> 00:20:51.410
+<v Carter Tinney>cut it in half, try to, if it fails,
+cut them in half again.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/2056-3
+00:20:51.410 --> 00:20:54.157
+<v Carter Tinney>That seems like the most efficient way to
+do it.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/2056-4
+00:20:54.157 --> 00:20:58.754
+<v Carter Tinney>But maybe there's a way to do it better
+if you knew things ahead of time based on</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/2056-5
+00:20:58.754 --> 00:21:01.893
+<v Carter Tinney>the type that was defined for the invoker
+and executor.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/2119-0
+00:21:02.133 --> 00:21:05.416
+<v Carter Tinney>Maybe there's something we could do there
+to make it easier.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/2119-1
+00:21:05.416 --> 00:21:09.021
+<v Carter Tinney>This also assumes that the max packet
+size is not going to change.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/2119-2
+00:21:09.021 --> 00:21:11.926
+<v Carter Tinney>And furthermore,
+the amount of properties that are on</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/2119-3
+00:21:11.926 --> 00:21:14.885
+<v Carter Tinney>something can,
+that's included in the max packet size.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/2119-4
+00:21:14.885 --> 00:21:19.082
+<v Carter Tinney>So we're thinking about payloads here,
+but we need to leave overhead for user</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/2119-5
+00:21:19.082 --> 00:21:21.934
+<v Carter Tinney>properties, et cetera,
+which are completely dynamic.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/2119-6
+00:21:21.934 --> 00:21:26.453
+<v Carter Tinney>Like we can't stop the user from setting
+1000 user properties on this thing, right?</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/2132-0
+00:21:26.813 --> 00:21:35.973
+<v Carter Tinney>So it has to be like somewhat dynamic.
+Tim, you look skeptical of that statement.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/2135-0
+00:21:35.935 --> 00:21:40.948
+<v @1>I'm thinking on the API side,
+users going to pass down what they think</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/2135-1
+00:21:40.948 --> 00:21:45.044
+<v @1>is 1 giant message,
+including one set of user properties.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/2135-2
+00:21:45.044 --> 00:21:49.775
+<v @1>We would know at that point at least how
+big the message would be.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/2133-0
+00:21:47.653 --> 00:21:52.259
+<v Carter Tinney>Oh yeah, that's a good point. Yeah, yeah,
+that's a good point. That's a good point.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/2158-0
+00:21:52.175 --> 00:21:56.787
+<v @1>And I was going to say we also should be
+getting Max packet size from the MQTT</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/2133-1
+00:21:52.259 --> 00:21:52.533
+<v Carter Tinney>Okay.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/2158-1
+00:21:56.787 --> 00:21:59.998
+<v @1>broker on Connect.
+So I don't think we need to shoot a</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/2158-2
+00:21:59.998 --> 00:22:02.800
+<v @1>message just to see if it gets accepted
+or not,</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/2170-0
+00:22:02.693 --> 00:22:07.240
+<v Carter Tinney>No, no, no, I don't mean shoot them at.
+Like what I mean is that knowing that</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/2158-3
+00:22:02.800 --> 00:22:05.135
+<v @1>especially since these are big messages.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/2170-1
+00:22:07.240 --> 00:22:10.679
+<v Carter Tinney>like it's on IoT Hub,
+we tried to do this to calculate the</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/2170-2
+00:22:10.679 --> 00:22:14.409
+<v Carter Tinney>packet size ahead of time.
+And I'm not saying it can't be done,</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/2170-3
+00:22:14.409 --> 00:22:17.673
+<v Carter Tinney>but it's a little complex to do to
+estimate the packet.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/2170-4
+00:22:17.673 --> 00:22:21.403
+<v Carter Tinney>Like I remember Oliva,
+you and I tried to do this on Python and</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/2170-5
+00:22:21.403 --> 00:22:23.093
+<v Carter Tinney>it never worked properly. So.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/2238-0
+00:22:22.175 --> 00:22:26.847
+<v @1>This was like an IoT hub problem though,
+not an MQTT broker problem.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/2164-0
+00:22:22.453 --> 00:22:23.973
+<v Oliva Kar>Yes. Yep.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/2238-1
+00:22:26.847 --> 00:22:32.265
+<v @1>I think we've talked with like the IoT
+hub service folks and they say that they</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/2238-2
+00:22:32.265 --> 00:22:37.140
+<v @1>don't even understand how Max message
+size is calculated at this point.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/2265-0
+00:22:35.893 --> 00:22:38.887
+<v Carter Tinney>Sure.
+What I meant is that we tried to estimate</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/2238-3
+00:22:37.140 --> 00:22:39.375
+<v @1>I don't think AIO is necessarily.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/2265-1
+00:22:38.887 --> 00:22:43.127
+<v Carter Tinney>the size of an individual message based
+on the inputs from the API.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/2265-2
+00:22:43.127 --> 00:22:48.116
+<v Carter Tinney>And I think you kind of have to build the
+packet to really know, I mean, maybe,</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/2265-3
+00:22:48.116 --> 00:22:52.481
+<v Carter Tinney>I'm sure there's a way to do it. We just,
+I was, yeah, it's a little,</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/2254-0
+00:22:49.333 --> 00:22:52.213
+<v Valerie Avva Lim>There's some estimation that we have to
+have fallback anywhere.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/2265-4
+00:22:52.481 --> 00:22:55.973
+<v Carter Tinney>but like I think it's doable.
+It's just a little, yeah.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/2268-0
+00:22:56.613 --> 00:22:59.093
+<v Carter Tinney>Um, so yeah, if we...</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/2270-0
+00:22:56.615 --> 00:22:56.815
+Sure.
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/2271-0
+00:22:58.373 --> 00:23:03.253
+<v Avishek Pant>And Maxim, you did some uh,
+funking PUC last year, right?</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/2298-0
+00:23:04.735 --> 00:23:07.690
+<v @1>I did,
+I still have it in the in the branch,</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/2272-0
+00:23:05.013 --> 00:23:05.413
+<v Avishek Pant>Did we?</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/2298-1
+00:23:07.690 --> 00:23:11.695
+<v @1>but I I honestly didn't check it.
+What what? What is there.?</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/2297-0
+00:23:13.853 --> 00:23:16.853
+<v Avishek Pant>Yeah, maybe worth looking at that as well.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/2305-0
+00:23:17.855 --> 00:23:21.775
+<v @1>Yeah,. But Speaking of the Max size.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/2301-0
+00:23:18.813 --> 00:23:19.413
+<v Carter Tinney>But yeah, if we...</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/2303-0
+00:23:20.933 --> 00:23:21.653
+<v Carter Tinney>Go ahead.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/2307-0
+00:23:23.215 --> 00:23:23.855
+Like.
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/2335-0
+00:23:26.815 --> 00:23:32.412
+<v @1>I don't remember if we agreed on
+something workable was suggested in the</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/2335-1
+00:23:32.412 --> 00:23:34.175
+<v @1>chat this morning, but.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/2341-0
+00:23:35.455 --> 00:23:38.575
+<v @1>We don't know the other party at the
+other end of the...</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/2340-0
+00:23:39.253 --> 00:23:39.493
+<v Carter Tinney>Yeah.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/2349-0
+00:23:39.973 --> 00:23:42.881
+<v Valerie Avva Lim>That's the interesting part,
+because if we send something too big,</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/2343-0
+00:23:41.093 --> 00:23:41.733
+<v Carter Tinney>Yes.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/2349-1
+00:23:42.881 --> 00:23:45.615
+<v Valerie Avva Lim>they just don't get it.
+Like they can't send us an error back.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/2349-2
+00:23:45.615 --> 00:23:46.613
+<v Valerie Avva Lim>They just don't get it.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/2367-0
+00:23:46.735 --> 00:23:49.095
+<v @1>Yeah, because I understand it's a problem.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/2400-0
+00:23:47.413 --> 00:23:49.670
+<v Carter Tinney>Yeah,
+because there could be a different</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/2400-1
+00:23:49.670 --> 00:23:53.964
+<v Carter Tinney>negotiated max size between the two
+different clients attached to the broker.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/2400-2
+00:23:53.964 --> 00:23:58.367
+<v Carter Tinney>So there needs to be some kind of meta
+negotiation and that meta negotiation we</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/2400-3
+00:23:58.367 --> 00:24:01.064
+<v Carter Tinney>have to assume will be valid across
+connections,</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/2400-4
+00:24:01.064 --> 00:24:05.248
+<v Carter Tinney>which is not true at an MQTG level,
+but Arnav seems to say that we can make</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/2400-5
+00:24:05.248 --> 00:24:06.293
+<v Carter Tinney>that assumption. So</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/2402-0
+00:24:07.093 --> 00:24:07.813
+<v Carter Tinney>Hopefully.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/2403-0
+00:24:07.855 --> 00:24:09.135
+<v @1>At Queue maybe.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/2460-0
+00:24:10.175 --> 00:24:13.324
+<v @1>Okay,. Well,
+that's kind of an interesting point,</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/2460-1
+00:24:13.324 --> 00:24:17.732
+<v @1>this idea that we need a handshake
+between the two parties before the</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/2460-2
+00:24:17.732 --> 00:24:21.951
+<v @1>chunking can actually get going.
+That is something that so far the</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/2460-3
+00:24:21.951 --> 00:24:26.737
+<v @1>streaming protocol is not built for,
+an existing RPC protocol is not really</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/2460-4
+00:24:26.737 --> 00:24:30.138
+<v @1>built for either.
+That could be the signal that we're</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/2460-5
+00:24:30.138 --> 00:24:31.775
+<v @1>looking for to say that...</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/2465-0
+00:24:31.935 --> 00:24:34.895
+<v @1>Chunking needs to be its own protocol and
+its own model.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/2458-0
+00:24:34.133 --> 00:24:34.773
+<v Valerie Avva Lim>What?</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/2516-0
+00:24:36.293 --> 00:24:41.084
+<v Valerie Avva Lim>If we ref the protocol version,
+then if you have something that's like</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/2516-1
+00:24:41.084 --> 00:24:44.525
+<v Valerie Avva Lim>that's 1.0, right?
+And we send something with 2.0,</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/2516-2
+00:24:44.525 --> 00:24:50.260
+<v Valerie Avva Lim>it'll just send the like invalid protocol
+version back. So then we know it's at 1.0.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/2516-3
+00:24:50.260 --> 00:24:55.253
+<v Valerie Avva Lim>So like adding the handshake in,
+I don't think necessarily means that we.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/2518-0
+00:24:55.333 --> 00:24:56.453
+<v Valerie Avva Lim>Need a new.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/2520-0
+00:25:00.533 --> 00:25:01.253
+<v Valerie Avva Lim>Crotocol.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/2530-0
+00:25:01.973 --> 00:25:06.786
+<v Carter Tinney>I'm very hesitant to add more envoys that
+have like basically the exact same</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/2521-0
+00:25:06.213 --> 00:25:07.093
+<v Valerie Avva Lim>Yeah.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/2530-1
+00:25:06.786 --> 00:25:09.973
+<v Carter Tinney>surface,
+but just have a different implementation.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/2544-0
+00:25:08.895 --> 00:25:09.375
+Yes.
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/2548-0
+00:25:10.053 --> 00:25:13.846
+<v Valerie Avva Lim>Especially because like when would you
+choose the old one now that we have</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/2600-0
+00:25:13.333 --> 00:25:16.402
+<v Carter Tinney>Yeah, you never would.
+You would never choose the old one.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/2548-1
+00:25:13.846 --> 00:25:15.413
+<v Valerie Avva Lim>chunking? Like you never would.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/2600-1
+00:25:16.402 --> 00:25:20.199
+<v Carter Tinney>It's strictly worse, right? Now,
+like obviously that helps us sidestep a</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/2551-0
+00:25:17.733 --> 00:25:18.133
+<v Valerie Avva Lim>Yeah.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/2600-2
+00:25:20.199 --> 00:25:24.255
+<v Carter Tinney>bunch of the breaking change issues that
+we would have on Rust in particular,</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/2600-3
+00:25:24.255 --> 00:25:28.312
+<v Carter Tinney>although maybe not quite because there's
+still this whole like generic error.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/2600-4
+00:25:28.312 --> 00:25:30.861
+<v Carter Tinney>But that's, again,
+that's a Rust specific thing.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/2600-5
+00:25:30.861 --> 00:25:34.033
+<v Carter Tinney>Don't worry about that in making
+decisions here. That's for,</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/2600-6
+00:25:34.033 --> 00:25:35.333
+<v Carter Tinney>that's our cross to bear.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/2655-0
+00:25:35.973 --> 00:25:38.826
+<v Carter Tinney>But yeah,
+like it is easier to make a second envoy,</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/2655-1
+00:25:38.826 --> 00:25:41.295
+<v Carter Tinney>or maybe not easier in terms of like
+effort,</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/2655-2
+00:25:41.295 --> 00:25:45.300
+<v Carter Tinney>like because like you have to rewrite a
+lot of like the same code again,</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/2655-3
+00:25:45.300 --> 00:25:49.909
+<v Carter Tinney>and then the maintenance becomes trickier
+because now you have it in two places and</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/2655-4
+00:25:49.909 --> 00:25:54.024
+<v Carter Tinney>you could try to do some like don't
+repeat yourself stuff and isolate some</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/2655-5
+00:25:54.024 --> 00:25:56.053
+<v Carter Tinney>stuff out, but at the end of the day.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/2708-0
+00:25:56.413 --> 00:26:00.738
+<v Carter Tinney>A lot of like the parallelization stuff
+is just going to be kind of nasty no</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/2708-1
+00:26:00.738 --> 00:26:04.556
+<v Carter Tinney>matter what. And then yeah,
+you have two things that have basically</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/2708-2
+00:26:04.556 --> 00:26:07.533
+<v Carter Tinney>the exact same surface,
+but like one's called chunk.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/2708-3
+00:26:07.533 --> 00:26:11.464
+<v Carter Tinney>And the whole point of the chunking is
+that it's opaque, right? Like,</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/2708-4
+00:26:11.464 --> 00:26:16.013
+<v Carter Tinney>isn't that I just want to send stuff and
+like you figure out how to chunk it up?</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/2708-5
+00:26:16.013 --> 00:26:16.293
+<v Carter Tinney>Like.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/2755-0
+00:26:16.613 --> 00:26:19.345
+<v Carter Tinney>I don't,
+when am I going to want to as a customer,</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/2755-1
+00:26:19.345 --> 00:26:22.183
+<v Carter Tinney>I'm going to, oh yeah,
+let me take the chunking one.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/2755-2
+00:26:22.183 --> 00:26:26.254
+<v Carter Tinney>Like I don't even want to think about
+chunks because I don't, I'm not even,</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/2755-3
+00:26:26.254 --> 00:26:29.253
+<v Carter Tinney>I'm not using,
+like chunking is a concept at MQTT level</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/2755-4
+00:26:29.253 --> 00:26:33.270
+<v Carter Tinney>because it's the stuff's too big and
+they're using our protocol, not MQTT.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/2755-5
+00:26:33.270 --> 00:26:35.733
+<v Carter Tinney>The MQTT aspect is opaque.
+So I want to just.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/2785-0
+00:26:35.813 --> 00:26:38.941
+<v Carter Tinney>send, here's the data, you can take it,
+right? Like,</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/2785-1
+00:26:38.941 --> 00:26:43.544
+<v Carter Tinney>I don't want to think about MQTT max
+message size that was negotiated without</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/2785-2
+00:26:43.544 --> 00:26:46.849
+<v Carter Tinney>my knowledge, by the way, in the sessions,
+right? Like,</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/2785-3
+00:26:46.849 --> 00:26:51.333
+<v Carter Tinney>I don't want to be thinking about MQTT if
+I'm using an abstraction on MQTT.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/2794-0
+00:26:58.735 --> 00:27:01.775
+<v @1>To circle back on one point, here,
+this idea that...</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/2830-0
+00:27:02.975 --> 00:27:08.326
+<v @1>Chunking is like strictly better as a
+user experience perhaps.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/2830-1
+00:27:08.326 --> 00:27:15.376
+<v @1>I would say that if we have to have some
+sort of handshake message beforehand when</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/2830-2
+00:27:15.376 --> 00:27:16.735
+<v @1>doing chunking,.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/2847-0
+00:27:18.175 --> 00:27:22.048
+<v @1>That in and of itself makes the protocol
+a bit heavier,</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/2847-1
+00:27:22.048 --> 00:27:24.815
+<v @1>which seems unnecessary for smaller RBC.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/2846-0
+00:27:25.693 --> 00:27:27.813
+<v Carter Tinney>A one-time cost at like setup.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/2851-0
+00:27:29.493 --> 00:27:30.613
+<v Carter Tinney>Like, I mean, okay, yeah.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/2859-0
+00:27:29.855 --> 00:27:32.175
+<v @1>If you're shooting off lots of RPCs, yeah.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/2860-0
+00:27:34.253 --> 00:27:34.693
+<v Carter Tinney>Okay.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/2867-0
+00:27:37.095 --> 00:27:38.015
+<v @1>So like.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/2888-0
+00:27:39.213 --> 00:27:42.759
+<v Carter Tinney>What if it could be in the application
+context? What do you think about that,</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/2888-1
+00:27:42.759 --> 00:27:44.986
+<v Carter Tinney>Valerie?
+Could we put something like this in the</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/2888-2
+00:27:44.986 --> 00:27:48.213
+<v Carter Tinney>application context so it didn't have to
+be negotiated multiple times?</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/2899-0
+00:27:49.333 --> 00:27:52.852
+<v Valerie Avva Lim>Oh, so is this, yeah, I mean,
+that would make sense, right?</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/2896-0
+00:27:51.493 --> 00:27:55.127
+<v Carter Tinney>I, I don't know how viable that is.
+I'm just like, it just came to me and uh..</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/2899-1
+00:27:52.852 --> 00:27:57.836
+<v Valerie Avva Lim>If we're using this for telemetry and RPC,
+like, yeah, your packet size is the same.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/2896-1
+00:27:55.127 --> 00:27:55.173
+<v Carter Tinney>.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/2899-2
+00:27:57.836 --> 00:28:02.234
+<v Valerie Avva Lim>That would make sense to me as far as
+just where to store the packet size,</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/2899-3
+00:28:02.234 --> 00:28:05.636
+<v Valerie Avva Lim>but then, I mean,
+if the executor is something different,</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/2899-4
+00:28:05.636 --> 00:28:07.453
+<v Valerie Avva Lim>then that'll be per indication.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/2908-0
+00:28:08.653 --> 00:28:11.726
+<v Carter Tinney>Oh right, because yeah,
+it has to be negotiated on an envoy to</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/2908-1
+00:28:11.726 --> 00:28:15.627
+<v Carter Tinney>envoy basis because the executors could
+be on different systems with different,</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/2908-2
+00:28:15.627 --> 00:28:17.333
+<v Carter Tinney>okay, yeah, yeah, yeah, never mind.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/2935-0
+00:28:16.853 --> 00:28:18.795
+<v Valerie Avva Lim>But like,
+even like telemetry is just like,</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/2935-1
+00:28:18.795 --> 00:28:21.001
+<v Valerie Avva Lim>you can't negotiate that. So like,
+that's a like,</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/2935-2
+00:28:21.001 --> 00:28:22.943
+<v Valerie Avva Lim>like I think we should talk about RPC
+here,</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/2935-3
+00:28:22.943 --> 00:28:25.281
+<v Valerie Avva Lim>but once we kind of figure out what we
+want for RPC,</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/2935-4
+00:28:25.281 --> 00:28:26.693
+<v Valerie Avva Lim>telemetry is a little different.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/2939-0
+00:28:28.335 --> 00:28:29.535
+<v @1>Do we want to?.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/2941-0
+00:28:31.133 --> 00:28:31.573
+<v Valerie Avva Lim>In.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/2969-0
+00:28:32.653 --> 00:28:35.880
+<v Valerie Avva Lim>Why not if you can have something that's
+too big? I mean, I suppose with telemetry,</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/2969-1
+00:28:35.880 --> 00:28:38.607
+<v Valerie Avva Lim>you don't have the back and forth.
+You could argue with the customers,</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/2969-2
+00:28:38.607 --> 00:28:40.373
+<v Valerie Avva Lim>split up the payload themselves, but like.
+..</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/3029-0
+00:28:40.693 --> 00:28:43.285
+<v Carter Tinney>Again,
+then they're just doing raw bytes instead</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/3029-1
+00:28:43.285 --> 00:28:47.517
+<v Carter Tinney>of like using our built-in serialization.
+And the key part is our serialization</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/2981-0
+00:28:46.053 --> 00:28:46.613
+<v Valerie Avva Lim>Is useful.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/3029-2
+00:28:47.517 --> 00:28:51.960
+<v Carter Tinney>comes from that you can use with code Gen.
+and the watt and all that kind of stuff,</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/3029-3
+00:28:51.960 --> 00:28:55.663
+<v Carter Tinney>and you'd be losing all of that if you're
+like thing in the code Gen.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/3029-4
+00:28:55.663 --> 00:28:59.947
+<v Carter Tinney>like the watt that you use in the code
+Gen. is too big, then it all falls apart.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/3029-5
+00:28:59.947 --> 00:29:03.173
+<v Carter Tinney>Like the manual case only works if you're
+manually doing it.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/3041-0
+00:29:04.975 --> 00:29:08.160
+<v @1>Yeah,
+but then RPC or to Andrew would be a</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/3041-1
+00:29:08.160 --> 00:29:10.975
+<v @1>separate thing, right, if we're doing.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/3056-0
+00:29:12.575 --> 00:29:18.521
+<v @1>RPC extension, new version,
+then for the telemetry would be the same,</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/3056-1
+00:29:18.521 --> 00:29:19.455
+<v @1>just newer.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/3055-0
+00:29:18.693 --> 00:29:21.893
+<v Carter Tinney>Yeah, on a wire.
+But like the point is that like...</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/3064-0
+00:29:21.333 --> 00:29:24.938
+<v Valerie Avva Lim>There's no way to respond and say that I
+don't accept this protocol version.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/3072-0
+00:29:24.933 --> 00:29:28.053
+<v Carter Tinney>Oh, okay, yeah,
+that's an interesting point.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/3064-1
+00:29:24.938 --> 00:29:25.733
+<v Valerie Avva Lim>Like you're just.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/3091-0
+00:29:26.933 --> 00:29:30.403
+<v Valerie Avva Lim>You're just sending it to the right,
+like you're assuming the other sentence I</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/3091-1
+00:29:30.403 --> 00:29:32.335
+<v Valerie Avva Lim>can receive it, which I mean,
+in some ways,</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/3091-2
+00:29:32.335 --> 00:29:35.013
+<v Valerie Avva Lim>it's not you're always doing that,
+but that's more true now.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/3169-0
+00:29:36.053 --> 00:29:38.907
+<v Carter Tinney>But like codegen still matters, right?
+So like, you know,</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/3169-1
+00:29:38.907 --> 00:29:42.745
+<v Carter Tinney>if we talk about like fixing it in place,
+like putting it in the existing RPC</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/3169-2
+00:29:42.745 --> 00:29:45.501
+<v Carter Tinney>invoker and executor,
+codegen just like works with this</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/3169-3
+00:29:45.501 --> 00:29:49.290
+<v Carter Tinney>out-of-the-box as opposed to having to
+rewrite all the codegen stuff to deal</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/3119-0
+00:29:47.013 --> 00:29:47.413
+<v Valerie Avva Lim>Yeah.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/3128-0
+00:29:48.613 --> 00:29:49.893
+<v Valerie Avva Lim>Yeah, should be nice.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/3169-4
+00:29:49.290 --> 00:29:52.439
+<v Carter Tinney>with this. Now granted,
+it's probably a find and replace if the</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/3169-5
+00:29:52.439 --> 00:29:55.785
+<v Carter Tinney>API is the same. But again,
+why are I don't want to keep this thing</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/3169-6
+00:29:55.785 --> 00:29:58.491
+<v Carter Tinney>hanging around that we have to,
+or then like you said,</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/3169-7
+00:29:58.491 --> 00:30:00.213
+<v Carter Tinney>if it's an optimization issue, Tim.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/3217-0
+00:30:00.453 --> 00:30:04.292
+<v Carter Tinney>then it's like at the cogen layer,
+it's got to figure out if it needs</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/3217-1
+00:30:04.292 --> 00:30:08.295
+<v Carter Tinney>chunking or not needs chunking.
+And that's going to be on an application</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/3217-2
+00:30:08.295 --> 00:30:11.037
+<v Carter Tinney>and even like negotiated connection basis,
+right?</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/3190-0
+00:30:09.935 --> 00:30:10.215
+Yeah.
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/3217-3
+00:30:11.037 --> 00:30:15.205
+<v Carter Tinney>Like depending on what the broker
+negotiates with you as a client on a MQTT</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/3217-4
+00:30:15.205 --> 00:30:18.933
+<v Carter Tinney>level is going to affect what your chunk
+size can be. So it's like.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/3247-0
+00:30:19.253 --> 00:30:22.527
+<v Carter Tinney>Just because it's like in one deployment
+this wipe might work.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/3247-1
+00:30:22.527 --> 00:30:26.683
+<v Carter Tinney>You deploy the same code somewhere else
+and now it doesn't work because now you</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/3247-2
+00:30:26.683 --> 00:30:29.852
+<v Carter Tinney>need the chunking one.
+Like that's where having it like auto</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/3247-3
+00:30:29.852 --> 00:30:33.333
+<v Carter Tinney>negotiate the chunking is extremely
+beneficial in the portability.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/3249-0
+00:30:34.053 --> 00:30:37.975
+<v Valerie Avva Lim>There is some argument to saying that,
+like, if your sides are mismatched,</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/3249-1
+00:30:37.975 --> 00:30:41.582
+<v Valerie Avva Lim>this is something that the customer
+should be responsible for. Like,</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/3249-2
+00:30:41.582 --> 00:30:45.085
+<v Valerie Avva Lim>if we're talking, you know, RPC,
+where they own the handbook or an</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/3249-3
+00:30:45.085 --> 00:30:45.973
+<v Valerie Avva Lim>executor, like...</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/3272-0
+00:30:47.373 --> 00:30:50.002
+<v Valerie Avva Lim>If they know that their executor can't
+support chunking,</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/3272-1
+00:30:50.002 --> 00:30:52.907
+<v Valerie Avva Lim>then they shouldn't be sending things
+that are too big, right?</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/3272-2
+00:30:52.907 --> 00:30:54.613
+<v Valerie Avva Lim>Like that is application domain. And.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/3282-0
+00:30:56.293 --> 00:30:58.475
+<v Carter Tinney>What, what, what I'm trying to say,
+Valerie,</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/3282-1
+00:30:58.475 --> 00:31:01.093
+<v Carter Tinney>is what is too big can change per
+deployment, like...</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/3300-0
+00:31:08.133 --> 00:31:11.369
+<v Valerie Avva Lim>True. Well,
+like this is a current problem, right?</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/3300-1
+00:31:11.369 --> 00:31:11.813
+<v Valerie Avva Lim>Like...</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/3320-0
+00:31:11.893 --> 00:31:15.905
+<v Carter Tinney>something and how's the code Gen.
+supposed to know if you need chunking or</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/3320-1
+00:31:15.905 --> 00:31:19.435
+<v Carter Tinney>not for for like a given like model
+that's being used as like the</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/3319-0
+00:31:18.853 --> 00:31:21.253
+<v Valerie Avva Lim>Over, yeah, yeah,
+that's where RBC handles it.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/3320-2
+00:31:19.435 --> 00:31:21.253
+<v Carter Tinney>serialization payload type, right?</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/3321-0
+00:31:23.615 --> 00:31:29.135
+<v @1>I have a question.
+So the main use cases for us.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/3322-0
+00:31:31.055 --> 00:31:32.815
+<v @1>Sending was model.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/3379-0
+00:31:33.935 --> 00:31:38.445
+<v @1>And what was schema registries?
+Schema registries.?</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/3379-1
+00:31:38.445 --> 00:31:44.689
+<v @1>Is it possible that we are over
+optimizing for these use cases? I mean,</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/3379-2
+00:31:44.689 --> 00:31:51.800
+<v @1>like they're not gonna run on like small
+devices. We're talking about optimizing,</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/3379-3
+00:31:51.800 --> 00:31:54.575
+<v @1>removing handshake code, right?.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/3384-0
+00:31:54.735 --> 00:31:56.095
+<v @1>That's what is that?.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/3373-0
+00:31:56.975 --> 00:31:58.175
+<v @1>That was one of the points.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/3385-0
+00:31:57.135 --> 00:31:57.375
+But...
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/3374-0
+00:31:59.893 --> 00:32:00.533
+<v Carter Tinney>Well, I...</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/3429-0
+00:32:00.815 --> 00:32:04.670
+<v @1>Demo registry operations should be
+relatively infrequent.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/3429-1
+00:32:04.670 --> 00:32:09.654
+<v @1>I think that's kind of like when I first
+receive a message from a device,.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/3429-2
+00:32:09.654 --> 00:32:13.375
+<v @1>I don't know.
+I'm going to do a lookup on its schema so</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/3429-3
+00:32:13.375 --> 00:32:17.230
+<v @1>I can parse the data.
+That should be a one-time thing per</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/3429-4
+00:32:17.230 --> 00:32:17.695
+<v @1>device.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/3425-0
+00:32:18.975 --> 00:32:19.535
+And.
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/3432-0
+00:32:22.775 --> 00:32:26.695
+<v @1>Against my argument or pro my argument.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/3433-0
+00:32:25.935 --> 00:32:26.295
+<v @1>Hard to.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/3437-0
+00:32:29.695 --> 00:32:31.295
+<v @1>The Valerie point on...</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/3441-0
+00:32:32.895 --> 00:32:33.375
+Out.
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/3463-0
+00:32:32.935 --> 00:32:37.240
+<v @1>How important is it for a user to know
+that they are chunking because they are</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/3463-1
+00:32:37.240 --> 00:32:39.855
+<v @1>responsible for both sides?
+Or perhaps 1 side.?</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/3483-0
+00:32:40.975 --> 00:32:45.558
+<v @1>I'm definitely leaning towards you.
+Should be aware if you are chunking or</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/3483-1
+00:32:45.558 --> 00:32:48.430
+<v @1>not.
+I would rather not try to do this for the</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/3483-2
+00:32:48.430 --> 00:32:48.735
+<v @1>user.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/3485-0
+00:32:49.093 --> 00:32:53.190
+<v Carter Tinney>What's the benefit of the user knowing?
+Like to me, like I'm, I don't,</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/3482-0
+00:32:50.613 --> 00:32:51.093
+<v Valerie Avva Lim>Yeah.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/3485-1
+00:32:53.190 --> 00:32:57.921
+<v Carter Tinney>I have never sent something on a wire and
+wanted to know how many packets guy got</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/3485-2
+00:32:57.921 --> 00:33:02.133
+<v Carter Tinney>split up into unless I was the one
+serializing the packets myself. Like,</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/3494-0
+00:33:01.975 --> 00:33:04.687
+<v @1>Mostly for back compatibility at the
+moment,.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/3494-1
+00:33:04.687 --> 00:33:09.521
+<v @1>So if I have a device that wants to do a
+get on schema registry and service sends</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/3494-2
+00:33:09.521 --> 00:33:13.471
+<v @1>back a chunked response,.
+But maybe that device is old enough that</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/3494-3
+00:33:13.471 --> 00:33:16.655
+<v @1>it doesn't know how to do chunking,
+that's a problem.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/3514-0
+00:33:17.893 --> 00:33:21.668
+<v Valerie Avva Lim>But that's like if they don't support
+chunking, they just can't get it at all,</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/3508-0
+00:33:18.535 --> 00:33:20.975
+When we use different topics.
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/3514-1
+00:33:21.668 --> 00:33:24.009
+<v Valerie Avva Lim>right?
+Like the interesting thing about chunking</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/3514-2
+00:33:24.009 --> 00:33:24.773
+<v Valerie Avva Lim>is that if we...</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/3581-0
+00:33:25.813 --> 00:33:28.793
+<v Valerie Avva Lim>If we chunk something,
+it's because we couldn't have sent it</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/3581-1
+00:33:28.793 --> 00:33:31.333
+<v Valerie Avva Lim>anyways, right?
+Like that's something that the flow</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/3581-2
+00:33:31.333 --> 00:33:34.801
+<v Valerie Avva Lim>wasn't possible without chunking because
+it's too big for one message.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/3533-0
+00:33:32.693 --> 00:33:33.253
+<v Carter Tinney>You do.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/3581-3
+00:33:34.801 --> 00:33:38.660
+<v Valerie Avva Lim>Like unless we are getting into some
+fancy math where we are chunking a little</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/3581-4
+00:33:38.660 --> 00:33:42.128
+<v Valerie Avva Lim>bit less than what we could,
+but honestly that feels like a very close</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/3581-5
+00:33:42.128 --> 00:33:46.133
+<v Valerie Avva Lim>edge case if we can get close enough to
+the right size that we chunk things into.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/3604-0
+00:33:46.453 --> 00:33:50.377
+<v Valerie Avva Lim>These messages aren't possible before.
+So maybe now we aren't sending an error</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/3604-1
+00:33:50.377 --> 00:33:54.251
+<v Valerie Avva Lim>saying you tried to send something too
+big. That's maybe the only difference,</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/3604-2
+00:33:54.251 --> 00:33:56.685
+<v Valerie Avva Lim>right?
+Because before your message would fail to</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/3604-3
+00:33:56.685 --> 00:33:56.933
+<v Valerie Avva Lim>send.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/3631-0
+00:33:58.533 --> 00:34:00.657
+<v Valerie Avva Lim>But like,
+like for the get request example,</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/3631-1
+00:34:00.657 --> 00:34:04.566
+<v Valerie Avva Lim>like if they do a get request and we try
+and send them something back as chunked</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/3631-2
+00:34:04.566 --> 00:34:08.185
+<v Valerie Avva Lim>and then they can't receive it,
+like they weren't going to get it anyways,</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/3631-3
+00:34:08.185 --> 00:34:10.453
+<v Valerie Avva Lim>right?
+Our send was just going to fail before.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/3632-0
+00:34:11.135 --> 00:34:11.535
+True.
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/3634-0
+00:34:12.813 --> 00:34:18.096
+<v Carter Tinney>Also, if you send a, oh no, I guess, yeah,
+T-Rec and T-Rest weren't related,</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/3634-1
+00:34:18.096 --> 00:34:23.653
+<v Carter Tinney>so you might not chunk on the outgoing,
+but you might chunk on a response. Okay.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/3675-0
+00:34:32.815 --> 00:34:37.414
+<v @1>So we want to use, I mean,
+I may say something stupid,</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/3675-1
+00:34:37.414 --> 00:34:43.852
+<v @1>but we want to use the same topic for the,
+so we're not going to have like a</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/3675-2
+00:34:43.852 --> 00:34:47.615
+<v @1>separate topic topics for the chunking
+flow.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/3681-0
+00:34:48.895 --> 00:34:53.135
+<v @1>Like request chunking response,
+chunking something like that.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/3672-0
+00:34:49.253 --> 00:34:49.813
+<v Valerie Avva Lim>See why.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/3682-0
+00:34:54.853 --> 00:34:57.867
+<v Carter Tinney>Intuitively,
+I would say I don't really see what that</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/3682-1
+00:34:57.867 --> 00:34:59.653
+<v Carter Tinney>would add other than complexity.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/3689-0
+00:35:01.455 --> 00:35:05.251
+<v @1>I mean, you have support,
+you have a client, and uh,</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/3689-1
+00:35:05.251 --> 00:35:08.975
+<v @1>invoker executor that support both
+versions like...</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/3692-0
+00:35:10.015 --> 00:35:10.575
+I don't know?.
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/3720-0
+00:35:10.693 --> 00:35:13.763
+<v Carter Tinney>Yeah,
+I can see maybe that actually helps with</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/3698-0
+00:35:11.615 --> 00:35:12.255
+We.
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/3720-1
+00:35:13.763 --> 00:35:18.922
+<v Carter Tinney>the server when like a client's getting
+something unsupported from the server.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/3720-2
+00:35:18.922 --> 00:35:23.755
+<v Carter Tinney>But like, ultimately, we already,
+like if the server, I don't know. Yeah,</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/3720-3
+00:35:23.755 --> 00:35:26.693
+<v Carter Tinney>maybe with the server compatibility,
+I just.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/3744-0
+00:35:31.535 --> 00:35:34.898
+<v @1>Yeah, to be concrete,.
+That would give us the ability on the</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/3744-1
+00:35:34.898 --> 00:35:37.930
+<v @1>executor side to try to publish to the
+chunking topic,</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/3744-2
+00:35:37.930 --> 00:35:41.899
+<v @1>get a no matching subscribers,
+and then the executor knows I can't send</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/3744-3
+00:35:41.899 --> 00:35:44.655
+<v @1>chunking,
+but we still hit the same issue that...</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/3747-0
+00:35:43.173 --> 00:35:45.745
+<v Valerie Avva Lim>Well, no,
+the executor knows if if the executor</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/3734-0
+00:35:44.013 --> 00:35:46.133
+<v Carter Tinney>But yeah,
+like what do you do with that information?</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/3747-1
+00:35:45.745 --> 00:35:49.333
+<v Valerie Avva Lim>gets a request that's at 1.0,
+they know not to send trunking back.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/3755-0
+00:35:46.015 --> 00:35:47.775
+<v @1>Yeah, nothing changes.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/3762-0
+00:35:50.213 --> 00:35:53.300
+<v Carter Tinney>Oh, that's true. Yeah,
+because the request would have the wire</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/3759-0
+00:35:52.255 --> 00:35:52.415
+The.
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/3762-1
+00:35:53.300 --> 00:35:54.133
+<v Carter Tinney>protocol version.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/3781-0
+00:35:53.493 --> 00:35:56.160
+<v Valerie Avva Lim>Yeah, the request is for the problem,
+right?</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/3781-1
+00:35:56.160 --> 00:35:58.293
+<v Valerie Avva Lim>That you send chunks as the request.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/3788-0
+00:35:56.253 --> 00:35:59.427
+<v Carter Tinney>Yeah,
+that's what that that's why we made a</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/3788-1
+00:35:59.427 --> 00:36:01.013
+<v Carter Tinney>wire protocol version.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/3784-0
+00:35:59.453 --> 00:35:59.733
+<v Valerie Avva Lim>Yeah.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/3809-0
+00:36:00.933 --> 00:36:02.792
+<v Valerie Avva Lim>And then, and then I mean,
+then you can say,</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/3809-1
+00:36:02.792 --> 00:36:06.219
+<v Valerie Avva Lim>if you're trying to send a chunk response
+back in there at 1.0, you can say, like,</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/3809-2
+00:36:06.219 --> 00:36:09.068
+<v Valerie Avva Lim>you just sent an error back instead,
+saying the response is too big,</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/3808-0
+00:36:08.773 --> 00:36:09.173
+<v Carter Tinney>Too big.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/3809-3
+00:36:09.068 --> 00:36:09.893
+<v Valerie Avva Lim>we couldn't send it.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/3817-0
+00:36:13.615 --> 00:36:16.095
+<v @1>I don't think we need separate topics. No,
+that's fair.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/3812-0
+00:36:13.775 --> 00:36:13.855
+Oh.
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/3822-0
+00:36:16.735 --> 00:36:18.335
+<v @1>So the burden solved.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/3825-0
+00:36:21.055 --> 00:36:22.095
+<v @1>Alves sure.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/3827-0
+00:36:23.653 --> 00:36:26.675
+<v Carter Tinney>I think it does,
+unless there's something I'm just like</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/3826-0
+00:36:23.935 --> 00:36:24.255
+IT.
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/3827-1
+00:36:26.675 --> 00:36:28.293
+<v Carter Tinney>completely missing. Like it...</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/3833-0
+00:36:27.653 --> 00:36:29.925
+<v Valerie Avva Lim>I think like the versioning gets messy if
+we,</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/3833-1
+00:36:29.925 --> 00:36:32.295
+<v Valerie Avva Lim>if there's anything else we have a
+version for,</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/3833-2
+00:36:32.295 --> 00:36:34.814
+<v Valerie Avva Lim>because like this is a very simple
+version, right?</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/3833-3
+00:36:34.814 --> 00:36:38.666
+<v Valerie Avva Lim>Like there is a clear like legacy flow
+that we can use that really isn't that</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/3833-4
+00:36:38.666 --> 00:36:40.986
+<v Valerie Avva Lim>complicated for us to have that logic in
+code,</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/3829-0
+00:36:40.213 --> 00:36:40.613
+<v Carter Tinney>Yeah.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/3833-5
+00:36:40.986 --> 00:36:44.443
+<v Valerie Avva Lim>because you kind of have to support one
+and two, right? But you know,</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/3830-0
+00:36:43.013 --> 00:36:43.333
+<v Carter Tinney>Yeah.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/3833-6
+00:36:44.443 --> 00:36:46.813
+<v Valerie Avva Lim>if we have something else where then it's
+like.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/3866-0
+00:36:48.133 --> 00:36:50.103
+<v Valerie Avva Lim>Well,
+like you can see where that could get</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/3850-0
+00:36:49.493 --> 00:36:52.133
+<v Carter Tinney>But that, that's a future US problem,
+right? Like...</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/3866-1
+00:36:50.103 --> 00:36:52.430
+<v Valerie Avva Lim>complicated,
+but that's kind of Futurist problem of</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/3866-2
+00:36:52.430 --> 00:36:56.190
+<v Valerie Avva Lim>like versioning already. You're just like,
+I never felt super confident we could do</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/3863-0
+00:36:55.095 --> 00:36:55.615
+This is...
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/3866-3
+00:36:56.190 --> 00:36:58.025
+<v Valerie Avva Lim>it.
+This is one of those that I think we</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/3866-4
+00:36:58.025 --> 00:36:58.293
+<v Valerie Avva Lim>could.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/3911-0
+00:36:59.375 --> 00:37:03.805
+<v @1>This, I this is reminding me,
+I think Carl was spearheading this idea</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/3911-1
+00:37:03.805 --> 00:37:07.729
+<v @1>of feature flags rather than protocol
+versions way back when,</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/3881-0
+00:37:05.173 --> 00:37:05.493
+<v Valerie Avva Lim>Yeah.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/3905-0
+00:37:05.333 --> 00:37:10.293
+<v Carter Tinney>Yeah, he was, he was, he, he, he,
+he argued valiantly for that.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/3901-0
+00:37:06.573 --> 00:37:08.567
+<v Valerie Avva Lim>Exactly, that,
+and I think that did come up from</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/3911-2
+00:37:07.729 --> 00:37:09.375
+<v @1>for this exact Raul, yeah.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/3901-1
+00:37:08.567 --> 00:37:08.933
+<v Valerie Avva Lim>chunking.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/3913-0
+00:37:11.135 --> 00:37:12.015
+Yeah, I.
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/3909-0
+00:37:11.213 --> 00:37:12.453
+<v Carl LeCompte>And I lost that battle.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/3922-0
+00:37:12.853 --> 00:37:17.333
+<v Carter Tinney>You did. You lost. You did. You did.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/3929-0
+00:37:16.295 --> 00:37:18.255
+<v @1>Don't remember why, but yeah.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/3937-0
+00:37:17.013 --> 00:37:19.476
+<v Valerie Avva Lim>But that is something interesting here,
+right? Because it is,</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/3937-1
+00:37:19.476 --> 00:37:22.533
+<v Valerie Avva Lim>chunking is not about the version,
+it is whether both sets support chunking.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/3942-0
+00:37:23.973 --> 00:37:25.733
+<v Valerie Avva Lim>We're using the the version to.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/3945-0
+00:37:24.133 --> 00:37:28.755
+<v Carter Tinney>But I mean, at this point,
+I think we can correlate those two things</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/3945-1
+00:37:28.755 --> 00:37:31.837
+<v Carter Tinney>within this context.
+And maybe in the future,</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/3943-0
+00:37:30.415 --> 00:37:30.895
+C.
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/3945-2
+00:37:31.837 --> 00:37:35.320
+<v Carter Tinney>that's not for like some future feature,
+maybe not,</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/3945-3
+00:37:35.320 --> 00:37:38.133
+<v Carter Tinney>but that's future us problem to deal with.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/3992-0
+00:37:39.735 --> 00:37:43.182
+<v @1>Okay,.
+So let me see if I'm up to speed on</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/3992-1
+00:37:43.182 --> 00:37:47.591
+<v @1>what's going on.
+So we're suggesting chunking be added</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/3992-2
+00:37:47.591 --> 00:37:52.802
+<v @1>kind of invisibly to existing RPC clients,
+or sorry, RPC envoys.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/3992-3
+00:37:52.802 --> 00:37:59.055
+<v @1>The protocol version for RPC gets a bump
+up to 2.0. Since this is a, I think.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/4001-0
+00:37:59.295 --> 00:38:05.775
+<v @1>Additive breaking change or however we
+define that back when and we're saying.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/4045-0
+00:38:07.695 --> 00:38:11.208
+<v @1>Discard streaming for now.
+Nobody's really asking for that.,</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/4045-1
+00:38:11.208 --> 00:38:14.088
+<v @1>Varun said.
+The one scenario that actually sounds</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/4045-2
+00:38:14.088 --> 00:38:18.119
+<v @1>like streaming is not as much of A hard
+requirement for us right now.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/4045-3
+00:38:18.119 --> 00:38:20.135
+<v @1>So we can kind of just shelve that.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/4100-0
+00:38:20.293 --> 00:38:23.382
+<v Carter Tinney>Yeah, and I like,
+I think you could implement RPC over</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/4100-1
+00:38:23.382 --> 00:38:26.696
+<v Carter Tinney>streaming as well,
+but if Varun doesn't want the effort to</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/4100-2
+00:38:26.696 --> 00:38:29.167
+<v Carter Tinney>build a new wire protocol, then like,
+yeah,</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/4100-3
+00:38:29.167 --> 00:38:32.481
+<v Carter Tinney>let's not do that because that's like a
+whole extra thing.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/4100-4
+00:38:32.481 --> 00:38:37.086
+<v Carter Tinney>And then we can cross that when they need
+on voice for like the individual stream</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/4073-0
+00:38:33.215 --> 00:38:33.535
+Yeah.
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/4100-5
+00:38:37.086 --> 00:38:40.062
+<v Carter Tinney>entries or frames or whatever they're
+called, right?</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/4100-6
+00:38:40.062 --> 00:38:42.533
+<v Carter Tinney>Like that are like individually
+serialized.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/4133-0
+00:38:42.733 --> 00:38:47.376
+<v Carter Tinney>that's a completely separate API surface
+that would need to look different.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/4133-1
+00:38:47.376 --> 00:38:51.468
+<v Carter Tinney>So again, caveats for Rust,
+I don't know that we can actually make</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/4133-2
+00:38:51.468 --> 00:38:56.293
+<v Carter Tinney>this change in our SDK without a breaking
+change for Rust, but again, that is.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/4138-0
+00:38:57.413 --> 00:39:00.133
+<v Carter Tinney>Our problem, not.NET's problem, so...</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/4182-0
+00:39:03.453 --> 00:39:08.069
+<v Carter Tinney>What are we going to do? Yeah,
+like the error cases are probably,</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/4182-1
+00:39:08.069 --> 00:39:13.663
+<v Carter Tinney>there's going to be some new errors that
+we will have to eat and or like figure</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/4182-2
+00:39:13.663 --> 00:39:19.467
+<v Carter Tinney>out how to assign to existing errors that
+like may reduce the informational value.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/4182-3
+00:39:19.467 --> 00:39:23.173
+<v Carter Tinney>And the other thing would be,
+what did I write here?</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/4183-0
+00:39:23.933 --> 00:39:24.213
+<v Carter Tinney>Um...</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/4256-0
+00:39:27.413 --> 00:39:31.292
+<v Carter Tinney>There was something else,
+but I'm not remembering what it is.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/4256-1
+00:39:31.292 --> 00:39:35.921
+<v Carter Tinney>I also would still flag that I am a
+little skeptical of the ability of us</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/4256-2
+00:39:35.921 --> 00:39:40.613
+<v Carter Tinney>through a whatever client library
+surfaces that we have available to us in</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/4256-3
+00:39:40.613 --> 00:39:44.554
+<v Carter Tinney>protocol to be able to estimate a packet
+size. That's because,</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/4256-4
+00:39:44.554 --> 00:39:48.933
+<v Carter Tinney>especially in Rust where the packet that
+goes on the wire is actually</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/4242-0
+00:39:44.815 --> 00:39:45.695
+Yeah, we're going...
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/4295-0
+00:39:49.053 --> 00:39:52.762
+<v Carter Tinney>backed by a bespoke buffer that isn't
+exposed through the API.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/4295-1
+00:39:52.762 --> 00:39:57.647
+<v Carter Tinney>Like Valerie knows what I'm talking about.
+Like packet estimation in Rust is going</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/4268-0
+00:39:54.095 --> 00:39:55.055
+Interesting.
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/4295-2
+00:39:57.647 --> 00:40:00.531
+<v Carter Tinney>to be dicey. Maybe you can do it in.
+NET easier.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/4295-3
+00:40:00.531 --> 00:40:04.769
+<v Carter Tinney>I think we will have to do some amount of
+leaving a little wiggle room,</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/4295-4
+00:40:04.769 --> 00:40:07.653
+<v Carter Tinney>and that's probably just going to be what
+it is.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/4293-0
+00:40:05.455 --> 00:40:07.055
+<v @1>Yep, that's fine,. That's fine.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/4305-0
+00:40:10.375 --> 00:40:12.415
+<v @1>I think we're going to be doing the same
+thing in.NET as well.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/4296-0
+00:40:10.693 --> 00:40:10.853
+<v Carter Tinney>The.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/4353-0
+00:40:14.053 --> 00:40:18.981
+<v Carter Tinney>Other considerations here, are we,
+so yeah, I guess we'll know, oh, queuing,</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/4353-1
+00:40:18.981 --> 00:40:24.165
+<v Carter Tinney>like offline queuing is also a thing.
+Like, suppose you're not connected, right?</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/4353-2
+00:40:24.165 --> 00:40:29.029
+<v Carter Tinney>How do we know what can go on the wire
+when the max packet size hasn't been</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/4353-3
+00:40:29.029 --> 00:40:31.653
+<v Carter Tinney>negotiated yet? That's kind of a problem.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/4341-0
+00:40:30.053 --> 00:40:30.453
+<v Valerie Avva Lim>Oof.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/4362-0
+00:40:31.333 --> 00:40:35.553
+<v Valerie Avva Lim>Do we have to maybe do we have to get the
+first one to send successfully before we</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/4354-0
+00:40:32.895 --> 00:40:33.455
+Overnight.
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/4362-1
+00:40:35.553 --> 00:40:36.773
+<v Valerie Avva Lim>start shooting them off?</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/4417-0
+00:40:36.213 --> 00:40:40.419
+<v Carter Tinney>I don't think it's like send success.
+Like I think we would preemptively want</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/4373-0
+00:40:36.775 --> 00:40:38.575
+<v @1>Well, also, we're not actually...</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/4417-1
+00:40:40.419 --> 00:40:42.899
+<v Carter Tinney>to do it,
+but we don't know what the like max</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/4417-2
+00:40:42.899 --> 00:40:46.566
+<v Carter Tinney>packet size is until we connect,
+but we do want to be able to queue</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/4417-3
+00:40:46.566 --> 00:40:49.370
+<v Carter Tinney>offline messages.
+But that also means that we can't</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/4395-0
+00:40:46.933 --> 00:40:47.493
+<v Valerie Avva Lim>Yeah.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/4417-4
+00:40:49.370 --> 00:40:50.933
+<v Carter Tinney>actually queue anything that.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/4436-0
+00:40:51.653 --> 00:40:54.913
+<v Valerie Avva Lim>This is where, like,
+I think we can best effort decide trunk</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/4436-1
+00:40:54.913 --> 00:40:59.242
+<v Valerie Avva Lim>size, and then, like, like you're saying,
+like I don't think we can calculate it</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/4436-2
+00:40:59.242 --> 00:41:02.021
+<v Valerie Avva Lim>for sure,
+so that first message we maybe have to do</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/4436-3
+00:41:02.021 --> 00:41:04.853
+<v Valerie Avva Lim>some of that trial and error of resizing
+the trunks.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/4435-0
+00:41:04.415 --> 00:41:04.895
+And.
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/4438-0
+00:41:12.213 --> 00:41:13.093
+<v Valerie Avva Lim>So annoying.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/4446-0
+00:41:17.933 --> 00:41:22.053
+<v Valerie Avva Lim>Great question. Yeah,
+if we kill the session, that would not.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/4447-0
+00:41:18.135 --> 00:41:19.855
+<v @1>Surely,. Surely they do that?</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/4471-0
+00:41:22.655 --> 00:41:27.855
+<v @1>The other part there is that I don't
+think in reconnection scenarios we would</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/4471-1
+00:41:27.855 --> 00:41:31.855
+<v @1>expect the Max packet size to change on
+the second connect.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/4477-0
+00:41:31.453 --> 00:41:34.341
+<v Carter Tinney>What about before the first connection
+though,</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/4477-1
+00:41:34.341 --> 00:41:37.351
+<v Carter Tinney>which is the way that you have to do it
+in Rust.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/4472-0
+00:41:34.693 --> 00:41:35.253
+<v Valerie Avva Lim>Yeah.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/4473-0
+00:41:37.133 --> 00:41:37.613
+<v Valerie Avva Lim>Mhm.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/4477-2
+00:41:37.351 --> 00:41:40.053
+<v Carter Tinney>We set up the envoys before the
+connection.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/4476-0
+00:41:39.413 --> 00:41:39.813
+<v Valerie Avva Lim>Yeah.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/4492-0
+00:41:42.335 --> 00:41:46.022
+<v @1>But you don't publish on that on or you
+don't have to publish on that envoy</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/4492-1
+00:41:46.022 --> 00:41:46.895
+<v @1>before connecting.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/4511-0
+00:41:47.573 --> 00:41:51.639
+<v Carter Tinney>Oh, actually, I suppose you... Yeah,
+you always do the subscribe first.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/4498-0
+00:41:47.973 --> 00:41:50.053
+<v Valerie Avva Lim>No,
+and you'll always do your subscribe burst.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/4511-1
+00:41:51.639 --> 00:41:54.293
+<v Carter Tinney>So actually,
+I think maybe we're in the clear.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/4509-0
+00:41:53.333 --> 00:41:53.813
+<v Valerie Avva Lim>Maybe.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/4530-0
+00:41:55.493 --> 00:41:59.093
+<v Valerie Avva Lim>Except for for telemetry, but again,
+let's put telemetry in a box for now.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/4531-0
+00:41:57.813 --> 00:42:01.333
+<v Carter Tinney>Yeah, well,
+that's future us problem telemetry.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/4532-0
+00:42:01.175 --> 00:42:01.535
+Yu.
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/4593-0
+00:42:04.853 --> 00:42:07.759
+<v Carter Tinney>Yeah,
+I think it would block on the subscribe.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/4593-1
+00:42:07.759 --> 00:42:11.839
+<v Carter Tinney>So it would just queue up the sub and
+then yeah, no public. Yeah,</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/4551-0
+00:42:09.733 --> 00:42:10.693
+<v Valerie Avva Lim>Yeah, it'd be OK.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/4593-2
+00:42:11.839 --> 00:42:16.784
+<v Carter Tinney>I think it's fine. It's probably fine.
+Let's double check that though, Valerie.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/4581-0
+00:42:12.933 --> 00:42:17.493
+<v Valerie Avva Lim>As long as we have that be able to pass
+in dynamically somehow, yeah, that'll be.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/4593-3
+00:42:16.784 --> 00:42:20.493
+<v Carter Tinney>Again, that's a problem for us to bear,
+not everybody else.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/4601-0
+00:42:21.133 --> 00:42:23.925
+<v Valerie Avva Lim>That's doable.
+And if we can set this up in some way</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/4601-1
+00:42:23.925 --> 00:42:26.453
+<v Valerie Avva Lim>that like that value can change to the
+invoker.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/4610-0
+00:42:29.055 --> 00:42:34.215
+<v @1>Okay, fundamental question,
+since we're kind of in this area, anyways,</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/4610-1
+00:42:34.215 --> 00:42:39.520
+<v @1>do we want to allow the user to influence
+these chunk sizes in any way?.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/4610-2
+00:42:39.520 --> 00:42:45.261
+<v @1>Like if a user for some reason wants
+really small chunked messages because the</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/4610-3
+00:42:45.261 --> 00:42:48.095
+<v @1>receiving end is a low processing unit.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/4612-0
+00:42:48.735 --> 00:42:50.415
+<v @1>Device perhaps.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/4650-0
+00:42:51.453 --> 00:42:55.632
+<v Valerie Avva Lim>I don't like the idea of the user like
+choosing whether to chunk,</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/4618-0
+00:42:51.653 --> 00:42:53.493
+<v Carter Tinney>Gut feeling? No.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/4650-1
+00:42:55.632 --> 00:43:00.255
+<v Valerie Avva Lim>but I do like the idea of I know
+something about the other side that the</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/4650-2
+00:43:00.255 --> 00:43:03.357
+<v Valerie Avva Lim>SDK can't.
+And this comes to another kind of big</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/4650-3
+00:43:03.357 --> 00:43:05.573
+<v Valerie Avva Lim>question I have too, which is like.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/4682-0
+00:43:06.533 --> 00:43:08.672
+<v Valerie Avva Lim>Okay,
+if the invoker sends something and the</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/4682-1
+00:43:08.672 --> 00:43:11.761
+<v Valerie Avva Lim>executor doesn't support chunking,
+they can send back the error.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/4682-2
+00:43:11.761 --> 00:43:15.706
+<v Valerie Avva Lim>If the executor is a smaller max packet
+size, the invoker sends something too big,</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/4682-3
+00:43:15.706 --> 00:43:18.890
+<v Valerie Avva Lim>they just don't get it. Like,
+how do we handle that? There's like,</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/4682-4
+00:43:18.890 --> 00:43:20.173
+<v Valerie Avva Lim>that's a timeout. We don't.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/4690-0
+00:43:21.893 --> 00:43:26.696
+<v Carter Tinney>I'm also uncomfortable with options that
+get like weirdly aligned. So it's like,</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/4685-0
+00:43:21.935 --> 00:43:22.735
+Too big?.
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/4686-0
+00:43:22.213 --> 00:43:24.053
+<v Valerie Avva Lim>I don't know how we can recover.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/4690-1
+00:43:26.696 --> 00:43:30.669
+<v Carter Tinney>okay, what, like as a user,
+what takes precedence between my chunk</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/4690-2
+00:43:30.669 --> 00:43:35.056
+<v Carter Tinney>max chunk size and my max broker packet
+size that I've configured, right?</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/4688-0
+00:43:30.933 --> 00:43:32.133
+<v Valerie Avva Lim>they choose like too big.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/4690-3
+00:43:35.056 --> 00:43:38.554
+<v Carter Tinney>Like what if one's bigger than the other?
+Like, it's like,</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/4690-4
+00:43:38.554 --> 00:43:42.527
+<v Carter Tinney>what if I set my chunk size bigger than
+what the broker negotiate?</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/4690-5
+00:43:42.527 --> 00:43:43.653
+<v Carter Tinney>Like it's a little.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/4744-0
+00:43:44.453 --> 00:43:49.052
+<v Carter Tinney>Especially because we're not exposing
+certain things that the broker responds</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/4744-1
+00:43:49.052 --> 00:43:52.885
+<v Carter Tinney>with. I mean, actually,
+are we maybe we are exposing the connect</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/4744-2
+00:43:52.885 --> 00:43:55.950
+<v Carter Tinney>now? No,
+we're not exposing the connect on session,</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/4711-0
+00:43:55.093 --> 00:43:55.573
+<v Valerie Avva Lim>I don't know.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/4744-3
+00:43:55.950 --> 00:43:58.603
+<v Carter Tinney>are we, Valerie? I don't think so.
+So again,</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/4744-4
+00:43:58.603 --> 00:44:01.433
+<v Carter Tinney>that's like maybe a design choice that we
+made,</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/4744-5
+00:44:01.433 --> 00:44:05.796
+<v Carter Tinney>but there like the point of the AIO
+session client was to like, you know,</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/4744-6
+00:44:05.796 --> 00:44:07.093
+<v Carter Tinney>streamline things. So.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/4735-0
+00:44:06.095 --> 00:44:06.455
+Yeah.
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/4785-0
+00:44:08.453 --> 00:44:11.313
+<v Carter Tinney>My opinion is I,
+unless there's like a real need,</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/4785-1
+00:44:11.313 --> 00:44:15.488
+<v Carter Tinney>I'm always hesitant to give the user
+options because then it's like, oh,</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/4785-2
+00:44:15.488 --> 00:44:19.835
+<v Carter Tinney>what about this one? How does this,
+like it increases the complexity of the</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/4766-0
+00:44:15.775 --> 00:44:16.895
+<v @1>I understood, I understood.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/4773-0
+00:44:19.413 --> 00:44:20.493
+<v Valerie Avva Lim>I, yeah.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/4785-3
+00:44:19.835 --> 00:44:21.893
+<v Carter Tinney>matrix of where things can go wrong.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/4808-0
+00:44:22.053 --> 00:44:25.947
+<v Valerie Avva Lim>I'd probably rather add it later.
+Like I think there is a valid use case</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/4808-1
+00:44:25.947 --> 00:44:29.840
+<v Valerie Avva Lim>where you don't want to set your max
+packet size small just because your</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/4808-2
+00:44:29.840 --> 00:44:32.293
+<v Valerie Avva Lim>executor has a small max packet size. But.
+..</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/4838-0
+00:44:33.493 --> 00:44:35.455
+<v Valerie Avva Lim>Until someone runs into this problem,
+like,</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/4838-1
+00:44:35.455 --> 00:44:38.664
+<v Valerie Avva Lim>let's just make sure that we have our
+options struck as like, you know,</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/4838-2
+00:44:38.664 --> 00:44:42.052
+<v Valerie Avva Lim>extendable, like non-exhaustive,
+so that we can add stuff to in the future.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/4838-3
+00:44:42.052 --> 00:44:45.083
+<v Valerie Avva Lim>We use builders, whatever,
+and then I'd rather just add it later if</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/4838-4
+00:44:45.083 --> 00:44:45.573
+<v Valerie Avva Lim>we need to.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/4841-0
+00:44:46.335 --> 00:44:48.015
+<v @1>Okay, I think that's reasonable.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/4872-0
+00:44:50.735 --> 00:44:53.275
+<v @1>OK,
+so chunking will happen automatically if</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/4872-1
+00:44:53.275 --> 00:44:56.662
+<v @1>we detect message is too large.
+We decide the message size.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/4872-2
+00:44:56.662 --> 00:45:00.895
+<v @1>We've got a new protocol for doing this
+on both Invoker and executor side.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/4874-0
+00:45:02.055 --> 00:45:03.455
+<v @1>What else are we forgetting here?.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/4877-0
+00:45:07.133 --> 00:45:11.134
+<v Carter Tinney>And we're taking it on faith that the
+broker is not going to change its max</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/4877-1
+00:45:11.134 --> 00:45:13.924
+<v Carter Tinney>packet size.
+That's an assumption that we are making</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/4877-2
+00:45:13.924 --> 00:45:18.082
+<v Carter Tinney>that is not guaranteed by the protocol,
+but we are guaranteeing based upon our</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/4877-3
+00:45:18.082 --> 00:45:22.293
+<v Carter Tinney>understanding of MQ's functionality per
+Arnav saying that it won't change it on</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/4877-4
+00:45:22.293 --> 00:45:24.662
+<v Carter Tinney>us.
+But like that's an assumption that we're</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/4877-5
+00:45:24.662 --> 00:45:28.293
+<v Carter Tinney>baking in to make this work.
+That is not true at the protocol layer.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/4879-0
+00:45:27.253 --> 00:45:32.247
+<v Valerie Avva Lim>I liked your idea of putting something
+around this on the application context,</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/4879-1
+00:45:32.247 --> 00:45:37.305
+<v Valerie Avva Lim>where potentially if there is a reconnect,
+the value in the application context</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/4879-2
+00:45:37.305 --> 00:45:40.718
+<v Valerie Avva Lim>could change,
+and this is just something that we read</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/4879-3
+00:45:40.718 --> 00:45:41.413
+<v Valerie Avva Lim>every time.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/4887-0
+00:45:42.293 --> 00:45:44.893
+<v Carter Tinney>I mean,
+it would have to be available through the</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/4887-1
+00:45:44.893 --> 00:45:47.805
+<v Carter Tinney>manage, like again, this is getting,
+I guess this part,</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/4887-2
+00:45:47.805 --> 00:45:50.613
+<v Carter Tinney>the application context is general,
+but like in Rust,</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/4887-3
+00:45:50.613 --> 00:45:53.577
+<v Carter Tinney>because the session doesn't have an
+application context,</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/4887-4
+00:45:53.577 --> 00:45:57.113
+<v Carter Tinney>only the protocol envoys do,
+so like one of them would have to take</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/4884-0
+00:45:56.173 --> 00:45:57.493
+<v Valerie Avva Lim>There is some weird linking, right?</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/4887-5
+00:45:57.113 --> 00:46:01.325
+<v Carter Tinney>responsibility of like updating it and
+then like what's the race condition there</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/4887-6
+00:46:01.325 --> 00:46:02.053
+<v Carter Tinney>and then like.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/4897-0
+00:46:02.333 --> 00:46:04.587
+<v Carter Tinney>You know,
+you have to get it off the managed client</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/4916-0
+00:46:04.213 --> 00:46:08.293
+<v Valerie Avva Lim>Well, the race condition is our fallback,
+how we have to resize the packets anyways,</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/4897-1
+00:46:04.587 --> 00:46:04.933
+<v Carter Tinney>in Rust.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/4916-1
+00:46:08.293 --> 00:46:11.413
+<v Valerie Avva Lim>if we calculate wrong, right?
+Like that fallback's always there.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/4910-0
+00:46:09.253 --> 00:46:09.573
+<v Carter Tinney>Yeah.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/4925-0
+00:46:13.813 --> 00:46:15.333
+<v Valerie Avva Lim>It's just not efficient, right?</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/4968-0
+00:46:14.293 --> 00:46:18.147
+<v Carter Tinney>So, but yeah,
+we can take on faith that the packet size</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/4968-1
+00:46:18.147 --> 00:46:23.034
+<v Carter Tinney>isn't going to change on us.
+So that answers that question that I had.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/4968-2
+00:46:23.034 --> 00:46:28.884
+<v Carter Tinney>That we're going to do our best effort at
+approximating when calculating the chunks,</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/4968-3
+00:46:28.884 --> 00:46:33.219
+<v Carter Tinney>but like we probably have to leave some
+headroom just in case.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/4968-4
+00:46:33.219 --> 00:46:34.733
+<v Carter Tinney>And is the wire going?</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/4973-0
+00:46:34.813 --> 00:46:38.773
+<v Carter Tinney>protocol going to indicate a set number
+of packets.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/4986-0
+00:46:40.053 --> 00:46:42.889
+<v Carter Tinney>i.e.
+will we have calculated all of the chunks</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/4983-0
+00:46:41.973 --> 00:46:42.213
+<v Valerie Avva Lim>OLD.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/4986-1
+00:46:42.889 --> 00:46:43.733
+<v Carter Tinney>ahead of time?</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/4998-0
+00:46:45.013 --> 00:46:47.653
+<v Carter Tinney>And will the properties be on every
+message?</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/4997-0
+00:46:45.653 --> 00:46:47.493
+<v Valerie Avva Lim>That works if the size can't change.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/5000-0
+00:46:49.015 --> 00:46:52.936
+<v @1>I think when the user supplies our API,
+this really large message,</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/5000-1
+00:46:52.936 --> 00:46:56.564
+<v @1>we should be able to know how many chunks
+it will be sent in,</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/5000-2
+00:46:56.564 --> 00:47:00.895
+<v @1>and I do think that's valuable
+information to have on the receiving side.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/4999-0
+00:47:01.493 --> 00:47:02.053
+<v Valerie Avva Lim>I need it.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/5002-0
+00:47:02.773 --> 00:47:06.343
+<v Carter Tinney>Yeah, I think that it's, yeah,
+probably better to have it than not have</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/5002-1
+00:47:06.343 --> 00:47:08.573
+<v Carter Tinney>it.
+I think we could probably get by without</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/5002-2
+00:47:08.573 --> 00:47:10.853
+<v Carter Tinney>it, but if we could have it,
+why not have it?</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/5008-0
+00:47:12.415 --> 00:47:17.546
+<v @1>One other interesting thing here is the
+caching side of things for RPC.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/5008-1
+00:47:17.546 --> 00:47:21.608
+<v @1>So currently in Vanilla RPC we have both
+dedupe caching,</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/5005-0
+00:47:18.933 --> 00:47:19.813
+<v Carter Tinney>Yeah.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/5004-0
+00:47:19.333 --> 00:47:19.813
+<v Valerie Avva Lim>Yeah.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/5008-2
+00:47:21.608 --> 00:47:26.953
+<v @1>which is not super hard for us to
+integrate here, and also replay caching,</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/5008-3
+00:47:26.953 --> 00:47:31.015
+<v @1>which we get into that same discussion
+about, you know,.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/5025-0
+00:47:31.095 --> 00:47:35.079
+<v @1>What happens when the replay cache just
+grows and grows and grows and grows</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/5025-1
+00:47:35.079 --> 00:47:38.015
+<v @1>because they're sending some 1GB message
+or something.?</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/5024-0
+00:47:39.453 --> 00:47:40.213
+<v Carter Tinney>Don't do it!</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/5029-0
+00:47:40.933 --> 00:47:42.533
+<v Valerie Avva Lim>But and also like.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/5033-0
+00:47:41.295 --> 00:47:41.935
+Yeah.
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/5055-0
+00:47:42.413 --> 00:47:46.010
+<v Carter Tinney>Like I can't control your memory usage
+for you. I'm a library.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/5050-0
+00:47:43.613 --> 00:47:47.013
+<v Valerie Avva Lim>Because I assume you would want to like...</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/5055-1
+00:47:46.010 --> 00:47:47.893
+<v Carter Tinney>I just do what you tell me to do.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/5092-0
+00:47:48.293 --> 00:47:52.204
+<v Valerie Avva Lim>Like I assume you would want to act after
+you received everything because we're not</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/5092-1
+00:47:52.204 --> 00:47:55.417
+<v Valerie Avva Lim>saving to disk and we're not giving you
+the pieces as you go, right?</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/5092-2
+00:47:55.417 --> 00:47:58.024
+<v Valerie Avva Lim>Like I think we reassemble and then give
+it to the SDK.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/5078-0
+00:47:55.893 --> 00:47:56.173
+<v Carter Tinney>Yeah.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/5093-0
+00:47:57.493 --> 00:48:01.253
+<v Carter Tinney>Yes, we cannot act anything. Yeah, well,</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/5092-3
+00:47:58.024 --> 00:47:59.653
+<v Valerie Avva Lim>Like what if we run out of packets?</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/5096-0
+00:48:01.973 --> 00:48:02.453
+<v Valerie Avva Lim>Life.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/5142-0
+00:48:02.533 --> 00:48:07.810
+<v Carter Tinney>Yeah, that is a thing. Yeah,
+I would want a higher packet ID.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/5098-0
+00:48:03.613 --> 00:48:04.133
+<v Valerie Avva Lim>That's.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/5104-0
+00:48:05.133 --> 00:48:05.573
+<v Valerie Avva Lim>Pretty.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/5142-1
+00:48:07.810 --> 00:48:12.490
+<v Carter Tinney>Like I would want more than 10.
+Let's put it that way.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/5142-2
+00:48:12.490 --> 00:48:19.383
+<v Carter Tinney>I might like a packet ID greater than 10.
+I'm not saying we need 65,535 of them,</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/5142-3
+00:48:19.383 --> 00:48:19.893
+<v Carter Tinney>but...</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/5148-0
+00:48:20.133 --> 00:48:24.546
+<v Valerie Avva Lim>But maybe that's something too that if
+you would the like executor know their</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/5148-1
+00:48:24.546 --> 00:48:28.393
+<v Valerie Avva Lim>max packet ID if they get something that
+says it's chunk one of 65,</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/5148-2
+00:48:28.393 --> 00:48:30.373
+<v Valerie Avva Lim>000 then we can reject the message.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/5213-0
+00:48:30.973 --> 00:48:33.410
+<v Carter Tinney>Yeah,
+so the executor right now in Rust can't</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/5149-0
+00:48:32.053 --> 00:48:32.373
+<v Valerie Avva Lim>But.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/5213-1
+00:48:33.410 --> 00:48:36.164
+<v Carter Tinney>get that,
+but there's no reason we couldn't pipe it</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/5213-2
+00:48:36.164 --> 00:48:39.076
+<v Carter Tinney>to the executor once again through the
+managed client.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/5213-3
+00:48:39.076 --> 00:48:41.460
+<v Carter Tinney>Like that's something that comes on a
+CONAC,</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/5213-4
+00:48:41.460 --> 00:48:45.432
+<v Carter Tinney>but the executor won't know it right away
+up until the connection happens.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/5190-0
+00:48:44.573 --> 00:48:46.293
+<v Valerie Avva Lim>but also like the invoker can't reject.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/5213-5
+00:48:45.432 --> 00:48:49.721
+<v Carter Tinney>This is also a little weird in it right
+now, the envoys are connection agnostic.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/5213-6
+00:48:49.721 --> 00:48:53.693
+<v Carter Tinney>So this idea that they're supposed to be
+like pulling data from the CONAC.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/5274-0
+00:48:53.813 --> 00:48:59.159
+<v Carter Tinney>to like inform their behavior is a little
+bit clashing with the design of not just</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/5274-1
+00:48:59.159 --> 00:49:02.636
+<v Carter Tinney>this protocol envoy,
+but like any hypothetical envoy.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/5274-2
+00:49:02.636 --> 00:49:07.917
+<v Carter Tinney>The point is that the whole reason that
+they were designed the way that they were</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/5274-3
+00:49:07.917 --> 00:49:13.005
+<v Carter Tinney>is to be connection agnostic and just
+have an injected connection that manages</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/5274-4
+00:49:13.005 --> 00:49:16.096
+<v Carter Tinney>itself.
+So now here we're talking about needing</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/5274-5
+00:49:16.096 --> 00:49:16.933
+<v Carter Tinney>to get stuff.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/5319-0
+00:49:17.173 --> 00:49:20.481
+<v Carter Tinney>off of like the information about the
+connection, which is,</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/5319-1
+00:49:20.481 --> 00:49:24.064
+<v Carter Tinney>does create like a certain timing issue.
+Does, you know, I mean,</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/5319-2
+00:49:24.064 --> 00:49:27.757
+<v Carter Tinney>we've been flirting around this problem
+for a long time. You know,</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/5319-3
+00:49:27.757 --> 00:49:31.781
+<v Carter Tinney>it was kind of inevitable it would
+eventually come up because, you know,</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/5319-4
+00:49:31.781 --> 00:49:35.253
+<v Carter Tinney>it turns out being completely connection
+agnostic is a little.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/5321-0
+00:49:35.813 --> 00:49:36.773
+<v Carter Tinney>A little tricky.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/5334-0
+00:49:39.295 --> 00:49:43.496
+<v @1>Okay, getting back to the replay cache,
+in particular though,</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/5334-1
+00:49:43.496 --> 00:49:45.055
+<v @1>are we suggesting that?</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/5337-0
+00:49:47.335 --> 00:49:53.481
+<v @1>We're just going to try to emulate
+existing RPC behavior and store as much</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/5337-1
+00:49:53.481 --> 00:49:54.055
+<v @1>of the.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/5349-0
+00:49:55.775 --> 00:49:59.957
+<v @1>Invoker or sorry,
+store as much of the response as we can</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/5349-1
+00:49:59.957 --> 00:50:01.255
+<v @1>in memory for the.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/5357-0
+00:50:03.055 --> 00:50:05.064
+<v @1>China,
+it's been so long that I've looked at</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/5357-1
+00:50:05.064 --> 00:50:06.895
+<v @1>this cache;. How does that work exactly?.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/5364-0
+00:50:07.333 --> 00:50:11.173
+<v Carter Tinney>Hey, good news,
+Raul just joined us and he's the cash man.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/5361-0
+00:50:07.773 --> 00:50:09.493
+<v Valerie Avva Lim>I think if we care about each piece.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/5372-0
+00:50:11.855 --> 00:50:12.415
+Oh.
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/5387-0
+00:50:12.133 --> 00:50:15.187
+<v Valerie Avva Lim>If we care about every piece,
+I don't see how there's any option other</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/5376-0
+00:50:13.093 --> 00:50:13.733
+<v Raul Leclair>Ohh, hello.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/5387-1
+00:50:15.187 --> 00:50:18.369
+<v Valerie Avva Lim>than caching this though. Like,
+we're just going to get rid of guarantees</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/5387-2
+00:50:18.369 --> 00:50:19.573
+<v Valerie Avva Lim>that thread's going to want.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/5390-0
+00:50:23.093 --> 00:50:27.903
+<v Carter Tinney>Now, I will say, devil's advocate here,
+as much as I've been advocating for</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/5390-1
+00:50:27.903 --> 00:50:32.966
+<v Carter Tinney>sharing the envoy and that I think this
+should just be magic and it should just</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/5390-2
+00:50:32.966 --> 00:50:37.523
+<v Carter Tinney>work and everything else is silly.
+Perhaps the argument for a dedicated</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/5390-3
+00:50:37.523 --> 00:50:41.573
+<v Carter Tinney>chunking envoy is that it has less
+caching behavior. Like that.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/5415-0
+00:50:41.653 --> 00:50:46.053
+<v Carter Tinney>is a real argument for what Maxim had
+initially proposed,</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/5415-1
+00:50:46.053 --> 00:50:51.364
+<v Carter Tinney>that if we want to have reduced caching
+support for this type of RPC,</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/5415-2
+00:50:51.364 --> 00:50:54.853
+<v Carter Tinney>that's there.
+Although I don't know how like.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/5414-0
+00:50:53.535 --> 00:50:55.055
+<v @1>It could just be a flag...</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/5426-0
+00:50:54.853 --> 00:50:58.203
+<v Valerie Avva Lim>Is lack of caching acceptable? I mean,
+I guess what does the cache mean to we</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/5426-1
+00:50:58.203 --> 00:51:00.693
+<v Valerie Avva Lim>resend every single trunk? Like,
+there's no other option.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/5451-0
+00:50:59.093 --> 00:51:02.599
+<v Carter Tinney>Yeah, and as soon as we, yeah,
+as soon as we reduce like caching,</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/5451-1
+00:51:02.599 --> 00:51:06.529
+<v Carter Tinney>all of our delivery guarantees are like
+kind of messed up. So like, yeah,</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/5451-2
+00:51:06.529 --> 00:51:09.715
+<v Carter Tinney>how much utility does this thing even
+have without caching?</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/5451-3
+00:51:09.715 --> 00:51:11.733
+<v Carter Tinney>Like maybe it doesn't, like, you know.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/5454-0
+00:51:11.893 --> 00:51:15.813
+<v Valerie Avva Lim>But it is weird to get every single chunk
+again if you missed one or something.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/5461-0
+00:51:15.973 --> 00:51:20.693
+<v Carter Tinney>Yeah, and of course, you know,
+we will get...</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/5458-0
+00:51:16.735 --> 00:51:17.535
+Yeah,.
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/5512-0
+00:51:23.893 --> 00:51:27.445
+<v Carter Tinney>There's not a good reason to do anything,
+but like, you know,</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/5512-1
+00:51:27.445 --> 00:51:32.199
+<v Carter Tinney>if someone blows up their application by
+like eating all their memory because they</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/5512-2
+00:51:32.199 --> 00:51:36.495
+<v Carter Tinney>made silly choices in their lives,
+it will become our problem. Now, again,</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/5512-3
+00:51:36.495 --> 00:51:39.359
+<v Carter Tinney>that's not a reason to make bad choices.
+In fact,</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/5512-4
+00:51:39.359 --> 00:51:43.253
+<v Carter Tinney>that that has been happening to me
+recently in that like, you know,</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/5563-0
+00:51:43.573 --> 00:51:46.437
+<v Carter Tinney>Oh, I'm not,
+I'm receiving infinite quad 0 messages</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/5563-1
+00:51:46.437 --> 00:51:49.962
+<v Carter Tinney>and I didn't drain the receiver and now
+my application crashed.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/5563-2
+00:51:49.962 --> 00:51:52.440
+<v Carter Tinney>Why did that happen? No,
+because you didn't,</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/5563-3
+00:51:52.440 --> 00:51:55.414
+<v Carter Tinney>like you let infinite quad 0 messages
+build up. Like,</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/5563-4
+00:51:55.414 --> 00:51:58.663
+<v Carter Tinney>what do you think was going to happen?
+But like, you know,</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/5563-5
+00:51:58.663 --> 00:52:02.573
+<v Carter Tinney>it will become our problem and we just
+have to be able to be like, no.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/5588-0
+00:52:03.333 --> 00:52:07.336
+<v Carter Tinney>It's not actually our problem.
+It's your problem. Don't like, you know,</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/5588-1
+00:52:07.336 --> 00:52:11.894
+<v Carter Tinney>send 2 gigabytes worth of data at a time
+and then expect it to be cached when you</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/5588-2
+00:52:11.894 --> 00:52:15.173
+<v Carter Tinney>have like a 400 MB memory limit.
+Like don't do that maybe.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/5590-0
+00:52:15.815 --> 00:52:20.227
+<v @1>So Carter, to your initial point here,
+where you were talking about do we need</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/5589-0
+00:52:16.053 --> 00:52:17.453
+<v Valerie Avva Lim>That could idea will be our problem.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/5590-1
+00:52:20.227 --> 00:52:21.455
+<v @1>like a special envoy.?</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/5645-0
+00:52:22.415 --> 00:52:25.725
+<v @1>To signal that we want or don't want
+specific caching behavior,</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/5645-1
+00:52:25.725 --> 00:52:29.551
+<v @1>I think that's something we could just
+add as like a flag in vanilla RPC.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/5645-2
+00:52:29.551 --> 00:52:33.275
+<v @1>And this is something that might even be
+of value to vanilla RPC users,</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/5645-3
+00:52:33.275 --> 00:52:35.809
+<v @1>like if they don't care about this replay
+cache,</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/5645-4
+00:52:35.809 --> 00:52:40.101
+<v @1>they don't want memory being taken up on
+their device because they don't expect to</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/5645-5
+00:52:40.101 --> 00:52:41.135
+<v @1>ever need to replay.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/5667-0
+00:52:42.575 --> 00:52:47.010
+<v @1>That would be more of a side benefit,
+but I don't think we need a separate</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/5667-1
+00:52:47.010 --> 00:52:49.375
+<v @1>envoy specifically for cache management.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/5672-0
+00:52:50.415 --> 00:52:51.375
+<v @1>Negotiation.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/5714-0
+00:52:50.933 --> 00:52:55.315
+<v Carter Tinney>Yeah, I agree as well.
+I think we should probably either, yeah,</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/5714-1
+00:52:55.315 --> 00:53:00.380
+<v Carter Tinney>do what you said with the flag or just do
+best effort and then, you know,</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/5714-2
+00:53:00.380 --> 00:53:05.172
+<v Carter Tinney>maybe don't send large data if you don't
+have large memory. But yeah,</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/5714-3
+00:53:05.172 --> 00:53:10.580
+<v Carter Tinney>like I'm just playing devil's advocate.
+I do, I do still agree with you there,</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/5714-4
+00:53:10.580 --> 00:53:10.853
+<v Carter Tinney>Tim.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/5720-0
+00:53:11.775 --> 00:53:14.095
+<v @1>Got no, so it's all good, all good.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/5722-0
+00:53:16.975 --> 00:53:17.535
+Okay.
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/5738-0
+00:53:19.535 --> 00:53:24.057
+<v @1>Dedupe. Cache,.
+Let's give this a minute or two of</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/5738-1
+00:53:24.057 --> 00:53:26.895
+<v @1>thought., So I'm guessing if we.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/5735-0
+00:53:25.013 --> 00:53:27.173
+<v Carter Tinney>I do not know how this works.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/5743-0
+00:53:27.775 --> 00:53:30.415
+<v @1>So I'm guessing if we want to do.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/5756-0
+00:53:31.695 --> 00:53:35.386
+<v @1>This chunking protocol thing,
+it's going to end up looking a bit</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/5756-1
+00:53:35.386 --> 00:53:39.985
+<v @1>similar to what you designed in streaming,
+where we're going to have this header</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/5756-2
+00:53:39.985 --> 00:53:43.790
+<v @1>that says under score, under score,
+chunk and it says chunk index.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/5756-3
+00:53:43.790 --> 00:53:48.446
+<v @1>And we're going to be able to use those
+same like timestamp and index things that</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/5756-4
+00:53:48.446 --> 00:53:49.695
+<v @1>we were talking about.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/5759-0
+00:53:49.773 --> 00:53:53.573
+<v Valerie Avva Lim>Just need the index on that.
+There's no restart and continue.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/5757-0
+00:53:49.775 --> 00:53:50.015
+La.
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/5770-0
+00:53:54.175 --> 00:53:56.609
+<v @1>Yeah,. Oh, actually yeah,.
+That's a good point. We should back up.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/5770-1
+00:53:56.609 --> 00:53:57.735
+<v @1>Do we care about, like, the...?</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/5778-0
+00:53:59.135 --> 00:54:01.215
+<v @1>Tim Stem is probably enough.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/5771-0
+00:53:59.893 --> 00:54:00.493
+<v Valerie Avva Lim>You can't.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/5792-0
+00:54:01.855 --> 00:54:04.575
+<v @1>Oh, time stamp, sorry,. It's on itself.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/5782-0
+00:54:01.973 --> 00:54:03.253
+<v Valerie Avva Lim>Because you wouldn't get the.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/5796-0
+00:54:04.373 --> 00:54:07.833
+<v Valerie Avva Lim>Like if you start in the middle of a
+trunk from the end broker, like you don't,</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/5796-1
+00:54:07.833 --> 00:54:09.173
+<v Valerie Avva Lim>you can't deserialize the data.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/5810-0
+00:54:09.695 --> 00:54:11.055
+<v @1>Yeah, that's a nonstarter.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/5798-0
+00:54:09.813 --> 00:54:10.133
+<v Carter Tinney>Yeah.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/5812-0
+00:54:11.493 --> 00:54:13.653
+<v Valerie Avva Lim>Yeah, so there's no recovery in that one.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/5821-0
+00:54:14.053 --> 00:54:19.733
+<v Carter Tinney>And there's probably, as a result,
+a different message delivery, Gary.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/5839-0
+00:54:21.333 --> 00:54:23.705
+<v Carter Tinney>Like, yeah, what are you what happened?
+I mean,</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/5839-1
+00:54:23.705 --> 00:54:26.621
+<v Carter Tinney>I guess it's just the same as getting a
+corrupted message,</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/5839-2
+00:54:26.621 --> 00:54:28.053
+<v Carter Tinney>so maybe I'm overthinking it.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/5879-0
+00:54:29.333 --> 00:54:33.197
+<v Carter Tinney>Because like receiving part of the data,
+like what if you just received half a</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/5847-0
+00:54:29.495 --> 00:54:30.015
+Well.
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/5879-1
+00:54:33.197 --> 00:54:35.740
+<v Carter Tinney>payload?
+Like it's not going to deserialize, right?</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/5879-2
+00:54:35.740 --> 00:54:39.408
+<v Carter Tinney>Like that's the same category of error.
+It's just surfacing it, or I mean,</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/5874-0
+00:54:39.215 --> 00:54:40.015
+It's also.
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/5879-3
+00:54:39.408 --> 00:54:42.293
+<v Carter Tinney>it could surface the same way,
+but it's a different cause.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/5912-0
+00:54:43.055 --> 00:54:46.566
+<v @1>It's also something you want to kill
+sooner rather than later.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/5912-1
+00:54:46.566 --> 00:54:50.801
+<v @1>If someone's sending like a really
+massive payload and the first message is</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/5912-2
+00:54:50.801 --> 00:54:54.646
+<v @1>dropped for whatever reason,
+you would want to tell the invoker shut</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/5900-0
+00:54:52.853 --> 00:54:53.973
+<v Carter Tinney>Yeah, you should just...</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/5912-3
+00:54:54.646 --> 00:54:56.095
+<v @1>up, stop sending me stuff.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/5940-0
+00:54:55.333 --> 00:55:01.406
+<v Carter Tinney>Yeah, drop all the next ones.
+And would you act them though or should</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/5919-0
+00:54:59.455 --> 00:54:59.855
+Yeah.
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/5940-1
+00:55:01.406 --> 00:55:05.223
+<v Carter Tinney>they be re-delivered?
+Because the thing is,</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/5935-0
+00:55:04.415 --> 00:55:05.135
+You like them.?
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/5940-2
+00:55:05.223 --> 00:55:09.733
+<v Carter Tinney>the broker is supposed to deliver them
+all and then</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/5952-0
+00:55:12.453 --> 00:55:15.733
+<v Carter Tinney>But the broker actually won't re-deliver
+until you disconnect.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/5953-0
+00:55:12.655 --> 00:55:15.135
+<v @1>Application layer decides that they
+aren't needed.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/5957-0
+00:55:17.855 --> 00:55:19.295
+<v @1>You wouldn't want them redelivered.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/5965-0
+00:55:21.055 --> 00:55:24.495
+<v @1>In this scenario,
+where we're picking up mid chunks.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/5962-0
+00:55:23.013 --> 00:55:23.813
+<v Valerie Avva Lim>Just in the first.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/5968-0
+00:55:23.493 --> 00:55:25.758
+<v Carter Tinney>Oh yeah,
+I think the most realistic one is like</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/5968-1
+00:55:25.758 --> 00:55:28.919
+<v Carter Tinney>one of the messages has expired.
+So it's not really the first one.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/5968-2
+00:55:28.919 --> 00:55:32.221
+<v Carter Tinney>Let's say it's the last one,
+like they queued up in a broker for some</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/5968-3
+00:55:32.221 --> 00:55:35.853
+<v Carter Tinney>reason and then like they come and by the
+time, or I mean, no, I guess yeah,</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/5968-4
+00:55:35.853 --> 00:55:39.344
+<v Carter Tinney>the first one is the most likely to have
+expired. So one of them expired,</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/5968-5
+00:55:39.344 --> 00:55:42.693
+<v Carter Tinney>that's never coming. So then yeah,
+I'm inclined to think you just did.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/5992-0
+00:55:42.933 --> 00:55:47.143
+<v Carter Tinney>discard the whole thing.
+But that does maybe lead to more data</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/5992-1
+00:55:47.143 --> 00:55:51.085
+<v Carter Tinney>loss. Because yeah,
+basically it's if one message expires,</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/5992-2
+00:55:51.085 --> 00:55:54.693
+<v Carter Tinney>the whole thing expired.
+I think that's a reasonable.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/5991-0
+00:55:54.415 --> 00:55:54.735
+Yeah.
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/6014-0
+00:55:57.173 --> 00:56:00.533
+<v Carter Tinney>It feels worse intuitively,
+but like I don't think it actually is</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/6006-0
+00:55:57.375 --> 00:55:59.055
+<v @1>That's a reasonable requirement.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/6014-1
+00:56:00.533 --> 00:56:03.893
+<v Carter Tinney>worse because yeah, if one expired,
+then they're all expired. So.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/6027-0
+00:56:03.855 --> 00:56:07.535
+<v @1>Yeah,
+this is not streaming where we can drop</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/6024-0
+00:56:07.093 --> 00:56:07.653
+<v Carter Tinney>Exactly.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/6023-0
+00:56:07.173 --> 00:56:07.493
+<v Valerie Avva Lim>Right.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/6027-1
+00:56:07.535 --> 00:56:08.575
+<v @1>frames, yeah.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/6039-0
+00:56:09.695 --> 00:56:14.815
+<v @1>OK, then we don't,.
+We cannot communicate back right, so...</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/6086-0
+00:56:17.055 --> 00:56:20.961
+<v @1>This is vanilla RPC,
+so we do have a response topic that we</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/6086-1
+00:56:20.961 --> 00:56:25.452
+<v @1>can send error messages to.
+We would need to define a new error type</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/6060-0
+00:56:23.493 --> 00:56:24.533
+<v Valerie Avva Lim>But not the end over.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/6086-2
+00:56:25.452 --> 00:56:29.879
+<v @1>saying something like chunk was not
+initial chunk or missing chunk,</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/6086-3
+00:56:29.879 --> 00:56:33.719
+<v @1>something like that.
+So Invoker would know to stop sending</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/6086-4
+00:56:33.719 --> 00:56:34.175
+<v @1>chunks.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/6085-0
+00:56:34.853 --> 00:56:37.973
+<v Valerie Avva Lim>But if it's if the chunks are on the
+response, you can't do the same thing.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/6084-0
+00:56:35.373 --> 00:56:35.613
+<v Carter Tinney>And.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/6094-0
+00:56:40.773 --> 00:56:45.333
+<v Valerie Avva Lim>Unless we introduce a response topic or
+something.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/6095-0
+00:56:46.293 --> 00:56:46.533
+<v Valerie Avva Lim>Good.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/6108-0
+00:56:48.535 --> 00:56:50.981
+<v @1>What do you mean by that exactly? Valerie?
+, You're saying?</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/6119-0
+00:56:50.773 --> 00:56:55.168
+<v Valerie Avva Lim>Well, if the executor is sending, yeah,
+like if the executor is sending a chunk</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/6108-1
+00:56:50.981 --> 00:56:52.815
+<v @1>If we're chunking in the response as well?
+.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/6119-1
+00:56:55.168 --> 00:56:59.013
+<v Valerie Avva Lim>response, which totally valid scenario,
+right? Get request on schema.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/6168-0
+00:57:01.253 --> 00:57:04.258
+<v Valerie Avva Lim>Then if the invoker missed the first
+trunk, trunk 2, whatever,</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/6168-1
+00:57:04.258 --> 00:57:07.644
+<v Valerie Avva Lim>there's no way for the invoker to say,
+don't send the next 100 trunks.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/6168-2
+00:57:07.644 --> 00:57:11.555
+<v Valerie Avva Lim>Like there's no way to respond currently.
+And we could add a response topic if we</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/6152-0
+00:57:11.055 --> 00:57:12.255
+Oh, that's true.
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/6168-3
+00:57:11.555 --> 00:57:13.987
+<v Valerie Avva Lim>wanted to,
+if this is something that we need to be</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/6168-4
+00:57:13.987 --> 00:57:17.993
+<v Valerie Avva Lim>able to like cancel from the invoker side.
+I don't think that's necessarily the end</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/6168-5
+00:57:17.993 --> 00:57:18.613
+<v Valerie Avva Lim>of the world.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/6183-0
+00:57:19.775 --> 00:57:24.015
+<v @1>We do get to unsubscribe from the
+response topic on the invoker side.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/6203-0
+00:57:24.133 --> 00:57:27.183
+<v Valerie Avva Lim>But we don't do that. Like,
+we subscribe to that for the lifetime of</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/6203-1
+00:57:27.183 --> 00:57:29.968
+<v Valerie Avva Lim>the invoker and regular RPC,
+because there's no reason to keep</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/6204-0
+00:57:29.695 --> 00:57:32.175
+<v @1>Do I understand right that?.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/6203-2
+00:57:29.968 --> 00:57:32.133
+<v Valerie Avva Lim>subscribing, unsubscribing,
+or in Rust at least.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/6210-0
+00:57:33.855 --> 00:57:35.535
+<v @1>You talking about the case when...?</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/6224-0
+00:57:36.415 --> 00:57:41.855
+<v @1>Java is still coming from the invoker,
+and will be to the to the.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/6218-0
+00:57:40.413 --> 00:57:41.013
+<v Valerie Avva Lim>Let me ask you.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/6228-0
+00:57:42.015 --> 00:57:47.132
+<v @1>So it's simple scenario that drives home,.
+So Invoker sends 1 non-chunked message,.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/6228-1
+00:57:47.132 --> 00:57:51.761
+<v @1>It makes it to the executor just fine.
+Executive wants to send some chunked</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/6228-2
+00:57:51.761 --> 00:57:56.695
+<v @1>response, one of those messages gets lost.
+How do we signal to the executor to?.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/6230-0
+00:57:56.775 --> 00:57:58.175
+<v @1>Shut up, something you didn't.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/6243-0
+00:58:00.335 --> 00:58:03.037
+<v @1>You might be right,.
+Maybe we do stay subscribed for the</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/6243-1
+00:58:03.037 --> 00:58:04.175
+<v @1>lifetime of the clients.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/6244-0
+00:58:03.173 --> 00:58:06.108
+<v Valerie Avva Lim>But even if you unsubscribe,
+that doesn't tell the executor to stop</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/6244-1
+00:58:06.108 --> 00:58:06.453
+<v Valerie Avva Lim>sending.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/6245-0
+00:58:06.613 --> 00:58:09.057
+<v Carter Tinney>Exactly,
+it only that's a subscription with the</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/6245-1
+00:58:09.057 --> 00:58:11.450
+<v Carter Tinney>broker.
+There's no meta communication with the</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/6245-2
+00:58:11.450 --> 00:58:13.333
+<v Carter Tinney>other side of the envoy relationship.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/6247-0
+00:58:13.055 --> 00:58:15.217
+<v @1>Well,
+I'm suggesting that was the meta</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/6247-1
+00:58:15.217 --> 00:58:19.872
+<v @1>communication saying I the invoker am no
+longer subscribed. I no longer want those.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/6247-2
+00:58:19.872 --> 00:58:21.535
+<v @1>That's what a subscription is.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/6257-0
+00:58:22.975 --> 00:58:27.055
+<v @1>You could say maybe there's like a
+connectivity loss scenario around that.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/6258-0
+00:58:24.933 --> 00:58:28.302
+<v Valerie Avva Lim>That assumes that you get no matching
+Subscribers,</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/6258-1
+00:58:28.302 --> 00:58:30.613
+<v Valerie Avva Lim>which you also can't really assume.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/6273-0
+00:58:33.215 --> 00:58:36.095
+<v @1>What else would a no-matching subscribers
+mean in that context?.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/6314-0
+00:58:36.253 --> 00:58:38.394
+<v Valerie Avva Lim>No,
+so you might not get the no matching</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/6314-1
+00:58:38.394 --> 00:58:41.369
+<v Valerie Avva Lim>subscribers, right? Like,
+this is kind of a, yeah, like,</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/6288-0
+00:58:39.135 --> 00:58:40.895
+<v @1>Ohh, sorry, I misheard you.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/6314-2
+00:58:41.369 --> 00:58:45.024
+<v Valerie Avva Lim>I'm pretty sure that's just kind of like
+a informational can be sent.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/6314-3
+00:58:45.024 --> 00:58:49.200
+<v Valerie Avva Lim>I don't know that it's fully required,
+and I mean, like we've discussed before,</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/6314-4
+00:58:49.200 --> 00:58:51.653
+<v Valerie Avva Lim>it's not actually treated as an error in
+Rust.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/6312-0
+00:58:51.055 --> 00:58:51.375
+Or not.
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/6317-0
+00:58:52.453 --> 00:58:56.283
+<v Carter Tinney>Yeah, and I don't does.
+net even support the concept of like no</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/6313-0
+00:58:52.615 --> 00:58:52.975
+<v @1>Turn.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/6317-1
+00:58:56.283 --> 00:59:00.053
+<v Carter Tinney>matching subscribers because like a lot
+of clients like don't.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/6316-0
+00:59:00.373 --> 00:59:00.853
+<v Valerie Avva Lim>It does.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/6319-0
+00:59:01.173 --> 00:59:01.573
+<v Carter Tinney>Okay.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/6340-0
+00:59:02.655 --> 00:59:05.645
+<v @1>Yeah, no,
+we would receive that if the broker sent</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/6340-1
+00:59:05.645 --> 00:59:09.221
+<v @1>it, but that's fair. OK,
+so that's not a great mechanism for</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/6340-2
+00:59:09.221 --> 00:59:10.335
+<v @1>communicating back.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/6349-0
+00:59:16.373 --> 00:59:19.226
+<v Valerie Avva Lim>I mean,
+the downside of just sending a bunch of</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/6349-1
+00:59:19.226 --> 00:59:20.533
+<v Valerie Avva Lim>messages that can't...</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/6352-0
+00:59:21.973 --> 00:59:23.733
+<v Valerie Avva Lim>Be handled like.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/6375-0
+00:59:25.093 --> 00:59:28.452
+<v Valerie Avva Lim>It's not great, it's not,
+there's no error happening there, right?</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/6375-1
+00:59:28.452 --> 00:59:32.112
+<v Valerie Avva Lim>Like that is not causing message loss,
+it is causing just more data than</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/6375-2
+00:59:32.112 --> 00:59:32.613
+<v Valerie Avva Lim>necessary.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/6378-0
+00:59:33.295 --> 00:59:36.267
+<v @1>Yeah,
+the invoker would assumably resend the</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/6378-1
+00:59:36.267 --> 00:59:40.495
+<v @1>requests and try to receive the response
+response chunks again.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/6377-0
+00:59:38.853 --> 00:59:40.213
+<v Valerie Avva Lim>The replay cache, yeah.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/6417-0
+00:59:43.535 --> 00:59:47.630
+<v @1>Okay, yeah,.
+I don't think it's worth trying to invent</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/6417-1
+00:59:47.630 --> 00:59:53.438
+<v @1>some communication from the invoker to
+the executor specifically for this one</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/6417-2
+00:59:53.438 --> 00:59:59.171
+<v @1>error case. Especially this is MQ,.
+We don't deal too much with like packets</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/6417-3
+00:59:59.171 --> 01:00:00.735
+<v @1>being lost generally.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/6419-0
+01:00:03.215 --> 01:00:03.935
+<v @1>I think that's.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/6420-0
+01:00:03.333 --> 01:00:05.573
+<v Valerie Avva Lim>I mean, of course, one should be pretty.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/6426-0
+01:00:06.815 --> 01:00:07.695
+Yeah, it's.
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/6425-0
+01:00:07.173 --> 01:00:08.853
+<v Valerie Avva Lim>It's at least once delivery period.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/6434-0
+01:00:09.535 --> 01:00:13.567
+<v @1>I think that's worth maybe calling out in
+the doc as an assumption,</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/6434-1
+01:00:13.567 --> 01:00:17.480
+<v @1>or not as an assumption,
+but as a possible failure case that this</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/6434-2
+01:00:17.480 --> 01:00:20.919
+<v @1>does not cover,
+but that that's rare enough that we don't</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/6434-3
+01:00:20.919 --> 01:00:21.215
+<v @1>care.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/6460-0
+01:00:21.893 --> 01:00:25.602
+<v Carter Tinney>Yeah,
+like the most likely the most likely way</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/6460-1
+01:00:25.602 --> 01:00:30.888
+<v Carter Tinney>for a loss is an expiration,
+and I don't actually know off the top</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/6460-2
+01:00:30.888 --> 01:00:36.173
+<v Carter Tinney>what the broker's like expiration
+behavior is anymore, so I don't.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/6465-0
+01:00:35.653 --> 01:00:38.773
+<v Valerie Avva Lim>An expiration that they would want to be
+taking into account, anyway.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/6481-0
+01:00:37.413 --> 01:00:40.234
+<v Carter Tinney>Yeah, and yeah,
+I also don't think we should couple too</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/6481-1
+01:00:40.234 --> 01:00:42.853
+<v Carter Tinney>hard to expected expiration behavior of
+the broker,</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/6481-2
+01:00:42.853 --> 01:00:46.782
+<v Carter Tinney>because that's like a little dicey,
+especially something that could change on</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/6480-0
+01:00:45.695 --> 01:00:45.855
+The.
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/6481-3
+01:00:46.782 --> 01:00:46.933
+<v Carter Tinney>us.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/6504-0
+01:00:50.895 --> 01:00:54.978
+<v @1>Speaking of expiry,
+if we've got a couple of minutes still,</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/6504-1
+01:00:54.978 --> 01:01:00.490
+<v @1>the message expiry per MQTT message we
+send is kind of interesting in a chunking</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/6504-2
+01:01:00.490 --> 01:01:01.375
+<v @1>scenario now.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/6505-0
+01:01:02.575 --> 01:01:02.735
+Um.
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/6525-0
+01:01:04.415 --> 01:01:09.917
+<v @1>The simplest approach might be to say
+that we still treat message expiry the</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/6525-1
+01:01:09.917 --> 01:01:11.775
+<v @1>same way Vanilla RPC does.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/6538-0
+01:01:12.855 --> 01:01:17.215
+<v @1>But then how does that affect things on
+the you do cache?</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/6536-0
+01:01:15.653 --> 01:01:17.653
+<v Valerie Avva Lim>Send a countdown, like had a countdown.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/6540-0
+01:01:18.415 --> 01:01:20.895
+<v @1>Yeah, that is that how?.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/6539-0
+01:01:20.133 --> 01:01:20.533
+<v Valerie Avva Lim>Or.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/6554-0
+01:01:22.735 --> 01:01:29.015
+<v @1>Maybe similar like we were going to do
+for the streaming that current.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/6560-0
+01:01:29.895 --> 01:01:31.535
+<v @1>Down down timer for the call.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/6577-0
+01:01:33.455 --> 01:01:37.404
+<v @1>So that was like a header level timeout
+that we sent.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/6577-1
+01:01:37.404 --> 01:01:42.815
+<v @1>I'm thinking about the message expiry
+interval which is sent per message.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/6579-0
+01:01:41.413 --> 01:01:44.895
+<v Valerie Avva Lim>The message expire interval is going to
+be similar to that in streaming,</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/6579-1
+01:01:44.895 --> 01:01:46.373
+<v Valerie Avva Lim>where it kind of like we would.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/6601-0
+01:01:47.055 --> 01:01:49.759
+<v @1>Valerie,
+we have issues with the volume in the</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/6581-0
+01:01:47.653 --> 01:01:48.373
+<v Valerie Avva Lim>Decrease it.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/6601-1
+01:01:49.759 --> 01:01:52.175
+<v @1>room, so if you can a little bit speak up.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/6618-0
+01:01:52.373 --> 01:01:54.772
+<v Valerie Avva Lim>Sorry,
+I think with streaming that was like we</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/6618-1
+01:01:54.772 --> 01:01:58.854
+<v Valerie Avva Lim>were doing something similar where the
+message expiry in the header we are also</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/6618-2
+01:01:58.854 --> 01:02:00.333
+<v Valerie Avva Lim>going to documentdocumentURI.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/6625-0
+01:02:01.333 --> 01:02:05.207
+<v Valerie Avva Lim>that you would end up with something
+twice as long towards the end of the</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/6625-1
+01:02:05.207 --> 01:02:05.573
+<v Valerie Avva Lim>stream.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/6633-0
+01:02:14.015 --> 01:02:17.135
+<v @1>Yeah, for your sake, Maxim,.
+I think at this point,</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/6633-1
+01:02:17.135 --> 01:02:21.575
+<v @1>try to mimic what vanilla RPC does with
+message expiry interval, I guess,</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/6633-2
+01:02:21.575 --> 01:02:24.875
+<v @1>and you'll have to let us know where that
+falls apart.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/6633-3
+01:02:24.875 --> 01:02:27.995
+<v @1>That'll be kind of interesting on the
+caching side,</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/6633-4
+01:02:27.995 --> 01:02:31.775
+<v @1>because if we're talking about delivering
+gigabytes of data...</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/6638-0
+01:02:34.655 --> 01:02:37.375
+<v @1>Yeah,. But then user can disable caching,
+OK.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/6655-0
+01:02:40.495 --> 01:02:46.975
+<v @1>So for your context on the vanilla RPC
+flow, we use the message expiry interval.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/6673-0
+01:02:47.775 --> 01:02:53.259
+<v @1>Both as a way to kind of set the timeout
+for broker to deliver the message,</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/6673-1
+01:02:53.259 --> 01:02:55.135
+<v @1>but also as a timeout for.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/6685-0
+01:02:56.415 --> 01:03:01.408
+<v @1>Some caching stuff on the execute side.
+And that's kind of the interesting bit</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/6685-1
+01:03:01.408 --> 01:03:02.735
+<v @1>here I think for you.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/6702-0
+01:03:08.015 --> 01:03:10.778
+<v @1>We are well overtime,
+but is there anything else you guys</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/6702-1
+01:03:10.778 --> 01:03:14.255
+<v @1>wanted to talk about that we could help
+Maxim with here before we break?</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/6703-0
+01:03:17.253 --> 01:03:17.653
+<v Valerie Avva Lim>Ohh.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/6749-0
+01:03:18.613 --> 01:03:22.967
+<v Valerie Avva Lim>Not maybe as the most urgent topic,
+but I think running out of packet IDs is</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/6749-1
+01:03:22.967 --> 01:03:27.604
+<v Valerie Avva Lim>something we need to consider because we
+could just very easily as the SDK by not</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/6721-0
+01:03:25.333 --> 01:03:25.733
+<v Carter Tinney>Yeah.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/6749-2
+01:03:27.604 --> 01:03:31.335
+<v Valerie Avva Lim>hacking brick things and the customer
+can't do anything about it.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/6749-3
+01:03:31.335 --> 01:03:33.653
+<v Valerie Avva Lim>Like that's fully in our ownership and...</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/6741-0
+01:03:32.333 --> 01:03:32.533
+<v Carter Tinney>Yeah.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/6803-0
+01:03:35.333 --> 01:03:39.648
+<v Valerie Avva Lim>That's like that we can't we can't break
+up MQTT messages for that.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/6751-0
+01:03:35.813 --> 01:03:36.453
+<v Carter Tinney>And...</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/6803-1
+01:03:39.648 --> 01:03:44.787
+<v Valerie Avva Lim>So whether we have some limitations on
+how many chunks can be sent in something,</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/6803-2
+01:03:44.787 --> 01:03:48.911
+<v Valerie Avva Lim>or if we send partials to the user or
+something for them to say,</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/6803-3
+01:03:48.911 --> 01:03:52.147
+<v Valerie Avva Lim>you need to store this if you're worried
+about it,</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/6803-4
+01:03:52.147 --> 01:03:55.573
+<v Valerie Avva Lim>but there's something that needs to be
+handled there.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/6807-0
+01:03:55.893 --> 01:03:59.093
+<v Valerie Avva Lim>because that is not an issue we want to
+find in production.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/6808-0
+01:03:59.573 --> 01:03:59.973
+<v Carter Tinney>No.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/6812-0
+01:03:59.775 --> 01:04:03.253
+<v @1>This is assuming we want delayed acts
+just like Vanilla RPC,</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/6812-1
+01:04:03.253 --> 01:04:05.135
+<v @1>where we're doing something like.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/6809-0
+01:04:04.133 --> 01:04:04.613
+<v Valerie Avva Lim>Not.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/6869-0
+01:04:05.573 --> 01:04:08.466
+<v Valerie Avva Lim>I mean, yes,
+but I don't know that you even consider</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/6818-0
+01:04:06.773 --> 01:04:08.293
+<v Carter Tinney>We have to, right?</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/6869-1
+01:04:08.466 --> 01:04:11.086
+<v Valerie Avva Lim>it delayed acts in some way because like,
+yeah,</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/6832-0
+01:04:08.735 --> 01:04:10.415
+<v @1>For the caching, yes.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/6869-2
+01:04:11.086 --> 01:04:14.852
+<v Valerie Avva Lim>like we wouldn't want to act it until we
+give it to the user, right?</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/6869-3
+01:04:14.852 --> 01:04:18.235
+<v Valerie Avva Lim>Like if we're pull,
+if we're aggregating everything and we've</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/6869-4
+01:04:18.235 --> 01:04:22.656
+<v Valerie Avva Lim>aggregated 50 messages and then we crash,
+then like the user couldn't have saved</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/6869-5
+01:04:22.656 --> 01:04:24.293
+<v Valerie Avva Lim>those to disk, right? So like.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/6865-0
+01:04:24.213 --> 01:04:25.013
+<v Carter Tinney>Exactly.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/6881-0
+01:04:24.373 --> 01:04:28.773
+<v Valerie Avva Lim>If we act them, they won't come again.
+And that's just data loss.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/6877-0
+01:04:26.015 --> 01:04:26.495
+I see.
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/6878-0
+01:04:27.573 --> 01:04:27.853
+<v Carter Tinney>Yeah.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/6922-0
+01:04:29.733 --> 01:04:34.444
+<v Carter Tinney>And yeah, so that mean, and the,
+I'll have to check the MQDD spec again.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/6922-1
+01:04:34.444 --> 01:04:39.154
+<v Carter Tinney>I don't recall this off the top,
+but I also think that the max packet ID</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/6922-2
+01:04:39.154 --> 01:04:44.316
+<v Carter Tinney>is negotiated with the broker as well,
+which means that we don't know that till</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/6913-0
+01:04:41.933 --> 01:04:42.453
+<v Valerie Avva Lim>Yes.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/6922-3
+01:04:44.316 --> 01:04:47.413
+<v Carter Tinney>a connection happens,
+which is really annoying.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/6929-0
+01:04:55.493 --> 01:04:59.333
+<v Valerie Avva Lim>Yeah,
+that one's going to be a weird twist.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/6931-0
+01:04:56.293 --> 01:04:59.999
+<v Carter Tinney>Yeah, basically, yeah,
+I think chunking is going to require</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/6931-1
+01:04:59.999 --> 01:05:04.508
+<v Carter Tinney>awareness of the details of the
+connection and assume that those details</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/6931-2
+01:05:04.508 --> 01:05:08.213
+<v Carter Tinney>will not change across connections within
+the same session.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/6930-0
+01:05:04.735 --> 01:05:05.095
+OK.
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/6932-0
+01:05:11.135 --> 01:05:12.575
+<v @1>I think that's reasonable, yeah.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/6935-0
+01:05:15.135 --> 01:05:15.615
+OK.
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/6936-0
+01:05:16.253 --> 01:05:21.308
+<v Carter Tinney>It's going to be annoying for us on Rust,
+but yeah, we'll figure something out,</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/6936-1
+01:05:21.308 --> 01:05:21.813
+<v Carter Tinney>I guess.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/6947-0
+01:05:22.175 --> 01:05:26.025
+<v @1>Isn't everything annoying on rest?
+That's kind of the point of the language,</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/6942-0
+01:05:24.693 --> 01:05:25.333
+<v Carter Tinney>Yeah.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/6948-0
+01:05:25.813 --> 01:05:28.933
+<v Valerie Avva Lim>I mean, it means we handle things, but...</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/6947-1
+01:05:26.025 --> 01:05:26.375
+<v @1>right?.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/6999-0
+01:05:29.535 --> 01:05:34.045
+<v @1>Sure, sure, sure. We trust you guys. Okay,
+. So next steps. Here,. Maxim,.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/6999-1
+01:05:34.045 --> 01:05:38.915
+<v @1>I think the first thing we need to do is
+reach out to Varun and Arnav and, say,?</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/6999-2
+01:05:38.915 --> 01:05:43.606
+<v @1>Hey,. We're pivoting here a little bit.
+We don't want to do streaming because</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/6999-3
+01:05:43.606 --> 01:05:47.935
+<v @1>that apparently isn't what anyone needs.
+Really. We're going to try to.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/7008-0
+01:05:48.895 --> 01:05:53.535
+<v @1>To do chunking for the user as part of
+our existing RPC protocol.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/7034-0
+01:05:55.295 --> 01:05:59.930
+<v @1>And we'll give him a chance to respond on
+that. If he flails his arm and says,</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/7034-1
+01:05:59.930 --> 01:06:03.039
+<v @1>what are you guys doing?
+We need streaming as well,.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/7034-2
+01:06:03.039 --> 01:06:04.975
+<v @1>Then we can sync back up on that.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/7041-0
+01:06:06.175 --> 01:06:10.295
+<v @1>No,
+I think he Arnav and Varun was on that</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/7041-1
+01:06:10.295 --> 01:06:17.385
+<v @1>conversation from this morning,.
+So it is pretty much Varun Green Light,.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/7041-2
+01:06:17.385 --> 01:06:22.175
+<v @1>I think he understood the suggest
+approach right.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/7040-0
+01:06:22.613 --> 01:06:25.253
+<v Carter Tinney>I'd probably still get an explicit like.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/7042-0
+01:06:25.055 --> 01:06:30.912
+<v @1>Yeah, yeah, yeah, I mean, like, yeah,.
+He's he's aware of the direction, So,.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/7042-1
+01:06:30.912 --> 01:06:33.015
+<v @1>But yeah, absolutely, and...</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/7056-0
+01:06:34.935 --> 01:06:40.039
+<v @1>Okay, yeah,. Just give him that. Heads up,
+give him a chance to say yay or nay,.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/7056-1
+01:06:40.039 --> 01:06:42.055
+<v @1>And then at that point, I think.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/7071-0
+01:06:45.655 --> 01:06:47.415
+<v @1>We're going to need a new design Doc to.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/7072-0
+01:06:47.415 --> 01:06:50.295
+Noodle over. OK, OK.
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/7075-0
+01:06:50.175 --> 01:06:51.855
+<v @1>We're so sorry by the way, this is...</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/7073-0
+01:06:52.453 --> 01:06:52.933
+<v Carter Tinney>Yeah.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/7079-0
+01:06:52.535 --> 01:06:53.335
+Well, no.
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/7083-0
+01:06:52.975 --> 01:06:54.815
+<v @1>Not how it's supposed to happen, but.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/7089-0
+01:06:55.815 --> 01:06:56.375
+It's...
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/7098-0
+01:06:56.213 --> 01:07:01.638
+<v Avishek Pant>Good that we were able to discuss and
+then come to a conclusion sooner than</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/7098-1
+01:07:01.638 --> 01:07:03.493
+<v Avishek Pant>later, right? So all good.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/7099-0
+01:07:02.615 --> 01:07:05.295
+Yeah, OK, alright.
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/7134-0
+01:07:07.575 --> 01:07:11.234
+<v @1>Well, thank you, everybody.
+And I apologize,.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/7134-1
+01:07:11.234 --> 01:07:17.199
+<v @1>I'm not as well prepared for this one.
+It's just been very short, sort of,</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/7134-2
+01:07:17.199 --> 01:07:21.415
+<v @1>from the Friday. And time's good.
+This is good, Don.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/7122-0
+01:07:18.653 --> 01:07:19.493
+<v Avishek Pant>Yeah, no worries.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/7146-0
+01:07:21.535 --> 01:07:27.055
+<v @1>Definitely lacking some knowledge of the
+internals of the existing SDK, so if.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/7196-0
+01:07:21.615 --> 01:07:27.055
+<v @1>Definitely lacking some knowledge of the
+internals of the existing SDK, so if.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/7162-0
+01:07:27.253 --> 01:07:32.465
+<v Carter Tinney>Yeah, I would probably familiar, like,
+if we're talking about doing this within</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/7162-1
+01:07:32.465 --> 01:07:36.373
+<v Carter Tinney>the existing invoker and executor,
+there's a lot of like...</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/7203-0
+01:07:37.453 --> 01:07:44.100
+<v Carter Tinney>traps in there and I would definitely
+recommend becoming a lot more familiar</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/7203-1
+01:07:44.100 --> 01:07:51.005
+<v Carter Tinney>with like how they work because there's a
+like they're pretty complicated for a</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/7203-2
+01:07:51.005 --> 01:07:55.493
+<v Carter Tinney>request response mechanism.
+There's a lot going on.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/7207-0
+01:07:58.095 --> 01:08:01.216
+<v @1>Yeah,
+now when I have sort of like an area to</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/7207-1
+01:08:01.216 --> 01:08:03.455
+<v @1>focus on, it will be easy for me.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/7209-0
+01:08:05.055 --> 01:08:05.455
+Thank you.
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/7215-0
+01:08:07.215 --> 01:08:09.055
+OK, thanks folks.
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/7218-0
+01:08:09.135 --> 01:08:10.575
+Alright, thank you everybody.
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/7214-0
+01:08:09.893 --> 01:08:10.293
+<v Valerie Avva Lim>Thanks.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/7220-0
+01:08:11.253 --> 01:08:12.213
+<v Avishek Pant>Well, thanks. Bye.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/7224-0
+01:08:13.415 --> 01:08:14.015
+I want like.
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/7223-0
+01:08:13.893 --> 01:08:14.453
+<v Raul Leclair>Thanks.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/7237-0
+01:08:15.175 --> 01:08:18.571
+<v @1>And this meeting, because this, I think,
+has been rebooting, yeah,</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/7231-0
+01:08:17.615 --> 01:08:18.055
+Yu.
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/7237-1
+01:08:18.571 --> 01:08:21.055
+<v @1>it's been rebooting all the time,
+very annoying.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/7239-0
+01:08:24.975 --> 01:08:26.455
+Things that was quite.
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/7240-0
+01:08:26.015 --> 01:08:26.975
+Be on camera.
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/7253-0
+01:08:36.375 --> 01:08:38.095
+<v @1>Oh yeah, there's an end meeting.</v>
+
+336a7fd4-ce12-4b99-9b5d-e16a85b93808/7254-0
+01:08:38.815 --> 01:08:39.695
+<v @1>To like you.</v>
