@@ -635,7 +635,7 @@ async fn create_schema(
         .create_schema_version(
             GroupId::CloudDefault,
             resource_id,
-            Vec::new(),
+            labels.clone(),
             SchemaVersionAttributesBuilder::default()
                 .content_type(Some("application/schema+json".to_string()))
                 .format(SchemaFormat::JsonSchemaDraft07)
@@ -662,7 +662,7 @@ async fn create_thing_model(
         .create_thing_model_version(
             GroupId::CloudDefault,
             resource_id,
-            Vec::new(),
+            labels.clone(),
             ThingModelVersionAttributesBuilder::default()
                 .content_type(Some("application/tm+json".to_string()))
                 .format(ThingModelFormat::JsonLd11)
@@ -689,7 +689,7 @@ async fn create_thing_description(
         .create_thing_description_version(
             GroupId::CloudDefault,
             resource_id,
-            Vec::new(),
+            labels.clone(),
             ThingDescriptionVersionAttributesBuilder::default()
                 .content_type(Some("application/td+json".to_string()))
                 .format(ThingDescriptionFormat::JsonLd11)
