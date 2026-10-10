@@ -11,6 +11,8 @@
     {
         private readonly string[] InternalDefsKeys = new string[] { "$defs", "definitions" };
 
+        private static readonly string[] JsonSchemaTypeNames = new string[] { "array", "boolean", "integer", "null", "number", "object", "string" };
+
         public SerializationFormat SerializationFormat { get => SerializationFormat.Json; }
 
         public IEnumerable<SchemaType> GetStandardizedSchemas(string schemaText, CodeName genNamespace, Func<string, string> retriever)
@@ -97,16 +99,23 @@
 
         private ObjectType.FieldInfo GetObjectTypeFieldInfo(JsonElement rootElt, string fieldName, JsonElement schemaElt, string? internalDefsKey, HashSet<string> indirectFields, HashSet<string> requiredFields, CodeName genNamespace, Func<string, string> retriever)
         {
+            bool hasKeywords = schemaElt.ValueKind == JsonValueKind.Object;
+
             return new ObjectType.FieldInfo(
                 GetSchemaTypeFromJsonElement(rootElt, schemaElt, internalDefsKey, genNamespace, retriever),
                 indirectFields.Contains(fieldName),
                 requiredFields.Contains(fieldName),
-                schemaElt.TryGetProperty("description", out JsonElement descElt) ? descElt.GetString() : null,
-                schemaElt.TryGetProperty("index", out JsonElement indexElt) ? indexElt.GetInt32() : null);
+                hasKeywords && schemaElt.TryGetProperty("description", out JsonElement descElt) ? descElt.GetString() : null,
+                hasKeywords && schemaElt.TryGetProperty("index", out JsonElement indexElt) ? indexElt.GetInt32() : null);
         }
 
         private SchemaType GetSchemaTypeFromJsonElement(JsonElement rootElt, JsonElement schemaElt, string? internalDefsKey, CodeName genNamespace, Func<string, string> retriever)
         {
+            if (schemaElt.ValueKind != JsonValueKind.Object)
+            {
+                return GetBooleanSchemaType(schemaElt);
+            }
+
             if (!schemaElt.TryGetProperty("$ref", out JsonElement referencingElt))
             {
                 return GetPrimitiveTypeFromJsonElement(rootElt, schemaElt, internalDefsKey, genNamespace, retriever);
@@ -144,6 +153,11 @@
 
         private bool TryGetNestedNullableJsonElement(ref JsonElement jsonElement)
         {
+            if (jsonElement.ValueKind != JsonValueKind.Object)
+            {
+                return false;
+            }
+
             if (jsonElement.TryGetProperty("anyOf", out JsonElement anyOfElt) && anyOfElt.ValueKind == JsonValueKind.Array)
             {
                 if (anyOfElt[0].TryGetProperty("type", out JsonElement typeElt) && typeElt.GetString() == "null")
@@ -161,14 +175,80 @@
             return false;
         }
 
+        private static SchemaType GetBooleanSchemaType(JsonElement schemaElt)
+        {
+            // A schema of 'true' permits any value; every other non-object JSON value permits none.
+            if (schemaElt.ValueKind == JsonValueKind.True)
+            {
+                return new AnyType();
+            }
+
+            throw new Exception($"unrecognized schema (JSON value kind = {schemaElt.ValueKind})");
+        }
+
+        /// <summary>
+        /// Returns the single value type named by a 'type' keyword, or null when the keyword names several.
+        /// </summary>
+        private static string? GetSchemaTypeName(JsonElement typeElt)
+        {
+            if (typeElt.ValueKind == JsonValueKind.String)
+            {
+                return typeElt.GetString();
+            }
+
+            if (typeElt.ValueKind != JsonValueKind.Array)
+            {
+                throw new Exception($"unrecognized 'type' keyword (JSON value kind = {typeElt.ValueKind})");
+            }
+
+            // A 'type' keyword names one of seven value types, or a non-empty unique list of them.
+            string[] namedTypes = typeElt.EnumerateArray()
+                .Select(e => e.ValueKind == JsonValueKind.String && JsonSchemaTypeNames.Contains(e.GetString()) ?
+                    e.GetString()! :
+                    throw new Exception($"unrecognized 'type' keyword entry ({e})"))
+                .Distinct()
+                .ToArray();
+
+            if (namedTypes.Length == 0)
+            {
+                throw new Exception("unrecognized 'type' keyword (the list of value types is empty)");
+            }
+
+            string[] valueTypes = namedTypes.Where(valueType => valueType != "null").ToArray();
+
+            return valueTypes.Length switch
+            {
+                1 => valueTypes[0],
+                0 => "null",
+                _ => null,
+            };
+        }
+
         private SchemaType GetPrimitiveTypeFromJsonElement(JsonElement rootElt, JsonElement schemaElt, string? internalDefsKey, CodeName genNamespace, Func<string, string> retriever)
         {
-            switch (schemaElt.GetProperty("type").GetString())
+            if (!schemaElt.TryGetProperty("type", out JsonElement typeElt))
+            {
+                return new AnyType();
+            }
+
+            string? typeName = GetSchemaTypeName(typeElt);
+            if (typeName == null)
+            {
+                return new AnyType();
+            }
+
+            switch (typeName)
             {
                 case "array":
-                    return new ArrayType(GetSchemaTypeFromJsonElement(rootElt, schemaElt.GetProperty("items"), internalDefsKey, genNamespace, retriever));
+                    return new ArrayType(schemaElt.TryGetProperty("items", out JsonElement itemsElt) ?
+                        GetSchemaTypeFromJsonElement(rootElt, itemsElt, internalDefsKey, genNamespace, retriever) :
+                        new AnyType());
                 case "object":
-                    JsonElement typeAndAddendaElt = schemaElt.GetProperty("additionalProperties");
+                    if (!schemaElt.TryGetProperty("additionalProperties", out JsonElement typeAndAddendaElt))
+                    {
+                        return new MapType(new AnyType(), nullValues: false);
+                    }
+
                     bool nullValues = TryGetNestedNullableJsonElement(ref typeAndAddendaElt);
                     return new MapType(GetSchemaTypeFromJsonElement(rootElt, typeAndAddendaElt, internalDefsKey, genNamespace, retriever), nullValues);
                 case "boolean":
@@ -221,7 +301,7 @@
 
                     return new StringType();
                 default:
-                    throw new Exception($"unrecognized schema (type = {schemaElt.GetProperty("type").GetString()})");
+                    throw new Exception($"unrecognized schema (type = {typeName})");
             }
         }
     }
