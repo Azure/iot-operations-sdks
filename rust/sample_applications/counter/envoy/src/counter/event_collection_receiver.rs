@@ -3,27 +3,28 @@
 use std::collections::HashMap;
 
 use azure_iot_operations_mqtt::{session::SessionManagedClient, token::AckToken};
+use azure_iot_operations_protocol::application::ApplicationContext;
 use azure_iot_operations_protocol::common::aio_protocol_error::AIOProtocolError;
 use azure_iot_operations_protocol::telemetry;
-use azure_iot_operations_protocol::application::ApplicationContext;
 
-use super::event_collection::EventCollection;
 use super::super::common_types::options::TelemetryReceiverOptions;
+use super::event_collection::EventCollection;
 
 pub type EventCollectionMessage = telemetry::receiver::Message<EventCollection>;
 
 /// Telemetry Receiver for `EventCollection`
-pub struct EventCollectionReceiver(
-    telemetry::Receiver<EventCollection>,
-);
+pub struct EventCollectionReceiver(telemetry::Receiver<EventCollection>);
 
-impl EventCollectionReceiver
-{
+impl EventCollectionReceiver {
     /// Creates a new [`EventCollectionReceiver`]
     ///
     /// # Panics
     /// If the DTDL that generated this code was invalid
-    pub fn new(application_context: ApplicationContext, client: SessionManagedClient, options: &TelemetryReceiverOptions) -> Self {
+    pub fn new(
+        application_context: ApplicationContext,
+        client: SessionManagedClient,
+        options: &TelemetryReceiverOptions,
+    ) -> Self {
         let mut receiver_options_builder = telemetry::receiver::OptionsBuilder::default();
         if let Some(topic_namespace) = &options.topic_namespace {
             receiver_options_builder.topic_namespace(topic_namespace.clone());

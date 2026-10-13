@@ -12,8 +12,7 @@ use super::super::common_types::empty_json::EmptyJson;
 use super::super::common_types::options::CommandExecutorOptions;
 use super::read_counter_output_arguments::ReadCounterOutputArguments;
 
-pub type ReadCounterRequest =
-    rpc_command::executor::Request<EmptyJson, ReadCounterOutputArguments>;
+pub type ReadCounterRequest = rpc_command::executor::Request<EmptyJson, ReadCounterOutputArguments>;
 pub type ReadCounterResponse = rpc_command::executor::Response<ReadCounterOutputArguments>;
 pub type ReadCounterResponseBuilderError = rpc_command::executor::ResponseBuilderError;
 
@@ -31,7 +30,10 @@ impl ReadCounterResponseBuilder {
     }
 
     /// Cloud event for the response
-    pub fn cloud_event(&mut self, cloud_event: Option<rpc_command::executor::ResponseCloudEvent>) -> &mut Self {
+    pub fn cloud_event(
+        &mut self,
+        cloud_event: Option<rpc_command::executor::ResponseCloudEvent>,
+    ) -> &mut Self {
         self.inner_builder.cloud_event(cloud_event);
         self
     }
@@ -59,17 +61,18 @@ impl ReadCounterResponseBuilder {
 }
 
 /// Command Executor for `readCounter`
-pub struct ReadCounterActionExecutor(
-    rpc_command::Executor<EmptyJson, ReadCounterOutputArguments>,
-);
+pub struct ReadCounterActionExecutor(rpc_command::Executor<EmptyJson, ReadCounterOutputArguments>);
 
-impl ReadCounterActionExecutor
-{
+impl ReadCounterActionExecutor {
     /// Creates a new [`ReadCounterActionExecutor`]
     ///
     /// # Panics
     /// If the DTDL that generated this code was invalid
-    pub fn new(application_context: ApplicationContext, client: SessionManagedClient, options: &CommandExecutorOptions) -> Self {
+    pub fn new(
+        application_context: ApplicationContext,
+        client: SessionManagedClient,
+        options: &CommandExecutorOptions,
+    ) -> Self {
         let mut executor_options_builder = rpc_command::executor::OptionsBuilder::default();
         if let Some(topic_namespace) = &options.topic_namespace {
             executor_options_builder.topic_namespace(topic_namespace.clone());

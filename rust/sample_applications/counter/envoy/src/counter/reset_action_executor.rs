@@ -10,8 +10,7 @@ use azure_iot_operations_protocol::rpc_command;
 use super::super::common_types::empty_json::EmptyJson;
 use super::super::common_types::options::CommandExecutorOptions;
 
-pub type ResetRequest =
-    rpc_command::executor::Request<EmptyJson, EmptyJson>;
+pub type ResetRequest = rpc_command::executor::Request<EmptyJson, EmptyJson>;
 pub type ResetResponse = rpc_command::executor::Response<EmptyJson>;
 pub type ResetResponseBuilderError = rpc_command::executor::ResponseBuilderError;
 
@@ -29,7 +28,10 @@ impl ResetResponseBuilder {
     }
 
     /// Cloud event for the response
-    pub fn cloud_event(&mut self, cloud_event: Option<rpc_command::executor::ResponseCloudEvent>) -> &mut Self {
+    pub fn cloud_event(
+        &mut self,
+        cloud_event: Option<rpc_command::executor::ResponseCloudEvent>,
+    ) -> &mut Self {
         self.inner_builder.cloud_event(cloud_event);
         self
     }
@@ -47,17 +49,18 @@ impl ResetResponseBuilder {
 }
 
 /// Command Executor for `reset`
-pub struct ResetActionExecutor(
-    rpc_command::Executor<EmptyJson, EmptyJson>,
-);
+pub struct ResetActionExecutor(rpc_command::Executor<EmptyJson, EmptyJson>);
 
-impl ResetActionExecutor
-{
+impl ResetActionExecutor {
     /// Creates a new [`ResetActionExecutor`]
     ///
     /// # Panics
     /// If the DTDL that generated this code was invalid
-    pub fn new(application_context: ApplicationContext, client: SessionManagedClient, options: &CommandExecutorOptions) -> Self {
+    pub fn new(
+        application_context: ApplicationContext,
+        client: SessionManagedClient,
+        options: &CommandExecutorOptions,
+    ) -> Self {
         let mut executor_options_builder = rpc_command::executor::OptionsBuilder::default();
         if let Some(topic_namespace) = &options.topic_namespace {
             executor_options_builder.topic_namespace(topic_namespace.clone());

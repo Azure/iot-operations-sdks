@@ -5,13 +5,13 @@ use std::time::Duration;
 
 use azure_iot_operations_mqtt::control_packet::QoS;
 use azure_iot_operations_mqtt::session::SessionManagedClient;
+use azure_iot_operations_protocol::application::ApplicationContext;
 use azure_iot_operations_protocol::common::aio_protocol_error::AIOProtocolError;
 use azure_iot_operations_protocol::common::payload_serialize::PayloadSerialize;
 use azure_iot_operations_protocol::telemetry;
-use azure_iot_operations_protocol::application::ApplicationContext;
 
-use super::event_collection::EventCollection;
 use super::super::common_types::options::TelemetrySenderOptions;
+use super::event_collection::EventCollection;
 
 pub type EventCollectionMessage = telemetry::sender::Message<EventCollection>;
 pub type EventCollectionMessageBuilderError = telemetry::sender::MessageBuilderError;
@@ -62,10 +62,7 @@ impl EventCollectionMessageBuilder {
     ///
     /// # Errors
     /// If the payload cannot be serialized
-    pub fn payload(
-        &mut self,
-        payload: EventCollection,
-    ) -> Result<&mut Self, AIOProtocolError> {
+    pub fn payload(&mut self, payload: EventCollection) -> Result<&mut Self, AIOProtocolError> {
         self.inner_builder.payload(payload)?;
         Ok(self)
     }
@@ -82,17 +79,18 @@ impl EventCollectionMessageBuilder {
 }
 
 /// Telemetry Sender for `EventCollection`
-pub struct EventCollectionSender(
-    telemetry::Sender<EventCollection>,
-);
+pub struct EventCollectionSender(telemetry::Sender<EventCollection>);
 
-impl EventCollectionSender
-{
+impl EventCollectionSender {
     /// Creates a new [`EventCollectionSender`]
     ///
     /// # Panics
     /// If the DTDL that generated this code was invalid
-    pub fn new(application_context: ApplicationContext, client: SessionManagedClient, options: &TelemetrySenderOptions) -> Self {
+    pub fn new(
+        application_context: ApplicationContext,
+        client: SessionManagedClient,
+        options: &TelemetrySenderOptions,
+    ) -> Self {
         let mut sender_options_builder = telemetry::sender::OptionsBuilder::default();
         if let Some(topic_namespace) = &options.topic_namespace {
             sender_options_builder.topic_namespace(topic_namespace.clone());

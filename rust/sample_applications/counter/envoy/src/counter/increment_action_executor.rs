@@ -31,7 +31,10 @@ impl IncrementResponseBuilder {
     }
 
     /// Cloud event for the response
-    pub fn cloud_event(&mut self, cloud_event: Option<rpc_command::executor::ResponseCloudEvent>) -> &mut Self {
+    pub fn cloud_event(
+        &mut self,
+        cloud_event: Option<rpc_command::executor::ResponseCloudEvent>,
+    ) -> &mut Self {
         self.inner_builder.cloud_event(cloud_event);
         self
     }
@@ -63,13 +66,16 @@ pub struct IncrementActionExecutor(
     rpc_command::Executor<IncrementInputArguments, IncrementOutputArguments>,
 );
 
-impl IncrementActionExecutor
-{
+impl IncrementActionExecutor {
     /// Creates a new [`IncrementActionExecutor`]
     ///
     /// # Panics
     /// If the DTDL that generated this code was invalid
-    pub fn new(application_context: ApplicationContext, client: SessionManagedClient, options: &CommandExecutorOptions) -> Self {
+    pub fn new(
+        application_context: ApplicationContext,
+        client: SessionManagedClient,
+        options: &CommandExecutorOptions,
+    ) -> Self {
         let mut executor_options_builder = rpc_command::executor::OptionsBuilder::default();
         if let Some(topic_namespace) = &options.topic_namespace {
             executor_options_builder.topic_namespace(topic_namespace.clone());
