@@ -5,9 +5,7 @@ use std::time::Duration;
 
 use azure_iot_operations_mqtt::session::SessionManagedClient;
 use azure_iot_operations_protocol::application::ApplicationContext;
-use azure_iot_operations_protocol::common::aio_protocol_error::{
-    AIOProtocolError,
-};
+use azure_iot_operations_protocol::common::aio_protocol_error::AIOProtocolError;
 use azure_iot_operations_protocol::rpc_command;
 
 use super::super::common_types::empty_json::EmptyJson;
@@ -34,7 +32,10 @@ impl ReadCounterRequestBuilder {
     }
 
     /// Cloud event for the request
-    pub fn cloud_event(&mut self, cloud_event: Option<rpc_command::invoker::RequestCloudEvent>) -> &mut Self {
+    pub fn cloud_event(
+        &mut self,
+        cloud_event: Option<rpc_command::invoker::RequestCloudEvent>,
+    ) -> &mut Self {
         self.inner_builder.cloud_event(cloud_event);
         self
     }
@@ -84,17 +85,18 @@ impl ReadCounterRequestBuilder {
 }
 
 /// Command Invoker for `readCounter`
-pub struct ReadCounterActionInvoker(
-    rpc_command::Invoker<EmptyJson, ReadCounterOutputArguments>,
-);
+pub struct ReadCounterActionInvoker(rpc_command::Invoker<EmptyJson, ReadCounterOutputArguments>);
 
-impl ReadCounterActionInvoker
-{
+impl ReadCounterActionInvoker {
     /// Creates a new [`ReadCounterActionInvoker`]
     ///
     /// # Panics
     /// If the DTDL that generated this code was invalid
-    pub fn new(application_context: ApplicationContext, client: SessionManagedClient, options: &CommandInvokerOptions) -> Self {
+    pub fn new(
+        application_context: ApplicationContext,
+        client: SessionManagedClient,
+        options: &CommandInvokerOptions,
+    ) -> Self {
         let mut invoker_options_builder = rpc_command::invoker::OptionsBuilder::default();
         if let Some(topic_namespace) = &options.topic_namespace {
             invoker_options_builder.topic_namespace(topic_namespace.clone());
@@ -107,7 +109,10 @@ impl ReadCounterActionInvoker
             .map(|(k, v)| (format!("ex:{k}"), v))
             .collect();
 
-        topic_token_map.insert("invokerClientId".to_string(), client.client_id().to_string());
+        topic_token_map.insert(
+            "invokerClientId".to_string(),
+            client.client_id().to_string(),
+        );
 
         let invoker_options = invoker_options_builder
             .request_topic_pattern("rpc/command-samples/{executorId}/readCounter")
