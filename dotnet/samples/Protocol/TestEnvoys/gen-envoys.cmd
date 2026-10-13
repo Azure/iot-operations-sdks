@@ -5,7 +5,7 @@ dotnet build -c Debug ..\..\..\..\wot-codegen\src\Azure.Iot.Operations.ProtocolC
 set gen=..\..\..\..\wot-codegen\src\Azure.Iot.Operations.ProtocolCompiler\bin\Debug\net10.0\Azure.Iot.Operations.ProtocolCompiler.exe
 set sdk=..\..\..\src\Azure.Iot.Operations.Protocol
 
-rmdir /s /q Counter CustomTopicTokens Passthrough schemas 2>nul
+for %%D in (Counter CustomTopicTokens Passthrough schemas) do rmdir /s /q "%%D" 2>nul
 
 %gen% --things ..\..\..\..\eng\test\schema-samples\Counter.TM.json --outDir . --sdkPath %sdk% --namespace Counter --lang csharp --noProj --workingDir schemas/Counter
 %gen% --things ..\..\..\..\eng\test\schema-samples\CustomTopicTokens.TM.json --outDir . --sdkPath %sdk% --namespace CustomTopicTokens --lang csharp --noProj --workingDir schemas/CustomTopicTokens
