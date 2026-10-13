@@ -1,0 +1,14 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema",
+  "title": "ReadCustomTopicTokenOutputArguments",
+  "description": "Output arguments for action 'readCustomTopicToken'",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [ "CustomTopicTokenResponse" ],
+  "properties": {
+    "CustomTopicTokenResponse": {
+      "description": "The 'CustomTopicTokenResponse' Field.",
+      "type": "string"
+    }
+  }
+}
