@@ -11,8 +11,8 @@ use azure_iot_operations_mqtt::session::{
 use azure_iot_operations_protocol::application::{ApplicationContext, ApplicationContextBuilder};
 use envoy::common_types::options::{CommandInvokerOptionsBuilder, TelemetryReceiverOptionsBuilder};
 use envoy::counter::client::{
-    IncrementCommandInvoker, IncrementRequestBuilder, IncrementRequestPayloadBuilder,
-    ReadCounterCommandInvoker, ReadCounterRequestBuilder, TelemetryReceiver,
+    EventCollectionReceiver, IncrementActionInvoker, IncrementInputArgumentsBuilder,
+    IncrementRequestBuilder, ReadCounterActionInvoker, ReadCounterRequestBuilder,
 };
 
 use tokio::time::sleep;
@@ -72,7 +72,7 @@ async fn counter_telemetry_check(
     exit_handle: SessionExitHandle,
 ) {
     // Create receiver
-    let mut counter_value_receiver = TelemetryReceiver::new(
+    let mut counter_value_receiver = EventCollectionReceiver::new(
         application_context,
         client,
         &TelemetryReceiverOptionsBuilder::default()
@@ -122,9 +122,8 @@ async fn increment_and_check(
     // Create invokers
     let options = CommandInvokerOptionsBuilder::default().build().unwrap();
     let increment_invoker =
-        IncrementCommandInvoker::new(application_context.clone(), client.clone(), &options);
-    let read_counter_invoker =
-        ReadCounterCommandInvoker::new(application_context, client, &options);
+        IncrementActionInvoker::new(application_context.clone(), client.clone(), &options);
+    let read_counter_invoker = ReadCounterActionInvoker::new(application_context, client, &options);
 
     // Get the target executor ID from the environment
     let target_executor_id = env::var("COUNTER_SERVER_ID").unwrap();
@@ -152,7 +151,7 @@ async fn increment_and_check(
             .timeout(Duration::from_secs(10))
             .executor_id(&target_executor_id)
             .payload(
-                IncrementRequestPayloadBuilder::default()
+                IncrementInputArgumentsBuilder::default()
                     .increment_value(1)
                     .build()
                     .unwrap(),

@@ -188,7 +188,7 @@ public class RpcCommandRunner(MqttSessionClient mqttClient, IServiceProvider ser
             {
                 ["myCustomTopicToken"] = customTopicTokenValue,
             };
-            ExtendedResponse<ReadCustomTopicTokenResponsePayload> respCounter = await customTopicTokenClient.ReadCustomTopicTokenAsync(executorId, reqMd, transientTopicTokenMap).WithMetadata();
+            ExtendedResponse<ReadCustomTopicTokenOutputArguments> respCounter = await customTopicTokenClient.ReadCustomTopicTokenAsync(executorId, reqMd, transientTopicTokenMap).WithMetadata();
             logger.LogInformation("Invoked custom topic token RPC with custom topic token value " + customTopicTokenValue);
         }
         catch (Exception ex)

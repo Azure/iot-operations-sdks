@@ -14,15 +14,15 @@ public class CustomTopicTokenService : CustomTopicTokens.Service
     {
     }
 
-    public override Task<ExtendedResponse<ReadCustomTopicTokenResponsePayload>> ReadCustomTopicTokenAsync(CommandRequestMetadata requestMetadata, CancellationToken cancellationToken)
+    public override Task<ExtendedResponse<ReadCustomTopicTokenOutputArguments>> ReadCustomTopicTokenAsync(CommandRequestMetadata requestMetadata, CancellationToken cancellationToken)
     {
         string customTopicTokenValue = requestMetadata.TopicTokens["ex:myCustomTopicToken"];
         Console.WriteLine("Received RPC call with custom token value: " + customTopicTokenValue);
 
-        return Task.FromResult(new ExtendedResponse<ReadCustomTopicTokenResponsePayload>
+        return Task.FromResult(new ExtendedResponse<ReadCustomTopicTokenOutputArguments>
         {
             // Echo the value back to the invoker
-            Response = new ReadCustomTopicTokenResponsePayload { CustomTopicTokenResponse = customTopicTokenValue }
+            Response = new ReadCustomTopicTokenOutputArguments { CustomTopicTokenResponse = customTopicTokenValue }
         });
     }
 }

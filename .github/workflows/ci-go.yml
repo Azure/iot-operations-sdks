@@ -7,13 +7,6 @@ on:
       - '.github/**'
       - 'go/**'
       - 'eng/test/test-cases/Protocol/**'
-      - 'codegen/src/**'
-      - '!codegen/src/Azure.Iot.Operations.ProtocolCompiler/T4/communication'
-      - 'codegen/src/Azure.Iot.Operations.ProtocolCompiler/T4/communication/common'
-      - 'codegen/src/Azure.Iot.Operations.ProtocolCompiler/T4/communication/go'
-      - '!codegen/src/Azure.Iot.Operations.ProtocolCompiler/T4/encapsulation'
-      - 'codegen/src/Azure.Iot.Operations.ProtocolCompiler/T4/encapsulation/common'
-      - 'codegen/src/Azure.Iot.Operations.ProtocolCompiler/T4/encapsulation/go'
       - 'eng/test/faultablemqttbroker/**'
       - 'tools/deployment/**'
 
@@ -123,13 +116,6 @@ jobs:
         version: latest
         args: civerify
         workdir: ./go/test/integration
-
-    - name: Build codegen
-      run: dotnet build codegen/src/Azure.Iot.Operations.ProtocolCompiler/Azure.Iot.Operations.ProtocolCompiler.csproj
-
-    - name: Codegen counter for Go
-      working-directory: ./go/samples/protocol/counter/envoy
-      run: ./gen.sh
 
     - name: Run counter server
       working-directory: ./go/samples/protocol/counter/server
