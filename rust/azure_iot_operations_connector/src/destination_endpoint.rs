@@ -615,7 +615,7 @@ impl Destination {
     /// may not exist in the definition.
     ///
     /// # Errors
-    /// [`AdrConfigError`] if the destination is `Mqtt` and the topic is invalid.
+    /// [`AdrConfigError`] if a required destination field is missing or the `Mqtt` topic is invalid.
     /// This can be used to report the error to the ADR service on the status
     pub(crate) fn new_dataset_destinations(
         dataset_destinations: &[adr_models::DatasetDestination],
@@ -647,7 +647,7 @@ impl Destination {
     /// may not exist in the definition.
     ///
     /// # Errors
-    /// [`AdrConfigError`] if the destination is `Mqtt` and the topic is invalid.
+    /// [`AdrConfigError`] if a required destination field is missing or the `Mqtt` topic is invalid.
     /// This can be used to report the error to the ADR service on the status
     pub(crate) fn new_event_stream_destinations(
         event_stream_destinations: &[adr_models::EventStreamDestination],
@@ -683,16 +683,18 @@ impl Destination {
         Ok(match data_operation_destination_definition.target() {
             DataOperationDestinationDefinitionTarget::Dataset(
                 adr_models::DatasetTarget::BrokerStateStore,
-            ) => {
-                Destination::BrokerStateStore {
-                    // TODO: validate key not empty?
-                    key: data_operation_destination_definition
-                        .configuration()
-                        .key
-                        .clone()
-                        .expect("Key must be present if Target is BrokerStateStore"),
-                }
-            }
+            ) => Destination::BrokerStateStore {
+                // TODO: validate key not empty?
+                key: data_operation_destination_definition
+                    .configuration()
+                    .key
+                    .clone()
+                    .ok_or_else(|| AdrConfigError {
+                        code: None,
+                        details: None,
+                        message: Some("BrokerStateStore destination key is required".to_string()),
+                    })?,
+            },
             DataOperationDestinationDefinitionTarget::EventStream(
                 adr_models::EventStreamTarget::Mqtt,
             )
@@ -703,7 +705,11 @@ impl Destination {
                             .configuration()
                             .topic
                             .clone()
-                            .expect("Topic must be present if Target is Mqtt"),
+                            .ok_or_else(|| AdrConfigError {
+                                code: None,
+                                details: None,
+                                message: Some("MQTT destination topic is required".to_string()),
+                            })?,
                     )
                     .build()
                     // TODO: check if this can fail, or just the next one
@@ -749,7 +755,11 @@ impl Destination {
                     .configuration()
                     .path
                     .clone()
-                    .expect("Path must be present if Target is Storage"),
+                    .ok_or_else(|| AdrConfigError {
+                        code: None,
+                        details: None,
+                        message: Some("Storage destination path is required".to_string()),
+                    })?,
             },
         })
     }
