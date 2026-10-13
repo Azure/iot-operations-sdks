@@ -182,6 +182,14 @@ where
     pub fn is_cancelled(&self) -> bool {
         self.responder.is_cancelled()
     }
+
+    /// Remaining time in which the executor can accept a response.
+    ///
+    /// Returns [`Duration::ZERO`] once the command request has expired.
+    #[must_use]
+    pub fn time_remaining(&self) -> Duration {
+        self.responder.time_remaining()
+    }
 }
 
 /// Owned data extracted from a [`Request`] via [`Request::into_parts`].
@@ -218,6 +226,7 @@ where
     command_name: String,
     response_tx: oneshot::Sender<Response<TResp>>,
     publish_completion_rx: oneshot::Receiver<Result<(), AIOProtocolError>>,
+    response_deadline: Instant,
 }
 
 impl<TResp> Responder<TResp>
@@ -275,6 +284,15 @@ where
     #[must_use]
     pub fn is_cancelled(&self) -> bool {
         self.response_tx.is_closed()
+    }
+
+    /// Remaining time in which the executor can accept a response.
+    ///
+    /// Returns [`Duration::ZERO`] once the command request has expired.
+    #[must_use]
+    pub fn time_remaining(&self) -> Duration {
+        self.response_deadline
+            .saturating_duration_since(Instant::now())
     }
 }
 
@@ -1355,6 +1373,7 @@ where
                                 command_name: self.command_name.clone(),
                                 response_tx,
                                 publish_completion_rx,
+                                response_deadline: command_expiration_time,
                             },
                         };
 
@@ -2042,6 +2061,7 @@ mod tests {
                 command_name: "test_command_name".to_string(),
                 response_tx,
                 publish_completion_rx,
+                response_deadline: Instant::now() + Duration::from_secs(10),
             },
         };
 
@@ -2784,6 +2804,31 @@ mod tests {
         // When the executor stops expecting a response, the responder reports cancellation.
         drop(response_rx);
         assert!(responder.is_cancelled());
+    }
+
+    #[test]
+    fn test_into_parts_responder_time_remaining() {
+        let (request, _response_rx, _publish_completion_tx) =
+            build_test_request(MockPayload::new());
+
+        let request_time_remaining = request.time_remaining();
+        assert!(!request_time_remaining.is_zero());
+        assert!(request_time_remaining <= Duration::from_secs(10));
+
+        // The responder keeps the request's deadline, so the remaining time does not reset.
+        let (_parts, responder) = request.into_parts();
+        let responder_time_remaining = responder.time_remaining();
+        assert!(!responder_time_remaining.is_zero());
+        assert!(responder_time_remaining <= request_time_remaining);
+    }
+
+    #[test]
+    fn test_time_remaining_expired() {
+        let (mut request, _response_rx, _publish_completion_tx) =
+            build_test_request(MockPayload::new());
+        request.responder.response_deadline = Instant::now() - Duration::from_secs(1);
+
+        assert_eq!(request.time_remaining(), Duration::ZERO);
     }
 
     #[tokio::test]

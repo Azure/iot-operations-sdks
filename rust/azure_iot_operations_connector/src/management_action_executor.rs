@@ -217,6 +217,14 @@ impl ManagementActionRequest {
         self.request.is_cancelled()
     }
 
+    /// Remaining time in which the management action response can be sent.
+    ///
+    /// Returns [`Duration::ZERO`] once the request has expired.
+    #[must_use]
+    pub fn time_remaining(&self) -> Duration {
+        self.request.time_remaining()
+    }
+
     /// Payload of the request, with the content type and format indicator.
     #[must_use]
     pub fn serialized_payload(&self) -> &BypassPayload {
