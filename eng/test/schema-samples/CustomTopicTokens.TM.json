@@ -1,0 +1,50 @@
+{
+  "@context": [
+    "https://www.w3.org/2022/wot/td/v1.1",
+    { "dtv": "http://azure.com/DigitalTwins/dtmi#" }
+  ],
+  "@type": "tm:ThingModel",
+  "title": "CustomTopicTokens",
+  "forms": [
+    {
+      "contentType": "application/json",
+      "dtv:topic": "telemetry/telemetry-samples/{ex:myCustomTopicToken}",
+      "op": "subscribeallevents"
+    }
+  ],
+  "actions": {
+    "readCustomTopicToken": {
+      "output": {
+        "type": "object",
+        "required": [ "CustomTopicTokenResponse" ],
+        "properties": {
+          "CustomTopicTokenResponse": {
+            "type": "string"
+          }
+        }
+      },
+      "forms": [
+        {
+          "contentType": "application/json",
+          "dtv:topic": "rpc/command-samples/{executorId}/readCustomTopicToken/{ex:myCustomTopicToken}",
+          "op": "invokeaction"
+        }
+      ]
+    }
+  },
+  "properties": {
+  },
+  "events": {
+    "CustomTopicTokenPayload": {
+      "data": {
+        "type": "string"
+      },
+      "forms": [
+        {
+          "contentType": "application/json",
+          "op": "subscribeevent"
+        }
+      ]
+    }
+  }
+}
