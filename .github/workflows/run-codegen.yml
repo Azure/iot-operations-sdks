@@ -18,10 +18,20 @@ jobs:
         with:
           dotnet-version: 10.0.400
 
+      - name: Setup Rust (pinned via rust-toolchain.toml)
+        uses: actions-rust-lang/setup-rust-toolchain@166cdcfd11aee3cb47222f9ddb555ce30ddb9659 # v1
+        with:
+          rust-src-dir: rust
+          cache: false
+
       - name: Build and run WoT codegen
         run: | 
           dotnet build -c Debug wot-codegen/codegen.sln
           ./wot-codegen/gen_all.sh
+
+      - name: Format Rust code
+        working-directory: rust
+        run: cargo fmt --all
 
       - name: Verify Generated Code Matches Repo
         run: |
