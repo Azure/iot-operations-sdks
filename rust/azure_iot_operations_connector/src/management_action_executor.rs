@@ -219,6 +219,9 @@ impl ManagementActionRequest {
 
     /// Remaining time in which the management action response can be sent.
     ///
+    /// Measured from when the executor received the request, using the request's message expiry
+    /// interval.
+    ///
     /// Returns [`Duration::ZERO`] once the request has expired.
     #[must_use]
     pub fn time_remaining(&self) -> Duration {

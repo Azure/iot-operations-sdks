@@ -185,6 +185,9 @@ where
 
     /// Remaining time in which the executor can accept a response.
     ///
+    /// Measured from when the executor received the request, using the request's message expiry
+    /// interval.
+    ///
     /// Returns [`Duration::ZERO`] once the command request has expired.
     #[must_use]
     pub fn time_remaining(&self) -> Duration {
@@ -287,6 +290,9 @@ where
     }
 
     /// Remaining time in which the executor can accept a response.
+    ///
+    /// Measured from when the executor received the request, using the request's message expiry
+    /// interval.
     ///
     /// Returns [`Duration::ZERO`] once the command request has expired.
     #[must_use]
