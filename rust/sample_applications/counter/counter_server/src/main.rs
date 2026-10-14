@@ -11,9 +11,9 @@ use azure_iot_operations_mqtt::session::{
 use azure_iot_operations_protocol::application::{ApplicationContext, ApplicationContextBuilder};
 use envoy::common_types::options::{CommandExecutorOptionsBuilder, TelemetrySenderOptionsBuilder};
 use envoy::counter::service::{
-    IncrementCommandExecutor, IncrementResponseBuilder, IncrementResponsePayload,
-    ReadCounterCommandExecutor, ReadCounterResponseBuilder, ReadCounterResponsePayload,
-    TelemetryCollectionBuilder, TelemetryMessageBuilder, TelemetrySender,
+    EventCollectionBuilder, EventCollectionMessageBuilder, EventCollectionSender,
+    IncrementActionExecutor, IncrementOutputArguments, IncrementResponseBuilder,
+    ReadCounterActionExecutor, ReadCounterOutputArguments, ReadCounterResponseBuilder,
 };
 
 #[tokio::main(flavor = "current_thread")]
@@ -68,12 +68,12 @@ async fn read_counter_executor(
     // Create executor
     let options = CommandExecutorOptionsBuilder::default().build().unwrap();
     let mut read_counter_executor =
-        ReadCounterCommandExecutor::new(application_context, client, &options);
+        ReadCounterActionExecutor::new(application_context, client, &options);
 
     // Respond to each read request with the current counter value
     loop {
         let request = read_counter_executor.recv().await.unwrap().unwrap();
-        let response_payload = ReadCounterResponsePayload {
+        let response_payload = ReadCounterOutputArguments {
             counter_response: *counter.lock().unwrap(),
         };
         let response = ReadCounterResponseBuilder::default()
@@ -95,10 +95,10 @@ async fn increment_counter_and_publish(
     // Create executor
     let options = CommandExecutorOptionsBuilder::default().build().unwrap();
     let mut increment_executor =
-        IncrementCommandExecutor::new(application_context.clone(), client.clone(), &options);
+        IncrementActionExecutor::new(application_context.clone(), client.clone(), &options);
 
     // Create sender
-    let counter_sender = TelemetrySender::new(
+    let counter_sender = EventCollectionSender::new(
         application_context,
         client,
         &TelemetrySenderOptionsBuilder::default().build().unwrap(),
@@ -116,9 +116,9 @@ async fn increment_counter_and_publish(
         };
 
         // Create telemetry message using the new counter value
-        let telemetry_message = TelemetryMessageBuilder::default()
+        let telemetry_message = EventCollectionMessageBuilder::default()
             .payload(
-                TelemetryCollectionBuilder::default()
+                EventCollectionBuilder::default()
                     .counter_value(Some(updated_counter))
                     .build()
                     .unwrap(),
@@ -131,7 +131,7 @@ async fn increment_counter_and_publish(
         counter_sender.send(telemetry_message).await.unwrap();
 
         // Respond
-        let response_payload = IncrementResponsePayload {
+        let response_payload = IncrementOutputArguments {
             counter_response: updated_counter,
         };
 
