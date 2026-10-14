@@ -692,7 +692,9 @@ impl Destination {
                     .ok_or_else(|| AdrConfigError {
                         code: None,
                         details: None,
-                        message: Some("'key' field is required for BrokerStateStore destination".to_string()),
+                        message: Some(
+                            "'key' field is required for BrokerStateStore destination".to_string(),
+                        ),
                     })?,
             },
             DataOperationDestinationDefinitionTarget::EventStream(
@@ -708,7 +710,9 @@ impl Destination {
                             .ok_or_else(|| AdrConfigError {
                                 code: None,
                                 details: None,
-                                message: Some("'topic' field is required for MQTT destination".to_string()),
+                                message: Some(
+                                    "'topic' field is required for MQTT destination".to_string(),
+                                ),
                             })?,
                     )
                     .build()
@@ -758,7 +762,9 @@ impl Destination {
                     .ok_or_else(|| AdrConfigError {
                         code: None,
                         details: None,
-                        message: Some("'path' field is required for Storage destination".to_string()),
+                        message: Some(
+                            "'path' field is required for Storage destination".to_string(),
+                        ),
                     })?,
             },
         })
