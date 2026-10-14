@@ -1,0 +1,29 @@
+{
+  "@context": [
+    "https://www.w3.org/2022/wot/td/v1.1",
+    { "dtv": "http://azure.com/DigitalTwins/dtmi#" }
+  ],
+  "@type": "tm:ThingModel",
+  "title": "Passthrough",
+  "actions": {
+    "pass": {
+      "input": {
+        "type": "null"
+      },
+      "output": {
+        "type": "null"
+      },
+      "forms": [
+        {
+          "contentType": "application/octet-stream",
+          "dtv:topic": "rpc/command-samples/{executorId}/pass",
+          "op": "invokeaction"
+        }
+      ]
+    }
+  },
+  "properties": {
+  },
+  "events": {
+  }
+}

@@ -18,19 +18,19 @@ public class CounterService : Counter.Service
 
     public CounterService(ApplicationContext applicationContext, IMqttPubSubClient mqttClient) : base(applicationContext, mqttClient) 
     {
-        ReadCounterCommandExecutor.ExecutionTimeout = TimeSpan.FromSeconds(30);
-        IncrementCommandExecutor.ExecutionTimeout = TimeSpan.FromSeconds(30);
-        ResetCommandExecutor.ExecutionTimeout = TimeSpan.FromSeconds(30);
+        ReadCounterActionExecutor.ExecutionTimeout = TimeSpan.FromSeconds(30);
+        IncrementActionExecutor.ExecutionTimeout = TimeSpan.FromSeconds(30);
+        ResetActionExecutor.ExecutionTimeout = TimeSpan.FromSeconds(30);
     }
 
-    public override Task<ExtendedResponse<IncrementResponsePayload>> IncrementAsync(IncrementRequestPayload request, CommandRequestMetadata requestMetadata, CancellationToken cancellationToken)
+    public override Task<ExtendedResponse<IncrementOutputArguments>> IncrementAsync(IncrementInputArguments request, CommandRequestMetadata requestMetadata, CancellationToken cancellationToken)
     {
         if (request.IncrementValue < 0)
         {
             var response =
-                new ExtendedResponse<IncrementResponsePayload>()
+                new ExtendedResponse<IncrementOutputArguments>()
                 {
-                    Response = new IncrementResponsePayload { CounterResponse = _counter },
+                    Response = new IncrementOutputArguments { CounterResponse = _counter },
                 }.WithApplicationError(
                     NegativeValueArgumentErrorCode,
                     JsonSerializer.Serialize(new CounterServiceApplicationError() { InvalidRequestArgumentValue = request.IncrementValue }));
@@ -41,13 +41,13 @@ public class CounterService : Counter.Service
         Console.WriteLine($"--> Executing Counter.Increment with id {requestMetadata.CorrelationId} for {requestMetadata.InvokerClientId}");
         Interlocked.Increment(ref _counter);
         Console.WriteLine($"--> Executed Counter.Increment with id {requestMetadata.CorrelationId} for {requestMetadata.InvokerClientId}");
-        return Task.FromResult(new ExtendedResponse<IncrementResponsePayload>
+        return Task.FromResult(new ExtendedResponse<IncrementOutputArguments>
         {
-            Response = new IncrementResponsePayload { CounterResponse = _counter }
+            Response = new IncrementOutputArguments { CounterResponse = _counter }
         });
     }
 
-    public override Task<ExtendedResponse<ReadCounterResponsePayload>> ReadCounterAsync(CommandRequestMetadata requestMetadata, CancellationToken cancellationToken)
+    public override Task<ExtendedResponse<ReadCounterOutputArguments>> ReadCounterAsync(CommandRequestMetadata requestMetadata, CancellationToken cancellationToken)
     {
         CommandResponseMetadata responseMetadata = new();
 
@@ -71,9 +71,9 @@ public class CounterService : Counter.Service
         Console.WriteLine($"--> Executing Counter.ReadCounter with id {requestMetadata.CorrelationId} for {requestMetadata.InvokerClientId}");
         var curValue = _counter;
         Console.WriteLine($"--> Executed Counter.ReadCounter with id {requestMetadata.CorrelationId} for {requestMetadata.InvokerClientId}");
-        return Task.FromResult(new ExtendedResponse<ReadCounterResponsePayload>
+        return Task.FromResult(new ExtendedResponse<ReadCounterOutputArguments>
         {
-            Response = new ReadCounterResponsePayload { CounterResponse = curValue },
+            Response = new ReadCounterOutputArguments { CounterResponse = curValue },
             ResponseMetadata = responseMetadata
         });
     }
