@@ -21,7 +21,7 @@ internal class CustomTopicTokenClient : CustomTopicTokens.Client
     {
     }
 
-    public override Task ReceiveTelemetry(string senderId, TelemetryCollection telemetry, IncomingTelemetryMetadata metadata)
+    public override Task ReceiveTelemetry(string senderId, EventCollection telemetry, IncomingTelemetryMetadata metadata)
     {
         CustomTopicTokenValue = metadata.TopicTokens["ex:myCustomTopicToken"];
         OnTelemetryReceived.TrySetResult();
