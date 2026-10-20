@@ -88,6 +88,10 @@ pub(crate) mod plenary_ack;
 pub mod reconnect_policy;
 mod state;
 
+// TODO: Remove once azure_mqtt reports the maximum packet size correctly
+// 1 fixed header byte + 4 Remaining Length bytes + 268,435,455 (MQTT 5.0 §1.5.5, §2.1.4)
+const PROTOCOL_MAX_PACKET_SIZE: u32 = 268_435_460;
+
 /// Error describing why a [`Session`] ended prematurely
 #[derive(Debug, Error)]
 #[error("{kind}")]
@@ -452,7 +456,7 @@ impl Session {
                 return Err(SessionErrorKind::SessionLost.into());
             }
 
-            self.state.transition_connected();
+            self.state.transition_connected(connack);
 
             // Indicate we have established a connection at least once, and will now attempt
             // to maintain this MQTT session.
@@ -785,6 +789,23 @@ impl SessionMonitor {
     #[must_use]
     pub fn is_connected(&self) -> bool {
         self.state.is_connected()
+    }
+
+    /// Returns the maximum size, in bytes, of an entire MQTT packet that the server accepts on
+    /// the current connection (the protocol maximum if the server sets no limit), or `None` if
+    /// the [`Session`] is not connected.
+    /// Note that this is best effort: an operation queued or resent across a reconnect may be
+    /// sent on a connection with a smaller limit.
+    #[must_use]
+    pub fn max_outgoing_packet_size(&self) -> Option<u32> {
+        // An absent Maximum Packet Size decodes as u32::MAX, which no packet can reach anyway
+        self.state.connack().map(|connack| {
+            connack
+                .properties
+                .maximum_packet_size
+                .get()
+                .min(PROTOCOL_MAX_PACKET_SIZE)
+        })
     }
 
     /// Wait until the [`Session`] is connected.

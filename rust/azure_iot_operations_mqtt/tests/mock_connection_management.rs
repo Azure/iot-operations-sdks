@@ -387,6 +387,69 @@ async fn connection_loss_server_disconnect_reconnect() {
 // TODO: disconnect with Ping timeout, IO error(s), protocol error(s)
 
 #[tokio::test]
+async fn max_outgoing_packet_size_across_reconnect() {
+    let (connection_settings, session, mock_server, _) =
+        quick_setup_standard_auth("test-max-outgoing-packet-size-across-reconnect-client");
+    let exit_handle = session.create_exit_handle();
+    let monitor = session.create_session_monitor();
+    assert!(!monitor.is_connected());
+    assert_eq!(monitor.max_outgoing_packet_size(), None);
+
+    // Start the session run loop
+    let run_f = tokio::task::spawn(session.run());
+
+    // Validate that the CONNECT packet contains the expected values
+    let connect = mock_server.expect_connect().await;
+    assert_eq!(connect, expected_connect(&connection_settings, None, false));
+
+    // Accept the connection with a CONNACK that specifies a Maximum Packet Size
+    mock_server.send_connack(mqtt_proto::ConnAck {
+        reason_code: mqtt_proto::ConnectReasonCode::Success {
+            session_present: true,
+        },
+        other_properties: mqtt_proto::ConnAckOtherProperties {
+            maximum_packet_size: NonZeroU32::new(1024).unwrap(),
+            ..Default::default()
+        },
+    });
+
+    // Wait for connection to be established by Session in response to CONNACK
+    monitor.connected().await;
+
+    // The maximum outgoing packet size is the Maximum Packet Size from the CONNACK
+    assert_eq!(monitor.max_outgoing_packet_size(), Some(1024));
+
+    // Disconnect the session and wait for disconnect
+    mock_server.send_disconnect(mqtt_proto::Disconnect {
+        reason_code: mqtt_proto::DisconnectReasonCode::UnspecifiedError,
+        other_properties: mqtt_proto::DisconnectOtherProperties::default(),
+    });
+    monitor.disconnected().await;
+
+    // There is no maximum outgoing packet size while disconnected
+    assert_eq!(monitor.max_outgoing_packet_size(), None);
+
+    // Reconnect, with a CONNACK that does not specify a Maximum Packet Size
+    let connect = mock_server.expect_connect_and_accept(true).await;
+    assert_eq!(connect, expected_connect(&connection_settings, None, true));
+    monitor.connected().await;
+
+    // Without a Maximum Packet Size, the maximum outgoing packet size is the protocol maximum
+    assert_eq!(monitor.max_outgoing_packet_size(), Some(268_435_460));
+
+    // End the session
+    assert!(matches!(exit_handle.try_exit(), Ok(())));
+
+    // Validate that the DISCONNECT packet is sent and contains the expected values
+    let disconnect = mock_server.expect_disconnect().await;
+    assert_eq!(disconnect, session_end_disconnect());
+
+    // Session was disconnected, and exited cleanly
+    monitor.disconnected().await;
+    assert!(run_f.await.unwrap().is_ok());
+}
+
+#[tokio::test]
 async fn try_exit_never_run() {
     let (_, session, _, _) = quick_setup_standard_auth("test-try-exit-never-run-client");
     let exit_handle = session.create_exit_handle();

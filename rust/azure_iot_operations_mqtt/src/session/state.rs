@@ -8,10 +8,12 @@ use std::sync::RwLock;
 
 use tokio::sync::Notify;
 
+use crate::azure_mqtt::packet::ConnAck;
+
 /// Information used to track the state of the Session.
 pub struct SessionState {
-    /// State information locked for concurrency protection
-    connected: RwLock<bool>,
+    /// CONNACK of the current connection; `None` while disconnected
+    connack: RwLock<Option<ConnAck>>,
     /// Notifier indicating a state change
     state_change: Notify,
 }
@@ -19,7 +21,13 @@ pub struct SessionState {
 impl SessionState {
     /// Return true if the Session is currently connected (to the best of knowledge)
     pub fn is_connected(&self) -> bool {
-        *self.connected.read().unwrap()
+        self.connack.read().unwrap().is_some()
+    }
+
+    /// Return the CONNACK of the current connection, or `None` if the Session is not currently
+    /// connected (to the best of knowledge)
+    pub fn connack(&self) -> Option<ConnAck> {
+        self.connack.read().unwrap().clone()
     }
 
     /// Wait until the Session is connected.
@@ -45,31 +53,31 @@ impl SessionState {
     }
 
     /// Update the state to reflect a connection
-    pub fn transition_connected(&self) {
+    pub fn transition_connected(&self, connack: ConnAck) {
         // Acquire write lock for duration of method to ensure correctness of logging
-        let mut connected = self.connected.write().unwrap();
+        let mut connected = self.connack.write().unwrap();
 
-        if *connected {
+        if connected.is_some() {
             // NOTE: This should never happen.
             log::warn!("Duplicate connection");
         } else {
-            *connected = true;
+            *connected = Some(connack);
             log::info!("Connected!");
             self.state_change.notify_waiters();
         }
-        log::debug!("{:?}", *connected);
+        log::debug!("{:?}", connected.is_some());
     }
 
     /// Update the state to reflect a disconnection
     pub fn transition_disconnected(&self) {
         // Acquire write lock for duration of method to ensure correctness of logging
-        let mut connected = self.connected.write().unwrap();
+        let mut connected = self.connack.write().unwrap();
 
-        if *connected {
-            *connected = false;
+        if connected.is_some() {
+            *connected = None;
             self.state_change.notify_waiters();
         }
-        log::debug!("{:?}", *connected);
+        log::debug!("{:?}", connected.is_some());
     }
 }
 
@@ -77,7 +85,7 @@ impl Default for SessionState {
     /// Create a new `SessionState` with default values.
     fn default() -> Self {
         Self {
-            connected: RwLock::new(false),
+            connack: RwLock::new(None),
             state_change: Notify::new(),
         }
     }
