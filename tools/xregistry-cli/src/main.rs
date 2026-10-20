@@ -29,11 +29,28 @@ use bytes::Bytes;
 use clap::{Parser, Subcommand, ValueEnum};
 use env_logger::{Builder, Env};
 
-const TIMEOUT: Duration = Duration::from_secs(10);
+const DEFAULT_TIMEOUT_SECONDS: u32 = 10;
 const DEMO_LABEL_KEY: &str = "xregistry-sample";
 const DEMO_LABEL_VALUE: &str = "v1";
 
 // Embedded documents make it easy to seed usable WoT data without external files.
+const DEMO_SCHEMA_ID: &str = "sample-thermostat";
+const DEMO_SCHEMA: &str = r#"{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "urn:sample:thermostat:schema",
+  "title": "Thermostat telemetry",
+  "type": "object",
+  "properties": {
+    "temperature": {
+      "type": "number"
+    }
+  },
+  "required": [
+    "temperature"
+  ],
+  "additionalProperties": false
+}"#;
+
 const DEMO_THING_MODEL_ID: &str = "sample-thermostat";
 const DEMO_THING_MODEL: &str = r#"{
   "@context": "https://www.w3.org/2022/wot/td/v1.1",
@@ -59,7 +76,15 @@ const DEMO_THING_DESCRIPTION: &str = r#"{
   "security": "nosec_sc",
   "properties": {
     "temperature": {
-      "type": "number"
+      "type": "number",
+      "readOnly": true,
+      "forms": [
+        {
+          "href": "https://example.com/thermostat-01/temperature",
+          "contentType": "application/json",
+          "op": "readproperty"
+        }
+      ]
     }
   }
 }"#;
@@ -72,6 +97,16 @@ const DEMO_THING_DESCRIPTION: &str = r#"{
     arg_required_else_help = true
 )]
 struct Cli {
+    /// Timeout for each registry request, in seconds (1-4294967295).
+    #[arg(
+        long,
+        global = true,
+        value_name = "SECONDS",
+        default_value_t = DEFAULT_TIMEOUT_SECONDS,
+        value_parser = clap::value_parser!(u32).range(1..)
+    )]
+    timeout_seconds: u32,
+
     #[command(subcommand)]
     command: Command,
 }
@@ -90,7 +125,8 @@ enum Command {
         /// Path to the document to add.
         file: PathBuf,
 
-        /// Label for the new version, expressed as KEY=VALUE. May be repeated.
+        /// Label for both the parent resource and the new version, expressed as KEY=VALUE.
+        /// May be repeated.
         #[arg(long = "label", value_name = "KEY=VALUE")]
         labels: Vec<LabelArgument>,
     },
@@ -211,6 +247,7 @@ async fn main() -> ExitCode {
 async fn run() -> Result<(), Box<dyn std::error::Error>> {
     let cli = Cli::parse();
     let add_document = read_add_document_if_needed(&cli.command)?;
+    let timeout = Duration::from_secs(u64::from(cli.timeout_seconds));
 
     Builder::from_env(Env::default().default_filter_or("warn"))
         .format_timestamp(None)
@@ -235,7 +272,8 @@ async fn run() -> Result<(), Box<dyn std::error::Error>> {
             client,
             cli.command,
             add_document,
-            session.create_exit_handle()
+            session.create_exit_handle(),
+            timeout,
         ),
         session.run(),
     );
@@ -268,8 +306,9 @@ async fn run_command(
     command: Command,
     add_document: Option<Vec<u8>>,
     exit_handle: SessionExitHandle,
+    timeout: Duration,
 ) -> Result<(), Box<dyn std::error::Error>> {
-    let result = execute_command(&client, command, add_document).await;
+    let result = execute_command(&client, command, add_document, timeout).await;
     exit_session(&exit_handle);
     result
 }
@@ -279,6 +318,7 @@ async fn execute_command(
     client: &Client,
     command: Command,
     add_document: Option<Vec<u8>>,
+    timeout: Duration,
 ) -> Result<(), Box<dyn std::error::Error>> {
     match command {
         Command::Add {
@@ -294,6 +334,7 @@ async fn execute_command(
                 resource_id,
                 document,
                 labels.into_iter().map(|argument| argument.0).collect(),
+                timeout,
             )
             .await?;
         }
@@ -302,7 +343,17 @@ async fn execute_command(
             resource_id,
             version,
             output,
-        } => get_document(client, kind, resource_id, version, output.as_deref()).await?,
+        } => {
+            get_document(
+                client,
+                kind,
+                resource_id,
+                version,
+                output.as_deref(),
+                timeout,
+            )
+            .await?;
+        }
         Command::List {
             kind,
             resource_id,
@@ -315,6 +366,7 @@ async fn execute_command(
                 resource_id,
                 document_hash,
                 label.map(|argument| argument.0),
+                timeout,
             )
             .await?;
         }
@@ -324,9 +376,9 @@ async fn execute_command(
             version,
             expected_epoch,
         } => {
-            delete_document(client, kind, resource_id, version, expected_epoch).await?;
+            delete_document(client, kind, resource_id, version, expected_epoch, timeout).await?;
         }
-        Command::SeedDemo => seed_demo(client).await?,
+        Command::SeedDemo => seed_demo(client, timeout).await?,
     }
 
     Ok(())
@@ -339,24 +391,27 @@ async fn add_document_version(
     resource_id: String,
     document: Vec<u8>,
     labels: Vec<Label>,
+    timeout: Duration,
 ) -> Result<(), Box<dyn std::error::Error>> {
     match kind {
         ResourceKind::Schema => {
-            let created = create_schema(client, resource_id, document, labels).await?;
+            let created = create_schema(client, resource_id, document, labels, timeout).await?;
             println!(
                 "Created Schema '{}' version {} ({})",
                 created.resource_id, created.version_id, created.xid
             );
         }
         ResourceKind::ThingModel => {
-            let created = create_thing_model(client, resource_id, document, labels).await?;
+            let created =
+                create_thing_model(client, resource_id, document, labels, timeout).await?;
             println!(
                 "Created Thing Model '{}' version {} ({})",
                 created.resource_id, created.version_id, created.xid
             );
         }
         ResourceKind::ThingDescription => {
-            let created = create_thing_description(client, resource_id, document, labels).await?;
+            let created =
+                create_thing_description(client, resource_id, document, labels, timeout).await?;
             println!(
                 "Created Thing Description '{}' version {} ({})",
                 created.resource_id, created.version_id, created.xid
@@ -374,18 +429,19 @@ async fn get_document(
     resource_id: String,
     version: Option<u64>,
     output: Option<&Path>,
+    timeout: Duration,
 ) -> Result<(), Box<dyn std::error::Error>> {
     let version_id = version.map_or(GetVersionId::ResourceDefault, GetVersionId::Specified);
     let (document, retrieved_version) = match kind {
         ResourceKind::Schema => {
             let entity = client
-                .get_schema_version(GroupId::CloudDefault, resource_id, version_id, TIMEOUT)
+                .get_schema_version(GroupId::CloudDefault, resource_id, version_id, timeout)
                 .await?;
             (entity.document, entity.version_id)
         }
         ResourceKind::ThingModel => {
             let entity = client
-                .get_thing_model_version(GroupId::CloudDefault, resource_id, version_id, TIMEOUT)
+                .get_thing_model_version(GroupId::CloudDefault, resource_id, version_id, timeout)
                 .await?;
             (entity.document, entity.version_id)
         }
@@ -395,7 +451,7 @@ async fn get_document(
                     GroupId::CloudDefault,
                     resource_id,
                     version_id,
-                    TIMEOUT,
+                    timeout,
                 )
                 .await?;
             (entity.document, entity.version_id)
@@ -421,6 +477,7 @@ async fn list_documents(
     resource_id: Option<String>,
     document_hash: Option<String>,
     label: Option<Label>,
+    timeout: Duration,
 ) -> Result<(), edge_registry::Error> {
     let versions = match kind {
         ResourceKind::Schema => {
@@ -430,7 +487,7 @@ async fn list_documents(
                     resource_id,
                     document_hash,
                     label,
-                    TIMEOUT,
+                    timeout,
                 )
                 .await?
         }
@@ -441,7 +498,7 @@ async fn list_documents(
                     resource_id,
                     document_hash,
                     label,
-                    TIMEOUT,
+                    timeout,
                 )
                 .await?
         }
@@ -452,7 +509,7 @@ async fn list_documents(
                     resource_id,
                     document_hash,
                     label,
-                    TIMEOUT,
+                    timeout,
                 )
                 .await?
         }
@@ -489,6 +546,7 @@ async fn delete_document(
     resource_id: String,
     version_id: u64,
     expected_epoch: Option<u64>,
+    timeout: Duration,
 ) -> Result<(), edge_registry::Error> {
     let options = DeleteOptions { expected_epoch };
     let deleted_resource_id = resource_id.clone();
@@ -500,7 +558,7 @@ async fn delete_document(
                     resource_id,
                     version_id,
                     options,
-                    TIMEOUT,
+                    timeout,
                 )
                 .await?;
         }
@@ -511,7 +569,7 @@ async fn delete_document(
                     resource_id,
                     version_id,
                     options,
-                    TIMEOUT,
+                    timeout,
                 )
                 .await?;
         }
@@ -522,7 +580,7 @@ async fn delete_document(
                     resource_id,
                     version_id,
                     options,
-                    TIMEOUT,
+                    timeout,
                 )
                 .await?;
         }
@@ -536,15 +594,52 @@ async fn delete_document(
     Ok(())
 }
 
-// Seeds one Thing Model and one Thing Description for immediate experimentation.
-async fn seed_demo(client: &Client) -> Result<(), edge_registry::Error> {
-    seed_thing_model(client).await?;
-    seed_thing_description(client).await?;
+// Seeds one Schema, Thing Model, and Thing Description for immediate experimentation.
+async fn seed_demo(client: &Client, timeout: Duration) -> Result<(), edge_registry::Error> {
+    seed_schema(client, timeout).await?;
+    seed_thing_model(client, timeout).await?;
+    seed_thing_description(client, timeout).await?;
+    Ok(())
+}
+
+// Seeds the built-in Schema unless this demo version was already added.
+async fn seed_schema(client: &Client, timeout: Duration) -> Result<(), edge_registry::Error> {
+    let document = DEMO_SCHEMA.as_bytes();
+    let versions = client
+        .list_schema_versions(
+            GroupSelection::Default,
+            Some(DEMO_SCHEMA_ID.to_string()),
+            None,
+            Some(demo_label()),
+            timeout,
+        )
+        .await?;
+
+    if let Some(version) = versions.first() {
+        println!(
+            "Schema '{DEMO_SCHEMA_ID}' already has demo version {}.",
+            version.version_id
+        );
+        return Ok(());
+    }
+
+    let created = create_schema(
+        client,
+        DEMO_SCHEMA_ID.to_string(),
+        document.to_vec(),
+        vec![demo_label()],
+        timeout,
+    )
+    .await?;
+    println!(
+        "Created demo Schema '{DEMO_SCHEMA_ID}' version {}.",
+        created.version_id
+    );
     Ok(())
 }
 
 // Seeds the built-in Thing Model unless this demo version was already added.
-async fn seed_thing_model(client: &Client) -> Result<(), edge_registry::Error> {
+async fn seed_thing_model(client: &Client, timeout: Duration) -> Result<(), edge_registry::Error> {
     let document = DEMO_THING_MODEL.as_bytes();
     let versions = client
         .list_thing_model_versions(
@@ -552,7 +647,7 @@ async fn seed_thing_model(client: &Client) -> Result<(), edge_registry::Error> {
             Some(DEMO_THING_MODEL_ID.to_string()),
             None,
             Some(demo_label()),
-            TIMEOUT,
+            timeout,
         )
         .await?;
 
@@ -569,6 +664,7 @@ async fn seed_thing_model(client: &Client) -> Result<(), edge_registry::Error> {
         DEMO_THING_MODEL_ID.to_string(),
         document.to_vec(),
         vec![demo_label()],
+        timeout,
     )
     .await?;
     println!(
@@ -579,15 +675,23 @@ async fn seed_thing_model(client: &Client) -> Result<(), edge_registry::Error> {
 }
 
 // Seeds the built-in Thing Description unless this demo version was already added.
-async fn seed_thing_description(client: &Client) -> Result<(), edge_registry::Error> {
+async fn seed_thing_description(
+    client: &Client,
+    timeout: Duration,
+) -> Result<(), edge_registry::Error> {
     let document = DEMO_THING_DESCRIPTION.as_bytes();
+    // A new marker lets existing demos receive the TD with property forms.
+    let label = Label {
+        value: "v2".to_string(),
+        ..demo_label()
+    };
     let versions = client
         .list_thing_description_versions(
             GroupSelection::Default,
             Some(DEMO_THING_DESCRIPTION_ID.to_string()),
             None,
-            Some(demo_label()),
-            TIMEOUT,
+            Some(label.clone()),
+            timeout,
         )
         .await?;
 
@@ -603,7 +707,8 @@ async fn seed_thing_description(client: &Client) -> Result<(), edge_registry::Er
         client,
         DEMO_THING_DESCRIPTION_ID.to_string(),
         document.to_vec(),
-        vec![demo_label()],
+        vec![label],
+        timeout,
     )
     .await?;
     println!(
@@ -627,6 +732,7 @@ async fn create_schema(
     resource_id: String,
     document: Vec<u8>,
     labels: Vec<Label>,
+    timeout: Duration,
 ) -> Result<
     azure_iot_operations_services::edge_registry::models::SchemaVersionEntity,
     edge_registry::Error,
@@ -643,7 +749,7 @@ async fn create_schema(
                 .document(Bytes::from(document))
                 .build()
                 .expect("format and document are set"),
-            TIMEOUT,
+            timeout,
         )
         .await
 }
@@ -654,6 +760,7 @@ async fn create_thing_model(
     resource_id: String,
     document: Vec<u8>,
     labels: Vec<Label>,
+    timeout: Duration,
 ) -> Result<
     azure_iot_operations_services::edge_registry::models::ThingModelVersionEntity,
     edge_registry::Error,
@@ -670,7 +777,7 @@ async fn create_thing_model(
                 .document(Bytes::from(document))
                 .build()
                 .expect("format and document are set"),
-            TIMEOUT,
+            timeout,
         )
         .await
 }
@@ -681,6 +788,7 @@ async fn create_thing_description(
     resource_id: String,
     document: Vec<u8>,
     labels: Vec<Label>,
+    timeout: Duration,
 ) -> Result<
     azure_iot_operations_services::edge_registry::models::ThingDescriptionVersionEntity,
     edge_registry::Error,
@@ -697,7 +805,7 @@ async fn create_thing_description(
                 .document(Bytes::from(document))
                 .build()
                 .expect("format and document are set"),
-            TIMEOUT,
+            timeout,
         )
         .await
 }
@@ -713,6 +821,72 @@ fn exit_session(exit_handle: &SessionExitHandle) {
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[test]
+    fn uses_default_timeout() {
+        let cli = Cli::try_parse_from(["xregistry", "seed-demo"]).expect("command should parse");
+        assert_eq!(cli.timeout_seconds, 10);
+    }
+
+    #[test]
+    fn parses_global_timeout() {
+        for arguments in [
+            ["xregistry", "--timeout-seconds", "30", "seed-demo"],
+            ["xregistry", "seed-demo", "--timeout-seconds", "30"],
+        ] {
+            let cli = Cli::try_parse_from(arguments).expect("command should parse");
+            assert_eq!(cli.timeout_seconds, 30);
+        }
+    }
+
+    #[test]
+    fn accepts_timeout_limits() {
+        for seconds in [1, u32::MAX] {
+            let value = seconds.to_string();
+            let arguments = ["xregistry", "list", "schema", "--timeout-seconds", &value];
+            let cli =
+                Cli::try_parse_from(arguments).expect("timeout within SDK limits should parse");
+            assert_eq!(cli.timeout_seconds, seconds);
+        }
+    }
+
+    #[test]
+    fn rejects_invalid_timeout() {
+        for value in ["0", "-1", "4294967296", "1.5", "invalid"] {
+            assert!(
+                Cli::try_parse_from(["xregistry", "--timeout-seconds", value, "seed-demo"])
+                    .is_err(),
+                "timeout {value} should be rejected"
+            );
+        }
+    }
+
+    #[test]
+    fn demo_documents_are_json_objects() {
+        for document in [DEMO_SCHEMA, DEMO_THING_MODEL, DEMO_THING_DESCRIPTION] {
+            let value: serde_json::Value =
+                serde_json::from_str(document).expect("demo document should be valid JSON");
+            assert!(value.is_object());
+        }
+    }
+
+    #[test]
+    fn demo_thing_description_has_property_forms() {
+        let value: serde_json::Value =
+            serde_json::from_str(DEMO_THING_DESCRIPTION).expect("demo TD should be valid JSON");
+        let temperature = &value["properties"]["temperature"];
+        let forms = temperature["forms"]
+            .as_array()
+            .expect("TD properties require a forms array");
+
+        assert!(!forms.is_empty());
+        assert_eq!(temperature["readOnly"], true);
+        assert_eq!(forms[0]["op"], "readproperty");
+        assert_eq!(
+            forms[0]["href"],
+            "https://example.com/thermostat-01/temperature"
+        );
+    }
 
     #[test]
     fn parses_add_command() {

@@ -7,6 +7,9 @@ IoT Operations Edge Registry. It supports adding, retrieving, listing, and
 deleting document versions, and can seed built-in demonstration resources.
 
 The tool currently connects without TLS to an MQ broker at `localhost:1883`.
+Each registry request has a default timeout of 10 seconds. Use
+`--timeout-seconds` to change it. The value must be a whole number from 1 to
+4294967295, as required by the SDK.
 
 ## Build
 
@@ -29,12 +32,23 @@ Display the complete command reference:
 ./target/release/xregistry-cli --help
 ```
 
+Set a 30-second timeout for each registry request:
+
+```powershell
+./target/release/xregistry-cli --timeout-seconds 30 list thing-model
+```
+
+The timeout option can appear before or after the command.
+
 Add a Thing Model:
 
 ```powershell
 ./target/release/xregistry-cli add thing-model counter ./Counter.TM.json `
     --label environment=test
 ```
+
+`--label` applies the same label to both the parent Resource and the new Version.
+This option can be repeated.
 
 Add a Thing Description:
 
@@ -66,8 +80,13 @@ Delete Thing Model Version 1:
 ./target/release/xregistry-cli delete thing-model counter --version 1
 ```
 
-Seed the built-in demonstration Thing Model and Thing Description:
+Seed the built-in demonstration Schema, Thing Model, and Thing Description:
 
 ```powershell
 ./target/release/xregistry-cli seed-demo
 ```
+
+The Thing Description contains an example endpoint. The seed command does not
+start a device service. If the older demo Thing Description is present, the
+command adds a corrected Version with property forms. It does not replace
+existing Versions.
