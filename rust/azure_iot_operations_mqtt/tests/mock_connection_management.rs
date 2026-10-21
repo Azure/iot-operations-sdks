@@ -393,7 +393,7 @@ async fn max_outgoing_packet_size_across_reconnect() {
     let exit_handle = session.create_exit_handle();
     let monitor = session.create_session_monitor();
     assert!(!monitor.is_connected());
-    assert_eq!(monitor.max_outgoing_packet_size(), None);
+    assert!(monitor.connection_info().is_none());
 
     // Start the session run loop
     let run_f = tokio::task::spawn(session.run());
@@ -417,7 +417,8 @@ async fn max_outgoing_packet_size_across_reconnect() {
     monitor.connected().await;
 
     // The maximum outgoing packet size is the Maximum Packet Size from the CONNACK
-    assert_eq!(monitor.max_outgoing_packet_size(), Some(1024));
+    let connection_info = monitor.connection_info().unwrap();
+    assert_eq!(connection_info.max_outgoing_packet_size(), 1024);
 
     // Disconnect the session and wait for disconnect
     mock_server.send_disconnect(mqtt_proto::Disconnect {
@@ -426,8 +427,8 @@ async fn max_outgoing_packet_size_across_reconnect() {
     });
     monitor.disconnected().await;
 
-    // There is no maximum outgoing packet size while disconnected
-    assert_eq!(monitor.max_outgoing_packet_size(), None);
+    // There is no connection info while disconnected
+    assert!(monitor.connection_info().is_none());
 
     // Reconnect, with a CONNACK that does not specify a Maximum Packet Size
     let connect = mock_server.expect_connect_and_accept(true).await;
@@ -435,7 +436,8 @@ async fn max_outgoing_packet_size_across_reconnect() {
     monitor.connected().await;
 
     // Without a Maximum Packet Size, the maximum outgoing packet size is the protocol maximum
-    assert_eq!(monitor.max_outgoing_packet_size(), Some(268_435_460));
+    let connection_info = monitor.connection_info().unwrap();
+    assert_eq!(connection_info.max_outgoing_packet_size(), 268_435_460);
 
     // End the session
     assert!(matches!(exit_handle.try_exit(), Ok(())));
