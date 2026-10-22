@@ -90,7 +90,7 @@ jobs:
           fi
 
       - name: Setup Rust (from rust-toolchain.toml)
-        uses: actions-rust-lang/setup-rust-toolchain@166cdcfd11aee3cb47222f9ddb555ce30ddb9659 # v1
+        uses: actions-rust-lang/setup-rust-toolchain@ecabd13d1c56bd1345c230e542e9144811ad706f # v2.0.0
         with:
           # Tell the action where to look for `rust-toolchain.toml`.
           # Without this it would only check the repo root, find no
