@@ -26,6 +26,7 @@ This directory contains documentation relating to the implementation of the SDKs
 | :green_circle: | [Error Model](error-model.md) | Describes the different types of errors reported by the SDKs during exceptional circumstances |
 | :yellow_circle: | [Message Metadata](message-metadata.md) | Describes the user and system properties used across Telemetry and Commands |
 | :red_circle: | [RPC Protocol](rpc-protocol.md) | Details on the RPC implementation, used by the Commands |
+| :green_circle: | [RPC Authorization](rpc-authorization.md) | How to author Broker Authorization policies that restrict RPC request/response topics so requests reach only the intended executor and responses only the intended invoker |
 | :yellow_circle: | [Session Client](session-client.md) | Details on the session client implementation |
 | :green_circle: | [Shared Subscriptions](shared-subscriptions.md) | How shared subscriptions are implemented with the Command model and what the expected behavior is |
 | :yellow_circle: | [Telemetry](telemetry.md) | Outline of the responsibilities of the Telemetry sender and receiver |
