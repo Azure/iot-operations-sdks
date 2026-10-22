@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 using System.Text;
+using System.Text.RegularExpressions;
 using Azure.Iot.Operations.Mqtt.Session;
 using Azure.Iot.Operations.Protocol.Streaming;
 using TestEnvoys;
@@ -10,7 +11,9 @@ using Xunit.Abstractions;
 namespace Azure.Iot.Operations.Protocol.IntegrationTests;
 
 // Minimal end-to-end POC for streaming RPC: ping-pong (1:1, immediate), sort-array (buffer-all),
-// and file transfer (short request stream, file streamed back line by line with a hash logged on both sides).
+// and file transfer (short request stream, file streamed back line by line with a hash logged on both sides),
+// plus the representative scenarios from the streaming scenario paper (incremental OPC UA browse, historic
+// read backfill, WoT Thing Description discovery, and OpenUSD scene composition), which use ExecuteStreamingAsync.
 public class StreamingPocTests(ITestOutputHelper output)
 {
     [CommandTopic("rpc/streaming/poc/asyncpingpong")]
@@ -618,18 +621,19 @@ public class StreamingPocTests(ITestOutputHelper output)
         }
     }
 
-    // OpenUSD artefact download: invoker requests a large engineering artefact; the executor chunks it and
-    // streams the chunks back in order, and the invoker reconstructs the exact original bytes purely from
-    // chunk order and content, with no bespoke chunking protocol layered on top of the SDK's streaming.
-    private const int OpenUsdArtefactSizeBytes = 256 * 1024;
-    private const int OpenUsdChunkSizeBytes = 8 * 1024;
-    private const int OpenUsdRandomSeed = 20240516;
+    // OpenUSD scene composition: the invoker opens a scene; the executor streams it back one prim at a time,
+    // each entry a small self-contained USD layer that defines /World plus one child prim. USD composes layers
+    // that define the same prim, so the invoker stacks each layer onto its stage as it arrives and can render a
+    // partial scene long before the stream ends. Every entry means something on its own, which is what makes
+    // this streaming; moving one large opaque .usdz file intact is chunking (ADR 34), not this.
+    private static readonly string[] OpenUsdPrimTypes = ["Cube", "Sphere", "Cylinder"];
     private const int OpenUsdLogCharacterLimit = 256;
 
-    [Fact]
-    public async Task OpenUsdArtefactDownload()
+    [Theory]
+    [InlineData(12)]
+    public async Task OpenUsdSceneComposition(int primCount)
     {
-        LogScenario($"SCENARIO OpenUSD artefact download: invoker requests a {OpenUsdArtefactSizeBytes}-byte artefact; executor streams it back in {OpenUsdChunkSizeBytes}-byte chunks; invoker reconstructs the exact original bytes from chunk order alone.");
+        LogScenario($"SCENARIO OpenUSD scene composition: invoker opens a scene; executor streams {primCount} prim(s), each as a self-contained USD layer; invoker composes each onto its stage as it arrives, so a partial scene is renderable before the stream ends.");
         ApplicationContext appContext = new();
         await using MqttSessionClient executorClient = await ClientFactory.CreateSessionClientFromEnvAsync();
         await using MqttSessionClient invokerClient = await ClientFactory.CreateSessionClientFromEnvAsync();
@@ -646,27 +650,32 @@ public class StreamingPocTests(ITestOutputHelper output)
             Log = LogOpenUsd,
         };
 
-        byte[] expectedArtefact = GenerateOpenUsdArtefact();
-
         Guid correlationId = Guid.NewGuid();
-        Log($"invoking OpenUSD artefact download: {expectedArtefact.Length} byte(s), correlationId={correlationId}");
+        Log($"invoking OpenUSD scene load: /World with {primCount} prim(s), correlationId={correlationId}");
 
-        using MemoryStream reconstructed = new();
-        await foreach (string chunkBase64 in invoker.ExecuteStreamingAsync(
-            "artefact.usdz",
-            new RequestStreamMetadata { CorrelationId = correlationId },
-            exchangeTimeout: TimeSpan.FromMinutes(2)))
+        // The invoker's stage: the layers composed so far, in arrival order.
+        List<string> stageLayers = new();
+        List<string> stagePrimPaths = new();
+        await foreach (string layer in invoker.ExecuteStreamingAsync(
+            primCount.ToString(),
+            new RequestStreamMetadata { CorrelationId = correlationId }))
         {
-            byte[] chunk = Convert.FromBase64String(chunkBase64);
-            reconstructed.Write(chunk, 0, chunk.Length);
+            // Each entry is usable the moment it arrives: a complete layer contributing one prim under /World.
+            string primPath = ReadContributedPrimPath(layer);
+            stageLayers.Add(layer);
+            stagePrimPaths.Add(primPath);
+            Log($"invoker: composed {primPath}; stage now renders {stagePrimPaths.Count} prim(s)");
         }
 
-        byte[] reconstructedArtefact = reconstructed.ToArray();
-        Log($"exchange complete: invoker reconstructed {reconstructedArtefact.Length} byte(s) from streamed chunks");
+        Log($"exchange complete: invoker composed {stagePrimPaths.Count} prim(s) into /World");
 
-        // Payload fidelity: chunk boundaries plus chunk ordering are enough to deterministically
-        // reconstruct the artefact, with no application-level chunk-numbering scheme required.
-        Assert.Equal(expectedArtefact, reconstructedArtefact);
+        Assert.Equal(primCount, stageLayers.Count);
+        for (int i = 0; i < primCount; i++)
+        {
+            // Item boundaries match emission boundaries, and prims compose in the order the executor sent them.
+            Assert.Equal(BuildOpenUsdPrimLayer(i), stageLayers[i]);
+            Assert.Equal($"/World/Machine{i}", stagePrimPaths[i]);
+        }
     }
 
     private void LogOpenUsd(string message) =>
@@ -678,35 +687,52 @@ public class StreamingPocTests(ITestOutputHelper output)
         IStreamContext<ReceivedStreamingExtendedRequest<string>> requests,
         RequestStreamMetadata requestMetadata,
         IExchangeContext exchange) =>
-        (OpenUsdChunkResponses(requests), new ResponseStreamMetadata());
+        (OpenUsdLayerResponses(requests), new ResponseStreamMetadata());
 
-    private async IAsyncEnumerable<StreamingExtendedResponse<string>> OpenUsdChunkResponses(
+    private async IAsyncEnumerable<StreamingExtendedResponse<string>> OpenUsdLayerResponses(
         IStreamContext<ReceivedStreamingExtendedRequest<string>> requests)
     {
-        string artefactName = string.Empty;
+        int primCount = 0;
         await foreach (ReceivedStreamingExtendedRequest<string> request in requests.Entries)
         {
-            artefactName = request.Payload;
+            primCount = int.Parse(request.Payload);
         }
 
-        byte[] artefact = GenerateOpenUsdArtefact();
-        Log($"handler: streaming artefact '{artefactName}' ({artefact.Length} bytes) in {OpenUsdChunkSizeBytes}-byte chunks");
-
-        for (int offset = 0; offset < artefact.Length; offset += OpenUsdChunkSizeBytes)
+        for (int i = 0; i < primCount; i++)
         {
-            int length = Math.Min(OpenUsdChunkSizeBytes, artefact.Length - offset);
-            string chunk = Convert.ToBase64String(artefact, offset, length);
-            yield return new StreamingExtendedResponse<string>(chunk);
+            // Simulates prims becoming available over time (authored, loaded, or converted on the server).
+            await Task.Delay(10);
+            Log($"handler: streaming layer for /World/Machine{i}");
+            yield return new StreamingExtendedResponse<string>(BuildOpenUsdPrimLayer(i));
         }
     }
 
-    // Deterministic pseudo-random "artefact" bytes, generated identically on both sides from a fixed seed
-    // so the test can assert exact byte-for-byte reconstruction without shipping a real binary fixture.
-    private static byte[] GenerateOpenUsdArtefact()
+    // A standalone USD layer defining /World with a single child prim. Layers that each `def` /World compose into
+    // one /World holding every child, so the invoker can stack them as sublayers in any number, in arrival order.
+    private static string BuildOpenUsdPrimLayer(int index)
     {
-        byte[] artefact = new byte[OpenUsdArtefactSizeBytes];
-        new Random(OpenUsdRandomSeed).NextBytes(artefact);
-        return artefact;
+        string primType = OpenUsdPrimTypes[index % OpenUsdPrimTypes.Length];
+        return $$"""
+            #usda 1.0
+            def Xform "World"
+            {
+                def {{primType}} "Machine{{index}}"
+                {
+                    double3 xformOp:translate = ({{index * 2}}, 0, 0)
+                    uniform token[] xformOpOrder = ["xformOp:translate"]
+                }
+            }
+            """;
+    }
+
+    // Returns the path of the one prim a layer contributes under /World, e.g. "/World/Machine3".
+    private static string ReadContributedPrimPath(string layer)
+    {
+        Assert.StartsWith("#usda 1.0", layer);
+        MatchCollection defs = Regex.Matches(layer, "def \\w+ \"(\\w+)\"");
+        Assert.Equal(2, defs.Count);
+        Assert.Equal("World", defs[0].Groups[1].Value);
+        return $"/World/{defs[1].Groups[1].Value}";
     }
 
     // FNV-1a 64-bit over the UTF-8 bytes of the lines joined by "\n". Not cryptographic; it is only here so both
