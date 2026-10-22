@@ -175,3 +175,10 @@ Each language SDK contains 3-4 parallel packages/modules with consistent functio
 ## Deployment
 
 Edge applications deploy to Kubernetes using kubectl. See `/doc/edge_application/deploy.md` for container build and deployment instructions.
+
+<!-- mermaid-ai-skills:start -->
+## Mermaid Diagrams
+
+When the user asks to create, edit, or visualize a diagram, follow the
+instructions in `.github/instructions/mermaid.instructions.md`.
+<!-- mermaid-ai-skills:end -->

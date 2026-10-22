@@ -962,8 +962,15 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
             // The second duplicate request is served from the response cache via the
             // GenerateAndPublishResponse path, which copies the stored user properties forward.
             await mock.SimulateNewMessage(message);
-            await mock.SimulateNewMessage(message);
             await mock.SimulatedMessageAcknowledged();
+
+            const string staleTimestamp = "000000000000000:00000:stale";
+            List<MqttUserProperty> cachedProperties = Assert.Single(mock.MessagesPublished).UserProperties!;
+            int timestampIndex = cachedProperties.FindIndex(property => property.Name == AkriSystemProperties.Timestamp);
+            Assert.True(timestampIndex >= 0);
+            cachedProperties[timestampIndex] = new MqttUserProperty(AkriSystemProperties.Timestamp, staleTimestamp);
+
+            await mock.SimulateNewMessage(message);
             await mock.SimulatedMessageAcknowledged();
 
             Assert.Equal(1, timesCmdExecuted);
@@ -972,6 +979,9 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
             {
                 AssertHighPriorityMarked(published);
             }
+
+            Assert.True(mock.MessagesPublished[1].UserProperties!.TryGetProperty(AkriSystemProperties.Timestamp, out string? replayTimestamp));
+            Assert.NotEqual(staleTimestamp, replayTimestamp);
         }
     }
 }
