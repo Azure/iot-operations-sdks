@@ -2538,9 +2538,37 @@ namespace Azure.Iot.Operations.Protocol.Session.UnitTests
 
             cancelledAfterDisposeCts.Cancel();
             await Assert.ThrowsAsync<ObjectDisposedException>(() => cancelledAfterDisposePublish.WaitAsync(TimeSpan.FromSeconds(5)));
+        }
 
-            // New requests are rejected outright once the client is disposed
-            await Assert.ThrowsAsync<ObjectDisposedException>(() => sessionClient.PublishAsync(message, CancellationToken.None));
+        [Theory(Timeout = 10000)]
+        [InlineData(true)]
+        [InlineData(false)]
+        public async Task MqttSessionClient_RequestsAfterDisposeThrowObjectDisposedException(bool sessionLostBeforeDispose)
+        {
+            using MockMqttClient mockClient = new MockMqttClient();
+            MqttSessionClient sessionClient = new(mockClient);
+
+            TaskCompletionSource sessionLostTcs = new();
+            sessionClient.SessionLostAsync += (args) =>
+            {
+                sessionLostTcs.TrySetResult();
+                return Task.CompletedTask;
+            };
+
+            await sessionClient.ConnectAsync(GetClientOptions());
+
+            if (sessionLostBeforeDispose)
+            {
+                await mockClient.SimulateServerInitiatedDisconnectAsync(new Exception(), MQTTnet.MqttClientDisconnectReason.SessionTakenOver);
+                await sessionLostTcs.Task.WaitAsync(TimeSpan.FromSeconds(5));
+            }
+
+            await sessionClient.DisposeAsync();
+
+            var message = new MqttApplicationMessage("someTopic") { QualityOfServiceLevel = MqttQualityOfServiceLevel.AtLeastOnce };
+            await Assert.ThrowsAsync<ObjectDisposedException>(() => sessionClient.PublishAsync(message, CancellationToken.None).WaitAsync(TimeSpan.FromSeconds(5)));
+            await Assert.ThrowsAsync<ObjectDisposedException>(() => sessionClient.SubscribeAsync(new MqttClientSubscribeOptions("someTopic")).WaitAsync(TimeSpan.FromSeconds(5)));
+            await Assert.ThrowsAsync<ObjectDisposedException>(() => sessionClient.UnsubscribeAsync(new MqttClientUnsubscribeOptions("someTopic")).WaitAsync(TimeSpan.FromSeconds(5)));
         }
 
         private class TestCertificateProvider : IMqttClientCertificatesProvider
