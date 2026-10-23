@@ -2494,6 +2494,83 @@ namespace Azure.Iot.Operations.Protocol.Session.UnitTests
             await sessionClient.DisposeAsync();
         }
 
+        [Fact(Timeout = 10000)]
+        public async Task MqttSessionClient_DisposeSettlesRequestsEnqueuedAfterFatalSessionLoss()
+        {
+            using MockMqttClient mockClient = new MockMqttClient();
+            MqttSessionClient sessionClient = new(mockClient);
+
+            TaskCompletionSource sessionLostTcs = new();
+            sessionClient.SessionLostAsync += (args) =>
+            {
+                sessionLostTcs.TrySetResult();
+                return Task.CompletedTask;
+            };
+
+            await sessionClient.ConnectAsync(GetClientOptions());
+            await mockClient.SimulateServerInitiatedDisconnectAsync(new Exception(), MQTTnet.MqttClientDisconnectReason.SessionTakenOver);
+            await sessionLostTcs.Task.WaitAsync(TimeSpan.FromSeconds(5));
+
+            Assert.False(sessionClient.IsConnected);
+
+            var message = new MqttApplicationMessage("someTopic") { QualityOfServiceLevel = MqttQualityOfServiceLevel.AtLeastOnce };
+            using CancellationTokenSource cancelledBeforeDisposeCts = new();
+            using CancellationTokenSource cancelledAfterDisposeCts = new();
+            Task<MqttClientPublishResult> noTokenPublish = sessionClient.PublishAsync(message, CancellationToken.None);
+            Task<MqttClientPublishResult> cancelledBeforeDisposePublish = sessionClient.PublishAsync(message, cancelledBeforeDisposeCts.Token);
+            Task<MqttClientPublishResult> cancelledAfterDisposePublish = sessionClient.PublishAsync(message, cancelledAfterDisposeCts.Token);
+            Task<MqttClientSubscribeResult> subscribe = sessionClient.SubscribeAsync(new MqttClientSubscribeOptions("someTopic"));
+            Task<MqttClientUnsubscribeResult> unsubscribe = sessionClient.UnsubscribeAsync(new MqttClientUnsubscribeOptions("someTopic"));
+
+            // There is no connection to send these requests on, so they should remain pending until the client is either
+            // reconnected or disposed.
+            await Task.Delay(100);
+            Assert.False(noTokenPublish.IsCompleted);
+
+            cancelledBeforeDisposeCts.Cancel();
+            await Assert.ThrowsAnyAsync<OperationCanceledException>(() => cancelledBeforeDisposePublish.WaitAsync(TimeSpan.FromSeconds(5)));
+
+            await sessionClient.DisposeAsync();
+
+            await Assert.ThrowsAsync<ObjectDisposedException>(() => noTokenPublish.WaitAsync(TimeSpan.FromSeconds(5)));
+            await Assert.ThrowsAsync<ObjectDisposedException>(() => subscribe.WaitAsync(TimeSpan.FromSeconds(5)));
+            await Assert.ThrowsAsync<ObjectDisposedException>(() => unsubscribe.WaitAsync(TimeSpan.FromSeconds(5)));
+
+            cancelledAfterDisposeCts.Cancel();
+            await Assert.ThrowsAsync<ObjectDisposedException>(() => cancelledAfterDisposePublish.WaitAsync(TimeSpan.FromSeconds(5)));
+        }
+
+        [Theory(Timeout = 10000)]
+        [InlineData(true)]
+        [InlineData(false)]
+        public async Task MqttSessionClient_RequestsAfterDisposeThrowObjectDisposedException(bool sessionLostBeforeDispose)
+        {
+            using MockMqttClient mockClient = new MockMqttClient();
+            MqttSessionClient sessionClient = new(mockClient);
+
+            TaskCompletionSource sessionLostTcs = new();
+            sessionClient.SessionLostAsync += (args) =>
+            {
+                sessionLostTcs.TrySetResult();
+                return Task.CompletedTask;
+            };
+
+            await sessionClient.ConnectAsync(GetClientOptions());
+
+            if (sessionLostBeforeDispose)
+            {
+                await mockClient.SimulateServerInitiatedDisconnectAsync(new Exception(), MQTTnet.MqttClientDisconnectReason.SessionTakenOver);
+                await sessionLostTcs.Task.WaitAsync(TimeSpan.FromSeconds(5));
+            }
+
+            await sessionClient.DisposeAsync();
+
+            var message = new MqttApplicationMessage("someTopic") { QualityOfServiceLevel = MqttQualityOfServiceLevel.AtLeastOnce };
+            await Assert.ThrowsAsync<ObjectDisposedException>(() => sessionClient.PublishAsync(message, CancellationToken.None).WaitAsync(TimeSpan.FromSeconds(5)));
+            await Assert.ThrowsAsync<ObjectDisposedException>(() => sessionClient.SubscribeAsync(new MqttClientSubscribeOptions("someTopic")).WaitAsync(TimeSpan.FromSeconds(5)));
+            await Assert.ThrowsAsync<ObjectDisposedException>(() => sessionClient.UnsubscribeAsync(new MqttClientUnsubscribeOptions("someTopic")).WaitAsync(TimeSpan.FromSeconds(5)));
+        }
+
         private class TestCertificateProvider : IMqttClientCertificatesProvider
         {
             public X509Certificate2 CurrentCertificate { get; set; }
