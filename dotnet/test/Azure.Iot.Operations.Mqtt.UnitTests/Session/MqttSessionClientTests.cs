@@ -194,6 +194,78 @@ namespace Azure.Iot.Operations.Protocol.Session.UnitTests
             }
         }
 
+        [Fact(Timeout = 10000)]
+        public async Task MqttSessionClient_FatalDisconnectBeforeInitialConnectReturnsFinalizesSession()
+        {
+            using MockMqttClient mockClient = new MockMqttClient();
+
+            int connectedCount = 0;
+            mockClient.ConnectedAsync += (args) =>
+            {
+                // Simulate the broker disconnecting the client after the CONNACK, but before the session client's
+                // ConnectAsync call returns.
+                return Interlocked.Increment(ref connectedCount) == 1
+                    ? mockClient.SimulateServerInitiatedDisconnectAsync(new Exception(), MQTTnet.MqttClientDisconnectReason.SessionTakenOver)
+                    : Task.CompletedTask;
+            };
+
+            await using MqttSessionClient sessionClient = new(mockClient, new MqttSessionClientOptions() { ThrowIfUsedWhenSessionInactive = true });
+
+            TaskCompletionSource sessionLostTcs = new();
+            sessionClient.SessionLostAsync += (args) =>
+            {
+                sessionLostTcs.TrySetResult();
+                return Task.CompletedTask;
+            };
+
+            await sessionClient.ConnectAsync(GetClientOptions());
+
+            await sessionLostTcs.Task.WaitAsync(TimeSpan.FromSeconds(5));
+            Assert.False(sessionClient.IsConnected);
+            Assert.Equal(1, connectedCount);
+
+            // The session is no longer being maintained, so the inactive session guard should reject new requests
+            await Assert.ThrowsAsync<SessionClosedException>(() => sessionClient.PublishAsync(new MqttApplicationMessage("someTopic")));
+
+            // The client should be able to start a new session since the previous one was finalized
+            await sessionClient.ConnectAsync(GetClientOptions());
+            Assert.True(sessionClient.IsConnected);
+        }
+
+        [Fact(Timeout = 10000)]
+        public async Task MqttSessionClient_NonFatalDisconnectBeforeInitialConnectReturnsTriggersReconnection()
+        {
+            using MockMqttClient mockClient = new MockMqttClient();
+
+            int connectedCount = 0;
+            TaskCompletionSource reconnectedTcs = new();
+            mockClient.ConnectedAsync += (args) =>
+            {
+                if (Interlocked.Increment(ref connectedCount) == 1)
+                {
+                    return mockClient.SimulateServerInitiatedDisconnectAsync(new Exception(), MQTTnet.MqttClientDisconnectReason.ServerBusy);
+                }
+
+                reconnectedTcs.TrySetResult();
+                return Task.CompletedTask;
+            };
+
+            await using MqttSessionClient sessionClient = new(mockClient);
+
+            bool sessionLost = false;
+            sessionClient.SessionLostAsync += (args) =>
+            {
+                sessionLost = true;
+                return Task.CompletedTask;
+            };
+
+            await sessionClient.ConnectAsync(GetClientOptions());
+
+            await reconnectedTcs.Task.WaitAsync(TimeSpan.FromSeconds(5));
+            Assert.True(sessionClient.IsConnected);
+            Assert.False(sessionLost);
+        }
+
         [Fact]
         public async Task MqttSessionClient_DisconnectHandlerRetriesOnExpectedUnsuccessfulConnectException()
         {
