@@ -252,7 +252,6 @@ namespace Azure.Iot.Operations.Mqtt.Session
         public void Dispose()
         {
             _gate.Dispose();
-            _mutex.Dispose();
         }
     }
 }
