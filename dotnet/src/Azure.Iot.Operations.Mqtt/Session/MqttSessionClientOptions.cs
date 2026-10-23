@@ -65,6 +65,7 @@ namespace Azure.Iot.Operations.Mqtt.Session
         /// <summary>
         /// If true, any attempt to publish, subscribe, or unsubscribe while the session client is not either connected or reconnecting will immediately throw
         /// a <see cref="SessionClosedException"/>. If false, the publish/subscribe/unsubscribe will remain enqueued and can be sent when the session starts again.
+        /// Any requests that are still enqueued when the session client is disposed will fail with an <see cref="ObjectDisposedException"/>.
         /// </summary>
         public bool ThrowIfUsedWhenSessionInactive { get; set; } = false;
 

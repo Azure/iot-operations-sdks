@@ -19,6 +19,9 @@ namespace Azure.Iot.Operations.Mqtt.Session
         private readonly uint _maxSize;
         private readonly MqttPendingMessagesOverflowStrategy _overflowStrategy;
 
+        // Once set, this list no longer accepts new items and any attempt to add one will fail it with this exception.
+        private Exception? _closedReason;
+
         public BlockingConcurrentList(uint maxSize, MqttPendingMessagesOverflowStrategy overflowStrategy)
         {
             if (maxSize < 1)
@@ -47,6 +50,12 @@ namespace Azure.Iot.Operations.Mqtt.Session
             await _mutex.WaitAsync(cancellationToken);
             try
             {
+                if (_closedReason != null)
+                {
+                    item.OnException(_closedReason);
+                    return;
+                }
+
                 if (_items.Count < _maxSize)
                 {
                     _items.AddLast(item);
@@ -215,6 +224,31 @@ namespace Azure.Iot.Operations.Mqtt.Session
                 _mutex.Release();
             }
         }
+        /// <summary>
+        /// Fail all items currently in this list with the provided exception and fail any items added afterwards with it, too.
+        /// </summary>
+        /// <param name="reason">The exception to fail current and future items with.</param>
+        /// <param name="cancellationToken">Cancellation token.</param>
+        public async Task CloseAsync(Exception reason, CancellationToken cancellationToken)
+        {
+            await _mutex.WaitAsync(cancellationToken);
+            try
+            {
+                _closedReason = reason;
+
+                foreach (var item in _items)
+                {
+                    item.OnException(reason);
+                }
+
+                _items.Clear();
+            }
+            finally
+            {
+                _mutex.Release();
+            }
+        }
+
         public void Dispose()
         {
             _gate.Dispose();

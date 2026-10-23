@@ -211,11 +211,14 @@ namespace Azure.Iot.Operations.Mqtt.Session
                 try
                 {
                     await _outgoingRequestList.RemoveAsync(queuedRequest, CancellationToken.None);
-                    tcs.TrySetCanceled();
                 }
                 catch (ObjectDisposedException)
                 {
                     Trace.TraceWarning("Failed to remove a queued publish because the session client was already disposed.");
+                }
+                finally
+                {
+                    tcs.TrySetCanceled(cancellationToken);
                 }
             });
 
@@ -259,11 +262,14 @@ namespace Azure.Iot.Operations.Mqtt.Session
                 try
                 {
                     await _outgoingRequestList.RemoveAsync(queuedRequest, CancellationToken.None);
-                    tcs.TrySetCanceled();
                 }
                 catch (ObjectDisposedException)
                 {
                     Trace.TraceWarning("Failed to remove a queued subscribe because the session client was already disposed.");
+                }
+                finally
+                {
+                    tcs.TrySetCanceled(cancellationToken);
                 }
             });
 
@@ -307,11 +313,14 @@ namespace Azure.Iot.Operations.Mqtt.Session
                 try
                 {
                     await _outgoingRequestList.RemoveAsync(queuedRequest, CancellationToken.None);
-                    tcs.TrySetCanceled();
                 }
                 catch (ObjectDisposedException)
                 {
                     Trace.TraceWarning("Failed to remove a queued unsubscribe because the session client was already disposed.");
+                }
+                finally
+                {
+                    tcs.TrySetCanceled(cancellationToken);
                 }
             });
 
@@ -358,6 +367,11 @@ namespace Azure.Iot.Operations.Mqtt.Session
                 {
                     Trace.TraceWarning("Mqtt session client disposal was cancelled while waiting on reconnection logic to finish. Some unobserved exceptions may be thrown by the reconnection task");
                 }
+
+                // Settle any requests that are still queued (for instance, those enqueued after the session was already lost) and any
+                // requests enqueued concurrently with this disposal so that no caller is left awaiting a request that can never complete.
+                ObjectDisposedException disposedException = new(GetType().FullName, "The queued request cannot be completed because the session client was disposed.");
+                await _outgoingRequestList.CloseAsync(disposedException, CancellationToken.None);
 
                 _workerThreadsTaskCancellationTokenSource?.Dispose();
                 _reconnectionCancellationToken?.Dispose();
