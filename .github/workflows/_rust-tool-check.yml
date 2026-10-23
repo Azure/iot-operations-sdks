@@ -106,7 +106,7 @@ jobs:
         run: bash ./rust/scripts/system-deps.sh
 
       - name: Cache cargo build artifacts
-        uses: Swatinem/rust-cache@6323deb102c322ba6fcbdcafc7e3dddab59af2b6 # v2
+        uses: Swatinem/rust-cache@d1527c8f67ef9af357290475d4af4b0fab8f12e0 # v2
         with:
           workspaces: ${{ inputs.path }}
           shared-key: tool-${{ inputs.name }}
@@ -114,7 +114,7 @@ jobs:
       # Install cargo subcommands AFTER the cache restore. `Swatinem/rust-cache`
       # caches `~/.cargo/bin`, so a warm cache makes this a no-op.
       - name: Install cargo tooling
-        uses: taiki-e/install-action@1168f6810a3cb30a3514bf5756a3b7f0422c6df8 # v2
+        uses: taiki-e/install-action@8cca0918f8471c33515202b73f56ab27f2bed283 # v2
         with:
           tool: cargo-hack,cargo-machete
 
