@@ -33,6 +33,7 @@ use crate::{
     AdrConfigError, Data, DataOperationKind, DataOperationName, DataOperationRef,
     ManagementActionRef, MessageSchema, MessageSchemaReference,
     base_connector::ConnectorContext,
+    cloud_event::{CloudEventSource, DataOperationCloudEvent, DataOperationCloudEventBuilder},
     deployment_artifacts::{
         self,
         azure_device_registry::{AssetRef, DeviceEndpointRef},
@@ -3204,10 +3205,10 @@ impl DataOperationClient {
 
     /// Used to send transformed data to the destination
     /// Returns once the message has been sent successfully
-    /// Use `forward_data_provide_protocol_specific_identifier` if it is desired to
-    /// provide a Protocol Specific Identifier to be used on the Cloud Event `source`
-    /// header used if the destination is `MQTT`. If this fn is used, the Cloud Event Header
-    /// will default to using either the device external device id or the device name.
+    /// Use [`forward_data_with_cloud_event`](Self::forward_data_with_cloud_event) if it is
+    /// desired to customize the Cloud Event Headers used if the destination is `MQTT`, such as
+    /// providing a Protocol Specific Identifier for the `source` header. If this fn is used, the
+    /// Cloud Event Header will default to `ms-aio:<external device id or device name>[/<data source>]`.
     ///
     /// # Errors
     /// [`destination_endpoint::Error`] of kind [`MissingMessageSchema`](destination_endpoint::ErrorKind::MissingMessageSchema)
@@ -3222,15 +3223,21 @@ impl DataOperationClient {
     /// [`destination_endpoint::Error`] of kind [`MqttTelemetryError`](destination_endpoint::ErrorKind::MqttTelemetryError)
     /// if the destination is `Mqtt` and there are any errors sending the message to the broker
     pub async fn forward_data(&self, data: Data) -> Result<(), destination_endpoint::Error> {
-        self.forwarder.send_data(data, None).await
+        self.forwarder
+            .send_data(data, DataOperationCloudEvent::default())
+            .await
     }
 
     /// Used to send transformed data to the destination
     /// Returns once the message has been sent successfully.
     /// `protocol_specific_identifier` will be used on the Cloud Event
-    /// `source` header used if the destination is `MQTT`. If `forward_data` is used instead of this fn,
-    /// the Cloud Event Header will default to using either the device external device id or the device name.
+    /// `source` header used if the destination is `MQTT`, as
+    /// `ms-aio:<protocol_specific_identifier>[/<data source>]`. If `forward_data` is used instead of
+    /// this fn, the Cloud Event Header will default to
+    /// `ms-aio:<external device id or device name>[/<data source>]`.
     /// The inbound endpoint address is a recommended value for this field.
+    /// If `protocol_specific_identifier` is empty or doesn't form a valid `source`, it is ignored and
+    /// the same default as `forward_data` is used.
     ///
     /// # Errors
     /// [`destination_endpoint::Error`] of kind [`MissingMessageSchema`](destination_endpoint::ErrorKind::MissingMessageSchema)
@@ -3244,14 +3251,46 @@ impl DataOperationClient {
     ///
     /// [`destination_endpoint::Error`] of kind [`MqttTelemetryError`](destination_endpoint::ErrorKind::MqttTelemetryError)
     /// if the destination is `Mqtt` and there are any errors sending the message to the broker
+    #[deprecated(
+        note = "use `forward_data_with_cloud_event` with `CloudEventSource::AutomaticWithProtocolSpecificIdentifier`, which returns an error for an invalid identifier instead of falling back"
+    )]
     pub async fn forward_data_provide_protocol_specific_identifier(
         &self,
         data: Data,
         protocol_specific_identifier: &str,
     ) -> Result<(), destination_endpoint::Error> {
-        self.forwarder
-            .send_data(data, Some(protocol_specific_identifier))
-            .await
+        let cloud_event = DataOperationCloudEventBuilder::default()
+            .source(CloudEventSource::AutomaticWithProtocolSpecificIdentifier(
+                protocol_specific_identifier.to_string(),
+            ))
+            .build()
+            .unwrap_or_default();
+        self.forwarder.send_data(data, cloud_event).await
+    }
+
+    /// Used to send transformed data to the destination with Cloud Event values built by a
+    /// [`DataOperationCloudEventBuilder`].
+    /// Returns once the message has been sent successfully.
+    /// The Cloud Event is only used if the destination is `MQTT`.
+    ///
+    /// # Errors
+    /// [`destination_endpoint::Error`] of kind [`MissingMessageSchema`](destination_endpoint::ErrorKind::MissingMessageSchema)
+    /// if the [`MessageSchema`] has not been reported yet. This is required before forwarding any data
+    ///
+    /// [`destination_endpoint::Error`] of kind [`ValidationError`](destination_endpoint::ErrorKind::ValidationError)
+    /// if the [`Data`] isn't valid or there isn't a valid destination configured for the data operation.
+    ///
+    /// [`destination_endpoint::Error`] of kind [`BrokerStateStoreError`](destination_endpoint::ErrorKind::BrokerStateStoreError)
+    /// if the destination is `BrokerStateStore` and there are any errors setting the data with the service
+    ///
+    /// [`destination_endpoint::Error`] of kind [`MqttTelemetryError`](destination_endpoint::ErrorKind::MqttTelemetryError)
+    /// if the destination is `Mqtt` and there are any errors sending the message to the broker
+    pub async fn forward_data_with_cloud_event(
+        &self,
+        data: Data,
+        cloud_event: DataOperationCloudEvent,
+    ) -> Result<(), destination_endpoint::Error> {
+        self.forwarder.send_data(data, cloud_event).await
     }
 
     /// Used to receive notifications about the Data Operation from the Azure Device Registry Service.
