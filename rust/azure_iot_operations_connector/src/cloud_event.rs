@@ -1,56 +1,56 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-//! Types for determining the Cloud Event headers of forwarded data.
+//! Types for determining the Cloud Event headers the connector sends.
 
 use azure_iot_operations_mqtt::aio::cloud_event as aio_cloud_event;
 use chrono::{DateTime, Utc};
 use derive_builder::Builder;
 
-/// Determines the `source` of a [`DataOperationCloudEvent`]
+/// Determines the `source` header of a Cloud Event
 #[derive(Clone, Debug, Default)]
 #[non_exhaustive]
 pub enum CloudEventSource {
     /// `ms-aio:<device identifier>[/<data source>]`, where:
     /// - the device identifier is the device's external ID, trimmed, if it differs from the
     ///   device's UUID, isn't empty, and forms a valid `source`; otherwise the device name
-    /// - the data source is the data operation's `dataSource`, trimmed and without leading `/`s,
+    /// - the data source is the asset component's `dataSource`, trimmed and without leading `/`s,
     ///   if it isn't empty and the resulting `source` is valid
     #[default]
     Automatic,
     /// `ms-aio:<identifier>[/<data source>]`, where the identifier is trimmed and the data source
-    /// is the same as for [`Automatic`](CloudEventSource::Automatic). The inbound
-    /// endpoint address is a recommended identifier. [`DataOperationCloudEventBuilder::build`]
-    /// returns an error if the trimmed identifier is empty or doesn't form a valid `source`.
+    /// is the same as for [`Automatic`](CloudEventSource::Automatic). The inbound endpoint address
+    /// is a recommended identifier. Building the Cloud Event returns an error if the trimmed
+    /// identifier is empty or doesn't form a valid `source`.
     AutomaticWithProtocolSpecificIdentifier(String),
     /// The provided `source`, used as is
     Custom(String),
 }
 
-/// Determines the `type` of a [`DataOperationCloudEvent`]
+/// Determines the `type` header of a Cloud Event
 #[derive(Clone, Debug, Default)]
 #[non_exhaustive]
 pub enum CloudEventType {
-    /// `<kind>[/<type ref>]`, where the kind is `DataSet`, `Event`, or `Stream`, and the type ref
-    /// is the data operation's `typeRef`, if any
+    /// `<kind>[/<type ref>]`, where the kind is the kind of asset component (`DataSet`, `Event`,
+    /// or `Stream`) and the type ref is the asset component's `typeRef`, if any
     #[default]
     Automatic,
     /// The provided `type`
     Custom(String),
 }
 
-/// Determines the `subject` of a [`DataOperationCloudEvent`]
+/// Determines the `subject` header of a Cloud Event
 #[derive(Clone, Debug, Default)]
 #[non_exhaustive]
 pub enum CloudEventSubject {
-    /// `<asset identifier>/<data operation name>`, where:
+    /// `<asset identifier>/<asset component name>`, where:
     /// - the asset identifier is the asset's external ID, trimmed, if it differs from the asset's
     ///   UUID and isn't empty; otherwise the asset name
-    /// - the data operation name is the dataset or stream name, or
-    ///   `<event group name>/<event name>` for an event
+    /// - the asset component name is the component's name, or `<event group name>/<event name>`
+    ///   for an event
     #[default]
     Automatic,
-    /// The topic the data is published to
+    /// The topic the message is published to
     PublishTopic,
     /// The provided `subject`
     Custom(String),
@@ -58,12 +58,12 @@ pub enum CloudEventSubject {
     None,
 }
 
-/// Determines the `dataschema` of a [`DataOperationCloudEvent`]
+/// Determines the `dataschema` header of a Cloud Event
 #[derive(Clone, Debug, Default)]
 #[non_exhaustive]
 pub enum CloudEventDataSchema {
     /// `aio-sr://<registry namespace>/<schema name>:<schema version>` for the message schema
-    /// reported for the data operation, or no `dataschema` if one hasn't been reported
+    /// reported for the asset component, or no `dataschema` if one hasn't been reported
     #[default]
     Automatic,
     /// The provided `dataschema`
@@ -72,7 +72,7 @@ pub enum CloudEventDataSchema {
     None,
 }
 
-/// Determines the `id` of a [`DataOperationCloudEvent`]
+/// Determines the `id` header of a Cloud Event
 #[derive(Clone, Debug, Default)]
 #[non_exhaustive]
 pub enum CloudEventId {
@@ -83,12 +83,11 @@ pub enum CloudEventId {
     Custom(String),
 }
 
-/// Determines the `time` of a [`DataOperationCloudEvent`]
+/// Determines the `time` header of a Cloud Event
 #[derive(Clone, Debug, Default)]
 #[non_exhaustive]
 pub enum CloudEventTime {
-    /// The [`timestamp`](crate::Data::timestamp) of the forwarded [`Data`](crate::Data), or the
-    /// time it is forwarded if the timestamp is `None`
+    /// The timestamp of the data being sent, if it has one, otherwise the time it is sent
     #[default]
     Automatic,
     /// The provided `time`
@@ -97,7 +96,7 @@ pub enum CloudEventTime {
     None,
 }
 
-/// Determines the `aiodeviceref` of a [`DataOperationCloudEvent`]
+/// Determines the `aiodeviceref` header of a Cloud Event
 #[derive(Clone, Debug, Default)]
 #[non_exhaustive]
 pub enum CloudEventAioDeviceRef {
@@ -111,7 +110,7 @@ pub enum CloudEventAioDeviceRef {
     None,
 }
 
-/// Determines the `aioassetref` of a [`DataOperationCloudEvent`]
+/// Determines the `aioassetref` header of a Cloud Event
 #[derive(Clone, Debug, Default)]
 #[non_exhaustive]
 pub enum CloudEventAioAssetRef {
