@@ -11,4 +11,4 @@ license = "MIT"
 azure_iot_operations_mqtt = { path = "../../../../../rust/azure_iot_operations_mqtt" }
 azure_iot_operations_protocol = { path = "../../../../../rust/azure_iot_operations_protocol" }
 counters = { path = "../counters" }
-tokio = { version = "1.36", features = ["full"] }
+tokio = { version = "1.53.3", features = ["full"] }
