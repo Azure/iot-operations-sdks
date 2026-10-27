@@ -126,7 +126,8 @@ pub enum CloudEventAioAssetRef {
 /// Determines the Cloud Event headers of data forwarded with
 /// [`DataOperationClient::forward_data_with_cloud_event`](crate::base_connector::managed_azure_device_registry::DataOperationClient::forward_data_with_cloud_event).
 /// Values that aren't set are `Automatic`, and automatic values are determined when the data is
-/// forwarded.
+/// forwarded. Other Azure IoT Operations components may rely on the automatic values, so only
+/// change them if the data's consumers expect it.
 #[derive(Builder, Clone, Debug, Default)]
 #[builder(build_fn(validate = "Self::validate"))]
 pub struct DataOperationCloudEvent {

@@ -453,7 +453,7 @@ impl Forwarder {
                 cloud_event_builder.time(*time);
             }
             CloudEventTime::None => {
-                cloud_event_builder.time(None::<DateTime<Utc>>);
+                cloud_event_builder.time(None);
             }
         }
         cloud_event_builder.build().map_err(|e| {
