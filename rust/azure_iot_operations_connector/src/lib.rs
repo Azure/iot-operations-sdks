@@ -17,6 +17,7 @@ use azure_iot_operations_services::{
 };
 
 pub mod base_connector;
+pub mod cloud_event;
 pub mod data_processor;
 pub mod deployment_artifacts;
 pub mod destination_endpoint;
