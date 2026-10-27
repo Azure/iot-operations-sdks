@@ -3208,7 +3208,7 @@ impl DataOperationClient {
     /// Use [`forward_data_with_cloud_event`](Self::forward_data_with_cloud_event) if it is
     /// desired to customize the Cloud Event Headers used if the destination is `MQTT`, such as
     /// providing a Protocol Specific Identifier for the `source` header. If this fn is used, the
-    /// Cloud Event Header will default to `ms-aio:<external device id or device name>[/<data source>]`.
+    /// 'source' Cloud Event Header will default to `ms-aio:<external device id or device name>[/<data source>]`.
     ///
     /// # Errors
     /// [`destination_endpoint::Error`] of kind [`MissingMessageSchema`](destination_endpoint::ErrorKind::MissingMessageSchema)
