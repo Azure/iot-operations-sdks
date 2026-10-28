@@ -49,12 +49,18 @@ jobs:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
 
       - name: Setup Rust (pinned via rust-toolchain.toml)
-        uses: actions-rust-lang/setup-rust-toolchain@166cdcfd11aee3cb47222f9ddb555ce30ddb9659 # v1
+        uses: actions-rust-lang/setup-rust-toolchain@ecabd13d1c56bd1345c230e542e9144811ad706f # v2
         with:
+          rust-src-dir: rust
           # Disable this action's built-in cache; `Swatinem/rust-cache`
           # (below) handles caching for us and also caches `target/`,
           # which this action does not.
           cache: false
+          # Only pinned-toolchain Clippy (`make check`) should deny warnings.
+          # In v2, build-warnings defaults to deny on Cargo 1.97+ independently
+          # of rustflags, so disable both action-level warning policies.
+          rustflags: ''
+          build-warnings: ''
 
       - name: Setup .NET (for codegen drift check)
         uses: actions/setup-dotnet@a98b56852c35b8e3190ac28c8c2271da59106c68 # v6
