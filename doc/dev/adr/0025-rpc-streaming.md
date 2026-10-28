@@ -67,7 +67,7 @@ Each producer ends its own stream with a **`last`** signal. An exchange is **gra
 
 #### Invoker behavior
 
-The invoker supplies the outbound **request stream** together with that stream's metadata; it must contain at least one entry. The invocation establishes the exchange; it does **not** represent completion of the request stream. The invoker activates response reception, sends the mandatory first request, and then returns the inbound **response stream** — without waiting for the second request or for the request stream to end.
+The invoker supplies the outbound **request stream** together with that stream's metadata; it must contain at least one entry. The invocation establishes the exchange; it does **not** represent completion of the request stream. The invoker activates response reception, sends the mandatory first request, and then returns the inbound **response stream** — without waiting for the second request or for the request stream to end. The common case is a single request answered by a stream of responses; an SDK may offer a shortcut for it that takes that one request and returns the response payloads as a plain async sequence.
 
 An empty request stream or setup error fails the invocation before an exchange is returned. Any later request-sending error terminates the local exchange, stops request publication, and triggers a best-effort cancellation; it is surfaced through the exchange's completion signal and, while still open, the response stream.
 
