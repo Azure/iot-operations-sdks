@@ -179,7 +179,7 @@ stateDiagram-v2
     TimedOut --> Tombstone
     Failed --> Tombstone
 
-    Tombstone --> [*]: retained past the longest<br/>message expiry, then dropped
+    Tombstone --> [*]: retained about twice<br/>the exchange timeout, then dropped
 
     note right of Tombstone
         Late or duplicate packets stay routable:

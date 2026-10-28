@@ -90,6 +90,7 @@ are the part that costs us, because each is a private protocol we do not test.
 ## Requirements (the MUSTs)
 
 - Arbitrary number of requests **and** responses per invocation; a stream may be exactly one entry
+- Every entry in a stream has the **same payload type** — the shape never changes mid-stream
 - Producer may send its first entry **without knowing the total count**
 - Each surfaced entry carries its **index** in the stream
 - Multiple streaming commands run **simultaneously and independently**
@@ -110,12 +111,11 @@ The executor-crash requirement is what forces shared subscriptions and partition
 
 | Not doing | Why |
 | --- | --- |
-| Different payload shapes per entry | One stream, one type — keeps codegen and validation simple |
-| Chunking one large payload across entries | We do not verify a stream arrived in full — a stricter layer on top does that (ADR 33) |
+| Chunking one large payload across entries | We do not verify a stream arrived in full — a stricter layer on top does that (ADR 34) |
 | Delivering entries in their **intended** order | Entries may be lost; we surface in receive order and expose index + timestamp |
 | Resuming after the **invoker** crashes | Its response topic is unique to it — in-flight responses cannot be re-routed |
 
-These are the four things people ask for first. They are accepted limitations, not oversights.
+These are the three things people ask for first. They are accepted limitations, not oversights.
 
 <!--
 Pre-empt the loudest questions. Ordering is the one to dwell on: we hand the app the
@@ -284,7 +284,8 @@ INV                            signals "response stream ended" to the app
 ```
 
 - `last` shares the producer's index counter with data — it is the next index, not a flag on an entry
-- Receiving data for a stream **after** its `last` is a protocol violation (delivery order is guaranteed)
+- **New** data for a stream **after** its `last` is a protocol violation (delivery order is guaranteed);
+  a redelivered entry is dropped by de-dup first, and a repeated `last` is ignored
 - Control traffic keeps flowing after `last` until the exchange is terminal
 
 <!--
@@ -437,14 +438,16 @@ Cheap slide, but it closes off a question that came up in every previous review.
 
 - Invoker configures an **exchange timeout** — total elapsed budget, **not** an inactivity timer,
   and it never resets. Configurable default; positive, finite, rounded up to whole seconds
-- Both sides run **local** countdowns: invoker from sending request 0, executor from receiving it
+- Both sides run **local** countdowns: invoker from sending request 0, executor from the first
+  request-direction message it receives, using that message's remaining budget
 - On expiry a side reports the timeout to its own app and stops — **no timeout status is ever sent**;
   the peer reaches its own timeout independently
 - Every request-direction message repeats the **remaining** budget, so a replacement executor
   inherits the true time left
 
 **Per-message expiry**: defaults to the remaining budget, always **capped** at it, must be positive and
-finite — a message can never outlive its exchange. The receiver reuses it as the de-dup cache lifetime.
+finite — a message can never outlive its exchange, and a missing or zero expiry is a protocol violation.
+The receiver reuses it as the de-dup cache lifetime.
 
 <!--
 Rejected alternative worth naming: an idle timeout with heartbeats. It supports unbounded
@@ -482,7 +485,8 @@ A **protocol violation** is a correlation-matched message that breaks the wire c
 - missing or malformed `__stream`
 - incompatible streaming protocol version
 - published at **QoS 0**
-- **sequencing break** — data after `last`, or a request `last` with no preceding entry
+- no message expiry, or an expiry of zero
+- **sequencing break** — new data after `last`, or a request `last` at index 0
 
 Any of these is **terminal**: recipient returns `s:<index>` + `__stat` (index is diagnostic only),
 both sides end the exchange. Unmatched or junk data is acknowledged and discarded — it never kills a stream.
@@ -508,7 +512,8 @@ a second error channel that codegen cannot type.
 - **Executor crash is survivable**: shared subscription hands the exchange to another executor, which
   recovers from the correlation, the repeated stream metadata, and the remaining budget on each request
 - A replacement executor restarts response indexes at **0** — hence de-dup on index **and** HLC
-  timestamp: a redelivery repeats both, a restart reuses an index with a **new** timestamp
+  timestamp: a redelivery repeats both, a restart reuses an index with a **new** timestamp (its node ID
+  differs, which also shows the app the producer changed)
 - **Invoker crash is not survivable** — its response topic is unique to it, there is no load balancing
 - `no matching subscribers` PUBACK → surfaced as **`NoAvailableStreamingExecutor`**, exchange ends
   (broker-specific assumption, guarded by end-to-end tests)
@@ -558,7 +563,7 @@ Decisions I want from this room:
 1. **Separate pattern** — agreed, or push to fold into unary RPC?
 2. **`__stream` shape** — sign off, or last objections to the tagged-form grammar?
 3. **Accepted limitations** — no invoker recovery, no ordering guarantee, no in-pattern chunking
-   (deferred to ADR 33), no application-error channel
+   (ADR 34), no application-error channel
 4. **Timeout model** — total exchange budget now; idle + heartbeat deferred. Does anyone have a
    customer scenario that needs an unbounded stream?
 

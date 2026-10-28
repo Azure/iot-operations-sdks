@@ -9,9 +9,10 @@ Users have expressed a desire to allow more than one request and/or more than on
  - A single command invocation MUST support an arbitrary number of command requests and responses.
    - A producer MUST be able to send its first request or response without knowing the total number of entries in advance.
    - A stream MAY contain exactly one entry.
+ - All entries in a given stream MUST be deserializable as the same type by the consumer; the payload shape MUST NOT change mid-stream.
  - When exposed to the user, each request and response MUST include the index of its position within the stream.
  - The protocol MUST support multiple independent streaming commands simultaneously.
- - The invoker and the executor MUST each be able to cancel the streamed request and/or the streamed response at any time.
+ - The invoker and the executor MUST each be able to cancel the exchange — both streams together — at any time.
  - The invoker and the executor MUST be able to send their requests and responses at arbitrary times relative to one another, except that the invoker MUST initiate the streaming invocation with a request.
    - For instance, the executor MAY send a response as soon as it receives a request, or it MAY wait until the request stream ends before sending its first response.
    - Likewise, the invoker MAY send a request in reaction to a received response.
@@ -21,10 +22,9 @@ Users have expressed a desire to allow more than one request and/or more than on
 
 ## Non-requirements
 
- - Different payload shapes per command response/request
  - Chunking a single large payload across multiple stream messages
    - Any stream message may be lost (message expiry or other circumstances). This pattern surfaces entries as they arrive and does not verify that a stream was received in full, so it does not by itself reassemble a split payload.
-   - This is a scope boundary, not an impossibility: because every entry carries its index, a layer above can detect a gap and fail the whole transfer with a distinct error so the application re-requests it. Chunking is specified separately in [ADR 33](./0033-large-message-chunking-options.md).
+   - This is a scope boundary, not an impossibility: because every entry carries its index, a layer above can detect a gap and fail the whole transfer with a distinct error so the application re-requests it. Chunking is specified separately in [ADR 34](./0034-large-message-chunking.md), following the options compared in [ADR 33](./0033-large-message-chunking-options.md).
  - Delivering streamed requests/responses in their **intended** order.
    - Any stream message may be lost, so entries are surfaced in the order received; reconstructing the intended order is left to the application.
  - Resuming an exchange after the **invoker** crashes or loses its session.
@@ -120,7 +120,7 @@ Because the command topic is a shared subscription, **every** command-topic pack
 
 #### Exchange lifetime
 
-Because closing one stream does not end the exchange (see [exchange completion](#exchange-completion)), each endpoint keeps its per-correlation state active until the exchange is terminal, so control still flows after a `last`. Once a side is terminal, further data messages for that correlation are acknowledged and ignored; only the required control re-answers (for example, re-sending `Canceled` for a re-issued cancellation) are sent. The per-correlation state is kept as a **tombstone** so late or duplicate packets remain routable and are not treated as a new stream; it is retained at least as long as the longest expiry of any packet that could still arrive, plus some buffer.
+Because closing one stream does not end the exchange (see [exchange completion](#exchange-completion)), each endpoint keeps its per-correlation state active until the exchange is terminal, so control still flows after a `last`. Once a side is terminal, further data messages for that correlation are acknowledged and ignored; only the required control re-answers (for example, re-sending `Canceled` for a re-issued cancellation) are sent. The per-correlation state is kept as a **tombstone** so late or duplicate packets remain routable and are not treated as a new stream; it is retained for about **twice the exchange timeout**. No message's expiry exceeds the exchange timeout (see [message level timeout](#message-level-timeout)), so this outlasts any packet that could still arrive, with margin for late delivery by the broker.
 
 #### Producing and consuming
 
@@ -128,15 +128,15 @@ A side **consumes** one stream and **produces** the other. The consuming and pro
 
 **Consuming a stream:**
 
-- **De-dup caching.** A consumer de-dups received data messages (QoS 1 may re-deliver) by correlationId + index + timestamp — the index distinguishes duplicates within a stream, while the per-entry HLC timestamp separates a genuine redelivery (same index *and* timestamp) from a producer that restarted and reused an index with a new timestamp (see [disconnection and recovery](#disconnection-and-recovery)). Each cache entry is retained for the duration of its message's expiry interval (see [message level timeout](#message-level-timeout)), even beyond the end of the stream: clearing it when the stream finishes would let a late re-delivery still within its expiry window be treated as new, which is unsafe for non-idempotent commands.
+- **De-dup caching.** A consumer de-dups received data messages (QoS 1 may re-deliver) by correlationId + index + timestamp, before applying any other rule — the index distinguishes duplicates within a stream, while the per-entry HLC timestamp separates a genuine redelivery (same index *and* timestamp) from a producer that restarted and reused an index with a new timestamp (see [disconnection and recovery](#disconnection-and-recovery)). Every HLC timestamp includes its clock's node ID, so two different producers never produce the same timestamp. Each cache entry is retained for the duration of its message's expiry interval (see [message level timeout](#message-level-timeout)), even beyond the end of the stream: clearing it when the stream finishes would let a late re-delivery still within its expiry window be treated as new, which is unsafe for non-idempotent commands.
 - **Stream entry acknowledgement.** Acknowledging an entry is a **stream-level** signal that the consumer is done with it; the framework maps it to the underlying transport acknowledgement, which the consumer never handles directly. By default an entry is acknowledged as soon as it is delivered to the user. **Manual** acknowledgement — holding the ack until processing finishes, so an unacknowledged entry is redelivered rather than lost if the consumer crashes first — is available only to the **executor** (request consumption); the invoker cannot resume a response stream after a crash, so it always auto-acknowledges.
-- **`last` receipt.** On a `last` control message (`c:…:last`), the consumer notifies the user that the stream has ended; it is **not** surfaced as a stream entry ([why `last` is its own message](#last-message-being-its-own-message)). Because delivery order is guaranteed, receiving further data for that stream after its `last` is a protocol violation.
+- **`last` receipt.** On a `last` control message (`c:…:last`), the consumer notifies the user that the stream has ended; it is **not** surfaced as a stream entry ([why `last` is its own message](#last-message-being-its-own-message)). Because delivery order is guaranteed, receiving further **new** data for that stream after its `last` — data that isn't a de-duplicated redelivery — is a protocol violation. A repeated `last` for a stream that has already closed is ignored.
 
 **Producing a stream:** every data message carries the same correlation data, the appropriate [`__stream` metadata](#streaming-user-property), the serialized user payload, and any message metadata plus the stream metadata, at QoS 1. The producer ends its stream with a standalone `last` message on the same topic and correlation. Which topic each side uses, and the `$partition` requirement on the command topic, are covered in [topics and routing](#topics-and-routing) above.
 
 **Executor-only rules:**
 
-- A `last` in the request stream with no preceding data entry is a [protocol violation](#error-handling) (a request stream must have at least one entry): the executor returns the error status and the exchange ends.
+- A `last` at index `0` in the request stream is a [protocol violation](#error-handling) (a request stream must have at least one entry): the executor returns the error status and the exchange ends. A `last` at a higher index is not, even if this executor received none of the entries before it — they may have gone to an executor that crashed (see [disconnection and recovery](#disconnection-and-recovery)).
 - Unlike vanilla RPC, the executor keeps **no replay cache**: streams may grow without bound, so replaying a response stream isn't feasible.
 
 ### Timeout support
@@ -154,7 +154,7 @@ The exchange timeout bounds **total elapsed time from when the exchange begins**
 Each side runs its own countdown from the start of the exchange and does **not** reset it:
 
 - The **invoker** starts its timer when it sends its first request. If it elapses before [graceful completion](#exchange-completion), it reports the timeout to the user and stops sending.
-- The **executor** starts its timer on the first request it receives. If it elapses before [graceful completion](#exchange-completion), it reports the timeout to the user.
+- The **executor** starts its timer on the first request-direction message it receives, set to that message's `timeout_length`; later values don't reset it. If it elapses before [graceful completion](#exchange-completion), it reports the timeout to the user.
 
 Every **request-direction** message (invoker → executor) carries the **current invoker timeout counter value** in the `timeout_length` field of `__stream` (in seconds), repeated on each so the timeout survives loss of earlier messages and lets a different executor recover the exchange mid-stream; response-direction messages (executor → invoker) omit it. Seconds align with the MQTT message expiry interval used for other timeouts, keep the header small for long-running streams, and avoid implying a sub-second precision that isn't meaningful.
 
@@ -162,7 +162,7 @@ A local timeout terminates only that side's exchange state; neither side sends a
 
 ##### Message level timeout
 
-We will allow users to set the message expiry interval of each message in a request/response stream manually; if unset, it defaults to the exchange timeout's **current remaining value** at the moment the message is sent. A manually set value is always **capped** at that same current remaining exchange timeout — so a message can never outlive the exchange, and the usable expiry only shrinks as the exchange counts down. Every stream message _must_ include a positive, finite message expiry — a message with no (or zero) expiry is rejected. The receiving end uses this value as the de-dup cache length for the cached message (vanilla RPC has the [same requirement](../../reference/command-timeouts.md#input-values)).
+We will allow users to set the message expiry interval of each message in a request/response stream manually; if unset, it defaults to the exchange timeout's **current remaining value** at the moment the message is sent. A manually set value is always **capped** at that same current remaining exchange timeout — so a message can never outlive the exchange, and the usable expiry only shrinks as the exchange counts down. Every stream message _must_ include a positive, finite message expiry — a message with no (or zero) expiry is a [protocol violation](#error-handling). The receiving end uses this value as the de-dup cache length for the cached message (vanilla RPC has the [same requirement](../../reference/command-timeouts.md#input-values)).
 
 
 #### Alternative timeout designs considered
@@ -211,8 +211,9 @@ A **protocol violation** is a message that **belongs to the exchange** (its corr
 - carries a payload that cannot be **deserialized** to the stream's expected type;
 - has a missing or **malformed `__stream`** property;
 - declares an **incompatible streaming protocol version**;
-- is published at **QoS 0** (every stream message must be QoS 1); or
-- **breaks stream sequencing** — a data entry after the stream's `last`, or a request stream whose `last` arrives with no preceding data entry.
+- is published at **QoS 0** (every stream message must be QoS 1);
+- has **no message expiry**, or an expiry of zero; or
+- **breaks stream sequencing** — a new (not de-duplicated) data entry after the stream's `last`, or a request stream whose `last` is at index `0`.
 
 Any such violation is **terminal**: the recipient sends a [status message](#streaming-user-property) back to the sender (`s:<index>` references the offending message, `__stat` carries the error code, with an optional human-readable `__stMsg`), and **both parties then treat the exchange as over and send no further entries**. The referenced index is **diagnostic context only** — since the exchange ends, nothing needs to correlate it back to a specific message. Unmatched or junk data (no correlating exchange) is acknowledged and discarded, never terminating a stream.
 
@@ -237,7 +238,7 @@ An in-flight message survives at the broker only for its [message expiry](#messa
 
 Because the command topic is a [shared subscription](#topics-and-routing), an executor crash does not strand the exchange — another executor in the group takes over, recovering mid-stream from the correlation, the repeated stream metadata, and each request's `timeout_length`. The **invoker has no equivalent**: its response topic is unique to it, so if the invoker's session is lost, in-flight responses cannot be re-routed and are **lost with no recovery** (there is no invoker-side load-balancing). This is an accepted limitation.
 
-A replacement executor — or the same executor restarted without context — resumes the **response** stream from index 0 rather than continuing, since the executor keeps [no replay cache](#producing-and-consuming). Every entry already carries an HLC **timestamp** alongside its index, and the consumer de-dups on **both**: a genuine QoS 1 redelivery repeats the same index *and* timestamp, whereas a restarted producer reuses an index with a **new** timestamp, so its fresh entries are not mistaken for duplicates. Exposing the timestamp and index on each entry also lets the consumer detect that the producer changed or restarted mid-stream.
+A replacement executor — or the same executor restarted without context — resumes the **response** stream from index 0 rather than continuing, since the executor keeps [no replay cache](#producing-and-consuming). Every entry already carries an HLC **timestamp** alongside its index, and the consumer de-dups on **both**: a genuine QoS 1 redelivery repeats the same index *and* timestamp, whereas a restarted producer reuses an index with a **new** timestamp, so its fresh entries are not mistaken for duplicates. Exposing the timestamp and index on each entry also lets the consumer detect that the producer changed or restarted mid-stream: the timestamp's node ID differs for a different producer.
 
 If the invoker publishes a request and the broker replies `no matching subscribers` — **no executor is subscribed** — the request reaches no one. Although that reason code is an MQTT-level success, the streaming layer maps it to a distinct **`NoAvailableStreamingExecutor`** error: the invoker surfaces it to the user (the stream cannot push messages right now) and ends the exchange. This relies on a broker-delivery assumption spelled out in the [appendix](#no-matching-subscribers-broker-assumption).
 
@@ -284,6 +285,7 @@ public class StreamingExtendedResponse<TResp>
 public class StreamMessageMetadata
 {
     public uint Index { get; init; }
+    // Part of the de-dup key; its node ID identifies the producer.
     public HybridLogicalClock? Timestamp { get; init; }
     public Dictionary<string, string> UserData { get; init; } = new();
 }

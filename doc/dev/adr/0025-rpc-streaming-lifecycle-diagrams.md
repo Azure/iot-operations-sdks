@@ -139,7 +139,8 @@ sequenceDiagram
 
 The exchange timeout is a single overall budget for the whole exchange, not an inactivity timer — it
 does **not** reset on activity. The invoker starts its countdown when it sends its first request; the
-executor starts when it receives the first request. Each request-direction message carries the invoker's
+executor starts when it receives its first request-direction message, from that message's remaining
+budget. Each request-direction message carries the invoker's
 **remaining** budget in `__stream` (`d:0:T`, `c:…:T`, `s:…:T`), so a replacement executor can resume
 mid-stream with the true time left.
 
@@ -276,7 +277,8 @@ sequenceDiagram
 ## 7. Protocol Error Terminates the Exchange
 
 A **protocol violation** — a correlation-matched message that breaks the wire contract (an undeserializable
-payload, a malformed `__stream`, an incompatible protocol version, a QoS 0 publish, or a sequencing break) —
+payload, a malformed `__stream`, an incompatible protocol version, a QoS 0 publish, a missing or zero
+message expiry, or a sequencing break) —
 is **terminal**. The recipient sends a status message (`s:<index>` + `__stat` `4xx`/`5xx`) back to the
 sender identifying the offending entry, and **both parties then end the exchange** and send no further
 entries. The index is diagnostic context only. Application-level outcomes are **out of scope** — the
@@ -351,7 +353,8 @@ error regardless of whether the `Canceled` acknowledgement arrives.
 ## 9. Incoming Packet Classification and Terminal Races
 
 This classifier assumes correlation lookup has found an active exchange or a retained
-terminal tombstone. Initial request validation is outside this diagram. A timeout is never
+terminal tombstone. Initial request validation is outside this diagram. Data is de-duplicated
+before any other rule, so a redelivery never counts as a sequencing break. A timeout is never
 received as a packet — it is a local event (see §4) — so it does not appear here.
 
 ```mermaid
@@ -363,7 +366,7 @@ flowchart TD
     RC -- "Yes" --> RA["Re-send Canceled"]
     RC -- "No" --> AI["Acknowledge and ignore"]
     T -- "No" --> TAG{"__stream tag"}
-    TAG -- "c : last" --> HC["Close this data stream"]
+    TAG -- "c : last" --> HC["Ignore if already closed<br/>else close this data stream"]
     HC --> BC{"Both streams closed?"}
     BC -- "Yes" --> CO["Enter Completed"]
     BC -- "No" --> AC["Remain active<br/>control still flows"]
