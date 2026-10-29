@@ -14,7 +14,7 @@ namespace Azure.Iot.Operations.Protocol.IntegrationTests;
 // and file transfer (short request stream, file streamed back line by line with a hash logged on both sides),
 // plus the representative scenarios from the streaming scenario paper (incremental OPC UA browse, historic
 // read backfill, WoT Thing Description discovery, and OpenUSD scene composition), which use ExecuteStreamingAsync.
-public class StreamingPocTests(ITestOutputHelper output)
+public partial class StreamingPocTests(ITestOutputHelper output)
 {
     [CommandTopic("rpc/streaming/poc/asyncpingpong")]
     private sealed class AsyncPingPongInvoker(ApplicationContext appContext, IMqttPubSubClient mqttClient)

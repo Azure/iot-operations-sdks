@@ -39,6 +39,9 @@ namespace Azure.Iot.Operations.Protocol.Streaming
         private HashSet<uint> _seenResponseIndexes = new();
         private ExchangeContext? _exchangeContext;
 
+        // Set once the current exchange has ended with a failure (sent or received), so nothing more is produced for it.
+        private volatile bool _terminal;
+
         /// <summary>
         /// The topic token replacement map that this streaming command invoker will use by default. Generally, this will include the token values
         /// for topic tokens such as "modelId" which should be the same for the duration of this command invoker's lifetime.
@@ -148,6 +151,7 @@ namespace Azure.Iot.Operations.Protocol.Streaming
             // The response channel is the push -> pull bridge: the MQTT callback writes entries, the caller reads them.
             _responseChannel = Channel.CreateUnbounded<StreamingExtendedResponse<TResp>>();
             _seenResponseIndexes = new();
+            _terminal = false;
             IAsyncEnumerable<StreamingExtendedResponse<TResp>> responses = _responseChannel.Reader.ReadAllAsync(cancellationToken);
             ExchangeContext exchangeContext = new();
             _exchangeContext = exchangeContext;
@@ -213,7 +217,8 @@ namespace Azure.Iot.Operations.Protocol.Streaming
             yield return new StreamingExtendedRequest<TReq>(request);
         }
 
-        // Publishes the request stream: each entry as a `d:<index>` message, then a closing `last`.
+        // Publishes the request stream: each entry as a `d:<index>` message, then a closing `last`. If the supplied
+        // stream throws, ends it with a Failed status instead and fails the local exchange (ADR 25, stream failure).
         private async Task PumpRequestsAsync(
             Guid correlationId,
             IAsyncEnumerable<StreamingExtendedRequest<TReq>> requests,
@@ -222,14 +227,71 @@ namespace Azure.Iot.Operations.Protocol.Streaming
         {
             // The invoker assigns each entry its index, in send order.
             uint index = 0;
-            await foreach (StreamingExtendedRequest<TReq> request in requests.WithCancellation(cancellationToken))
+            try
             {
-                await PublishRequestEntryAsync(correlationId, index, request, streamMetadata, cancellationToken);
-                index++;
-            }
+                await foreach (StreamingExtendedRequest<TReq> request in requests.WithCancellation(cancellationToken))
+                {
+                    if (_terminal)
+                    {
+                        return;
+                    }
 
-            // A standalone `last` control message closes the request stream at the next index.
-            await PublishLastAsync(correlationId, index, cancellationToken);
+                    await PublishRequestEntryAsync(correlationId, index, request, streamMetadata, cancellationToken);
+                    index++;
+                }
+
+                if (_terminal)
+                {
+                    return;
+                }
+
+                // A standalone `last` control message closes the request stream at the next index.
+                await PublishLastAsync(correlationId, index, cancellationToken);
+            }
+            catch (Exception ex)
+            {
+                if (_terminal)
+                {
+                    return;
+                }
+
+                _terminal = true;
+                Log?.Invoke($"invoker: request stream failed ({ex.GetType().Name}: {ex.Message}); sending Failed");
+                await PublishRequestFailedAsync(correlationId, ex);
+
+                // Surfaced locally through the response stream and the exchange's completion signal.
+                _responseChannel?.Writer.TryComplete(ex);
+                _exchangeContext?.Fail(ex);
+            }
+        }
+
+        // Ends the request stream with a Failed status on the command topic (best effort).
+        private async Task PublishRequestFailedAsync(Guid correlationId, Exception error)
+        {
+            try
+            {
+                string clientId = _mqttClient.ClientId
+                    ?? throw new InvalidOperationException("Must be connected to the MQTT broker before invoking a streaming command.");
+
+                MqttApplicationMessage message = new(_requestTopic, MqttQualityOfServiceLevel.AtLeastOnce)
+                {
+                    ResponseTopic = _responseTopic,
+                    CorrelationData = correlationId.ToByteArray(),
+                    MessageExpiryInterval = _exchangeTimeoutSeconds,
+                };
+
+                message.AddUserProperty("$partition", clientId);
+                message.AddUserProperty(AkriSystemProperties.SourceId, clientId);
+                message.AddUserProperty(StreamProperty.Name, StreamProperty.Status(0, _exchangeTimeoutSeconds));
+                StreamFailure.AddFailedProperties(message, error);
+                Log?.Invoke($"invoker -> Failed s:0 __stat={StreamFailure.FailedStatusCode}" + (error is StreamingApplicationException a ? $" AppErrCode={a.ErrorCode}" : string.Empty));
+
+                await _mqttClient.PublishAsync(message, CancellationToken.None);
+            }
+            catch (Exception publishError)
+            {
+                Log?.Invoke($"invoker: could not send Failed ({publishError.Message}); the executor will time out");
+            }
         }
 
         // Builds and publishes one request-stream entry as a QoS 1 `d:<index>` message.
@@ -316,6 +378,12 @@ namespace Azure.Iot.Operations.Protocol.Streaming
                 return Task.CompletedTask;
             }
 
+            if (_terminal)
+            {
+                Log?.Invoke($"invoker <- {streamValue} (exchange already failed, ignored)");
+                return Task.CompletedTask;
+            }
+
             switch (tag.Kind)
             {
                 case StreamMessageKind.Data:
@@ -338,6 +406,15 @@ namespace Azure.Iot.Operations.Protocol.Streaming
                     Log?.Invoke($"invoker <- last idx={tag.Index} (response stream complete)");
                     _responseChannel.Writer.TryComplete();
                     _exchangeContext?.Complete();
+                    break;
+
+                case StreamMessageKind.Status when StreamFailure.TryReadFailure(message, _correlationId, out Exception failure):
+                    // The executor's response stream failed: entries already delivered stay delivered, then the response
+                    // stream ends with the error and this side stops producing. Failed is not answered.
+                    Log?.Invoke($"invoker <- Failed ({failure.GetType().Name}: {failure.Message}); ending the exchange");
+                    _terminal = true;
+                    _responseChannel.Writer.TryComplete(failure);
+                    _exchangeContext?.Fail(failure);
                     break;
             }
 

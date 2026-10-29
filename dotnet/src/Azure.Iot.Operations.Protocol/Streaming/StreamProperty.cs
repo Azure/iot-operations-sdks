@@ -18,6 +18,10 @@ namespace Azure.Iot.Operations.Protocol.Streaming
         public static string Last(uint index, uint? timeoutSeconds = null) =>
             timeoutSeconds is uint t ? $"c:{index}:last:{t}" : $"c:{index}:last";
 
+        // A status message (an outcome such as Failed); timeoutSeconds is present on request-direction messages only.
+        public static string Status(uint index, uint? timeoutSeconds = null) =>
+            timeoutSeconds is uint t ? $"s:{index}:{t}" : $"s:{index}";
+
         // Parses a "__stream" value back into its kind + index (inverse of Data/Last).
         public static bool TryParse(string? value, out StreamTag tag)
         {
@@ -35,6 +39,9 @@ namespace Azure.Iot.Operations.Protocol.Streaming
                     return true;
                 case "c" when parts.Length is 3 or 4 && uint.TryParse(parts[1], out uint cIndex) && TryParseControl(parts[2], out StreamControlCommand command):
                     tag = new StreamTag(StreamMessageKind.Control, cIndex, ParseTimeout(parts, 3), command);
+                    return true;
+                case "s" when parts.Length is 2 or 3 && uint.TryParse(parts[1], out uint sIndex):
+                    tag = new StreamTag(StreamMessageKind.Status, sIndex, ParseTimeout(parts, 2));
                     return true;
                 default:
                     return false;

@@ -28,5 +28,8 @@ namespace Azure.Iot.Operations.Protocol.Streaming
 
         // Signals the exchange finished gracefully (both streams closed).
         internal void Complete() => _completion.TrySetResult();
+
+        // Signals the exchange ended with a failure (ADR 25, stream failure).
+        internal void Fail(Exception error) => _completion.TrySetException(error);
     }
 }
