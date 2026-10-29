@@ -69,7 +69,7 @@ Each producer ends its own stream with a **`last`** signal. An exchange is **gra
 
 The invoker supplies the outbound **request stream** together with that stream's metadata; it must contain at least one entry. The invocation establishes the exchange; it does **not** represent completion of the request stream. The invoker activates response reception, sends the mandatory first request, and then returns the inbound **response stream** — without waiting for the second request or for the request stream to end. The common case is a single request answered by a stream of responses; an SDK may offer a shortcut for it that takes that one request and returns the response payloads as a plain async sequence.
 
-An empty request stream or setup error fails the invocation before an exchange is returned. Any later request-sending error terminates the local exchange, stops request publication, and triggers a best-effort cancellation; it is surfaced through the exchange's completion signal and, while still open, the response stream.
+An empty request stream or setup error fails the invocation before an exchange is returned. Any later request-sending error — including the supplied request stream throwing — terminates the local exchange, stops request publication, and triggers a best-effort [`Failed` status](#stream-failure); it is surfaced through the exchange's completion signal and, while still open, the response stream.
 
 #### Executor behavior
 
@@ -91,7 +91,7 @@ To convey streaming context, each message carries a `__stream` MQTT user propert
 <control_command_word> ::= "last"
 ```
 
-**Table 1. `__stream` value fields.** The value takes one of three mutually exclusive forms distinguished by a leading tag — a **data** form (`d:…`) for stream entries, a **control** form (`c:…`) for stream control, and a **status** form (`s:…`) for reporting an outcome (an error about a received message, or exchange cancellation). Because the form is tagged, a message only ever carries the fields that apply to it; there are no fields to ignore.
+**Table 1. `__stream` value fields.** The value takes one of three mutually exclusive forms distinguished by a leading tag — a **data** form (`d:…`) for stream entries, a **control** form (`c:…`) for stream control, and a **status** form (`s:…`) for reporting an outcome (an error about a received message, the failure of the sender's own stream, or exchange cancellation). Because the form is tagged, a message only ever carries the fields that apply to it; there are no fields to ignore.
 
 | Field | Type | Meaning |
 | ---- | ---- | ---- |
@@ -103,10 +103,10 @@ Examples:
 
 - ```d:0:10``` — a request-direction data message at stream index `0`; the invoker's remaining exchange timeout is 10 seconds.
 - ```c:4:last:6``` — the request stream's final (`last`) message at index `4`; the invoker's remaining exchange timeout has dropped to 6 seconds (the field is a live countdown).
-- ```s:1:10``` — a request-direction status; its `__stat` value carries the outcome — an error code about the received message at index `1`, or `499` (`Canceled`) to cancel the whole exchange.
+- ```s:1:10``` — a request-direction status; its `__stat` value carries the outcome — an error code about the received message at index `1`, `500` (`Failed`) when the sender's own stream failed, or `499` (`Canceled`) to cancel the whole exchange.
 - ```d:0``` / ```c:7:last``` / ```s:3``` — the response-direction counterparts (executor → invoker); identical forms except `timeout_length` is omitted.
 
-Every MQTT PUBLISH belonging to a streaming exchange must include `__stream` in exactly one of these three forms: data messages use the `d` form, control messages use the `c` form (`c:…:last`), and status messages use the `s` form. A status message carries no stream entry; its `__stat` property carries the outcome — an error about a received message, or `499` (`Canceled`) for the whole exchange.
+Every MQTT PUBLISH belonging to a streaming exchange must include `__stream` in exactly one of these three forms: data messages use the `d` form, control messages use the `c` form (`c:…:last`), and status messages use the `s` form. A status message carries no stream entry; its `__stat` property carries the outcome — an error about a received message, `500` (`Failed`) when the sender's own stream failed, or `499` (`Canceled`) for the whole exchange (see [status codes](#status-codes)).
 
 [see cancellation support](#cancellation-support) and [timeout support](#timeout-support) for how these fields are used.
 
@@ -180,7 +180,7 @@ We will allow users to set the message expiry interval of each message in a requ
 
 ### Cancellation support
 
-Either side may cancel a streaming RPC at any time while the exchange is active — for instance when a long-running request or response stream is no longer wanted. Cancellation is **exchange-scoped** and is signaled with a **`Canceled` status message** (`__stat` `499`), the initiating cancel and its confirmation are the **same** message, so receiving a `Canceled` status from the peer — whether it started the cancellation or is answering yours — always means the exchange is over.
+Either side may cancel a streaming RPC at any time while the exchange is active — for instance when a long-running request or response stream is no longer wanted. Cancellation is **exchange-scoped** and is signaled with a **`Canceled` status message** (`__stat` `499`), the initiating cancel and its confirmation are the **same** message, so receiving a `Canceled` status from the peer — whether it started the cancellation or is answering yours — always means the exchange is over. `Canceled` is used only for deliberate cancellation; a failure is reported with a [`Failed` status](#stream-failure) instead.
 
 #### Sending a cancellation
 
@@ -215,20 +215,63 @@ A **protocol violation** is a message that **belongs to the exchange** (its corr
 - has **no message expiry**, or an expiry of zero; or
 - **breaks stream sequencing** — a new (not de-duplicated) data entry after the stream's `last`, or a request stream whose `last` is at index `0`.
 
-Any such violation is **terminal**: the recipient sends a [status message](#streaming-user-property) back to the sender (`s:<index>` references the offending message, `__stat` carries the error code, with an optional human-readable `__stMsg`), and **both parties then treat the exchange as over and send no further entries**. The referenced index is **diagnostic context only** — since the exchange ends, nothing needs to correlate it back to a specific message. Unmatched or junk data (no correlating exchange) is acknowledged and discarded, never terminating a stream.
+Any such violation is **terminal**: the recipient sends a [status message](#streaming-user-property) back to the sender (`s:<index>` references the offending message, `__stat` carries the error code from [status codes](#status-codes), with an optional human-readable `__stMsg`), and **both parties then treat the exchange as over and send no further entries**. The referenced index is **diagnostic context only** — since the exchange ends, nothing needs to correlate it back to a specific message. Unmatched or junk data (no correlating exchange) is acknowledged and discarded, never terminating a stream.
 
-None of these should occur between conforming implementations — they indicate data corruption or a peer that does not follow the protocol. Application-level errors are **out of scope**: the protocol does not carry them, so an application that wants to signal one sends it as an ordinary data entry. The vanilla-RPC `__apErr` (`IsApplicationError`) header is **never set on a streaming message** and is **not** part of the streaming protocol. A streaming message that nonetheless carries `__apErr` is accepted and ignored. Accepted messages carry no status; success is implicit.
+None of these should occur between conforming implementations — they indicate data corruption or a peer that does not follow the protocol. The vanilla-RPC `__apErr` (`IsApplicationError`) header is **never set on a streaming message** and is **not** part of the streaming protocol. A streaming message that nonetheless carries `__apErr` is accepted and ignored. Accepted messages carry no status; success is implicit.
+
+#### Stream failure
+
+A producer can end its own stream — before sending its `last` — with a **`Failed` status**, so that a failure reaches the consumer as a stream error rather than as data in the application's own format. There are two causes:
+
+- **Application error.** The application deliberately fails the stream with an error code and an optional payload, for example by raising an SDK-provided application error.
+- **Execution failure.** The SDK detects that the application's code failed: the stream the application supplies throws, or the executor's handler throws.
+
+The `Failed` status uses the [status form](#streaming-user-property) with:
+
+- `__stream`: `s:0` — the index is `0` and has no meaning, as for cancellation (request-direction messages append the remaining timeout, `s:0:<timeout>`).
+- `__stat`: `500`.
+- For an application error, the [ADR 21](./0021-error-modeling-headers.md) headers: `AppErrCode` (required) and `AppErrPayload` (optional). Their presence is what distinguishes an application error from an execution failure, so `__apErr` is not needed.
+- An optional human-readable `__stMsg`; for an execution failure, the SDK sets it to the error's message, as vanilla RPC does.
+
+`Failed` is **terminal** and, like a protocol violation, not answered: the sender stops producing and ends its exchange; the receiver stops producing its own stream and ends its exchange. It travels on the same topic as the sender's entries and after them, so the consumer first receives every entry produced before the failure, then the error. If the status is lost, the peer falls back to its [exchange timeout](#exchange-level-timeout).
+
+A failure that concerns one item while the stream continues — for example one record that could not be read during a backfill — is not a stream failure; it remains an ordinary entry in the application's own schema. An application may mark such an entry with the ADR 21 headers in its user properties; the protocol attaches no meaning to them.
+
+#### Status codes
+
+**Table 2. `__stat` values on status messages.** Protocol-violation codes follow vanilla RPC's [command errors](../../reference/command-errors.md).
+
+| `__stat` | Meaning | Sent when |
+| ---- | ---- | ---- |
+| `400` | Bad request | A [protocol violation](#error-handling): undeserializable payload, missing or malformed `__stream`, QoS 0, missing or zero message expiry, or a sequencing break |
+| `505` | Version not supported | A protocol violation: incompatible streaming protocol version |
+| `500` | `Failed` | The sender's own stream failed ([stream failure](#stream-failure)) |
+| `499` | `Canceled` | Deliberate [cancellation](#cancellation-support) |
+
+#### Reporting errors to the application
+
+The SDK reports every terminal outcome through one error surface: the stream the application is consuming **ends with an error** instead of completing normally — after delivering the entries that arrived before it — and the exchange's completion signal faults with the same error. A shortcut that returns the response payloads as a plain sequence raises it.
+
+| Outcome | Error reported |
+| ---- | ---- |
+| `Failed` with `AppErrCode` | Application error: the code, the payload, and the message, marked as coming from the peer |
+| `Failed` without `AppErrCode` | Execution error: the message, marked as coming from the peer |
+| Protocol violation (sent or received) | Invalid header, invalid payload, or unsupported version, as in vanilla RPC |
+| `Canceled` | Cancellation |
+| Exchange timeout | Timeout |
+| No executor subscribed | `NoAvailableStreamingExecutor` |
 
 ### Exchange termination
 
-An exchange terminates in exactly one of four ways:
+An exchange terminates in exactly one of five ways:
 
 - **Graceful** — each producer closes its own stream with `last`; the exchange completes once both streams have closed (see [exchange completion](#exchange-completion)).
 - **Cancellation** — either side sends a `Canceled` (`499`) status and the exchange ends (see [cancellation support](#cancellation-support)).
+- **Failure** — a producer ends its stream with a `Failed` (`500`) status and the exchange ends (see [stream failure](#stream-failure)).
 - **Timeout** — the [exchange timeout](#exchange-level-timeout) fires.
 - **Protocol violation** — the recipient of a malformed in-exchange message returns an error status and both sides end the exchange (see [error handling](#error-handling)).
 
-A fatal failure — a crashed peer, an unhandled exception, or a request pump that throws — surfaces as a best-effort **cancellation**, or, failing that, as the peer's timeout.
+A fatal failure — an unhandled exception or a request pump that throws — surfaces as a best-effort **`Failed`** status, or, failing that, as the peer's timeout. A crashed peer can't send anything, so its peer reaches its own timeout.
 
 ### Disconnection and recovery
 
@@ -308,6 +351,14 @@ public class RequestStreamMetadata
 public class ResponseStreamMetadata
 {
     ...
+}
+
+// Raised by a producer's stream to end it with a Failed status carrying the ADR 21 headers;
+// raised to a consumer when the peer's stream ends that way.
+public class StreamingApplicationException : Exception
+{
+    public string ErrorCode { get; }        // AppErrCode
+    public string? ErrorPayload { get; }    // AppErrPayload
 }
 ```
 

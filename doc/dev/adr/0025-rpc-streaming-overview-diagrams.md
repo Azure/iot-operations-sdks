@@ -172,7 +172,7 @@ stateDiagram-v2
     BothClosed --> Completed: both streams closed
     Active --> Canceled: Canceled status 499<br/>sent or received
     Active --> TimedOut: exchange budget elapsed
-    Active --> Failed: protocol violation<br/>or local fault
+    Active --> Failed: protocol violation,<br/>stream failure, or local fault
 
     Completed --> Tombstone
     Canceled --> Tombstone
@@ -193,11 +193,11 @@ stateDiagram-v2
 | `Completed` | Both producers sent `last`. | Its own `last` messages. |
 | `Canceled` | Either side sent or received a `Canceled` (`499`) status. | The same `Canceled` message — it both initiates and confirms. |
 | `TimedOut` | This side's exchange budget elapsed before completion. | Nothing. Timeout is purely local, and the peer times out independently. |
-| `Failed` | A correlation-matched message broke the wire contract, or the local side faulted. | A `4xx`/`5xx` status message, or — for a local fault, which has no status of its own — a best-effort cancellation. |
+| `Failed` | A producer's stream failed (an application error or an execution failure), a correlation-matched message broke the wire contract, or the local side faulted. | A `Failed` (`500`) status — carrying ADR 21's `AppErrCode` for an application error — or, for a protocol violation, a `4xx`/`505` status about the offending message. |
 
 ## 3. Protocol workflow
 
-One trace, from establishment through full duplex, then branching into each of the four ways an
+One trace, from establishment through full duplex, then branching into each of the five ways an
 exchange can end. `T` is the invoker's remaining exchange budget and `P` its client id.
 
 ```mermaid
@@ -233,7 +233,7 @@ sequenceDiagram
     Note over IS,ES: Consumers de-dup on correlationId + index + timestamp<br/>QoS 1 may redeliver
     end
 
-    Note over IA,EA: C. The exchange ends in exactly one of four ways
+    Note over IA,EA: C. The exchange ends in exactly one of five ways
 
     alt Graceful - each producer closes its own stream
         IA->>IS: end request stream
@@ -253,6 +253,12 @@ sequenceDiagram
         IS->>B: Canceled<br/>__stream=s:0:T, __stat=499, $partition=P
         B->>ES: Canceled
         Note over IS,ES: The same message both initiates and confirms,<br/>so a received Canceled always means the exchange is over
+    else Failure - a producer fails its own stream
+        EA-->>ES: raise application error, or the handler throws
+        ES->>B: Failed<br/>__stream=s:0, __stat=500, AppErrCode if an application error
+        B->>IS: Failed
+        IS-->>IA: response stream ends with the error - exchange Failed
+        Note over IS,ES: Entries sent before it were delivered first,<br/>and Failed is not answered
     else Timeout - the exchange budget elapses
         Note over ES,EA: Executor stalls or crashes
         Note over IS: Budget T elapses before both streams close
@@ -274,12 +280,13 @@ Reading notes for section **A**: the invocation returns as soon as the mandatory
 published — not when the request stream ends. Otherwise a full-duplex application deadlocks, because
 request *n+1* may depend on response *n*, which the app cannot read until the call returns.
 
-Reading notes for section **C**: only *cancellation* and *protocol violation* put anything on the wire
-to end the exchange. Graceful completion is just both `last` messages having arrived, and timeout is
-never announced at all. A **protocol violation** means a correlation-matched message broke the wire
-contract — an undeserializable payload, a malformed `__stream`, an incompatible protocol version, a
-QoS 0 publish, or a sequencing break such as data after `last`. **Application** errors are out of
-scope: an app that wants to report one sends it as an ordinary data entry.
+Reading notes for section **C**: only *cancellation*, *failure* and *protocol violation* put anything on
+the wire to end the exchange. Graceful completion is just both `last` messages having arrived, and timeout
+is never announced at all. A **failure** is a producer ending its own stream with an error — an application
+error with a code (ADR 21's `AppErrCode`), or an execution failure such as a throwing handler. A **protocol
+violation** means a correlation-matched message broke the wire contract — an undeserializable payload, a
+malformed `__stream`, an incompatible protocol version, a QoS 0 publish, or a sequencing break such as data
+after `last`. An error about one item that doesn't end the stream stays an ordinary data entry.
 
 ## Where to go next
 

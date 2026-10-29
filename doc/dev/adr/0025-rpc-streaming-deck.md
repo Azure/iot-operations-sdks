@@ -142,7 +142,7 @@ would require gap detection plus retransmission, which is a much bigger protocol
 | Completion | Exchange completes only when **both** streams have closed |
 | Timeout | Single **exchange budget**, local timers on both sides, remaining value on every request |
 | Cancellation | `Canceled` status, `__stat` `499` — one message both initiates and confirms |
-| Errors | Protocol violations only; application errors are ordinary data entries |
+| Errors | Protocol violations end the exchange; a producer's stream failure ends it with a `Failed` status (ADR 21 headers for application errors) |
 | Routing | Shared-subscription command topic + `$partition` = invoker client id |
 
 <!--
@@ -201,14 +201,14 @@ a replacement needs must be on every message, because there is no first-message 
 - Closing one stream does **not** end the exchange — the side stays active for control traffic
 - **Gracefully complete** = invoker sent its `last` request **and** received the `last` response
   (and symmetrically for the executor)
-- Any other terminal — cancel, timeout, protocol violation — ends the whole exchange immediately
+- Any other terminal — cancel, failure, timeout, protocol violation — ends the whole exchange immediately
 - After terminal, state is kept as a **tombstone** so late or duplicate packets stay routable
   and are never mistaken for a new stream
 
 ```text
 BothOpen ──my last──▶ ProducedClosed ──peer last──▶ Completed
 BothOpen ──peer last──▶ ConsumedClosed ──my last──▶ Completed
-Active   ──cancel | timeout | protocol error──────▶ Terminal
+Active   ──cancel | failure | timeout | protocol error──▶ Terminal
 ```
 
 <!--
@@ -477,7 +477,7 @@ recoverable.
 
 ---
 
-## Errors: protocol violations only
+## Errors: protocol violations and stream failures
 
 A **protocol violation** is a correlation-matched message that breaks the wire contract:
 
@@ -491,13 +491,16 @@ A **protocol violation** is a correlation-matched message that breaks the wire c
 Any of these is **terminal**: recipient returns `s:<index>` + `__stat` (index is diagnostic only),
 both sides end the exchange. Unmatched or junk data is acknowledged and discarded — it never kills a stream.
 
-**Application errors are out of scope.** `__apErr` is never set on a streaming message and is ignored
-if present; an app signals its own errors as ordinary data entries. Success is implicit — no status means accepted.
+A **stream failure** is a producer ending its own stream with an error: `s:0`, `__stat=500`, plus
+ADR 21's `AppErrCode` / `AppErrPayload` for an **application error**, or none for an **execution failure**
+(a throwing handler). Terminal, not answered; entries sent before it still arrive first, then the
+consumer's stream ends with the error. `__apErr` is never set. Errors about one item that don't end the
+stream stay ordinary entries. Success is implicit — no status means accepted.
 
 <!--
-Expect pushback on application errors. The argument: an application error is a value your
-schema should express, and putting it in the transport forces every language SDK to model
-a second error channel that codegen cannot type.
+This reopens application errors, removed in review 2 for lack of a requirement. The streaming-responses
+scenario paper now requires failures to surface as stream errors. It keeps the review's constraints:
+terminal (no per-entry linkage), no __apErr, ADR 21 headers, payload modeling still allowed.
 -->
 
 ---
@@ -563,8 +566,10 @@ Decisions I want from this room:
 1. **Separate pattern** — agreed, or push to fold into unary RPC?
 2. **`__stream` shape** — sign off, or last objections to the tagged-form grammar?
 3. **Accepted limitations** — no invoker recovery, no ordering guarantee, no in-pattern chunking
-   (ADR 34), no application-error channel
-4. **Timeout model** — total exchange budget now; idle + heartbeat deferred. Does anyone have a
+   (ADR 34)
+4. **Application errors** — reopened: a terminal `Failed` status with ADR 21 headers, now that the
+   streaming-responses scenarios require failures to surface as stream errors
+5. **Timeout model** — total exchange budget now; idle + heartbeat deferred. Does anyone have a
    customer scenario that needs an unbounded stream?
 
 <!--
@@ -604,7 +609,7 @@ own from the first request it sees, so a replacement executor gets the true rema
 a crash. The invoker cannot resume a response stream after a crash, so it would buy nothing.
 
 **"Does `last` mean the exchange is over?"** No — it closes **one** stream. Control still flows; the
-exchange ends only when both close, or on cancel / timeout / protocol violation.
+exchange ends only when both close, or on cancel / failure / timeout / protocol violation.
 
 **"What if the peer never sends `last`?"** The exchange timeout is the backstop; each side terminates
 locally without needing the peer.
@@ -634,7 +639,7 @@ now if there is a real unbounded-stream scenario.
   and the illustrative .NET API
 - **Diagrams:** `doc/dev/adr/0025-rpc-streaming-lifecycle-diagrams.md` — 10 rendered Mermaid diagrams
   (shared lifecycle, establishment, full duplex, timeout, both cancellation directions, protocol
-  error, fatal failure, packet classification, `__stream` anatomy)
+  error, stream failure, packet classification, `__stream` anatomy)
 - **Related ADRs:** 0006 decoupled caching · 0007 HLC timestamp · 0008 protocol split ·
   0009 protocol error structure · 0016 response topic pattern
 - **Reference docs:** `doc/reference/command-timeouts.md` · `doc/reference/shared-subscriptions.md` ·
