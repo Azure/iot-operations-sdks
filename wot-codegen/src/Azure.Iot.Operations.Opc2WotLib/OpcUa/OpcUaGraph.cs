@@ -10,6 +10,8 @@ namespace Azure.Iot.Operations.Opc2WotLib
 
     public class OpcUaGraph
     {
+        private bool referencesResolved;
+
         public const string OpcUaCoreModelUri = "http://opcfoundation.org/UA/";
 
         public static readonly XmlNamespaceManager NamespaceManager;
@@ -72,6 +74,8 @@ namespace Azure.Iot.Operations.Opc2WotLib
 
         public void AddNodeset(string xmlText)
         {
+            referencesResolved = false;
+
             XmlDocument xmlDoc = new XmlDocument();
             xmlDoc.LoadXml(xmlText);
             ArgumentNullException.ThrowIfNull(xmlDoc.DocumentElement, nameof(xmlDoc.DocumentElement));
@@ -101,6 +105,7 @@ namespace Azure.Iot.Operations.Opc2WotLib
             ModelUriToModelMap[modelUri] = modelInfo;
 
             Dictionary<string, OpcUaNode> effectiveNameToNodeMap = new();
+            HashSet<string> discriminatedEffectiveNames = new(StringComparer.Ordinal);
 
             foreach (XmlNode node in xmlDoc.DocumentElement.ChildNodes)
             {
@@ -117,7 +122,7 @@ namespace Azure.Iot.Operations.Opc2WotLib
                         break;
                     case "UAObject":
                         OpcUaObject opcUaObject = new OpcUaObject(modelInfo, NsUriToNsInfoMap, node);
-                        SetDiscriminator(opcUaObject, effectiveNameToNodeMap);
+                        SetDiscriminator(opcUaObject, effectiveNameToNodeMap, discriminatedEffectiveNames);
                         if (opcUaObject.HasTypeDefinitionNodeId != null)
                         {
                             modelInfo.TypeDefinitionNodeIds.Add(opcUaObject.HasTypeDefinitionNodeId);
@@ -127,7 +132,7 @@ namespace Azure.Iot.Operations.Opc2WotLib
                         break;
                     case "UAObjectType":
                         OpcUaObjectType opcUaObjectType = new OpcUaObjectType(modelInfo, NsUriToNsInfoMap, node);
-                        SetDiscriminator(opcUaObjectType, effectiveNameToNodeMap);
+                        SetDiscriminator(opcUaObjectType, effectiveNameToNodeMap, discriminatedEffectiveNames);
                         modelInfo.NodeIdToObjectTypeMap[opcUaObjectType.NodeId] = opcUaObjectType;
                         opcUaNode = opcUaObjectType;
                         break;
@@ -136,7 +141,7 @@ namespace Azure.Iot.Operations.Opc2WotLib
                         break;
                     case "UAVariableType":
                         OpcUaVariableType opcUaVariableType = new OpcUaVariableType(modelInfo, NsUriToNsInfoMap, node);
-                        if (!opcUaVariableType.IsDeprecated)
+                        if (opcUaVariableType.IsSchemaEligible)
                         {
                             modelInfo.NodeIdToVariableTypeMap[opcUaVariableType.NodeId] = opcUaVariableType;
                         }
@@ -162,28 +167,60 @@ namespace Azure.Iot.Operations.Opc2WotLib
                 }
             }
 
-            foreach (OpcUaObjectType opcUaObjectType in modelInfo.NodeIdToObjectTypeMap.Values)
-            {
-                foreach ((OpcUaNodeId, OpcUaObject) typeAndObjectOfReference in opcUaObjectType.TypeAndObjectOfReferences)
-                {
-                    modelInfo.ReferencedObjectNodeIds.Add(typeAndObjectOfReference.Item2.NodeId);
-                }
-            }
         }
 
-        private void SetDiscriminator(OpcUaNode newObjectType, Dictionary<string, OpcUaNode> effectiveNameToNodeMap)
+        public void ResolveReferences()
+        {
+            if (referencesResolved)
+            {
+                return;
+            }
+
+            foreach (OpcUaModelInfo modelInfo in ModelUriToModelMap.Values)
+            {
+                modelInfo.ReferencedObjectNodeIds.Clear();
+                foreach (OpcUaObjectType opcUaObjectType in modelInfo.NodeIdToObjectTypeMap.Values)
+                {
+                    foreach ((OpcUaNodeId, OpcUaObject) typeAndObjectOfReference in opcUaObjectType.TypeAndObjectOfReferences)
+                    {
+                        modelInfo.ReferencedObjectNodeIds.Add(typeAndObjectOfReference.Item2.NodeId);
+                    }
+                }
+            }
+
+            referencesResolved = true;
+        }
+
+        private void SetDiscriminator(
+            OpcUaNode newObjectType,
+            Dictionary<string, OpcUaNode> effectiveNameToNodeMap,
+            HashSet<string> discriminatedEffectiveNames)
         {
             if (effectiveNameToNodeMap.TryGetValue(newObjectType.EffectiveName, out OpcUaNode? extantObjectType))
             {
                 if (extantObjectType.Discriminator == 0)
                 {
-                    extantObjectType.Discriminator = 1;
+                    discriminatedEffectiveNames.Remove(extantObjectType.DiscriminatedEffectiveName);
+                    SetNextAvailableDiscriminator(extantObjectType, discriminatedEffectiveNames);
                 }
 
-                newObjectType.Discriminator = extantObjectType.Discriminator + 1;
+                SetNextAvailableDiscriminator(newObjectType, discriminatedEffectiveNames);
+            }
+            else if (!discriminatedEffectiveNames.Add(newObjectType.DiscriminatedEffectiveName))
+            {
+                SetNextAvailableDiscriminator(newObjectType, discriminatedEffectiveNames);
             }
 
             effectiveNameToNodeMap[newObjectType.EffectiveName] = newObjectType;
+        }
+
+        private void SetNextAvailableDiscriminator(OpcUaNode node, HashSet<string> discriminatedEffectiveNames)
+        {
+            do
+            {
+                node.Discriminator++;
+            }
+            while (!discriminatedEffectiveNames.Add(node.DiscriminatedEffectiveName));
         }
 
         private void CollateRequiredModels(OpcUaModelInfo modelInfo, List<OpcUaModelInfo> models, HashSet<string> processedModelUris)

@@ -14,6 +14,44 @@ pub struct ByteStr<S>(BinaryData<S>)
 where
     S: Shared;
 
+pub(super) fn validate_mqtt_string(mut b: &[u8]) -> Result<(), DecodeError> {
+    while !b.is_empty() {
+        match bstr::decode_utf8(b) {
+            (Some(c), c_len) => {
+                // The spec says that implementations MUST NOT allow strings that contain U+0000, and additionally
+                // SHOULD NOT allow "Disallowed Unicode code points", which it defines as:
+                //
+                // - U+0001..U+001F control characters
+                // - U+007F..U+009F control characters
+                // - Code points defined in the Unicode specification to be non-characters (for example U+0FFFF)
+                //
+                // We implement both the MUST and the SHOULD here by checking the general category of the codepoint.
+                // There are no other `Control` characters besides U+0000 and the two ranges the spec lists, so there
+                // is no need to check those ranges specifically. The `Unassigned` category corresponds to non-characters.
+                if c == '\0' {
+                    return Err(DecodeError::InvalidByteStr("contains U+0000"));
+                }
+
+                let general_category = c.general_category();
+                if general_category == GeneralCategory::Control {
+                    return Err(DecodeError::InvalidByteStr("contains control codepoint"));
+                }
+                if general_category == GeneralCategory::Unassigned {
+                    return Err(DecodeError::InvalidByteStr(
+                        "contains non-character codepoint",
+                    ));
+                }
+
+                b = &b[c_len..];
+            }
+
+            (None, _) => return Err(DecodeError::InvalidByteStr("invalid UTF-8")),
+        }
+    }
+
+    Ok(())
+}
+
 impl<S> ByteStr<S>
 where
     S: Shared,
@@ -56,40 +94,7 @@ where
             return Ok(None);
         };
 
-        // Validate the data bytes are valid UTF-8, and that none of the UTF-8 chars are \0.
-        {
-            let mut b = b.as_bytes();
-            while !b.is_empty() {
-                match bstr::decode_utf8(b) {
-                    (Some(c), c_len) => {
-                        // The spec says that implementations MUST NOT allow strings that contain U+0000, and additionally
-                        // SHOULD NOT allow "Disallowed Unicode code points", which it defines as:
-                        //
-                        // - U+0001..U+001F control characters
-                        // - U+007F..U+009F control characters
-                        // - Code points defined in the Unicode specification to be non-characters (for example U+0FFFF)
-                        //
-                        // We implement both the MUST and the SHOULD here by checking the general category of the codepoint.
-                        // In particular, note that U+0000 is also a `Control` character so it is covered by that check,
-                        // and there are no other `Control` characters other than the two ranges the spec says so there is no need
-                        // to check for those two ranges specifically. The `Unassigned` category corresponds to non-characters.
-                        let general_category = c.general_category();
-                        if general_category == GeneralCategory::Control {
-                            return Err(DecodeError::InvalidByteStr("contains control codepoint"));
-                        }
-                        if general_category == GeneralCategory::Unassigned {
-                            return Err(DecodeError::InvalidByteStr(
-                                "contains non-character codepoint",
-                            ));
-                        }
-
-                        b = &b[c_len..];
-                    }
-
-                    (None, _) => return Err(DecodeError::InvalidByteStr("invalid UTF-8")),
-                }
-            }
-        }
+        validate_mqtt_string(b.as_bytes())?;
 
         Ok(Some(Self(b)))
     }

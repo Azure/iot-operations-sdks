@@ -553,6 +553,10 @@ where
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub struct Auth {
     pub reason: AuthReason,
+    // This is actually a bug in the MQTT spec. See OASIS issue MQTT-537
+    // https://issues.oasis-open.org/browse/MQTT-537
+    // TODO: Make this non-optional? May need to remain Option for interop support,
+    // but perhaps we could have a fallback method or something.
     pub authentication_info: Option<AuthenticationInfo>,
     pub properties: AuthProperties,
 }
@@ -685,7 +689,7 @@ pub struct ConnAckProperties {
     pub server_keep_alive: Option<KeepAlive>,
     pub response_information: Option<String>,
     pub server_reference: Option<String>,
-    //pub authentication                    // TODO: Add auth support
+    // pub authentication_info: Option<AuthenticationInfo>, // TODO: Add auth support
 }
 
 impl Default for ConnAckProperties {

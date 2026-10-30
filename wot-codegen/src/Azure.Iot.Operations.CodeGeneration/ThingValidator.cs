@@ -21,12 +21,14 @@ namespace Azure.Iot.Operations.CodeGeneration
         private static readonly Regex EnumValueRegex = new(@"^[A-Za-z][A-Za-z0-9_]*$", RegexOptions.Compiled);
 
         private ErrorReporter errorReporter;
+        private bool requireThingModelForms;
         private MapTracker<TDDataSchema>? currentSchemaDefinitions;
         private bool currentThingIsDescription;
 
-        public ThingValidator(ErrorReporter errorReporter)
+        public ThingValidator(ErrorReporter errorReporter, bool requireThingModelForms = true)
         {
             this.errorReporter = errorReporter;
+            this.requireThingModelForms = requireThingModelForms;
         }
 
         public bool TryValidateThing(IResolvingThing resolvingThing, HashSet<SerializationFormat> serializationFormats, bool validateReferences)
@@ -118,19 +120,22 @@ namespace Azure.Iot.Operations.CodeGeneration
                 return false;
             }
 
-            if (!TryValidateCrossFormConsistency(thing.Forms, thing.Actions))
+            if (isDescription || this.requireThingModelForms)
             {
-                hasError = true;
-            }
+                if (!TryValidateCrossFormConsistency(thing.Forms, thing.Actions))
+                {
+                    hasError = true;
+                }
 
-            if (!TryValidateCrossFormConsistency(thing.Forms, thing.Properties, resolvingThing, validateReferences))
-            {
-                hasError = true;
-            }
+                if (!TryValidateCrossFormConsistency(thing.Forms, thing.Properties, resolvingThing, validateReferences))
+                {
+                    hasError = true;
+                }
 
-            if (!TryValidateCrossFormConsistency(thing.Forms, thing.Events, resolvingThing, validateReferences))
-            {
-                hasError = true;
+                if (!TryValidateCrossFormConsistency(thing.Forms, thing.Events, resolvingThing, validateReferences))
+                {
+                    hasError = true;
+                }
             }
 
             if (!TryValidateThingPropertyNames(thing.PropertyNames))

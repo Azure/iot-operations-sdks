@@ -75,25 +75,41 @@ namespace Azure.Iot.Operations.Opc2WotLib
             }
         }
 
-        public OpcUaVariableType? CustomVariableType
+        public OpcUaVariableType? VariableTypeDefinition
         {
             get
             {
-                if (HasTypeDefinitionNodeId == null ||
-                    DefiningModel.NamespaceUris[HasTypeDefinitionNodeId.NsIndex] == OpcUaGraph.OpcUaCoreModelUri)
+                OpcUaVariableType? variableType = HasTypeDefinition;
+                return variableType?.IsSchemaEligible == true ? variableType : null;
+            }
+        }
+
+        public OpcUaDataTypeSubtype? CustomDataTypeSubtype
+        {
+            get
+            {
+                if (EffectiveDataType == null || EffectiveDataType.NsIndex == 0)
                 {
                     return null;
                 }
 
-                return HasTypeDefinition;
+                return EffectiveDataTypeSource.GetReferencedOpcUaNode(EffectiveDataType) is OpcUaDataTypeSubtype subtype &&
+                    subtype.DefiningModel.ModelUri != OpcUaGraph.OpcUaCoreModelUri
+                    ? subtype
+                    : null;
             }
         }
+
+        public OpcUaNode? SchemaTypeReference =>
+            CanUseVariableTypeSchemaReference
+                ? VariableTypeDefinition
+                : CustomDataTypeSubtype;
 
         public bool CanUseVariableTypeSchemaReference
         {
             get
             {
-                OpcUaVariableType? variableType = CustomVariableType;
+                OpcUaVariableType? variableType = VariableTypeDefinition;
                 if (variableType == null)
                 {
                     return false;

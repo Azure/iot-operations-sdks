@@ -188,7 +188,7 @@ namespace Azure.Iot.Operations.Services.StateStore
             CommandRequestMetadata requestMetadata = new CommandRequestMetadata();
             if (options.PersistEntry)
             {
-                requestMetadata.UserData.TryAdd("aio-persistence", "true");
+                requestMetadata.PersistCommand = true;
             }
 
             if (options.FencingToken != null)
@@ -358,6 +358,26 @@ namespace Azure.Iot.Operations.Services.StateStore
                     Trace.TraceWarning("Failed to unsubscribe from key notifications MQTT topic.", e);
                 }
             }
+        }
+
+        /// <inheritdoc/>
+        public ListKeysPageIterator ListKeys(string pattern, TimeSpan? requestTimeout = null)
+        {
+            ArgumentException.ThrowIfNullOrEmpty(pattern, nameof(pattern));
+
+            return ListKeys(Encoding.UTF8.GetBytes(pattern), requestTimeout);
+        }
+
+        /// <inheritdoc/>
+        public ListKeysPageIterator ListKeys(byte[] pattern, TimeSpan? requestTimeout = null)
+        {
+            ArgumentNullException.ThrowIfNull(pattern, nameof(pattern));
+            ArgumentOutOfRangeException.ThrowIfZero(pattern.Length, nameof(pattern));
+            ObjectDisposedException.ThrowIf(_disposed, this);
+
+            Debug.Assert(_generatedClientStub != null);
+
+            return new ListKeysPageIterator(_generatedClientStub, pattern, requestTimeout);
         }
 
         /// <summary>

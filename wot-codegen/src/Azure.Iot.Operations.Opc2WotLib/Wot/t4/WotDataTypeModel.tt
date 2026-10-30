@@ -11,7 +11,11 @@
     }
   ],
   "@type": "tm:ThingModel",
+  "id": "<#=this.id#>",
   "title": "<#=this.thingName#>",
+<# if (this.typeRef != null) { #>
+  "dov:typeRef": "<#=this.typeRef#>",
+<# } #>
   "links": [
   ],
   "schemaDefinitions": {

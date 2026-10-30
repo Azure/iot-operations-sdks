@@ -31,13 +31,13 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        server: [dotnet-server, go-server, rust-server]
+        server: [dotnet-server, rust-server]
 
     env:
       COUNTER_SERVER_ID: ${{ matrix.server }}
 
     steps:
-      - uses: actions/checkout@v7
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
 
       #=======================================================================
       # Install prerequisites
@@ -46,30 +46,28 @@ jobs:
         uses: ./.github/actions/configure-aio
         with:
           wait-for-broker: 'true'
-          install-go: 'true'
           install-dotnet: 'true'
           install-rust: 'true'
           ssh-key: ${{ secrets.ACTIONS_REPO_SSH_KEY }}
 
       #=======================================================================
-      # Build codegen and verify it matches repository
+      # Build WoT codegen and verify it matches repository
       #=======================================================================
-      - name: Build codegen
-        run: |
-          dotnet build -c Debug codegen/codegen.sln
-          echo "codegen=$(echo $(realpath codegen/src/Azure.Iot.Operations.ProtocolCompiler/bin/Debug/net9.0/Azure.Iot.Operations.ProtocolCompiler))" >> $GITHUB_ENV
+      - name: Setup .NET 10
+        uses: actions/setup-dotnet@a98b56852c35b8e3190ac28c8c2271da59106c68 # v6
+        with:
+          dotnet-version: 10.0.x
+
+      - name: Build WoT codegen
+        run: dotnet build -c Debug wot-codegen/codegen.sln
 
       - name: CodeGen Rust Counter samples
         run: |
-          pushd rust/sample_applications/counter/envoy; $codegen --modelFile ../../../../eng/test/schema-samples/counter.json --sdkPath ../../.. --lang=rust; popd
+          pushd rust/sample_applications/counter; bash gen.sh; popd
 
       - name: CodeGen .NET Counter samples
         run: |
-          pushd dotnet/samples/Protocol/TestEnvoys; $codegen --modelFile ../../../../eng/test/schema-samples/counter.json --sdkPath ../../../src/Azure.Iot.Operations.Protocol --lang=csharp; popd
-
-      - name: CodeGen Go Counter samples
-        run: |
-          pushd go/samples/protocol/counter/envoy; $codegen --modelFile ../../../../../eng/test/schema-samples/counter.json --lang go; popd
+          pushd dotnet/samples/Protocol/TestThing; bash gen.sh; popd
 
       - name: Verify Generated Code Matches Repo
         run: |
@@ -89,12 +87,6 @@ jobs:
           cd dotnet
           dotnet build -c Release
 
-      - name: Build Go sample
-        run: |
-          cd go
-          go build -o server samples/protocol/counter/server/main.go
-          go build -o client samples/protocol/counter/client/main.go
-
       - name: Build Rust sample
         run: |
           cd rust
@@ -108,12 +100,6 @@ jobs:
       - name: Run .NET server
         if: matrix.server == 'dotnet-server'
         run: dotnet run -c Release --project dotnet/samples/Protocol/RPC/CounterServer &
-        env:
-          AIO_MQTT_CLIENT_ID: ${{ matrix.server }}
-
-      - name: Run Go server
-        if: matrix.server == 'go-server'
-        run: go/server &
         env:
           AIO_MQTT_CLIENT_ID: ${{ matrix.server }}
 
@@ -132,15 +118,8 @@ jobs:
         env:
           AIO_MQTT_CLIENT_ID: dotnet-client
 
-      - name: Run Go client
-        run: go/client
-        if: always()
-        env:
-          AIO_MQTT_CLIENT_ID: go-client
-
       - name: Run Rust client
         run: rust/target/release/counter_client
         if: always()
         env:
           AIO_MQTT_CLIENT_ID: rust-client
-

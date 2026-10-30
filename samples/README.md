@@ -40,8 +40,8 @@ The tutorials listed below are step-by-step instructions to deploy a fully funct
 || **ADR discovery** | Notify Akri services of discovered devices || :yellow_circle: | [Rust](/rust/azure_iot_operations_services/examples/adr_discovery.rs) |
 || **ADR operations** | Azure Device Registry device asset operations || :yellow_circle: | [Rust](/rust/azure_iot_operations_services/examples/adr_device_asset.rs) |
 ||
-| **Connector** | **Polling-driven scaffolding** | Template for creating polling-driven connectors || [Dotnet](/dotnet/templates/PollingTelemetryConnector/) | [Rust](/rust/sample_applications/sample_connector_scaffolding) |
-|| **Event-driven scaffolding** | Template for creating event-driven connectors || [Dotnet](/dotnet/templates/EventDrivenTelemetryConnector/) | :yellow_circle: |
+| **Connector** | **Polling-driven scaffolding** | Template for creating polling-driven connectors || [Dotnet](/dotnet/templates/content/PollingConnectorTemplate/) | [Rust](/rust/sample_applications/sample_connector_scaffolding) |
+|| **Event-driven scaffolding** | Template for creating event-driven connectors || [Dotnet](/dotnet/templates/content/EventDrivenConnectorTemplate/) | :yellow_circle: |
 ||
 | **Codegen*** | **Command** | A basic command client and server | [Client](/codegen/demo/go/cmdclient/)</br>[Server](/codegen/demo/go/cmdserver/) | [Client](/codegen/demo/dotnet/ProtocolCompiler.Demo/CmdClient/)</br>[Server](/codegen/demo/dotnet/ProtocolCompiler.Demo/CmdServer/) | [Client](/codegen/demo/rust/protocol_compiler_demo/cmd_client/)</br>[Server](/codegen/demo/rust/protocol_compiler_demo/cmd_server/) |
 || **Telemetry** | A basic telemetry client and server | [Client](/codegen/demo/go/telemclient/)</br>[Server](/codegen/demo/go/telemserver/) | [Client](/codegen/demo/dotnet/ProtocolCompiler.Demo/TelemClient/)</br>[Server](/codegen/demo/dotnet/ProtocolCompiler.Demo/TelemServer/) | [Client](/codegen/demo/rust/protocol_compiler_demo/telem_client/)</br>[Server](/codegen/demo/rust/protocol_compiler_demo/telem_server/) |

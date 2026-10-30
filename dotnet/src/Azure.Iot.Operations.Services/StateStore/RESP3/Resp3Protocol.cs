@@ -9,6 +9,7 @@ namespace Azure.Iot.Operations.Services.StateStore.RESP3
     {
         // The commonly used separator that splits ups segments of a RESP3 string. AKA "CRLF"
         private const string Separator = "\r\n";
+        private const int MinimumBlobStringLength = 6;
 
         private static readonly byte[] Nil1 = Encoding.ASCII.GetBytes("$-1\r\n"); // returned when getting a key that does not exist
         private static readonly byte[] Nil2 = Encoding.ASCII.GetBytes(":-1\r\n"); // returned when non-fencing condition isn't met on a set request
@@ -81,28 +82,29 @@ namespace Azure.Iot.Operations.Services.StateStore.RESP3
                 throw new Resp3ProtocolException("Invalid RESP3 blob string: non-ASCII characters detected.");
             }
 
-            if (!int.TryParse(blobStringLengthString, out int declaredLength))
+            if (!int.TryParse(blobStringLengthString, out int declaredLength)
+                || declaredLength < 0)
             {
-                throw new Resp3ProtocolException("Invalid RESP3 blob string: length segment could not be parsed as an integer");
+                throw new Resp3ProtocolException("Invalid RESP3 blob string: length segment must be a non-negative integer");
             }
 
-            int totalBlobStringLength = "$".Length + blobStringLengthString.Length + Separator.Length + declaredLength + Separator.Length;
-
-            // Parse the remaining "{length}\r\n" portion of the overall blob string
-            if (resp3BlobStringBytes.Length - remainingIndex < declaredLength + Separator.Length)
+            int remainingPayloadLength = resp3BlobStringBytes.Length - remainingIndex;
+            if (remainingPayloadLength < Separator.Length
+                || declaredLength > remainingPayloadLength - Separator.Length)
             {
                 throw new Resp3ProtocolException("Invalid RESP3 blob string: the blob string's actual length does not match its declared length");
             }
 
-            if (resp3BlobStringBytes[startIndex + totalBlobStringLength - 2] != Encoding.ASCII.GetBytes(Separator)[0]
-                || resp3BlobStringBytes[startIndex + totalBlobStringLength - 1] != Encoding.ASCII.GetBytes(Separator)[1])
+            int separatorIndex = remainingIndex + declaredLength;
+            if (resp3BlobStringBytes[separatorIndex] != Encoding.ASCII.GetBytes(Separator)[0]
+                || resp3BlobStringBytes[separatorIndex + 1] != Encoding.ASCII.GetBytes(Separator)[1])
             {
                 throw new Resp3ProtocolException($"Invalid RESP3 object: missing the final \"\\r\\n\" separators");
             }
 
             blobString = new ReadOnlySpan<byte>(resp3BlobStringBytes, remainingIndex, declaredLength);
 
-            return startIndex + totalBlobStringLength;
+            return separatorIndex + Separator.Length;
         }
 
         /// <summary>
@@ -177,6 +179,88 @@ namespace Azure.Iot.Operations.Services.StateStore.RESP3
             }
 
             return blobStrings;
+        }
+
+        /// <summary>
+        /// Parse a RESP3 blob array within a larger payload.
+        /// </summary>
+        /// <param name="startIndex">The index at which the blob array starts.</param>
+        /// <param name="resp3BlobArrayBytes">The payload containing the RESP3 blob array.</param>
+        /// <param name="blobStrings">The parsed blob strings.</param>
+        /// <returns>The index immediately after the parsed blob array.</returns>
+        /// <exception cref="Resp3ProtocolException">If the blob array is malformed.</exception>
+        internal static int ParseBlobStringArray(
+            int startIndex,
+            byte[] resp3BlobArrayBytes,
+            out List<byte[]> blobStrings)
+        {
+            if (startIndex < 0
+                || startIndex >= resp3BlobArrayBytes.Length
+                || resp3BlobArrayBytes.Length - startIndex < 4)
+            {
+                throw new Resp3ProtocolException("Invalid RESP3 blob array: must start with \'*<array length>\r\n\'.");
+            }
+
+            if (resp3BlobArrayBytes[startIndex] != (byte)'*')
+            {
+                throw new Resp3ProtocolException("Invalid RESP3 blob array: must start with \'*\'");
+            }
+
+            int remainingIndex = ReadUntilSeperator(
+                resp3BlobArrayBytes,
+                startIndex + 1,
+                out byte[] blobArraySize);
+
+            if (blobArraySize.Length < 1)
+            {
+                throw new Resp3ProtocolException("Invalid RESP3 blob array: missing array length");
+            }
+
+            string blobStringLengthString;
+            try
+            {
+                blobStringLengthString = Encoding.ASCII.GetString(blobArraySize);
+            }
+            catch (DecoderFallbackException)
+            {
+                throw new Resp3ProtocolException("Invalid RESP3 blob array: non-ASCII characters detected in the array length segment.");
+            }
+
+            if (!int.TryParse(blobStringLengthString, out int declaredArrayLength)
+                || declaredArrayLength < 0)
+            {
+                throw new Resp3ProtocolException("Invalid RESP3 blob array: array size segment must be a non-negative integer");
+            }
+
+            if (declaredArrayLength
+                > (resp3BlobArrayBytes.Length - remainingIndex) / MinimumBlobStringLength)
+            {
+                throw new Resp3ProtocolException("Invalid RESP3 blob array: declared array size does not match the actual size.");
+            }
+
+            blobStrings = new List<byte[]>(declaredArrayLength);
+            for (int blobStringIndex = 0; blobStringIndex < declaredArrayLength; blobStringIndex++)
+            {
+                if (remainingIndex >= resp3BlobArrayBytes.Length)
+                {
+                    throw new Resp3ProtocolException("Invalid RESP3 blob array: declared array size does not match the actual size.");
+                }
+
+                try
+                {
+                    remainingIndex = ParseBlobString(
+                        remainingIndex,
+                        resp3BlobArrayBytes,
+                        out ReadOnlySpan<byte> blobString);
+                    blobStrings.Add(blobString.ToArray());
+                }
+                catch (Resp3ProtocolException e)
+                {
+                    throw new Resp3ProtocolException("Invalid RESP3 blob array: one or more array elements is not a valid blob string", e);
+                }
+            }
+
+            return remainingIndex;
         }
 
         /// <summary>

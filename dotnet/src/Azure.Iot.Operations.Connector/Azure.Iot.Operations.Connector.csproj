@@ -17,6 +17,11 @@
     <None Include="./README.md" Pack="true" PackagePath="\" />
   </ItemGroup>
 
+  <PropertyGroup>
+    <!-- Ignore errors about taking a dependency on a beta version since the beta package in question is the Azure.Iot.Operations.Services package -->
+    <NoWarn>$(NoWarn);NU5104</NoWarn>
+  </PropertyGroup>
+
   <ItemGroup>
     <ProjectReference Include="..\Azure.Iot.Operations.Mqtt\Azure.Iot.Operations.Mqtt.csproj" />
     <ProjectReference Include="..\Azure.Iot.Operations.Protocol\Azure.Iot.Operations.Protocol.csproj" />

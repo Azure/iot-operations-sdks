@@ -146,16 +146,24 @@ impl MockServer {
     /// Panic if the next packet received is not a CONNECT packet.
     /// Return the received CONNECT packet for further inspection.
     /// Send a CONNACK packet with Success reason code in response, with the provided
-    /// `session_present` flag.
+    /// `session_present` flag. If the CONNECT used enhanced authentication, the CONNACK echoes
+    /// its Authentication Method.
     pub async fn expect_connect_and_accept(
         &self,
         session_present: bool,
     ) -> mqtt_proto::Connect<Bytes> {
-        self.expect_connect_and_respond(mqtt_proto::ConnAck {
-            reason_code: mqtt_proto::ConnectReasonCode::Success { session_present },
-            other_properties: mqtt_proto::ConnAckOtherProperties::default(),
-        })
-        .await
+        let connect = self.expect_connect().await;
+        self.to_client_tx
+            .send(mqtt_proto::Packet::ConnAck(mqtt_proto::ConnAck {
+                reason_code: mqtt_proto::ConnectReasonCode::Success { session_present },
+                other_properties: mqtt_proto::ConnAckOtherProperties {
+                    authentication: echo_authentication_method(
+                        connect.other_properties.authentication.as_ref(),
+                    ),
+                    ..Default::default()
+                },
+            }));
+        connect
     }
 
     /// Panic if the next packet received is not a CONNECT packet.
@@ -257,13 +265,14 @@ impl MockServer {
 
     /// Panic if the next packet received is not an AUTH packet.
     /// Return the received AUTH packet for further inspection.
+    /// Send an AUTH packet with Success reason code and the same Authentication Method in response.
     pub async fn expect_auth_and_accept(&self) -> mqtt_proto::Auth<Bytes> {
         match self.from_client_rx.recv().await {
             Some(mqtt_proto::Packet::Auth(auth)) => {
                 self.to_client_tx
                     .send(mqtt_proto::Packet::Auth(mqtt_proto::Auth {
                         reason_code: mqtt_proto::AuthenticateReasonCode::Success,
-                        authentication: None, // TODO: is this right?
+                        authentication: echo_authentication_method(auth.authentication.as_ref()),
                         reason_string: None,
                         user_properties: vec![],
                     }));
@@ -319,6 +328,16 @@ impl MockServer {
     pub fn send_auth(&self, auth: mqtt_proto::Auth<Bytes>) {
         self.to_client_tx.send(mqtt_proto::Packet::Auth(auth));
     }
+}
+
+/// MQTT 5 requires the server's Authentication Method to match the client's.
+fn echo_authentication_method(
+    authentication: Option<&mqtt_proto::Authentication<Bytes>>,
+) -> Option<mqtt_proto::Authentication<Bytes>> {
+    authentication.map(|authentication| mqtt_proto::Authentication {
+        method: authentication.method.clone(),
+        data: None,
+    })
 }
 
 /// Mock SAT file for testing purposes

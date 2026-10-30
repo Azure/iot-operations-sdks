@@ -3,6 +3,7 @@
 
 using System.Text;
 using Azure.Iot.Operations.Services.StateStore;
+using Azure.Iot.Operations.Services.StateStore.RESP3;
 using Azure.Iot.Operations.Protocol;
 using Xunit;
 
@@ -117,6 +118,108 @@ namespace Azure.Iot.Operations.Services.Test.Unit.StateStore
             Assert.Equal(0, getResponse.Length);
         }
 
+        [Theory]
+        [InlineData("*1\r\n*2147483647\r\n")]
+        [InlineData("*1\r\n*1\r\n$2147483647\r\n")]
+        public void ParseListKeysResponseWrapsOversizedDeclaredLengths(string response)
+        {
+            // arrange
+            byte[] invalidListKeysResponse = Encoding.ASCII.GetBytes(response);
+
+            // act, assert
+            Assert.Throws<StateStoreOperationException>(
+                () => StateStorePayloadParser.ParseListKeysResponse(invalidListKeysResponse));
+        }
+
+        [Fact]
+        public void ParseListKeysResponseReturnsFinalPage()
+        {
+            // arrange
+            byte[] response =
+                Encoding.ASCII.GetBytes("*1\r\n*2\r\n$4\r\nkey1\r\n$4\r\nkey2\r\n");
+
+            // act
+            (List<byte[]> keys, byte[]? continuationToken) =
+                StateStorePayloadParser.ParseListKeysResponse(response);
+
+            // assert
+            Assert.Equal(2, keys.Count);
+            Assert.Equal(Encoding.ASCII.GetBytes("key1"), keys[0]);
+            Assert.Equal(Encoding.ASCII.GetBytes("key2"), keys[1]);
+            Assert.Null(continuationToken);
+        }
+
+        [Fact]
+        public void ParseListKeysResponseReturnsEmptyPageWithBinaryContinuationToken()
+        {
+            // arrange
+            byte[] continuationToken = [0, 255, (byte)'x'];
+            byte[] response = Encoding.ASCII.GetBytes("*2\r\n*0\r\n$3\r\n")
+                .Concat(continuationToken)
+                .Concat(Encoding.ASCII.GetBytes("\r\n"))
+                .ToArray();
+
+            // act
+            (List<byte[]> keys, byte[]? parsedContinuationToken) =
+                StateStorePayloadParser.ParseListKeysResponse(response);
+
+            // assert
+            Assert.Empty(keys);
+            Assert.Equal(continuationToken, parsedContinuationToken);
+        }
+
+        [Fact]
+        public void ParseListKeysResponsePreservesBinaryKeys()
+        {
+            // arrange
+            byte[] key = [0, 255, (byte)'x'];
+            byte[] response = Encoding.ASCII.GetBytes("*1\r\n*1\r\n$3\r\n")
+                .Concat(key)
+                .Concat(Encoding.ASCII.GetBytes("\r\n"))
+                .ToArray();
+
+            // act
+            (List<byte[]> keys, byte[]? continuationToken) =
+                StateStorePayloadParser.ParseListKeysResponse(response);
+
+            // assert
+            Assert.Single(keys);
+            Assert.Equal(key, keys[0]);
+            Assert.Null(continuationToken);
+        }
+
+        [Fact]
+        public void ParseListKeysResponseWrapsServiceError()
+        {
+            // arrange
+            byte[] response = Encoding.ASCII.GetBytes("-ERR scan failed\r\n");
+
+            // act
+            StateStoreOperationException exception =
+                Assert.Throws<StateStoreOperationException>(
+                    () => StateStorePayloadParser.ParseListKeysResponse(response));
+
+            // assert
+            Assert.IsType<Resp3SimpleErrorException>(exception.InnerException);
+        }
+
+        [Theory]
+        [InlineData("*0\r\n")]
+        [InlineData("*3\r\n*0\r\n$0\r\n\r\n$0\r\n\r\n")]
+        [InlineData("*2\r\n*0\r\n")]
+        [InlineData("*1\r\n$0\r\n\r\n")]
+        [InlineData("*1\r\n*0\r\ntrailing")]
+        [InlineData("*2\r\n*0\r\n:1\r\n")]
+        public void ParseListKeysResponseThrowsIfResponseIsMalformed(string response)
+        {
+            // arrange
+            byte[] invalidListKeysResponse = Encoding.ASCII.GetBytes(response);
+
+            // act, assert
+            Assert.Throws<StateStoreOperationException>(
+                () => StateStorePayloadParser.ParseListKeysResponse(invalidListKeysResponse));
+        }
+
         [Fact]
         public void ParseDelResponseThrowsIfNotNumber()
         {
@@ -175,6 +278,45 @@ namespace Azure.Iot.Operations.Services.Test.Unit.StateStore
 
             // act
             byte[] actual = StateStorePayloadParser.BuildDelRequestPayload(key);
+
+            // assert
+            Assert.Equal(expected, actual);
+        }
+
+        [Fact]
+        public void BuildListKeysRequestWithoutContinuationTokenSuccess()
+        {
+            // arrange
+            byte[] expected =
+                Encoding.ASCII.GetBytes("*2\r\n$4\r\nSCAN\r\n$4\r\nkey*\r\n");
+
+            // act
+            byte[] actual =
+                StateStorePayloadParser.BuildListKeysRequestPayload(
+                    Encoding.ASCII.GetBytes("key*"));
+
+            // assert
+            Assert.Equal(expected, actual);
+        }
+
+        [Fact]
+        public void BuildListKeysRequestWithBinaryPatternAndContinuationTokenSuccess()
+        {
+            // arrange
+            byte[] pattern = [0, 255];
+            byte[] continuationToken = [1, 13, 10];
+            byte[] expected = Encoding.ASCII.GetBytes("*3\r\n$4\r\nSCAN\r\n$2\r\n")
+                .Concat(pattern)
+                .Concat(Encoding.ASCII.GetBytes("\r\n$3\r\n"))
+                .Concat(continuationToken)
+                .Concat(Encoding.ASCII.GetBytes("\r\n"))
+                .ToArray();
+
+            // act
+            byte[] actual =
+                StateStorePayloadParser.BuildListKeysRequestPayload(
+                    pattern,
+                    continuationToken);
 
             // assert
             Assert.Equal(expected, actual);

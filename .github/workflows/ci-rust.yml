@@ -46,18 +46,24 @@ jobs:
     timeout-minutes: 10
 
     steps:
-      - uses: actions/checkout@v7
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
 
       - name: Setup Rust (pinned via rust-toolchain.toml)
-        uses: actions-rust-lang/setup-rust-toolchain@v1
+        uses: actions-rust-lang/setup-rust-toolchain@ecabd13d1c56bd1345c230e542e9144811ad706f # v2
         with:
+          rust-src-dir: rust
           # Disable this action's built-in cache; `Swatinem/rust-cache`
           # (below) handles caching for us and also caches `target/`,
           # which this action does not.
           cache: false
+          # Only pinned-toolchain Clippy (`make check`) should deny warnings.
+          # In v2, build-warnings defaults to deny on Cargo 1.97+ independently
+          # of rustflags, so disable both action-level warning policies.
+          rustflags: ''
+          build-warnings: ''
 
       - name: Setup .NET (for codegen drift check)
-        uses: actions/setup-dotnet@v6
+        uses: actions/setup-dotnet@a98b56852c35b8e3190ac28c8c2271da59106c68 # v6
         with:
           dotnet-version: 9.x
 
@@ -65,7 +71,7 @@ jobs:
         run: bash ./scripts/system-deps.sh
 
       - name: Cache cargo build artifacts
-        uses: Swatinem/rust-cache@v2
+        uses: Swatinem/rust-cache@d1527c8f67ef9af357290475d4af4b0fab8f12e0 # v2
         with:
           workspaces: rust
           shared-key: check
@@ -75,7 +81,7 @@ jobs:
       # makes this step a no-op. Running it before the cache restore would
       # risk the restore clobbering the just-installed binary.
       - name: Install cargo tooling
-        uses: taiki-e/install-action@v2
+        uses: taiki-e/install-action@1e29709c0ec63babbe8f266397a465f29a825f91 # v2
         with:
           tool: cargo-machete,cargo-hack
 
@@ -112,7 +118,7 @@ jobs:
         rust: ["1.88", "stable"]
 
     steps:
-      - uses: actions/checkout@v7
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
 
       - name: Install AIO
         uses: ./.github/actions/configure-aio
@@ -131,7 +137,7 @@ jobs:
         run: bash ./scripts/system-deps.sh
 
       - name: Cache cargo build artifacts
-        uses: Swatinem/rust-cache@v2
+        uses: Swatinem/rust-cache@d1527c8f67ef9af357290475d4af4b0fab8f12e0 # v2
         with:
           workspaces: rust
           shared-key: tests-${{ matrix.rust }}
@@ -160,7 +166,7 @@ jobs:
     timeout-minutes: 20
 
     steps:
-      - uses: actions/checkout@v7
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
 
       - name: Install AIO
         uses: ./.github/actions/configure-aio
@@ -174,7 +180,7 @@ jobs:
         run: bash ./scripts/system-deps.sh
 
       - name: Cache cargo build artifacts
-        uses: Swatinem/rust-cache@v2
+        uses: Swatinem/rust-cache@d1527c8f67ef9af357290475d4af4b0fab8f12e0 # v2
         with:
           workspaces: rust
           # Distinct from the `tests` keys: instrumented builds produce
@@ -183,7 +189,7 @@ jobs:
 
       # See `check` job above for why this step lives after the cache.
       - name: Install cargo tooling
-        uses: taiki-e/install-action@v2
+        uses: taiki-e/install-action@1e29709c0ec63babbe8f266397a465f29a825f91 # v2
         with:
           tool: cargo-llvm-cov
 
@@ -197,7 +203,7 @@ jobs:
           VERBOSE: "1"
         run: make coverage
 
-      - uses: actions/upload-artifact@v7
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7
         with:
           name: report-azure-iot-operations
           path: ${{ runner.temp }}/report

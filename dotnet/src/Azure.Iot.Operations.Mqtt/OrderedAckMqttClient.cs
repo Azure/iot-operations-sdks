@@ -87,7 +87,12 @@ public class OrderedAckMqttClient : IMqttPubSubClient, IMqttClient
 
         if (_clientOptions.EnableAIOBrokerFeatures)
         {
-            mqttNetOptions.UserProperties.Add(new("metriccategory", System.Text.Encoding.UTF8.GetBytes("aiosdk-dotnet")));
+            if (string.IsNullOrWhiteSpace(_clientOptions.MetricCategory))
+            {
+                throw new ArgumentException($"{nameof(OrderedAckMqttClientOptions.MetricCategory)} must be a non-empty value when {nameof(OrderedAckMqttClientOptions.EnableAIOBrokerFeatures)} is enabled.");
+            }
+
+            mqttNetOptions.UserProperties.Add(new("metriccategory", System.Text.Encoding.UTF8.GetBytes(_clientOptions.MetricCategory)));
         }
 
         MqttClientConnectResult? result =  MqttNetConverter.ToGeneric(await UnderlyingMqttClient.ConnectAsync(mqttNetOptions, cancellationToken).ConfigureAwait(false));

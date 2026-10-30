@@ -25,7 +25,7 @@ public class CounterEnvoyTests
 
         await counterService.StartAsync(null, cancellationToken: CancellationToken.None);
 
-        IncrementRequestPayload payload = new IncrementRequestPayload
+        IncrementInputArguments payload = new IncrementInputArguments
         {
             IncrementValue = 1
         };
@@ -73,14 +73,14 @@ public class CounterEnvoyTests
         Assert.Equal(0, resp.Response.CounterResponse);
         
         CommandRequestMetadata reqMd2 = new();
-        IncrementRequestPayload payload = new IncrementRequestPayload
+        IncrementInputArguments payload = new IncrementInputArguments
         {
             IncrementValue = 1
         };
         Task[] tasks = new Task[2];
         for (int i = 0; i < tasks.Length; i++)
         {
-            Task<ExtendedResponse<IncrementResponsePayload>> incrCounterTask = counterClient.IncrementAsync(executorId, payload, reqMd2).WithMetadata();
+            Task<ExtendedResponse<IncrementOutputArguments>> incrCounterTask = counterClient.IncrementAsync(executorId, payload, reqMd2).WithMetadata();
             tasks[i] = incrCounterTask;
         }
         var exception = await Assert.ThrowsAsync<AkriMqttException>(() => Task.WhenAll(tasks));
@@ -143,7 +143,7 @@ public class CounterEnvoyTests
         await counterService.StartAsync(null, cancellationToken: CancellationToken.None);
 
         int expectedNegativeValue = -1;
-        IncrementRequestPayload payload = new IncrementRequestPayload
+        IncrementInputArguments payload = new IncrementInputArguments
         {
             IncrementValue = expectedNegativeValue
         };
@@ -176,7 +176,7 @@ public class CounterEnvoyTests
 
         await counterService.StartAsync(null, cancellationToken: CancellationToken.None);
 
-        IncrementRequestPayload payload = new IncrementRequestPayload
+        IncrementInputArguments payload = new IncrementInputArguments
         {
             IncrementValue = 1
         };

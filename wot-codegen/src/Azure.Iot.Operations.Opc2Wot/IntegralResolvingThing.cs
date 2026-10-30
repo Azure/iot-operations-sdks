@@ -10,14 +10,12 @@ namespace Azure.Iot.Operations.Opc2Wot
 
     public class IntegralResolvingThing : IResolvingThing
     {
-        private const string HrefPrefix = $"#{TDValues.HrefTitlePrefix}";
-
-        private Dictionary<string, TDThing> titleToThingMap;
+        private Dictionary<string, TDThing> hrefToThingMap;
         private ErrorReporter errorReporter;
 
-        public IntegralResolvingThing(TDThing thing, ErrorReporter errorReporter, Dictionary<string, TDThing> titleToThingMap)
+        public IntegralResolvingThing(TDThing thing, ErrorReporter errorReporter, Dictionary<string, TDThing> hrefToThingMap)
         {
-            this.titleToThingMap = titleToThingMap;
+            this.hrefToThingMap = hrefToThingMap;
             this.errorReporter = errorReporter;
             ParsedThing = new ParsedThing(thing, string.Empty, string.Empty, new SchemaNamer(null), errorReporter, true, true);
         }
@@ -26,11 +24,9 @@ namespace Azure.Iot.Operations.Opc2Wot
 
         public bool TryResolve(string href, [NotNullWhen(true)] out IResolvingThing? resolvingThing)
         {
-            string title = href.StartsWith(HrefPrefix) ? href.Substring(HrefPrefix.Length) : string.Empty;
-
-            if (titleToThingMap.TryGetValue(title, out TDThing? referencedThing))
+            if (hrefToThingMap.TryGetValue(href, out TDThing? referencedThing))
             {
-                resolvingThing = new IntegralResolvingThing(referencedThing, errorReporter, titleToThingMap);
+                resolvingThing = new IntegralResolvingThing(referencedThing, errorReporter, hrefToThingMap);
                 return true;
             }
 

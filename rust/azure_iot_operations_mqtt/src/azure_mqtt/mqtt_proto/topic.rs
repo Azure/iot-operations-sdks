@@ -6,6 +6,7 @@ use std::{
     fmt::{Display, Formatter},
 };
 
+use super::byte_str::validate_mqtt_string;
 use crate::azure_mqtt::buffer_pool::{self, BytesAccumulator, Owned, Shared};
 use crate::azure_mqtt::mqtt_proto::{
     ByteStr, DecodeError, EncodeError, MULTI_LEVEL_MATCH, SEPARATOR, SINGLE_LEVEL_MATCH,
@@ -33,6 +34,22 @@ where
             if inner.is_empty() {
                 return Err(DecodeError::EmptyTopic);
             }
+
+            // Ref[3.1.1]: [MQTT-4.7.3-3]
+            // Ref[5.0]: [MQTT-4.7.3-3]
+            // NOTE: String-backed values can come from public API input, so enforce this constraint
+            // here. `InvalidByteStr` is the closest existing error variant; its use on a `String` path
+            // reflects the original assumption that such values were already valid.
+            if inner.len() > usize::from(u16::MAX) {
+                return Err(DecodeError::InvalidByteStr("longer than 65,535 bytes"));
+            }
+
+            // Ref[3.1.1]: [MQTT-4.7.3-2], 1.5.3 UTF-8 encoded strings
+            // Ref[5.0]: [MQTT-4.7.3-2], 1.5.4 UTF-8 Encoded String
+            // NOTE: String-backed values can come from public API input, so enforce these constraints
+            // here. `InvalidByteStr` is the closest existing error variant; its use on a `String` path
+            // reflects the original assumption that such values were already valid.
+            validate_mqtt_string(inner.as_bytes())?;
 
             if inner.contains(|c| [MULTI_LEVEL_MATCH, SINGLE_LEVEL_MATCH].contains(&c)) {
                 return Err(DecodeError::InvalidTopic(inner.to_owned()));
@@ -120,7 +137,7 @@ impl Topic<String> {
             return Err(DecodeError::InvalidTopic(first.to_owned()));
         }
 
-        Ok(Topic(format!("{}{}", first, second.as_str())))
+        Topic::new(format!("{}{}", first, second.as_str()))
     }
 
     /// Creates a copy of this `Topic` with another [`Shared`] type as the backing buffer.
@@ -253,11 +270,28 @@ mod tests {
         assert!(topic.iter().eq(components.iter().copied()));
     }
 
+    #[test]
+    fn maximum_length() {
+        let topic = Topic::new("a".repeat(usize::from(u16::MAX))).unwrap();
+
+        assert_eq!(topic.as_bytes().len(), usize::from(u16::MAX));
+    }
+
     #[test_case("+")]
     #[test_case("a/+")]
     #[test_case("b/#")]
     fn invalid(topic: &str) {
         assert_matches!(Topic::new(ByteStr::from(topic)), Err(DecodeError::InvalidTopic(t)) if t == topic);
+    }
+
+    #[test_case("a\0b".to_owned(); "null")]
+    #[test_case("a\u{1}b".to_owned(); "C0 control")]
+    #[test_case("a\u{7f}b".to_owned(); "C1 control")]
+    #[test_case("a\u{ffff}b".to_owned(); "non-character")]
+    #[test_case("a".repeat(usize::from(u16::MAX) + 1); "overlong ascii")]
+    #[test_case("é".repeat(usize::from(u16::MAX) / 2 + 1); "overlong multibyte")]
+    fn invalid_mqtt_string(topic: String) {
+        assert_matches!(Topic::new(topic), Err(DecodeError::InvalidByteStr(_)));
     }
 
     #[test_case("/b", &["", "b"], "b", &["b"])]
@@ -283,5 +317,28 @@ mod tests {
 
         let mut parts = topic.iter();
         assert_eq!(parts.nth(2).unwrap(), "b");
+    }
+
+    #[test]
+    fn combine_maximum_length() {
+        let second = Topic::new("b").unwrap();
+        let maximum_prefix = "a".repeat(usize::from(u16::MAX) - second.as_bytes().len());
+        let maximum_length = Topic::combine(&maximum_prefix, &second).unwrap();
+
+        assert_eq!(maximum_length.as_bytes().len(), usize::from(u16::MAX));
+    }
+
+    #[test_case("a\0".to_owned(); "null")]
+    #[test_case("a\u{1}".to_owned(); "C0 control")]
+    #[test_case("a\u{7f}".to_owned(); "C1 control")]
+    #[test_case("a\u{ffff}".to_owned(); "non-character")]
+    #[test_case("a".repeat(usize::from(u16::MAX)); "overlong")]
+    fn combine_invalid_mqtt_string(first: String) {
+        let second = Topic::new("b").unwrap();
+
+        assert_matches!(
+            Topic::combine(first, &second),
+            Err(DecodeError::InvalidByteStr(_))
+        );
     }
 }

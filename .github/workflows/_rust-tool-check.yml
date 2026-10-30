@@ -72,7 +72,7 @@ jobs:
       # to set unconditionally (unused by crates.io-only builds).
       CARGO_REGISTRIES_AIO_SDKS_TOKEN: ${{ secrets.aio-sdks-token }}
     steps:
-      - uses: actions/checkout@v7
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
 
       # Refuse to fall back to `stable` silently. Every caller must
       # either pin via a `rust-toolchain.toml` in `path`, or point
@@ -90,7 +90,7 @@ jobs:
           fi
 
       - name: Setup Rust (from rust-toolchain.toml)
-        uses: actions-rust-lang/setup-rust-toolchain@v1
+        uses: actions-rust-lang/setup-rust-toolchain@ecabd13d1c56bd1345c230e542e9144811ad706f # v2
         with:
           # Tell the action where to look for `rust-toolchain.toml`.
           # Without this it would only check the repo root, find no
@@ -100,13 +100,16 @@ jobs:
           rust-src-dir: ${{ inputs.toolchain-src-dir != '' && inputs.toolchain-src-dir || inputs.path }}
           # Swatinem/rust-cache handles caching (including target/).
           cache: false
+          # Only the explicit pinned-toolchain Clippy invocation should deny warnings.
+          rustflags: ''
+          build-warnings: ''
 
       - name: Install system dependencies
         working-directory: ${{ github.workspace }}
         run: bash ./rust/scripts/system-deps.sh
 
       - name: Cache cargo build artifacts
-        uses: Swatinem/rust-cache@v2
+        uses: Swatinem/rust-cache@d1527c8f67ef9af357290475d4af4b0fab8f12e0 # v2
         with:
           workspaces: ${{ inputs.path }}
           shared-key: tool-${{ inputs.name }}
@@ -114,7 +117,7 @@ jobs:
       # Install cargo subcommands AFTER the cache restore. `Swatinem/rust-cache`
       # caches `~/.cargo/bin`, so a warm cache makes this a no-op.
       - name: Install cargo tooling
-        uses: taiki-e/install-action@v2
+        uses: taiki-e/install-action@1e29709c0ec63babbe8f266397a465f29a825f91 # v2
         with:
           tool: cargo-hack,cargo-machete
 

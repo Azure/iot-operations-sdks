@@ -9,12 +9,11 @@ use derive_where::derive_where;
 use futures_util::future::FutureExt as _;
 use futures_util::stream::{Peekable, Stream, StreamExt as _};
 use indexmap::IndexMap;
-use tokio::sync::mpsc::{Receiver, Sender, UnboundedSender};
+use tokio::sync::mpsc::{Receiver, Sender, UnboundedReceiver, UnboundedSender};
 use tokio::time::Duration;
 
 use crate::azure_mqtt::buffer_pool::{Owned, Shared};
 use crate::azure_mqtt::client::{
-    InnerConnectionError,
     buffered::ReauthResult,
     channel_data::{
         AcknowledgementRequest, DisconnectRequest, IncomingPublishAndToken, PublishRequestQoS0,
@@ -32,13 +31,18 @@ use crate::azure_mqtt::client::{
 };
 use crate::azure_mqtt::error::{ProtocolError, ProtocolErrorRepr};
 use crate::azure_mqtt::mqtt_proto::{
-    Auth, AuthenticateReasonCode, ByteStr, ConnAck, ConnectReasonCode, Disconnect, KeepAlive,
-    Packet, PacketIdentifier, PacketIdentifierDupQoS, PingReq, PubAck, PubComp, PubRec, PubRel,
-    Publish, PublishOtherProperties, SessionExpiryInterval, SubAck, Subscribe, SubscribeTo, Topic,
-    UnsubAck, Unsubscribe,
+    Auth, AuthenticateReasonCode, Authentication, ByteStr, ConnAck, ConnectReasonCode, Disconnect,
+    KeepAlive, Packet, PacketIdentifier, PacketIdentifierDupQoS, PingReq, PubAck, PubComp, PubRec,
+    PubRel, Publish, PublishOtherProperties, SessionExpiryInterval, SubAck, Subscribe, SubscribeTo,
+    Topic, UnsubAck, Unsubscribe,
 };
 
 mod pkid;
+
+// TEMPORARY (remove by 2027-03): accepts a successful CONNACK or AUTH that omits the
+// Authentication Method, as sent by AIO MQ before 1.6.2. Upstream gates this behind the
+// `__allow_omitted_auth_method` cargo feature, which the AIO SDK always enables.
+const ALLOW_OMITTED_AUTH_METHOD: bool = true;
 
 /// Tracks data related to the MQTT session state
 pub(crate) struct Session<O>
@@ -76,10 +80,10 @@ where
         sub_rx: Receiver<SubscriptionRequest<O::Shared>>,
         o_pub_q0_rx: Receiver<PublishRequestQoS0<O::Shared>>,
         o_pub_q12_rx: Receiver<PublishRequestQoS1QoS2<O::Shared>>,
-        ack_rx: Receiver<AcknowledgementRequest<O::Shared>>,
+        ack_rx: UnboundedReceiver<AcknowledgementRequest<O::Shared>>,
         auth_rx: Receiver<ReauthRequest<O::Shared>>,
         i_pub_tx: UnboundedSender<IncomingPublishAndToken<O::Shared>>,
-        ack_tx: Sender<AcknowledgementRequest<O::Shared>>,
+        ack_tx: UnboundedSender<AcknowledgementRequest<O::Shared>>,
         auth_tx: Sender<ReauthRequest<O::Shared>>,
         max_pkid: PacketIdentifier,
         owned: O,
@@ -297,7 +301,13 @@ where
 
                 OutgoingPacketRequest::ReauthRequest(auth_req) => {
                     let (notifier, auth) = (auth_req.0, auth_req.1);
-                    self.inflight.auth = Some(notifier);
+                    let method = auth
+                        .authentication
+                        .as_ref()
+                        .expect("outgoing AUTH guaranteed to contain an Authentication Method")
+                        .method
+                        .clone();
+                    self.inflight.auth = Some((method, notifier));
                     Packet::Auth(auth)
                 }
 
@@ -353,7 +363,13 @@ where
                 // Do not return from the loop, as we need to continue it to determine the true next request.
                 if let OutgoingPacketRequest::AcknowledgementRequest(ack_req) = request {
                     let pkid = match &ack_req {
-                        AcknowledgementRequest::PubAck(_, puback, _) => puback.packet_identifier,
+                        AcknowledgementRequest::PubAck(_, puback, epoch) => {
+                            // An old token must not affect a new delivery using the same PKID.
+                            if *epoch != self.connection_epoch {
+                                continue;
+                            }
+                            puback.packet_identifier
+                        }
                         AcknowledgementRequest::PubRecAccept(_, pubrec)
                         | AcknowledgementRequest::PubRecReject(_, pubrec) => {
                             pubrec.packet_identifier
@@ -460,7 +476,28 @@ where
         Ok(())
     }
 
-    pub fn incoming_connack(&mut self, connack: ConnAck<O::Shared>, client_keep_alive: KeepAlive) {
+    pub fn incoming_connack(
+        &mut self,
+        connack: ConnAck<O::Shared>,
+        client_keep_alive: KeepAlive,
+        client_auth_method: Option<&str>,
+    ) -> Result<(), ProtocolError> {
+        let server_authentication = connack.other_properties.authentication.as_ref();
+        // MQTT-4.12.0-5 requires a matching method only on successful enhanced-auth CONNACKs.
+        let is_rejected_enhanced_auth = client_auth_method.is_some()
+            && matches!(connack.reason_code, ConnectReasonCode::Refused(_));
+        let is_allowed_omission = ALLOW_OMITTED_AUTH_METHOD
+            && client_auth_method.is_some()
+            && matches!(connack.reason_code, ConnectReasonCode::Success { .. })
+            && server_authentication.is_none();
+        if is_allowed_omission {
+            log::warn!("server omitted the Authentication Method from a successful CONNACK");
+        } else if !is_rejected_enhanced_auth
+            && !authentication_method_matches(server_authentication, client_auth_method)
+        {
+            return Err(ProtocolErrorRepr::AuthenticationMethodMismatch)?;
+        }
+
         if let ConnectReasonCode::Success { session_present } = connack.reason_code {
             if !session_present {
                 // Previous session, if any, is not present on the server.
@@ -497,6 +534,7 @@ where
 
             self.connected = ConnectionState::Connected { connack };
         }
+        Ok(())
     }
 
     /// Trigger a disconnect and adjust state based on the information in the outgoing `Disconnect` packet
@@ -530,9 +568,9 @@ where
         }
     }
 
-    /// Trigger a disconnect and adjust state based on the error from the underlying transport
-    pub fn transport_disconnect(&mut self, err: &InnerConnectionError) {
-        log::error!("client disconnected due to transport error {err}");
+    /// Trigger a disconnect and adjust state after the connection ended without a DISCONNECT exchange
+    pub fn transport_disconnect(&mut self, reason: &dyn std::fmt::Display) {
+        log::error!("client disconnected without DISCONNECT: {reason}");
 
         self.disconnected();
 
@@ -579,28 +617,33 @@ where
         _ = self.ch.i_pub_tx.send(incoming);
     }
 
-    /// An incoming AUTH packet has been received from the server
+    /// An incoming AUTH packet has been received from the server as part of a reauthentication process
     pub fn incoming_auth(&mut self, auth: Auth<O::Shared>) -> Result<(), ProtocolError> {
+        let Some((method, _)) = &self.inflight.auth else {
+            return Err(ProtocolErrorRepr::UnexpectedPacket)?;
+        };
+
+        let is_allowed_omission = ALLOW_OMITTED_AUTH_METHOD
+            && matches!(auth.reason_code, AuthenticateReasonCode::Success)
+            && auth.authentication.is_none();
+        if is_allowed_omission {
+            log::warn!("server omitted the Authentication Method from AUTH Success");
+        } else if !authentication_method_matches(
+            auth.authentication.as_ref(),
+            Some(method.as_ref()),
+        ) {
+            return Err(ProtocolErrorRepr::AuthenticationMethodMismatch)?;
+        }
+
         match auth.reason_code {
-            // TODO: Validate authentication method from CONNACK
             AuthenticateReasonCode::Success => {
-                let Some(notifier) = self.inflight.auth.take() else {
-                    return Err(ProtocolErrorRepr::UnexpectedPacket)?;
-                };
+                let (_, notifier) = self.inflight.auth.take().expect("Already checked");
                 _ = notifier.complete(ReauthResult::Success(auth));
             }
             AuthenticateReasonCode::ContinueAuthentication => {
-                //pass on, do not stop tracking
-                let Some(notifier) = self.inflight.auth.take() else {
-                    return Err(ProtocolErrorRepr::UnexpectedPacket)?;
-                };
+                let (method, notifier) = self.inflight.auth.take().expect("Already checked");
                 let token = ReauthToken {
-                    method: auth
-                        .authentication
-                        .as_ref()
-                        .expect("Authentication Method must be present for reason code 0x18")
-                        .method
-                        .clone(),
+                    method,
                     tx: self.ch.auth_tx.clone(),
                 };
                 _ = notifier.complete(ReauthResult::Continue(auth, token));
@@ -634,7 +677,11 @@ where
         self.inflight
             .auth
             .take()
-            .map(|n| n.cancel("Client disconnected"));
+            .map(|(_, notifier)| notifier.cancel("Client disconnected"));
+
+        // PUBACK tokens and their ordering are connection-scoped, even on session resumption.
+        // TODO: Preserve session-scoped incoming state when QoS 2 is implemented.
+        self.in_application.publishes.clear();
 
         // Build list of packets to replay
         self.inflight.packets_to_replay.clear();
@@ -749,8 +796,8 @@ where
     o_pub_q12_rx: Peekable<ReceiverStream<PublishRequestQoS1QoS2<S>>>,
     /// Channel for receiving outgoing SUBSCRIBE and UNSUBSCRIBE requests
     sub_rx: Peekable<ReceiverStream<SubscriptionRequest<S>>>,
-    /// Channel for receving outgoing PUBACK, PUBREC, PUBREL and PUBCOMP requests
-    ack_rx: Receiver<AcknowledgementRequest<S>>,
+    /// Channel for receiving outgoing PUBACK, PUBREC, PUBREL and PUBCOMP requests
+    ack_rx: UnboundedReceiver<AcknowledgementRequest<S>>,
     /// Channel for receiving outgoing AUTH requests
     auth_rx: Receiver<ReauthRequest<S>>,
     /// Channel for sending incoming PUBLISHes and associated acknowledgement tokens
@@ -759,7 +806,7 @@ where
     // --- Channels stored here to be cloned, and should not be used directly ---
     // TODO: Is this really the correct place for these?
     /// Channel for sending outgoing PUBACK, PUBREC, PUBREL and PUBCOMP requests
-    ack_tx: Sender<AcknowledgementRequest<S>>,
+    ack_tx: UnboundedSender<AcknowledgementRequest<S>>,
     /// Channel for sending outgoing AUTH requests
     pub(crate) auth_tx: Sender<ReauthRequest<S>>, // TODO: ideally this would not be pub crate
 }
@@ -899,6 +946,20 @@ where
     })
 }
 
+pub(super) fn authentication_method_matches<S>(
+    authentication: Option<&Authentication<S>>,
+    expected_method: Option<&str>,
+) -> bool
+where
+    S: Shared,
+{
+    match (authentication, expected_method) {
+        (None, None) => true,
+        (Some(authentication), Some(expected_method)) => authentication.method == expected_method,
+        _ => false,
+    }
+}
+
 /// Contains data related to in-flight operations pending a response
 #[derive_where(Default)]
 struct InflightTracker<S>
@@ -933,7 +994,7 @@ where
 
     // --- Other ----
     /// Inflight AUTH operation, if any.
-    auth: Option<ReauthCompletionNotifier<S>>,
+    auth: Option<(ByteStr<S>, ReauthCompletionNotifier<S>)>,
 }
 
 #[derive_where(Default)]
@@ -962,5 +1023,165 @@ impl<T> Stream for ReceiverStream<T> {
         cx: &mut std::task::Context<'_>,
     ) -> std::task::Poll<Option<Self::Item>> {
         self.0.poll_recv(cx)
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use bytes::BytesMut;
+    use futures_util::future::FutureExt as _;
+    use tokio::sync::mpsc::{channel, unbounded_channel};
+
+    use super::Session;
+    use crate::azure_mqtt::client::buffered::ReauthResult;
+    use crate::azure_mqtt::client::token::completion::buffered::completion_pair;
+    use crate::azure_mqtt::mqtt_proto::{
+        Auth, AuthenticateReasonCode, Authentication, ConnAck, ConnAckOtherProperties,
+        ConnectReasonCode, KeepAlive, Packet, PacketIdentifier, PingReq,
+    };
+
+    #[test]
+    fn rejected_connack_leaves_session_unchanged() {
+        let (_sub_tx, sub_rx) = channel(1);
+        let (_publish_qos0_tx, publish_qos0_rx) = channel(1);
+        let (_publish_qos12_tx, publish_qos12_rx) = channel(1);
+        let (ack_tx, ack_rx) = unbounded_channel();
+        let (auth_tx, auth_rx) = channel(1);
+        let (incoming_publish_tx, _incoming_publish_rx) = unbounded_channel();
+        let mut session = Session::new(
+            sub_rx,
+            publish_qos0_rx,
+            publish_qos12_rx,
+            ack_rx,
+            auth_rx,
+            incoming_publish_tx,
+            ack_tx,
+            auth_tx,
+            PacketIdentifier::new(u16::MAX).unwrap(),
+            BytesMut::new(),
+        );
+        session
+            .inflight
+            .packets_to_replay
+            .push_back(Packet::PingReq(PingReq));
+        let connack = ConnAck {
+            reason_code: ConnectReasonCode::Success {
+                session_present: false,
+            },
+            other_properties: ConnAckOtherProperties {
+                authentication: Some(Authentication {
+                    method: "unexpected method".into(),
+                    data: None,
+                }),
+                ..Default::default()
+            },
+        };
+
+        assert!(
+            session
+                .incoming_connack(connack, KeepAlive::Infinite, None)
+                .is_err()
+        );
+        // Accepting it would have expired the session and started a new connection epoch.
+        assert_eq!(session.inflight.packets_to_replay.len(), 1);
+        assert_eq!(session.connection_epoch, 0);
+        assert!(!session.is_connected());
+    }
+
+    #[test]
+    fn omitted_auth_method_tolerated_on_successful_connack() {
+        let (_sub_tx, sub_rx) = channel(1);
+        let (_publish_qos0_tx, publish_qos0_rx) = channel(1);
+        let (_publish_qos12_tx, publish_qos12_rx) = channel(1);
+        let (ack_tx, ack_rx) = unbounded_channel();
+        let (auth_tx, auth_rx) = channel(1);
+        let (incoming_publish_tx, _incoming_publish_rx) = unbounded_channel();
+        let mut session = Session::new(
+            sub_rx,
+            publish_qos0_rx,
+            publish_qos12_rx,
+            ack_rx,
+            auth_rx,
+            incoming_publish_tx,
+            ack_tx,
+            auth_tx,
+            PacketIdentifier::new(u16::MAX).unwrap(),
+            BytesMut::new(),
+        );
+        let mismatched_method = ConnAck {
+            reason_code: ConnectReasonCode::Success {
+                session_present: false,
+            },
+            other_properties: ConnAckOtherProperties {
+                authentication: Some(Authentication {
+                    method: "other method".into(),
+                    data: None,
+                }),
+                ..Default::default()
+            },
+        };
+        let omitted_method = ConnAck {
+            reason_code: ConnectReasonCode::Success {
+                session_present: false,
+            },
+            other_properties: Default::default(),
+        };
+
+        assert!(
+            session
+                .incoming_connack(
+                    mismatched_method,
+                    KeepAlive::Infinite,
+                    Some("expected method")
+                )
+                .is_err()
+        );
+        session
+            .incoming_connack(omitted_method, KeepAlive::Infinite, Some("expected method"))
+            .unwrap();
+        assert!(session.is_connected());
+    }
+
+    #[test]
+    fn omitted_auth_method_tolerated_on_reauth_success() {
+        let (_sub_tx, sub_rx) = channel(1);
+        let (_publish_qos0_tx, publish_qos0_rx) = channel(1);
+        let (_publish_qos12_tx, publish_qos12_rx) = channel(1);
+        let (ack_tx, ack_rx) = unbounded_channel();
+        let (auth_tx, auth_rx) = channel(1);
+        let (incoming_publish_tx, _incoming_publish_rx) = unbounded_channel();
+        let mut session = Session::new(
+            sub_rx,
+            publish_qos0_rx,
+            publish_qos12_rx,
+            ack_rx,
+            auth_rx,
+            incoming_publish_tx,
+            ack_tx,
+            auth_tx,
+            PacketIdentifier::new(u16::MAX).unwrap(),
+            BytesMut::new(),
+        );
+        let (notifier, ct) = completion_pair();
+        session.inflight.auth = Some(("expected method".into(), notifier));
+        let continue_without_method = Auth {
+            reason_code: AuthenticateReasonCode::ContinueAuthentication,
+            authentication: None,
+            reason_string: None,
+            user_properties: Default::default(),
+        };
+        let success_without_method = Auth {
+            reason_code: AuthenticateReasonCode::Success,
+            authentication: None,
+            reason_string: None,
+            user_properties: Default::default(),
+        };
+
+        assert!(session.incoming_auth(continue_without_method).is_err());
+        session.incoming_auth(success_without_method).unwrap();
+        assert!(matches!(
+            ct.now_or_never(),
+            Some(Ok(ReauthResult::Success(_)))
+        ));
     }
 }

@@ -13,6 +13,7 @@ namespace Azure.Iot.Operations.Opc2WotLib
 
         private string specName;
         private string thingName;
+        private string id;
         private string typeRef;
         private bool isIntegrated;
         private bool inheritVars;
@@ -34,6 +35,7 @@ namespace Azure.Iot.Operations.Opc2WotLib
             this.specName = specName;
             this.thingName = WotUtil.LegalizeName(uaObjectType.DiscriminatedEffectiveName, specName);
             this.typeRef = uaObjectType.GetTypeRef();
+            this.id = WotUtil.GetThingModelId(this.typeRef);
             this.isIntegrated = isIntegrated;
             this.inheritVars = inheritVars;
 
@@ -42,7 +44,7 @@ namespace Azure.Iot.Operations.Opc2WotLib
             this.isComposite = !isTypeDefinition && !this.isEvent && !uaObjectType.IsAbstract;
 
             this.baseModelRefs = uaObjectType.BaseModels
-                .Select(node => GetModelRef(uaObjectType, node))
+                .Select(GetModelRef)
                 .ToHashSet();
             this.linkInfos = uaObjectType.TypeAndObjectOfReferences
                 .Where(t => t.Item1.NsIndex != 0 || t.Item1.IsComponentReference || t.Item1.IsAddInReference)
@@ -56,7 +58,9 @@ namespace Azure.Iot.Operations.Opc2WotLib
             }
 
             List<OpcUaVariableType> variableTypes = uaObjectType.VariableRecords.Values
-                .Select(r => r.UaVariable.CustomVariableType)
+                .Select(r => r.UaVariable)
+                .Where(v => v.CanUseVariableTypeSchemaReference)
+                .Select(v => v.VariableTypeDefinition)
                 .Where(vt => vt != null)
                 .Cast<OpcUaVariableType>()
                 .Distinct()
@@ -97,27 +101,26 @@ namespace Azure.Iot.Operations.Opc2WotLib
             this.areUnitsInUse = unitfulPropertyNames.Any();
         }
 
+        public string FileName => $"{this.thingName}.TM.json";
+
         private static string? GetVariableTypeSchemaName(OpcUaVariable variable, Dictionary<OpcUaVariableType, string> schemaNames)
         {
             return variable.CanUseVariableTypeSchemaReference &&
-                variable.CustomVariableType != null &&
-                schemaNames.TryGetValue(variable.CustomVariableType, out string? schemaName)
+                variable.VariableTypeDefinition != null &&
+                schemaNames.TryGetValue(variable.VariableTypeDefinition, out string? schemaName)
                 ? schemaName
                 : null;
         }
 
-        private string GetModelRef(OpcUaObjectType sourceObjectType, OpcUaObjectType targetObjectType)
+        private string GetModelRef(OpcUaObjectType targetObjectType)
         {
-            string targetSpecName = SpecMapper.GetSpecNameFromUri(targetObjectType.DefiningModel.ModelUri);
-
-            string fileRef = isIntegrated || ReferenceEquals(sourceObjectType.DefiningModel, targetObjectType.DefiningModel) ? string.Empty : $"./{targetSpecName}.TM.json";
-            return $"{fileRef}#title={WotUtil.LegalizeName(targetObjectType.DiscriminatedEffectiveName, targetSpecName)}";
+            return WotUtil.GetThingModelId(targetObjectType.GetTypeRef());
         }
 
         private LinkInfo GetLinkInfo(OpcUaObjectType sourceObjectType, OpcUaNodeId referenceTypeNodeId, OpcUaObject targetObject, LinkRelRuleEngine linkRelRuleEngine)
         {
             OpcUaObjectType targetObjectType = (OpcUaObjectType)targetObject.GetReferencedOpcUaNode(targetObject.HasTypeDefinitionNodeId!);
-            string targetModelRef = GetModelRef(sourceObjectType, targetObjectType);
+            string targetModelRef = GetModelRef(targetObjectType);
 
             if (referenceTypeNodeId.NsIndex != 0)
             {

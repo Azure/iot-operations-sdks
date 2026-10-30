@@ -31,7 +31,9 @@ namespace Azure.Iot.Operations.Opc2WotLib
             this.Write("      \"qudt\": \"http://qudt.org/schema/qudt/\",\r\n");
  } 
             this.Write("      \"dov\": \"http://azure.com/DigitalOperations/vocab#\"\r\n    }\r\n  ],\r\n  \"@type\":" +
-                    " \"tm:ThingModel\",\r\n  \"title\": \"");
+                    " \"tm:ThingModel\",\r\n  \"id\": \"");
+            this.Write(this.ToStringHelper.ToStringWithCulture(this.id));
+            this.Write("\",\r\n  \"title\": \"");
             this.Write(this.ToStringHelper.ToStringWithCulture(this.thingName));
             this.Write("\",\r\n  \"dov:typeRef\": \"");
             this.Write(this.ToStringHelper.ToStringWithCulture(this.typeRef));

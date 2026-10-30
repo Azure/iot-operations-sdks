@@ -23,6 +23,8 @@ use crate::token::{
 pub struct SessionManagedClient {
     // Client ID of the `Session` that manages this client
     pub(crate) client_id: String,
+    // Metric category of the `Session` that manages this client
+    pub(crate) metric_category: Option<String>,
     // PubSub for sending outgoing MQTT messages
     pub(crate) client: crate::azure_mqtt::client::Client,
     /// Manager for receivers
@@ -34,6 +36,12 @@ impl SessionManagedClient {
     #[must_use]
     pub fn client_id(&self) -> &str {
         &self.client_id
+    }
+
+    /// Get the metric category used by this Session, if AIO broker features are enabled
+    #[must_use]
+    pub fn metric_category(&self) -> Option<&str> {
+        self.metric_category.as_deref()
     }
 
     /// Creates a new [`SessionPubReceiver`] that will receive incoming publishes matching the

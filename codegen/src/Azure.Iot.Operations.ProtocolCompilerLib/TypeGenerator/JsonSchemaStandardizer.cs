@@ -124,7 +124,8 @@
                 }
             }
 
-            JsonElement referencedElt = rootElt.GetProperty(internalDefsKey).GetProperty(refString.Substring($"#/{internalDefsKey}/".Length));
+            string referenceToken = refString.Substring($"#/{internalDefsKey}/".Length);
+            JsonElement referencedElt = rootElt.GetProperty(internalDefsKey).GetProperty(DecodeJsonPointerToken(referenceToken));
 
             if (referencedElt.TryGetProperty("properties", out _) || referencedElt.TryGetProperty("enum", out _))
             {
@@ -134,6 +135,11 @@
             }
 
             return GetPrimitiveTypeFromJsonElement(rootElt, referencedElt, internalDefsKey, genNamespace, retriever);
+        }
+
+        private static string DecodeJsonPointerToken(string token)
+        {
+            return token.Replace("~1", "/", StringComparison.Ordinal).Replace("~0", "~", StringComparison.Ordinal);
         }
 
         private bool TryGetNestedNullableJsonElement(ref JsonElement jsonElement)

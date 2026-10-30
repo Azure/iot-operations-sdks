@@ -1,0 +1,17 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "MinimalTelemetry",
+  "type": "object",
+  "properties": {
+    "Temperature": {
+      "$ref": "#/definitions/nsu=http:~1~1contoso.com~1Boiler;i=1"
+    }
+  },
+  "definitions": {
+    "nsu=http://contoso.com/Boiler;i=1": {
+      "title": "Temperature",
+      "type": "integer",
+      "maximum": 2147483647
+    }
+  }
+}

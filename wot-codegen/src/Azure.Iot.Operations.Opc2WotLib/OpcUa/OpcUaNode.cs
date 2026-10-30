@@ -101,16 +101,7 @@ namespace Azure.Iot.Operations.Opc2WotLib
 
         public string GetTypeRef()
         {
-            if (this.BrowseNamespace == null)
-            {
-                return $"org.opcfoundation.UA.{this.EffectiveName}";
-            }
-
-            Uri uri = new Uri(this.BrowseNamespace);
-            string reversedHost = string.Join('.', uri.Host.Split('.').Reverse());
-            string path = uri.AbsolutePath.Trim('/').Replace('/', '.');
-            string prefix = string.IsNullOrEmpty(path) ? reversedHost : $"{reversedHost}.{path}";
-            return $"{prefix}.{this.EffectiveName}";
+            return WotUtil.GetTypeRef(this.NodeIdNamespace, this.DiscriminatedEffectiveName);
         }
 
         protected Dictionary<string, OpcUaNamespaceInfo> NsUriToNsInfoMap { get; }

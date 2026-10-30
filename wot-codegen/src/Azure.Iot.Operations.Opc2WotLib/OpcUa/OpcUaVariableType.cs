@@ -33,6 +33,8 @@ namespace Azure.Iot.Operations.Opc2WotLib
 
         public bool IsAbstract { get; }
 
+        public bool IsSchemaEligible => !IsDeprecated;
+
         public List<OpcUaVariableType> BaseTypes
         {
             get

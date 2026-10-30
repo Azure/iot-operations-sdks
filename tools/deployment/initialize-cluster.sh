@@ -15,6 +15,26 @@ help()
     echo
 }
 
+apt-get-update-with-retry()
+{
+    local max_attempts=3
+    local attempt
+
+    for attempt in $(seq 1 $max_attempts); do
+        if sudo apt-get update; then
+            return 0
+        fi
+
+        if [[ $attempt -lt $max_attempts ]]; then
+            sudo apt-get clean
+            sudo rm -rf /var/lib/apt/lists/*
+            sleep 5
+        fi
+    done
+
+    return 1
+}
+
 install-prerequisites()
 {
     echo
@@ -25,7 +45,7 @@ install-prerequisites()
 
     # install mosquitto
     if ! which mosquitto; then
-        sudo apt-get update
+        apt-get-update-with-retry
         sudo apt-get install -y --no-install-recommends mosquitto-clients
     fi
 
@@ -34,7 +54,7 @@ install-prerequisites()
     if ! [[ "$SYSTEM_NAME" == *"microsoft"* && "$SYSTEM_NAME" == *"WSL"* ]]; then
         if ! which docker;
         then
-            sudo apt-get update
+            apt-get-update-with-retry
             sudo apt-get install -y docker.io
         fi
     fi

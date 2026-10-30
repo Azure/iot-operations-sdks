@@ -2,9 +2,7 @@
 // Licensed under the MIT License.
 
 using System;
-using System.Diagnostics;
 using System.Runtime.CompilerServices;
-using System.Runtime.ExceptionServices;
 using System.Threading.Tasks;
 
 namespace Azure.Iot.Operations.Protocol.RPC
@@ -23,17 +21,13 @@ namespace Azure.Iot.Operations.Protocol.RPC
 
         public TaskAwaiter<TResp> GetAwaiter()
         {
-            return ExtendedAsync
-            .ContinueWith(
-                (exTask) =>
-                {
-                    if (exTask.IsFaulted)
-                    {
-                        Debug.Assert(exTask.Exception?.InnerException != null);
-                        ExceptionDispatchInfo.Capture(exTask.Exception?.InnerException!).Throw();
-                    }
-                    return exTask.Result.Response;
-                }).GetAwaiter();
+            return GetResponseAsync().GetAwaiter();
+        }
+
+        private async Task<TResp> GetResponseAsync()
+        {
+            ExtendedResponse<TResp> extendedResponse = await ExtendedAsync.ConfigureAwait(false);
+            return extendedResponse.Response;
         }
     }
 }
