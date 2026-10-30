@@ -31,7 +31,7 @@ stateDiagram-v2
     BothClosed --> Completed
     Active --> Canceled: Canceled status sent or received
     Active --> TimedOut: exchange timeout
-    Active --> Failed: local failure
+    Active --> Failed: local failure, Failed status received,<br/>or protocol violation
 
     Completed --> [*]
     Canceled --> [*]
@@ -40,7 +40,7 @@ stateDiagram-v2
 ```
 
 A non-success terminal — `Canceled`, `TimedOut`, or `Failed` — ends the whole exchange from any active
-state, regardless of which streams are still open. A local `Failed` triggers a best-effort cancellation toward the peer, which observes `Canceled` or its own timeout. Establishment is role-specific (the invoker sends
+state, regardless of which streams are still open. A local failure sends a best-effort `Failed` (`500`) status toward the peer, which observes `Failed` or, if that is lost, its own timeout. Establishment is role-specific (the invoker sends
 `request[0]`; the executor receives it); see §2.
 
 ## 2. Invoker Establishment and Full Duplex
@@ -139,7 +139,8 @@ sequenceDiagram
 
 The exchange timeout is a single overall budget for the whole exchange, not an inactivity timer — it
 does **not** reset on activity. The invoker starts its countdown when it sends its first request; the
-executor starts when it receives the first request. Each request-direction message carries the invoker's
+executor starts when it receives its first request-direction message, from that message's remaining
+budget. Each request-direction message carries the invoker's
 **remaining** budget in `__stream` (`d:0:T`, `c:…:T`, `s:…:T`), so a replacement executor can resume
 mid-stream with the true time left.
 
@@ -276,11 +277,12 @@ sequenceDiagram
 ## 7. Protocol Error Terminates the Exchange
 
 A **protocol violation** — a correlation-matched message that breaks the wire contract (an undeserializable
-payload, a malformed `__stream`, an incompatible protocol version, a QoS 0 publish, or a sequencing break) —
+payload, a malformed `__stream`, an incompatible protocol version, a QoS 0 publish, a missing or zero
+message expiry, or a sequencing break) —
 is **terminal**. The recipient sends a status message (`s:<index>` + `__stat` `4xx`/`5xx`) back to the
 sender identifying the offending entry, and **both parties then end the exchange** and send no further
-entries. The index is diagnostic context only. Application-level outcomes are **out of scope** — the
-protocol does not carry them, so an application signals one in its own `d` data entries, not as a status.
+entries. The index is diagnostic context only. A failure of the sender's own stream — an application
+error or an execution failure — is reported differently, with a `Failed` status (see §8).
 
 ```mermaid
 sequenceDiagram
@@ -313,12 +315,13 @@ A protocol violation ends the exchange for both parties (see §1 and the ADR
 [error handling](0025-rpc-streaming.md#error-handling)). A message with no reported status was accepted —
 success is implicit.
 
-## 8. Fatal Failure and Best-Effort Cancellation
+## 8. Stream Failure
 
-A **fatal failure** — the request pump throwing, an unhandled exception, or an application abandoning the
-exchange — has no status of its own to send (unlike a protocol violation — see §7): it is handled by
-faulting the local exchange and terminating the peer through a best-effort **cancellation**. The example
-shows the invoker's request pump throwing.
+A producer ends its own stream with a **`Failed`** status (`s:0`, `__stat` `500`) when it fails — an
+application error, which also carries ADR 21's `AppErrCode` and optional `AppErrPayload`, or an execution
+failure the SDK detects, such as the request pump or the executor's handler throwing. Like a protocol
+violation, `Failed` is terminal and not answered. The example shows the executor's handler raising an
+application error after two responses.
 
 ```mermaid
 sequenceDiagram
@@ -332,26 +335,28 @@ sequenceDiagram
     IS->>B: request[0]<br/>__stream=d:0:T, command topic, $partition=P
     B->>ES: request[0]
     ES->>EA: Deliver request[0]
-    Note over IA,IS: Producing request[1] throws in the request pump
-    Note over IS: Stop request publication<br/>local exchange faults with the error
-    Note over IS: No status of its own for a fatal failure<br/>terminate the peer via best-effort cancellation
-    IS->>B: Canceled<br/>__stream=s:0:T, __stat=499, command topic, $partition=P
-    B->>ES: Canceled
-    ES->>EA: Stop callback
-    Note over ES: Local exchange becomes Canceled
-    ES->>B: Canceled<br/>__stream=s:0, __stat=499, response topic
-    B->>IS: Canceled
-    IS-->>IA: Exchange faulted with the request-pump error
-    Note over IS,ES: Cancellation is best-effort<br/>the invoker faulted locally regardless of the ack
+    EA-->>ES: Yield response[0], response[1]
+    ES->>B: response[0], response[1]<br/>__stream=d:0, d:1
+    B->>IS: response[0], response[1]
+    IS-->>IA: Deliver response[0], response[1]
+    EA-->>ES: Raise application error "sourceOffline"
+    Note over ES: Stop response production<br/>local exchange becomes Failed
+    ES->>B: Failed<br/>__stream=s:0, __stat=500, AppErrCode=sourceOffline, response topic
+    B->>IS: Failed
+    Note over IS: Entries before the failure were already delivered
+    IS-->>IA: Response stream ends with application error "sourceOffline"
+    Note over IS: Stop request production<br/>local exchange becomes Failed
 ```
 
-The cancellation is best-effort: the invoker has already faulted locally and surfaces the original
-error regardless of whether the `Canceled` acknowledgement arrives.
+The consumer receives every entry produced before the failure, then the error. An unhandled exception in the
+executor's handler produces the same trace without `AppErrCode`, and the invoker reports an execution error. A
+crashed peer sends nothing, so its peer reaches its own timeout.
 
 ## 9. Incoming Packet Classification and Terminal Races
 
 This classifier assumes correlation lookup has found an active exchange or a retained
-terminal tombstone. Initial request validation is outside this diagram. A timeout is never
+terminal tombstone. Initial request validation is outside this diagram. Data is de-duplicated
+before any other rule, so a redelivery never counts as a sequencing break. A timeout is never
 received as a packet — it is a local event (see §4) — so it does not appear here.
 
 ```mermaid
@@ -363,15 +368,23 @@ flowchart TD
     RC -- "Yes" --> RA["Re-send Canceled"]
     RC -- "No" --> AI["Acknowledge and ignore"]
     T -- "No" --> TAG{"__stream tag"}
-    TAG -- "c : last" --> HC["Close this data stream"]
+    TAG -- "c : last" --> HC["Ignore if already closed<br/>else close this data stream"]
     HC --> BC{"Both streams closed?"}
     BC -- "Yes" --> CO["Enter Completed"]
     BC -- "No" --> AC["Remain active<br/>control still flows"]
     TAG -- "s status" --> ST{"__stat code"}
     ST -- "Canceled 499" --> CAN["Notify application<br/>send Canceled, stop production<br/>enter Canceled"]
-    ST -- "4xx or 5xx" --> PE["Protocol error<br/>surface to app, end the exchange"]
-    TAG -- "d data" --> D["Deduplicate by correlation, index, and timestamp<br/>deliver data entry"]
+    ST -- "Failed 500" --> FA["Report the stream error to the app<br/>stop production, enter Failed"]
+    ST -- "Overflow 429" --> OR["Report the peer's overflow to the app<br/>stop production, enter Failed"]
+    ST -- "400 or 505" --> PE["Protocol error<br/>surface to app, end the exchange"]
+    TAG -- "d data" --> D["Deduplicate by correlation, index, and timestamp"]
+    D --> BF{"Consumer buffer full?"}
+    BF -- "No" --> DE["Deliver data entry"]
+    BF -- "Yes" --> OV["Send Overflow 429 about this entry<br/>report overflow to the app, enter Failed"]
     CAN --> TS["Retain terminal tombstone"]
+    FA --> TS
+    OR --> TS
+    OV --> TS
     CO --> TS
     PE --> TS
 ```
@@ -423,6 +436,6 @@ about received response 1), `s:0:T` with `__stat` `499` (cancel the exchange). *
 | Invoker cancellation | `Canceled` status on the command topic with `$partition`, one message both initiates and confirms, re-issue |
 | Executor cancellation | Cancellation after stream-close, invoker's answering `Canceled` on the command topic |
 | Protocol error | Terminal status about a violating message, ends the exchange for both sides |
-| Fatal failure | No status of its own, best-effort cancellation |
-| Packet classification | `__stream` tag routing, terminal precedence, late packets |
+| Stream failure | `Failed` (`500`) status for an application error (ADR 21 headers) or an execution failure; entries before it still delivered; not answered |
+| Packet classification | `__stream` tag routing, terminal precedence, late packets, bounded consumer buffer and `Overflow` (`429`) |
 | `__stream` anatomy | The three tagged value forms, shared data/control index counter, `last` as the only control word, status `__stat`, request-direction-only timeout |
