@@ -94,6 +94,7 @@ are the part that costs us, because each is a private protocol we do not test.
 - Producer may send its first entry **without knowing the total count**
 - Each surfaced entry carries its **index** in the stream
 - Multiple streaming commands run **simultaneously and independently**
+- **No unbounded buffering** on either side: the producer is paced by the broker, the consumer's buffer is limited
 - **Either** side may cancel at any time
 - Entries flow at **arbitrary times relative to each other** — only rule: the invoker starts with a request
 - Either side may **end its own stream gracefully** at any point, without a full final entry
@@ -114,8 +115,9 @@ The executor-crash requirement is what forces shared subscriptions and partition
 | Chunking one large payload across entries | We do not verify a stream arrived in full — a stricter layer on top does that (ADR 34) |
 | Delivering entries in their **intended** order | Entries may be lost; we surface in receive order and expose index + timestamp |
 | Resuming after the **invoker** crashes | Its response topic is unique to it — in-flight responses cannot be re-routed |
+| A built-in consumer → producer **pace signal** (credits) | A consumer that needs to set the pace asks for batches on the request stream |
 
-These are the three things people ask for first. They are accepted limitations, not oversights.
+These are the four things people ask for first. They are accepted limitations, not oversights.
 
 <!--
 Pre-empt the loudest questions. Ordering is the one to dwell on: we hand the app the
@@ -143,6 +145,7 @@ would require gap detection plus retransmission, which is a much bigger protocol
 | Timeout | Single **exchange budget**, local timers on both sides, remaining value on every request |
 | Cancellation | `Canceled` status, `__stat` `499` — one message both initiates and confirms |
 | Errors | Protocol violations end the exchange; a producer's stream failure ends it with a `Failed` status (ADR 21 headers for application errors) |
+| Flow control | Producer takes its next entry only after the broker accepts the previous one; bounded consumer buffer — full ends the exchange with `Overflow` (`429`) |
 | Routing | Shared-subscription command topic + `$partition` = invoker client id |
 
 <!--
@@ -262,7 +265,7 @@ INV ──▶ cmd    d:2:25    request[2]      $partition=P
 
 - Indexes are **per producer**, so the two directions count independently
 - Consumer de-dups on **correlationId + index + timestamp** (HLC) — QoS 1 may redeliver
-- Entries are acknowledged automatically on delivery; **manual ack is executor-only**
+- Entries are acknowledged automatically on receipt into the consumer's buffer; **manual ack is executor-only**
   (the invoker cannot resume a response stream after a crash, so holding an ack buys it nothing)
 
 <!--
@@ -378,8 +381,8 @@ which forced every reader to know which slots were meaningful for which message 
 | `control_command_word` | `last` | **c** only — the standalone final message that closes the producer's stream. No payload, no app user properties. |
 | `timeout_length` | uint | Invoker's **remaining exchange budget in seconds**. **Request direction only**; omitted executor → invoker. |
 
-Companion property on status messages: `__stat` (`499` = `Canceled`, or a `4xx`/`5xx` protocol error),
-plus optional human-readable `__stMsg`.
+Companion property on status messages: `__stat` (`499` = `Canceled`, `500` = `Failed`, `429` = `Overflow`,
+or a `400`/`505` protocol error), plus optional human-readable `__stMsg`.
 
 <!--
 The index switching reference frame on status messages is the subtle bit. Say it plainly:
@@ -505,6 +508,28 @@ terminal (no per-entry linkage), no __apErr, ADR 21 headers, payload modeling st
 
 ---
 
+## Flow control: paced producer, bounded consumer
+
+- **Producer pacing** — the SDK takes the next entry from the app only after the broker accepted
+  the previous one (QoS 1 PUBACK). Not accepted before the exchange timeout → the exchange times out;
+  rejected by the broker → best-effort `Failed`. Either way the producer sees the error
+- **Bounded consumer buffer** — received entries wait until the app takes them; configurable limit,
+  finite default. Auto-ack happens on receipt into the buffer, **not** when the app takes the entry
+- **Overflow** — an entry arriving at a full buffer ends the exchange: `s:<index>` + `__stat=429`
+  to the producer. Terminal, not answered; the consumer's app gets the buffered entries, then the error
+- **Consumer-set pace** — no credit signal; the invoker asks for the next batch on the request stream,
+  the executor answers with up to that many entries
+- The backlog between them waits at the broker, bounded by message expiry and the subscriber queue limit
+
+<!--
+Why not hold acks to slow the producer? MQTT acks go out in order across the whole connection, so holding
+one back for a slow stream stalls every other stream and subscription on that client — and once Receive
+Maximum is reached, the broker stops delivering anything. That answers the open "beyond receive maximum"
+question: acks are not a pacing mechanism. Pacing by broker acceptance and retrying until the timeout is
+what the scenario paper's AK7R6 comment asked for.
+-->
+---
+
 ## Disconnection and recovery
 
 - Inherits session-client semantics: **if the session survives**, queued publishes flush and
@@ -544,6 +569,7 @@ await exchange.Completion;          // faults or cancels on any non-graceful ter
 // Executor: request stream in, response stream out.
 executor.OnStreamingCommandReceived = (requests, requestMeta, exchange) => (responses, responseMeta);
 executor.AutomaticallyAcknowledgeRequests = true;   // false -> ack each entry yourself
+invoker.StreamBufferLimit = 1000;                    // full buffer ends the exchange with Overflow
 ```
 
 Illustrative only — Rust and Go will expose the equivalent shapes idiomatically.
@@ -571,6 +597,8 @@ Decisions I want from this room:
    streaming-responses scenarios require failures to surface as stream errors
 5. **Timeout model** — total exchange budget now; idle + heartbeat deferred. Does anyone have a
    customer scenario that needs an unbounded stream?
+6. **Flow control** — producer paced by broker acceptance, bounded consumer buffer with `Overflow`
+   (`429`), consumer-set pace via the request stream; no credit signal
 
 <!--
 Land the plane here, then open the floor. If the room only settles items 1 and 2 today,
@@ -609,13 +637,16 @@ own from the first request it sees, so a replacement executor gets the true rema
 a crash. The invoker cannot resume a response stream after a crash, so it would buy nothing.
 
 **"Does `last` mean the exchange is over?"** No — it closes **one** stream. Control still flows; the
-exchange ends only when both close, or on cancel / failure / timeout / protocol violation.
+exchange ends only when both close, or on cancel / failure / overflow / timeout / protocol violation.
 
 **"What if the peer never sends `last`?"** The exchange timeout is the backstop; each side terminates
 locally without needing the peer.
 
 **"Can we add idle timeout later?"** Possible, but two timeout semantics would clash. Better to decide
 now if there is a real unbounded-stream scenario.
+
+**"Why not slow the producer by holding acks?"** MQTT acks go out in order per connection, so holding
+one for a slow stream stalls every other stream on that client. Acks are not a pacing mechanism.
 
 ---
 

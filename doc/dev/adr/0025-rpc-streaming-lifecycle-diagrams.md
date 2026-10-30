@@ -375,10 +375,16 @@ flowchart TD
     TAG -- "s status" --> ST{"__stat code"}
     ST -- "Canceled 499" --> CAN["Notify application<br/>send Canceled, stop production<br/>enter Canceled"]
     ST -- "Failed 500" --> FA["Report the stream error to the app<br/>stop production, enter Failed"]
-    ST -- "4xx or 505" --> PE["Protocol error<br/>surface to app, end the exchange"]
-    TAG -- "d data" --> D["Deduplicate by correlation, index, and timestamp<br/>deliver data entry"]
+    ST -- "Overflow 429" --> OR["Report the peer's overflow to the app<br/>stop production, enter Failed"]
+    ST -- "400 or 505" --> PE["Protocol error<br/>surface to app, end the exchange"]
+    TAG -- "d data" --> D["Deduplicate by correlation, index, and timestamp"]
+    D --> BF{"Consumer buffer full?"}
+    BF -- "No" --> DE["Deliver data entry"]
+    BF -- "Yes" --> OV["Send Overflow 429 about this entry<br/>report overflow to the app, enter Failed"]
     CAN --> TS["Retain terminal tombstone"]
     FA --> TS
+    OR --> TS
+    OV --> TS
     CO --> TS
     PE --> TS
 ```
@@ -431,5 +437,5 @@ about received response 1), `s:0:T` with `__stat` `499` (cancel the exchange). *
 | Executor cancellation | Cancellation after stream-close, invoker's answering `Canceled` on the command topic |
 | Protocol error | Terminal status about a violating message, ends the exchange for both sides |
 | Stream failure | `Failed` (`500`) status for an application error (ADR 21 headers) or an execution failure; entries before it still delivered; not answered |
-| Packet classification | `__stream` tag routing, terminal precedence, late packets |
+| Packet classification | `__stream` tag routing, terminal precedence, late packets, bounded consumer buffer and `Overflow` (`429`) |
 | `__stream` anatomy | The three tagged value forms, shared data/control index counter, `last` as the only control word, status `__stat`, request-direction-only timeout |

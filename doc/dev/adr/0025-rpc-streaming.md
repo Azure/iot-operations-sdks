@@ -12,6 +12,7 @@ Users have expressed a desire to allow more than one request and/or more than on
  - All entries in a given stream MUST be deserializable as the same type by the consumer; the payload shape MUST NOT change mid-stream.
  - When exposed to the user, each request and response MUST include the index of its position within the stream.
  - The protocol MUST support multiple independent streaming commands simultaneously.
+ - The SDK MUST NOT buffer stream entries without bound on either side: a producer is paced by the broker, and a consumer's buffer is limited (see [flow control](#flow-control)).
  - The invoker and the executor MUST each be able to cancel the exchange — both streams together — at any time.
  - The invoker and the executor MUST be able to send their requests and responses at arbitrary times relative to one another, except that the invoker MUST initiate the streaming invocation with a request.
    - For instance, the executor MAY send a response as soon as it receives a request, or it MAY wait until the request stream ends before sending its first response.
@@ -27,6 +28,8 @@ Users have expressed a desire to allow more than one request and/or more than on
    - This is a scope boundary, not an impossibility: because every entry carries its index, a layer above can detect a gap and fail the whole transfer with a distinct error so the application re-requests it. Chunking is specified separately in [ADR 34](./0034-large-message-chunking.md), following the options compared in [ADR 33](./0033-large-message-chunking-options.md).
  - Delivering streamed requests/responses in their **intended** order.
    - Any stream message may be lost, so entries are surfaced in the order received; reconstructing the intended order is left to the application.
+ - A built-in signal from consumer to producer that sets the producer's pace (credit-based flow control).
+   - A consumer that needs to set the pace can do so with the request stream (see [flow control](#flow-control)).
  - Resuming an exchange after the **invoker** crashes or loses its session.
    - The invoker's response topic is unique to it (no load-balancing), so in-flight responses cannot be re-routed.
 
@@ -103,10 +106,10 @@ Examples:
 
 - ```d:0:10``` — a request-direction data message at stream index `0`; the invoker's remaining exchange timeout is 10 seconds.
 - ```c:4:last:6``` — the request stream's final (`last`) message at index `4`; the invoker's remaining exchange timeout has dropped to 6 seconds (the field is a live countdown).
-- ```s:1:10``` — a request-direction status; its `__stat` value carries the outcome — an error code about the received message at index `1`, `500` (`Failed`) when the sender's own stream failed, or `499` (`Canceled`) to cancel the whole exchange.
+- ```s:1:10``` — a request-direction status; its `__stat` value carries the outcome — an error code about the received message at index `1` (`429` when it did not fit in the sender's buffer), `500` (`Failed`) when the sender's own stream failed, or `499` (`Canceled`) to cancel the whole exchange.
 - ```d:0``` / ```c:7:last``` / ```s:3``` — the response-direction counterparts (executor → invoker); identical forms except `timeout_length` is omitted.
 
-Every MQTT PUBLISH belonging to a streaming exchange must include `__stream` in exactly one of these three forms: data messages use the `d` form, control messages use the `c` form (`c:…:last`), and status messages use the `s` form. A status message carries no stream entry; its `__stat` property carries the outcome — an error about a received message, `500` (`Failed`) when the sender's own stream failed, or `499` (`Canceled`) for the whole exchange (see [status codes](#status-codes)).
+Every MQTT PUBLISH belonging to a streaming exchange must include `__stream` in exactly one of these three forms: data messages use the `d` form, control messages use the `c` form (`c:…:last`), and status messages use the `s` form. A status message carries no stream entry; its `__stat` property carries the outcome — an error about a received message (including `429` `Overflow`), `500` (`Failed`) when the sender's own stream failed, or `499` (`Canceled`) for the whole exchange (see [status codes](#status-codes)).
 
 [see cancellation support](#cancellation-support) and [timeout support](#timeout-support) for how these fields are used.
 
@@ -129,7 +132,7 @@ A side **consumes** one stream and **produces** the other. The consuming and pro
 **Consuming a stream:**
 
 - **De-dup caching.** A consumer de-dups received data messages (QoS 1 may re-deliver) by correlationId + index + timestamp, before applying any other rule — the index distinguishes duplicates within a stream, while the per-entry HLC timestamp separates a genuine redelivery (same index *and* timestamp) from a producer that restarted and reused an index with a new timestamp (see [disconnection and recovery](#disconnection-and-recovery)). Every HLC timestamp includes its clock's node ID, so two different producers never produce the same timestamp. Each cache entry is retained for the duration of its message's expiry interval (see [message level timeout](#message-level-timeout)), even beyond the end of the stream: clearing it when the stream finishes would let a late re-delivery still within its expiry window be treated as new, which is unsafe for non-idempotent commands.
-- **Stream entry acknowledgement.** Acknowledging an entry is a **stream-level** signal that the consumer is done with it; the framework maps it to the underlying transport acknowledgement, which the consumer never handles directly. By default an entry is acknowledged as soon as it is delivered to the user. **Manual** acknowledgement — holding the ack until processing finishes, so an unacknowledged entry is redelivered rather than lost if the consumer crashes first — is available only to the **executor** (request consumption); the invoker cannot resume a response stream after a crash, so it always auto-acknowledges.
+- **Stream entry acknowledgement.** Acknowledging an entry is a **stream-level** signal that the consumer is done with it; the framework maps it to the underlying transport acknowledgement, which the consumer never handles directly. By default an entry is acknowledged as soon as the SDK receives it into the consumer's buffer (see [flow control](#flow-control)). **Manual** acknowledgement — holding the ack until processing finishes, so an unacknowledged entry is redelivered rather than lost if the consumer crashes first — is available only to the **executor** (request consumption); the invoker cannot resume a response stream after a crash, so it always auto-acknowledges.
 - **`last` receipt.** On a `last` control message (`c:…:last`), the consumer notifies the user that the stream has ended; it is **not** surfaced as a stream entry ([why `last` is its own message](#last-message-being-its-own-message)). Because delivery order is guaranteed, receiving further **new** data for that stream after its `last` — data that isn't a de-duplicated redelivery — is a protocol violation. A repeated `last` for a stream that has already closed is ignored.
 
 **Producing a stream:** every data message carries the same correlation data, the appropriate [`__stream` metadata](#streaming-user-property), the serialized user payload, and any message metadata plus the stream metadata, at QoS 1. The producer ends its stream with a standalone `last` message on the same topic and correlation. Which topic each side uses, and the `$partition` requirement on the command topic, are covered in [topics and routing](#topics-and-routing) above.
@@ -138,6 +141,15 @@ A side **consumes** one stream and **produces** the other. The consuming and pro
 
 - A `last` at index `0` in the request stream is a [protocol violation](#error-handling) (a request stream must have at least one entry): the executor returns the error status and the exchange ends. A `last` at a higher index is not, even if this executor received none of the entries before it — they may have gone to an executor that crashed (see [disconnection and recovery](#disconnection-and-recovery)).
 - Unlike vanilla RPC, the executor keeps **no replay cache**: streams may grow without bound, so replaying a response stream isn't feasible.
+
+#### Flow control
+
+Each side bounds what it holds in memory; entries the consumer has not yet received wait at the broker, bounded by their [message expiry](#message-level-timeout) and the broker's per-subscriber queue limit. The rules are the same for both directions.
+
+- **Producer pacing.** The SDK takes the next entry from the application's stream only after the broker has accepted the previous message (its QoS 1 PUBACK), so a producer never runs ahead of the broker. If the connection drops, the SDK keeps retrying the pending message; if the broker hasn't accepted it when the [exchange timeout](#exchange-level-timeout) fires, the exchange times out and the producer sees the timeout. A message the broker rejects (a failure reason code in its PUBACK) ends the exchange with a best-effort [`Failed` status](#stream-failure). In both cases the error reaches the producer through the exchange's completion signal.
+- **Bounded consumer buffer.** Received entries wait in a buffer until the application takes them. The buffer's limit is configurable, with a finite default. Automatic acknowledgement happens when an entry enters the buffer, not when the application takes it: MQTT acknowledgements go out in order across the whole connection, so holding one back to slow a single stream would stall every other stream and subscription on that client.
+- **Overflow.** If a new entry arrives while the buffer is full, the consumer ends the exchange with an **`Overflow` status** (`__stat` `429`, `s:<index>` referencing the entry that did not fit) sent to the producer. Like a protocol violation, it is terminal and not answered. The consumer's application first receives the buffered entries, then the overflow error; the producer's application receives the overflow error from the peer.
+- **Consumer-set pace.** There is no built-in consumer-to-producer signal. A consumer that needs to set the pace uses the request stream: the invoker sends a request entry asking for the next batch, and the executor answers with up to that many entries before waiting for the next request.
 
 ### Timeout support
 
@@ -245,6 +257,7 @@ A failure that concerns one item while the stream continues — for example one 
 | ---- | ---- | ---- |
 | `400` | Bad request | A [protocol violation](#error-handling): undeserializable payload, missing or malformed `__stream`, QoS 0, missing or zero message expiry, or a sequencing break |
 | `505` | Version not supported | A protocol violation: incompatible streaming protocol version |
+| `429` | `Overflow` | A received entry did not fit in the sender's full buffer ([flow control](#flow-control)) |
 | `500` | `Failed` | The sender's own stream failed ([stream failure](#stream-failure)) |
 | `499` | `Canceled` | Deliberate [cancellation](#cancellation-support) |
 
@@ -257,18 +270,20 @@ The SDK reports every terminal outcome through one error surface: the stream the
 | `Failed` with `AppErrCode` | Application error: the code, the payload, and the message, marked as coming from the peer |
 | `Failed` without `AppErrCode` | Execution error: the message, marked as coming from the peer |
 | Protocol violation (sent or received) | Invalid header, invalid payload, or unsupported version, as in vanilla RPC |
+| `Overflow` (sent or received) | Overflow, marked as coming from the peer when received |
 | `Canceled` | Cancellation |
 | Exchange timeout | Timeout |
 | No executor subscribed | `NoAvailableStreamingExecutor` |
 
 ### Exchange termination
 
-An exchange terminates in exactly one of five ways:
+An exchange terminates in exactly one of six ways:
 
 - **Graceful** — each producer closes its own stream with `last`; the exchange completes once both streams have closed (see [exchange completion](#exchange-completion)).
 - **Cancellation** — either side sends a `Canceled` (`499`) status and the exchange ends (see [cancellation support](#cancellation-support)).
 - **Failure** — a producer ends its stream with a `Failed` (`500`) status and the exchange ends (see [stream failure](#stream-failure)).
 - **Timeout** — the [exchange timeout](#exchange-level-timeout) fires.
+- **Overflow** — a consumer's buffer is full when another entry arrives; it sends an `Overflow` (`429`) status and both sides end the exchange (see [flow control](#flow-control)).
 - **Protocol violation** — the recipient of a malformed in-exchange message returns an error status and both sides end the exchange (see [error handling](#error-handling)).
 
 A fatal failure — an unhandled exception or a request pump that throws — surfaces as a best-effort **`Failed`** status, or, failing that, as the peer's timeout. A crashed peer can't send anything, so its peer reaches its own timeout.
@@ -408,6 +423,9 @@ public abstract class StreamingCommandInvoker<TReq, TResp>
       Dictionary<string, string>? additionalTopicTokenMap = null,
       TimeSpan? exchangeTimeout = default,
       CancellationToken cancellationToken = default) {...}
+
+    // Maximum received responses held until the caller takes them; exceeding it ends the exchange with Overflow.
+    public int StreamBufferLimit { get; set; } = 1000;
 }
 ```
 
@@ -426,6 +444,9 @@ public abstract class StreamingCommandExecutor<TReq, TResp> : IAsyncDisposable
 
     // false -> the callback must ack each request entry manually.
     public bool AutomaticallyAcknowledgeRequests { get; set; } = true;
+
+    // Maximum received requests held until the handler takes them; exceeding it ends the exchange with Overflow.
+    public int StreamBufferLimit { get; set; } = 1000;
 }
 ```
 
