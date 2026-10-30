@@ -34,6 +34,11 @@ namespace Azure.Iot.Operations.Protocol.Streaming
         private HashSet<uint> _seenRequestIndexes = new();
         private ExchangeContext? _exchangeContext;
 
+        // Bounds each pending publish by the exchange timeout taken from the first request (ADR 25, flow control).
+        private CancellationTokenSource? _deadline;
+        private uint _exchangeTimeoutSeconds;
+        private static readonly uint DefaultExchangeTimeoutSeconds = 10;
+
         // Set once the current exchange has ended with a failure (sent or received), so nothing more is produced for it.
         private volatile bool _terminal;
 
@@ -69,6 +74,13 @@ namespace Azure.Iot.Operations.Protocol.Streaming
         /// MQTT client.
         /// </remarks>
         public bool AutomaticallyAcknowledgeRequests { get; set; } = true;
+
+        /// <summary>
+        /// The maximum number of received request entries held until the handler takes them (ADR 25, flow control).
+        /// If another entry arrives while the buffer is full, the exchange ends with an <c>Overflow</c> status and the
+        /// handler's request stream ends with a <see cref="StreamOverflowException"/> after the buffered entries.
+        /// </summary>
+        public int StreamBufferLimit { get; set; } = 1000;
 
         /// <summary>POC diagnostics hook: receives protocol-level trace lines (subscription, receipts, publishes).</summary>
         public Action<string>? Log { get; set; }
@@ -137,7 +149,7 @@ namespace Azure.Iot.Operations.Protocol.Streaming
             // First message of a new exchange: create the request stream + context and start the user's handler.
             if (_requestChannel == null || correlationId != _correlationId)
             {
-                StartExchange(correlationId!.Value, message.ResponseTopic);
+                StartExchange(correlationId!.Value, message.ResponseTopic, tag.TimeoutSeconds);
             }
 
             if (_terminal)
@@ -153,9 +165,21 @@ namespace Azure.Iot.Operations.Protocol.Streaming
                     if (_seenRequestIndexes.Add(tag.Index))
                     {
                         TReq payload = _serializer.FromBytes<TReq>(message.Payload, message.ContentType, message.PayloadFormatIndicator);
-                        Log?.Invoke($"executor <- data idx={tag.Index} \"{payload}\"");
                         StreamMessageMetadata metadata = new() { Index = tag.Index };
-                        _requestChannel!.Writer.TryWrite(new ReceivedStreamingExtendedRequest<TReq>(payload, metadata, Task.CompletedTask));
+                        if (_requestChannel!.Writer.TryWrite(new ReceivedStreamingExtendedRequest<TReq>(payload, metadata, Task.CompletedTask)))
+                        {
+                            Log?.Invoke($"executor <- data idx={tag.Index} \"{payload}\"");
+                        }
+                        else
+                        {
+                            // The handler isn't keeping up: end the exchange with Overflow instead of buffering without bound.
+                            StreamOverflowException overflow = new(tag.Index);
+                            Log?.Invoke($"executor <- data idx={tag.Index} (request buffer full at {StreamBufferLimit}); sending Overflow");
+                            _terminal = true;
+                            _requestChannel.Writer.TryComplete(overflow);
+                            _exchangeContext?.Fail(overflow);
+                            _ = PublishResponseOverflowAsync(_correlationId, overflow);
+                        }
                     }
                     else
                     {
@@ -169,10 +193,10 @@ namespace Azure.Iot.Operations.Protocol.Streaming
                     _requestChannel!.Writer.TryComplete();
                     break;
 
-                case StreamMessageKind.Status when StreamFailure.TryReadFailure(message, _correlationId, out Exception failure):
-                    // The invoker's request stream failed: the handler's request stream ends with that error, and this
-                    // side stops producing. Failed is not answered.
-                    Log?.Invoke($"executor <- Failed ({failure.GetType().Name}: {failure.Message}); ending the exchange");
+                case StreamMessageKind.Status when StreamFailure.TryReadTerminalStatus(message, _correlationId, tag.Index, out Exception failure):
+                    // The invoker's request stream failed, or its response buffer overflowed: the handler's request stream
+                    // ends with that error, and this side stops producing. Neither status is answered.
+                    Log?.Invoke($"executor <- {failure.GetType().Name}: {failure.Message}; ending the exchange");
                     _terminal = true;
                     _requestChannel!.Writer.TryComplete(failure);
                     _exchangeContext?.Fail(failure);
@@ -183,15 +207,21 @@ namespace Azure.Iot.Operations.Protocol.Streaming
         }
 
         // Sets up a new exchange and runs the user's handler, pumping its responses back to the invoker.
-        private void StartExchange(Guid correlationId, string? responseTopic)
+        private void StartExchange(Guid correlationId, string? responseTopic, uint? timeoutSeconds)
         {
             _correlationId = correlationId;
             _responseTopic = responseTopic ?? string.Empty;
             _seenRequestIndexes = new();
             _terminal = false;
-            _requestChannel = Channel.CreateUnbounded<ReceivedStreamingExtendedRequest<TReq>>();
+            _requestChannel = Channel.CreateBounded<ReceivedStreamingExtendedRequest<TReq>>(new BoundedChannelOptions(StreamBufferLimit)
+            {
+                FullMode = BoundedChannelFullMode.Wait,
+            });
             _exchangeContext = new ExchangeContext();
-            Log?.Invoke($"executor: new exchange {correlationId}, responseTopic='{_responseTopic}'");
+            _exchangeTimeoutSeconds = timeoutSeconds is uint t and > 0 ? t : DefaultExchangeTimeoutSeconds;
+            _deadline?.Dispose();
+            _deadline = new CancellationTokenSource(TimeSpan.FromSeconds(_exchangeTimeoutSeconds));
+            Log?.Invoke($"executor: new exchange {correlationId}, responseTopic='{_responseTopic}', timeout={_exchangeTimeoutSeconds}s");
 
             StreamContext<ReceivedStreamingExtendedRequest<TReq>> requestStream = new(_requestChannel.Reader.ReadAllAsync());
             RequestStreamMetadata requestMetadata = new() { CorrelationId = correlationId };
@@ -211,11 +241,13 @@ namespace Azure.Iot.Operations.Protocol.Streaming
             _ = PumpResponsesAsync(correlationId, responses);
         }
 
-        // Drains the handler's responses, publishing each as `d:index`, then closes with `last`. If the stream throws,
-        // ends it with a Failed status instead (ADR 25, stream failure).
+        // Drains the handler's responses, publishing each as `d:index`, then closes with `last`. The next entry is taken from
+        // the handler only after the broker accepted the previous one (ADR 25, flow control). If the stream throws or the
+        // broker rejects a message, ends the stream with a Failed status instead (ADR 25, stream failure).
         private async Task PumpResponsesAsync(Guid correlationId, IAsyncEnumerable<StreamingExtendedResponse<TResp>> responses)
         {
             uint index = 0;
+            CancellationToken deadline = _deadline!.Token;
             try
             {
                 await foreach (StreamingExtendedResponse<TResp> response in responses)
@@ -225,7 +257,7 @@ namespace Azure.Iot.Operations.Protocol.Streaming
                         return;
                     }
 
-                    await PublishResponseEntryAsync(correlationId, index, response, CancellationToken.None);
+                    await PublishResponseEntryAsync(correlationId, index, response, deadline);
                     index++;
                 }
 
@@ -234,8 +266,27 @@ namespace Azure.Iot.Operations.Protocol.Streaming
                     return;
                 }
 
-                await PublishResponseLastAsync(correlationId, index, CancellationToken.None);
+                await PublishResponseLastAsync(correlationId, index, deadline);
                 _exchangeContext?.Complete();
+            }
+            catch (OperationCanceledException) when (deadline.IsCancellationRequested)
+            {
+                if (_terminal)
+                {
+                    return;
+                }
+
+                // The broker didn't accept a response before the exchange timeout: a timeout sends no status.
+                _terminal = true;
+                AkriMqttException timeout = StreamFailure.Timeout(correlationId, _exchangeTimeoutSeconds);
+                Log?.Invoke($"executor: response idx={index} not accepted before the exchange timeout; exchange timed out");
+                if (_exchangeContext != null)
+                {
+                    _exchangeContext.HasTimedOut = true;
+                }
+
+                _requestChannel?.Writer.TryComplete(timeout);
+                _exchangeContext?.Fail(timeout);
             }
             catch (Exception ex)
             {
@@ -276,6 +327,29 @@ namespace Azure.Iot.Operations.Protocol.Streaming
             }
         }
 
+        // Ends the exchange with an Overflow status on the invoker's response topic (best effort), referencing the request
+        // entry that did not fit in the buffer.
+        private async Task PublishResponseOverflowAsync(Guid correlationId, StreamOverflowException overflow)
+        {
+            try
+            {
+                MqttApplicationMessage message = new(_responseTopic, MqttQualityOfServiceLevel.AtLeastOnce)
+                {
+                    CorrelationData = correlationId.ToByteArray(),
+                };
+
+                message.AddUserProperty(StreamProperty.Name, StreamProperty.Status(overflow.Index));
+                StreamFailure.AddOverflowProperties(message, overflow);
+                Log?.Invoke($"executor -> Overflow s:{overflow.Index} __stat={StreamFailure.OverflowStatusCode}");
+
+                await _mqttClient.PublishAsync(message, CancellationToken.None);
+            }
+            catch (Exception publishError)
+            {
+                Log?.Invoke($"executor: could not send Overflow ({publishError.Message}); the invoker will time out");
+            }
+        }
+
         private static async IAsyncEnumerable<StreamingExtendedResponse<TResp>> Throwing(Exception error)
         {
             await Task.CompletedTask;
@@ -309,7 +383,8 @@ namespace Azure.Iot.Operations.Protocol.Streaming
                 message.ContentType = payload.ContentType;
             }
 
-            await _mqttClient.PublishAsync(message, cancellationToken);
+            StreamFailure.EnsureAccepted(await _mqttClient.PublishAsync(message, cancellationToken), $"response entry {index}");
+            Log?.Invoke($"executor: response idx={index} accepted by the broker");
         }
 
         // Closes the response stream with a standalone `last` control message (no payload).
@@ -323,7 +398,7 @@ namespace Azure.Iot.Operations.Protocol.Streaming
             message.AddUserProperty(StreamProperty.Name, StreamProperty.Last(index));
             Log?.Invoke($"executor -> last idx={index}");
 
-            await _mqttClient.PublishAsync(message, cancellationToken);
+            StreamFailure.EnsureAccepted(await _mqttClient.PublishAsync(message, cancellationToken), "response last");
         }
 
         // Resolves the executor's request topic against the token map.
@@ -333,6 +408,7 @@ namespace Azure.Iot.Operations.Protocol.Streaming
         public async ValueTask DisposeAsync()
         {
             await StopAsync();
+            _deadline?.Dispose();
 
             GC.SuppressFinalize(this);
         }
