@@ -340,8 +340,17 @@ namespace Azure.Iot.Operations.Connector
         }
 
         // Called by AssetClient instances
-        internal async Task ForwardSampledDatasetAsync(string deviceName, Device device, string inboundEndpointName, string assetName, Asset asset,
-            AssetDataset dataset, byte[] serializedPayload, Dictionary<string, string>? userData = null, string? protocolSpecificIdentifier = null,
+        internal async Task ForwardSampledDatasetAsync(
+            string deviceName,
+            Device device,
+            string inboundEndpointName,
+            string assetName,
+            Asset asset,
+            AssetDataset dataset,
+            byte[] serializedPayload,
+            Dictionary<string, string>? userData = null,
+            string? protocolSpecificIdentifier = null,
+            DataOperationCloudEvent? cloudEvent = null,
             CancellationToken cancellationToken = default)
         {
             ObjectDisposedException.ThrowIf(_isDisposed, this);
@@ -383,7 +392,8 @@ namespace Azure.Iot.Operations.Connector
                 }
             }
 
-            if (_registeredDatasetMessageSchemas.TryGetValue($"{deviceName}_{inboundEndpointName}_{assetName}_{dataset.Name}", out registeredDatasetMessageSchema))
+            if (_registeredDatasetMessageSchemas.TryGetValue($"{deviceName}_{inboundEndpointName}_{assetName}_{dataset.Name}", out registeredDatasetMessageSchema)
+                && cloudEvent == null)
             {
                 aioCloudEvent = ConstructCloudEventHeadersForDataset(
                     device,
@@ -421,6 +431,25 @@ namespace Azure.Iot.Operations.Connector
                     if (aioCloudEvent != null)
                     {
                         foreach (var extension in aioCloudEvent.GetExtensions())
+                        {
+                            messageMetadata.UserData[extension.Key] = extension.Value;
+                        }
+                    }
+
+                    if (cloudEvent != null)
+                    {
+                        var (resolvedCloudEvent, extensions) = ResolveCloudEventHeadersForDataset(
+                            cloudEvent,
+                            device,
+                            deviceName,
+                            inboundEndpointName,
+                            asset,
+                            assetName,
+                            dataset,
+                            registeredDatasetMessageSchema);
+
+                        messageMetadata.CloudEvent = resolvedCloudEvent;
+                        foreach (var extension in extensions)
                         {
                             messageMetadata.UserData[extension.Key] = extension.Value;
                         }
@@ -485,9 +514,19 @@ namespace Azure.Iot.Operations.Connector
         }
 
         // Called by AssetClient instances
-        internal async Task ForwardReceivedEventAsync(string deviceName, Device device, string inboundEndpointName, string assetName, Asset asset,
-            string eventGroupName, AssetEvent assetEvent, byte[] serializedPayload, Dictionary<string, string>? userData = null,
-            string? protocolSpecificIdentifier = null, CancellationToken cancellationToken = default)
+        internal async Task ForwardReceivedEventAsync(
+            string deviceName,
+            Device device,
+            string inboundEndpointName,
+            string assetName,
+            Asset asset,
+            string eventGroupName,
+            AssetEvent assetEvent,
+            byte[] serializedPayload,
+            Dictionary<string, string>? userData = null,
+            string? protocolSpecificIdentifier = null,
+            DataOperationCloudEvent? cloudEvent = null,
+            CancellationToken cancellationToken = default)
         {
             ObjectDisposedException.ThrowIf(_isDisposed, this);
 
@@ -536,7 +575,8 @@ namespace Azure.Iot.Operations.Connector
             }
 
             CloudEvents.AioCloudEvent? aioCloudEvent = null;
-            if (_registeredEventMessageSchemas.TryGetValue($"{deviceName}_{inboundEndpointName}_{assetName}_{eventGroupName}_{assetEvent.Name}", out registeredEventMessageSchema))
+            if (_registeredEventMessageSchemas.TryGetValue($"{deviceName}_{inboundEndpointName}_{assetName}_{eventGroupName}_{assetEvent.Name}", out registeredEventMessageSchema)
+                && cloudEvent == null)
             {
                 aioCloudEvent = ConstructCloudEventHeadersForEvent(
                     device,
@@ -567,6 +607,26 @@ namespace Azure.Iot.Operations.Connector
                     if (aioCloudEvent != null)
                     {
                         foreach (var extension in aioCloudEvent.GetExtensions())
+                        {
+                            messageMetadata.UserData[extension.Key] = extension.Value;
+                        }
+                    }
+
+                    if (cloudEvent != null)
+                    {
+                        var (resolvedCloudEvent, extensions) = ResolveCloudEventHeadersForEvent(
+                            cloudEvent,
+                            device,
+                            deviceName,
+                            inboundEndpointName,
+                            asset,
+                            assetName,
+                            eventGroupName,
+                            assetEvent,
+                            registeredEventMessageSchema);
+
+                        messageMetadata.CloudEvent = resolvedCloudEvent;
+                        foreach (var extension in extensions)
                         {
                             messageMetadata.UserData[extension.Key] = extension.Value;
                         }
@@ -1283,6 +1343,80 @@ namespace Azure.Iot.Operations.Connector
                 _logger.LogError(ex, $"Failed to construct CloudEvents headers for event {assetEvent.Name}");
                 return null;
             }
+        }
+
+        internal (CloudEvent? CloudEvent, Dictionary<string, string> Extensions) ResolveCloudEventHeadersForDataset(
+            DataOperationCloudEvent cloudEvent,
+            Device device,
+            string deviceName,
+            string inboundEndpointName,
+            Asset asset,
+            string assetName,
+            AssetDataset dataset,
+            Schema? registeredSchema)
+        {
+            try
+            {
+                return AioCloudEventBuilder.Resolve(
+                    cloudEvent,
+                    device,
+                    deviceName,
+                    inboundEndpointName,
+                    asset,
+                    dataset,
+                    assetName,
+                    ToMessageSchemaReference(registeredSchema),
+                    ApplicationContext.ApplicationHlc.Timestamp);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"Failed to construct CloudEvents headers for dataset {dataset.Name}");
+                return (null, new());
+            }
+        }
+
+        internal (CloudEvent? CloudEvent, Dictionary<string, string> Extensions) ResolveCloudEventHeadersForEvent(
+            DataOperationCloudEvent cloudEvent,
+            Device device,
+            string deviceName,
+            string inboundEndpointName,
+            Asset asset,
+            string assetName,
+            string eventGroupName,
+            AssetEvent assetEvent,
+            Schema? registeredSchema)
+        {
+            try
+            {
+                return AioCloudEventBuilder.Resolve(
+                    cloudEvent,
+                    device,
+                    deviceName,
+                    inboundEndpointName,
+                    asset,
+                    assetEvent,
+                    assetName,
+                    eventGroupName,
+                    ToMessageSchemaReference(registeredSchema),
+                    ApplicationContext.ApplicationHlc.Timestamp);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"Failed to construct CloudEvents headers for event {assetEvent.Name}");
+                return (null, new());
+            }
+        }
+
+        private static MessageSchemaReference? ToMessageSchemaReference(Schema? registeredSchema)
+        {
+            return registeredSchema == null
+                ? null
+                : new MessageSchemaReference
+                {
+                    SchemaRegistryNamespace = registeredSchema.Namespace,
+                    SchemaName = registeredSchema.Name,
+                    SchemaVersion = registeredSchema.Version
+                };
         }
     }
 }
