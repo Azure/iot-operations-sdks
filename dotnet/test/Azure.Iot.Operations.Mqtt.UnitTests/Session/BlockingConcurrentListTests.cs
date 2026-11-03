@@ -61,5 +61,61 @@ namespace Azure.Iot.Operations.Protocol.Session.UnitTests
             Assert.Equal(firstEnqueuedItem.CorrelationData, firstDequeuedPublish.Request.CorrelationData);
             Assert.Equal(secondEnqueuedItem.CorrelationData, secondDequeuedPublish.Request.CorrelationData);
         }
+
+        [Fact(Timeout = 10000)]
+        public async Task AddLastAsync_WaitingRequestsCompleteWhenDisposedDuringClosure()
+        {
+            using BlockingConcurrentList list = new(2, MqttPendingMessagesOverflowStrategy.DropNewMessage);
+            using ManualResetEventSlim closeRequestEntered = new();
+            using ManualResetEventSlim releaseCloseRequest = new();
+            using ManualResetEventSlim addRequestEntered = new();
+            using ManualResetEventSlim releaseAddRequests = new();
+            List<Exception> addRequestExceptions = new();
+
+            await list.AddLastAsync(
+                new TestQueuedRequest(_ =>
+                {
+                    closeRequestEntered.Set();
+                    releaseCloseRequest.Wait();
+                }),
+                CancellationToken.None);
+
+            Task closeTask = Task.Run(() => list.CloseAsync(new ObjectDisposedException(nameof(list)), CancellationToken.None));
+            Assert.True(closeRequestEntered.Wait(TimeSpan.FromSeconds(5)));
+
+            Task[] addTasks = Enumerable.Range(0, 3)
+                .Select(_ => list.AddLastAsync(
+                    new TestQueuedRequest(exception =>
+                    {
+                        addRequestExceptions.Add(exception);
+                        addRequestEntered.Set();
+                        releaseAddRequests.Wait();
+                    }),
+                    CancellationToken.None))
+                .ToArray();
+
+            releaseCloseRequest.Set();
+            await closeTask.WaitAsync(TimeSpan.FromSeconds(5));
+            Assert.True(addRequestEntered.Wait(TimeSpan.FromSeconds(5)));
+
+            list.Dispose();
+            releaseAddRequests.Set();
+
+            await Task.WhenAll(addTasks).WaitAsync(TimeSpan.FromSeconds(5));
+            Assert.Equal(3, addRequestExceptions.Count);
+            Assert.All(addRequestExceptions, exception => Assert.IsType<ObjectDisposedException>(exception));
+        }
+
+        private sealed class TestQueuedRequest : QueuedRequest
+        {
+            private readonly Action<Exception> _onException;
+
+            public TestQueuedRequest(Action<Exception> onException)
+            {
+                _onException = onException;
+            }
+
+            internal override void OnException(Exception reason) => _onException(reason);
+        }
     }
 }
