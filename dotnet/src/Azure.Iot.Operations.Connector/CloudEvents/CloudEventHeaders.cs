@@ -59,10 +59,16 @@ public sealed class CloudEventSource
     /// <summary>
     /// The provided <c>source</c>, used as is.
     /// </summary>
-    /// <param name="source">The source.</param>
+    /// <param name="source">The source. Must be a non-empty URI-reference.</param>
+    /// <exception cref="ArgumentException">If <paramref name="source"/> is empty.</exception>
     public static CloudEventSource Custom(Uri source)
     {
         ArgumentNullException.ThrowIfNull(source);
+        if (string.IsNullOrEmpty(source.OriginalString))
+        {
+            throw new ArgumentException("Source must be a non-empty URI-reference.", nameof(source));
+        }
+
         return new(CloudEventValueKind.Custom, customSource: source);
     }
 }
@@ -174,13 +180,13 @@ public sealed class CloudEventDataSchema
     /// The provided <c>dataschema</c>.
     /// </summary>
     /// <param name="dataSchema">The data schema. Must be an absolute URI.</param>
-    /// <exception cref="ArgumentException">If <paramref name="dataSchema"/> isn't an absolute URI.</exception>
+    /// <exception cref="ArgumentException">If <paramref name="dataSchema"/> isn't a well-formed absolute URI.</exception>
     public static CloudEventDataSchema Custom(string dataSchema)
     {
         ArgumentException.ThrowIfNullOrWhiteSpace(dataSchema);
-        if (!Uri.TryCreate(dataSchema, UriKind.Absolute, out _))
+        if (!Uri.IsWellFormedUriString(dataSchema, UriKind.Absolute))
         {
-            throw new ArgumentException($"Data schema '{dataSchema}' is not an absolute URI.", nameof(dataSchema));
+            throw new ArgumentException($"Data schema '{dataSchema}' is not a well-formed absolute URI.", nameof(dataSchema));
         }
 
         return new(CloudEventValueKind.Custom, dataSchema);
@@ -247,9 +253,15 @@ public sealed class CloudEventTime
     /// <summary>
     /// The provided <c>time</c>.
     /// </summary>
-    /// <param name="time">The time.</param>
+    /// <param name="time">The time. Must be UTC or local time.</param>
+    /// <exception cref="ArgumentException">If <paramref name="time"/> has <see cref="DateTimeKind.Unspecified"/> kind.</exception>
     public static CloudEventTime Custom(DateTime time)
     {
+        if (time.Kind == DateTimeKind.Unspecified)
+        {
+            throw new ArgumentException("Time must be UTC or local time so it can be serialized with a time zone offset.", nameof(time));
+        }
+
         return new(CloudEventValueKind.Custom, time);
     }
 }

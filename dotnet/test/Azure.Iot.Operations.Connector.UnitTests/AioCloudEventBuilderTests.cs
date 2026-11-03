@@ -826,8 +826,13 @@ public class AioCloudEventBuilderTests
         () => CloudEventSource.AutomaticWithProtocolSpecificIdentifier("not valid ?!#$# url"),
         () => CloudEventType.Custom(""),
         () => CloudEventSubject.Custom(" "),
+        () => CloudEventSource.Custom(new Uri("", UriKind.Relative)),
+        () => CloudEventType.Custom(""),
+        () => CloudEventSubject.Custom(" "),
         () => CloudEventDataSchema.Custom("./relative"),
+        () => CloudEventDataSchema.Custom("https://example.com/a b"),
         () => CloudEventId.Custom(""),
+        () => CloudEventTime.Custom(new DateTime(2025, 1, 1, 0, 0, 0, DateTimeKind.Unspecified)),
         () => CloudEventAioDeviceRef.Custom(""),
         () => CloudEventAioAssetRef.Custom(" "),
     };
@@ -837,6 +842,20 @@ public class AioCloudEventBuilderTests
     public void CustomValues_Invalid_Throw(Action createValue)
     {
         Assert.ThrowsAny<ArgumentException>(createValue);
+    }
+
+    public static TheoryData<Action> ValidCustomValues => new()
+    {
+        () => CloudEventSource.Custom(new Uri("relative/source", UriKind.Relative)),
+        () => CloudEventTime.Custom(new DateTime(2025, 1, 1, 0, 0, 0, DateTimeKind.Utc)),
+        () => CloudEventTime.Custom(new DateTime(2025, 1, 1, 0, 0, 0, DateTimeKind.Local)),
+    };
+
+    [Theory]
+    [MemberData(nameof(ValidCustomValues))]
+    public void CustomValues_Valid_DoNotThrow(Action createValue)
+    {
+        createValue();
     }
 
     #endregion
