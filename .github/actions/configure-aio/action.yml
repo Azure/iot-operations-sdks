@@ -71,12 +71,17 @@ runs:
 
     - name: Setup Rust
       if: inputs.install-rust == 'true'
-      uses: actions-rust-lang/setup-rust-toolchain@166cdcfd11aee3cb47222f9ddb555ce30ddb9659 # v1
+      uses: actions-rust-lang/setup-rust-toolchain@ecabd13d1c56bd1345c230e542e9144811ad706f # v2
       with:
+        rust-src-dir: rust
         # Disable this action's built-in cache; callers that care about
         # caching should use `Swatinem/rust-cache` in their workflow,
         # which also caches `target/` (this action does not).
         cache: false
+        # Callers also test moving toolchains; new warnings must not fail them.
+        # Warning-denial belongs to pinned-toolchain Clippy in CI-Rust.
+        rustflags: ''
+        build-warnings: ''
 
     - name: Wait for Mqtt Broker
       if: inputs.wait-for-broker == 'true'
