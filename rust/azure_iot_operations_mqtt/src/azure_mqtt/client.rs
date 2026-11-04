@@ -142,6 +142,8 @@ pub enum KeepAliveConfig {
     Infinite,
     Duration {
         ping_after: NonZeroU16,
+        /// Time allowed for a PINGRESP after the first unanswered PINGREQ.
+        /// Further PINGREQs do not extend this deadline.
         response_timeout: Duration,
     },
 }
@@ -828,6 +830,7 @@ impl Connection {
                     while let Some(packet) = op_packet {
                         if let Packet::PingReq(_) = &packet
                             && let Some(timeout) = self.cfg_pingresp_timeout
+                            && pingresp_timer.is_none()
                         {
                             pingresp_timer = Some(Timer::new(timeout));
                         }

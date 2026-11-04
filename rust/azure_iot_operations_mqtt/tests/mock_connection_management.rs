@@ -22,6 +22,84 @@ use azure_iot_operations_mqtt::{
     },
 };
 
+#[test_case::test_case(60, 60; "equal_deadlines")]
+#[test_case::test_case(30, 60; "response_timeout_longer_than_keepalive")]
+#[test_case::test_case(60, 59; "response_timeout_shorter_than_keepalive")]
+#[tokio::test(start_paused = true)]
+async fn unanswered_ping_keeps_original_deadline(ping_after: u16, response_timeout: u64) {
+    use azure_iot_operations_mqtt::{
+        azure_mqtt::{
+            client::{
+                ClientOptions, ConnectResult, DisconnectedEvent, KeepAliveConfig, new_client,
+            },
+            transport::{ConnectionTransportConfig, ConnectionTransportType},
+        },
+        control_packet::ConnectProperties,
+    };
+
+    let (to_client, incoming_packets) = tokio::sync::mpsc::unbounded_channel();
+    let (outgoing_packets, mut from_client) = tokio::sync::mpsc::unbounded_channel();
+    to_client
+        .send(mqtt_proto::Packet::ConnAck(mqtt_proto::ConnAck {
+            reason_code: mqtt_proto::ConnectReasonCode::Success {
+                session_present: false,
+            },
+            other_properties: Default::default(),
+        }))
+        .unwrap();
+    let (_client, connect, _receiver) = new_client(ClientOptions::default());
+    let ConnectResult::Success(connection, _, _disconnect) = connect
+        .connect(
+            ConnectionTransportConfig {
+                transport_type: ConnectionTransportType::Test {
+                    incoming_packets,
+                    outgoing_packets,
+                },
+                timeout: None,
+                proxy: None,
+                tcp_nodelay: true,
+            },
+            true,
+            KeepAliveConfig::Duration {
+                ping_after: NonZeroU16::new(ping_after).unwrap(),
+                response_timeout: Duration::from_secs(response_timeout),
+            },
+            None,
+            None,
+            None,
+            ConnectProperties::default(),
+            None,
+        )
+        .await
+    else {
+        panic!("CONNECT failed");
+    };
+    assert!(matches!(
+        from_client.try_recv(),
+        Ok(mqtt_proto::Packet::Connect(_))
+    ));
+    let mut run = Box::pin(connection.run_until_disconnect());
+    assert!(run.as_mut().now_or_never().is_none());
+    tokio::time::advance(Duration::from_secs(u64::from(ping_after))).await;
+    assert!(run.as_mut().now_or_never().is_none());
+    assert!(matches!(
+        from_client.try_recv(),
+        Ok(mqtt_proto::Packet::PingReq(_))
+    ));
+
+    // Poll each second so a second PINGREQ can be sent before the first deadline.
+    for _ in 0..response_timeout - 1 {
+        tokio::time::advance(Duration::from_secs(1)).await;
+        assert!(run.as_mut().now_or_never().is_none());
+    }
+    tokio::time::advance(Duration::from_secs(1)).await;
+    let result = run.as_mut().now_or_never();
+    assert!(
+        matches!(result, Some((_, DisconnectedEvent::PingTimeout))),
+        "subsequent PINGREQs must not postpone the first unanswered PINGREQ's deadline"
+    );
+}
+
 fn quick_setup_standard_auth(
     client_id: &str,
 ) -> (
