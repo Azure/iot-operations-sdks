@@ -44,7 +44,7 @@ async fn unanswered_ping_keeps_original_deadline(ping_after: u16, response_timeo
             reason_code: mqtt_proto::ConnectReasonCode::Success {
                 session_present: false,
             },
-            other_properties: Default::default(),
+            other_properties: mqtt_proto::ConnAckOtherProperties::default(),
         }))
         .unwrap();
     let (_client, connect, _receiver) = new_client(ClientOptions::default());
