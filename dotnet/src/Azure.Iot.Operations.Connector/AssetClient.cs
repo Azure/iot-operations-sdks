@@ -3,6 +3,7 @@
 
 using System.Collections.Concurrent;
 using System.Threading.Channels;
+using Azure.Iot.Operations.Connector.CloudEvents;
 using Azure.Iot.Operations.Services.AssetAndDeviceRegistry;
 using Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models;
 
@@ -114,11 +115,38 @@ namespace Azure.Iot.Operations.Connector
         /// <param name="dataset">The dataset that was sampled.</param>
         /// <param name="serializedPayload">The payload to push to the configured destinations.</param>
         /// <param name="userData">Optional headers to include in the telemetry. Only applicable for datasets with a destination of the MQTT broker.</param>
-        /// <param name="protocolSpecificIdentifier">Optional protocol specific identifier.</param>
+        /// <param name="protocolSpecificIdentifier">
+        /// Optional protocol specific identifier, used in the Cloud Event <c>source</c> header as
+        /// <c>ms-aio:&lt;protocolSpecificIdentifier&gt;[/&lt;data source&gt;]</c>. If it is empty or doesn't form a valid
+        /// source, it is ignored and the automatic source is used.
+        /// </param>
         /// <param name="cancellationToken">Cancellation token.</param>
+        /// <remarks>
+        /// Cloud Event headers with automatically derived values are sent for MQTT destinations, even if no message schema
+        /// has been registered for the dataset. Use <see cref="ForwardSampledDatasetWithCloudEventAsync"/> to customize the
+        /// Cloud Event headers.
+        /// </remarks>
         public async Task ForwardSampledDatasetAsync(AssetDataset dataset, byte[] serializedPayload, Dictionary<string, string>? userData = null, string? protocolSpecificIdentifier = null, CancellationToken cancellationToken = default)
         {
-            await _connector.ForwardSampledDatasetAsync(_deviceName, _device, _inboundEndpointName, _assetName, _asset, dataset, serializedPayload, userData, protocolSpecificIdentifier, cancellationToken);
+            await _connector.ForwardSampledDatasetAsync(_deviceName, _device, _inboundEndpointName, _assetName, _asset, dataset, serializedPayload, userData, protocolSpecificIdentifier, null, cancellationToken);
+        }
+
+        /// <summary>
+        /// Push a sampled dataset to the configured destinations, with Cloud Event headers determined by <paramref name="cloudEvent"/>.
+        /// </summary>
+        /// <param name="dataset">The dataset that was sampled.</param>
+        /// <param name="serializedPayload">The payload to push to the configured destinations.</param>
+        /// <param name="cloudEvent">
+        /// Determines the Cloud Event headers. Headers that aren't set use the value that the connector derives by default.
+        /// The Cloud Event headers are sent even if no message schema has been registered for the dataset. Only applicable
+        /// for datasets with a destination of the MQTT broker.
+        /// </param>
+        /// <param name="userData">Optional headers to include in the telemetry. Only applicable for datasets with a destination of the MQTT broker.</param>
+        /// <param name="cancellationToken">Cancellation token.</param>
+        public async Task ForwardSampledDatasetWithCloudEventAsync(AssetDataset dataset, byte[] serializedPayload, DataOperationCloudEvent cloudEvent, Dictionary<string, string>? userData = null, CancellationToken cancellationToken = default)
+        {
+            ArgumentNullException.ThrowIfNull(cloudEvent);
+            await _connector.ForwardSampledDatasetAsync(_deviceName, _device, _inboundEndpointName, _assetName, _asset, dataset, serializedPayload, userData, null, cloudEvent, cancellationToken);
         }
 
         /// <summary>
@@ -128,11 +156,39 @@ namespace Azure.Iot.Operations.Connector
         /// <param name="assetEvent">The event.</param>
         /// <param name="serializedPayload">The payload to push to the configured destinations.</param>
         /// <param name="userData">Optional headers to include in the telemetry. Only applicable for datasets with a destination of the MQTT broker.</param>
-        /// <param name="protocolSpecificIdentifier">Optional protocol specific identifier.</param>
+        /// <param name="protocolSpecificIdentifier">
+        /// Optional protocol specific identifier, used in the Cloud Event <c>source</c> header as
+        /// <c>ms-aio:&lt;protocolSpecificIdentifier&gt;[/&lt;data source&gt;]</c>. If it is empty or doesn't form a valid
+        /// source, it is ignored and the automatic source is used.
+        /// </param>
         /// <param name="cancellationToken">Cancellation token.</param>
+        /// <remarks>
+        /// Cloud Event headers with automatically derived values are sent for MQTT destinations, even if no message schema
+        /// has been registered for the event. Use <see cref="ForwardReceivedEventWithCloudEventAsync"/> to customize the
+        /// Cloud Event headers.
+        /// </remarks>
         public async Task ForwardReceivedEventAsync(string eventGroupName, AssetEvent assetEvent, byte[] serializedPayload, Dictionary<string, string>? userData = null, string? protocolSpecificIdentifier = null, CancellationToken cancellationToken = default)
         {
-            await _connector.ForwardReceivedEventAsync(_deviceName, _device, _inboundEndpointName, _assetName, _asset, eventGroupName, assetEvent, serializedPayload, userData, protocolSpecificIdentifier, cancellationToken);
+            await _connector.ForwardReceivedEventAsync(_deviceName, _device, _inboundEndpointName, _assetName, _asset, eventGroupName, assetEvent, serializedPayload, userData, protocolSpecificIdentifier, null, cancellationToken);
+        }
+
+        /// <summary>
+        /// Push a received event payload to the configured destinations, with Cloud Event headers determined by <paramref name="cloudEvent"/>.
+        /// </summary>
+        /// <param name="eventGroupName">The name of the event group that this event belongs to.</param>
+        /// <param name="assetEvent">The event.</param>
+        /// <param name="serializedPayload">The payload to push to the configured destinations.</param>
+        /// <param name="cloudEvent">
+        /// Determines the Cloud Event headers. Headers that aren't set use the value that the connector derives by default.
+        /// The Cloud Event headers are sent even if no message schema has been registered for the event. Only applicable
+        /// for events with a destination of the MQTT broker.
+        /// </param>
+        /// <param name="userData">Optional headers to include in the telemetry. Only applicable for events with a destination of the MQTT broker.</param>
+        /// <param name="cancellationToken">Cancellation token.</param>
+        public async Task ForwardReceivedEventWithCloudEventAsync(string eventGroupName, AssetEvent assetEvent, byte[] serializedPayload, DataOperationCloudEvent cloudEvent, Dictionary<string, string>? userData = null, CancellationToken cancellationToken = default)
+        {
+            ArgumentNullException.ThrowIfNull(cloudEvent);
+            await _connector.ForwardReceivedEventAsync(_deviceName, _device, _inboundEndpointName, _assetName, _asset, eventGroupName, assetEvent, serializedPayload, userData, null, cloudEvent, cancellationToken);
         }
 
         public MessageSchemaReference? GetRegisteredDatasetMessageSchema(string datasetName)

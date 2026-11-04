@@ -3,6 +3,7 @@
 
 namespace Azure.Iot.Operations.Connector.CloudEvents;
 
+using Azure.Iot.Operations.Protocol;
 using Services.AssetAndDeviceRegistry.Models;
 
 /// <summary>
@@ -110,6 +111,144 @@ public static class AioCloudEventBuilder
             AioDeviceRef = aioDeviceRef,
             AioAssetRef = aioAssetRef
         };
+    }
+
+    /// <summary>
+    /// Resolves the Cloud Event and AIO extension headers for a dataset, using the values in
+    /// <paramref name="cloudEvent"/> and deriving the <c>Automatic</c> ones.
+    /// </summary>
+    internal static (CloudEvent CloudEvent, Dictionary<string, string> Extensions) Resolve(
+        DataOperationCloudEvent cloudEvent,
+        Device device,
+        string deviceName,
+        string endpointName,
+        Asset asset,
+        AssetDataset dataset,
+        string assetName,
+        MessageSchemaReference? messageSchemaReference,
+        DateTime automaticTime)
+    {
+        ArgumentNullException.ThrowIfNull(dataset);
+        return Resolve(cloudEvent, device, deviceName, endpointName, asset, assetName, "DataSet", dataset.TypeRef, dataset.DataSource, dataset.Name, null, messageSchemaReference, automaticTime);
+    }
+
+    /// <summary>
+    /// Resolves the Cloud Event and AIO extension headers for an event, using the values in
+    /// <paramref name="cloudEvent"/> and deriving the <c>Automatic</c> ones.
+    /// </summary>
+    internal static (CloudEvent CloudEvent, Dictionary<string, string> Extensions) Resolve(
+        DataOperationCloudEvent cloudEvent,
+        Device device,
+        string deviceName,
+        string endpointName,
+        Asset asset,
+        AssetEvent assetEvent,
+        string assetName,
+        string eventGroupName,
+        MessageSchemaReference? messageSchemaReference,
+        DateTime automaticTime)
+    {
+        ArgumentNullException.ThrowIfNull(assetEvent);
+        ArgumentException.ThrowIfNullOrEmpty(eventGroupName);
+        return Resolve(cloudEvent, device, deviceName, endpointName, asset, assetName, "Event", assetEvent.TypeRef, assetEvent.DataSource, eventGroupName, assetEvent.Name, messageSchemaReference, automaticTime);
+    }
+
+    private static (CloudEvent CloudEvent, Dictionary<string, string> Extensions) Resolve(
+        DataOperationCloudEvent cloudEvent,
+        Device device,
+        string deviceName,
+        string endpointName,
+        Asset asset,
+        string assetName,
+        string typePrefix,
+        string? typeRef,
+        string? dataSource,
+        string name,
+        string? subSubject,
+        MessageSchemaReference? messageSchemaReference,
+        DateTime automaticTime)
+    {
+        ArgumentNullException.ThrowIfNull(cloudEvent);
+        ArgumentNullException.ThrowIfNull(device);
+        ArgumentException.ThrowIfNullOrEmpty(deviceName);
+        ArgumentException.ThrowIfNullOrEmpty(endpointName);
+        ArgumentNullException.ThrowIfNull(asset);
+        ArgumentException.ThrowIfNullOrEmpty(assetName);
+
+        Uri source = cloudEvent.Source.Kind switch
+        {
+            CloudEventValueKind.Custom => cloudEvent.Source.CustomSource!,
+            CloudEventValueKind.AutomaticWithProtocolSpecificIdentifier => new Uri(BuildSource(device, cloudEvent.Source.ProtocolSpecificIdentifier, deviceName, dataSource)),
+            _ => new Uri(BuildSource(device, null, deviceName, dataSource)),
+        };
+
+        string type = cloudEvent.Type.Kind == CloudEventValueKind.Custom
+            ? cloudEvent.Type.Value!
+            : BuildType(typePrefix, typeRef);
+
+        var result = new CloudEvent(source, type)
+        {
+            DataSchema = cloudEvent.DataSchema.Kind switch
+            {
+                CloudEventValueKind.Custom => cloudEvent.DataSchema.Value,
+                CloudEventValueKind.None => null,
+                _ => BuildDataSchemaUri(messageSchemaReference),
+            },
+            Time = cloudEvent.Time.Kind switch
+            {
+                CloudEventValueKind.Custom => cloudEvent.Time.Value,
+                CloudEventValueKind.None => null,
+                _ => automaticTime,
+            },
+        };
+
+        if (cloudEvent.Id.Kind == CloudEventValueKind.Custom)
+        {
+            result.Id = cloudEvent.Id.Value;
+        }
+
+        switch (cloudEvent.Subject.Kind)
+        {
+            case CloudEventValueKind.Custom:
+                result.Subject = cloudEvent.Subject.Value;
+                break;
+            case CloudEventValueKind.None:
+                result.Subject = null;
+                break;
+            case CloudEventValueKind.PublishTopic:
+                // Leaving the subject unset makes the telemetry sender use the publish topic
+                break;
+            default:
+                result.Subject = BuildSubject(asset, assetName, name, subSubject);
+                break;
+        }
+
+        var extensions = new Dictionary<string, string>();
+        switch (cloudEvent.AioDeviceRef.Kind)
+        {
+            case CloudEventValueKind.Custom:
+                extensions["aiodeviceref"] = cloudEvent.AioDeviceRef.Value!;
+                break;
+            case CloudEventValueKind.None:
+                break;
+            default:
+                extensions["aiodeviceref"] = BuildAioDeviceRef(device, endpointName);
+                break;
+        }
+
+        switch (cloudEvent.AioAssetRef.Kind)
+        {
+            case CloudEventValueKind.Custom:
+                extensions["aioassetref"] = cloudEvent.AioAssetRef.Value!;
+                break;
+            case CloudEventValueKind.None:
+                break;
+            default:
+                extensions["aioassetref"] = BuildAioAssetRef(asset);
+                break;
+        }
+
+        return (result, extensions);
     }
 
     /// <summary>

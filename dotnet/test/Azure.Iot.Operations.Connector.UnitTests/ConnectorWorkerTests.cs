@@ -70,15 +70,15 @@ namespace Azure.Iot.Operations.Connector.UnitTests
             _ = worker.StartAsync(CancellationToken.None);
 
             // Act
-            var result = worker.ConstructCloudEventHeadersForDataset(
+            var (result, _) = worker.ResolveCloudEventHeadersForDataset(
+                ConnectorWorker.CreateCloudEvent(TestProtocolIdentifier),
                 device,
                 TestDeviceName,
                 TestInboundEndpointName,
                 asset,
                 TestAssetName,
                 dataset,
-                schema,
-                protocolSpecificIdentifier: TestProtocolIdentifier);
+                schema);
 
             // Assert
             Assert.NotNull(result);
@@ -114,15 +114,15 @@ namespace Azure.Iot.Operations.Connector.UnitTests
             _ = worker.StartAsync(CancellationToken.None);
 
             // Act
-            var result = worker.ConstructCloudEventHeadersForDataset(
+            var (result, _) = worker.ResolveCloudEventHeadersForDataset(
+                ConnectorWorker.CreateCloudEvent(null),
                 device,
                 TestDeviceName,
                 TestInboundEndpointName,
                 asset,
                 TestAssetName,
                 dataset,
-                schema,
-                protocolSpecificIdentifier: null);
+                schema);
 
             // Assert
             Assert.NotNull(result);
@@ -157,7 +157,8 @@ namespace Azure.Iot.Operations.Connector.UnitTests
 
             // Act
             AssetEvent assetEvent = CreateTestAssetEvent();
-            var result = worker.ConstructCloudEventHeadersForEvent(
+            var (result, _) = worker.ResolveCloudEventHeadersForEvent(
+                ConnectorWorker.CreateCloudEvent(TestProtocolIdentifier),
                 device,
                 TestDeviceName,
                 TestInboundEndpointName,
@@ -165,8 +166,7 @@ namespace Azure.Iot.Operations.Connector.UnitTests
                 TestAssetName,
                 TestEventGroupName,
                 assetEvent,
-                schema,
-                protocolSpecificIdentifier: TestProtocolIdentifier);
+                schema);
 
             // Assert
             Assert.NotNull(result);
@@ -202,7 +202,8 @@ namespace Azure.Iot.Operations.Connector.UnitTests
 
             // Act
             AssetEvent assetEvent = CreateTestAssetEvent();
-            var result = worker.ConstructCloudEventHeadersForEvent(
+            var (result, _) = worker.ResolveCloudEventHeadersForEvent(
+                ConnectorWorker.CreateCloudEvent(null),
                 device,
                 TestDeviceName,
                 TestInboundEndpointName,
@@ -210,13 +211,41 @@ namespace Azure.Iot.Operations.Connector.UnitTests
                 TestAssetName,
                 TestEventGroupName,
                 assetEvent,
-                schema,
-                protocolSpecificIdentifier: null);
+                schema);
 
             // Assert
             Assert.NotNull(result);
             Assert.NotNull(result.Source);
             Assert.DoesNotContain(TestEndpointAddress, result.Source.ToString());
+        }
+
+        [Fact]
+        public void ResolveCloudEventHeaders_InvalidProtocolIdentifierAndNoSchema_SendsAutomaticCloudEvent()
+        {
+            Device device = CreateTestDevice();
+            Asset asset = CreateTestAsset();
+            AssetDataset dataset = new AssetDataset { Name = TestDatasetName };
+
+            ConnectorWorker worker = new ConnectorWorker(new ApplicationContext(),
+                new Mock<ILogger<PollingTelemetryConnectorWorker>>().Object,
+                new MockMqttClient(),
+                new MockMessageSchemaProvider(),
+                new MockAdrClientFactory(new MockAzureDeviceRegistryClientWrapper()));
+
+            var (result, extensions) = worker.ResolveCloudEventHeadersForDataset(
+                ConnectorWorker.CreateCloudEvent("not valid ?!#$# url"),
+                device,
+                TestDeviceName,
+                TestInboundEndpointName,
+                asset,
+                TestAssetName,
+                dataset,
+                registeredSchema: null);
+
+            Assert.NotNull(result);
+            Assert.Equal(new Uri($"ms-aio:{TestDeviceName}"), result.Source);
+            Assert.Null(result.DataSchema);
+            Assert.Equal($"ms-aio:{TestAssetUuid}", extensions["aioassetref"]);
         }
 
         private static Device CreateTestDevice()
