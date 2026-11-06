@@ -2,6 +2,7 @@ namespace Azure.Iot.Operations.ProtocolCompilerLib
 {
     public enum SchemaKind
     {
+        Any,
         Array,
         Boolean,
         Bytes,
