@@ -90,7 +90,7 @@ jobs:
           fi
 
       - name: Setup Rust (from rust-toolchain.toml)
-        uses: actions-rust-lang/setup-rust-toolchain@ecabd13d1c56bd1345c230e542e9144811ad706f # v2
+        uses: actions-rust-lang/setup-rust-toolchain@a188e68d0fd2bd36ad51dccb2b07ba6e75105f30 # v2
         with:
           # Tell the action where to look for `rust-toolchain.toml`.
           # Without this it would only check the repo root, find no
@@ -117,7 +117,7 @@ jobs:
       # Install cargo subcommands AFTER the cache restore. `Swatinem/rust-cache`
       # caches `~/.cargo/bin`, so a warm cache makes this a no-op.
       - name: Install cargo tooling
-        uses: taiki-e/install-action@5488ac5a951645ce95062214902ac4b6bc1a1037 # v2
+        uses: taiki-e/install-action@b80e2bb2635f28eb98b9fce1e2f0887e1535c6b2 # v2
         with:
           tool: cargo-hack,cargo-machete
 
