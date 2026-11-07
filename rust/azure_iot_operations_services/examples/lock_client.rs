@@ -21,7 +21,7 @@ async fn main() {
     Builder::new()
         .filter_level(log::LevelFilter::Info)
         .format_timestamp(None)
-        .filter_module("azure_mqtt", log::LevelFilter::Warn)
+        .filter_module("ms_mqtt_client", log::LevelFilter::Warn)
         .init();
 
     let (session1, exit_handle1, state_store_client_arc1, lock_client1) =

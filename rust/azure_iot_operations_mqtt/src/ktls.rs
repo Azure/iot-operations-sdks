@@ -9,7 +9,7 @@
 //!
 //! It is currently unused and kept here, above the generic MQTT client, so that kTLS can be
 //! reintroduced as an Azure IoT Operations-specific transport without leaking into the generic
-//! `azure_mqtt` layer.
+//! `ms-mqtt-client` layer.
 
 use std::{net::TcpStream as StdTcpStream, sync::Arc};
 

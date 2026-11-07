@@ -65,7 +65,7 @@ fn setup_test<T: PayloadSerialize + std::marker::Send + std::marker::Sync>(
     let _ = Builder::new()
         .filter_level(log::LevelFilter::max())
         .format_timestamp(None)
-        .filter_module("azure_mqtt", log::LevelFilter::Warn)
+        .filter_module("ms_mqtt_client", log::LevelFilter::Warn)
         .filter_module("azure_iot_operations", log::LevelFilter::Warn)
         .try_init();
     if env::var("ENABLE_NETWORK_TESTS").is_err() {
@@ -457,7 +457,7 @@ fn setup_session_and_handle(client_id: &str) -> (Session, SessionExitHandle) {
     let _ = Builder::new()
         .filter_level(log::LevelFilter::max())
         .format_timestamp(None)
-        .filter_module("azure_mqtt", log::LevelFilter::Info)
+        .filter_module("ms_mqtt_client", log::LevelFilter::Info)
         .filter_module("azure_iot_operations", log::LevelFilter::Info)
         .try_init();
 
@@ -497,7 +497,7 @@ async fn telemetry_retained_message_test() {
     let _ = Builder::new()
         .filter_level(log::LevelFilter::max())
         .format_timestamp(None)
-        .filter_module("azure_mqtt", log::LevelFilter::Info)
+        .filter_module("ms_mqtt_client", log::LevelFilter::Info)
         .filter_module("azure_iot_operations", log::LevelFilter::Info)
         .try_init();
 

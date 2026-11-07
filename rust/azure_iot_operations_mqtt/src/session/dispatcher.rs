@@ -10,7 +10,7 @@ use std::{
     task::{Context, Poll},
 };
 
-use crate::azure_mqtt::{client::ManualAcknowledgement, packet::Publish, topic::TopicFilter};
+use ms_mqtt_client::{client::ManualAcknowledgement, packet::Publish, topic::TopicFilter};
 use tokio::sync::mpsc::{UnboundedReceiver, UnboundedSender, unbounded_channel};
 
 use crate::error::{CompletionError, DetachedError};

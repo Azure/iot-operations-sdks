@@ -25,20 +25,11 @@ mod opensslext;
 #[cfg(feature = "test-utils")]
 pub mod test_utils;
 
-// NOTE on `azure_mqtt` module inclusion:
-// - Do NOT format or change anything in `azure_mqtt` module without also updating the
-// repo where its maintained first.
-// - Suppress all warnings so that this code can be kept in sync with source of truth
-// with minimal changes.
-// - Do not format the code either.
-// - Treat this module as if it were an external dependency in terms of import structure
-// (i.e. do not put it with the other `crate::` imports)
+/// Low-level client re-export retained for integration-test compatibility.
+///
+/// The protocol internals exposed by this alias are not part of the stable SDK API.
 #[cfg(feature = "test-utils")]
-#[rustfmt::skip]
-pub mod azure_mqtt;
-#[cfg(not(feature = "test-utils"))]
-#[rustfmt::skip]
-mod azure_mqtt;
+pub use ms_mqtt_client as azure_mqtt;
 
 #[macro_use]
 extern crate derive_builder;

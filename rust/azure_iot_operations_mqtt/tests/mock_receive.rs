@@ -5,7 +5,7 @@
 
 use azure_iot_operations_mqtt::azure_mqtt::mqtt_proto;
 use bytes::Bytes;
-use futures_util::FutureExt;
+use futures::FutureExt;
 use tokio_test::{assert_pending, assert_ready};
 
 use azure_iot_operations_mqtt::{

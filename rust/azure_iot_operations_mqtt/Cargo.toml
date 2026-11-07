@@ -14,12 +14,13 @@ publish = true
 
 [features]
 default = [ ]
-test-utils = ["tempfile", "async-tungstenite"]
+# Preserve the former optional-dependency feature name.
+async-tungstenite = ["ms-mqtt-client/websockets"]
+test-utils = ["tempfile", "async-tungstenite", "ms-mqtt-client/__integration"]
 
 [dependencies]
 anyhow = "1.0.86"
 async-trait.workspace = true
-async-tungstenite = { version = "0.34", optional = true, features = ["tokio-openssl"] }
 bytes.workspace = true
 chrono = { workspace = true, default-features = false, features = ["std"] }
 derive_builder.workspace = true
@@ -27,9 +28,11 @@ derive-getters.workspace = true
 fluent-uri = "0.3.2"
 futures.workspace = true
 log.workspace = true
+ms-mqtt-client = { version = "=0.1.0", features = ["__allow_omitted_auth_method"] }
 notify.workspace = true
 notify-debouncer-full.workspace = true
 openssl = "0.10"
+parking_lot.workspace = true
 rand = "0.8.5"
 regex.workspace = true
 tempfile = { workspace = true, optional = true }
@@ -37,28 +40,14 @@ thiserror.workspace = true
 tokio = { workspace = true, features = ["io-util", "macros", "net", "rt", "sync", "time"] }
 uuid = { workspace = true, features = ["v4", "fast-rng"] }
 
-# for internal mqtt client
-bstr = { version = "1", default-features = false }
-derive-where = { version = "1", default-features = false }
-either = { version = "1.6", default-features = false }
-enum-iterator = { version = "2", default-features = false }
-futures-util = { version = "0.3", default-features = false, features = [
-    "std", # for futures_util::future::Shared
-] }
+# for kTLS support
 hkdf = { version = "0.12", default-features = false }
 hmac = { version = "0.12", default-features = false, features = [
     "reset", # for `hmac::Hmac::finalize_reset`
 ] }
-indexmap = { version = "2.12", default-features = false, features = ["std"] }
-# for kTLS support
 libc = { version = "0.2.151", default-features = false }
 nix = { version = "0.30", default-features = false, features = ["net", "process", "socket", "zerocopy"] }
-parking_lot.workspace = true
 sha2.workspace = true
-tokio-openssl = { version = "0.6", default-features = false }
-unicode-properties = { version = "0.1", default-features = false, features = [
-    "general-category",
-] }
 
 [dev-dependencies]
 azure_iot_operations_mqtt = { path = ".", features = ["test-utils"] }
@@ -72,10 +61,6 @@ tokio = { workspace = true, features = [
     "rt-multi-thread",
     "test-util",
 ] }
-
-# for internal mqtt client
-matches = { version = "0.1", default-features = false }
-paste = { version = "1.0", default-features = false }
 
 [lints]
 workspace = true
