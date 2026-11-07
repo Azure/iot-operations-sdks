@@ -1,15 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-//! Adapter layer for the `azure_mqtt` (TODO: rename this once settled) crate
+//! Adapter layer for the `ms-mqtt-client` crate.
 
 use std::num::{NonZero, NonZeroU16, NonZeroU32};
 use std::{fmt, fs, time::Duration};
 
-use crate::azure_mqtt::client::ClientOptions;
-use crate::azure_mqtt::packet::{ConnectProperties, SessionExpiryInterval, Will};
-use crate::azure_mqtt::transport::{ConnectionTransportConfig, ConnectionTransportType, TlsConfig};
 use bytes::Bytes;
+use ms_mqtt_client::client::ClientOptions;
+use ms_mqtt_client::packet::{ConnectProperties, SessionExpiryInterval, Will};
+use ms_mqtt_client::transport::{ConnectionTransportConfig, ConnectionTransportType, TlsConfig};
 use openssl::{
     pkey::{PKey, Private},
     x509::X509,
@@ -20,7 +20,7 @@ use crate::aio::connection_settings::MqttConnectionSettings;
 #[cfg(feature = "test-utils")]
 use crate::test_utils::InjectedPacketChannels;
 
-// NOTE: This module combines two concepts - translating the MqttConnectionSettings into azure_mqtt constructs,
+// NOTE: This module combines two concepts - translating the MqttConnectionSettings into ms-mqtt-client constructs,
 // and the configuration OF those constructs. This should ideally be separated, and doing so will be necessary
 // in order to support a more generic `crate::session::SessionOptions`.
 
@@ -180,12 +180,12 @@ fn create_connection_transport_config(
     })
 }
 
-/// Parameters for establishing an MQTT connection using the `azure_mqtt` crate
+/// Parameters for establishing an MQTT connection using the `ms-mqtt-client` crate
 pub struct AzureMqttConnectParameters {
     /// Initial clean start flag, use ONLY during the initial connection
     pub initial_clean_start: bool,
     /// Keep alive duration
-    pub keep_alive: crate::azure_mqtt::client::KeepAliveConfig,
+    pub keep_alive: ms_mqtt_client::client::KeepAliveConfig,
     /// Will message
     pub will: Option<Will>,
     /// Username
@@ -266,7 +266,7 @@ impl MqttConnectionSettings {
     pub(crate) fn into_azure_mqtt_connect_parameters(
         self,
         user_properties: Vec<(String, String)>,
-        max_packet_identifier: crate::azure_mqtt::packet::PacketIdentifier,
+        max_packet_identifier: ms_mqtt_client::packet::PacketIdentifier,
         publish_qos0_queue_size: usize,
         publish_qos1_qos2_queue_size: usize,
         #[cfg(feature = "test-utils")] injected_packet_channels: Option<InjectedPacketChannels>,
@@ -292,7 +292,7 @@ impl MqttConnectionSettings {
                 source: None,
             })?;
 
-        let keep_alive = crate::azure_mqtt::client::KeepAliveConfig::Duration {
+        let keep_alive = ms_mqtt_client::client::KeepAliveConfig::Duration {
             ping_after,
             response_timeout: Duration::from_secs(2), // TODO: Make configurable?
         };
@@ -432,7 +432,7 @@ fn tls_config(
 
 #[cfg(test)]
 mod tests {
-    use crate::azure_mqtt;
+    use ms_mqtt_client as azure_mqtt;
     use std::path::PathBuf;
     use std::time::Duration;
 

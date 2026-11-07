@@ -53,8 +53,7 @@ use std::{
     time::Duration,
 };
 
-use crate::azure_mqtt::{
-    self,
+use ms_mqtt_client::{
     client::{
         ConnectEnhancedAuthResult, ConnectResult, Connection, DisconnectedEvent, ReauthResult,
     },
@@ -88,7 +87,7 @@ pub(crate) mod plenary_ack;
 pub mod reconnect_policy;
 mod state;
 
-// TODO: Remove once azure_mqtt reports the maximum packet size correctly
+// TODO: Remove once ms-mqtt-client reports the maximum packet size correctly
 // 1 fixed header byte + 4 Remaining Length bytes + 268,435,455 (MQTT 5.0 §1.5.5, §2.1.4)
 const PROTOCOL_MAX_PACKET_SIZE: u32 = 268_435_460;
 
@@ -232,16 +231,16 @@ pub struct SessionOptions {
 /// instances of [`SessionManagedClient`] and [`SessionExitHandle`].
 pub struct Session {
     /// Underlying MQTT client
-    client: azure_mqtt::client::Client,
+    client: ms_mqtt_client::client::Client,
     /// Underlying MQTT Receiver
-    receiver: Option<azure_mqtt::client::Receiver>,
+    receiver: Option<ms_mqtt_client::client::Receiver>,
     /// Underlying MQTT connect handle
-    connect_handle: Option<azure_mqtt::client::ConnectHandle>,
+    connect_handle: Option<ms_mqtt_client::client::ConnectHandle>,
     /// disconnect handle
-    disconnect_handle: Arc<Mutex<Option<azure_mqtt::client::DisconnectHandle>>>,
+    disconnect_handle: Arc<Mutex<Option<ms_mqtt_client::client::DisconnectHandle>>>,
     /// Underlying MQTT reauthorization handle
-    reauth_handle: Option<azure_mqtt::client::ReauthHandle>,
-    /// Parameters for establishing an MQTT connection using the `azure_mqtt` crate
+    reauth_handle: Option<ms_mqtt_client::client::ReauthHandle>,
+    /// Parameters for establishing an MQTT connection using the `ms-mqtt-client` crate
     connect_parameters: AzureMqttConnectParameters,
     /// Client ID of the underlying MQTT client
     client_id: String,
@@ -323,7 +322,7 @@ impl Session {
                 options.injected_packet_channels,
             )?;
 
-        let (client, connect_handle, receiver) = azure_mqtt::client::new_client(client_options);
+        let (client, connect_handle, receiver) = ms_mqtt_client::client::new_client(client_options);
         let incoming_pub_dispatcher = Arc::new(Mutex::new(IncomingPublishDispatcher::default()));
 
         Ok(Self {
@@ -517,7 +516,7 @@ impl Session {
         &mut self,
         connection_transport: ConnectionTransportConfig,
         clean_start: bool,
-    ) -> Result<(Connection, ConnAck), azure_mqtt::error::ConnectError> {
+    ) -> Result<(Connection, ConnAck), ms_mqtt_client::error::ConnectError> {
         let ch = self
             .connect_handle
             .take()
@@ -597,7 +596,7 @@ impl Session {
 
     /// Receive incoming PUBLISH packets and dispatch them to receivers.
     async fn receive(
-        mut receiver: azure_mqtt::client::Receiver,
+        mut receiver: ms_mqtt_client::client::Receiver,
         dispatcher: Arc<Mutex<IncomingPublishDispatcher>>,
     ) {
         while let Some((publish, manual_ack)) = receiver.recv().await {
@@ -610,13 +609,13 @@ impl Session {
             {
                 // If there are no valid dispatch targets, the publish was auto-acked.
                 match publish.qos {
-                    azure_mqtt::packet::DeliveryQoS::AtMostOnce => {
+                    ms_mqtt_client::packet::DeliveryQoS::AtMostOnce => {
                         log::warn!(
                             "No matching receivers for PUBLISH received at QoS 0. Discarding."
                         );
                     }
-                    azure_mqtt::packet::DeliveryQoS::AtLeastOnce(delivery_info)
-                    | azure_mqtt::packet::DeliveryQoS::ExactlyOnce(delivery_info) => {
+                    ms_mqtt_client::packet::DeliveryQoS::AtLeastOnce(delivery_info)
+                    | ms_mqtt_client::packet::DeliveryQoS::ExactlyOnce(delivery_info) => {
                         log::warn!(
                             "No matching receivers for PUBLISH with PKID {}. Auto-acked PUBLISH.",
                             delivery_info.packet_identifier
@@ -631,7 +630,7 @@ impl Session {
     /// This function runs indefinitely and must be cancelled upon MQTT client disconnect.
     async fn reauth_monitor(
         enhanced_auth_policy: Arc<dyn EnhancedAuthPolicy>,
-        reauth_handle: azure_mqtt::client::ReauthHandle,
+        reauth_handle: ms_mqtt_client::client::ReauthHandle,
     ) {
         loop {
             log::debug!("Waiting for reauthentication notification from EnhancedAuthPolicy...");
@@ -704,7 +703,7 @@ impl Session {
 #[derive(Clone)]
 pub struct SessionExitHandle {
     /// The disconnector used to issue disconnect requests
-    disconnect_handle: Weak<Mutex<Option<azure_mqtt::client::DisconnectHandle>>>,
+    disconnect_handle: Weak<Mutex<Option<ms_mqtt_client::client::DisconnectHandle>>>,
     /// Notifier for force exit
     force_exit: Arc<Notify>,
 }

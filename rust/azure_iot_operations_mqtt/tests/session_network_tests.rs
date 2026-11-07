@@ -18,7 +18,7 @@ fn setup_test(client_id: &str) -> Result<Session, ()> {
     let _ = env_logger::Builder::new()
         .filter_level(log::LevelFilter::max())
         .format_timestamp(None)
-        .filter_module("azure_mqtt", log::LevelFilter::Warn)
+        .filter_module("ms_mqtt_client", log::LevelFilter::Warn)
         .filter_module("azure_iot_operations", log::LevelFilter::Warn)
         .try_init();
     if env::var("ENABLE_NETWORK_TESTS").is_err() {

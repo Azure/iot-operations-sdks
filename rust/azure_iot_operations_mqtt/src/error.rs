@@ -3,7 +3,7 @@
 
 //! Common error types
 
-pub use crate::azure_mqtt::{
+pub use ms_mqtt_client::{
     error::{CompletionError, ConnectError, DetachedError, OperationFailure, ProtocolError},
     topic::TopicError,
 };
