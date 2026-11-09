@@ -49,7 +49,7 @@ jobs:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
 
       - name: Setup Rust (pinned via rust-toolchain.toml)
-        uses: actions-rust-lang/setup-rust-toolchain@ecabd13d1c56bd1345c230e542e9144811ad706f # v2
+        uses: actions-rust-lang/setup-rust-toolchain@a188e68d0fd2bd36ad51dccb2b07ba6e75105f30 # v2
         with:
           rust-src-dir: rust
           # Disable this action's built-in cache; `Swatinem/rust-cache`
@@ -63,7 +63,7 @@ jobs:
           build-warnings: ''
 
       - name: Setup .NET (for codegen drift check)
-        uses: actions/setup-dotnet@a98b56852c35b8e3190ac28c8c2271da59106c68 # v6
+        uses: actions/setup-dotnet@0f4a354dd5547a28c70b7853dbd95d5b67886e73 # v6
         with:
           dotnet-version: 9.x
 
@@ -81,7 +81,7 @@ jobs:
       # makes this step a no-op. Running it before the cache restore would
       # risk the restore clobbering the just-installed binary.
       - name: Install cargo tooling
-        uses: taiki-e/install-action@5488ac5a951645ce95062214902ac4b6bc1a1037 # v2
+        uses: taiki-e/install-action@b80e2bb2635f28eb98b9fce1e2f0887e1535c6b2 # v2
         with:
           tool: cargo-machete,cargo-hack
 
@@ -189,7 +189,7 @@ jobs:
 
       # See `check` job above for why this step lives after the cache.
       - name: Install cargo tooling
-        uses: taiki-e/install-action@5488ac5a951645ce95062214902ac4b6bc1a1037 # v2
+        uses: taiki-e/install-action@b80e2bb2635f28eb98b9fce1e2f0887e1535c6b2 # v2
         with:
           tool: cargo-llvm-cov
 
