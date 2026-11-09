@@ -145,7 +145,6 @@ impl SessionManagedClient {
         properties: SubscribeProperties,
     ) -> Result<SubscribeCompletionToken, DetachedError> {
         // TODO: Resolve the ms-mqtt-client 0.1.0 panic for QoS::ExactlyOnce subscriptions
-        // without losing request acceptance supported by the vendored client.
         self.client
             .subscribe(topic_filter, max_qos, no_local, retain_options, properties)
             .await
