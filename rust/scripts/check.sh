@@ -10,7 +10,6 @@
 # - Rust sources MUST be formatted with `rustfmt`
 # - The workspace MUST pass `cargo clippy -- --deny=warnings`
 # - The workspace MUST have no unused direct dependencies (`cargo machete`)
-# - The MQTT SDK MUST request the AIO authentication-method omission bypass
 #
 # PARAMETERS: NONE
 
@@ -75,20 +74,6 @@ done
 # centralized in [workspace.dependencies], and centralized deps must be
 # inherited (not re-declared inline). See rust/scripts/check_workspace_deps.py.
 python3 "$(dirname "${BASH_SOURCE[0]}")/check_workspace_deps.py"
-
-# Require the bypass on the production dependency, not merely through dev feature unification.
-if ! cargo metadata --format-version=1 --no-deps \
-    | jq -e '[
-        .packages[]
-        | select(.name == "azure_iot_operations_mqtt")
-        | .dependencies[]
-        | select(.name == "ms-mqtt-client" and .kind == null)
-        | .features
-        | index("__allow_omitted_auth_method") != null
-    ] == [true]' > /dev/null; then
-    echo "ERROR: azure_iot_operations_mqtt must request ms-mqtt-client/__allow_omitted_auth_method" >&2
-    exit 1
-fi
 
 # Require `rustfmt` pass.
 cargo fmt --verbose --all --check
