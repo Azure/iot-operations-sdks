@@ -66,10 +66,10 @@ use tokio::sync::Notify;
 use crate::aio::{
     AIOBrokerFeatures, AIOBrokerFeaturesBuilder, connection_settings::MqttConnectionSettings,
 };
-use crate::azure_mqtt_adapter as adapter;
-use crate::azure_mqtt_adapter::AzureMqttConnectParameters;
 use crate::control_packet::PacketIdentifier;
 use crate::error::DetachedError;
+use crate::ms_mqtt_client_adapter as adapter;
+use crate::ms_mqtt_client_adapter::MsMqttClientConnectParameters;
 pub use crate::session::managed_client::{SessionManagedClient, SessionPubReceiver};
 use crate::session::state::SessionState;
 use crate::session::{
@@ -241,7 +241,7 @@ pub struct Session {
     /// Underlying MQTT reauthorization handle
     reauth_handle: Option<ms_mqtt_client::client::ReauthHandle>,
     /// Parameters for establishing an MQTT connection using the `ms-mqtt-client` crate
-    connect_parameters: AzureMqttConnectParameters,
+    connect_parameters: MsMqttClientConnectParameters,
     /// Client ID of the underlying MQTT client
     client_id: String,
     /// Metric category of the underlying MQTT client when using AIO broker features
@@ -313,7 +313,7 @@ impl Session {
 
         let (client_options, connect_parameters) = options
             .connection_settings
-            .into_azure_mqtt_connect_parameters(
+            .into_ms_mqtt_client_connect_parameters(
                 user_properties,
                 options.max_packet_identifier,
                 options.publish_qos0_queue_size,

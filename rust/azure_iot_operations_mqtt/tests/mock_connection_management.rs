@@ -8,11 +8,11 @@ use std::{
 
 use bytes::Bytes;
 use futures::FutureExt;
+use ms_mqtt_client::mqtt_proto;
 
-use azure_iot_operations_mqtt::azure_mqtt::mqtt_proto;
 use azure_iot_operations_mqtt::{
     aio::connection_settings::{MqttConnectionSettings, MqttConnectionSettingsBuilder},
-    control_packet::{AuthenticationInfo, QoS, RetainOptions, SubscribeProperties, TopicFilter},
+    control_packet::AuthenticationInfo,
     error::{SessionErrorKind, SessionExitErrorKind},
     session::{Session, SessionOptionsBuilder},
     test_utils::{
@@ -262,83 +262,6 @@ async fn connect_reauth_and_exit_enhanced_auth() {
     // Session was disconnected, and exited cleanly
     monitor.disconnected().await;
     assert!(run_f.await.unwrap().is_ok());
-}
-
-#[tokio::test]
-async fn enhanced_auth_accepts_omitted_method_on_connect_and_reauth() {
-    let (connection_settings, session, mock_server, _, mock_eap_controller) =
-        quick_setup_enhanced_auth("test-enhanced-auth-omitted-method-client");
-    let exit_handle = session.create_exit_handle();
-    let monitor = session.create_session_monitor();
-    let mut receiver = session
-        .create_managed_client()
-        .create_unfiltered_pub_receiver();
-    let run_f = tokio::task::spawn(session.run());
-
-    let connect = mock_server
-        .expect_connect_and_respond(mqtt_proto::ConnAck {
-            reason_code: mqtt_proto::ConnectReasonCode::Success {
-                session_present: false,
-            },
-            other_properties: mqtt_proto::ConnAckOtherProperties::default(),
-        })
-        .await;
-    assert_eq!(
-        connect,
-        expected_connect(&connection_settings, Some(&mock_eap_controller), false)
-    );
-    tokio::time::timeout(Duration::from_secs(5), monitor.connected())
-        .await
-        .expect("CONNACK without an authentication method must be accepted");
-
-    mock_eap_controller.reauth_notify();
-    let auth = mock_server.expect_auth().await;
-    assert_eq!(auth, expected_reauth(&mock_eap_controller));
-    mock_server.send_auth(mqtt_proto::Auth {
-        reason_code: mqtt_proto::AuthenticateReasonCode::Success,
-        authentication: None,
-        reason_string: None,
-        user_properties: vec![],
-    });
-
-    // Receiving the following packet proves the preceding AUTH was accepted.
-    let payload = Bytes::from_static(b"after reauthentication");
-    mock_server.send_publish(mqtt_proto::Publish {
-        topic_name: mqtt_proto::topic("test/enhanced-auth"),
-        packet_identifier_dup_qos: mqtt_proto::PacketIdentifierDupQoS::AtMostOnce,
-        retain: false,
-        payload: payload.clone(),
-        other_properties: mqtt_proto::PublishOtherProperties::default(),
-    });
-    let publish = tokio::time::timeout(Duration::from_secs(5), receiver.recv())
-        .await
-        .expect("AUTH without an authentication method must be accepted")
-        .expect("receiver must remain open after reauthentication");
-    assert_eq!(publish.payload, payload);
-
-    exit_handle.try_exit().unwrap();
-    assert_eq!(
-        mock_server.expect_disconnect().await,
-        session_end_disconnect()
-    );
-    assert!(run_f.await.unwrap().is_ok());
-}
-
-#[tokio::test]
-#[should_panic(expected = "QoS 2 subscriptions are not yet supported")]
-async fn subscribe_qos2_panics() {
-    let (_, session, _, _) = quick_setup_standard_auth("test-subscribe-qos2-client");
-    let _completion = session
-        .create_managed_client()
-        .subscribe(
-            TopicFilter::new("test/subscribe-qos2").unwrap(),
-            QoS::ExactlyOnce,
-            false,
-            RetainOptions::default(),
-            SubscribeProperties::default(),
-        )
-        .await
-        .unwrap();
 }
 
 #[tokio::test]

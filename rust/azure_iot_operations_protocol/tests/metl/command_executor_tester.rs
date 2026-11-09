@@ -6,7 +6,6 @@ use std::convert::TryFrom;
 use std::sync::{Arc, Mutex};
 
 use async_std::future;
-use azure_iot_operations_mqtt::azure_mqtt;
 use azure_iot_operations_mqtt::session::{SessionManagedClient, SessionMonitor};
 use azure_iot_operations_protocol::application::ApplicationContextBuilder;
 use azure_iot_operations_protocol::common::aio_protocol_error::{
@@ -101,8 +100,10 @@ impl CommandExecutorTester {
         let test_case_serializer = &test_case.prologue.executors[0].serializer;
 
         let mut source_ids: HashMap<i32, Uuid> = HashMap::new();
-        let mut correlation_ids: HashMap<i32, Option<azure_mqtt::mqtt_proto::BinaryData<Bytes>>> =
-            HashMap::new();
+        let mut correlation_ids: HashMap<
+            i32,
+            Option<ms_mqtt_client::mqtt_proto::BinaryData<Bytes>>,
+        > = HashMap::new();
         let mut packet_ids: HashMap<i32, u16> = HashMap::new();
 
         for test_case_action in &test_case.actions {
@@ -387,7 +388,7 @@ impl CommandExecutorTester {
         action: &TestCaseAction<ExecutorDefaults>,
         mqtt_hub: &mut MqttHub,
         source_ids: &mut HashMap<i32, Uuid>,
-        correlation_ids: &mut HashMap<i32, Option<azure_mqtt::mqtt_proto::BinaryData<Bytes>>>,
+        correlation_ids: &mut HashMap<i32, Option<ms_mqtt_client::mqtt_proto::BinaryData<Bytes>>>,
         packet_ids: &mut HashMap<i32, u16>,
         tcs: &TestCaseSerializer<ExecutorDefaults>,
     ) {
@@ -408,8 +409,8 @@ impl CommandExecutorTester {
         } = action
         {
             let mut user_properties: Vec<(
-                azure_mqtt::packet::ByteStr<Bytes>,
-                azure_mqtt::packet::ByteStr<Bytes>,
+                ms_mqtt_client::packet::ByteStr<Bytes>,
+                ms_mqtt_client::packet::ByteStr<Bytes>,
             )> = metadata
                 .iter()
                 .map(|(k, v)| (k.as_str().into(), v.as_str().into()))
@@ -482,25 +483,27 @@ impl CommandExecutorTester {
             })
             .unwrap();
 
-            let properties = azure_mqtt::mqtt_proto::PublishOtherProperties {
+            let properties = ms_mqtt_client::mqtt_proto::PublishOtherProperties {
                 payload_is_utf8: to_is_utf8(format_indicator.as_ref()),
                 message_expiry_interval,
                 response_topic: response_topic
                     .clone()
-                    .map(|rt| azure_mqtt::mqtt_proto::Topic::new(rt).unwrap().into()),
+                    .map(|rt| ms_mqtt_client::mqtt_proto::Topic::new(rt).unwrap().into()),
                 correlation_data,
                 user_properties,
                 content_type: content_type.as_ref().map(|ct| ct.as_str().into()),
                 ..Default::default()
             };
 
-            let publish = azure_mqtt::mqtt_proto::Publish {
+            let publish = ms_mqtt_client::mqtt_proto::Publish {
                 packet_identifier_dup_qos: new_packet_identifier_dup_qos(
                     qos::to_enum(*qos),
                     false,
                     packet_id,
                 ),
-                topic_name: azure_mqtt::mqtt_proto::Topic::new(topic).unwrap().into(),
+                topic_name: ms_mqtt_client::mqtt_proto::Topic::new(topic)
+                    .unwrap()
+                    .into(),
                 payload: payload.into(),
                 other_properties: properties,
                 retain: false,
@@ -542,7 +545,7 @@ impl CommandExecutorTester {
     async fn await_publish(
         action: &TestCaseAction<ExecutorDefaults>,
         mqtt_hub: &mut MqttHub,
-        correlation_ids: &HashMap<i32, Option<azure_mqtt::mqtt_proto::BinaryData<Bytes>>>,
+        correlation_ids: &HashMap<i32, Option<ms_mqtt_client::mqtt_proto::BinaryData<Bytes>>>,
     ) {
         if let TestCaseAction::AwaitPublish {
             defaults_type: _,
@@ -611,7 +614,7 @@ impl CommandExecutorTester {
     fn check_published_message(
         expected_message: &TestCasePublishedMessage,
         mqtt_hub: &MqttHub,
-        correlation_ids: &HashMap<i32, Option<azure_mqtt::mqtt_proto::BinaryData<Bytes>>>,
+        correlation_ids: &HashMap<i32, Option<ms_mqtt_client::mqtt_proto::BinaryData<Bytes>>>,
     ) {
         let published_message =
             if let Some(correlation_index) = expected_message.correlation_index {

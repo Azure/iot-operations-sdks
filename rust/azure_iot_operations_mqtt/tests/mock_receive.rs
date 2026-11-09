@@ -3,9 +3,9 @@
 
 #![allow(clippy::similar_names)]
 
-use azure_iot_operations_mqtt::azure_mqtt::mqtt_proto;
 use bytes::Bytes;
 use futures::FutureExt;
+use ms_mqtt_client::mqtt_proto;
 use tokio_test::{assert_pending, assert_ready};
 
 use azure_iot_operations_mqtt::{

@@ -14,9 +14,7 @@ publish = true
 
 [features]
 default = [ ]
-# Preserve the former optional-dependency feature name.
-async-tungstenite = ["ms-mqtt-client/websockets"]
-test-utils = ["tempfile", "async-tungstenite", "ms-mqtt-client/__integration"]
+test-utils = ["tempfile", "ms-mqtt-client/__integration"]
 
 [dependencies]
 anyhow = "1.0.86"
@@ -28,7 +26,7 @@ derive-getters.workspace = true
 fluent-uri = "0.3.2"
 futures.workspace = true
 log.workspace = true
-ms-mqtt-client = { version = "=0.1.0", features = ["__allow_omitted_auth_method"] }
+ms-mqtt-client = { workspace = true, features = ["__allow_omitted_auth_method"] }
 notify.workspace = true
 notify-debouncer-full.workspace = true
 openssl = "0.10"

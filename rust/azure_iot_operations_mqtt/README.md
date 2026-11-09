@@ -9,19 +9,6 @@ MQTT version 5.0 client library providing flexibility for decoupled asynchronous
 * Automatic reconnect and connection management (with customizable policy)
 * Enables you to create decoupled components without the need for considering connection state.
 
-## MQTT Implementation
-
-The low-level MQTT implementation is provided by
-[ms-mqtt-client 0.1.0](https://crates.io/crates/ms-mqtt-client/0.1.0). The SDK adds managed
-sessions and retains its existing control-packet, error, and completion-token re-exports.
-It enables the authentication-method omission bypass required for AIO MQ versions before 1.6.2.
-
-QoS 0 and QoS 1 are supported. QoS 2 subscription requests currently panic in the underlying
-client; this limitation is tracked by a TODO in the SDK's subscription implementation.
-
-The `test-utils` feature retains the `azure_mqtt` alias for integration-test compatibility.
-Low-level protocol internals exposed through that alias are not part of the stable SDK API.
-
 ## Simple Send and Receive
 The Azure IoT Operations MQTT crate is intended for use with the Azure IoT Operations MQ broker, but is compatible with any MQTTv5 broker, local or remote.
 

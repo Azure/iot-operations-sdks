@@ -14,7 +14,7 @@ pub mod error;
 pub mod session;
 pub mod token;
 
-mod azure_mqtt_adapter;
+mod ms_mqtt_client_adapter;
 
 // These modules are currently unused, but will be in the future.
 #[allow(dead_code, clippy::type_complexity)]
@@ -24,12 +24,6 @@ mod opensslext;
 
 #[cfg(feature = "test-utils")]
 pub mod test_utils;
-
-/// Low-level client re-export retained for integration-test compatibility.
-///
-/// The protocol internals exposed by this alias are not part of the stable SDK API.
-#[cfg(feature = "test-utils")]
-pub use ms_mqtt_client as azure_mqtt;
 
 #[macro_use]
 extern crate derive_builder;

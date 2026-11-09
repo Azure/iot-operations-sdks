@@ -181,7 +181,7 @@ fn create_connection_transport_config(
 }
 
 /// Parameters for establishing an MQTT connection using the `ms-mqtt-client` crate
-pub struct AzureMqttConnectParameters {
+pub struct MsMqttClientConnectParameters {
     /// Initial clean start flag, use ONLY during the initial connection
     pub initial_clean_start: bool,
     /// Keep alive duration
@@ -211,7 +211,7 @@ pub struct AzureMqttConnectParameters {
     pub injected_packet_channels: Option<InjectedPacketChannels>,
 }
 
-impl AzureMqttConnectParameters {
+impl MsMqttClientConnectParameters {
     /// Create a new `ConnectionTransportConfig` from stored parameters
     ///
     /// # Errors
@@ -255,7 +255,7 @@ impl AzureMqttConnectParameters {
 }
 
 impl MqttConnectionSettings {
-    /// Convert to Azure MQTT connect parameters
+    /// Convert to ms-mqtt-client connect parameters
     ///
     /// # Parameters
     /// - `user_properties`: User properties to include in the connect properties
@@ -263,14 +263,15 @@ impl MqttConnectionSettings {
     ///
     /// # Errors
     /// Returns [`ConnectionSettingsAdapterError`] if any conversion fails
-    pub(crate) fn into_azure_mqtt_connect_parameters(
+    pub(crate) fn into_ms_mqtt_client_connect_parameters(
         self,
         user_properties: Vec<(String, String)>,
         max_packet_identifier: ms_mqtt_client::packet::PacketIdentifier,
         publish_qos0_queue_size: usize,
         publish_qos1_qos2_queue_size: usize,
         #[cfg(feature = "test-utils")] injected_packet_channels: Option<InjectedPacketChannels>,
-    ) -> Result<(ClientOptions, AzureMqttConnectParameters), ConnectionSettingsAdapterError> {
+    ) -> Result<(ClientOptions, MsMqttClientConnectParameters), ConnectionSettingsAdapterError>
+    {
         let client_options = ClientOptions {
             client_id: Some(self.client_id),
             max_packet_identifier,
@@ -334,7 +335,7 @@ impl MqttConnectionSettings {
 
         Ok((
             client_options,
-            AzureMqttConnectParameters {
+            MsMqttClientConnectParameters {
                 initial_clean_start: self.clean_start,
                 keep_alive,
                 will: None,
@@ -432,14 +433,13 @@ fn tls_config(
 
 #[cfg(test)]
 mod tests {
-    use ms_mqtt_client as azure_mqtt;
     use std::path::PathBuf;
     use std::time::Duration;
 
     use crate::aio::connection_settings::MqttConnectionSettingsBuilder;
 
     #[test]
-    fn test_azure_mqtt_config_no_tls() {
+    fn test_ms_mqtt_client_config_no_tls() {
         let connection_settings = MqttConnectionSettingsBuilder::default()
             .client_id("test_client_id".to_string())
             .hostname("test_host".to_string())
@@ -447,9 +447,9 @@ mod tests {
             .build()
             .unwrap();
 
-        let result = connection_settings.into_azure_mqtt_connect_parameters(
+        let result = connection_settings.into_ms_mqtt_client_connect_parameters(
             vec![],
-            azure_mqtt::packet::PacketIdentifier::MAX,
+            ms_mqtt_client::packet::PacketIdentifier::MAX,
             100,
             100,
             None,
@@ -458,7 +458,7 @@ mod tests {
     }
 
     #[test]
-    fn test_azure_mqtt_config_with_username_password() {
+    fn test_ms_mqtt_client_config_with_username_password() {
         let connection_settings = MqttConnectionSettingsBuilder::default()
             .client_id("test_client_id".to_string())
             .hostname("test_host".to_string())
@@ -468,9 +468,9 @@ mod tests {
             .build()
             .unwrap();
 
-        let result = connection_settings.into_azure_mqtt_connect_parameters(
+        let result = connection_settings.into_ms_mqtt_client_connect_parameters(
             vec![],
-            azure_mqtt::packet::PacketIdentifier::MAX,
+            ms_mqtt_client::packet::PacketIdentifier::MAX,
             100,
             100,
             None,
@@ -479,7 +479,7 @@ mod tests {
     }
 
     #[test]
-    fn test_azure_mqtt_config_with_username_only() {
+    fn test_ms_mqtt_client_config_with_username_only() {
         let connection_settings = MqttConnectionSettingsBuilder::default()
             .client_id("test_client_id".to_string())
             .hostname("test_host".to_string())
@@ -488,9 +488,9 @@ mod tests {
             .build()
             .unwrap();
 
-        let result = connection_settings.into_azure_mqtt_connect_parameters(
+        let result = connection_settings.into_ms_mqtt_client_connect_parameters(
             vec![],
-            azure_mqtt::packet::PacketIdentifier::MAX,
+            ms_mqtt_client::packet::PacketIdentifier::MAX,
             100,
             100,
             None,
@@ -499,7 +499,7 @@ mod tests {
     }
 
     #[test]
-    fn test_azure_mqtt_config_with_password_file() {
+    fn test_ms_mqtt_client_config_with_password_file() {
         let mut password_file_path = PathBuf::from(env!("CARGO_MANIFEST_DIR"));
         password_file_path.push("../../eng/test/dummy_credentials/TestMqttPasswordFile.txt");
 
@@ -512,9 +512,9 @@ mod tests {
             .build()
             .unwrap();
 
-        let result = connection_settings.into_azure_mqtt_connect_parameters(
+        let result = connection_settings.into_ms_mqtt_client_connect_parameters(
             vec![],
-            azure_mqtt::packet::PacketIdentifier::MAX,
+            ms_mqtt_client::packet::PacketIdentifier::MAX,
             100,
             100,
             None,
@@ -523,7 +523,7 @@ mod tests {
     }
 
     #[test]
-    fn test_azure_mqtt_config_with_user_properties() {
+    fn test_ms_mqtt_client_config_with_user_properties() {
         let connection_settings = MqttConnectionSettingsBuilder::default()
             .client_id("test_client_id".to_string())
             .hostname("test_host".to_string())
@@ -536,9 +536,9 @@ mod tests {
             ("prop2".to_string(), "value2".to_string()),
         ];
 
-        let result = connection_settings.into_azure_mqtt_connect_parameters(
+        let result = connection_settings.into_ms_mqtt_client_connect_parameters(
             user_properties,
-            azure_mqtt::packet::PacketIdentifier::MAX,
+            ms_mqtt_client::packet::PacketIdentifier::MAX,
             100,
             100,
             None,
@@ -547,7 +547,7 @@ mod tests {
     }
 
     #[test]
-    fn test_azure_mqtt_config_with_custom_settings() {
+    fn test_ms_mqtt_client_config_with_custom_settings() {
         let connection_settings = MqttConnectionSettingsBuilder::default()
             .client_id("test_client_id".to_string())
             .hostname("test_host".to_string())
@@ -561,9 +561,9 @@ mod tests {
             .build()
             .unwrap();
 
-        let result = connection_settings.into_azure_mqtt_connect_parameters(
+        let result = connection_settings.into_ms_mqtt_client_connect_parameters(
             vec![],
-            azure_mqtt::packet::PacketIdentifier::new(500).unwrap(),
+            ms_mqtt_client::packet::PacketIdentifier::new(500).unwrap(),
             200,
             200,
             None,
@@ -572,7 +572,7 @@ mod tests {
     }
 
     #[test]
-    fn test_azure_mqtt_config_with_ca_file() {
+    fn test_ms_mqtt_client_config_with_ca_file() {
         let mut ca_file_path = PathBuf::from(env!("CARGO_MANIFEST_DIR"));
         ca_file_path.push("../../eng/test/dummy_credentials/TestCa.txt");
 
@@ -583,9 +583,9 @@ mod tests {
             .build()
             .unwrap();
 
-        let result = connection_settings.into_azure_mqtt_connect_parameters(
+        let result = connection_settings.into_ms_mqtt_client_connect_parameters(
             vec![],
-            azure_mqtt::packet::PacketIdentifier::MAX,
+            ms_mqtt_client::packet::PacketIdentifier::MAX,
             100,
             100,
             None,
@@ -594,7 +594,7 @@ mod tests {
     }
 
     #[test]
-    fn test_azure_mqtt_config_with_ca_file_plus_cert() {
+    fn test_ms_mqtt_client_config_with_ca_file_plus_cert() {
         let mut dir = PathBuf::from(env!("CARGO_MANIFEST_DIR"));
         dir.push("../../eng/test/dummy_credentials/");
         let ca_file = dir.join("TestCa.txt");
@@ -610,9 +610,9 @@ mod tests {
             .build()
             .unwrap();
 
-        let result = connection_settings.into_azure_mqtt_connect_parameters(
+        let result = connection_settings.into_ms_mqtt_client_connect_parameters(
             vec![],
-            azure_mqtt::packet::PacketIdentifier::MAX,
+            ms_mqtt_client::packet::PacketIdentifier::MAX,
             100,
             100,
             None,
@@ -621,7 +621,7 @@ mod tests {
     }
 
     #[test]
-    fn test_azure_mqtt_config_with_cert_only() {
+    fn test_ms_mqtt_client_config_with_cert_only() {
         let mut dir = PathBuf::from(env!("CARGO_MANIFEST_DIR"));
         dir.push("../../eng/test/dummy_credentials/");
         let cert_file = dir.join("TestCert1Pem.txt");
@@ -635,9 +635,9 @@ mod tests {
             .build()
             .unwrap();
 
-        let result = connection_settings.into_azure_mqtt_connect_parameters(
+        let result = connection_settings.into_ms_mqtt_client_connect_parameters(
             vec![],
-            azure_mqtt::packet::PacketIdentifier::MAX,
+            ms_mqtt_client::packet::PacketIdentifier::MAX,
             100,
             100,
             None,
@@ -646,7 +646,7 @@ mod tests {
     }
 
     #[test]
-    fn test_azure_mqtt_config_with_encrypted_key() {
+    fn test_ms_mqtt_client_config_with_encrypted_key() {
         let mut dir = PathBuf::from(env!("CARGO_MANIFEST_DIR"));
         dir.push("../../eng/test/dummy_credentials/");
         let ca_file = dir.join("TestCa.txt");
@@ -664,9 +664,9 @@ mod tests {
             .build()
             .unwrap();
 
-        let result = connection_settings.into_azure_mqtt_connect_parameters(
+        let result = connection_settings.into_ms_mqtt_client_connect_parameters(
             vec![],
-            azure_mqtt::packet::PacketIdentifier::MAX,
+            ms_mqtt_client::packet::PacketIdentifier::MAX,
             100,
             100,
             None,
@@ -675,7 +675,7 @@ mod tests {
     }
 
     #[test]
-    fn test_azure_mqtt_config_receive_packet_size_max_none() {
+    fn test_ms_mqtt_client_config_receive_packet_size_max_none() {
         let connection_settings = MqttConnectionSettingsBuilder::default()
             .client_id("test_client_id".to_string())
             .hostname("test_host".to_string())
@@ -684,9 +684,9 @@ mod tests {
             .build()
             .unwrap();
 
-        let result = connection_settings.into_azure_mqtt_connect_parameters(
+        let result = connection_settings.into_ms_mqtt_client_connect_parameters(
             vec![],
-            azure_mqtt::packet::PacketIdentifier::MAX,
+            ms_mqtt_client::packet::PacketIdentifier::MAX,
             100,
             100,
             None,
