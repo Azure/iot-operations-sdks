@@ -13,7 +13,8 @@ use std::sync::{
 };
 use std::task::{Context, Poll};
 
-use crate::azure_mqtt::{
+use futures::future::{FutureExt, Shared};
+use ms_mqtt_client::{
     client::{
         ManualAcknowledgement,
         token::completion::{CompletionError, PubAckCompletionToken},
@@ -21,7 +22,6 @@ use crate::azure_mqtt::{
     error::DetachedError,
     packet::PubAckProperties,
 };
-use futures::future::{FutureExt, Shared};
 use tokio::sync::{Notify, OnceCell};
 
 pub struct PlenaryAck {

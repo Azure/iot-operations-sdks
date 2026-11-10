@@ -6,7 +6,6 @@ use std::convert::TryFrom;
 use std::sync::{Arc, Mutex};
 
 use async_std::future;
-use azure_iot_operations_mqtt::azure_mqtt;
 use azure_iot_operations_mqtt::session::{SessionManagedClient, SessionMonitor};
 use azure_iot_operations_protocol::application::ApplicationContextBuilder;
 use azure_iot_operations_protocol::common::aio_protocol_error::{
@@ -337,8 +336,8 @@ impl TelemetryReceiverTester {
         } = action
         {
             let mut user_properties: Vec<(
-                azure_mqtt::packet::ByteStr<Bytes>,
-                azure_mqtt::packet::ByteStr<Bytes>,
+                ms_mqtt_client::packet::ByteStr<Bytes>,
+                ms_mqtt_client::packet::ByteStr<Bytes>,
             )> = metadata
                 .iter()
                 .map(|(k, v)| (k.as_str().into(), v.as_str().into()))
@@ -394,7 +393,7 @@ impl TelemetryReceiverTester {
             })
             .unwrap();
 
-            let properties = azure_mqtt::mqtt_proto::PublishOtherProperties {
+            let properties = ms_mqtt_client::mqtt_proto::PublishOtherProperties {
                 payload_is_utf8: to_is_utf8(format_indicator.as_ref()),
                 message_expiry_interval,
                 user_properties,
@@ -402,13 +401,15 @@ impl TelemetryReceiverTester {
                 ..Default::default()
             };
 
-            let publish = azure_mqtt::mqtt_proto::Publish::<Bytes> {
+            let publish = ms_mqtt_client::mqtt_proto::Publish::<Bytes> {
                 packet_identifier_dup_qos: new_packet_identifier_dup_qos(
                     qos::to_enum(*qos),
                     false,
                     packet_id,
                 ),
-                topic_name: azure_mqtt::mqtt_proto::Topic::new(topic).unwrap().into(),
+                topic_name: ms_mqtt_client::mqtt_proto::Topic::new(topic)
+                    .unwrap()
+                    .into(),
                 payload: payload.into(),
                 other_properties: properties,
                 retain: false,
