@@ -10,9 +10,9 @@ use std::path::{Path, PathBuf};
 use std::sync::{Arc, Mutex};
 use std::time::Duration;
 
-use crate::azure_mqtt::mqtt_proto;
 use bytes::Bytes;
 use futures::FutureExt;
+use ms_mqtt_client::mqtt_proto;
 use rand::Rng;
 use tempfile::TempDir;
 use tokio::sync::{

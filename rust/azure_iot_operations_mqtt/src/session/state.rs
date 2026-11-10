@@ -8,7 +8,7 @@ use std::sync::RwLock;
 
 use tokio::sync::Notify;
 
-use crate::azure_mqtt::packet::ConnAck;
+use ms_mqtt_client::packet::ConnAck;
 
 /// Information used to track the state of the Session.
 pub struct SessionState {

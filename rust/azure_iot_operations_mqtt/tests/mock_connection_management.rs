@@ -8,8 +8,8 @@ use std::{
 
 use bytes::Bytes;
 use futures::FutureExt;
+use ms_mqtt_client::mqtt_proto;
 
-use azure_iot_operations_mqtt::azure_mqtt::mqtt_proto;
 use azure_iot_operations_mqtt::{
     aio::connection_settings::{MqttConnectionSettings, MqttConnectionSettingsBuilder},
     control_packet::AuthenticationInfo,
