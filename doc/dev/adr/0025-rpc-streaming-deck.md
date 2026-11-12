@@ -99,6 +99,7 @@ are the part that costs us, because each is a private protocol we do not test.
 - Entries flow at **arbitrary times relative to each other** — only rule: the invoker starts with a request
 - Either side may **end its own stream gracefully** at any point, without a full final entry
 - If an executor crashes, another executor in the group (or the same one restarted) can **pick the request stream up**
+  (message routing only — the crashed handler's state is not recovered)
 
 <!--
 Highlight two: "without knowing the total count" kills any header-declared length,
@@ -537,8 +538,12 @@ what the scenario paper's AK7R6 comment asked for.
   side's stream state is gone and the peer falls back to its timeout
 - A queued message keeps only its **remaining** expiry — it may lapse before reconnection.
   That entry is lost; entries are self-contained, so this is tolerated
-- **Executor crash is survivable**: shared subscription hands the exchange to another executor, which
-  recovers from the correlation, the repeated stream metadata, and the remaining budget on each request
+- **Executor crash: routing survives, the work doesn't** — shared subscription hands the remaining
+  request messages to another executor, which recovers the exchange's context from the correlation, the
+  repeated stream metadata, and the remaining budget. Requests the crashed executor already acknowledged
+  are not redelivered (if that included `last`, the replacement gets nothing and the invoker times out), and
+  handler state or downstream sessions (e.g. OPC UA continuation points) are lost. A replacement knows
+  it is one (first request index > 0, or an empty request stream) and should fail if it can't continue
 - A replacement executor restarts response indexes at **0** — hence de-dup on index **and** HLC
   timestamp: a redelivery repeats both, a restart reuses an index with a **new** timestamp (its node ID
   differs, which also shows the app the producer changed)

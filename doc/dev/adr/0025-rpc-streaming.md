@@ -20,6 +20,7 @@ Users have expressed a desire to allow more than one request and/or more than on
  - The invoker and the executor MUST each be able to end their own stream gracefully at any time.
    - A side that does not know in advance whether an entry will be its last MUST still be able to end its stream afterward without sending another full entry.
  - If an executor crashes for any reason, the request stream MUST be able to be picked up by another executor in the group — or by the same executor after it restarts.
+   - This is routing of the request messages the crashed executor had not yet acknowledged; the crashed handler's state is not recovered (see [disconnection and recovery](#disconnection-and-recovery)).
 
 ## Non-requirements
 
@@ -294,7 +295,14 @@ Streaming inherits the [MQTT session client](../../reference/session-client.md)'
 
 An in-flight message survives at the broker only for its [message expiry](#message-level-timeout), which the broker **decrements by the time the message sat queued** — so a redelivered entry has less remaining expiry than when sent and may lapse before reconnection (that entry is then lost, which is tolerated since entries are self-contained). A message's remaining expiry therefore does **not** track the exchange-timeout countdown; the two are independent clocks.
 
-Because the command topic is a [shared subscription](#topics-and-routing), an executor crash does not strand the exchange — another executor in the group takes over, recovering mid-stream from the correlation, the repeated stream metadata, and each request's `timeout_length`. The **invoker has no equivalent**: its response topic is unique to it, so if the invoker's session is lost, in-flight responses cannot be re-routed and are **lost with no recovery** (there is no invoker-side load-balancing). This is an accepted limitation.
+Because the command topic is a [shared subscription](#topics-and-routing), an executor crash does not strand the exchange's routing — another executor in the group receives the exchange's remaining request-direction messages and recovers the exchange's context from the correlation, the repeated stream metadata, and each request's `timeout_length`. Takeover is at the **message** level only:
+
+- A replacement receives only the request messages the broker delivers to it after the crash. Entries the crashed executor had already **acknowledged** are not redelivered; with automatic acknowledgement that is every entry it received, even ones it hadn't finished processing. An entry it received but never acknowledged may reach the replacement once the crashed session ends, though MQTT only recommends this for shared subscriptions (MQTT 5 §4.8.2). If the crashed executor had already acknowledged the whole request stream, including `last`, the replacement receives nothing and the invoker reaches its [exchange timeout](#exchange-level-timeout).
+- Nothing of the crashed handler carries over: its partial results, its position in the work, or any session it held with a downstream system — for example an OPC UA session, on which browse and history-read continuation points depend.
+
+A handler can tell it is a replacement: its first request entry has an index above `0`, or its request stream ends with no entry at all (a request stream always has at least one). Takeover suits work that can be redone or continued from the remaining requests alone, such as writing each request entry to shared storage. Otherwise the replacement should end its response stream with a [`Failed` status](#stream-failure), and a consumer that needs a complete result should treat a producer restart (below) as a failure.
+
+The **invoker has no equivalent**: its response topic is unique to it, so if the invoker's session is lost, in-flight responses cannot be re-routed and are **lost with no recovery** (there is no invoker-side load-balancing). This is an accepted limitation.
 
 A replacement executor — or the same executor restarted without context — resumes the **response** stream from index 0 rather than continuing, since the executor keeps [no replay cache](#producing-and-consuming). Every entry already carries an HLC **timestamp** alongside its index, and the consumer de-dups on **both**: a genuine QoS 1 redelivery repeats the same index *and* timestamp, whereas a restarted producer reuses an index with a **new** timestamp, so its fresh entries are not mistaken for duplicates. Exposing the timestamp and index on each entry also lets the consumer detect that the producer changed or restarted mid-stream: the timestamp's node ID differs for a different producer.
 
