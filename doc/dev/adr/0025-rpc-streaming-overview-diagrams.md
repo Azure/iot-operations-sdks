@@ -170,16 +170,23 @@ stateDiagram-v2
     }
 
     BothClosed --> Completed: both streams closed
-    Active --> Canceled: Canceled status 499<br/>sent or received
+    Active --> Canceling: I send Canceled 499
+    Active --> Canceled: peer's Canceled 499<br/>received and answered
+    Canceling --> Canceled: peer's answer arrives,<br/>or exchange budget elapsed
     Active --> TimedOut: exchange budget elapsed
-    Active --> Failed: protocol violation<br/>or local fault
+    Active --> Failed: protocol violation,<br/>stream failure, or local fault
+
+    note right of Canceling
+        Not terminal: stops producing,
+        still delivers in-flight entries.
+    end note
 
     Completed --> Tombstone
     Canceled --> Tombstone
     TimedOut --> Tombstone
     Failed --> Tombstone
 
-    Tombstone --> [*]: retained past the longest<br/>message expiry, then dropped
+    Tombstone --> [*]: retained about twice<br/>the exchange timeout, then dropped
 
     note right of Tombstone
         Late or duplicate packets stay routable:
@@ -191,13 +198,13 @@ stateDiagram-v2
 | Terminal | Trigger | Reaches the peer as |
 | --- | --- | --- |
 | `Completed` | Both producers sent `last`. | Its own `last` messages. |
-| `Canceled` | Either side sent or received a `Canceled` (`499`) status. | The same `Canceled` message — it both initiates and confirms. |
+| `Canceled` | The peer's `Canceled` (`499`) status arrived. The receiver answers it and ends at once; the sender waits in `Canceling`, still delivering in-flight entries, until that answer arrives or its budget elapses. | The same `Canceled` message — it both initiates and confirms. |
 | `TimedOut` | This side's exchange budget elapsed before completion. | Nothing. Timeout is purely local, and the peer times out independently. |
-| `Failed` | A correlation-matched message broke the wire contract, or the local side faulted. | A `4xx`/`5xx` status message, or — for a local fault, which has no status of its own — a best-effort cancellation. |
+| `Failed` | A producer's stream failed (an application error or an execution failure), a consumer's buffer overflowed, a consumer's strict completeness check failed, a correlation-matched message broke the wire contract, or the local side faulted. | A `Failed` (`500`) status — carrying ADR 21's `AppErrCode` for an application error — an `Overflow` (`429`) status about the entry that did not fit, an `Incomplete` (`412`) status about the message that failed the check, or, for a protocol violation, a `400`/`505` status about the offending message. |
 
 ## 3. Protocol workflow
 
-One trace, from establishment through full duplex, then branching into each of the four ways an
+One trace, from establishment through full duplex, then branching into each of the seven ways an
 exchange can end. `T` is the invoker's remaining exchange budget and `P` its client id.
 
 ```mermaid
@@ -233,7 +240,7 @@ sequenceDiagram
     Note over IS,ES: Consumers de-dup on correlationId + index + timestamp<br/>QoS 1 may redeliver
     end
 
-    Note over IA,EA: C. The exchange ends in exactly one of four ways
+    Note over IA,EA: C. The exchange ends in exactly one of seven ways
 
     alt Graceful - each producer closes its own stream
         IA->>IS: end request stream
@@ -248,11 +255,39 @@ sequenceDiagram
     else Cancellation - either side, at any time
         EA->>ES: cancel - the invoker may cancel instead, it is symmetric
         ES->>B: Canceled<br/>__stream=s:0, __stat=499
+        Note over ES: Canceling - stops producing,<br/>still delivers in-flight requests
         B->>IS: Canceled
         IS-->>IA: exchange Canceled
         IS->>B: Canceled<br/>__stream=s:0:T, __stat=499, $partition=P
         B->>ES: Canceled
+        Note over ES: The answer - Canceled, no reply
         Note over IS,ES: The same message both initiates and confirms,<br/>so a received Canceled always means the exchange is over
+    else Failure - a producer fails its own stream
+        EA-->>ES: raise application error, or the handler throws
+        ES->>B: Failed<br/>__stream=s:0, __stat=500, AppErrCode if an application error
+        B->>IS: Failed
+        IS-->>IA: response stream ends with the error - exchange Failed
+        Note over IS,ES: Entries sent before it were delivered first,<br/>and Failed is not answered
+    else Overflow - a consumer's buffer is full
+        ES->>B: response[n]<br/>__stream=d:n
+        B->>IS: response[n]
+        Note over IS: Buffer already holds its limit,<br/>the app is not keeping up
+        IS->>B: Overflow about response[n]<br/>__stream=s:n:T, __stat=429, $partition=P
+        IS-->>IA: buffered responses, then the overflow error - exchange Failed
+        B->>ES: Overflow
+        ES->>EA: exchange ended - peer overflow
+        Note over IS,ES: Producers are paced only by the broker accepting each message,<br/>so a slow consumer ends the exchange instead of buffering without bound
+    else Incomplete - strict completeness detects a lost entry
+        ES->>B: response[3]<br/>__stream=d:3
+        Note over B: response[3] expires at the broker
+        ES->>B: response[4]<br/>__stream=d:4
+        B->>IS: response[4]
+        Note over IS: Strict completeness on - expected index 3
+        IS->>B: Incomplete about response[4]<br/>__stream=s:4:T, __stat=412, $partition=P
+        IS-->>IA: responses 0-2, then the incomplete-stream error - exchange Failed
+        B->>ES: Incomplete
+        ES->>EA: exchange ended - peer reports an incomplete stream
+        Note over IS,ES: Off by default - without it the consumer would get 0-2 and 4<br/>and could only notice the gap from the indexes
     else Timeout - the exchange budget elapses
         Note over ES,EA: Executor stalls or crashes
         Note over IS: Budget T elapses before both streams close
@@ -274,12 +309,13 @@ Reading notes for section **A**: the invocation returns as soon as the mandatory
 published — not when the request stream ends. Otherwise a full-duplex application deadlocks, because
 request *n+1* may depend on response *n*, which the app cannot read until the call returns.
 
-Reading notes for section **C**: only *cancellation* and *protocol violation* put anything on the wire
-to end the exchange. Graceful completion is just both `last` messages having arrived, and timeout is
-never announced at all. A **protocol violation** means a correlation-matched message broke the wire
-contract — an undeserializable payload, a malformed `__stream`, an incompatible protocol version, a
-QoS 0 publish, or a sequencing break such as data after `last`. **Application** errors are out of
-scope: an app that wants to report one sends it as an ordinary data entry.
+Reading notes for section **C**: only *cancellation*, *failure*, *overflow*, *incomplete* and *protocol violation* put
+anything on the wire to end the exchange. Graceful completion is just both `last` messages having arrived, and timeout
+is never announced at all. A **failure** is a producer ending its own stream with an error — an application
+error with a code (ADR 21's `AppErrCode`), or an execution failure such as a throwing handler. A **protocol
+violation** means a correlation-matched message broke the wire contract — an undeserializable payload, a
+malformed `__stream`, an incompatible protocol version, a QoS 0 publish, or a sequencing break such as data
+after `last`. An error about one item that doesn't end the stream stays an ordinary data entry.
 
 ## Where to go next
 
