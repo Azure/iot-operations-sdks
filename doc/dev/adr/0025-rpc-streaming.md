@@ -9,6 +9,7 @@ Users have expressed a desire to allow more than one request and/or more than on
  - A single command invocation MUST support an arbitrary number of command requests and responses.
    - A producer MUST be able to send its first request or response without knowing the total number of entries in advance.
    - A stream MAY contain exactly one entry.
+   - A request stream MUST contain at least one entry, since the first request establishes the exchange. A response stream MAY contain none: an executor that has nothing to return — for example a history read over a range with no data — sends only `last` at index `0`, and the exchange completes normally with an empty result.
  - All entries in a given stream MUST be deserializable as the same type by the consumer; the payload shape MUST NOT change mid-stream.
  - When exposed to the user, each request and response MUST include the index of its position within the stream.
  - The protocol MUST support multiple independent streaming commands simultaneously.
@@ -140,7 +141,7 @@ A side **consumes** one stream and **produces** the other. The consuming and pro
 
 **Executor-only rules:**
 
-- A `last` at index `0` in the request stream is a [protocol violation](#error-handling) (a request stream must have at least one entry): the executor returns the error status and the exchange ends. A `last` at a higher index is not, even if this executor received none of the entries before it — they may have gone to an executor that crashed (see [disconnection and recovery](#disconnection-and-recovery)).
+- A `last` at index `0` in the request stream is a [protocol violation](#error-handling) (a request stream must have at least one entry): the executor returns the error status and the exchange ends. A `last` at a higher index is not, even if this executor received none of the entries before it — they may have gone to an executor that crashed (see [disconnection and recovery](#disconnection-and-recovery)). A response `last` at index `0` is valid: it is an empty response stream.
 - Unlike vanilla RPC, the executor keeps **no replay cache**: streams may grow without bound, so replaying a response stream isn't feasible.
 
 #### Flow control

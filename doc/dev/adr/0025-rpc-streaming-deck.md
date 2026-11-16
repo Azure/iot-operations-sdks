@@ -90,6 +90,8 @@ are the part that costs us, because each is a private protocol we do not test.
 ## Requirements (the MUSTs)
 
 - Arbitrary number of requests **and** responses per invocation; a stream may be exactly one entry
+- A request stream has **at least one** entry; a response stream may have **none** (just `last` at
+  index 0 — e.g. a history read over a range with no data)
 - Every entry in a stream has the **same payload type** — the shape never changes mid-stream
 - Producer may send its first entry **without knowing the total count**
 - Each surfaced entry carries its **index** in the stream
