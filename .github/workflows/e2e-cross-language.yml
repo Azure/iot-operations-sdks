@@ -97,9 +97,32 @@ jobs:
       #=======================================================================
       # Run a server
       #=======================================================================
+      # Wait until every command executor has subscribed, so clients do not
+      # publish before the server is listening (NoMatchingSubscribers).
       - name: Run .NET server
         if: matrix.server == 'dotnet-server'
-        run: dotnet run -c Release --project dotnet/samples/Protocol/RPC/CounterServer &
+        run: |
+          dotnet run -c Release --no-build --project dotnet/samples/Protocol/RPC/CounterServer > dotnet-server.log 2>&1 &
+          server_pid=$!
+          for _ in $(seq 1 60); do
+            if ! kill -0 "$server_pid" 2>/dev/null; then
+              cat dotnet-server.log
+              echo "::error::.NET counter server exited before it was ready"
+              exit 1
+            fi
+            ready=true
+            for command in readCounter increment reset; do
+              grep -q "Command executor for '$command' started." dotnet-server.log || ready=false
+            done
+            if [ "$ready" = true ]; then
+              cat dotnet-server.log
+              exit 0
+            fi
+            sleep 1
+          done
+          cat dotnet-server.log
+          echo "::error::.NET counter server was not ready within 60 seconds"
+          exit 1
         env:
           AIO_MQTT_CLIENT_ID: ${{ matrix.server }}
 
@@ -123,3 +146,7 @@ jobs:
         if: always()
         env:
           AIO_MQTT_CLIENT_ID: rust-client
+
+      - name: Print .NET server log
+        if: always() && matrix.server == 'dotnet-server'
+        run: cat dotnet-server.log || true
