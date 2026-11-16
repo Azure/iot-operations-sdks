@@ -521,8 +521,11 @@ terminal (no per-entry linkage), no __apErr, ADR 21 headers, payload modeling st
   finite default. Auto-ack happens on receipt into the buffer, **not** when the app takes the entry
 - **Overflow** — an entry arriving at a full buffer ends the exchange: `s:<index>` + `__stat=429`
   to the producer. Terminal, not answered; the consumer's app gets the buffered entries, then the error
-- **Consumer-set pace** — no credit signal; the invoker asks for the next batch on the request stream,
-  the executor answers with up to that many entries
+- **Consumer-set pace** — broker pacing doesn't slow a producer to the consumer: a fast producer and a
+  slow consumer end in `Overflow`. To avoid that, use **batch pull**: the invoker asks for the next
+  batch on the request stream, which stays open until the last batch; the executor answers with up to
+  that many entries. An integration picks single request (simple, can overflow) or batch pull (paced);
+  an SDK shortcut may run batch pull for the caller
 - The backlog between them waits at the broker, bounded by message expiry and the subscriber queue limit
 
 <!--

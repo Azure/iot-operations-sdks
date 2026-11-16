@@ -2,7 +2,7 @@
 
 A reading guide: for each item in the PM paper *Streaming Responses in the AIO SDK*, the sections of [ADR 25](./0025-rpc-streaming.md) that address it. **Partly** marks an item covered with a stated limit.
 
-All four scenarios are one request answered by a stream of responses; in ADR 25 terms, a request stream of one entry followed by `last`.
+All four scenarios are one request answered by a stream of responses; in ADR 25 terms, a request stream of one entry followed by `last`. When the consumer may be slower than the producer, the same scenarios use batch pull instead: the request stream stays open and each request entry asks for the next batch (see back-pressure below).
 
 ## Problem statement and desired SDK experience
 
@@ -29,7 +29,7 @@ All four scenarios are one request answered by a stream of responses; in ADR 25 
 | Ordering | [Producing](./0025-rpc-streaming.md#producing-and-consuming) | Responses use the invoker's own (non-shared) topic, so MQTT delivers them in publish order; a loss leaves a gap but never reorders |
 | Completion | [Completion](./0025-rpc-streaming.md#exchange-completion), [why `last`](./0025-rpc-streaming.md#last-message-being-its-own-message) | Standalone `last` control message; the consumer's sequence simply completes |
 | Error propagation | [Stream failure](./0025-rpc-streaming.md#stream-failure), [status codes](./0025-rpc-streaming.md#status-codes), [errors](./0025-rpc-streaming.md#reporting-errors-to-the-application) | `Failed` (`500`), with ADR 21 `AppErrCode` for an application error; the consumer's stream ends with the error after the earlier entries |
-| Back-pressure | [Flow control](./0025-rpc-streaming.md#flow-control) | The next entry is taken only after the broker accepted the previous one; a bounded consumer buffer ends the exchange with `Overflow` (`429`) when full; a consumer sets the pace via the request stream |
+| Back-pressure | [Flow control](./0025-rpc-streaming.md#flow-control) | The next entry is taken only after the broker accepted the previous one, which paces the producer to the broker, not to the consumer. A bounded consumer buffer ends the exchange with `Overflow` (`429`) when full. To pace the producer to the consumer, use batch pull: the request stream stays open and each request entry asks for the next batch |
 | Payload fidelity | [Producing](./0025-rpc-streaming.md#producing-and-consuming), [requirements](./0025-rpc-streaming.md#requirements) | Each entry is one MQTT message carrying one serialized item, so items arrive exactly as emitted, never merged or split |
 
 The .NET POC exercises these in [`StreamingPocTests`](../../../dotnet/test/Azure.Iot.Operations.Protocol.IntegrationTests/).
