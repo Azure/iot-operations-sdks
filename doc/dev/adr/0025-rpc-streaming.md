@@ -124,7 +124,7 @@ Because the command topic is a shared subscription, **every** command-topic pack
 
 #### Exchange lifetime
 
-Because closing one stream does not end the exchange (see [exchange completion](#exchange-completion)), each endpoint keeps its per-correlation state active until the exchange is terminal, so control still flows after a `last`. Once a side is terminal, further data messages for that correlation are acknowledged and ignored; only the required control re-answers (for example, re-sending `Canceled` for a re-issued cancellation) are sent. The per-correlation state is kept as a **tombstone** so late or duplicate packets remain routable and are not treated as a new stream; it is retained for about **twice the exchange timeout**. No message's expiry exceeds the exchange timeout (see [message level timeout](#message-level-timeout)), so this outlasts any packet that could still arrive, with margin for late delivery by the broker.
+Because closing one stream does not end the exchange (see [exchange completion](#exchange-completion)), each endpoint keeps its per-correlation state active until the exchange is terminal, so control still flows after a `last`. A side that is [canceling](#sending-a-cancellation) is not yet terminal. Once a side is terminal, further data messages for that correlation are acknowledged and ignored; only the required control re-answers (for example, re-sending `Canceled` for a re-issued cancellation) are sent. The per-correlation state is kept as a **tombstone** so late or duplicate packets remain routable and are not treated as a new stream; it is retained for about **twice the exchange timeout**. No message's expiry exceeds the exchange timeout (see [message level timeout](#message-level-timeout)), so this outlasts any packet that could still arrive, with margin for late delivery by the broker.
 
 #### Producing and consuming
 
@@ -202,20 +202,23 @@ Either side cancels by publishing a [`Canceled` status message](#streaming-user-
 - `__stream`: `s:0` — status form; the index is `0` and has no meaning, since cancellation is exchange-scoped rather than about a received entry (request-direction messages append the remaining timeout, `s:0:<timeout>`).
 - `__stat`: `499` (`Canceled`), plus an optional human-readable `__stMsg`.
 
-The sender publishes it on the topic it uses to reach the other party:
+The sender publishes it on the topic it uses to reach the other party: the **invoker** on the command topic (so its `__stream` also carries the remaining timeout), the **executor** on the invoker's response topic.
 
-- The **invoker** cancels on the command topic (so its `__stream` also carries the remaining timeout), then keeps listening on the response topic and delivering any in-flight responses to the application until a `Canceled` status arrives and closes the channel, or the whole exchange times out.
-- The **executor** cancels on the invoker's response topic, then keeps listening on the command topic and delivering any in-flight requests to the application until a `Canceled` status arrives and closes the channel, or the whole exchange times out.
+After sending `Canceled`, the sender is **canceling** — not yet terminal — until the peer answers:
 
-Cancellation is **idempotent**: the sender may issue `Canceled` more than once while the exchange is active.
+- It stops producing: no further entries and no `last`.
+- It keeps consuming: entries the peer sent before it saw the cancellation are still delivered to the application, and the peer's `last` still closes that stream.
+- It may re-issue `Canceled` — cancellation is **idempotent** — for example when an answer seems lost.
+- It becomes **canceled** (terminal) when the peer's `Canceled` arrives, which it does not answer. If no answer has arrived when the [exchange timeout](#exchange-level-timeout) fires, it becomes canceled then, without confirmation. A `Failed`, `Overflow`, or protocol-error status from the peer ends the exchange as it would for an active one.
 
 #### Receiving a cancellation
 
-Receiving a `Canceled` status means the peer has stopped and will send no further entries. Whether the receiver replies depends on its state:
+Receiving a `Canceled` status means the peer has stopped and will send no further entries. It travels on the same topic as the peer's entries and after them, so every entry the peer produced has already arrived. What the receiver does depends on its state:
 
-- **Still active** — notifies the application, replies with its own `Canceled` status (identical in form to the initiating one), stops production of the outbound stream, transitions to the canceled state.
-- **Already canceled** — re-sends `Canceled` so a later (re-issued) cancellation is answered.
-- **Other terminal states** — acknowledges the message and sends nothing.
+- **Active** — notifies the application, stops production of its outbound stream, replies with its own `Canceled` status (identical in form to the initiating one), and becomes canceled at once: nothing more can arrive from the peer, so there is nothing to drain.
+- **Canceling** — this is the answer to its own cancellation, or both sides canceled at once: it becomes canceled and does not reply.
+- **Canceled after answering a cancellation** — re-sends `Canceled`, so a re-issued cancellation whose answer was lost is answered again.
+- **Canceled after its own cancellation was answered, or any other terminal state** — acknowledges the message and sends nothing. Replying here would make the two sides answer each other indefinitely.
 
 ### Error handling
 
@@ -281,7 +284,7 @@ The SDK reports every terminal outcome through one error surface: the stream the
 An exchange terminates in exactly one of six ways:
 
 - **Graceful** — each producer closes its own stream with `last`; the exchange completes once both streams have closed (see [exchange completion](#exchange-completion)).
-- **Cancellation** — either side sends a `Canceled` (`499`) status and the exchange ends (see [cancellation support](#cancellation-support)).
+- **Cancellation** — either side sends a `Canceled` (`499`) status; the receiver ends the exchange at once and answers, and the sender ends it when the answer arrives or its exchange timeout fires (see [cancellation support](#cancellation-support)).
 - **Failure** — a producer ends its stream with a `Failed` (`500`) status and the exchange ends (see [stream failure](#stream-failure)).
 - **Timeout** — the [exchange timeout](#exchange-level-timeout) fires.
 - **Overflow** — a consumer's buffer is full when another entry arrives; it sends an `Overflow` (`429`) status and both sides end the exchange (see [flow control](#flow-control)).

@@ -170,9 +170,16 @@ stateDiagram-v2
     }
 
     BothClosed --> Completed: both streams closed
-    Active --> Canceled: Canceled status 499<br/>sent or received
+    Active --> Canceling: I send Canceled 499
+    Active --> Canceled: peer's Canceled 499<br/>received and answered
+    Canceling --> Canceled: peer's answer arrives,<br/>or exchange budget elapsed
     Active --> TimedOut: exchange budget elapsed
     Active --> Failed: protocol violation,<br/>stream failure, or local fault
+
+    note right of Canceling
+        Not terminal: stops producing,
+        still delivers in-flight entries.
+    end note
 
     Completed --> Tombstone
     Canceled --> Tombstone
@@ -191,7 +198,7 @@ stateDiagram-v2
 | Terminal | Trigger | Reaches the peer as |
 | --- | --- | --- |
 | `Completed` | Both producers sent `last`. | Its own `last` messages. |
-| `Canceled` | Either side sent or received a `Canceled` (`499`) status. | The same `Canceled` message — it both initiates and confirms. |
+| `Canceled` | The peer's `Canceled` (`499`) status arrived. The receiver answers it and ends at once; the sender waits in `Canceling`, still delivering in-flight entries, until that answer arrives or its budget elapses. | The same `Canceled` message — it both initiates and confirms. |
 | `TimedOut` | This side's exchange budget elapsed before completion. | Nothing. Timeout is purely local, and the peer times out independently. |
 | `Failed` | A producer's stream failed (an application error or an execution failure), a consumer's buffer overflowed, a correlation-matched message broke the wire contract, or the local side faulted. | A `Failed` (`500`) status — carrying ADR 21's `AppErrCode` for an application error — an `Overflow` (`429`) status about the entry that did not fit, or, for a protocol violation, a `400`/`505` status about the offending message. |
 
@@ -248,10 +255,12 @@ sequenceDiagram
     else Cancellation - either side, at any time
         EA->>ES: cancel - the invoker may cancel instead, it is symmetric
         ES->>B: Canceled<br/>__stream=s:0, __stat=499
+        Note over ES: Canceling - stops producing,<br/>still delivers in-flight requests
         B->>IS: Canceled
         IS-->>IA: exchange Canceled
         IS->>B: Canceled<br/>__stream=s:0:T, __stat=499, $partition=P
         B->>ES: Canceled
+        Note over ES: The answer - Canceled, no reply
         Note over IS,ES: The same message both initiates and confirms,<br/>so a received Canceled always means the exchange is over
     else Failure - a producer fails its own stream
         EA-->>ES: raise application error, or the handler throws

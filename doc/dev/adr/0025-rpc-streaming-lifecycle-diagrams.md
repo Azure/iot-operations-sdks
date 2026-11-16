@@ -29,7 +29,10 @@ stateDiagram-v2
     }
 
     BothClosed --> Completed
-    Active --> Canceled: Canceled status sent or received
+    Active --> Canceling: send Canceled
+    Active --> Canceled: receive Canceled, answer it
+    Canceling --> Canceled: receive peer's Canceled,<br/>or exchange timeout
+    Canceling --> Failed: Failed, Overflow, or<br/>protocol error status received
     Active --> TimedOut: exchange timeout
     Active --> Failed: local failure, Failed status received,<br/>or protocol violation
 
@@ -40,7 +43,9 @@ stateDiagram-v2
 ```
 
 A non-success terminal — `Canceled`, `TimedOut`, or `Failed` — ends the whole exchange from any active
-state, regardless of which streams are still open. A local failure sends a best-effort `Failed` (`500`) status toward the peer, which observes `Failed` or, if that is lost, its own timeout. Establishment is role-specific (the invoker sends
+state, regardless of which streams are still open. `Canceling` is the one non-terminal exit from
+`Active`: the side that sent `Canceled` stops producing but keeps delivering the peer's in-flight entries
+until the peer's `Canceled` answer arrives or its exchange timeout fires (see §5 and §6). A local failure sends a best-effort `Failed` (`500`) status toward the peer, which observes `Failed` or, if that is lost, its own timeout. Establishment is role-specific (the invoker sends
 `request[0]`; the executor receives it); see §2.
 
 ## 2. Invoker Establishment and Full Duplex
@@ -193,8 +198,11 @@ initiating cancel and its confirmation are the *same* message, so a received `Ca
 the exchange is over. The invoker's travels on the **command topic** and therefore keeps `$partition`
 and the remaining timeout (`s:0:T`); the executor's answer travels on the **response topic**. The
 status index is `0` and carries no meaning here, since cancellation is exchange-scoped rather than
-about a received entry. A lost answer is recovered by re-issuing the cancellation — it is idempotent —
-and re-answering from terminal tombstone state.
+about a received entry. The side that sends `Canceled` is **canceling** until the answer arrives: it stops
+producing but still delivers in-flight entries. The side that receives it becomes **canceled** at once and
+answers — the sender's entries all precede its `Canceled` on the same topic, so nothing is left to drain. A
+lost answer is recovered by re-issuing the cancellation — it is idempotent — and the answering side
+re-answers from its terminal tombstone. The answer itself is never answered, so the two sides can't loop.
 
 ```mermaid
 sequenceDiagram
@@ -210,10 +218,10 @@ sequenceDiagram
     ES->>EA: Deliver request[0]
     IA->>IS: Cancel
     IS->>B: Canceled<br/>__stream=s:0:T, __stat=499, command topic, $partition=P
-    Note over IS: Local exchange becomes Canceled<br/>in-flight responses still reach the app<br/>until the peer's Canceled arrives
+    Note over IS: Local exchange becomes Canceling<br/>stops producing, in-flight responses still reach the app<br/>until the peer's Canceled arrives
     B->>ES: Canceled
     ES->>EA: Stop callback
-    Note over ES: Local exchange becomes Canceled
+    Note over ES: Local exchange becomes Canceled<br/>nothing more can arrive from the invoker
     ES->>B: Canceled<br/>__stream=s:0, __stat=499, response topic
 
     alt Canceled is delivered
@@ -227,6 +235,7 @@ sequenceDiagram
         B->>IS: Canceled
     end
 
+    Note over IS: Answer received while Canceling<br/>becomes Canceled, no reply
     IS-->>IA: Exchange Canceled, cancel completes
     Note over IS,ES: Late data is acknowledged and ignored
 ```
@@ -254,7 +263,7 @@ sequenceDiagram
     Note over IS,ES: Response stream closed<br/>control still flows
     EA->>ES: Cancel
     ES->>B: Canceled<br/>__stream=s:0, __stat=499, response topic
-    Note over ES: Local exchange becomes Canceled<br/>in-flight requests still reach the app<br/>until the peer's Canceled arrives
+    Note over ES: Local exchange becomes Canceling<br/>stops producing, in-flight requests still reach the app<br/>until the peer's Canceled arrives
     B->>IS: Canceled
     IS->>IA: Signal cancellation
     Note over IS: Stop request production<br/>local exchange becomes Canceled
@@ -271,6 +280,7 @@ sequenceDiagram
         B->>ES: Canceled
     end
 
+    Note over ES: Answer received while Canceling<br/>becomes Canceled, no reply
     ES-->>EA: Exchange Canceled, cancel completes
 ```
 
@@ -357,14 +367,15 @@ crashed peer sends nothing, so its peer reaches its own timeout.
 This classifier assumes correlation lookup has found an active exchange or a retained
 terminal tombstone. Initial request validation is outside this diagram. Data is de-duplicated
 before any other rule, so a redelivery never counts as a sequencing break. A timeout is never
-received as a packet — it is a local event (see §4) — so it does not appear here.
+received as a packet — it is a local event (see §4) — so it does not appear here. A side that is
+`Canceling` is not terminal: it still delivers data and processes `last`.
 
 ```mermaid
 flowchart TD
     P["Incoming MQTT PUBLISH"] --> S{"__stream present?"}
     S -- "No" --> O["Route to another protocol handler"]
     S -- "Yes" --> T{"Exchange already terminal?"}
-    T -- "Yes" --> RC{"Canceled 499 received and<br/>state is Canceled?"}
+    T -- "Yes" --> RC{"Canceled 499 received and this side<br/>entered Canceled by answering one?"}
     RC -- "Yes" --> RA["Re-send Canceled"]
     RC -- "No" --> AI["Acknowledge and ignore"]
     T -- "No" --> TAG{"__stream tag"}
@@ -373,7 +384,9 @@ flowchart TD
     BC -- "Yes" --> CO["Enter Completed"]
     BC -- "No" --> AC["Remain active<br/>control still flows"]
     TAG -- "s status" --> ST{"__stat code"}
-    ST -- "Canceled 499" --> CAN["Notify application<br/>send Canceled, stop production<br/>enter Canceled"]
+    ST -- "Canceled 499" --> CS{"This side Canceling?"}
+    CS -- "No" --> CAN["Notify application<br/>send Canceled, stop production<br/>enter Canceled"]
+    CS -- "Yes" --> CC["The answer to our cancel<br/>enter Canceled, no reply"]
     ST -- "Failed 500" --> FA["Report the stream error to the app<br/>stop production, enter Failed"]
     ST -- "Overflow 429" --> OR["Report the peer's overflow to the app<br/>stop production, enter Failed"]
     ST -- "400 or 505" --> PE["Protocol error<br/>surface to app, end the exchange"]
@@ -382,6 +395,7 @@ flowchart TD
     BF -- "No" --> DE["Deliver data entry"]
     BF -- "Yes" --> OV["Send Overflow 429 about this entry<br/>report overflow to the app, enter Failed"]
     CAN --> TS["Retain terminal tombstone"]
+    CC --> TS
     FA --> TS
     OR --> TS
     OV --> TS
@@ -433,9 +447,9 @@ about received response 1), `s:0:T` with `__stat` `499` (cancel the exchange). *
 | Invoker establishment | Full-duplex return semantics and early-response buffering |
 | Normal exchange | Interleaving, independent stream-close, control lifetime after `last` |
 | Timeout | Overall exchange budget from each side's start, no reset, both sides terminate locally with no wire status, tombstones |
-| Invoker cancellation | `Canceled` status on the command topic with `$partition`, one message both initiates and confirms, re-issue |
+| Invoker cancellation | `Canceled` status on the command topic with `$partition`, one message both initiates and confirms, the sender drains in `Canceling`, re-issue |
 | Executor cancellation | Cancellation after stream-close, invoker's answering `Canceled` on the command topic |
 | Protocol error | Terminal status about a violating message, ends the exchange for both sides |
 | Stream failure | `Failed` (`500`) status for an application error (ADR 21 headers) or an execution failure; entries before it still delivered; not answered |
-| Packet classification | `__stream` tag routing, terminal precedence, late packets, bounded consumer buffer and `Overflow` (`429`) |
+| Packet classification | `__stream` tag routing, terminal precedence, late packets, `Canceling` answer vs. re-answer, bounded consumer buffer and `Overflow` (`429`) |
 | `__stream` anatomy | The three tagged value forms, shared data/control index counter, `last` as the only control word, status `__stat`, request-direction-only timeout |

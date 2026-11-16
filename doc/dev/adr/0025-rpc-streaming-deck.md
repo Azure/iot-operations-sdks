@@ -467,9 +467,12 @@ a customer actually needs an unbounded stream — flag it as an open discussion 
 - Sent as a status message: `__stream=s:0` (+ timeout on the request direction), `__stat=499`
 - **The initiating cancel and its confirmation are the same message** — so receiving `Canceled`
   always means the exchange is over, no matter who started it
-- Idempotent: re-issue freely; a terminal tombstone **re-answers** a repeated cancel
-- After sending, a side keeps delivering **in-flight** entries to its app until the peer's
-  `Canceled` arrives or the exchange times out
+- Idempotent: re-issue freely; the side that **answered** re-answers a repeated cancel from its
+  tombstone. The answer itself is never answered, so the two sides can't loop
+- The sender is **`Canceling`** (not terminal) until the answer arrives: it stops producing but keeps
+  delivering **in-flight** entries to its app; the exchange timeout ends it if no answer comes
+- The receiver answers and is **`Canceled`** at once — the sender's entries all precede its `Canceled`
+  on the same topic, so nothing is left to drain
 
 Invoker cancels on the command topic (with `$partition`); executor cancels on the response topic.
 
