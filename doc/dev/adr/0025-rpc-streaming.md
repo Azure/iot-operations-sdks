@@ -27,7 +27,7 @@ Users have expressed a desire to allow more than one request and/or more than on
 
  - Chunking a single large payload across multiple stream messages
    - Any stream message may be lost (message expiry or other circumstances). This pattern surfaces entries as they arrive and does not verify that a stream was received in full, so it does not by itself reassemble a split payload.
-   - This is a scope boundary, not an impossibility: because every entry carries its index, a layer above can detect a gap and fail the whole transfer with a distinct error so the application re-requests it. Chunking is specified separately in [ADR 34](./0034-large-message-chunking.md), following the options compared in [ADR 33](./0033-large-message-chunking-options.md).
+   - This is a scope boundary, not an impossibility: because every entry carries its index, the consumer can detect a gap and fail the whole transfer so the application re-requests it (see [strict completeness](#strict-completeness)). Chunking is specified separately in [ADR 34](./0034-large-message-chunking.md), following the options compared in [ADR 33](./0033-large-message-chunking-options.md).
  - Delivering streamed requests/responses in their **intended** order.
    - Any stream message may be lost, so entries are surfaced in the order received; reconstructing the intended order is left to the application.
  - A built-in signal from consumer to producer that sets the producer's pace (credit-based flow control).
@@ -76,7 +76,7 @@ Each producer ends its own stream with a **`last`** signal. An exchange is **gra
 
 #### Invoker behavior
 
-The invoker supplies the outbound **request stream** together with that stream's metadata; it must contain at least one entry. The invocation establishes the exchange; it does **not** represent completion of the request stream. The invoker activates response reception, sends the mandatory first request, and then returns the inbound **response stream** — without waiting for the second request or for the request stream to end. The common case is a single request answered by a stream of responses; an SDK may offer a shortcut for it that takes that one request and returns the response payloads as a plain async sequence. Such a shortcut may also take a batch size and run [batch pull](#flow-control) itself, keeping the request stream open and asking for the next batch as the caller consumes the previous one.
+The invoker supplies the outbound **request stream** together with that stream's metadata; it must contain at least one entry. The invocation establishes the exchange; it does **not** represent completion of the request stream. The invoker activates response reception, sends the mandatory first request, and then returns the inbound **response stream** — without waiting for the second request or for the request stream to end. The common case is a single request answered by a stream of responses; an SDK may offer a shortcut for it that takes that one request and returns the response payloads as a plain async sequence. Such a shortcut may also take a batch size and run [batch pull](#flow-control) itself, keeping the request stream open and asking for the next batch as the caller consumes the previous one. Because a shortcut hides each entry's index and timestamp, its caller cannot detect a lost entry or a producer change itself; it should be able to enable [strict completeness](#strict-completeness).
 
 An empty request stream or setup error fails the invocation before an exchange is returned. Any later request-sending error — including the supplied request stream throwing — terminates the local exchange, stops request publication, and triggers a best-effort [`Failed` status](#stream-failure); it is surfaced through the exchange's completion signal and, while still open, the response stream.
 
@@ -112,10 +112,10 @@ Examples:
 
 - ```d:0:10``` — a request-direction data message at stream index `0`; the invoker's remaining exchange timeout is 10 seconds.
 - ```c:4:last:6``` — the request stream's final (`last`) message at index `4`; the invoker's remaining exchange timeout has dropped to 6 seconds (the field is a live countdown).
-- ```s:1:10``` — a request-direction status; its `__stat` value carries the outcome — an error code about the received message at index `1` (`429` when it did not fit in the sender's buffer), `500` (`Failed`) when the sender's own stream failed, or `499` (`Canceled`) to cancel the whole exchange.
+- ```s:1:10``` — a request-direction status; its `__stat` value carries the outcome — an error code about the received message at index `1` (`429` when it did not fit in the sender's buffer, `412` when it failed the sender's strict completeness check), `500` (`Failed`) when the sender's own stream failed, or `499` (`Canceled`) to cancel the whole exchange.
 - ```d:0``` / ```c:7:last``` / ```s:3``` — the response-direction counterparts (executor → invoker); identical forms except `timeout_length` is omitted.
 
-Every MQTT PUBLISH belonging to a streaming exchange must include `__stream` in exactly one of these three forms: data messages use the `d` form, control messages use the `c` form (`c:…:last`), and status messages use the `s` form. A status message carries no stream entry; its `__stat` property carries the outcome — an error about a received message (including `429` `Overflow`), `500` (`Failed`) when the sender's own stream failed, or `499` (`Canceled`) for the whole exchange (see [status codes](#status-codes)).
+Every MQTT PUBLISH belonging to a streaming exchange must include `__stream` in exactly one of these three forms: data messages use the `d` form, control messages use the `c` form (`c:…:last`), and status messages use the `s` form. A status message carries no stream entry; its `__stat` property carries the outcome — an error about a received message (including `429` `Overflow` and `412` `Incomplete`), `500` (`Failed`) when the sender's own stream failed, or `499` (`Canceled`) for the whole exchange (see [status codes](#status-codes)).
 
 [see cancellation support](#cancellation-support) and [timeout support](#timeout-support) for how these fields are used.
 
@@ -156,6 +156,21 @@ Each side bounds what it holds in memory; entries the consumer has not yet recei
 - **Bounded consumer buffer.** Received entries wait in a buffer until the application takes them. The buffer's limit is configurable, with a finite default. Automatic acknowledgement happens when an entry enters the buffer, not when the application takes it: MQTT acknowledgements go out in order across the whole connection, so holding one back to slow a single stream would stall every other stream and subscription on that client.
 - **Overflow.** If a new entry arrives while the buffer is full, the consumer ends the exchange with an **`Overflow` status** (`__stat` `429`, `s:<index>` referencing the entry that did not fit) sent to the producer. Like a protocol violation, it is terminal and not answered. The consumer's application first receives the buffered entries, then the overflow error; the producer's application receives the overflow error from the peer.
 - **Consumer-set pace.** Producer pacing keeps a producer from running ahead of the **broker**, not of the consumer: the broker accepts entries as fast as they are published, so a producer faster than its consumer fills the consumer's buffer and the exchange ends with `Overflow`. There is no built-in consumer-to-producer signal. A consumer that may be slower than its producer — for example a caller ingesting a historian backfill — sets the pace with the request stream: the invoker sends a request entry asking for the next batch, and the executor answers with up to that many entries before waiting for the next request. The request stream then stays open for the whole exchange, and the invoker sends its `last` only after the final batch; a batch no larger than the consumer's buffer never overflows. An integration therefore chooses between a single request, which is simplest but can overflow, and batch pull, which is paced end to end; an SDK may offer batch pull through its single-request shortcut (see [invoker behavior](#invoker-behavior)).
+
+#### Strict completeness
+
+By default a consumer surfaces entries as they arrive and a stream that ends with `last` completes normally, even if an entry was lost on the way or a different producer took over mid-stream (see [disconnection and recovery](#disconnection-and-recovery)). An application that needs every entry — for example a historian backfill — enables **strict completeness** on the stream it consumes: the invoker for its response stream, the executor for its request stream. It is an SDK option, off by default; a failed check is reported to the producer with an `Incomplete` status.
+
+With it enabled, the consumer tracks the next index it expects, starting at `0`, and the producer of the stream, identified by the node ID in the HLC timestamp of its first entry. After de-duplication, it checks every message:
+
+- **Data entry** — its index must be the expected one and its producer the same. A higher index means entries were lost (at the start of the stream or in the middle); a lower index or a different node ID means a different or restarted producer.
+- **`last`** — its index must be the expected one. `last:N` follows entries `0` to `N−1`, so a lower expected index means entries were lost at the end of the stream, which the application could not detect because `last` is not surfaced to it.
+
+On a mismatch, the consumer ends the exchange with an **`Incomplete` status** (`__stat` `412`, `s:<index>` referencing the message that failed the check, and an `__stMsg` with the expected index or the change of producer) sent to the producer. Like `Overflow`, it is terminal and not answered. The consumer's application first receives the entries that passed the checks, then an incomplete-stream error, and the exchange's completion signal faults with the same error; the producer stops producing and its application receives the incomplete-stream error from the peer. Entries that arrive afterward are acknowledged and ignored, as for any terminal exchange.
+
+Because MQTT delivers each stream's messages in order, a lost entry is detected when the next message after it arrives — at the latest at `last`. A stream whose remaining messages are all lost ends with the [exchange timeout](#exchange-level-timeout) instead. Strict completeness proves only that the consumer received everything the producer emitted in this exchange (see [non-requirements](#non-requirements)); that the producer emitted everything it should — for example that it read every page of a history read — is the producer's responsibility.
+
+An executor with strict completeness on its request stream rejects a takeover: a replacement whose first request entry has an index above `0` ends the exchange instead of continuing.
 
 ### Timeout support
 
@@ -267,6 +282,7 @@ A failure that concerns one item while the stream continues — for example one 
 | `400` | Bad request | A [protocol violation](#error-handling): undeserializable payload, missing or malformed `__stream`, QoS 0, missing or zero message expiry, or a sequencing break |
 | `505` | Version not supported | A protocol violation: incompatible streaming protocol version |
 | `429` | `Overflow` | A received entry did not fit in the sender's full buffer ([flow control](#flow-control)) |
+| `412` | `Incomplete` | A received message failed the sender's [strict completeness](#strict-completeness) check: an entry was lost or the producer changed |
 | `500` | `Failed` | The sender's own stream failed ([stream failure](#stream-failure)) |
 | `499` | `Canceled` | Deliberate [cancellation](#cancellation-support) |
 
@@ -281,18 +297,20 @@ The SDK reports every terminal outcome through one error surface: the stream the
 | Protocol violation (sent or received) | Invalid header, invalid payload, or unsupported version, as in vanilla RPC |
 | `Overflow` (sent or received) | Overflow, marked as coming from the peer when received |
 | `Canceled` | Cancellation |
+| `Incomplete` (sent or received) | Incomplete stream: the index expected and the index received, or the change of producer; marked as coming from the peer when received |
 | Exchange timeout | Timeout |
 | No executor subscribed | `NoAvailableStreamingExecutor` |
 
 ### Exchange termination
 
-An exchange terminates in exactly one of six ways:
+An exchange terminates in exactly one of seven ways:
 
 - **Graceful** — each producer closes its own stream with `last`; the exchange completes once both streams have closed (see [exchange completion](#exchange-completion)).
 - **Cancellation** — either side sends a `Canceled` (`499`) status; the receiver ends the exchange at once and answers, and the sender ends it when the answer arrives or its exchange timeout fires (see [cancellation support](#cancellation-support)).
 - **Failure** — a producer ends its stream with a `Failed` (`500`) status and the exchange ends (see [stream failure](#stream-failure)).
 - **Timeout** — the [exchange timeout](#exchange-level-timeout) fires.
 - **Overflow** — a consumer's buffer is full when another entry arrives; it sends an `Overflow` (`429`) status and both sides end the exchange (see [flow control](#flow-control)).
+- **Incomplete** — a consumer with strict completeness detects a lost entry or a changed producer; it sends an `Incomplete` (`412`) status and both sides end the exchange (see [strict completeness](#strict-completeness)).
 - **Protocol violation** — the recipient of a malformed in-exchange message returns an error status and both sides end the exchange (see [error handling](#error-handling)).
 
 A fatal failure — an unhandled exception or a request pump that throws — surfaces as a best-effort **`Failed`** status, or, failing that, as the peer's timeout. A crashed peer can't send anything, so its peer reaches its own timeout.
@@ -308,11 +326,11 @@ Because the command topic is a [shared subscription](#topics-and-routing), an ex
 - A replacement receives only the request messages the broker delivers to it after the crash. Entries the crashed executor had already **acknowledged** are not redelivered; with automatic acknowledgement that is every entry it received, even ones it hadn't finished processing. An entry it received but never acknowledged may reach the replacement once the crashed session ends, though MQTT only recommends this for shared subscriptions (MQTT 5 §4.8.2). If the crashed executor had already acknowledged the whole request stream, including `last`, the replacement receives nothing and the invoker reaches its [exchange timeout](#exchange-level-timeout).
 - Nothing of the crashed handler carries over: its partial results, its position in the work, or any session it held with a downstream system — for example an OPC UA session, on which browse and history-read continuation points depend.
 
-A handler can tell it is a replacement: its first request entry has an index above `0`, or its request stream ends with no entry at all (a request stream always has at least one). Takeover suits work that can be redone or continued from the remaining requests alone, such as writing each request entry to shared storage. Otherwise the replacement should end its response stream with a [`Failed` status](#stream-failure), and a consumer that needs a complete result should treat a producer restart (below) as a failure.
+A handler can tell it is a replacement: its first request entry has an index above `0`, or its request stream ends with no entry at all (a request stream always has at least one). Takeover suits work that can be redone or continued from the remaining requests alone, such as writing each request entry to shared storage. Otherwise the replacement should end its response stream with a [`Failed` status](#stream-failure), and a consumer that needs a complete result should enable [strict completeness](#strict-completeness), which fails the stream on a producer restart.
 
 The **invoker has no equivalent**: its response topic is unique to it, so if the invoker's session is lost, in-flight responses cannot be re-routed and are **lost with no recovery** (there is no invoker-side load-balancing). This is an accepted limitation.
 
-A replacement executor — or the same executor restarted without context — resumes the **response** stream from index 0 rather than continuing, since the executor keeps [no replay cache](#producing-and-consuming). Every entry already carries an HLC **timestamp** alongside its index, and the consumer de-dups on **both**: a genuine QoS 1 redelivery repeats the same index *and* timestamp, whereas a restarted producer reuses an index with a **new** timestamp, so its fresh entries are not mistaken for duplicates. Exposing the timestamp and index on each entry also lets the consumer detect that the producer changed or restarted mid-stream: the timestamp's node ID differs for a different producer.
+A replacement executor — or the same executor restarted without context — resumes the **response** stream from index 0 rather than continuing, since the executor keeps [no replay cache](#producing-and-consuming). Every entry already carries an HLC **timestamp** alongside its index, and the consumer de-dups on **both**: a genuine QoS 1 redelivery repeats the same index *and* timestamp, whereas a restarted producer reuses an index with a **new** timestamp, so its fresh entries are not mistaken for duplicates. Exposing the timestamp and index on each entry also lets the consumer detect that the producer changed or restarted mid-stream: the timestamp's node ID differs for a different producer. By default the SDK leaves that decision to the application; with [strict completeness](#strict-completeness) it ends the stream instead.
 
 If the invoker publishes a request and the broker replies `no matching subscribers` — **no executor is subscribed** — the request reaches no one. Although that reason code is an MQTT-level success, the streaming layer maps it to a distinct **`NoAvailableStreamingExecutor`** error: the invoker surfaces it to the user (the stream cannot push messages right now) and ends the exchange. This relies on a broker-delivery assumption spelled out in the [appendix](#no-matching-subscribers-broker-assumption).
 
@@ -442,6 +460,10 @@ public abstract class StreamingCommandInvoker<TReq, TResp>
 
     // Maximum received responses held until the caller takes them; exceeding it ends the exchange with Overflow.
     public int StreamBufferLimit { get; set; } = 1000;
+
+    // true -> a lost response, a missing tail before `last`, or a changed producer ends the response stream
+    // with an incomplete-stream error instead of completing normally.
+    public bool RequireCompleteStream { get; set; } = false;
 }
 ```
 
@@ -463,6 +485,10 @@ public abstract class StreamingCommandExecutor<TReq, TResp> : IAsyncDisposable
 
     // Maximum received requests held until the handler takes them; exceeding it ends the exchange with Overflow.
     public int StreamBufferLimit { get; set; } = 1000;
+
+    // true -> a lost request, a missing tail before `last`, or a takeover ends the request stream with an
+    // incomplete-stream error instead of completing normally.
+    public bool RequireCompleteStream { get; set; } = false;
 }
 ```
 

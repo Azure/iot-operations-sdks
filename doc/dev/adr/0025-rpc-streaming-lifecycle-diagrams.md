@@ -379,7 +379,9 @@ flowchart TD
     RC -- "Yes" --> RA["Re-send Canceled"]
     RC -- "No" --> AI["Acknowledge and ignore"]
     T -- "No" --> TAG{"__stream tag"}
-    TAG -- "c : last" --> HC["Ignore if already closed<br/>else close this data stream"]
+    TAG -- "c : last" --> SL{"Strict completeness on<br/>and index not the expected one?"}
+    SL -- "Yes" --> IN["Send Incomplete 412 about this message<br/>report incomplete stream to the app, enter Failed"]
+    SL -- "No" --> HC["Ignore if already closed<br/>else close this data stream"]
     HC --> BC{"Both streams closed?"}
     BC -- "Yes" --> CO["Enter Completed"]
     BC -- "No" --> AC["Remain active<br/>control still flows"]
@@ -389,15 +391,20 @@ flowchart TD
     CS -- "Yes" --> CC["The answer to our cancel<br/>enter Canceled, no reply"]
     ST -- "Failed 500" --> FA["Report the stream error to the app<br/>stop production, enter Failed"]
     ST -- "Overflow 429" --> OR["Report the peer's overflow to the app<br/>stop production, enter Failed"]
+    ST -- "Incomplete 412" --> IR["Report the peer's incomplete-stream error<br/>to the app, stop production, enter Failed"]
     ST -- "400 or 505" --> PE["Protocol error<br/>surface to app, end the exchange"]
     TAG -- "d data" --> D["Deduplicate by correlation, index, and timestamp"]
-    D --> BF{"Consumer buffer full?"}
+    D --> SD{"Strict completeness on and index<br/>or producer not the expected one?"}
+    SD -- "Yes" --> IN
+    SD -- "No" --> BF{"Consumer buffer full?"}
     BF -- "No" --> DE["Deliver data entry"]
     BF -- "Yes" --> OV["Send Overflow 429 about this entry<br/>report overflow to the app, enter Failed"]
     CAN --> TS["Retain terminal tombstone"]
     CC --> TS
     FA --> TS
     OR --> TS
+    IN --> TS
+    IR --> TS
     OV --> TS
     CO --> TS
     PE --> TS
@@ -451,5 +458,5 @@ about received response 1), `s:0:T` with `__stat` `499` (cancel the exchange). *
 | Executor cancellation | Cancellation after stream-close, invoker's answering `Canceled` on the command topic |
 | Protocol error | Terminal status about a violating message, ends the exchange for both sides |
 | Stream failure | `Failed` (`500`) status for an application error (ADR 21 headers) or an execution failure; entries before it still delivered; not answered |
-| Packet classification | `__stream` tag routing, terminal precedence, late packets, `Canceling` answer vs. re-answer, bounded consumer buffer and `Overflow` (`429`) |
+| Packet classification | `__stream` tag routing, terminal precedence, late packets, `Canceling` answer vs. re-answer, strict completeness checks and `Incomplete` (`412`), bounded consumer buffer and `Overflow` (`429`) |
 | `__stream` anatomy | The three tagged value forms, shared data/control index counter, `last` as the only control word, status `__stat`, request-direction-only timeout |

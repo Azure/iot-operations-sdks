@@ -387,6 +387,7 @@ which forced every reader to know which slots were meaningful for which message 
 | `timeout_length` | uint | Invoker's **remaining exchange budget in seconds**. **Request direction only**; omitted executor → invoker. |
 
 Companion property on status messages: `__stat` (`499` = `Canceled`, `500` = `Failed`, `429` = `Overflow`,
+`412` = `Incomplete`,
 or a `400`/`505` protocol error), plus optional human-readable `__stMsg`.
 
 <!--
@@ -541,6 +542,25 @@ what the scenario paper's AK7R6 comment asked for.
 -->
 ---
 
+## Strict completeness (opt-in)
+
+- **Default:** entries surface as they arrive; `last` completes the stream even if an entry was lost
+  or another producer took over — the app can see index and timestamp and decide
+- **Strict** (SDK option per consumed stream): the consumer expects indexes `0, 1, 2…`
+  from **one** producer (node ID in the first entry's HLC timestamp), and `last:N` right after entry `N−1`
+- Any mismatch — lost entry at the start, middle, or **tail**, index going back, new node ID → the
+  consumer sends **`Incomplete`** (`s:<index>` + `__stat=412`), terminal and not answered; its app gets
+  the good entries, then an incomplete-stream error, and the producer's app gets it from the peer
+- Why the SDK, not the app: `last` is never surfaced, so only the SDK can see a missing tail — and the
+  single-request shortcut hides index and timestamp entirely
+- Proves receipt of what was emitted — not that the producer read everything, nor exactly-once
+
+<!--
+Default stays permissive because takeover is legitimate for some uses (July 21/28 reviews). The Connector's
+complete-backfill operation turns strict on. Executor-side strict rejects a takeover (first request index > 0).
+-->
+---
+
 ## Disconnection and recovery
 
 - Inherits session-client semantics: **if the session survives**, queued publishes flush and
@@ -652,7 +672,7 @@ own from the first request it sees, so a replacement executor gets the true rema
 a crash. The invoker cannot resume a response stream after a crash, so it would buy nothing.
 
 **"Does `last` mean the exchange is over?"** No — it closes **one** stream. Control still flows; the
-exchange ends only when both close, or on cancel / failure / overflow / timeout / protocol violation.
+exchange ends only when both close, or on cancel / failure / overflow / incomplete / timeout / protocol violation.
 
 **"What if the peer never sends `last`?"** The exchange timeout is the backstop; each side terminates
 locally without needing the peer.
