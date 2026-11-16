@@ -119,8 +119,10 @@ The executor-crash requirement is what forces shared subscriptions and partition
 | Delivering entries in their **intended** order | Entries may be lost; we surface in receive order and expose index + timestamp |
 | Resuming after the **invoker** crashes | Its response topic is unique to it — in-flight responses cannot be re-routed |
 | A built-in consumer → producer **pace signal** (credits) | A consumer that needs to set the pace asks for batches on the request stream |
+| Application timestamps / data-time ordering | The HLC timestamp is send time, not measurement time — that belongs in the payload |
+| Exactly-once, or a cross-exchange resume cursor | A complete stream proves receipt of what was emitted; retries may repeat records |
 
-These are the four things people ask for first. They are accepted limitations, not oversights.
+These are the things people ask for first. They are accepted limitations, not oversights.
 
 <!--
 Pre-empt the loudest questions. Ordering is the one to dwell on: we hand the app the

@@ -34,6 +34,10 @@ Users have expressed a desire to allow more than one request and/or more than on
    - A consumer that needs to set the pace can do so with the request stream, asking for entries in batches (see [flow control](#flow-control)).
  - Resuming an exchange after the **invoker** crashes or loses its session.
    - The invoker's response topic is unique to it (no load-balancing), so in-flight responses cannot be re-routed.
+ - Carrying the application's own timestamps or ordering in the stream metadata.
+   - The HLC timestamp on each entry records when the producer sent it, for de-duplication and restart detection. It is not the time the payload's data was measured or recorded, and entries need not be in data-time order — a historian may read forward or backward, and records from several sources are interleaved. Measurement time, source identity, and quality belong in the payload.
+ - Exactly-once processing, or a durable position to resume an interrupted stream from.
+   - A stream that completes normally proves only that the consumer received what the producer emitted in that exchange. It does not prove the producer emitted everything the application intended, and retrying an interrupted exchange can deliver the same records again. The index and HLC timestamp identify an entry within one exchange and are not a resume cursor across exchanges; an application that needs exactly-once results de-duplicates or resumes using keys in its own data.
 
 ## State of the art
 
