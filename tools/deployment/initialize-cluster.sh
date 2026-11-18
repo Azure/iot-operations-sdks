@@ -99,19 +99,25 @@ wait-for-stable-api-server()
 {
     local required_healthy_checks=15
     local check_interval_seconds=2
+    local request_timeout_seconds=5
     local deadline=$((SECONDS + 180))
     local healthy_checks=0
+    local remaining_seconds
 
     while ((SECONDS < deadline)); do
-        if kubectl get --raw='/readyz' > /dev/null 2>&1 \
-            && kubectl api-resources > /dev/null 2>&1; then
+        if kubectl get --raw='/readyz' --request-timeout=${request_timeout_seconds}s > /dev/null 2>&1 \
+            && kubectl api-resources --request-timeout=${request_timeout_seconds}s > /dev/null 2>&1; then
             healthy_checks=$((healthy_checks + 1))
         else
             healthy_checks=0
         fi
 
         if ((healthy_checks >= required_healthy_checks)); then
-            if kubectl wait --for=condition=Available apiservice --all --timeout=60s; then
+            remaining_seconds=$((deadline - SECONDS))
+            if ((remaining_seconds > 0)) \
+                && timeout $((remaining_seconds + request_timeout_seconds)) \
+                    kubectl wait --for=condition=Available apiservice --all --timeout=${remaining_seconds}s \
+                && ((SECONDS < deadline)); then
                 return 0
             fi
             healthy_checks=0
@@ -121,8 +127,8 @@ wait-for-stable-api-server()
     done
 
     echo "Kubernetes API server did not stay healthy for $((required_healthy_checks * check_interval_seconds)) seconds"
-    kubectl get --raw='/readyz?verbose' || true
-    docker logs --tail 200 k3d-k3s-default-server-0 || true
+    kubectl get --raw='/readyz?verbose' --request-timeout=10s || true
+    timeout 30 docker logs --tail 200 k3d-k3s-default-server-0 || true
     return 1
 }
 
@@ -139,7 +145,6 @@ create-cluster() {
     for attempt in $(seq 1 $max_attempts); do
         # Create k3d cluster and forwarded ports (MQTT/MQTTS)
         k3d cluster delete
-        k3d registry delete k3d-registry.localhost > /dev/null 2>&1 || true
         if k3d cluster create \
             -p '1883:1883@loadbalancer' \
             -p '8883:8883@loadbalancer' \
