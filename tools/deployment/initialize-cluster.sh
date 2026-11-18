@@ -92,6 +92,28 @@ install-prerequisites()
     fi
 }
 
+# The API server can still answer 503 after 'k3d cluster create --wait'
+# returns, which makes the next helm/kubectl call fail.
+wait-for-api-server()
+{
+    local max_attempts=60
+    local attempt
+
+    for attempt in $(seq 1 $max_attempts); do
+        if kubectl version > /dev/null 2>&1 \
+            && kubectl get --raw='/readyz' > /dev/null 2>&1 \
+            && kubectl api-resources > /dev/null 2>&1; then
+            kubectl wait --for=condition=Available apiservice --all --timeout=120s
+            return 0
+        fi
+        sleep 2
+    done
+
+    echo "Kubernetes API server was not ready after $((max_attempts * 2)) seconds"
+    kubectl get --raw='/readyz?verbose' || true
+    return 1
+}
+
 create-cluster() {
     echo
     echo "========================="
@@ -107,6 +129,8 @@ create-cluster() {
         -p '8884:8884@loadbalancer' \
         --registry-create k3d-registry.localhost:127.0.0.1:5000 \
         --wait
+
+    wait-for-api-server
 
     # Set the default context / namespace to azure-iot-operations
     kubectl config set-context k3d-k3s-default --namespace=azure-iot-operations
