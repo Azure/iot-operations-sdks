@@ -47,13 +47,13 @@ To refresh the dependencies, execute the following:
 
 To issue a release for the Rust SDK:
 
-1. Bump the version as appropriate and merge the changes into main
+1. Bump the selected crate's version as appropriate and merge the changes into main.
 
-1. Create the tag for the commit hash according to the pattern: `rust/{mqtt|protocol|services|connector}/v{major}.{minor}.{patch}`
+1. Create the tag for the commit hash according to the pattern: `rust/{mqtt|protocol|services|connector}/v{version}`. The version must match the selected crate's `Cargo.toml`, including any prerelease suffix.
 
-1. Use the [Rust SDK release pipeline](https://dev.azure.com/msazure/One/_build?definitionId=442088) using the parameters:
-    - default `main` pipeline branch for the pipeline version
-    - the tag you created in the previous step for the "tag to release from" parameter
-    - do not check "Dry run" (unless you want to test it without releasing)
+1. Queue the pipeline configured from [the Rust release YAML](../../.pipelines/release-rust-azure-iot-operations-sdks.yml) using the parameters:
+    - Default `main` pipeline branch for the pipeline version.
+    - The tag you created in the previous step for the `tag` parameter.
+    - Set `dry_run` to `true` to package without publishing, or `false` to release to crates.io. The default remains `false`, matching the original pipeline.
 
 1. During the run of the pipeline you will require someone other than yourself with a SAW to approve the release using the link provided from the `ApprovalService` in the final stage of the pipeline.
