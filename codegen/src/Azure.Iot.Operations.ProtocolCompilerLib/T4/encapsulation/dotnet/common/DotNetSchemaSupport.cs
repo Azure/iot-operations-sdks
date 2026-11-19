@@ -7,6 +7,7 @@ namespace Azure.Iot.Operations.ProtocolCompilerLib
         {
             return schemaType switch
             {
+                AnyType _ => "object",
                 ArrayType arrayType => $"List<{GetType(arrayType.ElementSchema)}>",
                 MapType mapType => $"Dictionary<string, {GetType(mapType.ValueSchema)}{(mapType.NullValues ? "?" : "")}>",
                 ObjectType objectType => objectType.SchemaName.GetTypeName(TargetLanguage.CSharp),
@@ -39,6 +40,7 @@ namespace Azure.Iot.Operations.ProtocolCompilerLib
         {
             return schemaType switch
             {
+                AnyType _ => true,
                 ArrayType _ => true,
                 MapType _ => true,
                 ObjectType _ => true,

@@ -8,6 +8,7 @@ namespace Azure.Iot.Operations.ProtocolCompilerLib
         {
             string innerType = schemaType switch
             {
+                AnyType _ => "serde_json::Value",
                 ArrayType arrayType => $"Vec<{GetType(arrayType.ElementSchema, false, true)}>",
                 MapType mapType => $"HashMap<String, {GetType(mapType.ValueSchema, false, !mapType.NullValues)}>",
                 ObjectType objectType => objectType.SchemaName.GetTypeName(TargetLanguage.Rust),
