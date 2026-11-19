@@ -1,5 +1,5 @@
 # Manual Rust crate release through standard 1ES Pipeline Templates and ESRP.
-# See doc/dev/packaging.md for pipeline and variable-group setup.
+# See doc/dev/packaging.md for release instructions.
 
 trigger: none
 pr: none
