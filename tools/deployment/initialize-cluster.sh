@@ -92,25 +92,43 @@ install-prerequisites()
     fi
 }
 
-# The API server can still answer 503 after 'k3d cluster create --wait'
-# returns, which makes the next helm/kubectl call fail.
-wait-for-api-server()
+# Some k3d clusters come up with an API server that keeps answering 503 for
+# minutes after 'k3d cluster create --wait' returns. Require the API server
+# to stay healthy for a while, so an unstable cluster can be recreated.
+wait-for-stable-api-server()
 {
-    local max_attempts=60
-    local attempt
+    local required_healthy_checks=15
+    local check_interval_seconds=2
+    local request_timeout_seconds=5
+    local deadline=$((SECONDS + 180))
+    local healthy_checks=0
+    local remaining_seconds
 
-    for attempt in $(seq 1 $max_attempts); do
-        if kubectl version > /dev/null 2>&1 \
-            && kubectl get --raw='/readyz' > /dev/null 2>&1 \
-            && kubectl api-resources > /dev/null 2>&1; then
-            kubectl wait --for=condition=Available apiservice --all --timeout=120s
-            return 0
+    while ((SECONDS < deadline)); do
+        if kubectl get --raw='/readyz' --request-timeout=${request_timeout_seconds}s > /dev/null 2>&1 \
+            && kubectl api-resources --request-timeout=${request_timeout_seconds}s > /dev/null 2>&1; then
+            healthy_checks=$((healthy_checks + 1))
+        else
+            healthy_checks=0
         fi
-        sleep 2
+
+        if ((healthy_checks >= required_healthy_checks)); then
+            remaining_seconds=$((deadline - SECONDS))
+            if ((remaining_seconds > 0)) \
+                && timeout $((remaining_seconds + request_timeout_seconds)) \
+                    kubectl wait --for=condition=Available apiservice --all --timeout=${remaining_seconds}s \
+                && ((SECONDS < deadline)); then
+                return 0
+            fi
+            healthy_checks=0
+        fi
+
+        sleep $check_interval_seconds
     done
 
-    echo "Kubernetes API server was not ready after $((max_attempts * 2)) seconds"
-    kubectl get --raw='/readyz?verbose' || true
+    echo "Kubernetes API server did not stay healthy for $((required_healthy_checks * check_interval_seconds)) seconds"
+    kubectl get --raw='/readyz?verbose' --request-timeout=10s || true
+    timeout 30 docker logs --tail 200 k3d-k3s-default-server-0 || true
     return 1
 }
 
@@ -121,16 +139,28 @@ create-cluster() {
     echo "========================="
     echo
 
-    # Create k3d cluster and forwarded ports (MQTT/MQTTS)
-    k3d cluster delete
-    k3d cluster create \
-        -p '1883:1883@loadbalancer' \
-        -p '8883:8883@loadbalancer' \
-        -p '8884:8884@loadbalancer' \
-        --registry-create k3d-registry.localhost:127.0.0.1:5000 \
-        --wait
+    local max_attempts=3
+    local attempt
 
-    wait-for-api-server
+    for attempt in $(seq 1 $max_attempts); do
+        # Create k3d cluster and forwarded ports (MQTT/MQTTS)
+        k3d cluster delete
+        if k3d cluster create \
+            -p '1883:1883@loadbalancer' \
+            -p '8883:8883@loadbalancer' \
+            -p '8884:8884@loadbalancer' \
+            --registry-create k3d-registry.localhost:127.0.0.1:5000 \
+            --wait \
+            && wait-for-stable-api-server; then
+            break
+        fi
+
+        if ((attempt == max_attempts)); then
+            echo "Failed to create a stable k3d cluster after $max_attempts attempts"
+            return 1
+        fi
+        echo "k3d cluster is not stable, recreating it (attempt $((attempt + 1)) of $max_attempts)"
+    done
 
     # Set the default context / namespace to azure-iot-operations
     kubectl config set-context k3d-k3s-default --namespace=azure-iot-operations
