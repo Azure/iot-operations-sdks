@@ -1,0 +1,170 @@
+# Manual Rust crate release through standard 1ES Pipeline Templates and ESRP.
+# See doc/dev/packaging.md for pipeline and variable-group setup.
+
+trigger: none
+pr: none
+
+parameters:
+  - name: tag
+    displayName: 'Tag to release from (e.g., rust/mqtt/v1.0.0)'
+    type: string
+    default: ''
+  - name: dry_run
+    displayName: 'Dry run (skip actual release to crates.io)'
+    type: boolean
+    default: false
+
+variables:
+  - group: aio-sdk-esrp
+  - name: CARGO_TERM_COLOR
+    value: always
+
+resources:
+  repositories:
+    - repository: 1esPipelines
+      type: git
+      name: 1ESPipelineTemplates/1ESPipelineTemplates
+      ref: refs/tags/release
+    - repository: IotOperationsSdks
+      type: github
+      endpoint: akri-mqtt-patterns-github-connection
+      name: Azure/iot-operations-sdks
+      ref: refs/tags/${{ parameters.tag }}
+
+extends:
+  template: v1/1ES.Official.PipelineTemplate.yml@1esPipelines
+  parameters:
+    # Pool/image selection is a compile-time input, not a variable-group value.
+    # This pool's configured image is Windows Server 2022.
+    pool:
+      name: iot-operations-1es-pool2
+      image: iot-operations-1es-image
+      os: windows
+
+    stages:
+      - stage: Build
+        displayName: Package Rust crate
+        jobs:
+          - job: Package
+            displayName: Package selected SDK crate
+            timeoutInMinutes: 30
+            templateContext:
+              outputs:
+                - output: pipelineArtifact
+                  targetPath: $(Build.ArtifactStagingDirectory)/esrp-release
+                  artifactName: rust-sdk-crate
+            steps:
+              - pwsh: |
+                  $ErrorActionPreference = 'Stop'
+                  $tag = $env:RELEASE_TAG
+                  Write-Host "Validating tag: $tag"
+
+                  if ($tag -cmatch '^rust/(mqtt|protocol|services|connector)/v(.+)$') {
+                    $crateShortName = $Matches[1]
+                    $version = $Matches[2]
+                    $fullCrateName = "azure_iot_operations_$crateShortName"
+
+                    Write-Host "Tag format is valid"
+                    Write-Host "Short crate name: $crateShortName"
+                    Write-Host "Full crate name: $fullCrateName"
+                    Write-Host "Version: $version"
+                    Write-Host "##vso[task.setvariable variable=crateToRelease]$fullCrateName"
+                    Write-Host "##vso[task.setvariable variable=crateVersion]$version"
+                  } else {
+                    Write-Host "##vso[task.logissue type=error]Invalid tag format: $tag"
+                    Write-Host "Expected format: rust/{crate}/v{version}"
+                    Write-Host "Valid crates: mqtt, protocol, services, connector"
+                    Write-Host "Example: rust/mqtt/v1.0.0"
+                    exit 1
+                  }
+                name: validateTag
+                displayName: Validate tag and extract crate info
+                env:
+                  RELEASE_TAG: ${{ parameters.tag }}
+
+              - checkout: IotOperationsSdks
+                displayName: Checkout tagged SDK source
+                clean: true
+                path: s/iot-operations-sdks
+
+              - task: RustInstaller@1
+                displayName: Install Rust 1.88
+                inputs:
+                  rustVersion: ms-prod-1.88
+                  toolchainFeed: https://pkgs.dev.azure.com/msazure/One/_packaging/RustTools/nuget/v3/index.json
+                  cratesIoFeedOverride: sparse+https://pkgs.dev.azure.com/msazure/One/_packaging/azure_iot_operations/Cargo/index/
+                  workingDirectory: $(Pipeline.Workspace)/s/iot-operations-sdks/rust
+
+              - pwsh: |
+                  $ErrorActionPreference = 'Stop'
+
+                  cargo generate-lockfile
+                  if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+
+                  $packageId = cargo pkgid --locked --package $env:CRATE_TO_RELEASE
+                  if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+
+                  # Cargo IDs use either #version or #name@version.
+                  $manifestVersion = ($packageId -split '[#@]')[-1]
+                  if ($manifestVersion -cne $env:RELEASE_VERSION) {
+                    Write-Host "##vso[task.logissue type=error]Tag version '$env:RELEASE_VERSION' does not match $env:CRATE_TO_RELEASE manifest version '$manifestVersion'."
+                    exit 1
+                  }
+
+                  # Preserve package-only behavior; SDK compilation is covered by Rust CI.
+                  cargo package --locked --package $env:CRATE_TO_RELEASE --no-verify --target-dir $env:CARGO_TARGET_DIR
+                  if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+
+                  $crateFile = Join-Path $env:CARGO_TARGET_DIR "package/$env:CRATE_TO_RELEASE-$env:RELEASE_VERSION.crate"
+                  if (-not (Test-Path -LiteralPath $crateFile -PathType Leaf)) {
+                    Write-Host "##vso[task.logissue type=error]Expected crate package was not produced: $crateFile"
+                    exit 1
+                  }
+
+                  tar -tzf $crateFile | Out-Null
+                  if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+
+                  $releaseDir = Join-Path $env:BUILD_ARTIFACTSTAGINGDIRECTORY 'esrp-release'
+                  New-Item -ItemType Directory -Force -Path $releaseDir | Out-Null
+                  Copy-Item -LiteralPath $crateFile -Destination $releaseDir
+                  Get-ChildItem -LiteralPath $releaseDir
+                displayName: Validate version and package crate
+                workingDirectory: $(Pipeline.Workspace)/s/iot-operations-sdks/rust
+                env:
+                  CRATE_TO_RELEASE: $(crateToRelease)
+                  RELEASE_VERSION: $(crateVersion)
+                  CARGO_TARGET_DIR: $(Agent.TempDirectory)/rust-release-target
+
+      - stage: Release
+        displayName: Release to crates.io
+        dependsOn: Build
+        condition: and(succeeded(), not(${{ parameters.dry_run }}))
+        jobs:
+          - job: Publish
+            displayName: ESRP release
+            templateContext:
+              type: releaseJob
+              isProduction: true
+              inputs:
+                - input: pipelineArtifact
+                  artifactName: rust-sdk-crate
+                  targetPath: $(Pipeline.Workspace)/rust-packages
+            steps:
+              - task: EsrpRelease@14
+                displayName: ESRP crates.io release
+                inputs:
+                  usemanagedidentity: true
+                  connectedservicename: $(ESRP_SERVICE_CONNECTION)
+                  keyvaultname: $(ESRP_KEYVAULT_NAME)
+                  signcertname: $(ESRP_SIGN_CERT_NAME)
+                  clientid: $(ESRP_CLIENT_ID)
+                  intent: PackageDistribution
+                  contenttype: Rust
+                  contentsource: Folder
+                  folderlocation: $(Pipeline.Workspace)/rust-packages
+                  waitforreleasecompletion: true
+                  owners: $(ESRP_OWNERS)
+                  approvers: $(ESRP_APPROVERS)
+                  serviceendpointurl: https://api.esrp.microsoft.com
+                  mainpublisher: ESRPRELPACMAN
+                  domaintenantid: $(ESRP_DOMAIN_TENANT_ID)
