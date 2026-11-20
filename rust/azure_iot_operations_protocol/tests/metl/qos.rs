@@ -1,9 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-use azure_iot_operations_mqtt::azure_mqtt::mqtt_proto::{
-    PacketIdentifier, PacketIdentifierDupQoS, QoS,
-};
+use ms_mqtt_client::mqtt_proto::{PacketIdentifier, PacketIdentifierDupQoS, QoS};
 
 pub fn to_enum(qos: Option<i32>) -> QoS {
     match qos {

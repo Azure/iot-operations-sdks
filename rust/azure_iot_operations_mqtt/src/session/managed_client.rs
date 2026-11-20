@@ -23,8 +23,10 @@ use crate::token::{
 pub struct SessionManagedClient {
     // Client ID of the `Session` that manages this client
     pub(crate) client_id: String,
+    // Metric category of the `Session` that manages this client
+    pub(crate) metric_category: Option<String>,
     // PubSub for sending outgoing MQTT messages
-    pub(crate) client: crate::azure_mqtt::client::Client,
+    pub(crate) client: ms_mqtt_client::client::Client,
     /// Manager for receivers
     pub(crate) dispatcher: Arc<Mutex<IncomingPublishDispatcher>>,
 }
@@ -34,6 +36,12 @@ impl SessionManagedClient {
     #[must_use]
     pub fn client_id(&self) -> &str {
         &self.client_id
+    }
+
+    /// Get the metric category used by this Session, if AIO broker features are enabled
+    #[must_use]
+    pub fn metric_category(&self) -> Option<&str> {
+        self.metric_category.as_deref()
     }
 
     /// Creates a new [`SessionPubReceiver`] that will receive incoming publishes matching the
@@ -125,6 +133,9 @@ impl SessionManagedClient {
     /// # Errors
     /// Returns a [`DetachedError`] if the `SUBSCRIBE` could not be issued due to being detached from
     /// the Session
+    ///
+    /// # Panics
+    /// Panics if `max_qos` is [`QoS::ExactlyOnce`], which the underlying client does not support.
     pub async fn subscribe(
         &self,
         topic_filter: TopicFilter,
@@ -133,6 +144,7 @@ impl SessionManagedClient {
         retain_options: RetainOptions,
         properties: SubscribeProperties,
     ) -> Result<SubscribeCompletionToken, DetachedError> {
+        // TODO: Resolve the ms-mqtt-client 0.1.0 panic for QoS::ExactlyOnce subscriptions
         self.client
             .subscribe(topic_filter, max_qos, no_local, retain_options, properties)
             .await

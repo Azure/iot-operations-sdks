@@ -351,7 +351,7 @@ namespace Azure.Iot.Operations.Opc2WotLib.UnitTests
             JsonElement schemas = thing.GetProperty("schemaDefinitions");
 
             Assert.True(schemas.TryGetProperty("UIElementType", out JsonElement uiElementType));
-            Assert.Equal("org.opcfoundation.UA.VariableTypeTest.UIElementType", uiElementType.GetProperty("dov:typeRef").GetString());
+            Assert.Equal(WotUtil.GetTypeRef(ModelUri, "UIElementType"), uiElementType.GetProperty("dov:typeRef").GetString());
             Assert.Equal("string", uiElementType.GetProperty("type").GetString());
 
             JsonElement properties = thing.GetProperty("properties");
@@ -374,7 +374,7 @@ namespace Azure.Iot.Operations.Opc2WotLib.UnitTests
             JsonElement twoStateDiscreteType = schemas.GetProperty("TwoStateDiscreteType");
             Assert.Equal("boolean", twoStateDiscreteType.GetProperty("type").GetString());
             Assert.Equal(
-                "org.opcfoundation.UA.TwoStateDiscreteType",
+                WotUtil.GetTypeRef(OpcUaGraph.OpcUaCoreModelUri, "TwoStateDiscreteType"),
                 twoStateDiscreteType.GetProperty("dov:typeRef").GetString());
 
             JsonElement specialized = properties.GetProperty("SpecializedUIElement");
@@ -391,14 +391,14 @@ namespace Azure.Iot.Operations.Opc2WotLib.UnitTests
             Assert.False(structuredProperty.TryGetProperty("tm:ref", out _));
             Assert.Equal("object", structuredProperty.GetProperty("type").GetString());
             Assert.Equal(
-                "org.opcfoundation.UA.VariableTypeTest.StructuredValueType",
+                WotUtil.GetTypeRef(ModelUri, "StructuredValueType"),
                 structuredProperty.GetProperty("dov:typeRef").GetString());
 
             JsonElement enumProperty = properties.GetProperty("EnumProperty");
             Assert.False(enumProperty.TryGetProperty("tm:ref", out _));
             Assert.Equal("integer", enumProperty.GetProperty("type").GetString());
             Assert.Equal(
-                "org.opcfoundation.UA.VariableTypeTest.ValueKind",
+                WotUtil.GetTypeRef(ModelUri, "ValueKind"),
                 enumProperty.GetProperty("dov:typeRef").GetString());
 
             JsonElement structuredArrayProperty = properties.GetProperty("StructuredArrayProperty");
@@ -406,13 +406,13 @@ namespace Azure.Iot.Operations.Opc2WotLib.UnitTests
             Assert.False(structuredArrayProperty.TryGetProperty("dov:typeRef", out _));
             Assert.Equal("array", structuredArrayProperty.GetProperty("type").GetString());
             Assert.Equal(
-                "org.opcfoundation.UA.VariableTypeTest.StructuredValueType",
+                WotUtil.GetTypeRef(ModelUri, "StructuredValueType"),
                 structuredArrayProperty.GetProperty("items").GetProperty("dov:typeRef").GetString());
 
             JsonElement events = thing.GetProperty("events");
             Assert.Equal("#/schemaDefinitions/UIElementType", events.GetProperty("UIElement").GetProperty("data").GetProperty("tm:ref").GetString());
             Assert.Equal(
-                "org.opcfoundation.UA.VariableTypeTest.StructuredValueType",
+                WotUtil.GetTypeRef(ModelUri, "StructuredValueType"),
                 events.GetProperty("StructuredProperty").GetProperty("data").GetProperty("dov:typeRef").GetString());
             Assert.False(
                 events.GetProperty("BuiltIn").GetProperty("data").TryGetProperty("dov:typeRef", out _));
@@ -426,12 +426,12 @@ namespace Azure.Iot.Operations.Opc2WotLib.UnitTests
             JsonElement directArray = schemas.GetProperty("SampleArrayType");
             Assert.Equal("array", directArray.GetProperty("type").GetString());
             Assert.Equal("string", directArray.GetProperty("items").GetProperty("type").GetString());
-            Assert.Equal("org.opcfoundation.UA.VariableTypeTest.SampleArrayType", directArray.GetProperty("dov:typeRef").GetString());
+            Assert.Equal(WotUtil.GetTypeRef(ModelUri, "SampleArrayType"), directArray.GetProperty("dov:typeRef").GetString());
 
             JsonElement inheritedArray = schemas.GetProperty("DerivedSampleArrayType");
             Assert.Equal("array", inheritedArray.GetProperty("type").GetString());
             Assert.Equal("string", inheritedArray.GetProperty("items").GetProperty("type").GetString());
-            Assert.Equal("org.opcfoundation.UA.VariableTypeTest.DerivedSampleArrayType", inheritedArray.GetProperty("dov:typeRef").GetString());
+            Assert.Equal(WotUtil.GetTypeRef(ModelUri, "DerivedSampleArrayType"), inheritedArray.GetProperty("dov:typeRef").GetString());
         }
 
         [Fact]
@@ -442,12 +442,12 @@ namespace Azure.Iot.Operations.Opc2WotLib.UnitTests
 
             Assert.Equal("string", subtypeProperty.GetProperty("type").GetString());
             Assert.Equal(
-                "org.opcfoundation.UA.VariableTypeTest.AbstractWeightType",
+                WotUtil.GetTypeRef(ModelUri, "AbstractWeightType"),
                 subtypeProperty.GetProperty("dov:typeRef").GetString());
 
             JsonElement subtypeEventData = thing.GetProperty("events").GetProperty("SubtypeProperty").GetProperty("data");
             Assert.Equal(
-                "org.opcfoundation.UA.VariableTypeTest.AbstractWeightType",
+                WotUtil.GetTypeRef(ModelUri, "AbstractWeightType"),
                 subtypeEventData.GetProperty("dov:typeRef").GetString());
         }
 
@@ -488,7 +488,7 @@ namespace Azure.Iot.Operations.Opc2WotLib.UnitTests
 
             Assert.Equal("string", property.GetProperty("type").GetString());
             Assert.Equal(
-                "org.opcfoundation.UA.VariableTypeTest.UIElementType",
+                WotUtil.GetTypeRef(ModelUri, "UIElementType"),
                 property.GetProperty("dov:typeRef").GetString());
         }
 

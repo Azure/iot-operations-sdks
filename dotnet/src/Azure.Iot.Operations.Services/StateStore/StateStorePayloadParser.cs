@@ -170,6 +170,55 @@ namespace Azure.Iot.Operations.Services.StateStore
             }
         }
 
+        internal static (List<byte[]> Keys, byte[]? ContinuationToken) ParseListKeysResponse(byte[] payload)
+        {
+            try
+            {
+                Resp3Protocol.ThrowIfSimpleError(payload);
+
+                bool hasContinuationToken = payload.AsSpan().StartsWith("*1\r\n"u8)
+                    ? false
+                    : payload.AsSpan().StartsWith("*2\r\n"u8)
+                        ? true
+                        : throw new Resp3ProtocolException("SCAN response must contain one or two elements.");
+                int remainingIndex =
+                    Resp3Protocol.ParseBlobStringArray(4, payload, out List<byte[]> keys);
+
+                byte[]? continuationToken = null;
+                if (hasContinuationToken)
+                {
+                    if (remainingIndex >= payload.Length)
+                    {
+                        throw new Resp3ProtocolException("SCAN response is missing its continuation token.");
+                    }
+
+                    remainingIndex =
+                        Resp3Protocol.ParseBlobString(
+                            remainingIndex,
+                            payload,
+                            out ReadOnlySpan<byte> parsedContinuationToken);
+                    continuationToken = parsedContinuationToken.ToArray();
+                }
+
+                if (remainingIndex != payload.Length)
+                {
+                    throw new Resp3ProtocolException("SCAN response contains unexpected trailing bytes.");
+                }
+
+                return (keys, continuationToken);
+            }
+            catch (Resp3ProtocolException e)
+            {
+                throw new StateStoreOperationException(
+                    $"Failed to parse response to \"SCAN\" request: \"{Encoding.ASCII.GetString(payload)}\"",
+                    e);
+            }
+            catch (Resp3SimpleErrorException e)
+            {
+                throw new StateStoreOperationException(e.Message, e);
+            }
+        }
+
         internal static byte[] BuildSetRequestPayload(StateStoreKey key, StateStoreValue value, StateStoreSetRequestOptions? options = null)
         {
             var builder = new Resp3ArrayBuilder();
@@ -242,5 +291,18 @@ namespace Azure.Iot.Operations.Services.StateStore
                 Resp3Protocol.BuildBlobString(Encoding.ASCII.GetBytes("STOP")));
         }
 
+        internal static byte[] BuildListKeysRequestPayload(byte[] pattern, byte[]? continuationToken = null)
+        {
+            var builder = new Resp3ArrayBuilder();
+            builder.Add(Resp3Protocol.BuildBlobString(Encoding.ASCII.GetBytes("SCAN")))
+                .Add(Resp3Protocol.BuildBlobString(pattern));
+
+            if (continuationToken != null)
+            {
+                builder.Add(Resp3Protocol.BuildBlobString(continuationToken));
+            }
+
+            return builder.Build();
+        }
     }
 }

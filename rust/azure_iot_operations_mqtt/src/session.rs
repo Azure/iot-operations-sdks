@@ -53,8 +53,7 @@ use std::{
     time::Duration,
 };
 
-use crate::azure_mqtt::{
-    self,
+use ms_mqtt_client::{
     client::{
         ConnectEnhancedAuthResult, ConnectResult, Connection, DisconnectedEvent, ReauthResult,
     },
@@ -67,10 +66,10 @@ use tokio::sync::Notify;
 use crate::aio::{
     AIOBrokerFeatures, AIOBrokerFeaturesBuilder, connection_settings::MqttConnectionSettings,
 };
-use crate::azure_mqtt_adapter as adapter;
-use crate::azure_mqtt_adapter::AzureMqttConnectParameters;
 use crate::control_packet::PacketIdentifier;
 use crate::error::DetachedError;
+use crate::ms_mqtt_client_adapter as adapter;
+use crate::ms_mqtt_client_adapter::MsMqttClientConnectParameters;
 pub use crate::session::managed_client::{SessionManagedClient, SessionPubReceiver};
 use crate::session::state::SessionState;
 use crate::session::{
@@ -87,6 +86,10 @@ mod managed_client;
 pub(crate) mod plenary_ack;
 pub mod reconnect_policy;
 mod state;
+
+// TODO: Remove once ms-mqtt-client reports the maximum packet size correctly
+// 1 fixed header byte + 4 Remaining Length bytes + 268,435,455 (MQTT 5.0 §1.5.5, §2.1.4)
+const PROTOCOL_MAX_PACKET_SIZE: u32 = 268_435_460;
 
 /// Error describing why a [`Session`] ended prematurely
 #[derive(Debug, Error)]
@@ -228,19 +231,24 @@ pub struct SessionOptions {
 /// instances of [`SessionManagedClient`] and [`SessionExitHandle`].
 pub struct Session {
     /// Underlying MQTT client
-    client: azure_mqtt::client::Client,
+    client: ms_mqtt_client::client::Client,
     /// Underlying MQTT Receiver
-    receiver: Option<azure_mqtt::client::Receiver>,
+    receiver: Option<ms_mqtt_client::client::Receiver>,
     /// Underlying MQTT connect handle
-    connect_handle: Option<azure_mqtt::client::ConnectHandle>,
+    connect_handle: Option<ms_mqtt_client::client::ConnectHandle>,
     /// disconnect handle
-    disconnect_handle: Arc<Mutex<Option<azure_mqtt::client::DisconnectHandle>>>,
+    disconnect_handle: Arc<Mutex<Option<ms_mqtt_client::client::DisconnectHandle>>>,
     /// Underlying MQTT reauthorization handle
-    reauth_handle: Option<azure_mqtt::client::ReauthHandle>,
-    /// Parameters for establishing an MQTT connection using the `azure_mqtt` crate
-    connect_parameters: AzureMqttConnectParameters,
+    reauth_handle: Option<ms_mqtt_client::client::ReauthHandle>,
+    /// Parameters for establishing an MQTT connection using the `ms-mqtt-client` crate
+    connect_parameters: MsMqttClientConnectParameters,
     /// Client ID of the underlying MQTT client
     client_id: String,
+    /// Metric category of the underlying MQTT client when using AIO broker features
+    // NOTE: This is copied from AIOBrokerFeatures because this is currently the only value from there
+    // that is required in the Session, however, if that changes, this should be replaced with a copy
+    // of the entire AIOBrokerFeatures struct.
+    metric_category: Option<String>,
     /// Receiver dispatcher for incoming publishes
     incoming_pub_dispatcher: Arc<Mutex<IncomingPublishDispatcher>>,
     /// Reconnect policy
@@ -264,15 +272,16 @@ impl Session {
 
         // Add AIO metric and features to user properties when using AIO MQTT broker features
         // CONSIDER: user properties from being supported on SessionOptions or ConnectionSettings
-        let user_properties = if let Some(features) = options.aio_broker_features {
-            let mut user_properties =
-                vec![("metriccategory".to_string(), "aiosdk-rust".to_string())];
+        let (user_properties, metric_category) = if let Some(features) = options.aio_broker_features
+        {
+            let metric_category = features.metric_category;
+            let mut user_properties = vec![("metriccategory".to_string(), metric_category.clone())];
             if features.persistence {
                 user_properties.push(("aio-persistence".to_string(), true.to_string()));
             }
-            user_properties
+            (user_properties, Some(metric_category))
         } else {
-            vec![]
+            (vec![], None)
         };
 
         // Create EnhancedAuthPolicy if provided in options or SAT file is provided via ConnectionSettings
@@ -304,7 +313,7 @@ impl Session {
 
         let (client_options, connect_parameters) = options
             .connection_settings
-            .into_azure_mqtt_connect_parameters(
+            .into_ms_mqtt_client_connect_parameters(
                 user_properties,
                 options.max_packet_identifier,
                 options.publish_qos0_queue_size,
@@ -313,7 +322,7 @@ impl Session {
                 options.injected_packet_channels,
             )?;
 
-        let (client, connect_handle, receiver) = azure_mqtt::client::new_client(client_options);
+        let (client, connect_handle, receiver) = ms_mqtt_client::client::new_client(client_options);
         let incoming_pub_dispatcher = Arc::new(Mutex::new(IncomingPublishDispatcher::default()));
 
         Ok(Self {
@@ -326,6 +335,7 @@ impl Session {
             reauth_handle: None,
             connect_parameters,
             client_id,
+            metric_category,
             incoming_pub_dispatcher,
             reconnect_policy: options.reconnect_policy,
             enhanced_auth_policy,
@@ -353,6 +363,7 @@ impl Session {
     pub fn create_managed_client(&self) -> SessionManagedClient {
         SessionManagedClient {
             client_id: self.client_id.clone(),
+            metric_category: self.metric_category.clone(),
             client: self.client.clone(),
             dispatcher: self.incoming_pub_dispatcher.clone(),
         }
@@ -444,7 +455,7 @@ impl Session {
                 return Err(SessionErrorKind::SessionLost.into());
             }
 
-            self.state.transition_connected();
+            self.state.transition_connected(connack);
 
             // Indicate we have established a connection at least once, and will now attempt
             // to maintain this MQTT session.
@@ -505,7 +516,7 @@ impl Session {
         &mut self,
         connection_transport: ConnectionTransportConfig,
         clean_start: bool,
-    ) -> Result<(Connection, ConnAck), azure_mqtt::error::ConnectError> {
+    ) -> Result<(Connection, ConnAck), ms_mqtt_client::error::ConnectError> {
         let ch = self
             .connect_handle
             .take()
@@ -585,7 +596,7 @@ impl Session {
 
     /// Receive incoming PUBLISH packets and dispatch them to receivers.
     async fn receive(
-        mut receiver: azure_mqtt::client::Receiver,
+        mut receiver: ms_mqtt_client::client::Receiver,
         dispatcher: Arc<Mutex<IncomingPublishDispatcher>>,
     ) {
         while let Some((publish, manual_ack)) = receiver.recv().await {
@@ -598,13 +609,13 @@ impl Session {
             {
                 // If there are no valid dispatch targets, the publish was auto-acked.
                 match publish.qos {
-                    azure_mqtt::packet::DeliveryQoS::AtMostOnce => {
+                    ms_mqtt_client::packet::DeliveryQoS::AtMostOnce => {
                         log::warn!(
                             "No matching receivers for PUBLISH received at QoS 0. Discarding."
                         );
                     }
-                    azure_mqtt::packet::DeliveryQoS::AtLeastOnce(delivery_info)
-                    | azure_mqtt::packet::DeliveryQoS::ExactlyOnce(delivery_info) => {
+                    ms_mqtt_client::packet::DeliveryQoS::AtLeastOnce(delivery_info)
+                    | ms_mqtt_client::packet::DeliveryQoS::ExactlyOnce(delivery_info) => {
                         log::warn!(
                             "No matching receivers for PUBLISH with PKID {}. Auto-acked PUBLISH.",
                             delivery_info.packet_identifier
@@ -619,7 +630,7 @@ impl Session {
     /// This function runs indefinitely and must be cancelled upon MQTT client disconnect.
     async fn reauth_monitor(
         enhanced_auth_policy: Arc<dyn EnhancedAuthPolicy>,
-        reauth_handle: azure_mqtt::client::ReauthHandle,
+        reauth_handle: ms_mqtt_client::client::ReauthHandle,
     ) {
         loop {
             log::debug!("Waiting for reauthentication notification from EnhancedAuthPolicy...");
@@ -692,7 +703,7 @@ impl Session {
 #[derive(Clone)]
 pub struct SessionExitHandle {
     /// The disconnector used to issue disconnect requests
-    disconnect_handle: Weak<Mutex<Option<azure_mqtt::client::DisconnectHandle>>>,
+    disconnect_handle: Weak<Mutex<Option<ms_mqtt_client::client::DisconnectHandle>>>,
     /// Notifier for force exit
     force_exit: Arc<Notify>,
 }
@@ -779,6 +790,16 @@ impl SessionMonitor {
         self.state.is_connected()
     }
 
+    /// Returns information about the [`Session`]'s current connection, or `None` if the
+    /// [`Session`] is not connected.
+    /// Note that this may not be accurate if connection has been recently lost.
+    #[must_use]
+    pub fn connection_info(&self) -> Option<ConnectionInfo> {
+        self.state
+            .connack()
+            .map(|connack| ConnectionInfo::from_connack(&connack))
+    }
+
     /// Wait until the [`Session`] is connected.
     /// Returns immediately if already connected.
     pub async fn connected(&self) {
@@ -789,5 +810,61 @@ impl SessionMonitor {
     /// Returns immediately if already disconnected.
     pub async fn disconnected(&self) {
         self.state.condition_disconnected().await;
+    }
+}
+
+/// Information about a connection of a [`Session`], provided by a [`SessionMonitor`].
+///
+/// This is a snapshot, and does not change if the connection is lost or re-established.
+#[derive(Clone, Debug)]
+pub struct ConnectionInfo {
+    max_outgoing_packet_size: u32,
+    retain_available: bool,
+    wildcard_subscription_available: bool,
+    shared_subscription_available: bool,
+}
+
+impl ConnectionInfo {
+    /// Create a [`ConnectionInfo`] from the CONNACK that established the connection
+    /// NOTE: we use a method here rather than a From trait to avoid providing this publicly.
+    fn from_connack(connack: &ConnAck) -> Self {
+        Self {
+            // An absent value decodes as u32::MAX, which no packet can reach anyway
+            max_outgoing_packet_size: connack
+                .properties
+                .maximum_packet_size
+                .get()
+                .min(PROTOCOL_MAX_PACKET_SIZE),
+            retain_available: connack.properties.retain_available,
+            wildcard_subscription_available: connack.properties.wildcard_subscription_available,
+            shared_subscription_available: connack.properties.shared_subscription_available,
+        }
+    }
+
+    /// Returns the maximum size, in bytes, of an entire MQTT packet that the server accepts on
+    /// this connection (the protocol maximum if the server sets no limit).
+    /// Note that this is best effort: an operation queued or resent across a reconnect may be
+    /// sent on a connection with a smaller limit.
+    #[must_use]
+    pub fn max_outgoing_packet_size(&self) -> u32 {
+        self.max_outgoing_packet_size
+    }
+
+    /// Returns whether the server supports retained messages on this connection.
+    #[must_use]
+    pub fn retain_available(&self) -> bool {
+        self.retain_available
+    }
+
+    /// Returns whether the server supports wildcard subscriptions on this connection.
+    #[must_use]
+    pub fn wildcard_subscription_available(&self) -> bool {
+        self.wildcard_subscription_available
+    }
+
+    /// Returns whether the server supports shared subscriptions on this connection.
+    #[must_use]
+    pub fn shared_subscription_available(&self) -> bool {
+        self.shared_subscription_available
     }
 }

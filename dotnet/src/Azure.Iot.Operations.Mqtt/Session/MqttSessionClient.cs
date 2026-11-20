@@ -28,6 +28,9 @@ namespace Azure.Iot.Operations.Mqtt.Session
         private bool _isClosing;
         private CancellationTokenSource? _reconnectionCancellationToken;
 
+        // The most recent disconnect reported while the user was connecting this client, but before this client began maintaining the connection.
+        private MqttClientDisconnectedEventArgs? _disconnectBeforeConnectionMaintained;
+
         private readonly SemaphoreSlim _disconnectedEventLock = new(1);
 
         public event Func<MqttClientDisconnectedEventArgs, Task>? SessionLostAsync;
@@ -114,13 +117,56 @@ namespace Azure.Iot.Operations.Mqtt.Session
             ArgumentNullException.ThrowIfNull(options);
 
             _isClosing = false;
+            _disconnectBeforeConnectionMaintained = null;
             MqttClientConnectResult? connectResult = await MaintainConnectionAsync(options, null, cancellationToken);
 
             // By design, MaintainConnectionAsync should only return null when called during reconnection.
             // When called by this method, MaintainConnectionAsync should return a non-null value or throw.
             Debug.Assert(connectResult != null);
-            _isDesiredConnected = true;
+
+            // The disconnect handler ignores disconnects while _isDesiredConnected is false, so a disconnect that happened
+            // after the connection was established but before this point would otherwise be lost. Serialize with the
+            // disconnect handler so that any such disconnect is handled as if it happened after this method returned.
+            MqttClientDisconnectedEventArgs? missedDisconnect;
+            await _disconnectedEventLock.WaitAsync(CancellationToken.None);
+            try
+            {
+                _isDesiredConnected = true;
+                missedDisconnect = base.IsConnected ? null : _disconnectBeforeConnectionMaintained;
+                _disconnectBeforeConnectionMaintained = null;
+            }
+            finally
+            {
+                _disconnectedEventLock.Release();
+            }
+
             Trace.TraceInformation("Successfully connected the session client to the MQTT broker. This connection will now be maintained.");
+
+            if (missedDisconnect != null)
+            {
+                Trace.TraceWarning("The connection was lost before the session client began maintaining it. Handling that disconnect now. Disconnect reason: {0}", missedDisconnect.Reason);
+                if (IsFatal(missedDisconnect.Reason))
+                {
+                    // Fatal disconnects are handled without any network calls, so handle it now so that the session is
+                    // finalized by the time this method returns.
+                    await InternalDisconnectedAsync(missedDisconnect);
+                }
+                else
+                {
+                    // Non-fatal disconnects start the reconnection logic which may run indefinitely, so don't block on it.
+                    _ = Task.Run(async () =>
+                    {
+                        try
+                        {
+                            await InternalDisconnectedAsync(missedDisconnect);
+                        }
+                        catch (ObjectDisposedException)
+                        {
+                            Trace.TraceInformation("Session client was disposed before it could handle a disconnect that happened while connecting.");
+                        }
+                    });
+                }
+            }
 
             return connectResult;
         }
@@ -211,11 +257,14 @@ namespace Azure.Iot.Operations.Mqtt.Session
                 try
                 {
                     await _outgoingRequestList.RemoveAsync(queuedRequest, CancellationToken.None);
-                    tcs.TrySetCanceled();
                 }
                 catch (ObjectDisposedException)
                 {
                     Trace.TraceWarning("Failed to remove a queued publish because the session client was already disposed.");
+                }
+                finally
+                {
+                    tcs.TrySetCanceled(cancellationToken);
                 }
             });
 
@@ -259,11 +308,14 @@ namespace Azure.Iot.Operations.Mqtt.Session
                 try
                 {
                     await _outgoingRequestList.RemoveAsync(queuedRequest, CancellationToken.None);
-                    tcs.TrySetCanceled();
                 }
                 catch (ObjectDisposedException)
                 {
                     Trace.TraceWarning("Failed to remove a queued subscribe because the session client was already disposed.");
+                }
+                finally
+                {
+                    tcs.TrySetCanceled(cancellationToken);
                 }
             });
 
@@ -307,11 +359,14 @@ namespace Azure.Iot.Operations.Mqtt.Session
                 try
                 {
                     await _outgoingRequestList.RemoveAsync(queuedRequest, CancellationToken.None);
-                    tcs.TrySetCanceled();
                 }
                 catch (ObjectDisposedException)
                 {
                     Trace.TraceWarning("Failed to remove a queued unsubscribe because the session client was already disposed.");
+                }
+                finally
+                {
+                    tcs.TrySetCanceled(cancellationToken);
                 }
             });
 
@@ -358,6 +413,11 @@ namespace Azure.Iot.Operations.Mqtt.Session
                 {
                     Trace.TraceWarning("Mqtt session client disposal was cancelled while waiting on reconnection logic to finish. Some unobserved exceptions may be thrown by the reconnection task");
                 }
+
+                // Settle any requests that are still queued (for instance, those enqueued after the session was already lost) and any
+                // requests enqueued concurrently with this disposal so that no caller is left awaiting a request that can never complete.
+                ObjectDisposedException disposedException = new(GetType().FullName, "The queued request cannot be completed because the session client was disposed.");
+                await _outgoingRequestList.CloseAsync(disposedException, CancellationToken.None);
 
                 _workerThreadsTaskCancellationTokenSource?.Dispose();
                 _reconnectionCancellationToken?.Dispose();
@@ -417,6 +477,10 @@ namespace Azure.Iot.Operations.Mqtt.Session
 
                     // start reconnection if the user didn't initiate this disconnect
                     await MaintainConnectionAsync(options, args, _reconnectionCancellationToken.Token);
+                }
+                else
+                {
+                    _disconnectBeforeConnectionMaintained = args;
                 }
             }
             finally

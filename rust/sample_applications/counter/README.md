@@ -8,7 +8,7 @@ This sample application has two components
 
 2) The [`counter_server`](./counter_server/), which responds to the requests from the client to send the value, as well as to increment it
 
-The contents of the [`envoy`](./envoy) crate contains code generated from a DTDL defining the `counter` functionality to be used as a dependency.
+The contents of the [`envoy`](./envoy) crate contains code generated from a WoT Thing Model ([`Counter.TM.json`](../../../eng/test/schema-samples/Counter.TM.json)) defining the `counter` functionality to be used as a dependency.
 
 ## Prerequisites
 
@@ -28,6 +28,6 @@ Additionally, the `counter_client` will require an additional `COUNTER_SERVER_ID
 If you want to regenerate `envoy`, first, build the protocol compiler if it is not already built
 
 ```bash
-dotnet build -c Debug ../../../codegen/src/Azure.Iot.Operations.ProtocolCompiler/Azure.Iot.Operations.ProtocolCompiler.csproj 
+dotnet build -c Debug ../../../wot-codegen/src/Azure.Iot.Operations.ProtocolCompiler/Azure.Iot.Operations.ProtocolCompiler.csproj
 ```
 Then, `envoy` can be regenerated using the `gen.sh` script

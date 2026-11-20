@@ -643,4 +643,220 @@ public class AioCloudEventBuilderTests
     }
 
     #endregion
+
+    #region DataOperationCloudEvent Resolve Tests
+
+    private static readonly DateTime AutomaticTime = new(2026, 1, 2, 3, 4, 5, DateTimeKind.Utc);
+
+    private static readonly MessageSchemaReference SchemaRef = new()
+    {
+        SchemaRegistryNamespace = "test-namespace",
+        SchemaName = "test-schema",
+        SchemaVersion = "1.0.0"
+    };
+
+    [Fact]
+    public void Resolve_Dataset_AllAutomatic_MatchesBuild()
+    {
+        var device = new Device { Uuid = "device-uuid", ExternalDeviceId = "ext-device" };
+        var asset = new Asset { Uuid = "asset-uuid", ExternalAssetId = "ext-asset" };
+        var dataset = new AssetDataset { Name = "dataset1", TypeRef = "telemetry", DataSource = "sub-source" };
+
+        var expected = AioCloudEventBuilder.Build(device, "device-name", "endpoint1", asset, dataset, "asset-name", messageSchemaReference: SchemaRef);
+        var (cloudEvent, extensions) = AioCloudEventBuilder.Resolve(new DataOperationCloudEvent(), device, "device-name", "endpoint1", asset, dataset, "asset-name", SchemaRef, AutomaticTime);
+
+        Assert.Equal(expected.Source, cloudEvent.Source);
+        Assert.Equal(expected.Type, cloudEvent.Type);
+        Assert.Equal(expected.Subject, cloudEvent.Subject);
+        Assert.Equal(expected.DataSchema, cloudEvent.DataSchema);
+        Assert.Equal(AutomaticTime, cloudEvent.Time);
+        Assert.True(Guid.TryParse(cloudEvent.Id, out _));
+        Assert.Equal(expected.GetExtensions(), extensions);
+    }
+
+    [Fact]
+    public void Resolve_Event_AllAutomatic_MatchesBuild()
+    {
+        var device = new Device { Uuid = "device-uuid" };
+        var asset = new Asset { Uuid = "asset-uuid" };
+        var assetEvent = new AssetEvent { Name = "event1", TypeRef = "alarm", DataSource = "sub-source" };
+
+        var expected = AioCloudEventBuilder.Build(device, "device-name", "endpoint1", asset, assetEvent, "asset-name", "group1", messageSchemaReference: SchemaRef);
+        var (cloudEvent, extensions) = AioCloudEventBuilder.Resolve(new DataOperationCloudEvent(), device, "device-name", "endpoint1", asset, assetEvent, "asset-name", "group1", SchemaRef, AutomaticTime);
+
+        Assert.Equal(expected.Source, cloudEvent.Source);
+        Assert.Equal(expected.Type, cloudEvent.Type);
+        Assert.Equal(expected.Subject, cloudEvent.Subject);
+        Assert.Equal(expected.DataSchema, cloudEvent.DataSchema);
+        Assert.Equal(expected.GetExtensions(), extensions);
+    }
+
+    [Fact]
+    public void Resolve_MixedCustomAndAutomatic_UsesCustomValuesOnlyWhereProvided()
+    {
+        var device = new Device { Uuid = "device-uuid" };
+        var asset = new Asset { Uuid = "asset-uuid" };
+        var dataset = new AssetDataset { Name = "dataset1", DataSource = "sub-source" };
+        var customTime = new DateTime(2025, 6, 7, 8, 9, 10, DateTimeKind.Utc);
+
+        var options = new DataOperationCloudEvent
+        {
+            Type = CloudEventType.Custom("custom.type"),
+            Id = CloudEventId.Custom("custom-id"),
+            Time = CloudEventTime.Custom(customTime),
+            AioAssetRef = CloudEventAioAssetRef.Custom("asset-ref"),
+        };
+
+        var (cloudEvent, extensions) = AioCloudEventBuilder.Resolve(options, device, "device-name", "endpoint1", asset, dataset, "asset-name", SchemaRef, AutomaticTime);
+
+        Assert.Equal(new Uri("ms-aio:device-name/sub-source"), cloudEvent.Source);
+        Assert.Equal("custom.type", cloudEvent.Type);
+        Assert.Equal("asset-name/dataset1", cloudEvent.Subject);
+        Assert.Equal("aio-sr://test-namespace/test-schema:1.0.0", cloudEvent.DataSchema);
+        Assert.Equal("custom-id", cloudEvent.Id);
+        Assert.Equal(customTime, cloudEvent.Time);
+        Assert.Equal("ms-aio:device-uuid_endpoint1", extensions["aiodeviceref"]);
+        Assert.Equal("asset-ref", extensions["aioassetref"]);
+    }
+
+    [Fact]
+    public void Resolve_CustomSourceSubjectAndDataSchema_AreUsedAsIs()
+    {
+        var device = new Device { Uuid = "device-uuid" };
+        var asset = new Asset { Uuid = "asset-uuid" };
+        var dataset = new AssetDataset { Name = "dataset1" };
+
+        var options = new DataOperationCloudEvent
+        {
+            Source = CloudEventSource.Custom(new Uri("aio://custom/source")),
+            Subject = CloudEventSubject.Custom("custom-subject"),
+            DataSchema = CloudEventDataSchema.Custom("aio://custom/schema"),
+        };
+
+        var (cloudEvent, _) = AioCloudEventBuilder.Resolve(options, device, "device-name", "endpoint1", asset, dataset, "asset-name", null, AutomaticTime);
+
+        Assert.Equal(new Uri("aio://custom/source"), cloudEvent.Source);
+        Assert.Equal("custom-subject", cloudEvent.Subject);
+        Assert.Equal("aio://custom/schema", cloudEvent.DataSchema);
+    }
+
+    [Fact]
+    public void Resolve_ProtocolSpecificIdentifier_IsTrimmedAndUsedInSource()
+    {
+        var device = new Device { Uuid = "device-uuid", ExternalDeviceId = "ext-device" };
+        var asset = new Asset { Uuid = "asset-uuid" };
+        var dataset = new AssetDataset { Name = "dataset1", DataSource = "sub-source" };
+
+        var options = new DataOperationCloudEvent
+        {
+            Source = CloudEventSource.AutomaticWithProtocolSpecificIdentifier(" protocol123 "),
+        };
+
+        var (cloudEvent, _) = AioCloudEventBuilder.Resolve(options, device, "device-name", "endpoint1", asset, dataset, "asset-name", null, AutomaticTime);
+
+        Assert.Equal(new Uri("ms-aio:protocol123/sub-source"), cloudEvent.Source);
+    }
+
+    [Fact]
+    public void Resolve_NoneValues_OmitHeaders()
+    {
+        // No UUIDs: the automatic aio refs would throw, but they are omitted
+        var device = new Device();
+        var asset = new Asset();
+        var dataset = new AssetDataset { Name = "dataset1" };
+
+        var options = new DataOperationCloudEvent
+        {
+            Subject = CloudEventSubject.None,
+            DataSchema = CloudEventDataSchema.None,
+            Time = CloudEventTime.None,
+            AioDeviceRef = CloudEventAioDeviceRef.None,
+            AioAssetRef = CloudEventAioAssetRef.None,
+        };
+
+        var (cloudEvent, extensions) = AioCloudEventBuilder.Resolve(options, device, "device-name", "endpoint1", asset, dataset, "asset-name", SchemaRef, AutomaticTime);
+
+        Assert.Null(cloudEvent.Subject);
+        Assert.Null(cloudEvent.DataSchema);
+        Assert.Null(cloudEvent.Time);
+        Assert.Empty(extensions);
+    }
+
+    [Fact]
+    public void Resolve_PublishTopicSubject_LeavesSubjectForTelemetrySender()
+    {
+        var device = new Device { Uuid = "device-uuid" };
+        var asset = new Asset { Uuid = "asset-uuid" };
+        var dataset = new AssetDataset { Name = "dataset1" };
+
+        var options = new DataOperationCloudEvent { Subject = CloudEventSubject.PublishTopic };
+
+        var (cloudEvent, _) = AioCloudEventBuilder.Resolve(options, device, "device-name", "endpoint1", asset, dataset, "asset-name", null, AutomaticTime);
+
+        // The telemetry sender fills in the publish topic when the subject is left unset
+        Assert.Null(cloudEvent.Subject);
+    }
+
+    [Fact]
+    public void Resolve_AutomaticDataSchemaWithoutRegisteredSchema_OmitsDataSchema()
+    {
+        var device = new Device { Uuid = "device-uuid" };
+        var asset = new Asset { Uuid = "asset-uuid" };
+        var dataset = new AssetDataset { Name = "dataset1" };
+
+        var (cloudEvent, _) = AioCloudEventBuilder.Resolve(new DataOperationCloudEvent(), device, "device-name", "endpoint1", asset, dataset, "asset-name", null, AutomaticTime);
+
+        Assert.Null(cloudEvent.DataSchema);
+    }
+
+    [Fact]
+    public void DataOperationCloudEvent_NullValues_FallBackToAutomatic()
+    {
+        var options = new DataOperationCloudEvent { Source = null!, Subject = null!, Time = null! };
+
+        Assert.Same(CloudEventSource.Automatic, options.Source);
+        Assert.Same(CloudEventSubject.Automatic, options.Subject);
+        Assert.Same(CloudEventTime.Automatic, options.Time);
+    }
+
+    public static TheoryData<Action> InvalidCustomValues => new()
+    {
+        () => CloudEventSource.AutomaticWithProtocolSpecificIdentifier(""),
+        () => CloudEventSource.AutomaticWithProtocolSpecificIdentifier(" "),
+        () => CloudEventSource.AutomaticWithProtocolSpecificIdentifier("not valid ?!#$# url"),
+        () => CloudEventType.Custom(""),
+        () => CloudEventSubject.Custom(" "),
+        () => CloudEventSource.Custom(new Uri("", UriKind.Relative)),
+        () => CloudEventType.Custom(""),
+        () => CloudEventSubject.Custom(" "),
+        () => CloudEventDataSchema.Custom("./relative"),
+        () => CloudEventDataSchema.Custom("https://example.com/a b"),
+        () => CloudEventId.Custom(""),
+        () => CloudEventTime.Custom(new DateTime(2025, 1, 1, 0, 0, 0, DateTimeKind.Unspecified)),
+        () => CloudEventAioDeviceRef.Custom(""),
+        () => CloudEventAioAssetRef.Custom(" "),
+    };
+
+    [Theory]
+    [MemberData(nameof(InvalidCustomValues))]
+    public void CustomValues_Invalid_Throw(Action createValue)
+    {
+        Assert.ThrowsAny<ArgumentException>(createValue);
+    }
+
+    public static TheoryData<Action> ValidCustomValues => new()
+    {
+        () => CloudEventSource.Custom(new Uri("relative/source", UriKind.Relative)),
+        () => CloudEventTime.Custom(new DateTime(2025, 1, 1, 0, 0, 0, DateTimeKind.Utc)),
+        () => CloudEventTime.Custom(new DateTime(2025, 1, 1, 0, 0, 0, DateTimeKind.Local)),
+    };
+
+    [Theory]
+    [MemberData(nameof(ValidCustomValues))]
+    public void CustomValues_Valid_DoNotThrow(Action createValue)
+    {
+        createValue();
+    }
+
+    #endregion
 }

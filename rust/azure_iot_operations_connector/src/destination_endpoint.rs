@@ -8,7 +8,7 @@ use std::{sync::Arc, time::Duration};
 use azure_iot_operations_mqtt::{aio::cloud_event as aio_cloud_event, control_packet::QoS};
 use azure_iot_operations_protocol::{
     common::{
-        CloudEventSubject,
+        CloudEventSubject as ProtocolCloudEventSubject,
         aio_protocol_error::AIOProtocolError,
         hybrid_logical_clock::HybridLogicalClock,
         payload_serialize::{BypassPayload, FormatIndicator},
@@ -20,7 +20,13 @@ use chrono::{DateTime, Utc};
 use thiserror::Error;
 
 use crate::{
-    AdrConfigError, Data, DataOperationName, DataOperationRef, base_connector::ConnectorContext,
+    AdrConfigError, Data, DataOperationName, DataOperationRef,
+    base_connector::ConnectorContext,
+    cloud_event::{
+        CloudEventAioAssetRef, CloudEventAioDeviceRef, CloudEventDataSchema, CloudEventId,
+        CloudEventSource, CloudEventSubject, CloudEventTime, CloudEventType,
+        DataOperationCloudEvent, cloud_event_header_source_identifier,
+    },
     deployment_artifacts::azure_device_registry::AssetRef,
 };
 
@@ -70,13 +76,11 @@ impl DataOperationForwarder {
     pub(crate) async fn send_data(
         &self,
         data: Data,
-        protocol_specific_identifier: Option<&str>,
+        cloud_event: DataOperationCloudEvent,
     ) -> Result<(), Error> {
         match self {
             DataOperationForwarder::Forwarder(forwarder) => {
-                forwarder
-                    .send_data(data, protocol_specific_identifier)
-                    .await
+                forwarder.send_data(data, cloud_event).await
             }
             DataOperationForwarder::Error(_) => Err(ErrorKind::ValidationError(
                 "No valid destination configured for data operation".to_string(),
@@ -221,8 +225,7 @@ impl Forwarder {
 
     /// Forwards [`Data`] to the destination
     /// Returns once the message has been sent successfully
-    /// `protocol_specific_identifier` can be provided to be used when forming Cloud Event Headers
-    /// If not specified, fallback fields will be used instead
+    /// `cloud_event` determines the Cloud Event Headers used if the destination is `Mqtt`
     ///
     /// # Errors
     /// [`struct@Error`] of kind [`MissingMessageSchema`](ErrorKind::MissingMessageSchema)
@@ -243,7 +246,7 @@ impl Forwarder {
     pub(crate) async fn send_data(
         &self,
         data: Data,
-        protocol_specific_identifier: Option<&str>,
+        cloud_event: DataOperationCloudEvent,
     ) -> Result<(), Error> {
         // Forward the data to the destination
         let destination = match &self.destination {
@@ -285,13 +288,13 @@ impl Forwarder {
                 telemetry_sender,
             } => {
                 // create MQTT message, setting schema id to response from SR (message_schema_uri)
-                let cloud_event = self
+                let telemetry_cloud_event = self
                     .build_cloud_event_headers(
                         asset_ref,
                         asset_uuid.as_deref(),
                         asset_external_asset_id.as_deref(),
                         data.timestamp,
-                        protocol_specific_identifier,
+                        &cloud_event,
                     )
                     .map_err(|e| Error(ErrorKind::ValidationError(e)))?;
                 let mut message_builder = telemetry::sender::MessageBuilder::default();
@@ -312,10 +315,11 @@ impl Forwarder {
                         format_indicator: FormatIndicator::default(),
                     })
                     .map_err(|e| ErrorKind::ValidationError(e.to_string()))?;
-                message_builder.cloud_event(cloud_event);
+                message_builder.cloud_event(telemetry_cloud_event);
                 // passes through user headers and adds custom aio cloud event headers
                 message_builder.custom_user_data(Self::add_aio_ref_headers(
                     data.custom_user_data,
+                    &cloud_event,
                     self.device_uuid.as_deref(),
                     &asset_ref.inbound_endpoint_name,
                     asset_uuid.as_deref(),
@@ -358,7 +362,7 @@ impl Forwarder {
         asset_uuid: Option<&str>,
         asset_external_asset_id: Option<&str>,
         data_timestamp: Option<HybridLogicalClock>,
-        protocol_specific_identifier: Option<&str>,
+        cloud_event: &DataOperationCloudEvent,
     ) -> Result<telemetry::sender::CloudEvent, String> {
         // TODO: remove once message schema validation is turned back on
         #[allow(clippy::manual_map)]
@@ -379,13 +383,25 @@ impl Forwarder {
         let mut cloud_event_builder = telemetry::sender::CloudEventBuilder::default();
 
         // source
-        let source = Self::cloud_event_header_source(
-            asset_ref,
-            protocol_specific_identifier,
-            self.device_uuid.as_deref(),
-            self.device_external_device_id.as_deref(),
-            self.data_source.as_deref(),
-        );
+        let source = match &cloud_event.source {
+            CloudEventSource::Automatic => Self::cloud_event_header_source(
+                asset_ref,
+                None,
+                self.device_uuid.as_deref(),
+                self.device_external_device_id.as_deref(),
+                self.data_source.as_deref(),
+            ),
+            CloudEventSource::AutomaticWithProtocolSpecificIdentifier(identifier) => {
+                Self::cloud_event_header_source(
+                    asset_ref,
+                    Some(identifier.as_str()),
+                    self.device_uuid.as_deref(),
+                    self.device_external_device_id.as_deref(),
+                    self.data_source.as_deref(),
+                )
+            }
+            CloudEventSource::Custom(source) => source.clone(),
+        };
         cloud_event_builder.source(source);
 
         // event type and subject
@@ -396,17 +412,49 @@ impl Forwarder {
             asset_uuid,
             asset_external_asset_id,
         );
-        cloud_event_builder.event_type(event_type);
-        cloud_event_builder.subject(CloudEventSubject::Custom(subject));
+        cloud_event_builder.event_type(match &cloud_event.event_type {
+            CloudEventType::Automatic => event_type,
+            CloudEventType::Custom(custom_event_type) => custom_event_type.clone(),
+        });
+        cloud_event_builder.subject(match &cloud_event.subject {
+            CloudEventSubject::Automatic => ProtocolCloudEventSubject::Custom(subject),
+            CloudEventSubject::PublishTopic => ProtocolCloudEventSubject::PublishTopic,
+            CloudEventSubject::Custom(custom_subject) => {
+                ProtocolCloudEventSubject::Custom(custom_subject.clone())
+            }
+            CloudEventSubject::None => ProtocolCloudEventSubject::None,
+        });
 
         // data schema
-        if let Some(message_schema_uri) = message_schema_uri {
-            cloud_event_builder.data_schema(message_schema_uri);
+        cloud_event_builder.data_schema(match &cloud_event.data_schema {
+            CloudEventDataSchema::Automatic => message_schema_uri,
+            CloudEventDataSchema::Custom(data_schema) => Some(data_schema.clone()),
+            CloudEventDataSchema::None => None,
+        });
+
+        // id
+        match &cloud_event.id {
+            CloudEventId::Automatic => {
+                // the protocol generates a new UUID
+            }
+            CloudEventId::Custom(id) => {
+                cloud_event_builder.id(id.clone());
+            }
         }
 
         // time
-        if let Some(hlc) = data_timestamp {
-            cloud_event_builder.time(DateTime::<Utc>::from(hlc.timestamp));
+        match &cloud_event.time {
+            CloudEventTime::Automatic => {
+                if let Some(hlc) = data_timestamp {
+                    cloud_event_builder.time(DateTime::<Utc>::from(hlc.timestamp));
+                }
+            }
+            CloudEventTime::Custom(time) => {
+                cloud_event_builder.time(*time);
+            }
+            CloudEventTime::None => {
+                cloud_event_builder.time(None);
+            }
         }
         cloud_event_builder.build().map_err(|e| {
             match e {
@@ -436,35 +484,13 @@ impl Forwarder {
         data_source: Option<&str>,
     ) -> String {
         let mut source = "ms-aio".to_string();
-        let mut device_identifier = None;
-        if let Some(protocol_id) = protocol_specific_identifier {
-            let trimmed_protocol_id = protocol_id.trim();
-            if !trimmed_protocol_id.is_empty()
-                && aio_cloud_event::CloudEventFields::Source
-                    .validate(
-                        &format!("{source}:{trimmed_protocol_id}"),
-                        aio_cloud_event::DEFAULT_CLOUD_EVENT_SPEC_VERSION,
-                    )
-                    .is_ok()
-            {
-                device_identifier = Some(trimmed_protocol_id);
-            }
-        }
+        let mut device_identifier =
+            protocol_specific_identifier.and_then(cloud_event_header_source_identifier);
         if device_identifier.is_none()
             && device_external_device_id != device_uuid
-            && let Some(external_id) = &device_external_device_id
+            && let Some(external_id) = device_external_device_id
         {
-            let trimmed_external_id = external_id.trim();
-            if !trimmed_external_id.is_empty()
-                && aio_cloud_event::CloudEventFields::Source
-                    .validate(
-                        &format!("{source}:{trimmed_external_id}"),
-                        aio_cloud_event::DEFAULT_CLOUD_EVENT_SPEC_VERSION,
-                    )
-                    .is_ok()
-            {
-                device_identifier = Some(trimmed_external_id);
-            }
+            device_identifier = cloud_event_header_source_identifier(external_id);
         }
         source = format!(
             "{source}:{}",
@@ -530,18 +556,33 @@ impl Forwarder {
 
     fn add_aio_ref_headers(
         mut curr_user_data: Vec<(String, String)>,
+        cloud_event: &DataOperationCloudEvent,
         device_uuid: Option<&str>,
         inbound_endpoint_name: &str,
         asset_uuid: Option<&str>,
     ) -> Vec<(String, String)> {
-        let aio_device_ref = if let Some(device_uuid) = device_uuid {
-            format!("ms-aio:{device_uuid}/{inbound_endpoint_name}")
-        } else {
-            format!("ms-aio:{inbound_endpoint_name}")
+        let aio_device_ref = match &cloud_event.aio_device_ref {
+            CloudEventAioDeviceRef::Automatic => Some(if let Some(device_uuid) = device_uuid {
+                format!("ms-aio:{device_uuid}/{inbound_endpoint_name}")
+            } else {
+                format!("ms-aio:{inbound_endpoint_name}")
+            }),
+            CloudEventAioDeviceRef::Custom(aio_device_ref) => Some(aio_device_ref.clone()),
+            CloudEventAioDeviceRef::None => None,
         };
-        curr_user_data.push(("aiodeviceref".to_string(), aio_device_ref));
-        let aio_asset_ref = format!("ms-aio:{}", asset_uuid.unwrap_or_default());
-        curr_user_data.push(("aioassetref".to_string(), aio_asset_ref));
+        if let Some(aio_device_ref) = aio_device_ref {
+            curr_user_data.push(("aiodeviceref".to_string(), aio_device_ref));
+        }
+        let aio_asset_ref = match &cloud_event.aio_asset_ref {
+            CloudEventAioAssetRef::Automatic => {
+                Some(format!("ms-aio:{}", asset_uuid.unwrap_or_default()))
+            }
+            CloudEventAioAssetRef::Custom(aio_asset_ref) => Some(aio_asset_ref.clone()),
+            CloudEventAioAssetRef::None => None,
+        };
+        if let Some(aio_asset_ref) = aio_asset_ref {
+            curr_user_data.push(("aioassetref".to_string(), aio_asset_ref));
+        }
         curr_user_data
     }
 }
@@ -615,7 +656,7 @@ impl Destination {
     /// may not exist in the definition.
     ///
     /// # Errors
-    /// [`AdrConfigError`] if the destination is `Mqtt` and the topic is invalid.
+    /// [`AdrConfigError`] if a required destination field is missing or the `Mqtt` topic is invalid.
     /// This can be used to report the error to the ADR service on the status
     pub(crate) fn new_dataset_destinations(
         dataset_destinations: &[adr_models::DatasetDestination],
@@ -647,7 +688,7 @@ impl Destination {
     /// may not exist in the definition.
     ///
     /// # Errors
-    /// [`AdrConfigError`] if the destination is `Mqtt` and the topic is invalid.
+    /// [`AdrConfigError`] if a required destination field is missing or the `Mqtt` topic is invalid.
     /// This can be used to report the error to the ADR service on the status
     pub(crate) fn new_event_stream_destinations(
         event_stream_destinations: &[adr_models::EventStreamDestination],
@@ -683,16 +724,20 @@ impl Destination {
         Ok(match data_operation_destination_definition.target() {
             DataOperationDestinationDefinitionTarget::Dataset(
                 adr_models::DatasetTarget::BrokerStateStore,
-            ) => {
-                Destination::BrokerStateStore {
-                    // TODO: validate key not empty?
-                    key: data_operation_destination_definition
-                        .configuration()
-                        .key
-                        .clone()
-                        .expect("Key must be present if Target is BrokerStateStore"),
-                }
-            }
+            ) => Destination::BrokerStateStore {
+                // TODO: validate key not empty?
+                key: data_operation_destination_definition
+                    .configuration()
+                    .key
+                    .clone()
+                    .ok_or_else(|| AdrConfigError {
+                        code: None,
+                        details: None,
+                        message: Some(
+                            "'key' field is required for BrokerStateStore destination".to_string(),
+                        ),
+                    })?,
+            },
             DataOperationDestinationDefinitionTarget::EventStream(
                 adr_models::EventStreamTarget::Mqtt,
             )
@@ -703,7 +748,13 @@ impl Destination {
                             .configuration()
                             .topic
                             .clone()
-                            .expect("Topic must be present if Target is Mqtt"),
+                            .ok_or_else(|| AdrConfigError {
+                                code: None,
+                                details: None,
+                                message: Some(
+                                    "'topic' field is required for MQTT destination".to_string(),
+                                ),
+                            })?,
                     )
                     .build()
                     // TODO: check if this can fail, or just the next one
@@ -749,7 +800,13 @@ impl Destination {
                     .configuration()
                     .path
                     .clone()
-                    .expect("Path must be present if Target is Storage"),
+                    .ok_or_else(|| AdrConfigError {
+                        code: None,
+                        details: None,
+                        message: Some(
+                            "'path' field is required for Storage destination".to_string(),
+                        ),
+                    })?,
             },
         })
     }
@@ -791,6 +848,7 @@ mod tests {
     use test_case::{test_case, test_matrix};
 
     use super::*;
+    use crate::cloud_event::DataOperationCloudEventBuilder;
 
     fn asset_ref() -> AssetRef {
         AssetRef {
@@ -1006,5 +1064,28 @@ mod tests {
             external_asset_id,
         );
         assert_eq!(subject, "asset_name/dataset_name");
+    }
+
+    #[test_case(&DataOperationCloudEvent::default(), &[("key", "value"), ("aiodeviceref", "ms-aio:device-uuid/inbound_endpoint_name"), ("aioassetref", "ms-aio:asset-uuid")]; "automatic")]
+    #[test_case(&DataOperationCloudEventBuilder::default().aio_device_ref(CloudEventAioDeviceRef::Custom("device-ref".to_string())).aio_asset_ref(CloudEventAioAssetRef::Custom("asset-ref".to_string())).build().unwrap(), &[("key", "value"), ("aiodeviceref", "device-ref"), ("aioassetref", "asset-ref")]; "custom")]
+    #[test_case(&DataOperationCloudEventBuilder::default().aio_device_ref(CloudEventAioDeviceRef::None).aio_asset_ref(CloudEventAioAssetRef::None).build().unwrap(), &[("key", "value")]; "omitted")]
+    fn cloud_event_header_aio_refs(
+        cloud_event: &DataOperationCloudEvent,
+        expected_user_data: &[(&str, &str)],
+    ) {
+        let user_data = Forwarder::add_aio_ref_headers(
+            vec![("key".to_string(), "value".to_string())],
+            cloud_event,
+            Some("device-uuid"),
+            "inbound_endpoint_name",
+            Some("asset-uuid"),
+        );
+        assert_eq!(
+            user_data,
+            expected_user_data
+                .iter()
+                .map(|(key, value)| ((*key).to_string(), (*value).to_string()))
+                .collect::<Vec<_>>()
+        );
     }
 }

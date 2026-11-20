@@ -82,6 +82,11 @@ namespace Azure.Iot.Operations.Protocol.RPC
         public ExtendedCloudEvent? ExtendedCloudEvent { get; internal set; }
 
         /// <summary>
+        /// Indicates whether this command request should be persisted using the AIO-specific persistence mechanism. Only supported by the AIO MQTT broker.
+        /// </summary>
+        public bool PersistCommand { get; set; }
+
+        /// <summary>
         /// Construct CommandRequestMetadata in user code, for passing to a command invocation.
         /// </summary>
         /// <remarks>

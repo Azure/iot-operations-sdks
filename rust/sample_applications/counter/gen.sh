@@ -1,3 +1,4 @@
 #!/bin/sh
-../../../codegen/src/Azure.Iot.Operations.ProtocolCompiler/bin/Debug/net9.0/Azure.Iot.Operations.ProtocolCompiler \
-    --modelFile ../../../eng/test/schema-samples/counter.json --outDir ./envoy --sdkPath ../.. --lang=rust;
+../../../wot-codegen/src/Azure.Iot.Operations.ProtocolCompiler/bin/Debug/net10.0/Azure.Iot.Operations.ProtocolCompiler \
+    --things ../../../eng/test/schema-samples/Counter.TM.json --outDir ./envoy --sdkPath ../.. --lang rust \
+    --namespace counter --workingDir ../../../target/akri/Counter

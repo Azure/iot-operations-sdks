@@ -12,6 +12,52 @@ namespace Azure.Iot.Operations.Services.IntegrationTest;
 public class StateStoreClientIntegrationTests
 {
     [Fact]
+    public async Task TestListKeysReturnsExactlyMatchingKeys()
+    {
+        await using MqttSessionClient mqttClient = await ClientFactory.CreateAndConnectClientAsyncFromEnvAsync();
+        await using var stateStoreClient = new StateStoreClient(new ApplicationContext(), mqttClient);
+
+        string testPrefix = $"list-keys-{Guid.NewGuid():N}";
+        string[] matchingKeys = Enumerable.Range(0, 10)
+            .Select(i => $"{testPrefix}:matching:{i}")
+            .ToArray();
+        string[] nonMatchingKeys = Enumerable.Range(0, 10)
+            .Select(i => $"{testPrefix}:other:{i}")
+            .ToArray();
+
+        try
+        {
+            foreach (string key in matchingKeys.Concat(nonMatchingKeys))
+            {
+                Assert.True((await stateStoreClient.SetAsync(key, "value")).Success);
+            }
+
+            ListKeysPageIterator iterator = stateStoreClient.ListKeys($"{testPrefix}:matching:*");
+            List<string> actualKeys = [];
+            IReadOnlyList<StateStoreKey>? page;
+
+            while ((page = await iterator.GetNextPageAsync()) != null)
+            {
+                actualKeys.AddRange(page.Select(key => key.GetString()));
+            }
+
+            Assert.Equal(
+                matchingKeys.OrderBy(key => key),
+                actualKeys.OrderBy(key => key));
+            Assert.DoesNotContain(actualKeys, key => nonMatchingKeys.Contains(key));
+        }
+        finally
+        {
+            foreach (string key in matchingKeys.Concat(nonMatchingKeys))
+            {
+                await stateStoreClient.DeleteAsync(key);
+            }
+
+            await stateStoreClient.StopAsync();
+        }
+    }
+
+    [Fact]
     public async Task TestStateStoreObjectCRUD()
     {
         await using MqttSessionClient mqttClient = await ClientFactory.CreateAndConnectClientAsyncFromEnvAsync();

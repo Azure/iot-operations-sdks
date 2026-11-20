@@ -8,7 +8,7 @@ namespace Azure.Iot.Operations.Protocol.IntegrationTests;
 
 public class CounterClient(ApplicationContext applicationContext, IMqttPubSubClient mqttClient) : Counter.Client(applicationContext, mqttClient)
 {
-    public override Task ReceiveTelemetry(string senderId, TelemetryCollection telemetry, IncomingTelemetryMetadata metadata)
+    public override Task ReceiveTelemetry(string senderId, EventCollection telemetry, IncomingTelemetryMetadata metadata)
     {
         // Log or process telemetry data
         Console.WriteLine($"Telemetry received from {senderId}: CounterValue={telemetry.CounterValue}");
