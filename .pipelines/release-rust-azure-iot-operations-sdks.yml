@@ -41,6 +41,11 @@ extends:
       image: iot-operations-1es-image
       os: windows
 
+    sdl:
+      sourceRepositoriesToScan:
+        include:
+          - repository: IotOperationsSdks
+
     stages:
       - stage: Build
         displayName: Package Rust crate
