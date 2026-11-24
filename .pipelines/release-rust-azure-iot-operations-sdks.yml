@@ -96,7 +96,7 @@ extends:
                 displayName: Install Rust 1.88
                 inputs:
                   rustVersion: ms-prod-1.88
-                  toolchainFeed: https://pkgs.dev.azure.com/msazure/One/_packaging/RustTools/nuget/v3/index.json
+                  toolchainFeed: https://pkgs.dev.azure.com/msazure/_packaging/RustTools/nuget/v3/index.json
                   cratesIoFeedOverride: sparse+https://pkgs.dev.azure.com/msazure/One/_packaging/azure_iot_operations/Cargo/index/
                   workingDirectory: $(Pipeline.Workspace)/s/iot-operations-sdks/rust
 
